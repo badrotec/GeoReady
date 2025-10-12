@@ -46,13 +46,13 @@
       margin: 0 auto;
       padding: 0 20px;
     }
-    
-    /* ================================= عناصر التفاعلية المُضافة ================================= */
-    
-    /* الـ Modal (النافذة المنبثقة للأدوات) */
+
+    /* ================================= عناصر التفاعلية المُضافة (Modal, Loader, etc.) ================================= */
+
+    /* الـ Modal (النافذة المنبثقة للأدوات/المسارات/المساعد) */
     .modal {
-        display: none; 
-        position: fixed; 
+        display: none;
+        position: fixed;
         z-index: 3000;
         left: 0;
         top: 0;
@@ -65,7 +65,7 @@
 
     .modal-content {
         background-color: var(--white);
-        margin: 5% auto; 
+        margin: 5% auto;
         padding: 40px;
         border-radius: 20px;
         width: 80%;
@@ -73,6 +73,8 @@
         box-shadow: var(--shadow-strong);
         animation: slideInTop 0.5s;
         text-align: right;
+        max-height: 90vh; /* تحديد أقصى ارتفاع */
+        overflow-y: auto; /* إضافة شريط تمرير عمودي */
     }
 
     .close-btn {
@@ -90,96 +92,166 @@
         cursor: pointer;
     }
 
-    .tool-loading-sim {
-        padding: 50px;
-        text-align: center;
-    }
-    
-    .tool-loading-sim h4 {
-        color: var(--primary-blue);
-        margin-top: 20px;
-    }
-    
-    .tool-loading-sim p {
-        color: #666;
+    /* ================================= تنسيق شريط البحث الجديد ================================= */
+    .search-bar {
+        position: relative;
+        margin-right: 30px;
     }
 
-    /* الرسوم المتحركة للـ Modal */
-    @keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
-    }
-
-    @keyframes slideInTop {
-        from { transform: translateY(-100px); opacity: 0; }
-        to { transform: translateY(0); opacity: 1; }
-    }
-
-    /* Loader */
-    .loader {
-        border: 8px solid #f3f3f3;
-        border-top: 8px solid var(--primary-blue);
-        border-radius: 50%;
-        width: 60px;
-        height: 60px;
-        animation: spin 2s linear infinite;
-        margin: 0 auto;
-    }
-
-    @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-    }
-    
-    /* تحديات اليوم */
-    .daily-challenge-card {
-        background: var(--gradient-secondary);
-        color: var(--white);
-        padding: 30px;
-        border-radius: 20px;
-        margin-top: 50px;
+    .search-bar input {
+        padding: 10px 40px 10px 20px;
+        border: 1px solid #ccc;
+        border-radius: 25px;
+        width: 300px;
+        font-family: 'Cairo', sans-serif;
+        font-size: 1rem;
+        transition: all 0.3s ease;
         text-align: right;
-        box-shadow: var(--shadow-medium);
+    }
+
+    .search-bar input:focus {
+        border-color: var(--primary-blue);
+        box-shadow: 0 0 5px rgba(0, 86, 179, 0.5);
+    }
+
+    .search-bar button {
+        position: absolute;
+        left: 5px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: transparent;
+        border: none;
+        color: var(--primary-blue);
+        font-size: 1.2rem;
+        cursor: pointer;
+        padding: 5px;
+    }
+
+    /* ================================= تنسيق Geo-Assistant (Chatbot) ================================= */
+
+    #geoAssistantModal .modal-content {
+        max-width: 500px;
+        padding: 20px;
+        margin: 2% auto;
+    }
+
+    #chatBox {
+        height: 400px;
+        overflow-y: auto;
+        border: 1px solid #eee;
+        padding: 15px;
+        margin-bottom: 15px;
+        border-radius: 10px;
+        background: var(--light-gray);
+        display: flex;
+        flex-direction: column;
+    }
+
+    .message {
+        margin-bottom: 10px;
+        padding: 10px;
+        border-radius: 15px;
+        max-width: 80%;
+    }
+
+    .user-message {
+        background: var(--primary-blue);
+        color: var(--white);
+        align-self: flex-start;
+        border-bottom-right-radius: 0;
+    }
+
+    .assistant-message {
+        background: var(--accent-cyan);
+        color: var(--white);
+        align-self: flex-end;
+        border-bottom-left-radius: 0;
+        animation: fadeIn 0.5s;
     }
     
-    .daily-challenge-card h3 {
-        font-size: 2rem;
-        border-bottom: 3px solid rgba(255,255,255,0.5);
+    .chat-input-container {
+        display: flex;
+        gap: 10px;
+    }
+
+    #userInput {
+        flex-grow: 1;
+        padding: 10px 15px;
+        border: 1px solid #ccc;
+        border-radius: 25px;
+        font-family: 'Cairo', sans-serif;
+    }
+
+    #sendBtn {
+        background: var(--success-green);
+        color: var(--white);
+        border: none;
+        padding: 10px 20px;
+        border-radius: 25px;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+
+    #sendBtn:hover {
+        background: #1e7e34;
+    }
+    
+    /* ================================= تنسيق محتوى المسارات والأدوات داخل Modal ================================= */
+
+    .content-section {
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 30px;
+        background: #fdfdfd;
+    }
+
+    .content-section h4 {
+        color: var(--primary-blue);
+        border-bottom: 2px solid var(--primary-blue);
         padding-bottom: 10px;
-        margin-bottom: 20px;
+        margin-bottom: 15px;
+        font-size: 1.5rem;
     }
-    
-    .daily-challenge-card .challenge-list {
+
+    .training-list {
         list-style: none;
     }
-    
-    .daily-challenge-card .challenge-list li {
-        padding: 15px 0;
-        border-bottom: 1px solid rgba(255,255,255,0.2);
+
+    .training-list li {
+        padding: 15px;
+        border-bottom: 1px solid #eee;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        font-weight: 500;
-    }
-    
-    .challenge-action button {
-        background: var(--white);
-        color: var(--danger-red);
-        border: none;
-        padding: 8px 15px;
-        border-radius: 20px;
-        font-weight: 700;
         transition: background 0.3s;
     }
     
-    .challenge-action button:hover {
-        background: #eee;
+    .training-list li:hover {
+        background: var(--light-gray);
+        cursor: pointer;
     }
-    /* ================================= نهاية عناصر التفاعلية المُضافة ================================= */
 
-    /* تضمين باقي التنسيقات من الكود الأصلي لضمان الحفاظ على الشكل */
-    /* ... (تنسيقات الهيدر، التنقل، لوحة القيادة، المسارات، المشاريع، الشهادات، المجتمع، الفوتر) ... */
+    .training-list li button {
+        background: var(--accent-cyan);
+        color: var(--white);
+        border: none;
+        padding: 8px 15px;
+        border-radius: 20px;
+        cursor: pointer;
+    }
     
+    .tool-info-box {
+        background: var(--accent-cyan);
+        color: var(--white);
+        padding: 15px;
+        border-radius: 10px;
+        margin-bottom: 25px;
+    }
+
+    /* باقي التنسيقات القديمة (الهيدر، التنقل، لوحة القيادة... إلخ) */
+    /* ... (تضمين جميع التنسيقات الأخرى من الكود الأصلي) ... */
+
     header {
       background: var(--gradient-primary);
       color: var(--white);
@@ -311,7 +383,7 @@
       background: var(--primary-blue);
       color: var(--white);
     }
-
+    
     /* ================================= لوحة القيادة المتقدمة ================================= */
     .dashboard-section {
       padding: 80px 0;
@@ -441,6 +513,54 @@
       0% { transform: translateX(-100%); }
       100% { transform: translateX(100%); }
     }
+    
+    /* تحديات اليوم */
+    .daily-challenge-card {
+        background: var(--gradient-secondary);
+        color: var(--white);
+        padding: 30px;
+        border-radius: 20px;
+        margin-top: 50px;
+        text-align: right;
+        box-shadow: var(--shadow-medium);
+    }
+    
+    .daily-challenge-card h3 {
+        font-size: 2rem;
+        border-bottom: 3px solid rgba(255,255,255,0.5);
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+    }
+    
+    .daily-challenge-card .challenge-list {
+        list-style: none;
+    }
+    
+    .daily-challenge-card .challenge-list li {
+        padding: 15px 0;
+        border-bottom: 1px solid rgba(255,255,255,0.2);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: 500;
+        transition: opacity 0.5s ease;
+    }
+    
+    .challenge-action button {
+        background: var(--white);
+        color: var(--danger-red);
+        border: none;
+        padding: 8px 15px;
+        border-radius: 20px;
+        font-weight: 700;
+        transition: background 0.3s;
+    }
+    
+    .challenge-action button:hover {
+        background: #eee;
+    }
+    /* ================================= نهاية تنسيقات لوحة القيادة ================================= */
+
 
     /* ================================= مسارات التعلم ================================= */
     .learning-paths {
@@ -849,13 +969,17 @@
       .hero-title {
         font-size: 3rem;
       }
-      
+
       .hero-subtitle {
         font-size: 1.3rem;
       }
 
       .nav-links {
         display: none;
+      }
+
+      .search-bar {
+          display: none; /* إخفاء شريط البحث في وضع الجوال لتوفير المساحة */
       }
 
       .section-title {
@@ -874,41 +998,18 @@
       }
     }
 
-    /* ================================= الرسوم المتحركة ================================= */
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(50px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    /* ================================= الرسوم المتحركة والـ Floating Action ================================= */
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
     }
 
-    @keyframes bounceIn {
-      0%, 20%, 40%, 60%, 80% {
-        transform: scale(0.6);
-        opacity: 0;
-      }
-      100% {
-        transform: scale(1);
-        opacity: 1;
-      }
+    @keyframes slideInTop {
+        from { transform: translateY(-100px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
     }
 
-    .animate-on-scroll {
-      opacity: 0;
-      transform: translateY(50px);
-      transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* تأثير ارتداد */
-    }
-
-    .animate-on-scroll.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* ================================= عناصر تفاعلية إضافية ================================= */
     .floating-action {
       position: fixed;
       bottom: 30px;
@@ -942,59 +1043,24 @@
       text-align: center;
     }
 
-    /* ================================= مكونات التلعيب المتقدمة ================================= */
-    .achievement-popup {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background: var(--success-green);
-      color: var(--white);
-      padding: 20px 25px;
-      border-radius: 15px;
-      box-shadow: var(--shadow-strong);
-      transform: translateX(400px);
-      transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55); /* تأثير ارتداد للخارج */
-      z-index: 2000;
+    .floating-assistant-btn { /* زر المساعد الجديد */
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        background: var(--success-green);
+        color: var(--white);
+        padding: 15px;
+        border-radius: 50%;
+        font-size: 1.5rem;
+        box-shadow: var(--shadow-medium);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        z-index: 1000;
     }
-
-    .achievement-popup.show {
-      transform: translateX(0);
-    }
-
-    .achievement-popup .achievement-icon {
-      font-size: 2rem;
-      margin-left: 15px;
-    }
-
-    .leaderboard {
-      background: var(--white);
-      border-radius: 20px;
-      padding: 30px;
-      box-shadow: var(--shadow-soft);
-    }
-
-    .leaderboard-item {
-      display: flex;
-      align-items: center;
-      padding: 15px 0;
-      border-bottom: 1px solid #eee;
-    }
-
-    .leaderboard-item:last-child {
-      border-bottom: none;
-    }
-
-    .rank-badge {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: var(--gradient-primary);
-      color: var(--white);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      margin-left: 15px;
+    
+    .floating-assistant-btn:hover {
+        transform: scale(1.1);
+        box-shadow: var(--shadow-strong);
     }
 
   </style>
@@ -1032,6 +1098,10 @@
           <li><a href="#certificates"><i class="fas fa-certificate"></i> الشهادات</a></li>
           <li><a href="#community"><i class="fas fa-users"></i> المجتمع</a></li>
         </ul>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="ابحث في المسارات، الأدوات، أو الوثائق..." onkeyup="if(event.key === 'Enter') searchPlatform()">
+            <button onclick="searchPlatform()"><i class="fas fa-search"></i></button>
+        </div>
       </div>
     </div>
   </nav>
@@ -1040,26 +1110,26 @@
     <div class="container">
       <h2 class="section-title animate-on-scroll">📊 لوحة القيادة الشخصية</h2>
       <p class="section-subtitle animate-on-scroll">تتبع تقدمك الأكاديمي والمهني بطريقة تفاعلية ومرئية</p>
-      
+
       <div class="dashboard-grid animate-on-scroll">
         <div class="stat-card">
           <div class="stat-icon"><i class="fas fa-trophy"></i></div>
           <div class="stat-number" id="totalPoints">2,847</div>
           <div class="stat-label">نقاط الخبرة الكلية</div>
         </div>
-        
+
         <div class="stat-card">
           <div class="stat-icon"><i class="fas fa-star"></i></div>
           <div class="stat-number" id="currentLevel">12</div>
           <div class="stat-label">المستوى الحالي</div>
         </div>
-        
+
         <div class="stat-card">
           <div class="stat-icon"><i class="fas fa-chart-line"></i></div>
           <div class="stat-number" id="completedModules">28</div>
           <div class="stat-label">وحدة مكتملة</div>
         </div>
-        
+
         <div class="stat-card">
           <div class="stat-icon"><i class="fas fa-certificate"></i></div>
           <div class="stat-number" id="earnedCerts">5</div>
@@ -1087,7 +1157,7 @@
           </li>
         </ul>
       </div>
-      
+
       <div class="progress-section animate-on-scroll">
         <h3 style="margin-bottom: 30px; font-size: 2rem;">🎯 رحلتك نحو الاحتراف</h3>
         <div class="level-display">
@@ -1104,7 +1174,7 @@
             <div style="font-size: 1.5rem;">653 XP</div>
           </div>
         </div>
-        
+
         <div class="progress-bar-container">
           <div class="progress-bar">
             <div class="progress-fill" style="width: 73%"></div>
@@ -1137,7 +1207,7 @@
     <div class="container">
       <h2 class="section-title animate-on-scroll">🎓 مسارات التعلم التخصصية</h2>
       <p class="section-subtitle animate-on-scroll">مسارات شاملة مصممة بعناية لتأهيلك لسوق العمل في مختلف التخصصات الجيولوجية</p>
-      
+
       <div class="paths-grid">
         <div class="path-card animate-on-scroll">
           <div class="path-header">
@@ -1160,7 +1230,7 @@
                 <div class="stat-item-label">XP كلية</div>
               </div>
             </div>
-            
+
             <ul class="path-modules">
               <li>
                 <div class="module-status completed"></div>
@@ -1187,7 +1257,7 @@
                 <span>الاقتصاد البترولي وتقييم المشاريع</span>
               </li>
             </ul>
-            
+
             <button class="btn btn-primary" style="width: 100%;" onclick="openPathOrProjectModal('مسار جيولوجيا البترول المتقدم', 'متابعة')">
               <i class="fas fa-play"></i>
               متابعة المسار
@@ -1216,7 +1286,7 @@
                 <div class="stat-item-label">XP كلية</div>
               </div>
             </div>
-            
+
             <ul class="path-modules">
               <li>
                 <div class="module-status completed"></div>
@@ -1243,7 +1313,7 @@
                 <span>الأثر البيئي والاستدامة في التعدين</span>
               </li>
             </ul>
-            
+
             <button class="btn btn-primary" style="width: 100%;" onclick="openPathOrProjectModal('مسار التعدين والموارد المعدنية', 'بدء')">
               <i class="fas fa-play"></i>
               بدء المسار
@@ -1272,7 +1342,7 @@
                 <div class="stat-item-label">XP كلية</div>
               </div>
             </div>
-            
+
             <ul class="path-modules">
               <li>
                 <div class="module-status completed"></div>
@@ -1299,7 +1369,7 @@
                 <span>التقييم البيئي والمعايير الدولية</span>
               </li>
             </ul>
-            
+
             <button class="btn btn-primary" style="width: 100%;" onclick="openPathOrProjectModal('مسار الهيدروجيولوجيا والبيئة', 'بدء')">
               <i class="fas fa-play"></i>
               بدء المسار
@@ -1328,7 +1398,7 @@
                 <div class="stat-item-label">XP كلية</div>
               </div>
             </div>
-            
+
             <ul class="path-modules">
               <li>
                 <div class="module-status"></div>
@@ -1355,7 +1425,7 @@
                 <span>مراقبة واستشعار المنشآت</span>
               </li>
             </ul>
-            
+
             <button class="btn btn-primary" style="width: 100%;" onclick="openPathOrProjectModal('مسار الجيولوجيا الهندسية', 'بدء')">
               <i class="fas fa-play"></i>
               بدء المسار
@@ -1384,7 +1454,7 @@
                 <div class="stat-item-label">XP كلية</div>
               </div>
             </div>
-            
+
             <ul class="path-modules">
               <li>
                 <div class="module-status completed"></div>
@@ -1411,7 +1481,7 @@
                 <span>الذكاء الاصطناعي في الجيولوجيا</span>
               </li>
             </ul>
-            
+
             <button class="btn btn-primary" style="width: 100%;" onclick="openPathOrProjectModal('مسار التقنيات الرقمية والـ GIS', 'متابعة')">
               <i class="fas fa-play"></i>
               متابعة المسار
@@ -1440,7 +1510,7 @@
                 <div class="stat-item-label">XP كلية</div>
               </div>
             </div>
-            
+
             <ul class="path-modules">
               <li>
                 <div class="module-status"></div>
@@ -1467,7 +1537,7 @@
                 <span>الشراكات الاستراتيجية والتوسع</span>
               </li>
             </ul>
-            
+
             <button class="btn btn-primary" style="width: 100%;" onclick="openPathOrProjectModal('مسار ريادة الأعمال الجيولوجية', 'بدء')">
               <i class="fas fa-play"></i>
               بدء المسار
@@ -1482,7 +1552,7 @@
     <div class="container">
       <h2 class="section-title animate-on-scroll">🛠️ الأدوات التفاعلية والمحاكيات</h2>
       <p class="section-subtitle animate-on-scroll">أدوات متطورة للتدريب العملي والمحاكاة الواقعية لبيئة العمل المهنية</p>
-      
+
       <div class="tools-grid">
         <div class="tool-card animate-on-scroll">
           <div class="tool-icon"><i class="fas fa-cube"></i></div>
@@ -1569,7 +1639,7 @@
     <div class="container">
       <h2 class="section-title animate-on-scroll" style="color: white;">🚀 المشاريع العملية والتطبيقية</h2>
       <p class="section-subtitle animate-on-scroll" style="color: rgba(255,255,255,0.9);">مشاريع حقيقية مبنية على بيانات فعلية من الصناعة لإعدادك لسوق العمل</p>
-      
+
       <div class="projects-grid">
         <div class="project-card animate-on-scroll">
           <div class="project-image">
@@ -1716,7 +1786,7 @@
     <div class="container">
       <h2 class="section-title animate-on-scroll">🏆 نظام الشهادات المهنية</h2>
       <p class="section-subtitle animate-on-scroll">شهادات معتمدة ومعترف بها دولياً تعزز من فرصك المهنية في سوق العمل</p>
-      
+
       <div class="cert-grid">
         <div class="cert-card animate-on-scroll">
           <div class="cert-icon"><i class="fas fa-medal"></i></div>
@@ -1827,7 +1897,7 @@
     <div class="container">
       <h2 class="section-title animate-on-scroll">👥 المجتمع المهني والدعم</h2>
       <p class="section-subtitle animate-on-scroll">انضم إلى مجتمع نشط من الجيولوجيين المحترفين والخبراء من مختلف أنحاء العالم</p>
-      
+
       <div class="community-grid">
         <div class="community-card animate-on-scroll">
           <div style="font-size: 3rem; margin-bottom: 25px; color: var(--primary-blue);">
@@ -1922,7 +1992,7 @@
           <p style="color: #666; line-height: 1.8; margin-bottom: 25px;">
             نظام تقدير وتكريم للمتميزين مع مكافآت مالية ومنح دراسية وفرص عمل حصرية
           </p>
-          
+
           <div class="leaderboard" style="margin-bottom: 25px;">
             <div class="leaderboard-item">
               <div class="rank-badge">1</div>
@@ -1946,7 +2016,7 @@
               </div>
             </div>
           </div>
-          
+
           <a href="#leaderboard" class="btn btn-primary">عرض التصنيف الكامل</a>
         </div>
       </div>
@@ -2005,7 +2075,7 @@
           </ul>
         </div>
       </div>
-      
+
       <div class="footer-bottom">
         <p>&copy; 2025 GeoReady Pro. جميع الحقوق محفوظة | صنع بـ ❤️ للجيولوجيين العرب</p>
         <p style="margin-top: 10px; font-size: 0.9rem;">
@@ -2020,6 +2090,11 @@
     <div class="notification-badge">3</div>
   </div>
 
+  <div class="floating-assistant-btn" onclick="openGeoAssistantModal()">
+    <i class="fas fa-robot"></i>
+  </div>
+
+
   <div class="achievement-popup" id="achievementPopup">
     <div style="display: flex; align-items: center;">
       <span class="achievement-icon">🏆</span>
@@ -2032,16 +2107,466 @@
 
   <div id="toolModal" class="modal">
     <div class="modal-content">
-      <span class="close-btn" onclick="closeModal()">&times;</span>
+      <span class="close-btn" onclick="closeModal('toolModal')">&times;</span>
       <h2 id="modalTitle" style="color: var(--primary-blue); margin-bottom: 25px;"><i class="fas fa-tools"></i> </h2>
       <div id="modalBody">
         </div>
     </div>
   </div>
 
+  <div id="geoAssistantModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeModal('geoAssistantModal')">&times;</span>
+      <h2 style="color: var(--success-green); margin-bottom: 15px;"><i class="fas fa-robot"></i> المساعد الجيولوجي (Geo-Assistant)</h2>
+      <div id="chatBox">
+        <div class="message assistant-message">
+            أهلاً بك! أنا مساعدك الجيولوجي الافتراضي. اسألني عن أي مفهوم، تقنية، أو مشروع جيولوجي.
+        </div>
+      </div>
+      <div class="chat-input-container">
+        <input type="text" id="userInput" placeholder="اكتب سؤالك هنا..." onkeyup="if(event.key === 'Enter') sendMessage()">
+        <button id="sendBtn" onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+      </div>
+    </div>
+  </div>
+
   <script>
+    // ================================= تعريف بيانات المسارات والمشاريع للتحسين التفاعلي =================================
+    const pathData = {
+        'مسار جيولوجيا البترول المتقدم': {
+            icon: 'fas fa-oil-can',
+            description: 'مسار شامل يؤهلك لتكون خبير مكامن، بدءاً من الصخور المصدر حتى محاكاة الإنتاج.',
+            modules: [
+                { title: 'الوحدة 1: تحليل السجل البئري (Log Analysis)', status: 'مكتمل' },
+                { title: 'الوحدة 2: تفسير البيانات السيزمية ثنائية وثلاثية الأبعاد', status: 'مكتمل' },
+                { title: 'الوحدة 3: نمذجة المكامن ببرنامج Petrel', status: 'جاري' },
+                { title: 'الوحدة 4: أساسيات الاقتصاد البترولي', status: 'لم يبدأ' },
+            ],
+            quiz: 'اختبار الوحدة الثالثة: نمذجة المكامن'
+        },
+        'مسار التعدين والموارد المعدنية': {
+            icon: 'fas fa-gem',
+            description: 'تعلم تقنيات الاستكشاف الجيوفيزيائي والجيوإحصائي المتبعة في تقدير الموارد وتصميم المناجم.',
+            modules: [
+                { title: 'الوحدة 1: الجيوفيزياء التطبيقية لاستكشاف الخامات', status: 'مكتمل' },
+                { title: 'الوحدة 2: تقدير الموارد باستخدام الكريجينج', status: 'جاري' },
+                { title: 'الوحدة 3: تطبيقات برامج Micromine و Surpac', status: 'لم يبدأ' },
+            ],
+            quiz: 'اختبار الوحدة الثانية: الكريجينج وتقدير الموارد'
+        },
+        // يمكن إضافة المزيد من المسارات هنا...
+    };
+
+    const projectData = {
+        'مشروع تطوير حقل حاسي مسعود': {
+            icon: 'fas fa-oil-can',
+            description: 'مشروع تطبيق متقدم يركز على استخدام بيانات حقل حاسي مسعود لبناء نموذج ثلاثي الأبعاد واقتراح خطة تطوير للحقل لزيادة الإنتاج.',
+            tasks: [
+                { title: 'المهمة 1: تنظيف ودمج بيانات الآبار', status: 'مكتمل' },
+                { title: 'المهمة 2: بناء الإطار الهيكلي للمكمن', status: 'جاري' },
+                { title: 'المهمة 3: إعداد تقرير التقييم الاقتصادي', status: 'لم يبدأ' },
+            ],
+            submission: 'تقديم تقرير المشروع النهائي (300 XP)'
+        },
+        // يمكن إضافة المزيد من المشاريع هنا...
+    };
+
     // ================================= سكريبت التفاعل والرسوم المتحركة المُحسَّن =================================
+
+    // ... (كود الدوال: updateLevelProgress, updateStats, showAchievement, completeDailyChallenge, openHelpChat, تفعيل التنقل السلس) ...
+    // تم حذف الكود المكرر لتجنب الإطالة، مع العلم أنه تم الإبقاء عليه في النسخة النهائية المدمجة.
+
+    let userStats = {
+      totalPoints: 2847,
+      currentLevel: 12,
+      completedModules: 28,
+      earnedCerts: 5,
+      xpToNextLevel: 2500, // XP required for next level
+      currentXP: 1847, // XP within the current level (2847 % 2500)
+      achievements: ['🛢️ خبير البترول', '⛏️ محلل التعدين', '💻 مبرمج GIS', '🏗️ مهندس جيوتقني']
+    };
+
+    function updateLevelProgress() {
+        const totalXPNeeded = 2500;
+        const currentXPInLevel = userStats.totalPoints % totalXPNeeded;
+        const progressPercentage = Math.round((currentXPInLevel / totalXPNeeded) * 100);
+
+        const progressBar = document.querySelector('.progress-fill');
+        if (progressBar) progressBar.style.width = progressPercentage + '%';
+
+        const xpNeeded = totalXPNeeded - currentXPInLevel;
+        const progressText = document.querySelector('.progress-bar-container p');
+        if (progressText) progressText.textContent = `${progressPercentage}% إلى المستوى التالي (${currentXPInLevel} / ${totalXPNeeded} XP)`;
+        
+        const nextLevelXP = document.querySelector('.level-badge:nth-child(3) div');
+        if (nextLevelXP) nextLevelXP.textContent = `${xpNeeded} XP`;
+    }
+
+    function updateStats() {
+      const counters = [
+        { element: 'totalPoints', target: userStats.totalPoints },
+        { element: 'currentLevel', target: userStats.currentLevel },
+        { element: 'completedModules', target: userStats.completedModules },
+        { element: 'earnedCerts', target: userStats.earnedCerts }
+      ];
+
+      counters.forEach(counter => {
+        const element = document.getElementById(counter.element);
+        if (!element) return;
+
+        const startValue = parseInt(element.textContent.replace(/,/g, '')) || 0;
+        const duration = 2000;
+        const increment = (counter.target - startValue) / (duration / 16);
+        let currentValue = startValue;
+
+        const timer = setInterval(() => {
+          currentValue += increment;
+          if (currentValue >= counter.target) {
+            currentValue = counter.target;
+            clearInterval(timer);
+          }
+          element.textContent = Math.floor(currentValue).toLocaleString();
+        }, 16);
+      });
+      updateLevelProgress();
+    }
+
+    window.addEventListener('load', function() {
+      setTimeout(updateStats, 500);
+    });
     
+    function showAchievement(text) {
+      const popup = document.getElementById('achievementPopup');
+      const textElement = document.getElementById('achievementText');
+      textElement.textContent = text;
+      popup.classList.add('show');
+      setTimeout(() => {
+        popup.classList.remove('show');
+      }, 4000);
+    }
+    
+    setTimeout(() => {
+      showAchievement('مبروك! لقد أكملت أول مشروع عملي بنجاح');
+    }, 5000);
+
+    function completeDailyChallenge(points, challengeName) {
+        userStats.totalPoints += points;
+        userStats.currentLevel = Math.floor(userStats.totalPoints / 250) + 1;
+        updateStats();
+        showAchievement(`مهمة مكتملة! ربحت ${points} XP من تحدي: ${challengeName}`);
+
+        const button = event.target;
+        const listItem = button.closest('li');
+        if (listItem) {
+            listItem.style.opacity = '0';
+            setTimeout(() => listItem.remove(), 500);
+        }
+
+        saveProgress();
+    }
+
+    function openHelpChat() {
+      alert('مرحباً! فريق الدعم الفني جاهز لمساعدتك في المسائل التقنية، الأكاديمية، أو المهنية. يمكنك استخدام زر المساعد الجيولوجي (الروبوت) لطرح أسئلة سريعة!');
+    }
+    
+    // ================================= وظائف البحث المضافة =================================
+    
+    function searchPlatform() {
+        const query = document.getElementById('searchInput').value.trim();
+        if (query.length < 3) {
+            alert('الرجاء إدخال كلمة بحث لا تقل عن 3 أحرف.');
+            return;
+        }
+
+        let results = [];
+        if (query.includes('بترول') || query.includes('مكمن')) {
+            results.push('مسار جيولوجيا البترول المتقدم (مسار)');
+            results.push('مشروع تطوير حقل حاسي مسعود (مشروع)');
+        }
+        if (query.includes('GIS') || query.includes('رقمية')) {
+            results.push('مسار التقنيات الرقمية والـ GIS (مسار)');
+            results.push('منصة GIS التفاعلية (أداة)');
+        }
+        if (query.includes('زلزال') || query.includes('هندسة')) {
+            results.push('مسار الجيولوجيا الهندسية (مسار)');
+            results.push('تقييم مخاطر الزلازل بالجزائر العاصمة (مشروع)');
+        }
+        
+        const finalResults = [...new Set(results)].join('\n- ');
+        
+        if (finalResults.length > 0) {
+            alert(`🔍 نتائج البحث عن "${query}":\n\n- ${finalResults}`);
+        } else {
+            alert(`🔍 لا توجد نتائج مطابقة لـ "${query}". يرجى محاولة كلمات بحث أخرى.`);
+        }
+    }
+
+    // ================================= وظائف Geo-Assistant (Chatbot) المضافة =================================
+    
+    function openGeoAssistantModal() {
+        document.getElementById('geoAssistantModal').style.display = 'block';
+        setTimeout(() => document.getElementById('chatBox').scrollTop = document.getElementById('chatBox').scrollHeight, 10);
+    }
+
+    function sendMessage() {
+        const input = document.getElementById('userInput');
+        const chatBox = document.getElementById('chatBox');
+        const userText = input.value.trim();
+
+        if (userText === "") return;
+
+        // 1. عرض رسالة المستخدم
+        const userMessageDiv = document.createElement('div');
+        userMessageDiv.className = 'message user-message';
+        userMessageDiv.textContent = userText;
+        chatBox.appendChild(userMessageDiv);
+
+        // 2. محاكاة رد المساعد (Geo-Assistant)
+        setTimeout(() => {
+            const assistantText = getAssistantResponse(userText);
+            const assistantMessageDiv = document.createElement('div');
+            assistantMessageDiv.className = 'message assistant-message';
+            assistantMessageDiv.textContent = assistantText;
+            chatBox.appendChild(assistantMessageDiv);
+            
+            // التمرير التلقائي لأسفل
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }, 800);
+
+        // 3. مسح حقل الإدخال
+        input.value = '';
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function getAssistantResponse(query) {
+        const lowerQuery = query.toLowerCase();
+        
+        if (lowerQuery.includes('مكمن') || lowerQuery.includes('بترول')) {
+            return "المكمن البترولي هو مصيدة جيولوجية تجميع فيها الهيدروكربونات (النفط والغاز). يتكون أساسًا من صخور خازنة، صخور غطاء، وصخور مصدر. هل تريد معلومات عن نمذجة المكامن؟";
+        } else if (lowerQuery.includes('سيزمية') || lowerQuery.includes('تحليل')) {
+            return "البيانات السيزمية هي تقنية جيوفيزيائية لتصوير باطن الأرض باستخدام الموجات الصوتية. يتم تفسيرها لتحديد التراكيب الجيولوجية مثل الطيات والفوالق ومستويات السوائل. يمكنك استخدام 'محلل البيانات السيزمية' في قسم الأدوات للتدريب العملي.";
+        } else if (lowerQuery.includes('gis') || lowerQuery.includes('خرائط')) {
+            return "نظام المعلومات الجغرافية (GIS) هو نظام حاسوبي مصمم لجمع وتخزين وتحليل وإدارة كافة أنواع البيانات المكانية. يستخدمه الجيولوجيون لرسم الخرائط، تحليل المواقع المثلى للحفر، ومراقبة التغيرات البيئية. يمكنك متابعة 'مسار التقنيات الرقمية والـ GIS' للتعمق.";
+        } else if (lowerQuery.includes('كيف حالك') || lowerQuery.includes('مرحبا')) {
+            return "أنا جاهز لخدمتك! كيف يمكنني مساعدتك في رحلتك الجيولوجية اليوم؟";
+        } else if (lowerQuery.includes('ريادة') || lowerQuery.includes('شركة')) {
+            return "ريادة الأعمال الجيولوجية تركز على إنشاء شركات ناشئة تقدم حلولاً جيولوجية مبتكرة (مثل الاستشعار عن بعد، الذكاء الاصطناعي لتحليل البيانات). اطلع على 'مسار ريادة الأعمال الجيولوجية' لمعرفة المزيد.";
+        } else if (lowerQuery.includes('ماذا تفعل')) {
+            return "أنا مساعد جيولوجي افتراضي، مهمتي هي تقديم إجابات سريعة، توجيهك إلى المحتوى المناسب، وشرح المفاهيم الجيولوجية والتقنية في المنصة.";
+        } else {
+            return "سؤال رائع! هذا المفهوم يتطلب شرحاً مفصلاً. يرجى مراجعة 'المكتبة المعرفية' في قسم الدعم، أو اختر مساراً تدريبياً يتناول هذا الموضوع.";
+        }
+    }
+
+    // ================================= وظائف الـ Modal التفاعلية (المسارات والمشاريع والأدوات) =================================
+
+    // دالة إغلاق أي نافذة منبثقة
+    function closeModal(modalId = 'toolModal') {
+        document.getElementById(modalId).style.display = "none";
+    }
+    
+    // دالة فتح الـ Modal للأدوات التفاعلية
+    function openModal(toolName) {
+        document.getElementById("toolModal").style.display = "block";
+        document.getElementById("modalTitle").innerHTML = `<i class="fas fa-tools"></i> ${toolName}`;
+
+        let toolInfo = `
+            <div class="tool-info-box">
+                <p style="font-size: 1.1rem; font-weight: 700;">مرحبا بك! هذه الأداة تحاكي بيئة عمل حقيقية لإنجاز المهام الجيولوجية.</p>
+                <p><strong>المكافأة:</strong> +75 XP عند إكمال جلسة تدريبية بنجاح.</p>
+            </div>
+            
+            <div class="content-section">
+                <h4>📚 المحتوى التعليمي والمراجع</h4>
+                <ul class="training-list">
+                    <li onclick="showTrainingUnit('الوحدة الأساسية للأداة')">
+                        <span>الوحدة 1.1: دليل الاستخدام السريع لـ ${toolName}</span>
+                        <button><i class="fas fa-book-open"></i> قراءة</button>
+                    </li>
+                    <li onclick="showTrainingUnit('المفاهيم المتقدمة في الأداة')">
+                        <span>الوحدة 1.2: المفاهيم المتقدمة وتطبيقات الصناعة</span>
+                        <button><i class="fas fa-video"></i> مشاهدة</button>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="content-section">
+                <h4>📝 اختبارات وتحديات الأداة</h4>
+                <ul class="training-list">
+                    <li onclick="startQuiz('اختبار إتقان أداة ${toolName}')">
+                        <span>اختبار الكفاءة النهائي للأداة</span>
+                        <button style="background: var(--danger-red);"><i class="fas fa-pencil-alt"></i> ابدأ الاختبار</button>
+                    </li>
+                    <li onclick="startQuiz('تحدي سرعة في أداة ${toolName}')">
+                        <span>تحدي الوقت: إنجاز مهمة في 10 دقائق</span>
+                        <button style="background: var(--warning-orange);"><i class="fas fa-bolt"></i> ابدأ التحدي</button>
+                    </li>
+                </ul>
+            </div>
+            
+            <div style="text-align: center; margin-top: 30px;">
+                <button class="btn btn-primary" onclick="simulateToolLaunch('${toolName}')" style="background: var(--success-green); color: white;">
+                    <i class="fas fa-desktop"></i> تشغيل بيئة المحاكاة
+                </button>
+            </div>
+        `;
+        
+        document.getElementById("modalBody").innerHTML = toolInfo;
+    }
+    
+    // دالة فتح الـ Modal للمسارات والمشاريع (تم تحويلها من شكلية إلى وظيفية)
+    function openPathOrProjectModal(itemTitle, actionType) {
+        const isPath = itemTitle.includes('مسار');
+        const data = isPath ? pathData[itemTitle] : projectData[itemTitle];
+        const icon = data ? data.icon : 'fas fa-info-circle';
+        
+        if (!data) {
+            // معالجة حالة عدم وجود بيانات (لم يتم إضافتها في Object Data)
+            document.getElementById("toolModal").style.display = "block";
+            document.getElementById("modalTitle").innerHTML = `<i class="fas fa-exclamation-triangle"></i> ${itemTitle}`;
+            document.getElementById("modalBody").innerHTML = `
+                <div style="padding: 20px; text-align: center;">
+                    <h3 style="color: var(--danger-red); margin-bottom: 25px;">بيانات المسار/المشروع غير متوفرة حالياً</h3>
+                    <p style="color: #555;">هذا المسار أو المشروع قيد التجهيز وسيتم إتاحته قريباً بمحتوى تفاعلي شامل. نأسف للإزعاج!</p>
+                </div>
+            `;
+            return;
+        }
+        
+        document.getElementById("toolModal").style.display = "block";
+        document.getElementById("modalTitle").innerHTML = `<i class="${icon}"></i> ${itemTitle}`;
+        
+        let modulesListHTML = '';
+        data.modules.forEach(mod => {
+            const statusClass = mod.status === 'مكتمل' ? 'completed' : (mod.status === 'جاري' ? 'in-progress' : 'not-started');
+            const actionButton = mod.status !== 'مكتمل' 
+                ? `<button style="background: ${mod.status === 'جاري' ? 'var(--warning-orange)' : 'var(--primary-blue)'}; color: white;" onclick="showTrainingUnit('${mod.title}')">
+                    <i class="fas fa-play"></i> ${mod.status === 'جاري' ? 'متابعة' : 'بدء'}
+                  </button>`
+                : `<button style="background: var(--success-green); color: white;"><i class="fas fa-check"></i> مكتمل</button>`;
+                
+            modulesListHTML += `
+                <li>
+                    <span>${mod.title}</span>
+                    ${actionButton}
+                </li>
+            `;
+        });
+        
+        const mainContent = isPath 
+            ? `
+                <div class="content-section">
+                    <h4>📝 محتوى المسار (${data.modules.length} وحدات)</h4>
+                    <p style="color: #666; margin-bottom: 20px;">${data.description}</p>
+                    <ul class="training-list">${modulesListHTML}</ul>
+                </div>
+                
+                <div class="content-section">
+                    <h4>💡 الاختبار النهائي والشهادة</h4>
+                    <p style="color: #666; margin-bottom: 20px;">
+                        إكمال هذا الاختبار يفتح لك فرصة الحصول على شهادة ${itemTitle.replace('مسار', 'خبير')}.
+                    </p>
+                    <button class="btn btn-primary" onclick="startQuiz('${data.quiz}')" style="background: var(--danger-red); color: white;">
+                        <i class="fas fa-graduation-cap"></i> ${data.quiz}
+                    </button>
+                </div>
+              `
+            : `
+                <div class="content-section">
+                    <h4>✅ مهام المشروع (${data.tasks.length} مهمة)</h4>
+                    <p style="color: #666; margin-bottom: 20px;">${data.description}</p>
+                    <ul class="training-list">${modulesListHTML}</ul>
+                </div>
+
+                <div class="content-section">
+                    <h4>🚀 تقديم المشروع</h4>
+                    <p style="color: #666; margin-bottom: 20px;">
+                        بعد إكمال جميع المهام، يمكنك تقديم عملك للمراجعة والتقييم.
+                    </p>
+                    <button class="btn btn-primary" onclick="submitProject('${itemTitle}')" style="background: var(--success-green); color: white;">
+                        <i class="fas fa-upload"></i> ${data.submission}
+                    </button>
+                </div>
+            `;
+
+        document.getElementById("modalBody").innerHTML = mainContent;
+    }
+    
+    // دالة محاكاة الدخول إلى وحدة تدريبية
+    function showTrainingUnit(unitTitle) {
+        closeModal();
+        showAchievement(`بدء التدريب: ${unitTitle}`);
+        alert(`جاري تشغيل الوحدة التدريبية:\n\n-- ${unitTitle} --\n\n(هنا يتم فتح مشغل فيديو تفاعلي أو صفحة محتوى نصي / اختبار مصغر...)`);
+    }
+
+    // دالة محاكاة بدء الاختبار
+    function startQuiz(quizName) {
+        closeModal();
+        showAchievement(`بدء الاختبار: ${quizName}`);
+        alert(`جاري إعداد أسئلة الاختبار:\n\n-- ${quizName} --\n\n(في النظام الفعلي، يتم فتح صفحة الأسئلة مع مؤقت زمني ومتابعة للنتيجة...)`);
+    }
+
+    // دالة محاكاة تشغيل بيئة المحاكاة الفعلية للأداة
+    function simulateToolLaunch(toolName) {
+        closeModal();
+        showAchievement(`تشغيل بيئة: ${toolName}`);
+        alert(`🚀 يتم الآن تحميل بيئة المحاكاة السحابية لـ ${toolName}.\n\n(هنا يتم فتح نافذة منفصلة أو تضمين لوحة تحكم لتطبيق الأداة العملي.)`);
+        
+        // منح نقاط XP بعد فترة زمنية كمحاكاة لإكمال جلسة العمل
+        setTimeout(() => {
+            completeToolSession(75, toolName);
+        }, 10000); // 10 ثواني (محاكاة)
+    }
+
+    // دالة محاكاة تقديم المشروع
+    function submitProject(projectName) {
+        closeModal();
+        showAchievement(`تم تقديم المشروع: ${projectName}`);
+        alert(`✅ تم استلام ملفات مشروع ${projectName} بنجاح. سيتم مراجعتها من قبل الخبراء في غضون 72 ساعة. ترقب إشعار التقييم والمكافأة.`);
+    }
+
+    // دالة مكافأة إكمال المحاكاة
+    function completeToolSession(points, toolName) {
+        userStats.totalPoints += points;
+        userStats.currentLevel = Math.floor(userStats.totalPoints / 250) + 1;
+        updateStats();
+        showAchievement(`أكملت جلسة عمل لـ ${toolName}! ربحت ${points} XP`);
+        saveProgress();
+    }
+
+
+    // عند النقر خارج الـ Modal، قم بإغلاقه
+    window.onclick = function(event) {
+        const toolModal = document.getElementById("toolModal");
+        const assistantModal = document.getElementById("geoAssistantModal");
+        if (event.target == toolModal) {
+            closeModal('toolModal');
+        }
+        if (event.target == assistantModal) {
+            closeModal('geoAssistantModal');
+        }
+    }
+    
+    // دالة لحفظ التقدم محلياً
+    function saveProgress() {
+      localStorage.setItem('geoready_progress', JSON.stringify(userStats));
+    }
+
+    // دالة لتحميل التقدم
+    function loadProgress() {
+      const saved = localStorage.getItem('geoready_progress');
+      if (saved) {
+        userStats = { ...userStats, ...JSON.parse(saved) };
+        updateStats();
+      }
+    }
+
+    // تحميل التقدم المحفوظ عند بدء التشغيل
+    window.addEventListener('load', loadProgress);
+
+    // حفظ التقدم كل دقيقة
+    setInterval(saveProgress, 60000);
+
     // تحديث شريط التنقل عند التمرير
     window.addEventListener('scroll', function() {
       const navbar = document.getElementById('navbar');
@@ -2070,114 +2595,6 @@
       observer.observe(el);
     });
 
-    // نظام النقاط والتلعيب المتقدم
-    let userStats = {
-      totalPoints: 2847,
-      currentLevel: 12,
-      completedModules: 28,
-      earnedCerts: 5,
-      xpToNextLevel: 2500, // XP required for next level
-      currentXP: 1847, // XP within the current level (2847 % 2500)
-      achievements: ['🛢️ خبير البترول', '⛏️ محلل التعدين', '💻 مبرمج GIS', '🏗️ مهندس جيوتقني']
-    };
-
-    function updateLevelProgress() {
-        // حساب النسبة المئوية للتقدم
-        const totalXPNeeded = 2500; // قيمة ثابتة أو متغيرة حسب المستوى
-        const currentXPInLevel = userStats.totalPoints % totalXPNeeded;
-        const progressPercentage = Math.round((currentXPInLevel / totalXPNeeded) * 100);
-
-        const progressBar = document.querySelector('.progress-fill');
-        progressBar.style.width = progressPercentage + '%';
-        
-        // تحديث معلومات المستوى في لوحة القيادة
-        const xpNeeded = totalXPNeeded - currentXPInLevel;
-        document.querySelector('.progress-bar-container p').textContent = 
-          `${progressPercentage}% إلى المستوى التالي (${currentXPInLevel} / ${totalXPNeeded} XP)`;
-        document.querySelector('.level-badge:nth-child(3) div').textContent = `${xpNeeded} XP`;
-    }
-
-    // تحديث الإحصائيات مع رسوم متحركة
-    function updateStats() {
-      const counters = [
-        { element: 'totalPoints', target: userStats.totalPoints },
-        { element: 'currentLevel', target: userStats.currentLevel },
-        { element: 'completedModules', target: userStats.completedModules },
-        { element: 'earnedCerts', target: userStats.earnedCerts }
-      ];
-
-      counters.forEach(counter => {
-        const element = document.getElementById(counter.element);
-        // تجنب المشكلة إذا لم يكن العنصر موجوداً
-        if (!element) return;
-        
-        const startValue = parseInt(element.textContent.replace(/,/g, '')) || 0;
-        const duration = 2000;
-        const increment = (counter.target - startValue) / (duration / 16);
-        let currentValue = startValue;
-
-        const timer = setInterval(() => {
-          currentValue += increment;
-          if (currentValue >= counter.target) {
-            currentValue = counter.target;
-            clearInterval(timer);
-          }
-          element.textContent = Math.floor(currentValue).toLocaleString();
-        }, 16);
-      });
-      updateLevelProgress();
-    }
-
-    // بدء تحديث الإحصائيات عند التحميل
-    window.addEventListener('load', function() {
-      setTimeout(updateStats, 500);
-    });
-
-    // نظام الإنجازات المنبثقة
-    function showAchievement(text) {
-      const popup = document.getElementById('achievementPopup');
-      const textElement = document.getElementById('achievementText');
-      textElement.textContent = text;
-      popup.classList.add('show');
-      
-      // playSound('achievement'); // تفعيل الصوت
-
-      setTimeout(() => {
-        popup.classList.remove('show');
-      }, 4000);
-    }
-
-    // محاكاة إنجاز جديد (تجريبي)
-    setTimeout(() => {
-      showAchievement('مبروك! لقد أكملت أول مشروع عملي بنجاح');
-    }, 5000);
-
-    // دالة تحدي اليوم (Daily Quest Function)
-    function completeDailyChallenge(points, challengeName) {
-        userStats.totalPoints += points;
-        userStats.currentLevel = Math.floor(userStats.totalPoints / 250) + 1; // تحديث المستوى
-        
-        // تحديث واجهة المستخدم
-        updateStats();
-        showAchievement(`مهمة مكتملة! ربحت ${points} XP من تحدي: ${challengeName}`);
-        
-        // حذف التحدي من القائمة (لإظهار التفاعل)
-        const button = event.target;
-        const listItem = button.closest('li');
-        if (listItem) {
-            listItem.style.opacity = '0';
-            setTimeout(() => listItem.remove(), 500);
-        }
-        
-        saveProgress();
-    }
-
-
-    // دالة فتح نافذة المساعدة
-    function openHelpChat() {
-      alert('مرحباً! كيف يمكننا مساعدتك اليوم؟\n\n• استفسارات تقنية\n• مساعدة في المشاريع\n• توجيه مهني\n• مشاكل في الحساب');
-    }
-
     // تفعيل التنقل السلس
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function (e) {
@@ -2191,141 +2608,6 @@
         }
       });
     });
-
-    // ================================= نظام الـ Modal التفاعلي للأدوات والمسارات/المشاريع (تم تصحيحها) =================================
-
-    const modal = document.getElementById("toolModal");
-    const modalTitle = document.getElementById("modalTitle");
-    const modalBody = document.getElementById("modalBody");
-    const toolNameDisplay = document.getElementById("toolNameDisplay");
-    
-    // دالة فتح الـ Modal للأدوات التفاعلية
-    function openModal(toolName) {
-        modal.style.display = "block";
-        modalTitle.innerHTML = `<i class="fas fa-tools"></i> ${toolName}`;
-        
-        // محتوى التحميل الخاص بالأداة
-        modalBody.innerHTML = `
-            <div class="tool-loading-sim">
-                <div class="loader"></div>
-                <h4>جارٍ تحميل المحاكي ${toolName}...</h4>
-                <p>يتم إعداد بيئة المحاكاة الافتراضية. يرجى الانتظار قليلاً.</p>
-                <div style="margin-top: 20px;">
-                    <button class="btn btn-primary" onclick="simulateToolLaunch('${toolName}')">تشغيل المحاكي</button>
-                </div>
-            </div>
-        `;
-    }
-    
-    // دالة فتح الـ Modal للمسارات والمشاريع (التصحيح المطلوب)
-    function openPathOrProjectModal(itemTitle, actionType) {
-        const icon = actionType === 'بدء' ? 'fas fa-rocket' : 'fas fa-sync-alt';
-        const buttonText = actionType === 'بدء' ? 'الانتقال إلى أول وحدة' : 'الاستئناف عند الوحدة التالية';
-        const message = actionType === 'بدء' 
-            ? `أهلاً بك! أنت على وشك **بدء** رحلة التعلم في ${itemTitle}.`
-            : `مرحباً بعودتك! أنت جاهز **لمتابعة** تقدمك في ${itemTitle}.`;
-        
-        modal.style.display = "block";
-        modalTitle.innerHTML = `<i class="${icon}"></i> ${itemTitle}`;
-        
-        // محتوى مخصص للمسار/المشروع
-        modalBody.innerHTML = `
-            <div style="padding: 20px; text-align: center;">
-                <h3 style="color: var(--primary-blue); margin-bottom: 25px;">${message}</h3>
-                
-                <p style="color: #555; font-size: 1.1rem; margin-bottom: 30px; line-height: 1.8;">
-                    يرجى النقر على الزر أدناه ليتم نقلك مباشرةً إلى شاشة المحاضرات التفاعلية والوحدات التدريبية الخاصة بهذا المسار.
-                </p>
-                
-                <div style="margin-top: 40px;">
-                    <button class="btn btn-primary" onclick="launchPath('${itemTitle}', '${actionType}')" style="background: var(--success-green); color: white;">
-                        <i class="fas fa-arrow-circle-left"></i> ${buttonText}
-                    </button>
-                    <button class="btn btn-outline" onclick="closeModal()" style="color: var(--primary-blue); border-color: var(--primary-blue);">
-                        إلغاء والعودة
-                    </button>
-                </div>
-                <small style="display: block; margin-top: 20px; color: #999;">
-                    (ملاحظة: هذه وظيفة محاكاة للتفاعل. في النظام الحقيقي، سيتم فتح صفحة جديدة.)
-                </small>
-            </div>
-        `;
-    }
-
-    function closeModal() {
-        modal.style.display = "none";
-    }
-    
-    // محاكاة إطلاق الأداة مع محتوى تفاعلي وهمي
-    function simulateToolLaunch(toolName) {
-        modalTitle.innerHTML = `<i class="fas fa-tools"></i> ${toolName}`;
-        modalBody.innerHTML = `
-            <div style="padding: 20px;">
-                <h3 style="color: var(--success-green); text-align: center; margin-bottom: 25px;">🚀 المحاكي ${toolName} جاهز!</h3>
-                <p><strong>مهمة المحاكاة الحالية:</strong> تطبيق تقنية الكريجينج لتحديد احتياطي حقل البترول 'سيرينا'.</p>
-                
-                <ul style="list-style: disc; margin-top: 20px; margin-right: 40px; color: #555;">
-                    <li><strong>المرحلة 1:</strong> تحميل ملف البيانات البئرية (Log Data).</li>
-                    <li><strong>المرحلة 2:</strong> تحديد خوارزمية الجيوإحصاء المناسبة (Simple Kriging).</li>
-                    <li><strong>المرحلة 3:</strong> ضبط المعاملات الجيولوجية (مسامية، نفاذية).</li>
-                    <li><strong>المرحلة 4:</strong> تشغيل التقدير وعرض خريطة التوزيع.</li>
-                </ul>
-                
-                <div style="margin-top: 40px; text-align: center;">
-                    <button class="btn btn-primary" onclick="completeToolSession(50, '${toolName}')" style="background: var(--success-green); color: white;">
-                        <i class="fas fa-check-circle"></i> إكمال الجلسة وربح XP
-                    </button>
-                    <button class="btn btn-outline" onclick="closeModal()">إغلاق</button>
-                </div>
-            </div>
-        `;
-    }
-    
-    // محاكاة إطلاق المسار/المشروع وإغلاق النافذة
-    function launchPath(itemTitle, actionType) {
-        closeModal();
-        showAchievement(`${actionType} ناجح! تم الانتقال إلى: ${itemTitle}`);
-        // هنا يمكن وضع كود إعادة التوجيه الفعلي لصفحة المسار
-        // window.location.href = `/path-details?name=${encodeURIComponent(itemTitle)}`;
-    }
-    
-    // دالة مكافأة إكمال المحاكاة
-    function completeToolSession(points, toolName) {
-        userStats.totalPoints += points;
-        userStats.currentLevel = Math.floor(userStats.totalPoints / 250) + 1;
-        updateStats();
-        showAchievement(`أكملت محاكاة ${toolName}! ربحت ${points} XP`);
-        closeModal();
-        saveProgress();
-    }
-
-
-    // عند النقر خارج الـ Modal، قم بإغلاقه
-    window.onclick = function(event) {
-        if (event.target == modal) {
-            closeModal();
-        }
-    }
-
-    // دالة لحفظ التقدم محلياً (تم تعزيزها)
-    function saveProgress() {
-      localStorage.setItem('geoready_progress', JSON.stringify(userStats));
-    }
-
-    // دالة لتحميل التقدم (تم تعزيزها)
-    function loadProgress() {
-      const saved = localStorage.getItem('geoready_progress');
-      if (saved) {
-        userStats = { ...userStats, ...JSON.parse(saved) };
-        updateStats();
-      }
-    }
-
-    // تحميل التقدم المحفوظ عند بدء التشغيل
-    window.addEventListener('load', loadProgress);
-
-    // حفظ التقدم كل دقيقة
-    setInterval(saveProgress, 60000);
 
     console.log('🌍 GeoReady Pro تم تحميلها بنجاح!');
     console.log('💎 منصة التدريب الجيولوجي الأكثر تقدماً في المنطقة');
