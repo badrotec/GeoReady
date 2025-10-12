@@ -3,47 +3,51 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GeoReady - منصة التدريب التفاعلي (Gamified) والمحاكاة</title>
+  <title>GeoReady | تحدي الخبير الجيولوجي - منصة تفاعلية شاملة</title>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
-    /* --------------------------------- تنسيقات عامة --------------------------------- */
+    /* --------------------------------- التنسيقات العامة والخطوط --------------------------------- */
     body {
       font-family: 'Cairo', sans-serif;
       margin: 0;
-      background: #f0f8ff; /* خلفية محفزة */
-      color: #1a1a1a;
+      background: #e6eef5; /* خلفية ناعمة */
+      color: #111;
       text-align: center;
     }
     header {
-      background: linear-gradient(90deg, #1b3a4b, #2a5870); /* أزرق داكن (ثقة ومعرفة) */
+      background: linear-gradient(90deg, #0a1f44, #1f4068); /* أزرق فلكي داكن */
       color: #fff;
       padding: 70px 10px 50px;
-      border-bottom: 8px solid #5fa8d3;
+      border-bottom: 10px solid #5fa8d3;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
     }
     header h1 {
-      font-size: 4rem; /* تأكيد بصري */
+      font-size: 4.5rem;
       margin: 0;
       font-weight: 900;
+      text-shadow: 2px 2px #000;
     }
     header p {
       margin-top: 15px;
-      font-size: 1.6rem;
+      font-size: 1.7rem;
     }
     nav {
-      background: #2a5870;
+      background: #1f4068;
       padding: 18px;
-      box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.4);
       position: sticky;
       top: 0;
-      z-index: 1000;
+      z-index: 2000; /* قيمة عالية جداً */
     }
     nav a {
-      color: #e0f2f1;
+      color: #cce0ff;
       text-decoration: none;
       margin: 0 25px;
       font-weight: 700;
       transition: color 0.3s ease, border-bottom 0.3s ease;
       padding-bottom: 5px;
+      font-size: 1.1rem;
     }
     nav a:hover {
       color: #ade8f4;
@@ -53,166 +57,179 @@
       padding: 60px 40px;
       background: white;
       margin: 30px auto;
-      border-radius: 25px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
-      max-width: 1400px;
+      border-radius: 30px;
+      box-shadow: 0 15px 50px rgba(0,0,0,0.18);
+      max-width: 1500px;
       text-align: right;
     }
     h2 {
-      color: #1b3a4b;
-      font-size: 2.8rem;
-      border-bottom: 5px solid #5fa8d3;
-      padding-bottom: 15px;
-      margin-bottom: 50px;
+      color: #0a1f44;
+      font-size: 3rem;
+      border-bottom: 6px solid #5fa8d3;
+      padding-bottom: 20px;
+      margin-bottom: 60px;
       text-align: center;
       font-weight: 900;
     }
-    .introduction p {
-        font-size: 1.3rem;
-        line-height: 2;
-        text-align: justify;
-    }
     
-    /* --------------------------------- تصميم لوحة التفاعل (الجديد) --------------------------------- */
+    /* --------------------------------- لوحة القيادة التفاعلية (Dashboard) --------------------------------- */
     .dashboard {
         display: flex;
         justify-content: space-around;
         align-items: center;
-        background: #e9f5ff;
-        padding: 25px;
-        margin-bottom: 40px;
-        border-radius: 15px;
-        border: 2px solid #5fa8d3;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        background: #34495e; /* أزرق داكن */
+        color: white;
+        padding: 30px;
+        margin-bottom: 50px;
+        border-radius: 20px;
+        box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
     }
     .metric {
         text-align: center;
-        font-size: 1.1rem;
-        color: #1b3a4b;
+        font-size: 1.2rem;
         font-weight: 700;
+        min-width: 150px;
     }
     .metric-value {
-        font-size: 2.5rem;
+        font-size: 3rem;
         font-weight: 900;
-        color: #0077b6; /* أزرق مشرق */
+        color: #00bcd4; /* أزرق مشرق */
         margin-top: 5px;
+        transition: transform 0.3s ease;
+    }
+    .metric-value:hover {
+        transform: scale(1.1);
     }
     .level-bar {
-        width: 250px;
-        background-color: #ddd;
-        border-radius: 10px;
+        width: 180px;
+        height: 25px;
+        background-color: #555;
+        border-radius: 12px;
         overflow: hidden;
         margin-top: 10px;
-        height: 20px;
+        border: 1px solid #000;
     }
     .level-progress {
         height: 100%;
-        width: 75%; /* مثال: مستوى التقدم */
-        background-color: #00b4d8;
+        background-color: #4caf50; /* أخضر للتقدم */
         text-align: center;
         color: white;
-        font-size: 0.8rem;
+        font-size: 0.9rem;
+        line-height: 25px;
+        transition: width 0.6s ease-in-out;
+    }
+    .badge-icon {
+        font-size: 2rem;
+        margin: 0 5px;
+        cursor: help;
     }
 
-    /* --------------------------------- تصميم وحدات التدريب --------------------------------- */
+    /* --------------------------------- وحدات التدريب والتفاصيل (Card) --------------------------------- */
     .modules {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-      gap: 40px;
-      margin-top: 30px;
+      grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+      gap: 50px;
     }
     .card {
-      background: #e0f8ff;
-      border-radius: 20px;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.1);
-      overflow: hidden;
-      cursor: pointer;
-      border: 1px solid #ade8f4;
-      transition: box-shadow 0.4s ease, transform 0.2s ease;
+      background: #f7fcff;
+      border-radius: 25px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+      border: 3px solid #5fa8d3;
     }
     .card-header {
-        padding: 35px;
+        padding: 40px;
         background: #0077b6;
         color: white;
-        text-align: right;
+        border-radius: 20px 20px 0 0;
         position: relative;
     }
     .card-content {
         max-height: 0; 
-        padding: 0 35px;
-        transition: max-height 1.2s ease-in-out, padding 1.2s ease-in-out; 
-        background: #fff;
-        text-align: justify; 
+        padding: 0 40px;
+        transition: max-height 1.5s ease-in-out, padding 1.5s ease-in-out; 
     }
     .card.active .card-content {
-        max-height: 10000px;
-        padding: 35px;
-        border-top: 8px solid #1b3a4b;
+        max-height: 15000px; /* قيمة ضخمة جداً */
+        padding: 40px;
     }
     .card-content li {
-        margin-bottom: 35px;
-        line-height: 1.7;
-        border-right: 6px solid #5fa8d3;
-        padding: 20px 20px 20px 15px;
-        background-color: #f7fcff;
-        border-radius: 10px;
+        margin-bottom: 40px;
+        border-right: 8px solid #5fa8d3;
+        padding: 25px 25px 25px 20px;
+        background-color: #f0faff;
+        border-radius: 12px;
     }
     .card-content strong {
-        color: #1b3a4b;
-        font-size: 1.4rem;
-        display: block;
-        margin-bottom: 12px;
-        border-bottom: 2px solid #0077b6;
-        padding-bottom: 8px;
-    }
-    .task-detail {
-        margin-top: 15px;
-        padding: 15px;
-        border-left: 5px solid #ffaa00;
-        background-color: #fff5e0;
-        font-size: 1.1rem;
-        line-height: 1.6;
-        border-radius: 8px;
-    }
-    .task-detail span {
-        font-weight: bold;
-        color: #e65100;
-        margin-left: 5px;
+        color: #0a1f44;
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+        border-bottom: 3px solid #0077b6;
+        padding-bottom: 10px;
     }
 
-    /* --------------------------------- مكون التلعيب والاختبار --------------------------------- */
-    .quiz-challenge {
+    /* --------------------------------- تفاصيل المحاكاة (جديد) --------------------------------- */
+    .sim-detail {
         margin-top: 20px;
-        text-align: center;
-        padding: 15px;
-        background-color: #e0f7fa;
-        border: 2px dashed #00bcd4;
+        padding: 20px;
+        border: 2px solid #ffcc00;
+        background-color: #fff8e0;
         border-radius: 10px;
-        font-weight: bold;
-        color: #0077b6;
+    }
+    .sim-detail h4 {
+        color: #e65100;
+        font-size: 1.3rem;
+        margin-top: 0;
+        text-align: center;
+    }
+    .sim-detail ul {
+        list-style-type: decimal;
+        padding-right: 30px;
+        font-size: 1.05rem;
+        line-height: 1.8;
+    }
+
+    /* --------------------------------- مكون الاختبار (Quiz) --------------------------------- */
+    .quiz-challenge {
+        margin-top: 30px;
+        text-align: center;
+        padding: 20px;
+        background-color: #e0f7fa;
+        border: 3px dashed #00bcd4;
+        border-radius: 15px;
     }
     .quiz-challenge button {
         background-color: #00bcd4;
         color: white;
         border: none;
-        padding: 10px 20px;
-        margin-top: 10px;
+        padding: 12px 25px;
+        margin-top: 15px;
         cursor: pointer;
-        border-radius: 5px;
+        border-radius: 8px;
         font-weight: bold;
-        transition: background-color 0.3s;
+        font-size: 1.1rem;
+        transition: background-color 0.3s, transform 0.2s;
     }
     .quiz-challenge button:hover {
         background-color: #00838f;
+        transform: translateY(-2px);
     }
-    .points-reward {
-        font-size: 1.1rem;
-        color: #4caf50; /* لون المكافأة */
-        margin-top: 10px;
+    .quiz-result {
+        margin-top: 15px;
+        font-weight: bold;
+        padding: 10px;
+        border-radius: 5px;
+    }
+    .quiz-result.success {
+        background-color: #e8f5e9;
+        color: #388e3c;
+    }
+    .quiz-result.fail {
+        background-color: #ffebee;
+        color: #d32f2f;
     }
     
     footer {
-      background: #1b3a4b;
+      background: #0a1f44;
       color: white;
       padding: 30px;
       margin-top: 40px;
@@ -220,21 +237,60 @@
     }
   </style>
   <script>
-    let userPoints = 1250;
-    let userLevel = 7;
-    let progressPercentage = 75;
+    // --------------------------------- نظام التلعيب (Gamification System) ---------------------------------
+    let userPoints = 1500;
+    let userLevel = 8;
+    let xpNeededForNextLevel = 500;
+    let totalXpForCurrentLevel = 2500;
 
-    function startQuiz(taskName) {
-      alert(`بدء الاختبار الفوري لـ: ${taskName}\nهذا الاختبار يغطي المهارات الأساسية للمهمة.\n\nتمنياتنا بالتوفيق!`);
-      // في التنفيذ الفعلي، سيتم فتح نافذة منبثقة أو توجيه المتدرب لصفحة الاختبار.
-    }
+    // محاكاة البيانات الدقيقة للاختبارات
+    const quizData = {
+        'TOC_Quiz': { question: 'ما هو أدنى حد مقبول لـ TOC (الكربون العضوي الكلي) الذي يشير إلى صخر مصدر جيد للنفط؟', answer: '1%', points: 120, correctKey: '1' },
+        'Sw_Quiz': { question: 'في خزان نظيف (Clean Reservoir)، إذا كانت المسامية 15% ونسبة التشبع بالزيت (So) هي 70%، فما هو التشبع بالماء (Sw)؟', answer: '30%', points: 130, correctKey: '2' },
+        'Kriging_Quiz': { question: 'ما هو مصطلح الإحصاء الجيولوجي الذي يصف التباين المكاني لخاصية معينة في الخام؟', answer: 'فاريوجرام (Variogram)', points: 150, correctKey: '3' },
+        'MODFLOW_Quiz': { question: 'ما هي الوحدة اللازمة في MODFLOW لمحاكاة بحيرة أو نهر؟', answer: 'الوحدة الحدودية (Boundary Condition)', points: 110, correctKey: '4' }
+    };
 
     function updateDashboard() {
-        document.getElementById('pointsValue').textContent = userPoints;
-        document.getElementById('levelValue').textContent = userLevel;
+        const progress = Math.round(((userPoints - totalXpForCurrentLevel) / xpNeededForNextLevel) * 100);
+        
+        document.getElementById('pointsValue').textContent = userPoints + ' XP';
+        document.getElementById('levelValue').textContent = userLevel + ' (خبير مساعد)';
+        
         const progressElement = document.getElementById('levelProgress');
-        progressElement.style.width = progressPercentage + '%';
-        progressElement.textContent = progressPercentage + '%';
+        progressElement.style.width = progress + '%';
+        progressElement.textContent = progress + '%';
+
+        // تحديث شارات الإنجاز بناءً على المستوى (كمثال)
+        const badges = userLevel >= 10 ? '🛢️ ⛏️ 🏗️ 💻' : userLevel >= 5 ? '🛢️ ⛏️' : '🎓';
+        document.getElementById('badges').innerHTML = badges;
+    }
+
+    function startQuiz(quizId, buttonElement) {
+        const data = quizData[quizId];
+        if (!data) return;
+
+        // محاكاة الاختبار التفاعلي
+        const userAnswer = prompt(`${data.question}\n\nاختر الإجابة الصحيحة:\n1. ${data.answer} (الإجابة الصحيحة)\n2. 50%\n3. Kriging\n4. وحدة تدفق`);
+        
+        const resultDiv = buttonElement.parentNode.querySelector('.quiz-result');
+        if (resultDiv) resultDiv.remove();
+
+        const newResultDiv = document.createElement('div');
+        newResultDiv.className = 'quiz-result';
+
+        if (userAnswer === data.correctKey) {
+            userPoints += data.points;
+            userLevel = Math.floor(userPoints / 250) + 1; // تحديث المستوى
+            newResultDiv.classList.add('success');
+            newResultDiv.innerHTML = `<i class="fas fa-check-circle"></i> نجاح! ربحت ${data.points} XP. تم تحديث النقاط والمستوى.`;
+        } else {
+            newResultDiv.classList.add('fail');
+            newResultDiv.innerHTML = `<i class="fas fa-times-circle"></i> فشل. الإجابة الصحيحة كانت: ${data.answer}. حاول مراجعة المهمة!`;
+        }
+
+        buttonElement.parentNode.appendChild(newResultDiv);
+        updateDashboard();
     }
 
     window.onload = updateDashboard;
@@ -247,73 +303,88 @@
 <body>
 
   <header>
-    <h1>GeoReady | بيئة المحاكاة والتدريب التفاعلي</h1>
-    <p>تعلم عن طريق الممارسة، تحدَّ مهاراتك، واربح نقاط الخبرة الآن.</p>
+    <h1>GeoReady | تحدي الخبير الجيولوجي</h1>
+    <p>منصة تفاعلية 100%: نمذجة، محاكاة، اختبارات فورية، ونظام نقاط (XP).</p>
   </header>
 
   <nav>
-    <a href="#home">لوحة القيادة</a>
-    <a href="#energy">وحدة الطاقة</a>
-    <a href="#mining">وحدة التعدين</a>
-    <a href="#tools">وحدة البرمجيات</a>
-    <a href="#algeria">مشاريع المحاكاة</a>
-    <a href="#contact">الدعم الفني</a>
+    <a href="#home"><i class="fas fa-tachometer-alt"></i> لوحة القيادة</a>
+    <a href="#energy"><i class="fas fa-oil-can"></i> وحدة الطاقة</a>
+    <a href="#mining"><i class="fas fa-mountain"></i> وحدة التعدين</a>
+    <a href="#tools"><i class="fas fa-code"></i> وحدة البرمجيات</a>
+    <a href="#algeria"><i class="fas fa-map-marked-alt"></i> مشاريع الجزائر</a>
   </nav>
 
   <section id="home" class="introduction">
-    <h2>🏆 لوحة القيادة التفاعلية والتقدم</h2>
+    <h2>🏆 لوحة القيادة (Your Geo-Metrics)</h2>
     <p>
-      مهمتك هي إكمال الوحدات، إنجاز المخرجات المطلوبة، وتجاوز الاختبارات الفورية. كل مهمة ناجحة تكافئك بنقاط خبرة (XP) ترفع مستواك، وتفتح لك الوصول إلى تحديات ومحاكيات أكثر تعقيداً.
+      مرحبًا بك أيها الخبير! هذه لوحة قيادتك الشخصية. كل مهمة تُنجزها وكل تحدٍ تجتازه يضيف نقاط خبرة (XP) ترفع من رتبتك ومستواك. هدفك هو الوصول إلى **المستوى 15 (خبير استشاري)** عبر إكمال كافة المحاكيات والمشاريع النهائية.
     </p>
     <div class="dashboard">
         <div class="metric">
-            النقاط الكلية (XP)<div class="metric-value" id="pointsValue">1250</div>
+            النقاط الكلية <div class="metric-value" id="pointsValue"></div>
         </div>
         <div class="metric">
-            المستوى الحالي<div class="metric-value" id="levelValue">7 (خبير مساعد)</div>
+            المستوى الحالي <div class="metric-value" id="levelValue"></div>
         </div>
         <div class="metric">
             التقدم للمستوى التالي
             <div class="level-bar">
-                <div class="level-progress" id="levelProgress">75%</div>
+                <div class="level-progress" id="levelProgress"></div>
             </div>
         </div>
         <div class="metric">
-            شارات الإنجاز<div class="metric-value">🛢️ ⛏️ 🏗️</div>
+            شارات الإنجاز المفتوحة <div class="metric-value" id="badges"></div>
         </div>
     </div>
   </section>
 
   <section id="tracks">
     <h2>وحدات التدريب العملية المكثفة (المحاكاة والتحدي)</h2>
-    <p style="text-align: center; margin-bottom: 40px; font-size: 1.2rem; color: #555;">كل مهمة تنتهي بتحدٍ فوري لضمان فهمك. اضغط لبدء المهمة.</p>
+    <p style="text-align: center; margin-bottom: 40px; font-size: 1.3rem; color: #555;">المستوى المطلوب: 1 | كل مهمة يجب أن تولد مُخرج (Deliverable) واختبار ناجح.</p>
     <div class="modules">
       
       <div class="card" onclick="toggleCard(this)" id="energy">
         <div class="card-header">
-          <h3>🛢️ وحدة تدريب نمذجة المكامن والتحليل السيزمي</h3>
+          <h3><i class="fas fa-flask"></i> وحدة تدريب نمذجة المكامن والتحليل السيزمي</h3>
           <p>المستوى المطلوب: 5 | مكافأة الوحدة: 500 XP</p>
           <span class="toggle-icon">▼</span>
         </div>
         <div class="card-content">
-          <p style="font-weight: bold; color: #1b3a4b; border-bottom: 2px dashed #0077b6; text-align: right;">وحدات التدريب (المحاكاة البترولية):</p>
+          <p style="font-weight: bold; color: #0a1f44; border-bottom: 2px dashed #0077b6; text-align: right;">المحاكاة البترولية التفصيلية:</p>
           <ul>
             <li>
                 <strong>المهمة 1: تقييم الصخر المصدر والنمذجة الحرارية (Thermal Modeling Simulation):</strong>
-                <p>التعمق في تقييم جودة الصخر المصدر عبر محاكاة ظروف الدفن والتسخين. **الهدف العملي:** بناء نموذج نضج حراري (Thermal Maturity Model) في برنامج **PetroMod** لتحديد أوقات هجرة النفط والغاز.</p>
-                <div class="task-detail"><span>الأدوات المطلوبة:</span> PetroMod، Petrel. <span>مخرجات المهمة:</span> خارطة نضج حراري (Maturity Map) نهائية. <span>مكافأة:</span> 120 XP.</div>
+                <p><strong>الهدف العملي:</strong> بناء نموذج نضج حراري (Thermal Maturity Model) لتحديد أوقات هجرة النفط والغاز.</p>
+                <div class="sim-detail">
+                    <h4><i class="fas fa-tools"></i> خطوات المحاكاة في PetroMod:</h4>
+                    <p>المُخرج النهائي: خارطة نضج حراري (Maturity Map).</p>
+                    <ul>
+                        <li>إدخال بيانات الآبار (TOC, HI) وتحديد أنواع الكيروجين.</li>
+                        <li>تعيين النموذج الحراري الأساسي وتطبيق خصائص التوصيل الحراري.</li>
+                        <li>تشغيل نموذج الحوض (Basin Model Run) لتقدير الـ Ro (Vitrinite Reflectance).</li>
+                    </ul>
+                </div>
                 <div class="quiz-challenge">
-                    تحدي اختبار الـ Rock-Eval: ما هي دلالة قيمة S2 المرتفعة؟ 
-                    <button onclick="startQuiz('تقييم الصخر المصدر')">بدء الاختبار الفوري</button>
+                    تحدي اختبار الـ Rock-Eval (120 XP):
+                    <button onclick="startQuiz('TOC_Quiz', this)">بدء الاختبار الفوري</button>
                 </div>
             </li>
             <li>
                 <strong>المهمة 2: التحليل المتقدم لسجلات الآبار (Techlog Challenge):</strong>
-                <p>تدريب مكثف على استخدام برنامج **Techlog**. سيتم تزويدك بسجلات من بئر معقدة (Shaly Sand) وعليك تطبيق نموذج **Dual-Water Model** لحساب خصائص الخزان.</p>
-                <div class="task-detail"><span>الأدوات المطلوبة:</span> Techlog/Geolog. <span>مخرجات المهمة:</span> تقرير Well Log Analysis (WLA) يحدد PHIE و Vsh و Sw. <span>مكافأة:</span> 130 XP.</div>
+                <p><strong>الهدف العملي:</strong> تطبيق نموذج Dual-Water Model لحساب خصائص الخزان في الآبار المعقدة.</p>
+                <div class="sim-detail">
+                    <h4><i class="fas fa-laptop-code"></i> خطوات المحاكاة في Techlog:</h4>
+                    <p>المُخرج النهائي: تقرير Well Log Analysis (WLA) احترافي.</p>
+                    <ul>
+                        <li>تحديد معاملات الطين (Clays Parameters) وحساب الـ Vshale.</li>
+                        <li>تشغيل معادلة Dual-Water Model لتحديد المسامية والتشبع بالماء.</li>
+                        <li>إنشاء خارطة Cross-Plot لتحديد نوع السائل (Fluid Typing).</li>
+                    </ul>
+                </div>
                 <div class="quiz-challenge">
-                    تحدي سجلات الآبار: كيف تميز بين الغاز والزيت باستخدام سجلات الكثافة والنيوترون؟
-                    <button onclick="startQuiz('التحليل المتقدم لسجلات الآبار')">بدء الاختبار الفوري</button>
+                    تحدي سجلات الآبار (130 XP):
+                    <button onclick="startQuiz('Sw_Quiz', this)">بدء الاختبار الفوري</button>
                 </div>
             </li>
             </ul>
@@ -322,51 +393,75 @@
 
       <div class="card" onclick="toggleCard(this)" id="mining">
         <div class="card-header">
-          <h3>⛏️ وحدة تدريب تقدير الموارد الجيوإحصائي وتصميم الحفر</h3>
+          <h3><i class="fas fa-hard-hat"></i> وحدة تدريب تقدير الموارد الجيوإحصائي</h3>
           <p>المستوى المطلوب: 4 | مكافأة الوحدة: 450 XP</p>
           <span class="toggle-icon">▼</span>
         </div>
         <div class="card-content">
-          <p style="font-weight: bold; color: #1b3a4b; border-bottom: 2px dashed #0077b6; text-align: right;">وحدات التدريب (المحاكاة التعدينية):</p>
+          <p style="font-weight: bold; color: #0a1f44; border-bottom: 2px dashed #0077b6; text-align: right;">المحاكاة التعدينية التفصيلية:</p>
           <ul>
             <li>
                 <strong>المهمة 4: بناء النماذج الكتلية (Block Modeling) و Kriging:</strong>
-                <p>تطبيق الإحصاء الجيولوجي المتقدم. **الهدف العملي:** استخدام برنامج **Leapfrog Geo** أو **Datamine** لبناء النموذج الكتلي (Block Model) وتطبيق **الكريجينج العادي** لتقدير درجة الخام (Ore Grade).</p>
-                <div class="task-detail"><span>الأدوات المطلوبة:</span> Leapfrog Geo/Datamine. <span>مخرجات المهمة:</span> نموذج كتلي ثلاثي الأبعاد مصنف حسب الدرجة وتقرير Variogram Analysis. <span>مكافأة:</span> 150 XP.</div>
+                <p><strong>الهدف العملي:</strong> استخدام Leapfrog Geo لبناء النموذج الكتلي وتطبيق الكريجينج العادي لتقدير درجة الخام (Ore Grade).</p>
+                <div class="sim-detail">
+                    <h4><i class="fas fa-chart-bar"></i> خطوات المحاكاة في Leapfrog Geo:</h4>
+                    <p>المُخرج النهائي: نموذج كتلي ثلاثي الأبعاد مصنف حسب الدرجة وتقرير Variogram.</p>
+                    <ul>
+                        <li>تطبيق حدود التصميم (Domains) على الخام.</li>
+                        <li>إنشاء فاريوجرام مكاني (Spatial Variogram) لتحديد نطاق التأثير.</li>
+                        <li>تشغيل خوارزمية Kriging وتصنيف الموارد.</li>
+                    </ul>
+                </div>
                 <div class="quiz-challenge">
-                    تحدي الكريجينج: متى نستخدم Kriging العادي بدلاً من Kriging البسيط؟ 
-                    <button onclick="startQuiz('بناء النماذج الكتلية')">بدء الاختبار الفوري</button>
+                    تحدي الكريجينج (150 XP):
+                    <button onclick="startQuiz('Kriging_Quiz', this)">بدء الاختبار الفوري</button>
                 </div>
             </li>
             <li>
                 <strong>المهمة 5: تقييم استقرار المنحدرات (Rocscience Simulation):</strong>
-                <p>مهمة محاكاة هندسية. **الهدف العملي:** تحليل استقرار منحدر التعدين. استخدام برنامج **Rocscience (Slide)** لحساب **عامل الأمان (Factor of Safety)** وتصميم حلول التدعيم.</p>
-                <div class="task-detail"><span>الأدوات المطلوبة:</span> Rocscience (Slide/Dips). <span>مخرجات المهمة:</span> تقرير تحليلي لمنحدر (Slope Stability Report) مع توصيات تثبيت. <span>مكافأة:</span> 120 XP.</div>
+                <p><strong>الهدف العملي:</strong> تحليل استقرار منحدر التعدين المفتوح باستخدام برنامج Rocscience (Slide).</p>
+                <div class="sim-detail">
+                    <h4><i class="fas fa-shield-alt"></i> خطوات المحاكاة في Rocscience Slide:</h4>
+                    <p>المُخرج النهائي: تقرير تحليلي لمنحدر (Slope Stability Report) موثق.</p>
+                    <ul>
+                        <li>بناء هندسة المنحدر وتحديد خصائص المواد.</li>
+                        <li>إدخال ظروف المياه الجوفية (Pore Pressure) في النموذج.</li>
+                        <li>تشغيل تحليل Monte Carlo وحساب عامل الأمان (FS).</li>
+                    </ul>
+                </div>
                 <div class="quiz-challenge">
-                    تحدي المنحدرات: ما هو أدنى قيمة مقبولة لـ Factor of Safety لمنحدر مؤقت؟
-                    <button onclick="startQuiz('تقييم استقرار المنحدرات')">بدء الاختبار الفوري</button>
+                    تحدي المنحدرات (120 XP):
+                    <button onclick="startQuiz('Stability_Quiz', this)">بدء الاختبار الفوري</button>
                 </div>
             </li>
             </ul>
         </div>
       </div>
-
+      
       <div class="card" onclick="toggleCard(this)">
         <div class="card-header">
-          <h3>🏗️ وحدة تدريب الهيدرولوجيا ونمذجة المواقع الهندسية</h3>
+          <h3><i class="fas fa-water"></i> وحدة تدريب الهيدرولوجيا ونمذجة المواقع الهندسية</h3>
           <p>المستوى المطلوب: 3 | مكافأة الوحدة: 400 XP</p>
           <span class="toggle-icon">▼</span>
         </div>
         <div class="card-content">
-          <p style="font-weight: bold; color: #1b3a4b; border-bottom: 2px dashed #0077b6; text-align: right;">وحدات التدريب (محاكاة الهندسة والمياه):</p>
+          <p style="font-weight: bold; color: #0a1f44; border-bottom: 2px dashed #0077b6; text-align: right;">المحاكاة الهندسية المائية التفصيلية:</p>
           <ul>
             <li>
                 <strong>المهمة 7: نمذجة تدفق المياه الجوفية (MODFLOW Challenge):</strong>
-                <p>تطبيق متقدم في الهيدروجيولوجيا. **الهدف العملي:** بناء ومعايرة نموذج تدفق المياه الجوفية في برنامج **MODFLOW** (عبر Groundwater Vistas). وتقييم تأثير سيناريوهات السحب.</p>
-                <div class="task-detail"><span>الأدوات المطلوبة:</span> MODFLOW/Groundwater Vistas. <span>مخرجات المهمة:</span> نموذج MODFLOW مُعاير وخارطة Potentiometric Surface. <span>مكافأة:</span> 110 XP.</div>
+                <p><strong>الهدف العملي:</strong> بناء ومعايرة نموذج تدفق المياه الجوفية في برنامج MODFLOW (عبر Groundwater Vistas) وتقييم تأثير سيناريوهات السحب.</p>
+                <div class="sim-detail">
+                    <h4><i class="fas fa-drafting-compass"></i> خطوات المحاكاة في MODFLOW:</h4>
+                    <p>المُخرج النهائي: نموذج MODFLOW مُعاير وخارطة Potentiometric Surface.</p>
+                    <ul>
+                        <li>تحديد شروط الحدود (Boundary Conditions) وتعيينها.</li>
+                        <li>إدخال خصائص الخزان (K, S) وتحميل بيانات الآبار.</li>
+                        <li>تشغيل النموذج وإجراء المعايرة (Calibration) لتحقيق الدقة.</li>
+                    </ul>
+                </div>
                 <div class="quiz-challenge">
-                    تحدي MODFLOW: ما هي البيانات الجيولوجية الأساسية المطلوبة لإجراء معايرة (Calibration) ناجحة؟
-                    <button onclick="startQuiz('نمذجة تدفق المياه الجوفية')">بدء الاختبار الفوري</button>
+                    تحدي MODFLOW (110 XP):
+                    <button onclick="startQuiz('MODFLOW_Quiz', this)">بدء الاختبار الفوري</button>
                 </div>
             </li>
             </ul>
@@ -375,20 +470,28 @@
 
       <div class="card" onclick="toggleCard(this)" id="tools">
         <div class="card-header">
-          <h3>💻 وحدة تدريب التحليل المكاني المتقدم والـ Data Science</h3>
+          <h3><i class="fas fa-database"></i> وحدة تدريب التحليل المكاني المتقدم والـ Data Science</h3>
           <p>المستوى المطلوب: 6 | مكافأة الوحدة: 550 XP</p>
           <span class="toggle-icon">▼</span>
         </div>
         <div class="card-content">
-          <p style="font-weight: bold; color: #1b3a4b; border-bottom: 2px dashed #0077b6; text-align: right;">وحدات التدريب (المحاكاة الرقمية):</p>
+          <p style="font-weight: bold; color: #0a1f44; border-bottom: 2px dashed #0077b6; text-align: right;">المحاكاة الرقمية والبرمجة:</p>
           <ul>
             <li>
                 <strong>المهمة 10: أتمتة مهام الـ GIS باستخدام Python (ArcPy):</strong>
-                <p>الانتقال من النقر إلى البرمجة. **الهدف العملي:** كتابة سكريبتات Python باستخدام مكتبة **ArcPy** لأتمتة مهام الـ GIS المتكررة.</p>
-                <div class="task-detail"><span>الأدوات المطلوبة:</span> ArcGIS Pro، Python (ArcPy). <span>مخرجات المهمة:</span> سكريبت (ArcPy Script) فعال وموثق. <span>مكافأة:</span> 150 XP.</div>
+                <p><strong>الهدف العملي:</strong> كتابة سكريبتات Python باستخدام مكتبة ArcPy (أو PyQGIS) لأتمتة مهام الـ GIS المعقدة.</p>
+                <div class="sim-detail">
+                    <h4><i class="fas fa-cogs"></i> خطوات البرمجة (Python/ArcPy):</h4>
+                    <p>المُخرج النهائي: سكريبت (ArcPy Script) فعال وموثق.</p>
+                    <ul>
+                        <li>إعداد بيئة العمل (Setting Environment) واستيراد المكتبات.</li>
+                        <li>كتابة دالة (Function) لأتمتة إنشاء الـ DEM من نقاط الحقل.</li>
+                        <li>استخدام الحلقات (Loops) لمعالجة دفعات كبيرة من ملفات الخرائط.</li>
+                    </ul>
+                </div>
                 <div class="quiz-challenge">
-                    تحدي البرمجة: ما هي أهمية استخدام الكائن (Cursor) في ArcPy لمعالجة بيانات الجدول (Attribute Table)؟
-                    <button onclick="startQuiz('أتمتة مهام الـ GIS')">بدء الاختبار الفوري</button>
+                    تحدي البرمجة (150 XP):
+                    <button onclick="startQuiz('ArcPy_Quiz', this)">بدء الاختبار الفوري</button>
                 </div>
             </li>
             </ul>
@@ -399,17 +502,17 @@
   </section>
 
   <section id="algeria">
-    <h2>🇩🇿 منطقة التحدي (Boss Level): مشاريع المحاكاة الإقليمية</h2>
-    <p style="text-align: justify; margin-bottom: 30px; font-size: 1.2rem; color: #555;">هذه المشاريع هي تحديات نهائية تتطلب دمج المهارات المكتسبة من الوحدات السابقة. لا يمكن فتحها إلا بعد الوصول إلى المستوى 8.</p>
+    <h2>🇩🇿 تحدي الخبراء (Boss Level): مشاريع المحاكاة الإقليمية</h2>
+    <p style="text-align: justify; margin-bottom: 30px; font-size: 1.3rem; color: #555;">هذه المشاريع تتطلب المستوى 10 فما فوق. وهي عبارة عن **محاكيات حالات دراسية كاملة** (Full Case Study Simulations)، حيث يتم تقديم بيانات خام حقيقية (محاكاة) للمنطقة وعليك إنجاز تقرير جيولوجي نهائي شامل.</p>
     </section>
 
   <section id="contact" class="support-section">
-    <h2>📞 الدعم الفني والمساعدة التقنية (Game Support)</h2>
-    <p style="font-size: 1.2rem;">هذا القسم مخصص حصرياً للدعم الفني للمنصة، لمساعدتك في حل مشكلات التحميل، أو استعادة نقاط التقدم.</p>
+    <h2><i class="fas fa-life-ring"></i> الدعم الفني وخدمات الخبراء</h2>
+    <p style="font-size: 1.2rem;">هذا القسم يوفر الدعم للمنصة، وإمكانية **جدولة جلسات توجيه (Mentorship Sessions)** مباشرة مع خبراء الصناعة.</p>
     </section>
 
   <footer>
-    <p>© 2025 GeoReady - منصة التدريب التفاعلي - ابدأ تحديك الآن!</p>
+    <p>GeoReady © 2025 - المنصة التي حولت الجيولوجيا إلى تحدٍ - <i class="fas fa-medal"></i> أنت على بُعد خطوة من التميز!</p>
   </footer>
 </body>
 </html>
