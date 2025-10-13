@@ -180,6 +180,32 @@
       color: var(--white);
     }
 
+    /* ================================= شارة النقاط ================================= */
+    .score-badge {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      background: var(--gradient-primary);
+      color: var(--white);
+      padding: 10px 20px;
+      border-radius: 25px;
+      box-shadow: var(--shadow-medium);
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    .score-value {
+      background: rgba(255,255,255,0.2);
+      padding: 5px 10px;
+      border-radius: 15px;
+      min-width: 50px;
+      text-align: center;
+    }
+
     /* ================================= لوحة القيادة المتقدمة ================================= */
     .dashboard-section {
       padding: 80px 0;
@@ -1158,6 +1184,160 @@
       cursor: pointer;
     }
 
+    /* ================================= نظام الاختبارات ================================= */
+    .test-container {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: var(--shadow-soft);
+      margin-bottom: 30px;
+    }
+
+    .test-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .test-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .test-info {
+      display: flex;
+      gap: 15px;
+      color: #666;
+    }
+
+    .test-question {
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+
+    .test-options {
+      list-style: none;
+      margin-bottom: 30px;
+    }
+
+    .test-option {
+      padding: 15px;
+      margin-bottom: 10px;
+      border: 2px solid #eee;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .test-option:hover {
+      background: var(--light-gray);
+    }
+
+    .test-option.selected {
+      border-color: var(--primary-blue);
+      background: rgba(0, 86, 179, 0.05);
+    }
+
+    .test-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .test-progress {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .progress-text {
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    /* ================================= نظام العرض التدريجي ================================= */
+    .accordion {
+      margin-bottom: 20px;
+    }
+
+    .accordion-header {
+      background: var(--gradient-primary);
+      color: var(--white);
+      padding: 20px;
+      border-radius: 15px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.3s ease;
+    }
+
+    .accordion-header:hover {
+      background: var(--primary-blue);
+    }
+
+    .accordion-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      background: var(--light-gray);
+      border-radius: 0 0 15px 15px;
+    }
+
+    .accordion.active .accordion-content {
+      max-height: 1000px;
+      padding: 20px;
+    }
+
+    .accordion.active .accordion-header {
+      border-radius: 15px 15px 0 0;
+    }
+
+    .accordion-icon {
+      transition: transform 0.3s ease;
+    }
+
+    .accordion.active .accordion-icon {
+      transform: rotate(180deg);
+    }
+
+    /* ================================= أزرار التراجع والإعادة ================================= */
+    .undo-redo-container {
+      position: fixed;
+      bottom: 80px;
+      left: 20px;
+      display: flex;
+      gap: 10px;
+      z-index: 1000;
+    }
+
+    .undo-btn, .redo-btn {
+      background: var(--white);
+      color: var(--dark-navy);
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow-medium);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .undo-btn:hover, .redo-btn:hover {
+      background: var(--primary-blue);
+      color: var(--white);
+    }
+
+    .undo-btn:disabled, .redo-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
     @media (max-width: 768px) {
       .mobile-menu-btn {
         display: block;
@@ -1195,16 +1375,37 @@
         top: 80px;
         right: 20px;
       }
+
+      .score-badge {
+        top: 80px;
+        left: 20px;
+      }
     }
   </style>
 </head>
 <body>
+
+  <!-- ============================= شارة النقاط ============================= -->
+  <div class="score-badge" id="scoreBadge">
+    <i class="fas fa-star"></i>
+    نقاط: <span class="score-value" id="scoreValue">0</span>
+  </div>
 
   <!-- ============================= شريط اللغات ============================= -->
   <div class="language-switcher">
     <button class="language-btn active" data-lang="ar">العربية</button>
     <button class="language-btn" data-lang="en">English</button>
     <button class="language-btn" data-lang="fr">Français</button>
+  </div>
+
+  <!-- ============================= أزرار التراجع والإعادة ============================= -->
+  <div class="undo-redo-container">
+    <button class="undo-btn" id="undoBtn" title="تراجع">
+      <i class="fas fa-undo"></i>
+    </button>
+    <button class="redo-btn" id="redoBtn" title="إعادة">
+      <i class="fas fa-redo"></i>
+    </button>
   </div>
 
   <!-- ============================= الهيدر الرئيسي ============================= -->
@@ -1440,15 +1641,14 @@
       <h2 class="section-title animate-on-scroll">🎓 مسارات التعلم التخصصية</h2>
       <p class="section-subtitle animate-on-scroll">مسارات شاملة مصممة بعناية لتأهيلك لسوق العمل في مختلف التخصصات الجيولوجية</p>
       
-      <div class="paths-grid">
-        <!-- مسار جيولوجيا البترول -->
-        <div class="path-card animate-on-scroll">
-          <div class="path-header">
-            <div class="path-icon"><i class="fas fa-oil-can"></i></div>
-            <h3 class="path-title">مسار جيولوجيا البترول المتقدم</h3>
-            <span class="path-level">مستوى متوسط - متقدم</span>
+      <!-- نظام العرض التدريجي -->
+      <div class="accordion-container">
+        <div class="accordion" id="accordion-1">
+          <div class="accordion-header">
+            <h3>مسار جيولوجيا البترول المتقدم</h3>
+            <span class="accordion-icon"><i class="fas fa-chevron-down"></i></span>
           </div>
-          <div class="path-content">
+          <div class="accordion-content">
             <div class="path-stats">
               <div class="stat-item">
                 <div class="stat-item-value">24</div>
@@ -1491,21 +1691,44 @@
               </li>
             </ul>
             
-            <a href="#petroleum-details" class="btn btn-primary" style="width: 100%;">
+            <div class="test-container" id="test-1">
+              <div class="test-header">
+                <h3 class="test-title">اختبار أساسيات جيولوجيا البترول</h3>
+                <div class="test-info">
+                  <span><i class="fas fa-clock"></i> 10 دقائق</span>
+                  <span><i class="fas fa-star"></i> 25 نقطة</span>
+                </div>
+              </div>
+              <div class="test-question">
+                ما هي الصخور المصدر الرئيسية للنفط؟
+              </div>
+              <ul class="test-options">
+                <li class="test-option" data-correct="false">الصخور النارية</li>
+                <li class="test-option" data-correct="true">الصخور الرسوبية الغنية بالمواد العضوية</li>
+                <li class="test-option" data-correct="false">الصخور المتحولة</li>
+                <li class="test-option" data-correct="false">جميع أنواع الصخور</li>
+              </ul>
+              <div class="test-actions">
+                <button class="btn btn-primary submit-test" data-test="test-1">إرسال الإجابة</button>
+                <div class="test-progress">
+                  <span class="progress-text">السؤال 1 من 5</span>
+                </div>
+              </div>
+            </div>
+            
+            <a href="#petroleum-details" class="btn btn-primary" style="width: 100%; margin-top: 20px;">
               <i class="fas fa-play"></i>
               متابعة المسار
             </a>
           </div>
         </div>
 
-        <!-- مسار التعدين والموارد المعدنية -->
-        <div class="path-card animate-on-scroll">
-          <div class="path-header" style="background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);">
-            <div class="path-icon"><i class="fas fa-gem"></i></div>
-            <h3 class="path-title">مسار التعدين والموارد المعدنية</h3>
-            <span class="path-level">مستوى متوسط</span>
+        <div class="accordion" id="accordion-2">
+          <div class="accordion-header">
+            <h3>مسار التعدين والموارد المعدنية</h3>
+            <span class="accordion-icon"><i class="fas fa-chevron-down"></i></span>
           </div>
-          <div class="path-content">
+          <div class="accordion-content">
             <div class="path-stats">
               <div class="stat-item">
                 <div class="stat-item-value">20</div>
@@ -1548,235 +1771,32 @@
               </li>
             </ul>
             
-            <a href="#mining-details" class="btn btn-primary" style="width: 100%;">
-              <i class="fas fa-play"></i>
-              بدء المسار
-            </a>
-          </div>
-        </div>
-
-        <!-- مسار الهيدروجيولوجيا والبيئة -->
-        <div class="path-card animate-on-scroll">
-          <div class="path-header" style="background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);">
-            <div class="path-icon"><i class="fas fa-tint"></i></div>
-            <h3 class="path-title">مسار الهيدروجيولوجيا والبيئة</h3>
-            <span class="path-level">مستوى مبتدئ - متوسط</span>
-          </div>
-          <div class="path-content">
-            <div class="path-stats">
-              <div class="stat-item">
-                <div class="stat-item-value">18</div>
-                <div class="stat-item-label">وحدة تدريبية</div>
+            <div class="test-container" id="test-2">
+              <div class="test-header">
+                <h3 class="test-title">اختبار استكشاف الخامات</h3>
+                <div class="test-info">
+                  <span><i class="fas fa-clock"></i> 15 دقائق</span>
+                  <span><i class="fas fa-star"></i> 50 نقطة</span>
+                </div>
               </div>
-              <div class="stat-item">
-                <div class="stat-item-value">130</div>
-                <div class="stat-item-label">ساعة تدريب</div>
+              <div class="test-question">
+                ما هي الطريقة الأكثر فعالية للكشف عن الخامات المعدنية في الأعماق؟
               </div>
-              <div class="stat-item">
-                <div class="stat-item-value">2,400</div>
-                <div class="stat-item-label">XP كلية</div>
+              <ul class="test-options">
+                <li class="test-option" data-correct="false">الحفر العشوائي</li>
+                <li class="test-option" data-correct="true">الاستكشاف الجيوفيزيائي</li>
+                <li class="test-option" data-correct="false">الملاحظة البصرية</li>
+                <li class="test-option" data-correct="false">جميع ما سبق</li>
+              </ul>
+              <div class="test-actions">
+                <button class="btn btn-primary submit-test" data-test="test-2">إرسال الإجابة</button>
+                <div class="test-progress">
+                  <span class="progress-text">السؤال 1 من 5</span>
+                </div>
               </div>
             </div>
             
-            <ul class="path-modules">
-              <li>
-                <div class="module-status completed"></div>
-                <span>أساسيات حركة المياه الجوفية</span>
-              </li>
-              <li>
-                <div class="module-status"></div>
-                <span>نمذجة المياه الجوفية بـ MODFLOW</span>
-              </li>
-              <li>
-                <div class="module-status"></div>
-                <span>كيمياء المياه وتقييم الجودة</span>
-              </li>
-              <li>
-                <div class="module-status"></div>
-                <span>إدارة موارد المياه الجوفية</span>
-              </li>
-              <li>
-                <div class="module-status"></div>
-                <span>تلوث المياه الجوفية ومعالجته</span>
-              </li>
-              <li>
-                <div class="module-status"></div>
-                <span>التقييم البيئي والمعايير الدولية</span>
-              </li>
-            </ul>
-            
-            <a href="#hydro-details" class="btn btn-primary" style="width: 100%;">
-              <i class="fas fa-play"></i>
-              بدء المسار
-            </a>
-          </div>
-        </div>
-
-        <!-- مسار الجيولوجيا الهندسية -->
-        <div class="path-card animate-on-scroll">
-          <div class="path-header" style="background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);">
-            <div class="path-icon"><i class="fas fa-hard-hat"></i></div>
-            <h3 class="path-title">مسار الجيولوجيا الهندسية</h3>
-            <span class="path-level">مستوى متقدم</span>
-          </div>
-          <div class="path-content">
-            <div class="path-stats">
-              <div class="stat-item">
-                <div class="stat-item-value">22</div>
-                <div class="stat-item-label">وحدة تدريبية</div>
-              </div>
-              <div class="stat-item">
-                <div class="stat-item-value">165</div>
-                <div class="stat-item-label">ساعة تدريب</div>
-              </div>
-              <div class="stat-item">
-                <div class="stat-item-value">3,200</div>
-                <div class="stat-item-label">XP كلية</div>
-              </div>
-            </div>
-            
-            <ul class="path-modules">
-              <li>
-                <div class="module-status"></div>
-                <span>خصائص الصخور والتربة الهندسية</span>
-              </li>
-              <li>
-                <div class="module-status"></div>
-                <span>تحليل الانحدارات والتصدعات</span>
-              </li>
-              <li>
-                <div class="module-status"></div>
-                <span>أسس المنشآت والهياكل الكبرى</span>
-              </li>
-              <li>
-                <div class="module-status"></div>
-                <span>الزلازل والمخاطر الجيولوجية</span>
-              </li>
-              <li>
-                <div class="module-status"></div>
-                <span>نمذجة السدود والأنفاق</span>
-              </li>
-              <li>
-                <div class="module-status"></div>
-                <span>مراقبة واستشعار المنشآت</span>
-              </li>
-            </ul>
-            
-            <a href="#engineering-details" class="btn btn-primary" style="width: 100%;">
-              <i class="fas fa-play"></i>
-              بدء المسار
-            </a>
-          </div>
-        </div>
-
-        <!-- مسار التقنيات الرقمية والـ GIS -->
-        <div class="path-card animate-on-scroll">
-          <div class="path-header" style="background: linear-gradient(135deg, #a29bfe 0%, #6c5ce7 100%);">
-            <div class="path-icon"><i class="fas fa-laptop-code"></i></div>
-            <h3 class="path-title">مسار التقنيات الرقمية والـ GIS</h3>
-            <span class="path-level">مستوى مبتدئ - متقدم</span>
-          </div>
-          <div class="path-content">
-            <div class="path-stats">
-              <div class="stat-item">
-                <div class="stat-item-value">26</div>
-                <div class="stat-item-label">وحدة تدريبية</div>
-              </div>
-              <div class="stat-item">
-                <div class="stat-item-value">200</div>
-                <div class="stat-item-label">ساعة تدريب</div>
-              </div>
-              <div class="stat-item">
-                <div class="stat-item-value">3,800</div>
-                <div class="stat-item-label">XP كلية</div>
-              </div>
-            </div>
-            
-            <ul class="path-modules">
-              <li>
-                <div class="module-status completed"></div>
-                <span>أساسيات نظم المعلومات الجغرافية</span>
-              </li>
-              <li>
-                <div class="module-status completed"></div>
-                <span>برمجة Python للجيولوجيين</span>
-              </li>
-              <li>
-                <div class="module-status"></div>
-                <span>التحليل المكاني المتقدم</span>
-              </li>
-              <li>
-                <div class="module-status"></div>
-                <span>الاستشعار عن بُعد وتحليل الصور</span>
-              </li>
-              <li>
-                <div class="module-status"></div>
-                <span>قواعد البيانات الجيولوجية</span>
-              </li>
-              <li>
-                <div class="module-status"></div>
-                <span>الذكاء الاصطناعي في الجيولوجيا</span>
-              </li>
-            </ul>
-            
-            <a href="#gis-details" class="btn btn-primary" style="width: 100%;">
-              <i class="fas fa-play"></i>
-              متابعة المسار
-            </a>
-          </div>
-        </div>
-
-        <!-- مسار ريادة الأعمال الجيولوجية -->
-        <div class="path-card animate-on-scroll">
-          <div class="path-header" style="background: linear-gradient(135deg, #fd79a8 0%, #e84393 100%);">
-            <div class="path-icon"><i class="fas fa-rocket"></i></div>
-            <h3 class="path-title">مسار ريادة الأعمال الجيولوجية</h3>
-            <span class="path-level">مستوى متقدم - خبير</span>
-          </div>
-          <div class="path-content">
-            <div class="path-stats">
-              <div class="stat-item">
-                <div class="stat-item-value">16</div>
-                <div class="stat-item-label">وحدة تدريبية</div>
-              </div>
-              <div class="stat-item">
-                <div class="stat-item-value">120</div>
-                <div class="stat-item-label">ساعة تدريب</div>
-              </div>
-              <div class="stat-item">
-                <div class="stat-item-value">2,200</div>
-                <div class="stat-item-label">XP كلية</div>
-              </div>
-            </div>
-            
-            <ul class="path-modules">
-              <li>
-                <div class="module-status"></div>
-                <span>بناء الشركات الجيولوجية الناشئة</span>
-              </li>
-              <li>
-                <div class="module-status"></div>
-                <span>إدارة المشاريع والفرق الجيولوجية</span>
-              </li>
-              <li>
-                <div class="module-status"></div>
-                <span>التسويق والمبيعات في الخدمات الجيولوجية</span>
-              </li>
-              <li>
-                <div class="module-status"></div>
-                <span>التمويل والاستثمار في القطاع</span>
-              </li>
-              <li>
-                <div class="module-status"></div>
-                <span>الابتكار والتقنيات الناشئة</span>
-              </li>
-              <li>
-                <div class="module-status"></div>
-                <span>الشراكات الاستراتيجية والتوسع</span>
-              </li>
-            </ul>
-            
-            <a href="#entrepreneurship-details" class="btn btn-primary" style="width: 100%;">
+            <a href="#mining-details" class="btn btn-primary" style="width: 100%; margin-top: 20px;">
               <i class="fas fa-play"></i>
               بدء المسار
             </a>
@@ -1803,7 +1823,7 @@
             <li>تصور البيانات البئرية</li>
             <li>تصدير النماذج لبرامج متخصصة</li>
           </ul>
-          <a href="#3d-modeler" class="btn btn-primary">تجربة الأداة</a>
+          <button class="btn btn-primary start-tool" data-tool="3d-modeler" data-points="10">تجربة الأداة</button>
         </div>
 
         <div class="tool-card animate-on-scroll">
@@ -1816,7 +1836,7 @@
             <li>مرشحات الضوضاء المتقدمة</li>
             <li>التفسير الجيولوجي المساعد</li>
           </ul>
-          <a href="#seismic-analyzer" class="btn btn-primary">تجربة الأداة</a>
+          <button class="btn btn-primary start-tool" data-tool="seismic-analyzer" data-points="25">تجربة الأداة</button>
         </div>
 
         <div class="tool-card animate-on-scroll">
@@ -1829,7 +1849,7 @@
             <li>تحديد أنواع المعادن</li>
             <li>تقارير تلقائية مفصلة</li>
           </ul>
-          <a href="#geochem-lab" class="btn btn-primary">دخول المختبر</a>
+          <button class="btn btn-primary start-tool" data-tool="geochem-lab" data-points="15">دخول المختبر</button>
         </div>
 
         <div class="tool-card animate-on-scroll">
@@ -1842,7 +1862,7 @@
             <li>معالجة صور الأقمار الصناعية</li>
             <li>إنشاء قواعد البيانات المكانية</li>
           </ul>
-          <a href="#gis-platform" class="btn btn-primary">بدء المشروع</a>
+          <button class="btn btn-primary start-tool" data-tool="gis-platform" data-points="20">بدء المشروع</button>
         </div>
 
         <div class="tool-card animate-on-scroll">
@@ -1855,7 +1875,7 @@
             <li>تقييم تأثير الضخ</li>
             <li>تحسين شبكات الآبار</li>
           </ul>
-          <a href="#groundwater-sim" class="btn btn-primary">بدء المحاكاة</a>
+          <button class="btn btn-primary start-tool" data-tool="groundwater-sim" data-points="30">بدء المحاكاة</button>
         </div>
 
         <div class="tool-card animate-on-scroll">
@@ -1868,7 +1888,7 @@
             <li>تصنيف الموارد والاحتياطي</li>
             <li>التحليل الاقتصادي</li>
           </ul>
-          <a href="#resource-estimator" class="btn btn-primary">بدء التقدير</a>
+          <button class="btn btn-primary start-tool" data-tool="resource-estimator" data-points="40">بدء التقدير</button>
         </div>
       </div>
     </div>
@@ -1900,7 +1920,7 @@
               <span><i class="fas fa-users"></i> مشروع جماعي</span>
               <span><i class="fas fa-star"></i> 500 XP</span>
             </div>
-            <a href="#project-hassi-messaoud" class="btn btn-primary">بدء المشروع</a>
+            <button class="btn btn-primary start-project" data-project="project-hassi-messaoud" data-points="500">بدء المشروع</button>
           </div>
         </div>
 
@@ -1923,7 +1943,7 @@
               <span><i class="fas fa-user"></i> مشروع فردي</span>
               <span><i class="fas fa-star"></i> 450 XP</span>
             </div>
-            <a href="#project-ouenza" class="btn btn-primary">بدء المشروع</a>
+            <button class="btn btn-primary start-project" data-project="project-ouenza" data-points="450">بدء المشروع</button>
           </div>
         </div>
 
@@ -1946,76 +1966,7 @@
               <span><i class="fas fa-users"></i> مشروع جماعي</span>
               <span><i class="fas fa-star"></i> 400 XP</span>
             </div>
-            <a href="#project-groundwater" class="btn btn-primary">بدء المشروع</a>
-          </div>
-        </div>
-
-        <div class="project-card animate-on-scroll">
-          <div class="project-image">
-            <i class="fas fa-building"></i>
-          </div>
-          <div class="project-info">
-            <h3 class="project-title">تقييم مخاطر الزلازل بالجزائر العاصمة</h3>
-            <p class="project-description">
-              دراسة جيوتقنية شاملة لتقييم المخاطر الزلزالية وتأثيرها على المنشآت الحضرية والسكنية
-            </p>
-            <div class="project-tags">
-              <span class="project-tag">الجيولوجيا الهندسية</span>
-              <span class="project-tag">تقييم المخاطر</span>
-              <span class="project-tag">النمذجة الزلزالية</span>
-            </div>
-            <div class="project-meta">
-              <span><i class="fas fa-clock"></i> 7 أسابيع</span>
-              <span><i class="fas fa-users"></i> مشروع جماعي</span>
-              <span><i class="fas fa-star"></i> 550 XP</span>
-            </div>
-            <a href="#project-seismic-risk" class="btn btn-primary">بدء المشروع</a>
-          </div>
-        </div>
-
-        <div class="project-card animate-on-scroll">
-          <div class="project-image">
-            <i class="fas fa-satellite"></i>
-          </div>
-          <div class="project-info">
-            <h3 class="project-title">مراقبة التصحر بتقنيات الاستشعار</h3>
-            <p class="project-description">
-              استخدام الاستشعار عن بُعد والذكاء الاصطناعي لمراقبة ومكافحة التصحر في الجنوب الجزائري
-            </p>
-            <div class="project-tags">
-              <span class="project-tag">الاستشعار عن بُعد</span>
-              <span class="project-tag">GIS متقدم</span>
-              <span class="project-tag">الذكاء الاصطناعي</span>
-            </div>
-            <div class="project-meta">
-              <span><i class="fas fa-clock"></i> 4 أسابيع</span>
-              <span><i class="fas fa-user"></i> مشروع فردي</span>
-              <span><i class="fas fa-star"></i> 350 XP</span>
-            </div>
-            <a href="#project-desertification" class="btn btn-primary">بدء المشروع</a>
-          </div>
-        </div>
-
-        <div class="project-card animate-on-scroll">
-          <div class="project-image">
-            <i class="fas fa-recycle"></i>
-          </div>
-          <div class="project-info">
-            <h3 class="project-title">استراتيجية التعدين المستدام</h3>
-            <p class="project-description">
-              تطوير خطة شاملة للتعدين المستدام مع التركيز على الأثر البيئي والمسؤولية الاجتماعية
-            </p>
-            <div class="project-tags">
-              <span class="project-tag">التعدين المستدام</span>
-              <span class="project-tag">التأثير البيئي</span>
-              <span class="project-tag">إدارة المشاريع</span>
-            </div>
-            <div class="project-meta">
-              <span><i class="fas fa-clock"></i> 6 أسابيع</span>
-              <span><i class="fas fa-users"></i> مشروع جماعي</span>
-              <span><i class="fas fa-star"></i> 475 XP</span>
-            </div>
-            <a href="#project-sustainable-mining" class="btn btn-primary">بدء المشروع</a>
+            <button class="btn btn-primary start-project" data-project="project-groundwater" data-points="400">بدء المشروع</button>
           </div>
         </div>
       </div>
@@ -2043,7 +1994,7 @@
             <strong style="color: var(--success-green);">المكافآت:</strong>
             <p>1000 XP + إمكانية التوظيف المباشر + شبكة علاقات مهنية</p>
           </div>
-          <a href="#cert-petroleum" class="btn btn-primary">التقدم للشهادة</a>
+          <button class="btn btn-primary start-certificate" data-cert="cert-petroleum" data-points="1000">التقدم للشهادة</button>
         </div>
 
         <div class="cert-card animate-on-scroll">
@@ -2060,7 +2011,7 @@
             <strong style="color: var(--success-green);">المكافآت:</strong>
             <p>800 XP + تأهيل للعمل في الشركات العالمية + ورشة متقدمة</p>
           </div>
-          <a href="#cert-resources" class="btn btn-primary">التقدم للشهادة</a>
+          <button class="btn btn-primary start-certificate" data-cert="cert-resources" data-points="800">التقدم للشهادة</button>
         </div>
 
         <div class="cert-card animate-on-scroll">
@@ -2077,58 +2028,7 @@
             <strong style="color: var(--success-green);">المكافآت:</strong>
             <p>750 XP + شراكة مع وزارة الموارد المائية + دورة تخصصية</p>
           </div>
-          <a href="#cert-hydro" class="btn btn-primary">التقدم للشهادة</a>
-        </div>
-
-        <div class="cert-card animate-on-scroll">
-          <div class="cert-icon"><i class="fas fa-laptop-code"></i></div>
-          <h3 class="cert-title">شهادة خبير GIS وتقنيات رقمية</h3>
-          <ul class="cert-requirements">
-            <li>إتقان برمجة Python للجيولوجيا</li>
-            <li>مهارات متقدمة في ArcGIS و QGIS</li>
-            <li>مشروع تطبيق ذكاء اصطناعي</li>
-            <li>بناء قاعدة بيانات جيولوجية</li>
-            <li>مشاركة في مؤتمر تقني</li>
-          </ul>
-          <div style="margin-top: 20px;">
-            <strong style="color: var(--success-green);">المكافآت:</strong>
-            <p>900 XP + شهادة Esri المعتمدة + فرص عمل تقنية</p>
-          </div>
-          <a href="#cert-gis" class="btn btn-primary">التقدم للشهادة</a>
-        </div>
-
-        <div class="cert-card animate-on-scroll">
-          <div class="cert-icon"><i class="fas fa-shield-alt"></i></div>
-          <h3 class="cert-title">شهادة مختص جيولوجيا هندسية</h3>
-          <ul class="cert-requirements">
-            <li>خبرة في تحليل استقرار المنحدرات</li>
-            <li>مهارات تصميم الأسس الهندسية</li>
-            <li>مشروع تقييم مخاطر جيولوجية</li>
-            <li>استخدام برامج المحاكاة المتخصصة</li>
-            <li>تقرير استشاري معتمد</li>
-          </ul>
-          <div style="margin-top: 20px;">
-            <strong style="color: var(--success-green);">المكافآت:</strong>
-            <p>850 XP + رخصة ممارسة استشارية + شبكة مقاولين</p>
-          </div>
-          <a href="#cert-engineering" class="btn btn-primary">التقدم للشهادة</a>
-        </div>
-
-        <div class="cert-card animate-on-scroll">
-          <div class="cert-icon"><i class="fas fa-rocket"></i></div>
-          <h3 class="cert-title">شهادة رائد أعمال جيولوجي</h3>
-          <ul class="cert-requirements">
-            <li>خطة عمل شركة جيولوجية متكاملة</li>
-            <li>فهم تمويل المشاريع التقنية</li>
-            <li>مهارات القيادة وإدارة الفرق</li>
-            <li>مشروع ريادي قابل للتطبيق</li>
-            <li>عرض أمام لجنة مستثمرين</li>
-          </ul>
-          <div style="margin-top: 20px;">
-            <strong style="color: var(--success-green);">المكافآت:</strong>
-            <p>1200 XP + دعم صندوق الاستثمار + برنامج حضانة أعمال</p>
-          </div>
-          <a href="#cert-entrepreneur" class="btn btn-primary">التقدم للشهادة</a>
+          <button class="btn btn-primary start-certificate" data-cert="cert-hydro" data-points="750">التقدم للشهادة</button>
         </div>
       </div>
     </div>
@@ -2155,7 +2055,7 @@
             <li style="padding: 8px 0;">⚡ استجابة خلال ساعتين</li>
             <li style="padding: 8px 0;">📚 مكتبة معرفية ضخمة</li>
           </ul>
-          <a href="#forums" class="btn btn-primary">انضم للمنتديات</a>
+          <button class="btn btn-primary start-activity" data-activity="forums" data-points="5">انضم للمنتديات</button>
         </div>
 
         <div class="community-card animate-on-scroll">
@@ -2172,7 +2072,7 @@
             <li style="padding: 8px 0;">🔗 شبكة علاقات مهنية</li>
             <li style="padding: 8px 0;">📈 متابعة التطور المهني</li>
           </ul>
-          <a href="#mentorship" class="btn btn-primary">احجز جلسة توجيه</a>
+          <button class="btn btn-primary start-activity" data-activity="mentorship" data-points="10">احجز جلسة توجيه</button>
         </div>
 
         <div class="community-card animate-on-scroll">
@@ -2189,77 +2089,7 @@
             <li style="padding: 8px 0;">📝 مساعدة في كتابة السيرة</li>
             <li style="padding: 8px 0;">🎪 معارض التوظيف الافتراضية</li>
           </ul>
-          <a href="#careers" class="btn btn-primary">استكشف الفرص</a>
-        </div>
-
-        <div class="community-card animate-on-scroll">
-          <div style="font-size: 3rem; margin-bottom: 25px; color: var(--accent-cyan);">
-            <i class="fas fa-calendar-alt"></i>
-          </div>
-          <h3 style="font-size: 1.5rem; margin-bottom: 20px; color: var(--dark-navy);">الفعاليات والمؤتمرات</h3>
-          <p style="color: #666; line-height: 1.8; margin-bottom: 25px;">
-            فعاليات حصرية وورش عمل متخصصة مع خبراء دوليين لتوسيع معرفتك وشبكة علاقاتك المهنية
-          </p>
-          <ul style="list-style: none; margin-bottom: 25px; text-align: right;">
-            <li style="padding: 8px 0;">🎯 ورش عمل أسبوعية</li>
-            <li style="padding: 8px 0;">🌐 مؤتمرات دولية</li>
-            <li style="padding: 8px 0;">🏆 مسابقات تقنية</li>
-            <li style="padding: 8px 0;">🤝 لقاءات تشبيك مهني</li>
-          </ul>
-          <a href="#events" class="btn btn-primary">تصفح الفعاليات</a>
-        </div>
-
-        <div class="community-card animate-on-scroll">
-          <div style="font-size: 3rem; margin-bottom: 25px; color: var(--danger-red);">
-            <i class="fas fa-headset"></i>
-          </div>
-          <h3 style="font-size: 1.5rem; margin-bottom: 20px; color: var(--dark-navy);">الدعم الفني المتخصص</h3>
-          <p style="color: #666; line-height: 1.8; margin-bottom: 25px;">
-            فريق دعم متخصص متاح 24/7 لمساعدتك في المسائل التقنية والأكاديمية والمهنية
-          </p>
-          <ul style="list-style: none; margin-bottom: 25px; text-align: right;">
-            <li style="padding: 8px 0;">⏰ دعم على مدار الساعة</li>
-            <li style="padding: 8px 0;">🔧 مساعدة تقنية متخصصة</li>
-            <li style="padding: 8px 0;">📖 أدلة ومراجع شاملة</li>
-            <li style="padding: 8px 0;">🎥 فيديوهات تعليمية</li>
-          </ul>
-          <a href="#support" class="btn btn-primary">تواصل معنا</a>
-        </div>
-
-        <div class="community-card animate-on-scroll">
-          <div style="font-size: 3rem; margin-bottom: 25px; color: var(--secondary-blue);">
-            <i class="fas fa-trophy"></i>
-          </div>
-          <h3 style="font-size: 1.5rem; margin-bottom: 20px; color: var(--dark-navy);">لوحة الشرف والمتصدرين</h3>
-          <p style="color: #666; line-height: 1.8; margin-bottom: 25px;">
-            نظام تقدير وتكريم للمتميزين مع مكافآت مالية ومنح دراسية وفرص عمل حصرية
-          </p>
-          
-          <div class="leaderboard" style="margin-bottom: 25px;">
-            <div class="leaderboard-item">
-              <div class="rank-badge">1</div>
-              <div>
-                <strong>أحمد بن علي</strong><br>
-                <small style="color: #666;">خبير بترول - 8,450 XP</small>
-              </div>
-            </div>
-            <div class="leaderboard-item">
-              <div class="rank-badge">2</div>
-              <div>
-                <strong>فاطمة الزهراء</strong><br>
-                <small style="color: #666;">مهندسة تعدين - 7,890 XP</small>
-              </div>
-            </div>
-            <div class="leaderboard-item">
-              <div class="rank-badge">3</div>
-              <div>
-                <strong>محمد العربي</strong><br>
-                <small style="color: #666;">خبير GIS - 7,340 XP</small>
-              </div>
-            </div>
-          </div>
-          
-          <a href="#leaderboard" class="btn btn-primary">عرض التصنيف الكامل</a>
+          <button class="btn btn-primary start-activity" data-activity="careers" data-points="15">استكشف الفرص</button>
         </div>
       </div>
     </div>
@@ -2380,63 +2210,366 @@
   </div>
 
   <script>
-    // ================================= سكريبت التفاعل والرسوم المتحركة =================================
-    
-    // قاعدة بيانات الأسئلة والأجوبة
-    const qaDatabase = [
-      {
-        question: "ما هي أنواع الصخور النارية الرئيسية؟",
-        answer: "تنقسم الصخور النارية إلى ثلاثة أنواع رئيسية: 1) الصخور النارية الجوفية (البلوتونية) التي تتكون في أعماق الأرض مثل الجرانيت، 2) الصخور النارية السطحية (البركانية) التي تتكون على سطح الأرض مثل البازلت، 3) الصخور النارية تحت السطحية التي تتكون على أعماق متوسطة مثل الديوريت."
-      },
-      {
-        question: "كيف يتم تحديد عمر الصخور؟",
-        answer: "يتم تحديد عمر الصخور باستخدام عدة طرق منها: 1) التأريخ الإشعاعي (مثل البوتاسيوم-أرجون واليورانيوم-رصاص)، 2) التأريخ النسبي باستخدام الأحافير ومبدأ تعاقب الطبقات، 3) التأريخ باستخدام النظائر المشعة، 4) التأريخ باستخدام الحلقات السنوية للأشجار أو الطبقات السنوية في الرواسب."
-      },
-      {
-        question: "ما هي أهم خصائص الصخور الرسوبية؟",
-        answer: "تتميز الصخور الرسوبية بعدة خصائص منها: 1) وجود طبقات متعاقبة، 2) احتوائها على أحافير، 3) مسامية ونفاذية عالية مقارنة بالصخور النارية والمتحولة، 4) تنوع في التركيب المعدني، 5) وجود علامات النيم والتداخل المتقاطع، 6) احتوائها على مواد عضوية في بعض الأحيان."
-      },
-      {
-        question: "كيف تتكون النفط والغاز الطبيعي؟",
-        answer: "يتكون النفط والغاز الطبيعي من تحلل الكائنات الحية الدقيقة (العوالق النباتية والحيوانية) في بيئات بحرية قليلة الأكسجين. تترسب هذه الكائنات في قاع البحر وتدفن تحت طبقات من الرواسب. مع زيادة الضغط والحرارة بمرور الزمن الجيولوجي، تتحول هذه المواد العضوية إلى كيروجين ثم إلى نفط وغاز طبيعي."
-      },
-      {
-        question: "ما هي أهم طرق الاستكشاف الجيوفيزيائي؟",
-        answer: "تشمل طرق الاستكشاف الجيوفيزيائي: 1) المسح السيزمي (الزلزالي) لدراسة الطبقات تحت السطحية، 2) المسح المغناطيسي للكشف عن الصخور المغناطيسية، 3) المسح الجاذبي لقياس التغيرات في مجال الجاذبية الأرضية، 4) المسح الكهربائي لقياس المقاومة الكهربائية للصخور، 5) المسح الإشعاعي للكشف عن النظائر المشعة."
-      },
-      {
-        question: "ما هي العوامل المؤثرة على حركة المياه الجوفية؟",
-        answer: "تتأثر حركة المياه الجوفية بعدة عوامل منها: 1) النفاذية والمسامية للصخور، 2) التدرج الهيدروليكي (فرق الضغط)، 3) لزوجة الماء ودرجة حرارته، 4) التركيب الجيولوجي للطبقات، 5) وجود الصدوع والفواصل، 6) الضخ من الآبار والتدخل البشري."
-      },
-      {
-        question: "كيف يتم تقدير احتياطي الخامات المعدنية؟",
-        answer: "يتم تقدير احتياطي الخامات المعدنية باستخدام: 1) طرق الإحصاء الجيولوجي مثل الكريجينج، 2) طريقة المقطع العرضي، 3) طريقة متوازيات الأضلاع، 4) طريقة متعدد الأضلاع، 5) النمذجة ثلاثية الأبعاد، مع الأخذ في الاعتبار عوامل مثل الكثافة، السمك، والتركيز."
-      },
-      {
-        question: "ما هي أهم المعادن المكونة للصخور؟",
-        answer: "تشمل المعادن الرئيسية المكونة للصخور: 1) السيليكات (الكوارتز، الفلسبار، الميكا، الأمفيبول، البيروكسين)، 2) الكربونات (الكالسيت، الدولوميت)، 3) الكبريتات (الجبس، الأنهيدريت)، 4) الهاليدات (الهاليت، الفلوريت)، 5) الأكاسيد (الهيماتيت، الماجنتيت)، 6) الكبريتيدات (الغالينا، البيريت)."
-      },
-      {
-        question: "كيف تتكون الجبال؟",
-        answer: "تتكون الجبال عبر عدة عمليات تكتونية منها: 1) اصطدام الصفائح التكتونية (تكون جبال الهمالايا)، 2) الطي والتصدع (جبال الألب)، 3) النشاط البركاني (جبال هاواي)، 4) الرفع التكتوني (جبال الروكي)، 5) التآكل التفاضلي للصخور بفعل العوامل الجوية والتعرية."
-      },
-      {
-        question: "ما هي أهم تطبيقات نظم المعلومات الجغرافية في الجيولوجيا؟",
-        answer: "تشمل تطبيقات نظم المعلومات الجغرافية في الجيولوجيا: 1) رسم الخرائط الجيولوجية، 2) تحليل المخاطر الجيولوجية، 3) إدارة الموارد المعدنية والمائية، 4) نمذجة الطبقات تحت السطحية، 5) تحليل الصور الجوية والفضائية، 6) التخطيط للمشاريع الهندسية والتنموية."
-      }
-    ];
+    // ================================= نظام النقاط والتقدم =================================
+    const STORAGE_KEY = 'geoready_progress_v1';
+    const API_BASE_URL = '/api'; // سيتم تعديل هذا في الإنتاج
 
-    // تحديث شريط التنقل عند التمرير
-    window.addEventListener('scroll', function() {
-      const navbar = document.getElementById('navbar');
-      if (window.scrollY > 100) {
-        navbar.classList.add('scrolled');
-      } else {
-        navbar.classList.remove('scrolled');
+    // حالة التطبيق
+    let appState = {
+      score: 0,
+      completed: [],
+      currentSection: null,
+      lastSaved: new Date().toISOString(),
+      history: [],
+      historyIndex: -1
+    };
+
+    // ================================= وظائف التخزين =================================
+    function loadProgress() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+          const saved = JSON.parse(raw);
+          appState = { ...appState, ...saved };
+          console.log('تم تحميل التقدم:', appState);
+        }
+      } catch (e) {
+        console.error('خطأ في تحميل التقدم:', e);
+        logError('loadProgress', e.message);
       }
+      updateScoreBadge();
+    }
+
+    function saveProgress() {
+      try {
+        appState.lastSaved = new Date().toISOString();
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+        console.log('تم حفظ التقدم:', appState);
+        
+        // إذا كان المستخدم مسجلاً، أرسل البيانات للخادم
+        if (window.USER_ID) {
+          syncWithServer();
+        }
+      } catch (e) {
+        console.error('خطأ في حفظ التقدم:', e);
+        logError('saveProgress', e.message);
+      }
+    }
+
+    function syncWithServer() {
+      fetch(`${API_BASE_URL}/progress/save`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userId: window.USER_ID,
+          score: appState.score,
+          completed: appState.completed,
+          currentSection: appState.currentSection
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log('تمت المزامنة مع الخادم:', data);
+      })
+      .catch(err => {
+        console.error('فشلت المزامنة مع الخادم:', err);
+        logError('syncWithServer', err.message);
+      });
+    }
+
+    // ================================= نظام النقاط =================================
+    function addPoints(points, source, details = {}) {
+      // حفظ الحالة الحالية في التاريخ للتراجع
+      saveToHistory();
+      
+      const oldScore = appState.score;
+      appState.score += points;
+      
+      // تسجيل النشاط المكتمل
+      appState.completed.push({
+        source,
+        points,
+        date: new Date().toISOString(),
+        ...details
+      });
+      
+      // حفظ التقدم
+      saveProgress();
+      
+      // تحديث الواجهة
+      updateScoreBadge();
+      
+      // عرض إشعار
+      showAchievement(`مبروك! لقد ربحت ${points} نقطة`);
+      
+      // تسجيل الحدث
+      logEvent('points_earned', { points, source, oldScore, newScore: appState.score });
+      
+      console.log(`تمت إضافة ${points} نقطة من ${source}. النقاط الإجمالية: ${appState.score}`);
+    }
+
+    function updateScoreBadge() {
+      const scoreValue = document.getElementById('scoreValue');
+      if (scoreValue) {
+        scoreValue.textContent = appState.score;
+        
+        // تأثير مرئي عند تحديث النقاط
+        scoreValue.style.transform = 'scale(1.2)';
+        setTimeout(() => {
+          scoreValue.style.transform = 'scale(1)';
+        }, 300);
+      }
+    }
+
+    // ================================= نظام التراجع والإعادة =================================
+    function saveToHistory() {
+      // إزالة أي حالات بعد الفهرس الحالي
+      if (appState.historyIndex < appState.history.length - 1) {
+        appState.history = appState.history.slice(0, appState.historyIndex + 1);
+      }
+      
+      // إضافة الحالة الحالية إلى التاريخ
+      appState.history.push(JSON.parse(JSON.stringify(appState)));
+      appState.historyIndex = appState.history.length - 1;
+      
+      // تحديث أزرار التراجع والإعادة
+      updateUndoRedoButtons();
+    }
+
+    function undo() {
+      if (appState.historyIndex > 0) {
+        appState.historyIndex--;
+        appState = JSON.parse(JSON.stringify(appState.history[appState.historyIndex]));
+        saveProgress();
+        updateScoreBadge();
+        updateUndoRedoButtons();
+        console.log('تم التراجع إلى الحالة السابقة');
+      }
+    }
+
+    function redo() {
+      if (appState.historyIndex < appState.history.length - 1) {
+        appState.historyIndex++;
+        appState = JSON.parse(JSON.stringify(appState.history[appState.historyIndex]));
+        saveProgress();
+        updateScoreBadge();
+        updateUndoRedoButtons();
+        console.log('تم الإعادة إلى الحالة التالية');
+      }
+    }
+
+    function updateUndoRedoButtons() {
+      const undoBtn = document.getElementById('undoBtn');
+      const redoBtn = document.getElementById('redoBtn');
+      
+      if (undoBtn) undoBtn.disabled = appState.historyIndex <= 0;
+      if (redoBtn) redoBtn.disabled = appState.historyIndex >= appState.history.length - 1;
+    }
+
+    // ================================= نظام العرض التدريجي =================================
+    function initAccordions() {
+      document.querySelectorAll('.accordion-header').forEach(header => {
+        header.addEventListener('click', function() {
+          const accordion = this.parentElement;
+          const isActive = accordion.classList.contains('active');
+          
+          // إغلاق جميع الأكورديونات الأخرى
+          document.querySelectorAll('.accordion').forEach(acc => {
+            if (acc !== accordion) {
+              acc.classList.remove('active');
+            }
+          });
+          
+          // تبديل الحالة الحالية
+          accordion.classList.toggle('active', !isActive);
+          
+          // تسجيل الحدث
+          logEvent('accordion_toggled', { 
+            accordionId: accordion.id, 
+            isOpen: !isActive 
+          });
+        });
+      });
+    }
+
+    // ================================= نظام الاختبارات =================================
+    function initTests() {
+      // معالجة اختيار خيارات الاختبار
+      document.querySelectorAll('.test-option').forEach(option => {
+        option.addEventListener('click', function() {
+          const options = this.parentElement.querySelectorAll('.test-option');
+          options.forEach(opt => opt.classList.remove('selected'));
+          this.classList.add('selected');
+        });
+      });
+      
+      // معالجة إرسال الاختبارات
+      document.querySelectorAll('.submit-test').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const testId = this.getAttribute('data-test');
+          const testContainer = document.getElementById(testId);
+          const selectedOption = testContainer.querySelector('.test-option.selected');
+          
+          if (!selectedOption) {
+            alert('يرجى اختيار إجابة قبل الإرسال');
+            return;
+          }
+          
+          const isCorrect = selectedOption.getAttribute('data-correct') === 'true';
+          const points = isCorrect ? parseInt(this.getAttribute('data-points') || 25) : 0;
+          
+          if (isCorrect) {
+            addPoints(points, `test_${testId}`, { testId, correct: true });
+            showAchievement(`إجابة صحيحة! ربحت ${points} نقطة`);
+          } else {
+            showAchievement('إجابة خاطئة، حاول مرة أخرى!');
+          }
+          
+          // الانتقال للسؤال التالي أو إنهاء الاختبار
+          // (هنا يمكن إضافة منطق أكثر تعقيداً للاختبارات متعددة الأسئلة)
+          this.textContent = 'تم الإرسال';
+          this.disabled = true;
+        });
+      });
+    }
+
+    // ================================= نظام التفاعل العام =================================
+    function initInteractions() {
+      // معالجة أزرار البدء
+      document.querySelectorAll('.start-tool, .start-project, .start-certificate, .start-activity').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const points = parseInt(this.getAttribute('data-points') || 10);
+          const type = this.classList.contains('start-tool') ? 'tool' :
+                      this.classList.contains('start-project') ? 'project' :
+                      this.classList.contains('start-certificate') ? 'certificate' : 'activity';
+          const id = this.getAttribute(`data-${type}`);
+          
+          addPoints(points, `${type}_${id}`, { type, id });
+        });
+      });
+      
+      // معالجة أزرار اللغات
+      document.querySelectorAll('.language-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const lang = this.getAttribute('data-lang');
+          document.querySelectorAll('.language-btn').forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+          
+          // هنا يمكن إضافة منطق تغيير اللغة
+          console.log(`تم تغيير اللغة إلى: ${lang}`);
+          logEvent('language_changed', { language: lang });
+        });
+      });
+      
+      // معالجة أزرار التراجع والإعادة
+      document.getElementById('undoBtn').addEventListener('click', undo);
+      document.getElementById('redoBtn').addEventListener('click', redo);
+    }
+
+    // ================================= نظام التسجيل والتحليلات =================================
+    function logEvent(eventName, data = {}) {
+      const eventData = {
+        event: eventName,
+        timestamp: new Date().toISOString(),
+        userId: window.USER_ID || 'anonymous',
+        score: appState.score,
+        ...data
+      };
+      
+      console.log('Event logged:', eventData);
+      
+      // إرسال البيانات للخادم إذا كان متاحاً
+      if (window.USER_ID) {
+        fetch(`${API_BASE_URL}/events/log`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(eventData)
+        }).catch(err => console.error('Failed to log event:', err));
+      }
+    }
+
+    function logError(context, message) {
+      const errorData = {
+        context,
+        message,
+        timestamp: new Date().toISOString(),
+        userId: window.USER_ID || 'anonymous',
+        userAgent: navigator.userAgent,
+        url: window.location.href
+      };
+      
+      console.error('Error logged:', errorData);
+      
+      // إرسال الخطأ للخادم
+      fetch(`${API_BASE_URL}/errors/log`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(errorData)
+      }).catch(err => console.error('Failed to log error:', err));
+    }
+
+    // ================================= وظائف المساعدة =================================
+    function showAchievement(text) {
+      const popup = document.getElementById('achievementPopup');
+      const textElement = document.getElementById('achievementText');
+      textElement.textContent = text;
+      popup.classList.add('show');
+      
+      setTimeout(() => {
+        popup.classList.remove('show');
+      }, 4000);
+    }
+
+    function openHelpChat() {
+      alert('مرحباً! كيف يمكننا مساعدتك اليوم؟\n\n• استفسارات تقنية\n• مساعدة في المشاريع\n• توجيه مهني\n• مشاكل في الحساب');
+    }
+
+    // ================================= التهيئة عند التحميل =================================
+    document.addEventListener('DOMContentLoaded', function() {
+      // تحميل التقدم المحفوظ
+      loadProgress();
+      
+      // تهيئة المكونات
+      initAccordions();
+      initTests();
+      initInteractions();
+      
+      // حفظ الحالة الأولية في التاريخ
+      saveToHistory();
+      
+      // تسجيل زيارة الصفحة
+      logEvent('page_visited', { page: window.location.href });
+      
+      console.log('تم تهيئة GeoReady Pro بنجاح!');
     });
 
-    // الرسوم المتحركة عند الظهور
+    // ================================= معالجة الأخطاء العالمية =================================
+    window.addEventListener('error', function(e) {
+      logError('global_error', e.message);
+    });
+
+    window.addEventListener('unhandledrejection', function(e) {
+      logError('unhandled_promise_rejection', e.reason?.message || 'Unknown promise rejection');
+    });
+
+    // ================================= التحميل المتأخر للصور =================================
+    function lazyLoadImages() {
+      const images = document.querySelectorAll('img[data-src]');
+      const imageObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const img = entry.target;
+            img.src = img.dataset.src;
+            img.classList.remove('lazy');
+            imageObserver.unobserve(img);
+          }
+        });
+      });
+
+      images.forEach(img => imageObserver.observe(img));
+    }
+
+    // ================================= الرسوم المتحركة عند الظهور =================================
     const observerOptions = {
       threshold: 0.1,
       rootMargin: '0px 0px -100px 0px'
@@ -2454,72 +2587,17 @@
       observer.observe(el);
     });
 
-    // نظام النقاط والتلعيب المتقدم
-    let userStats = {
-      totalPoints: 2847,
-      currentLevel: 12,
-      completedModules: 28,
-      earnedCerts: 5,
-      achievements: ['🛢️ خبير البترول', '⛏️ محلل التعدين', '💻 مبرمج GIS', '🏗️ مهندس جيوتقني']
-    };
-
-    // تحديث الإحصائيات مع رسوم متحركة
-    function updateStats() {
-      const counters = [
-        { element: 'totalPoints', target: userStats.totalPoints },
-        { element: 'currentLevel', target: userStats.currentLevel },
-        { element: 'completedModules', target: userStats.completedModules },
-        { element: 'earnedCerts', target: userStats.earnedCerts }
-      ];
-
-      counters.forEach(counter => {
-        const element = document.getElementById(counter.element);
-        const startValue = 0;
-        const duration = 2000;
-        const increment = counter.target / (duration / 16);
-        let currentValue = startValue;
-
-        const timer = setInterval(() => {
-          currentValue += increment;
-          if (currentValue >= counter.target) {
-            currentValue = counter.target;
-            clearInterval(timer);
-          }
-          element.textContent = Math.floor(currentValue).toLocaleString();
-        }, 16);
-      });
-    }
-
-    // بدء تحديث الإحصائيات عند التحميل
-    window.addEventListener('load', function() {
-      setTimeout(updateStats, 500);
-      populateQAResults();
+    // ================================= تحديث شريط التنقل عند التمرير =================================
+    window.addEventListener('scroll', function() {
+      const navbar = document.getElementById('navbar');
+      if (window.scrollY > 100) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
     });
 
-    // نظام الإنجازات المنبثقة
-    function showAchievement(text) {
-      const popup = document.getElementById('achievementPopup');
-      const textElement = document.getElementById('achievementText');
-      textElement.textContent = text;
-      popup.classList.add('show');
-      
-      setTimeout(() => {
-        popup.classList.remove('show');
-      }, 4000);
-    }
-
-    // محاكاة إنجاز جديد (تجريبي)
-    setTimeout(() => {
-      showAchievement('مبروك! لقد أكملت أول مشروع عملي بنجاح');
-    }, 5000);
-
-    // فتح نافذة المساعدة
-    function openHelpChat() {
-      // هنا يمكن إضافة نافذة دردشة مع الدعم الفني
-      alert('مرحباً! كيف يمكننا مساعدتك اليوم؟\n\n• استفسارات تقنية\n• مساعدة في المشاريع\n• توجيه مهني\n• مشاكل في الحساب');
-    }
-
-    // تفعيل التنقل السلس
+    // ================================= التنقل السلس =================================
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function (e) {
         e.preventDefault();
@@ -2533,30 +2611,7 @@
       });
     });
 
-    // محاكاة تحديث النقاط عند إكمال مهمة
-    function completeTask(points) {
-      userStats.totalPoints += points;
-      document.getElementById('totalPoints').textContent = userStats.totalPoints.toLocaleString();
-      showAchievement(`رائع! لقد ربحت ${points} نقطة خبرة`);
-      
-      // تحديث شريط التقدم
-      const progressBar = document.querySelector('.progress-fill');
-      const newWidth = Math.min(((userStats.totalPoints % 1000) / 1000) * 100, 100);
-      progressBar.style.width = newWidth + '%';
-    }
-
-    // إضافة تأثيرات تفاعلية للبطاقات
-    document.querySelectorAll('.path-card, .tool-card, .project-card').forEach(card => {
-      card.addEventListener('mouseenter', function() {
-        this.style.transform = 'translateY(-10px) scale(1.02)';
-      });
-      
-      card.addEventListener('mouseleave', function() {
-        this.style.transform = 'translateY(0) scale(1)';
-      });
-    });
-
-    // نظام التنقل النشط
+    // ================================= نظام التنقل النشط =================================
     window.addEventListener('scroll', function() {
       const sections = document.querySelectorAll('section[id]');
       const navLinks = document.querySelectorAll('.nav-links a');
@@ -2577,7 +2632,7 @@
       });
     });
 
-    // نظام التبويب التفاعلي
+    // ================================= نظام التبويب التفاعلي =================================
     document.querySelectorAll('.tab-btn').forEach(btn => {
       btn.addEventListener('click', function() {
         const tabId = this.getAttribute('data-tab');
@@ -2600,25 +2655,18 @@
       });
     });
 
-    // نظام تبديل اللغات
-    document.querySelectorAll('.language-btn').forEach(btn => {
-      btn.addEventListener('click', function() {
-        const lang = this.getAttribute('data-lang');
-        
-        // إزالة النشاط من جميع الأزرار
-        document.querySelectorAll('.language-btn').forEach(b => {
-          b.classList.remove('active');
-        });
-        
-        // إضافة النشاط للزر المحدد
-        this.classList.add('active');
-        
-        // هنا يمكن إضافة منطق تغيير اللغة
-        alert(`سيتم تغيير اللغة إلى ${lang}`);
-      });
-    });
+    // ================================= نظام الأسئلة والأجوبة =================================
+    const qaDatabase = [
+      {
+        question: "ما هي أنواع الصخور النارية الرئيسية؟",
+        answer: "تنقسم الصخور النارية إلى ثلاثة أنواع رئيسية: 1) الصخور النارية الجوفية (البلوتونية) التي تتكون في أعماق الأرض مثل الجرانيت، 2) الصخور النارية السطحية (البركانية) التي تتكون على سطح الأرض مثل البازلت، 3) الصخور النارية تحت السطحية التي تتكون على أعماق متوسطة مثل الديوريت."
+      },
+      {
+        question: "كيف يتم تحديد عمر الصخور؟",
+        answer: "يتم تحديد عمر الصخور باستخدام عدة طرق منها: 1) التأريخ الإشعاعي (مثل البوتاسيوم-أرجون واليورانيوم-رصاص)، 2) التأريخ النسبي باستخدام الأحافير ومبدأ تعاقب الطبقات، 3) التأريخ باستخدام النظائر المشعة، 4) التأريخ باستخدام الحلقات السنوية للأشجار أو الطبقات السنوية في الرواسب."
+      }
+    ];
 
-    // نظام الأسئلة والأجوبة
     function populateQAResults() {
       const qaResults = document.getElementById('qaResults');
       qaResults.innerHTML = '';
@@ -2670,6 +2718,7 @@
       const details = document.getElementById('questionDetails').value;
       
       if (title && details) {
+        addPoints(5, 'question_submitted', { title });
         alert('شكراً لسؤالك! سيتم الرد عليك في أقرب وقت ممكن.');
         document.getElementById('questionTitle').value = '';
         document.getElementById('questionDetails').value = '';
@@ -2681,6 +2730,7 @@
     // فتح وإغلاق نافذة الأسئلة والأجوبة
     document.getElementById('openQaModal').addEventListener('click', function() {
       document.getElementById('qaModal').classList.add('active');
+      populateQAResults();
     });
 
     document.getElementById('closeQaModal').addEventListener('click', function() {
@@ -2703,42 +2753,11 @@
       document.getElementById('navLinks').classList.remove('active');
     });
 
-    // تحسين الأداء: تأخير تحميل الصور
-    const images = document.querySelectorAll('img[data-src]');
-    const imageObserver = new IntersectionObserver((entries, observer) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const img = entry.target;
-          img.src = img.dataset.src;
-          img.classList.remove('lazy');
-          imageObserver.unobserve(img);
-        }
-      });
-    });
+    // الحفظ التلقائي كل 30 ثانية
+    setInterval(saveProgress, 30000);
 
-    images.forEach(img => imageObserver.observe(img));
-
-    // نظام حفظ التقدم محلياً
-    function saveProgress() {
-      localStorage.setItem('geoready_progress', JSON.stringify(userStats));
-    }
-
-    function loadProgress() {
-      const saved = localStorage.getItem('geoready_progress');
-      if (saved) {
-        userStats = { ...userStats, ...JSON.parse(saved) };
-        updateStats();
-      }
-    }
-
-    // تحميل التقدم المحفوظ عند بدء التشغيل
-    window.addEventListener('load', loadProgress);
-
-    // حفظ التقدم كل دقيقة
-    setInterval(saveProgress, 60000);
-
-    console.log('🌍 GeoReady Pro تم تحميلها بنجاح!');
-    console.log('💎 منصة التدريب الجيولوجي الأكثر تقدماً في المنطقة');
+    // التحميل المتأخر للصور
+    window.addEventListener('load', lazyLoadImages);
   </script>
 </body>
 </html>
