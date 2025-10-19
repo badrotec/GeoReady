@@ -11,73 +11,66 @@
   }
   *{box-sizing:border-box}
   body{margin:0;font-family:Inter, "Segoe UI", Arial, sans-serif; background:linear-gradient(180deg,#031022 0%,#071428 70%); color:#eef7ff}
-  /* التعديل 1: تقليل العرض الأقصى للـ wrap لجعله أقرب لحواف الهاتف */
-  .wrap{max-width:600px;margin:0 auto;padding:12px} /* تم تغيير max-width و margin و padding */
-  header{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px} /* تقليل الفجوات */
-  .brand{display:flex;align-items:center;gap:8px} /* تقليل الفجوات */
-  .logo{width:48px;height:48px;border-radius:10px;background:linear-gradient(135deg,var(--accent1),var(--accent2));display:flex;align-items:center;justify-content:center;font-weight:900;color:#fff; font-size:18px} /* تصغير الشعار */
-  h1{margin:0;font-size:18px; line-height:1.2} /* تصغير الخط */
-  .subtitle{color:var(--muted);font-size:12px} /* تصغير الخط */
-  .controls{display:flex;gap:6px;align-items:center} /* تقليل الفجوات */
-  button.btn{background:linear-gradient(90deg,var(--accent1),var(--accent2));border:none;padding:7px 10px;border-radius:6px;color:#fff;cursor:pointer;font-weight:700; font-size:13px} /* تصغير الأزرار */
-  button.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:6px 9px;border-radius:6px;color:var(--muted); font-size:13px} /* تصغير الأزرار */
-  .lang-toggle{background:rgba(255,255,255,0.03);padding:6px 8px;border-radius:6px;cursor:pointer;color:var(--muted); font-size:13px} /* تصغير مفتاح اللغة */
-  .container{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:10px;padding:14px;box-shadow:0 8px 30px rgba(2,6,23,0.5)} /* تقليل padding وحجم الظل */
-  
-  /* التعديل 2: تنسيق الأقسام ليصبح عمود واحد بشكل افتراضي للهاتف */
-  .sections{display:grid;grid-template-columns:1fr;gap:10px;margin-bottom:12px} /* عمود واحد (1fr) */
+  .wrap{max-width:600px;margin:0 auto;padding:12px}
+  header{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px}
+  .brand{display:flex;align-items:center;gap:8px}
+  .logo{width:48px;height:48px;border-radius:10px;background:linear-gradient(135deg,var(--accent1),var(--accent2));display:flex;align-items:center;justify-content:center;font-weight:900;color:#fff; font-size:18px}
+  h1{margin:0;font-size:18px; line-height:1.2}
+  .subtitle{color:var(--muted);font-size:12px}
+  .controls{display:flex;gap:6px;align-items:center}
+  button.btn{background:linear-gradient(90deg,var(--accent1),var(--accent2));border:none;padding:7px 10px;border-radius:6px;color:#fff;cursor:pointer;font-weight:700; font-size:13px}
+  button.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:6px 9px;border-radius:6px;color:var(--muted); font-size:13px}
+  .lang-toggle{background:rgba(255,255,255,0.03);padding:6px 8px;border-radius:6px;cursor:pointer;color:var(--muted); font-size:13px}
+  .container{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:10px;padding:14px;box-shadow:0 8px 30px rgba(2,6,23,0.5)}
+
+  .sections{display:grid;grid-template-columns:1fr;gap:10px;margin-bottom:12px}
   .section-card{background:var(--card);padding:12px;border-radius:8px;cursor:pointer;transition:transform .22s,box-shadow .22s;box-shadow:0 4px 12px rgba(2,6,23,0.4)}
-  .section-card:hover{transform:none;box-shadow:0 6px 16px rgba(2,6,23,0.5)} /* تعطيل تأثير الـhover على الهواتف */
+  .section-card:hover{transform:none;box-shadow:0 6px 16px rgba(2,6,23,0.5)}
   .section-title{font-weight:800;font-size:15px}
   .section-desc{color:var(--muted);font-size:12px;margin-top:4px}
-  
+
   .quiz-area{margin-top:8px;min-height:300px;position:relative;overflow:hidden}
   .question-card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:14px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);transition:transform .35s,opacity .35s}
   .fade-in{animation:fadeIn .28s ease}
   @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-  
-  /* تعديلات الـ meta-data الخاصة بالسؤال لتكون أكثر تكتلاً على الهاتف */
-  .question-meta{display:flex;flex-direction:column-reverse; /* وضع المؤقت والنتيجة في الأعلى */ justify-content:space-between;align-items:center;margin-bottom:10px;gap:8px} 
+
+  .question-meta{display:flex;flex-direction:column-reverse;justify-content:space-between;align-items:center;margin-bottom:10px;gap:8px}
   .qnum{font-weight:800;color:var(--accent3);padding:4px 8px;border-radius:6px;background:rgba(255,255,255,0.02); font-size:14px}
   .timer{font-weight:900;padding:4px 8px;border-radius:6px;background:rgba(255,255,255,0.02); min-width:60px; text-align:center}
-  
-  /* تجميع العناصر في سطر واحد داخل الـ meta-data */
+
   .question-meta > div:last-child {display:flex;gap:12px;align-items:center; width:100%; justify-content:space-between;}
-  
-  .scorebox{min-width:120px;text-align:center; padding: 4px 0;} /* تقليل العرض الأقصى للـ Scorebox */
+
+  .scorebox{min-width:120px;text-align:center; padding: 4px 0;}
   .score-value{font-size:18px;font-weight:900;color:var(--accent1)}
   .level-badge{display:inline-block;padding:4px 8px;border-radius:999px;background:rgba(255,255,255,0.03);margin-top:4px;color:var(--muted); font-size:11px}
-  
-  .question-text{font-size:15px;margin:6px 0 10px} /* تصغير خط السؤال */
-  .answers{display:flex;flex-direction:column;gap:8px} /* تقليل الفجوات بين الخيارات */
-  .answer{background:var(--glass);padding:10px;border-radius:6px;border:1px solid rgba(255,255,255,0.03);cursor:pointer;transition:transform .12s,background .12s;display:flex;align-items:center;gap:8px; font-size:14px} /* تصغير حجم خيار الإجابة */
-  .answer:hover{transform:translateY(-2px)} /* تقليل تأثير الـhover */
+
+  .question-text{font-size:15px;margin:6px 0 10px}
+  .answers{display:flex;flex-direction:column;gap:8px}
+  .answer{background:var(--glass);padding:10px;border-radius:6px;border:1px solid rgba(255,255,255,0.03);cursor:pointer;transition:transform .12s,background .12s;display:flex;align-items:center;gap:8px; font-size:14px}
+  .answer:hover{transform:translateY(-2px)}
   .answer .opt-label{min-width:26px;text-align:center;font-weight:800; font-size:14px}
-  
-  .progress-wrap{display:flex;align-items:center;gap:6px;margin-top:10px} /* تقليل الفجوات */
+
+  .progress-wrap{display:flex;align-items:center;gap:6px;margin-top:10px}
   .progress-bar{flex:1;height:8px;background:rgba(255,255,255,0.03);border-radius:8px;overflow:hidden}
   .progress-bar > div{height:100%;background:linear-gradient(90deg,var(--accent1),var(--accent2));width:0%}
-  .small-muted{color:var(--muted);font-size:11px} /* تصغير الخط المكتوم */
-  
-  .controls-bottom{display:flex;gap:6px;align-items:center;margin-top:10px; flex-wrap:wrap; justify-content:space-between} /* تعديل أسفل البطاقة للهاتف */
+  .small-muted{color:var(--muted);font-size:11px}
+
+  .controls-bottom{display:flex;gap:6px;align-items:center;margin-top:10px; flex-wrap:wrap; justify-content:space-between}
   .controls-bottom .ghost { flex-grow:1; }
   .controls-bottom #timeTip { order:3; flex-basis:100%; text-align:center; margin-top:6px; }
 
   .result-panel{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:10px;background:linear-gradient(180deg, rgba(2,6,23,0.7), rgba(2,6,23,0.9));backdrop-filter:blur(3px)}
-  .result-card{background:linear-gradient(180deg,#071226,#08162a);padding:18px;border-radius:10px;width:95%;max-width:400px;border:1px solid rgba(255,255,255,0.04);text-align:center} /* تصغير نافذة النتائج */
+  .result-card{background:linear-gradient(180deg,#071226,#08162a);padding:18px;border-radius:10px;width:95%;max-width:400px;border:1px solid rgba(255,255,255,0.04);text-align:center}
   .bigscore{font-size:36px;font-weight:900;color:var(--accent2);margin:6px 0}
   .res-details{color:var(--muted);margin-top:6px; font-size:13px}
   .res-actions{display:flex;gap:6px;justify-content:center;margin-top:12px}
-  
-  footer{font-size:11px; padding-bottom: 20px;} /* تصغير خط الفوتر */
 
-  /* التعديل 3: استعلامات الوسائط (Media Queries) - الإعدادات الافتراضية الآن مناسبة للهاتف */
-  /* هذا الجزء خاص بتحسين العرض على شاشات الحاسوب أو الأجهزة اللوحية الكبيرة (إذا أردت الاحتفاظ بها) */
-  @media(min-width:600px){ 
+  footer{font-size:11px; padding-bottom: 20px;}
+
+  @media(min-width:600px){
     .wrap{max-width:900px;margin:18px auto;padding:16px}
     .sections{grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:14px}
-    .section-card:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(2,6,23,0.6)} /* إعادة تفعيل الـhover */
-    /* إعادة تنسيق الـ header ليكون أفقياً على الشاشات الكبيرة */
+    .section-card:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(2,6,23,0.6)}
     header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
     .question-meta{display:flex;flex-direction:row; gap:10px; margin-bottom:12px; }
     .question-meta > div:last-child { width:auto; justify-content:flex-end; }
@@ -85,6 +78,27 @@
     h1{font-size:20px}
     .subtitle{font-size:13px}
   }
+
+  .answer.correct { background: var(--good); color: #fff; }
+  .answer.wrong { background: var(--bad); color: #fff; }
+
+  /* تنسيق خاص لعرض محتوى القسم التدريبي في الـ JS كـ "موسوعة" */
+  #trainingContent {
+      padding: 15px;
+      margin-top: 15px;
+      border-radius: 8px;
+      background: var(--card);
+      border: 1px solid rgba(255,255,255,0.05);
+  }
+  #trainingContent h2 { color: var(--accent1); font-size: 1.2em; border-bottom: 1px dashed rgba(255,255,255,0.1); padding-bottom: 5px; margin-top: 1.5em; }
+  #trainingContent h2:first-of-type { margin-top: 0; }
+  #trainingContent ul { padding-right: 20px; list-style-type: '🪨 '; }
+  #trainingContent table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.9em; }
+  #trainingContent th, #trainingContent td { border: 1px solid rgba(255,255,255,0.1); padding: 8px; text-align: right; }
+  #trainingContent th { background: rgba(255,255,255,0.05); color: var(--accent3); }
+  .math { display: block; margin: 10px 0; font-family: monospace; direction: ltr; text-align: left; }
+  .math strong { color: var(--accent2); }
+  .example { background: rgba(255,255,255,0.02); padding: 8px; border-radius: 4px; border-right: 3px solid var(--accent3); margin-top: 8px; }
 
 </style>
 </head>
@@ -108,6 +122,7 @@
     <main class="container">
       <section>
         <div class="sections" id="sectionList"></div>
+        <div id="trainingContent" style="display:none"></div>
       </section>
 
       <section class="quiz-area" id="quizArea" style="display:none">
@@ -163,12 +178,218 @@
 
 <script>
 /* GeoReady — Full single-file quiz app
-   - 4 sections × 30 questions (each with 4 choices)
+   - 4 main sections (Hydro, Petro, Maps, General)
+   - 12 training units (Content, Examples, Q/A)
+   - 4 sections x 30 questions (each with 4 choices)
    - sequential flow, per-question timer (30s)
    - scoring: +10 correct / -5 wrong / 0 unanswered
    - Arabic + English (toggle)
    - audio feedback, animations, results saved in localStorage
 */
+
+/* ---------- Training Content (The 12 Sections) ---------- */
+// Note: Only the main 4 sections are used for the *quiz* functionality (Hydro, Petro, Maps, General)
+// The full 12-section content is rendered statically on section click.
+const FULL_TRAINING_SECTIONS = [
+  { id: 'intro', icon: '🧭', title_ar: 'القسم 1 — مقدمة الجيولوجي الميداني', content: `
+    <h2>📘 الشرح الكامل</h2>
+    الجيولوجي الميداني هو **العين العلمية** للمشاريع الأرضية. وظيفته تبدأ من جمع البيانات وتنتهي بتفسيرها وربطها بالواقع الجيوميكانيكي والهيدروجيولوجي.
+
+    <h2>⚙️ الأمثلة العملية (المهارات المطلوبة)</h2>
+    <ul>
+      <li>الملاحظة الدقيقة.</li>
+      <li>الدقة في الوصف والتوثيق.</li>
+      <li>استخدام الأدوات الميدانية.</li>
+      <li>التفكير التحليلي وربط الظواهر.</li>
+    </ul>
+
+    <h2>❓ الأسئلة والإجابات النموذجية</h2>
+    <p><strong>ما هو الهدف الرئيسي للجيولوجي الميداني؟</strong><br>✅ تحليل وتفسير الظواهر الجيولوجية بدقة بناءً على بيانات الحقل.</p>
+    <p><strong>ما أهم صفة للجيولوجي الناجح؟</strong><br>✅ الانتباه للتفاصيل والملاحظة الدقيقة.</p>
+    <p><strong>لماذا يجب أن يكون الجيولوجي قادرًا على العمل في ظروف صعبة؟</strong><br>✅ لأن العمل الحقلي يتم في بيئات قاسية وغير مستقرة.</p>
+  `},
+  { id: 'tools', icon: '⛏️', title_ar: 'القسم 2 — الأدوات الجيولوجية واستخدامها', content: `
+    <h2>📘 المحتوى (أهم الأدوات)</h2>
+    <table>
+      <tr><th>الأداة</th><th>الاستعمال</th></tr>
+      <tr><td>Brunton Compass</td><td>قياس الاتجاه والميل (Strike & Dip)</td></tr>
+      <tr><td>Rock Hammer</td><td>كسر الصخور وأخذ عينات</td></tr>
+      <tr><td>Hand Lens (10x)</td><td>فحص المعادن والحبيبات</td></tr>
+      <tr><td>GPS</td><td>تحديد الإحداثيات بدقة</td></tr>
+      <tr><td>Sample Bags</td><td>حفظ العينات وترقيمها</td></tr>
+      <tr><td>Core Box</td><td>حفظ نوى الحفر</td></tr>
+      <tr><td>pH & EC Meter</td><td>تحليل المياه الجوفية</td></tr>
+      <tr><td>Field Notebook</td><td>تسجيل البيانات والملاحظات</td></tr>
+    </table>
+
+    <h2>⚙️ تدريب عملي</h2>
+    <ul>
+      <li>استخدم البوصلة لتحديد ميل الطبقات.</li>
+      <li>قارن بين عينتين من الحجر الرملي وعدد الحبيبات بالمجهر اليدوي.</li>
+      <li>سجل موقعك في GPS واحفظ الإحداثيات.</li>
+    </ul>
+
+    <h2>❓ الأسئلة والإجابات النموذجية</h2>
+    <p><strong>ما وظيفة الـ Brunton Compass؟</strong><br>✅ قياس الاتجاه والميل للطبقات.</p>
+    <p><strong>ما الفائدة من العدسة اليدوية؟</strong><br>✅ تحديد المعادن والحبيبات بدقة.</p>
+    <p><strong>لماذا تُكتب الإحداثيات على كيس العينة؟</strong><br>✅ لتحديد مكان أخذها وربطها بخريطة الموقع.</p>
+  `},
+  { id: 'rocks', icon: '🌋', title_ar: 'القسم 3 — الصخور وأنواعها', content: `
+    <h2>📘 المحتوى</h2>
+    تنقسم الصخور إلى ثلاثة أنواع رئيسية:
+    <ul>
+      <li>**نارية (Igneous):** تتكوّن من تبريد الصهارة. 🧱 أمثلة: البازلت، الغرانيت.</li>
+      <li>**رسوبية (Sedimentary):** تتكوّن من ترسيب الفتات أو الأملاح. 🪶 أمثلة: الحجر الرملي، الكلسي.</li>
+      <li>**متحولة (Metamorphic):** تتكوّن تحت الضغط والحرارة. 🪨 أمثلة: الشيست، النايس.</li>
+    </ul>
+
+    <h2>⚙️ ملاحظات ميدانية</h2>
+    <ul>
+      <li>الصخور النارية **داكنة وثقيلة** (عادةً).</li>
+      <li>الرسوبية تحتوي على **طبقات وفواصل واضحة**.</li>
+      <li>المتحولة فيها **خطوط متموجة (foliation)**.</li>
+    </ul>
+
+    <h2>❓ الأسئلة والإجابات النموذجية</h2>
+    <p><strong>ما الفرق بين البازلت والغرانيت؟</strong><br>✅ البازلت سطحي داكن، الغرانيت جوفي فاتح اللون.</p>
+    <p><strong>كيف تميز الصخر الرسوبي؟</strong><br>✅ بوجود طبقات وفواصل واضحة.</p>
+    <p><strong>هل الرخام صخر رسوبي؟</strong><br>❌ لا، هو صخر متحوّل من الحجر الجيري.</p>
+  `},
+  { id: 'hydro', icon: '💧', title_ar: 'القسم 4 — الهيدروجيولوجيا الميدانية (الامتحان هنا)', content: `
+    <h2>📘 المحتوى</h2>
+    الهيدروجيولوجيا تدرس حركة وتوزيع المياه الجوفية. تعتمد على:
+    <ul>
+      <li>**قانون دارسي** لتحديد معدل الجريان.</li>
+      <li>**المسامية والنفاذية** لتحديد نوعية الطبقة الحاملة.</li>
+      <li>**قياسات pH و EC** لتحديد جودة المياه.</li>
+    </ul>
+
+    <h2>🧮 الحسابات المهمة</h2>
+    1. معدل الجريان (Q):
+    <div class="math">Q = K &times; A &times; (&#916;h / L)</div>
+    <div class="example">
+      مثال: K = 1&times;10⁻⁴, A = 1 m², &Delta;h = 3 m, L = 10 m<br>
+      &rarr; Q = 3&times;10⁻⁵ m&sup3;/s
+    </div>
+
+    2. المسامية (&phi;):
+    <div class="math">&phi; = (Vv / Vt) &times; 100</div>
+    <div class="example">
+      مثال: Vv = 0.002 m&sup3;, Vt = 0.01 m&sup3; &rarr; &phi; = 20%
+    </div>
+
+    <h2>❓ الأسئلة والإجابات النموذجية</h2>
+    <p><strong>ما العامل الذي يحدد كمية الماء التي يمكن أن تخزنها طبقة؟</strong><br>✅ المسامية.</p>
+    <p><strong>ماذا يقيس قانون دارسي؟</strong><br>✅ معدل تدفق المياه الجوفية عبر طبقة.</p>
+    <p><strong>ما معنى EC؟</strong><br>✅ Electrical Conductivity – ملوحة المياه.</p>
+    <p><strong>للانتقال للاختبار:</strong> اضغط على قسم **الهيدروجيولوجيا** في القائمة الرئيسية.</p>
+  `},
+  { id: 'calcs', icon: '🧮', title_ar: 'القسم 5 — الحسابات الجيولوجية', content: `
+    <h2>📘 المعادلات الأساسية</h2>
+    <table>
+      <tr><th>المعادلة</th><th>المعنى</th><th>وحدة النتيجة</th></tr>
+      <tr><td>ROP = &Delta;h/&Delta;t</td><td>سرعة الحفر</td><td>m/h</td></tr>
+      <tr><td>&phi; = Vv/Vt &times; 100</td><td>المسامية</td><td>%</td></tr>
+      <tr><td>&rho;b = Mdry/Vt</td><td>الكثافة الظرفية</td><td>kg/m&sup3;</td></tr>
+      <tr><td>T = K &times; b</td><td>النفاذية الطبقية</td><td>m&sup2;/s</td></tr>
+      <tr><td>K = C &times; (D₁₀)&sup2;</td><td>معادلة Hazen</td><td>m/s</td></tr>
+    </table>
+
+    <h2>🧩 تمرين وحل</h2>
+    <div class="example">
+      بئر بعمق 12 م تم حفره خلال 8 ساعات &rarr;<br>
+      ROP = 12 &divide; 8 = <strong>1.5 m/h</strong> ✅
+    </div>
+  `},
+  { id: 'log', icon: '🧱', title_ar: 'القسم 6 — السجل الطبقي (Lithological Log)', content: `
+    <h2>📘 مثال على السجل</h2>
+    <table>
+      <tr><th>From</th><th>To</th><th>نوع الصخر</th><th>الملاحظات</th></tr>
+      <tr><td>0</td><td>2</td><td>طين رمادي</td><td>رطب – نفاذية ضعيفة</td></tr>
+      <tr><td>2</td><td>5</td><td>رمل ناعم بني</td><td>نفاذية عالية</td></tr>
+      <tr><td>5</td><td>10</td><td>حجر رملي رمادي</td><td>حبيبات متوسطة</td></tr>
+    </table>
+
+    <h2>❓ الأسئلة والإجابات النموذجية</h2>
+    <p><strong>ما معنى كلمة Lithology؟</strong><br>✅ وصف خصائص الصخر.</p>
+    <p><strong>ما أهمية السجل الطبقي؟</strong><br>✅ تحديد الطبقات الحاملة للماء أو النفط.</p>
+  `},
+  { id: 'drilling', icon: '⚙️', title_ar: 'القسم 7 — مهام الجيولوجي أثناء الحفر', content: `
+    <h2>📘 المهام الرئيسية</h2>
+    <ul>
+      <li>مراقبة تقدم الحفر وتسجيل العمق.</li>
+      <li>وصف عينات cuttings أو core.</li>
+      <li>حساب نسبة استعادة النواة (**Core Recovery**).</li>
+      <li>قياس منسوب الماء الجوفي.</li>
+      <li>تسجيل الملاحظات البيئية (رائحة – لون – درجة حرارة).</li>
+    </ul>
+
+    <h2>❓ الأسئلة والإجابات النموذجية</h2>
+    <p><strong>ما معنى Core Recovery؟</strong><br>✅ نسبة النواة المستخرجة إلى العمق المحفور.</p>
+    <p><strong>ما الهدف من مراقبة ROP؟</strong><br>✅ معرفة تغير الصخر أو وجود فواصل.</p>
+  `},
+  { id: 'safety', icon: '🧯', title_ar: 'القسم 8 — السلامة الميدانية', content: `
+    <h2>📘 قواعد السلامة الأساسية</h2>
+    <ul>
+      <li>ارتداء **الخوذة والنظارات** (PPE).</li>
+      <li>الابتعاد عن أنبوب الحفر ومناطق السقوط.</li>
+      <li>معرفة موقع وتشغيل **زر الطوارئ**.</li>
+      <li>عدم لمس العينات المشبوهة دون **قفازات**.</li>
+      <li>حمل **حقيبة إسعافات** أولية.</li>
+    </ul>
+
+    <h2>❓ اختبار سريع</h2>
+    <p><strong>ما أول إجراء عند وقوع حادث؟</strong><br>✅ إيقاف الحفر فورًا.</p>
+    <p><strong>من المسؤول عن التفتيش اليومي؟</strong><br>✅ الجيولوجي الميداني بالتعاون مع المشرف.</p>
+  `},
+  { id: 'analysis', icon: '🧪', title_ar: 'القسم 9 — تحليل العينات', content: `
+    <h2>📘 التحاليل المطلوبة</h2>
+    <table>
+      <tr><th>نوع العينة</th><th>التحليل المطلوب</th><th>الهدف</th></tr>
+      <tr><td>صخرية</td><td>XRD / Thin Section</td><td>تحديد المعادن</td></tr>
+      <tr><td>مياه</td><td>pH, EC, TDS</td><td>تقييم الجودة</td></tr>
+      <tr><td>تربة</td><td>Grain Size / Permeability</td><td>تحديد قابلية الترشيح</td></tr>
+    </table>
+
+    <h2>❓ سؤال وإجابة نموذجية</h2>
+    <p><strong>ما الفرق بين EC وTDS؟</strong><br>✅ **EC** ملوحة كهربائية (تقيس التوصيل)، **TDS** تركيز الأملاح الكلية (المقاسة بالوزن أو المحسوبة من EC).</p>
+  `},
+  { id: 'maps_interpret', icon: '🗺️', title_ar: 'القسم 10 — الخرائط والتفسير الجيولوجي (الامتحان هنا)', content: `
+    <h2>📘 المحتوى</h2>
+    <ul>
+      <li>قراءة الخرائط الطبوغرافية والجيولوجية.</li>
+      <li>تحديد الفوالق والطيات باستخدام رموز الخريطة.</li>
+      <li>ترسيم حدود التكوينات ومناطق التماس.</li>
+    </ul>
+
+    <h2>⚙️ تدريب ميداني</h2>
+    <ul>
+      <li>ارسم مقطع جيولوجي بسيط من خريطة.</li>
+      <li>حدّد مواقع الآبار المحتملة بناءً على التراكيب الجيولوجية (الطيات المحدبة لخزانات النفط، مثلاً).</li>
+    </ul>
+    <p><strong>للانتقال للاختبار:</strong> اضغط على قسم **الخرائط الجيولوجية** في القائمة الرئيسية.</p>
+  `},
+  { id: 'quiz_final', icon: '🧩', title_ar: 'القسم 11 — الاختبارات النهائية (Final Quiz)', content: `
+    <h2>📘 أسئلة اختيار من متعدد (أمثلة)</h2>
+    <p><strong>أي من الصخور التالية نارية؟</strong><br>ب) الغرانيت ✅</p>
+    <p><strong>أي أداة لقياس الميل؟</strong><br>ب) بوصلة برونتون ✅</p>
+    <p><strong>أي خاصية تحدد قدرة الطبقة على نقل الماء؟</strong><br>✅ النفاذية (Permeability)</p>
+    <p><strong>لإجراء اختبار شامل:</strong> يرجى إجراء جميع الاختبارات الأربعة (Hydro, Petro, Maps, General) في القائمة الرئيسية. النتيجة النهائية هي مجموع نقاطك.</p>
+  `},
+  { id: 'evaluation', icon: '🏁', title_ar: 'القسم 12 — تقييم الجاهزية المهنية', content: `
+    <h2>📘 جدول التقييم</h2>
+    <table>
+      <tr><th>البند</th><th>التقييم</th></tr>
+      <tr><td>دقة الملاحظات الميدانية</td><td>✅ ممتاز</td></tr>
+      <tr><td>وصف العينات</td><td>✅ جيد جدًا</td></tr>
+      <tr><td>الالتزام بالسلامة</td><td>✅ ممتاز</td></tr>
+      <tr><td>الحسابات الجيولوجية</td><td>✅ جيد</td></tr>
+      <tr><td>القدرة على التفسير والتحليل</td><td>✅ ممتاز</td></tr>
+    </table>
+    <p style="margin-top:15px; font-weight:bold; color:var(--accent3);">هذا التقييم هو تلخيص شامل لمهارات الجيولوجي الميداني الجاهز للعمل بكفاءة.</p>
+  `}
+];
+
 
 /* ---------- Language ---------- */
 const LANGS = {
@@ -181,7 +402,10 @@ const LANGS = {
     level: "المستوى",
     questionOf: "السؤال {i} من {n}",
     savedNote: "تم حفظ النتيجة محليًا في متصفحك.",
-    leaderboardEmpty: "لا نتائج محفوظة بعد."
+    leaderboardEmpty: "لا نتائج محفوظة بعد.",
+    backToMenu: "العودة للقائمة",
+    viewContent: "عرض المحتوى التدريبي",
+    startQuiz: "ابدأ الاختبار"
   },
   en: {
     start: "Start Quiz",
@@ -192,21 +416,28 @@ const LANGS = {
     level: "Level",
     questionOf: "Question {i} of {n}",
     savedNote: "Saved locally in your browser.",
-    leaderboardEmpty: "No saved results yet."
+    leaderboardEmpty: "No saved results yet.",
+    backToMenu: "Back to Menu",
+    viewContent: "View Training Content",
+    startQuiz: "Start Quiz"
   }
 };
 let lang = localStorage.getItem('geo_lang') || 'ar';
 const langToggle = document.getElementById('langToggle');
 function t(key, vars){ const s = LANGS[lang][key] || key; if(!vars) return s; return s.replace(/{(\w+)}/g,(m,k)=>vars[k]||m); }
-function refreshLangUI(){ document.getElementById('scoreLabel').textContent = t('score'); document.getElementById('skipBtn').textContent = t('skip'); document.getElementById('retryBtn').textContent = t('retry'); document.getElementById('closeResBtn').textContent = t('close'); langToggle.textContent = (lang==='ar')? 'العربي / EN' : 'AR / English'; }
+function refreshLangUI(){
+  document.getElementById('scoreLabel').textContent = t('score');
+  document.getElementById('skipBtn').textContent = t('skip');
+  document.getElementById('retryBtn').textContent = t('retry');
+  document.getElementById('closeResBtn').textContent = t('close');
+  document.getElementById('backToMenu').textContent = t('backToMenu');
+  langToggle.textContent = (lang==='ar')? 'العربي / EN' : 'AR / English';
+}
 
-/* ---------- Quiz data (4×30) ----------
-Note: each item = { q_ar, q_en, choices_ar:[], choices_en:[], answerIndex }
-تم إدراج الـ 120 سؤال بالكامل مع 4 خيارات لكل سؤال كما طلبت.
-*/
+/* ---------- Quiz data (4×30) ---------- */
 const QUIZZES = {
   hydro: {
-    title_ar: "الهيدروجيولوجيا — أساسي", title_en: "Hydrogeology — Basic",
+    id: 'hydro', title_ar:"💧 الهيدروجيولوجيا — أساسي", title_en:"💧 Hydrogeology — Basic",
     items: [
       { q_ar:"ما الفرق بين الطبقة المائية الحرة والمحبوسة؟", q_en:"Difference between unconfined and confined aquifer?", choices_ar:["الحرة لها منسوب ماء متساوٍ مع الضغط الجوي، المحبوسة تحت ضغط ارتوازي","الحرة أقل نفاذية من المحبوسة","المحبوسة فوق السطح فقط","الحرة مكّونة من الصخور النارية فقط"], choices_en:["Unconfined has water table; confined under artesian pressure","Unconfined less permeable than confined","Confined exists only at surface","Unconfined made of igneous rocks only"], answerIndex:0 },
       { q_ar:"ما نوع الصخور التي تشكل أفضل خزانات مائية؟", q_en:"Which rock types make the best aquifers?", choices_ar:["الرمل والحصى والحجر الجيري المتشقق","الصخور الطينية المدمجة","الصخور البلورية غير المشققة","الشُعَب البركانية"], choices_en:["Sands, gravels and fractured limestones","Compact clays","Unfractured crystalline rocks","Volcanic reefs"], answerIndex:0 },
@@ -242,7 +473,7 @@ const QUIZZES = {
   },
 
   petro: {
-    title_ar:"البتروغرافيا — التعرف على الصخور", title_en:"Petrography — Rock ID",
+    id: 'petro', title_ar:"🌋 البتروغرافيا — التعرف على الصخور", title_en:"🌋 Petrography — Rock ID",
     items: [
       { q_ar:"ما الفرق بين الصخور النارية الجوفية والسطحية؟", q_en:"Difference intrusive vs extrusive igneous rocks?", choices_ar:["الجوفية تبرد ببطء بلورات كبيرة، السطحية تبرد سريعاً بلورات دقيقة","السطحية أقدم دائماً","الجوفية لا تحتوي معادن","السطحية تكون في البحر فقط"], choices_en:["Intrusive cool slowly (large crystals); extrusive cool fast (fine crystals)","Extrusive always older","Intrusive contain no minerals","Extrusive only form in ocean"], answerIndex:0 },
       { q_ar:"ما مكونات الجرانيت الرئيسية؟", q_en:"Main components of granite?", choices_ar:["كوارتز، فلسبار بوتاسي، بلاغيوكلاز ومقدار من الميكا","كلسيت ودولوميت","أوليفين وبيروكسين فقط","طين ورمل"], choices_en:["Quartz, K-feldspar, plagioclase and some mica","Calcite and dolomite","Only olivine and pyroxene","Clay and sand"], answerIndex:0 },
@@ -278,7 +509,7 @@ const QUIZZES = {
   },
 
   maps: {
-    title_ar:"الخرائط الجيولوجية — الأساسيات", title_en:"Geological Maps — Basics",
+    id: 'maps', title_ar:"🗺️ الخرائط الجيولوجية — الأساسيات", title_en:"🗺️ Geological Maps — Basics",
     items: [
       { q_ar:"ما الفرق بين الخريطة الجيولوجية والطبوغرافية؟", q_en:"Difference between geological and topographic maps?", choices_ar:["الطبوغرافية تمثل ارتفاعات (كنتورات)، الجيولوجية تمثل نوع وامتداد الصخور والتراكيب","الطبوغرافية لجيولوجيين فقط","الجيولوجية تعرض مناخ المنطقة","لا فرق"], choices_en:["Topographic shows elevations (contours); geological shows rock types and structures","Topographic for geologists only","Geological shows climate","No difference"], answerIndex:0 },
       { q_ar:"ما فائدة خطوط الكنتور؟", q_en:"Purpose of contour lines?", choices_ar:["تحديد الارتفاعات وشكل التضاريس والانحدارات","تحديد نوع الصخور","قياس سرعة المياه","تعريف حدود البلد"], choices_en:["Show elevations and terrain shape/slopes","Indicate rock type","Measure water speed","Define country borders"], answerIndex:0 },
@@ -314,7 +545,7 @@ const QUIZZES = {
   },
 
   general: {
-    title_ar:"الجيولوجيا العامة", title_en:"General Geology",
+    id: 'general', title_ar:"🪨 الجيولوجيا العامة", title_en:"🪨 General Geology",
     items: [
       { q_ar:"ما الفرق بين الماجما واللافا؟", q_en:"Magma vs lava?", choices_ar:["الماجما تحت السطح، اللافا عند خروجها على السطح","الماجما ماء واللافا حجر","لا فرق","ماجما = صخور متحولة"], choices_en:["Magma is subsurface molten rock; lava is magma erupted at surface","Magma is water and lava rock","No difference","Magma = metamorphic rock"], answerIndex:0 },
       { q_ar:"ما هي الدورة الصخرية؟", q_en:"What is the rock cycle?", choices_ar:["تحول الصخور النارية والرسوبية والمتحولة عبر العمليات الجيولوجية","دورة حياة النبات فقط","ظاهرة جوية","عملية بشرية"], choices_en:["Transformation of igneous, sedimentary and metamorphic rocks via geologic processes","Plant life cycle only","Atmospheric phenomenon","Human activity"], answerIndex:0 },
@@ -350,6 +581,7 @@ const QUIZZES = {
   }
 };
 
+
 /* ---------- App state ---------- */
 let currentSection = null;
 let currentIndex = 0;
@@ -362,6 +594,7 @@ let leaderboard = JSON.parse(localStorage.getItem('geo_leaderboard')||'[]');
 
 /* ---------- DOM refs ---------- */
 const sectionListEl = document.getElementById('sectionList');
+const trainingContentEl = document.getElementById('trainingContent');
 const quizArea = document.getElementById('quizArea');
 const qLabel = document.getElementById('qLabel');
 const qText = document.getElementById('qText');
@@ -407,26 +640,70 @@ function tText(key, vars){ return t(key, vars); }
 /* ---------- UI render ---------- */
 function renderSectionCards(){
   sectionListEl.innerHTML = '';
-  const keys = Object.keys(QUIZZES);
-  keys.forEach(k=>{
-    const data = QUIZZES[k];
+  // Combine all sections for display: first 4 are quiz, rest are only content
+  const displaySections = [
+    { key: 'hydro', quiz: true, icon: '💧', title_ar: 'الامتحان 1: الهيدروجيولوجيا', title_en: 'Quiz 1: Hydrogeology', desc_ar: '30 سؤال عملي على المياه الجوفية. (قسم 4)', desc_en: '30 practical Q on groundwater. (Unit 4)' },
+    { key: 'petro', quiz: true, icon: '🌋', title_ar: 'الامتحان 2: البتروغرافيا', title_en: 'Quiz 2: Petrography', desc_ar: '30 سؤال عملي على أنواع الصخور والنسيج. (قسم 3)', desc_en: '30 practical Q on rock types and texture. (Unit 3)' },
+    { key: 'maps', quiz: true, icon: '🗺️', title_ar: 'الامتحان 3: الخرائط الجيولوجية', title_en: 'Quiz 3: Geological Maps', desc_ar: '30 سؤال عملي على القراءة والتفسير. (قسم 10)', desc_en: '30 practical Q on reading and interpretation. (Unit 10)' },
+    { key: 'general', quiz: true, icon: '🪨', title_ar: 'الامتحان 4: الجيولوجيا العامة', title_en: 'Quiz 4: General Geology', desc_ar: '30 سؤال شامل عن التراكيب والدورات الجيولوجية. (قسم 1)', desc_en: '30 comprehensive Q on structures and cycles. (Unit 1)' },
+  ];
+  const allSections = [...displaySections, ...FULL_TRAINING_SECTIONS.map((s,i) => ({ 
+    key: s.id, 
+    quiz: false, 
+    icon: s.icon, 
+    title_ar: s.title_ar, 
+    title_en: `${s.icon} Unit ${i+1}: ${s.title_ar.split('—')[1]||s.title_ar}`,
+    desc_ar: 'عرض المحتوى التدريبي المفصل', 
+    desc_en: 'View detailed training content'
+  }))];
+
+
+  allSections.forEach(s=>{
     const card = document.createElement('div'); card.className='section-card';
-    card.onclick = ()=> startSection(k);
-    card.innerHTML = `<div class="section-title">${lang==='ar'?data.title_ar:data.title_en}</div>
-                      <div class="section-desc">${lang==='ar'?'30 سؤال عملي — تتابعي':'30 practical Q — sequential'}</div>`;
+    card.onclick = ()=> s.quiz ? startSection(s.key) : showTrainingContent(s.key);
+    card.innerHTML = `<div class="section-title">${s.icon} ${lang==='ar'?s.title_ar:s.title_en}</div>
+                      <div class="section-desc">${lang==='ar'?s.desc_ar:s.desc_en}</div>`;
     sectionListEl.appendChild(card);
   });
 }
 
-/* ---------- Start section ---------- */
+/* ---------- Show Training Content ---------- */
+function showTrainingContent(key) {
+    const section = FULL_TRAINING_SECTIONS.find(s => s.id === key);
+    if (!section) return;
+
+    sectionListEl.style.display = 'none';
+    quizArea.style.display = 'none';
+    trainingContentEl.style.display = 'block';
+
+    const contentTitle = lang === 'ar' ? section.title_ar : section.title_en;
+    trainingContentEl.innerHTML = `
+      <h2>${contentTitle}</h2>
+      ${section.content}
+      <div class="controls-bottom" style="margin-top:20px;">
+        <button class="ghost" onclick="hideTrainingContent()">${t('backToMenu')}</button>
+        ${(key === 'hydro' || key === 'rocks' || key === 'maps_interpret' || key === 'intro') ? `<button class="btn" onclick="startSection('${key === 'hydro' ? 'hydro' : key === 'rocks' ? 'petro' : key === 'maps_interpret' ? 'maps' : 'general'}')">${t('startQuiz')}</button>` : ''}
+      </div>
+    `;
+    window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function hideTrainingContent() {
+    trainingContentEl.style.display = 'none';
+    sectionListEl.style.display = 'grid';
+}
+
+/* ---------- Start section (Quiz only) ---------- */
 function startSection(key){
+  if(!QUIZZES[key]) { alert('Quiz not implemented yet for this section.'); return; }
   currentSection = key;
   currentIndex = 0;
   currentScore = 0;
   correctCount = 0;
   wrongCount = 0;
   quizArea.style.display = 'block';
-  sectionListEl.style.display = 'none'; // إخفاء القائمة عند البدء
+  sectionListEl.style.display = 'none';
+  trainingContentEl.style.display = 'none';
   showQuestion();
   window.scrollTo({top:0,behavior:'smooth'});
 }
@@ -454,7 +731,7 @@ function showQuestion(){
     answersBox.appendChild(el);
   });
   // progress & score UI
-  progInner.style.width = `${Math.round(((currentIndex+1)/n)*100)}%`; // تم التعديل ليظهر 30/30 عند الانتهاء
+  progInner.style.width = `${Math.round(((currentIndex+1)/n)*100)}%`;
   scoreVal.textContent = currentScore;
   updateLevelBadge();
   // timer
@@ -482,7 +759,7 @@ function selectAnswer(el, correctIndex){
     // highlight correct option
     Array.from(answersBox.children).forEach(ch=>{
       if(Number(ch.dataset.orig) === correctChoiceIndex) ch.classList.add('correct');
-      ch.onclick = null; // تعطيل النقر على الخيارات بعد الإجابة
+      ch.onclick = null;
     });
   }
   scoreVal.textContent = currentScore;
@@ -500,7 +777,7 @@ skipBtn.addEventListener('click', ()=>{
   const correctIndex = item.answerIndex;
   Array.from(answersBox.children).forEach(ch=>{
     if(Number(ch.dataset.orig) === correctIndex) ch.classList.add('correct');
-    ch.onclick = null; // تعطيل النقر على الخيارات بعد التجاوز
+    ch.onclick = null;
   });
   setTimeout(()=> goNext(),700);
 });
@@ -556,8 +833,9 @@ function finishQuiz(){
   const totalPossible = totalQuestions * 10;
   const percent = Math.max(0, Math.round((currentScore / totalPossible) * 100));
   resScore.textContent = `${currentScore} نقطة`;
+  const sectionTitle = lang === 'ar' ? QUIZZES[currentSection].title_ar : QUIZZES[currentSection].title_en;
   resDetails.innerHTML = `
-    <div class="small-muted">${lang==='ar'?'القسم':'Section'}: ${lang==='ar'?QUIZZES[currentSection].title_ar:QUIZZES[currentSection].title_en}</div>
+    <div class="small-muted">${lang==='ar'?'القسم':'Section'}: ${sectionTitle}</div>
     <div style="margin-top:8px">${lang==='ar'?'الإجابات الصحيحة':'Correct'}: <strong>${correctCount}/${totalQuestions}</strong> — ${lang==='ar'?'الخاطئة/المتجاوزة':'Wrong/Skipped'}: <strong>${wrongCount}</strong></div>
     <div style="margin-top:8px">${lang==='ar'?'النسبة':'Percent'}: <strong>${percent}%</strong></div>
   `;
@@ -594,9 +872,9 @@ leaderBtn.addEventListener('click', ()=>{
   if(board.length===0){ alert(t('leaderboardEmpty')); return; }
   let out = (lang==='ar'?'لوحة النتائج (أعلى 20):\n\n':'Leaderboard (top 20):\n\n');
   board.slice(0,20).forEach((e,i)=>{
-    const title = (lang==='ar'? QUIZZES[e.section].title_ar : QUIZZES[e.section].title_en);
+    const title = (e.section && QUIZZES[e.section]) ? (lang==='ar'? QUIZZES[e.section].title_ar : QUIZZES[e.section].title_en) : 'N/A';
     const scoreText = (lang==='ar'? `${e.score} نقطة` : `${e.score} points`);
-    out += `${i+1}. ${title} — ${scoreText} — ${e.level} — ${new Date(e.when).toLocaleDateString(lang)}\n`;
+    out += `${i+1}. ${title.replace(/[\uD800-\uDBFF\uDC00-\uDFFF]/g, '').trim()} — ${scoreText} — ${e.level} — ${new Date(e.when).toLocaleDateString(lang)}\n`;
   });
   alert(out);
 });
