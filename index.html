@@ -11,50 +11,81 @@
   }
   *{box-sizing:border-box}
   body{margin:0;font-family:Inter, "Segoe UI", Arial, sans-serif; background:linear-gradient(180deg,#031022 0%,#071428 70%); color:#eef7ff}
-  .wrap{max-width:1150px;margin:18px auto;padding:16px}
-  header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
-  .brand{display:flex;align-items:center;gap:12px}
-  .logo{width:58px;height:58px;border-radius:12px;background:linear-gradient(135deg,var(--accent1),var(--accent2));display:flex;align-items:center;justify-content:center;font-weight:900;color:#fff}
-  h1{margin:0;font-size:20px}
-  .subtitle{color:var(--muted);font-size:13px}
-  .controls{display:flex;gap:8px;align-items:center}
-  button.btn{background:linear-gradient(90deg,var(--accent1),var(--accent2));border:none;padding:8px 12px;border-radius:8px;color:#fff;cursor:pointer;font-weight:700}
-  button.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:7px 10px;border-radius:8px;color:var(--muted)}
-  .lang-toggle{background:rgba(255,255,255,0.03);padding:6px 10px;border-radius:8px;cursor:pointer;color:var(--muted)}
-  .container{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:12px;padding:18px;box-shadow:0 12px 40px rgba(2,6,23,0.6)}
-  .sections{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:14px}
-  .section-card{background:var(--card);padding:14px;border-radius:10px;cursor:pointer;transition:transform .22s,box-shadow .22s;box-shadow:0 6px 18px rgba(2,6,23,0.45)}
-  .section-card:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(2,6,23,0.6)}
-  .section-title{font-weight:800;font-size:16px}
-  .section-desc{color:var(--muted);font-size:13px;margin-top:6px}
-  .quiz-area{margin-top:10px;min-height:380px;position:relative;overflow:hidden}
-  .question-card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:18px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);transition:transform .35s,opacity .35s}
+  /* التعديل 1: تقليل العرض الأقصى للـ wrap لجعله أقرب لحواف الهاتف */
+  .wrap{max-width:600px;margin:0 auto;padding:12px} /* تم تغيير max-width و margin و padding */
+  header{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px} /* تقليل الفجوات */
+  .brand{display:flex;align-items:center;gap:8px} /* تقليل الفجوات */
+  .logo{width:48px;height:48px;border-radius:10px;background:linear-gradient(135deg,var(--accent1),var(--accent2));display:flex;align-items:center;justify-content:center;font-weight:900;color:#fff; font-size:18px} /* تصغير الشعار */
+  h1{margin:0;font-size:18px; line-height:1.2} /* تصغير الخط */
+  .subtitle{color:var(--muted);font-size:12px} /* تصغير الخط */
+  .controls{display:flex;gap:6px;align-items:center} /* تقليل الفجوات */
+  button.btn{background:linear-gradient(90deg,var(--accent1),var(--accent2));border:none;padding:7px 10px;border-radius:6px;color:#fff;cursor:pointer;font-weight:700; font-size:13px} /* تصغير الأزرار */
+  button.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:6px 9px;border-radius:6px;color:var(--muted); font-size:13px} /* تصغير الأزرار */
+  .lang-toggle{background:rgba(255,255,255,0.03);padding:6px 8px;border-radius:6px;cursor:pointer;color:var(--muted); font-size:13px} /* تصغير مفتاح اللغة */
+  .container{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:10px;padding:14px;box-shadow:0 8px 30px rgba(2,6,23,0.5)} /* تقليل padding وحجم الظل */
+  
+  /* التعديل 2: تنسيق الأقسام ليصبح عمود واحد بشكل افتراضي للهاتف */
+  .sections{display:grid;grid-template-columns:1fr;gap:10px;margin-bottom:12px} /* عمود واحد (1fr) */
+  .section-card{background:var(--card);padding:12px;border-radius:8px;cursor:pointer;transition:transform .22s,box-shadow .22s;box-shadow:0 4px 12px rgba(2,6,23,0.4)}
+  .section-card:hover{transform:none;box-shadow:0 6px 16px rgba(2,6,23,0.5)} /* تعطيل تأثير الـhover على الهواتف */
+  .section-title{font-weight:800;font-size:15px}
+  .section-desc{color:var(--muted);font-size:12px;margin-top:4px}
+  
+  .quiz-area{margin-top:8px;min-height:300px;position:relative;overflow:hidden}
+  .question-card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:14px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);transition:transform .35s,opacity .35s}
   .fade-in{animation:fadeIn .28s ease}
   @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-  .question-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:10px}
-  .qnum{font-weight:800;color:var(--accent3);padding:6px 8px;border-radius:8px;background:rgba(255,255,255,0.02)}
-  .timer{font-weight:900;padding:6px 10px;border-radius:8px;background:rgba(255,255,255,0.02)}
-  .question-text{font-size:18px;margin:8px 0 14px}
-  .answers{display:flex;flex-direction:column;gap:10px}
-  .answer{background:var(--glass);padding:12px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);cursor:pointer;transition:transform .12s,background .12s;display:flex;align-items:center;gap:10px}
-  .answer:hover{transform:translateY(-4px)}
-  .answer .opt-label{min-width:30px;text-align:center;font-weight:800}
-  .answer.correct{background:linear-gradient(90deg, rgba(16,185,129,0.12), rgba(16,185,129,0.04));border-color:rgba(16,185,129,0.28)}
-  .answer.wrong{background:linear-gradient(90deg, rgba(239,68,68,0.08), rgba(239,68,68,0.03));border-color:rgba(239,68,68,0.2)}
-  .progress-wrap{display:flex;align-items:center;gap:8px;margin-top:12px}
-  .progress-bar{flex:1;height:10px;background:rgba(255,255,255,0.03);border-radius:10px;overflow:hidden}
+  
+  /* تعديلات الـ meta-data الخاصة بالسؤال لتكون أكثر تكتلاً على الهاتف */
+  .question-meta{display:flex;flex-direction:column-reverse; /* وضع المؤقت والنتيجة في الأعلى */ justify-content:space-between;align-items:center;margin-bottom:10px;gap:8px} 
+  .qnum{font-weight:800;color:var(--accent3);padding:4px 8px;border-radius:6px;background:rgba(255,255,255,0.02); font-size:14px}
+  .timer{font-weight:900;padding:4px 8px;border-radius:6px;background:rgba(255,255,255,0.02); min-width:60px; text-align:center}
+  
+  /* تجميع العناصر في سطر واحد داخل الـ meta-data */
+  .question-meta > div:last-child {display:flex;gap:12px;align-items:center; width:100%; justify-content:space-between;}
+  
+  .scorebox{min-width:120px;text-align:center; padding: 4px 0;} /* تقليل العرض الأقصى للـ Scorebox */
+  .score-value{font-size:18px;font-weight:900;color:var(--accent1)}
+  .level-badge{display:inline-block;padding:4px 8px;border-radius:999px;background:rgba(255,255,255,0.03);margin-top:4px;color:var(--muted); font-size:11px}
+  
+  .question-text{font-size:15px;margin:6px 0 10px} /* تصغير خط السؤال */
+  .answers{display:flex;flex-direction:column;gap:8px} /* تقليل الفجوات بين الخيارات */
+  .answer{background:var(--glass);padding:10px;border-radius:6px;border:1px solid rgba(255,255,255,0.03);cursor:pointer;transition:transform .12s,background .12s;display:flex;align-items:center;gap:8px; font-size:14px} /* تصغير حجم خيار الإجابة */
+  .answer:hover{transform:translateY(-2px)} /* تقليل تأثير الـhover */
+  .answer .opt-label{min-width:26px;text-align:center;font-weight:800; font-size:14px}
+  
+  .progress-wrap{display:flex;align-items:center;gap:6px;margin-top:10px} /* تقليل الفجوات */
+  .progress-bar{flex:1;height:8px;background:rgba(255,255,255,0.03);border-radius:8px;overflow:hidden}
   .progress-bar > div{height:100%;background:linear-gradient(90deg,var(--accent1),var(--accent2));width:0%}
-  .scorebox{min-width:220px;text-align:center}
-  .score-value{font-size:20px;font-weight:900;color:var(--accent1)}
-  .level-badge{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.03);margin-top:8px;color:var(--muted)}
-  .controls-bottom{display:flex;gap:8px;align-items:center;margin-top:14px}
-  .result-panel{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:20px;background:linear-gradient(180deg, rgba(2,6,23,0.65), rgba(2,6,23,0.85));backdrop-filter:blur(3px)}
-  .result-card{background:linear-gradient(180deg,#071226,#08162a);padding:22px;border-radius:12px;width:92%;max-width:860px;border:1px solid rgba(255,255,255,0.04);text-align:center}
-  .bigscore{font-size:44px;font-weight:900;color:var(--accent2);margin:8px 0}
-  .res-details{color:var(--muted);margin-top:8px}
-  .res-actions{display:flex;gap:8px;justify-content:center;margin-top:14px}
-  .small-muted{color:var(--muted);font-size:13px}
-  @media(max-width:900px){ .sections{grid-template-columns:1fr} .scorebox{min-width:150px} .answers{gap:8px} .question-text{font-size:16px} }
+  .small-muted{color:var(--muted);font-size:11px} /* تصغير الخط المكتوم */
+  
+  .controls-bottom{display:flex;gap:6px;align-items:center;margin-top:10px; flex-wrap:wrap; justify-content:space-between} /* تعديل أسفل البطاقة للهاتف */
+  .controls-bottom .ghost { flex-grow:1; }
+  .controls-bottom #timeTip { order:3; flex-basis:100%; text-align:center; margin-top:6px; }
+
+  .result-panel{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:10px;background:linear-gradient(180deg, rgba(2,6,23,0.7), rgba(2,6,23,0.9));backdrop-filter:blur(3px)}
+  .result-card{background:linear-gradient(180deg,#071226,#08162a);padding:18px;border-radius:10px;width:95%;max-width:400px;border:1px solid rgba(255,255,255,0.04);text-align:center} /* تصغير نافذة النتائج */
+  .bigscore{font-size:36px;font-weight:900;color:var(--accent2);margin:6px 0}
+  .res-details{color:var(--muted);margin-top:6px; font-size:13px}
+  .res-actions{display:flex;gap:6px;justify-content:center;margin-top:12px}
+  
+  footer{font-size:11px; padding-bottom: 20px;} /* تصغير خط الفوتر */
+
+  /* التعديل 3: استعلامات الوسائط (Media Queries) - الإعدادات الافتراضية الآن مناسبة للهاتف */
+  /* هذا الجزء خاص بتحسين العرض على شاشات الحاسوب أو الأجهزة اللوحية الكبيرة (إذا أردت الاحتفاظ بها) */
+  @media(min-width:600px){ 
+    .wrap{max-width:900px;margin:18px auto;padding:16px}
+    .sections{grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:14px}
+    .section-card:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(2,6,23,0.6)} /* إعادة تفعيل الـhover */
+    /* إعادة تنسيق الـ header ليكون أفقياً على الشاشات الكبيرة */
+    header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+    .question-meta{display:flex;flex-direction:row; gap:10px; margin-bottom:12px; }
+    .question-meta > div:last-child { width:auto; justify-content:flex-end; }
+    .scorebox{min-width:220px; text-align:center; padding: 0;}
+    h1{font-size:20px}
+    .subtitle{font-size:13px}
+  }
+
 </style>
 </head>
 <body>
@@ -99,7 +130,7 @@
           <div class="progress-wrap">
             <div class="small-muted" id="progressLabel">السؤال 1 من 30</div>
             <div class="progress-bar"><div id="progInner"></div></div>
-            <div style="width:120px;text-align:right">
+            <div style="width:100px;text-align:right">
               <button class="btn" id="skipBtn">تجاوز</button>
             </div>
           </div>
@@ -114,7 +145,7 @@
 
     </main>
 
-    <footer style="text-align:center;color:var(--muted);margin-top:14px">GeoReady — نموذج تدريبي محلي • يحفظ النتائج في المتصفح</footer>
+    <footer style="text-align:center;color:var(--muted);margin-top:10px">GeoReady — نموذج تدريبي محلي • يحفظ النتائج في المتصفح</footer>
   </div>
 
   <div id="resultModal" class="result-panel" style="display:none">
@@ -235,7 +266,7 @@ const QUIZZES = {
       { q_ar:"ما دلالة اللون في التعرف الميداني؟", q_en:"Field significance of rock color?", choices_ar:["يمكن أن يشير لتركيب معدني أو أكسدة الحديد أو محتوى عضوي","اللون غير مفيد أبداً","يحدد العمر مباشرة","يشير للنفاذية فقط"], choices_en:["May indicate mineralogy, iron oxidation or organic content","Color never useful","Determines age directly","Indicates permeability only"], answerIndex:0 },
       { q_ar:"ما المعادن الظهار في الصخور الفلسية؟", q_en:"Main minerals in felsic rocks?", choices_ar:["كوارتز وفلسبار بوتاسي وميكا","أوليفين وبيروكسين","كالسيت فقط","طفل حبيبي"], choices_en:["Quartz, K-feldspar and mica","Olivine and pyroxene","Calcite only","Granular clay"], answerIndex:0 },
       { q_ar:"ما الفرق ما بين المافية والفلسية؟", q_en:"Mafic vs felsic difference?", choices_ar:["المافية غنية بالحديد والمغنيسيوم (داكنة)، الفلسية غنية بالسيليكا (فاتحة)","لا فرق","المافية خفيفة","الفلسية دائماً زجاجية"], choices_en:["Mafic rich in Fe-Mg (dark); felsic rich in silica (light)","No difference","Mafic light","Felsic always glassy"], answerIndex:0 },
-      { q_ar:"ما العلاقة بين سرعة التبريد وحجم البلورات؟", q_en:"Cooling rate vs crystal size?", choices_ar:["تبريد أسرع → بلورات أصغر؛ تبريد أبطأ → بلورات أكبر","سرعة لا تؤثر","تبريد أسرع → بلورات أكبر","لا علاقة"], choices_en:["Faster cooling → smaller crystals; slower → larger crystals","Rate doesn't affect","Faster → larger crystals","No relation"], answerIndex:0 },
+      { q_ar:"ما العلاقة بين سرعة التبريد وحجم البلورات؟", q_en:"Cooling rate vs crystal size?", choices_ar:["تبريد أسرع ← بلورات أصغر؛ تبريد أبطأ ← بلورات أكبر","سرعة لا تؤثر","تبريد أسرع ← بلورات أكبر","لا علاقة"], choices_en:["Faster cooling → smaller crystals; slower → larger crystals","Rate doesn't affect","Faster → larger crystals","No relation"], answerIndex:0 },
       { q_ar:"ما العلامات الدالة على أصل ناري مقابل رسوبي؟", q_en:"Signs for igneous vs sedimentary origin?", choices_ar:["الناري لديه نسيج متداخل أو بلورات؛ الرسوبي يظهر طبقات وأحافير","الناري يحتوي أحافير","الرسوبي بلوري كبير","لا تمييز"], choices_en:["Igneous shows interlocking texture/crystals; sedimentary shows layers and fossils","Igneous contains fossils","Sedimentary large crystals","No distinction"], answerIndex:0 },
       { q_ar:"ما دور التحليل المجهري؟", q_en:"Role of microscopy in petrography?", choices_ar:["تحديد النسيج والمعادن بدقة لتحديد الأصل والبيئة التكوينية","لا فائدة ميدانية","يستخدم فقط في التعدين","يحلي المياه"], choices_en:["Identify texture and minerals precisely to determine origin and environment","No field use","Only used in mining","Purifies water"], answerIndex:0 },
       { q_ar:"كيف تعرف الصخور الرسوبية الكيميائية؟", q_en:"How identify chemical sedimentary rocks?", choices_ar:["تكوّنت بترسيب مباشر من محلول مائي (مثال: جبس، هاليت)","تكوّنت بالضغط فقط","تكوّنت بالحرارة فقط","تكوّنت بالعوامل الحيوية"], choices_en:["Formed by direct precipitation from aqueous solution (e.g., gypsum, halite)","Formed by pressure only","Formed by heat only","Formed by biological factors"], answerIndex:0 },
