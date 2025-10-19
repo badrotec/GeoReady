@@ -1,685 +1,508 @@
-<!doctype html>
-<html lang="ar">
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>GeoQuest — تدريب الجيولوجيين</title>
-<style>
-  /* Reset & base */
-  *{box-sizing:border-box;font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, system-ui;}
-  html,body{height:100%;margin:0;background:#f4f7fb;color:#0f172a;direction:rtl}
-  a{color:inherit}
-  .hidden{display:none !important}
-  header{background:linear-gradient(90deg,#0ea5a3,#2563eb);color:#fff;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;position:sticky;top:0;z-index:10}
-  .brand{display:flex;align-items:center;gap:12px}
-  .brand h1{margin:0;font-size:18px}
-  .container{max-width:1100px;margin:18px auto;padding:12px}
-  .grid{display:grid;gap:12px}
-  .cols-3{grid-template-columns:repeat(3,1fr)}
-  .cols-2{grid-template-columns:repeat(2,1fr)}
-  .card{background:#fff;border-radius:10px;padding:14px;box-shadow:0 6px 18px rgba(2,6,23,0.06)}
-  .btn{display:inline-block;padding:8px 12px;border-radius:8px;background:#2563eb;color:#fff;cursor:pointer;border:none}
-  .muted{color:#6b7280;font-size:13px}
-  .avatar{width:44px;height:44px;border-radius:10px;background:linear-gradient(180deg,#fff,#e6f7ff);display:flex;align-items:center;justify-content:center;font-weight:700;color:#0b1320}
-  footer{padding:20px;text-align:center;color:#6b7280;margin-top:18px}
-  input,select,textarea{padding:8px;border-radius:8px;border:1px solid #e6eef8;width:100%}
-  .option{padding:10px;border-radius:8px;border:1px solid #e6eef8;margin-bottom:8px;cursor:pointer}
-  .option.correct{border-color:#10b981;background:#ecfdf5}
-  .option.wrong{border-color:#ef4444;background:#fff1f2}
-  .progress{height:10px;background:#e6eef8;border-radius:8px;overflow:hidden}
-  .progress>div{height:100%;background:linear-gradient(90deg,#34d399,#06b6d4)}
-  .badge{display:inline-block;padding:6px 8px;border-radius:999px;background:#ffedd5;color:#92400e;font-weight:600;margin-right:6px}
-  .leaderboard li{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px dashed #eef2ff}
-  @media (max-width:900px){ .cols-3{grid-template-columns:1fr} header{flex-direction:column;align-items:flex-start} }
-  .center{display:flex;align-items:center;justify-content:center}
-  .timer{font-weight:700}
-  .admin-panel{background:#fff7ed;border:1px solid #ffedd5}
-  /* Modal overlay style */
-  #loginModal{position:fixed;inset:0;background:rgba(2,6,23,0.5);display:flex;align-items:center;justify-content:center;z-index:9999}
-  #loginModal .modalBox{width:420px;background:#fff;padding:18px;border-radius:12px;box-shadow:0 12px 40px rgba(2,6,23,0.4)}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GeoChallenge: اختبار المهارات التطبيقية</title>
+    <style>
+        /* CSS Styling - التصميم والألوان */
+        :root {
+            --rock-gray: #4a4e69; 
+            --sky-blue: #61a5c2; 
+            --earth-orange: #ff9f1c; 
+            --light-bg: #f5f5f7;
+            --success-color: #28a745;
+            --error-color: #dc3545;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--light-bg);
+            color: var(--rock-gray);
+            line-height: 1.6;
+        }
+
+        /* Header & Navigation */
+        .header {
+            background-color: var(--rock-gray);
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 2em;
+            color: var(--earth-orange);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 900px;
+            margin: 40px auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Section Tabs */
+        .tabs {
+            display: flex;
+            justify-content: space-around;
+            border-bottom: 2px solid #ddd;
+            margin-bottom: 20px;
+        }
+
+        .tab-button {
+            background-color: transparent;
+            border: none;
+            padding: 15px 10px;
+            font-size: 1.1em;
+            cursor: pointer;
+            color: var(--rock-gray);
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+            font-weight: bold;
+        }
+
+        .tab-button.active {
+            color: var(--sky-blue);
+            border-bottom: 3px solid var(--sky-blue);
+        }
+        
+        /* Question Styling */
+        .quiz-section {
+            display: none; /* Hidden by default */
+        }
+        
+        .question-block {
+            margin-bottom: 25px;
+            padding: 15px;
+            border: 1px solid #eee;
+            border-radius: 6px;
+            background-color: #fafafa;
+        }
+
+        .question-block h3 {
+            color: var(--rock-gray);
+            margin-top: 0;
+            font-size: 1.1em;
+        }
+        
+        .answer-options label {
+            display: block;
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .answer-options label:hover {
+            background-color: #f0f0f0;
+        }
+        
+        input[type="radio"] {
+            margin-left: 10px;
+        }
+
+        /* Results & Score */
+        .results-section {
+            padding: 20px;
+            border: 2px solid var(--earth-orange);
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .total-score {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: var(--success-color);
+            margin: 10px 0;
+        }
+
+        .results-section h2 {
+            color: var(--earth-orange);
+        }
+
+        /* Button Styling */
+        .submit-button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background-color: var(--sky-blue);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.2em;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+        
+        .submit-button:hover {
+            background-color: #4a90a6;
+        }
+        
+        .score-info {
+            font-size: 1.1em;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+        
+        /* Language Toggle - لتفعيل ثنائي اللغة مستقبلا */
+        .lang-toggle {
+            position: absolute;
+            top: 15px;
+            left: 20px;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+    </style>
 </head>
 <body>
-<header>
-  <div class="brand">
-    <div style="width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,#06b6d4,#2563eb);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700">GQ</div>
-    <div>
-      <h1>GeoQuest — اختبر مهاراتك الجيولوجية</h1>
-      <div class="muted" style="font-size:12px">كويزات، تحديات، وشهادات — كل شيء يعمل محليًا</div>
-    </div>
-  </div>
 
-  <div style="display:flex;gap:12px;align-items:center">
-    <button class="btn" id="startBtn">ابدأ التحدي</button>
-    <button class="btn" id="learnBtn" style="background:#06b6d4">المواد القصيرة</button>
-    <select id="topicFilter" style="padding:8px;border-radius:8px;border:none">
-      <option value="all">كل المواضيع</option>
-      <option value="hydro">الهيدروجيولوجيا</option>
-      <option value="petro">البتروغرافيا</option>
-      <option value="maps">الخرائط</option>
-      <option value="general">الجيولوجيا العامة</option>
-    </select>
+    <header class="header">
+        <h1>GeoChallenge 🧭</h1>
+        <div class="lang-toggle">AR/EN</div>
+    </header>
 
-    <div id="userArea" style="display:flex;gap:12px;align-items:center;margin-inline-start:12px">
-      <div id="welcome" class="muted small">مرحبًا زائر</div>
-      <div id="avatar" class="avatar">؟</div>
-      <button class="btn" id="loginBtn" style="background:#0ea5a3">دخول / تسجيل</button>
-    </div>
-  </div>
-</header>
-
-<main class="container">
-  <section id="homeSection" class="grid cols-3">
-    <div class="card">
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <h3>أحدث الاختبارات</h3>
-        <div class="muted small">جرب الآن</div>
-      </div>
-      <div id="quizzesList" style="margin-top:12px"></div>
-    </div>
-
-    <div class="card">
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <h3>المتصدرون هذا الأسبوع</h3>
-        <div class="muted small">نظام النقاط</div>
-      </div>
-      <ul id="leaderboard" class="leaderboard" style="margin-top:12px;list-style:none;padding:0"></ul>
-    </div>
-
-    <div class="card">
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <h3>حسابي</h3>
-        <div class="muted small">نقاط، شارات، مستوى</div>
-      </div>
-      <div style="margin-top:12px" id="profileCard">
-        <div style="display:flex;gap:12px;align-items:center">
-          <div id="profileAvatar" class="avatar">؟</div>
-          <div>
-            <div id="profileName" style="font-weight:700">زائر</div>
-            <div id="profileStats" class="muted small">لم تقم بتسجيل الدخول</div>
-          </div>
+    <div class="container">
+        <div class="tabs">
+            <button class="tab-button active" onclick="showSection('hydro', this)">💧 هيدروجيولوجيا</button>
+            <button class="tab-button" onclick="showSection('petro', this)">🧱 بتروغرافيا</button>
+            <button class="tab-button" onclick="showSection('maps', this)">🗺️ خرائط جيولوجية</button>
+            <button class="tab-button" onclick="showSection('general', this)">🌍 جيولوجيا عامة</button>
         </div>
-        <div style="margin-top:12px">
-          <button class="btn" id="profileBtn" style="background:#2563eb">عرض الملف</button>
+
+        <div class="quiz-section" id="hydro-quiz" style="display: block;">
+            <h2>💧 الهيدروجيولوجيا - المستوى الأساسي (30 سؤال)</h2>
+            <form id="hydro-form">
+                </form>
+            <button class="submit-button" onclick="calculateScore('hydro')">إنهاء اختبار الهيدروجيولوجيا</button>
+            <div class="results-section" id="hydro-results" style="display:none;"></div>
         </div>
-      </div>
-    </div>
-  </section>
 
-  <section id="learnSection" class="card hidden" style="margin-top:18px">
-    <div style="display:flex;justify-content:space-between;align-items:center">
-      <h3>المواد التعليمية السريعة</h3>
-      <div class="muted small">مشاهدات قصيرة واختبار فوري</div>
-    </div>
-    <div style="margin-top:12px">
-      <div id="lessonsList" class="grid cols-2"></div>
-    </div>
-  </section>
-
-  <section id="quizSection" class="card hidden" style="margin-top:18px">
-    <div style="display:flex;justify-content:space-between;align-items:center">
-      <h3 id="quizTitle">كويز</h3>
-      <div class="small">الوقت المتبقي: <span id="timer" class="timer">00:00</span></div>
-    </div>
-    <div id="quizMeta" class="muted small" style="margin-top:8px">عدد الأسئلة: <span id="qcount">0</span> — النقاط لكل إجابة: <span id="pointsPer">10</span></div>
-    <div id="questionArea" style="margin-top:12px"></div>
-    <div style="margin-top:12px;display:flex;gap:8px;align-items:center">
-      <button class="btn" id="nextQBtn">تجاوز</button>
-      <div class="muted small">النتيجة الحالية: <span id="currentScore">0</span></div>
-      <div style="flex:1"></div>
-      <div class="progress" style="width:200px">
-        <div id="progressBar" style="width:0%"></div>
-      </div>
-    </div>
-  </section>
-
-  <section id="challengeSection" class="card" style="margin-top:18px">
-    <div style="display:flex;justify-content:space-between;align-items:center">
-      <h3>التحديات</h3>
-      <div class="muted small">تحديات 1v1 محلية</div>
-    </div>
-    <div style="margin-top:12px" class="grid cols-2">
-      <div class="card">
-        <h4>ابدأ تحدي 1v1</h4>
-        <p class="muted small">اختر اختبارًا وأرسل رمز التحدي لصديق</p>
-        <div style="display:flex;gap:6px;margin-top:8px">
-          <select id="challengeQuizSelect"></select>
-          <button class="btn" id="createChallengeBtn">انشاء</button>
+        <div class="quiz-section" id="petro-quiz">
+            <h2>🧱 البتروغرافيا - التعرف على الصخور (30 سؤال)</h2>
+            <form id="petro-form">
+                </form>
+            <button class="submit-button" onclick="calculateScore('petro')">إنهاء اختبار البتروغرافيا</button>
+            <div class="results-section" id="petro-results" style="display:none;"></div>
         </div>
-        <div id="challengeBox" style="margin-top:10px" class="muted small"></div>
-      </div>
-      <div class="card">
-        <h4>التحديات الحالية</h4>
-        <ul id="activeChallenges" style="list-style:none;padding:0;margin-top:8px"></ul>
-      </div>
-    </div>
-  </section>
 
-  <section id="adminSection" class="card hidden" style="margin-top:18px">
-    <div style="display:flex;justify-content:space-between;align-items:center">
-      <h3>لوحة التحكم (Admin)</h3>
-      <div class="muted small">إضافة / تعديل أسئلة</div>
-    </div>
-    <div class="admin-panel" style="padding:12px;margin-top:10px">
-      <h4>إضافة كويز جديد</h4>
-      <div style="display:grid;gap:8px;margin-top:8px">
-        <input id="newQuizTitle" placeholder="عنوان الكويز (مثال: الهيدروجيولوجيا — أساسي)" />
-        <select id="newQuizTopic">
-          <option value="hydro">الهيدروجيولوجيا</option>
-          <option value="petro">البتروغرافيا</option>
-          <option value="maps">الخرائط</option>
-          <option value="general">الجيولوجيا العامة</option>
-        </select>
-        <textarea id="newQuizQuestions" placeholder='أسئلة بصيغة JSON. مثال:
-[
- {"q":"ما مصدر المياه الجوفية؟","choices":["أ","ب","ج","د"],"answer":0}
-]
-' rows="6"></textarea>
-        <div style="display:flex;gap:8px">
-          <button class="btn" id="addQuizBtn">حفظ الكويز</button>
-          <button class="btn" id="resetDataBtn" style="background:#ef4444">مسح بيانات احتياطية</button>
+        <div class="quiz-section" id="maps-quiz">
+            <h2>🗺️ الخرائط الجيولوجية - الأساسيات (30 سؤال)</h2>
+            <form id="maps-form">
+                </form>
+            <button class="submit-button" onclick="calculateScore('maps')">إنهاء اختبار الخرائط</button>
+            <div class="results-section" id="maps-results" style="display:none;"></div>
         </div>
-      </div>
-    </div>
-  </section>
 
-  <section id="certSection" class="card hidden" style="margin-top:18px">
-    <div style="display:flex;justify-content:space-between;align-items:center">
-      <h3>شهادة إتمام</h3>
-      <div class="muted small">بعد اجتياز اختبارات تحصل على شهادة</div>
-    </div>
-    <div style="margin-top:12px">
-      <button class="btn" id="generateCertBtn">إنشاء شهادة قابلة للطباعة</button>
-      <div id="certBox" style="margin-top:10px"></div>
-    </div>
-  </section>
-
-  <footer class="card">
-    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
-      <div><strong>GeoQuest</strong> — نسخة تجريبية محلية.</div>
-      <div class="muted small">حفظ البيانات في جهازك فقط</div>
-    </div>
-  </footer>
-</main>
-
-<!-- Login Modal -->
-<div id="loginModal" class="hidden" aria-hidden="true">
-  <div class="modalBox">
-    <h3>تسجيل / دخول</h3>
-    <div style="display:grid;gap:8px;margin-top:8px">
-      <input id="loginName" placeholder="الاسم الكامل" />
-      <input id="loginEmail" placeholder="البريد الإلكتروني (اختياري)" />
-      <select id="loginRole">
-        <option value="user">مستخدم</option>
-        <option value="admin">مشرف (Admin)</option>
-      </select>
-      <div style="display:flex;gap:8px">
-        <button class="btn" id="doLoginBtn">تسجيل / دخول</button>
-        <button class="btn" id="cancelLoginBtn" style="background:#94a3b8">إلغاء</button>
-      </div>
-      <div class="muted small">ملاحظة: هذه نسخة محلية؛ البيانات تحفظ في جهازك فقط.</div>
-    </div>
-  </div>
-</div>
-
-<script>
-/* GeoQuest — ملف واحد محدث:
-   - يحفظ المستخدم في localStorage
-   - يعالج مشكلة النافذة التي لا تختفي (يستخدم style.display + class)
-   - يدعم مشرف admin، حفظ الأسئلة، تحديات محلية، شهادات
-*/
-
-/* --- مفاتيح التخزين --- */
-const LS = {
-  USERS: 'geo_users_v2',
-  QUIZZES: 'geo_quizzes_v2',
-  CHALLENGES: 'geo_challenges_v2',
-  ACTIVE: 'geo_active_v2'
-};
-
-/* --- بيانات ابتدائية --- */
-const starterQuizzes = [
-  { id: 'q_hydro_01', title: 'الهيدروجيولوجيا — أساسي', topic: 'hydro', pointsPer: 10, timeLimitSec: 300, questions: [
-    {"q":"ما هو تعريف الطبقة الحاملة للمياه (Aquifer)؟","choices":["صخور تمنع مرور المياه","تربة مشبعة بالمياه وتخزنها","مادة نفاذة تسمح بتخزين ونقل الماء الجوفي","سطح الماء في البئر"],"answer":2},
-    {"q":"أي من التالي يقلل من تغذية المياه الجوفية؟","choices":["هطول الأمطار","قطع الغطاء النباتي","تخطيط جيد للصرف","زراعة مسطحات نباتية"],"answer":1}
-  ]},
-  { id:'q_petro_01', title:'البتروغرافيا — التعرف على الصخور', topic:'petro', pointsPer:10, timeLimitSec:240, questions:[
-    {"q":"الصخور المتحولة تنتج من؟","choices":["تبريد الحمم","تغيرات حرارية وضغطية على صخور أخرى","ترسب الرواسب","تبلور المعادن في الماء"],"answer":1},
-    {"q":"ماذا يعني لفظ 'غلين' (gneiss)؟","choices":["نوع من الصخور الترسبية","صخر متحول مخطط","معدن نفيس","نوع تربة"],"answer":1}
-  ]},
-  { id:'q_maps_01', title:'الخرائط الجيولوجية — الأساسيات', topic:'maps', pointsPer:10, timeLimitSec:200, questions:[
-    {"q":"خط الارتفاع على الخريطة الطبوغرافية يمثل؟","choices":["نفس الارتفاع","خطوط متوازية دائما","منحنى يربط نقاط بنفس الارتفاع","ماركة حدودية"],"answer":2},
-    {"q":"مقياس الخريطة 1:50,000 يعني؟","choices":["1 متر على الخريطة = 50,000 متر على الواقع","الخريطة مخصصة للتضاريس فقط","غير مرتبط بالمسافة","مقياس رقمي للارتفاع"],"answer":0}
-  ]},
-  { id:'q_general_01', title:'الجيولوجيا العامة — اختبارات سريعة', topic:'general', pointsPer:10, timeLimitSec:180, questions:[
-    {"q":"قشرة الأرض تتكون أساسًا من؟","choices":["ماء وغاز","معادن وصخور","هواء","مواد عضوية فقط"],"answer":1},
-    {"q":"ما هي العمليات الجوّية؟","choices":["عمليات داخل القشرة الأرضية","عمليات سطحية تشمل التعرية والنحت","مصطلح لمعالجة المياه","نوع من الصخور"],"answer":1}
-  ]}
-];
-
-/* --- حالة التطبيق --- */
-let state = {
-  user: null,
-  users: [],
-  quizzes: [],
-  challenges: [],
-  currentQuiz: null,
-  currentQuestionIndex: 0,
-  currentScore: 0,
-  timerId: null,
-  timeLeft: 0
-};
-
-/* --- عناصر DOM --- */
-const loginModal = document.getElementById('loginModal');
-const loginBtn = document.getElementById('loginBtn');
-const doLoginBtn = document.getElementById('doLoginBtn');
-const cancelLoginBtn = document.getElementById('cancelLoginBtn');
-const loginName = document.getElementById('loginName');
-const loginEmail = document.getElementById('loginEmail');
-const loginRole = document.getElementById('loginRole');
-
-const avatarEl = document.getElementById('avatar');
-const welcomeEl = document.getElementById('welcome');
-const profileNameEl = document.getElementById('profileName');
-const profileStatsEl = document.getElementById('profileStats');
-const profileAvatar = document.getElementById('profileAvatar');
-const profileBtn = document.getElementById('profileBtn');
-
-const quizzesList = document.getElementById('quizzesList');
-const topicFilter = document.getElementById('topicFilter');
-const lessonsList = document.getElementById('lessonsList');
-const learnSection = document.getElementById('learnSection');
-
-const quizSection = document.getElementById('quizSection');
-const quizTitle = document.getElementById('quizTitle');
-const timerEl = document.getElementById('timer');
-const questionArea = document.getElementById('questionArea');
-const qcountEl = document.getElementById('qcount');
-const nextQBtn = document.getElementById('nextQBtn');
-const currentScoreEl = document.getElementById('currentScore');
-const progressBar = document.getElementById('progressBar');
-
-const challengeQuizSelect = document.getElementById('challengeQuizSelect');
-const createChallengeBtn = document.getElementById('createChallengeBtn');
-const challengeBox = document.getElementById('challengeBox');
-const activeChallengesEl = document.getElementById('activeChallenges');
-
-const leaderboardEl = document.getElementById('leaderboard');
-const challengeSection = document.getElementById('challengeSection');
-
-const adminSection = document.getElementById('adminSection');
-const newQuizTitle = document.getElementById('newQuizTitle');
-const newQuizTopic = document.getElementById('newQuizTopic');
-const newQuizQuestions = document.getElementById('newQuizQuestions');
-const addQuizBtn = document.getElementById('addQuizBtn');
-const resetDataBtn = document.getElementById('resetDataBtn');
-
-const learnBtn = document.getElementById('learnBtn');
-const startBtn = document.getElementById('startBtn');
-
-const generateCertBtn = document.getElementById('generateCertBtn');
-
-/* --- مساعدة: تهيئة البيانات --- */
-function ensureInitData(){
-  if(!localStorage.getItem(LS.QUIZZES)) localStorage.setItem(LS.QUIZZES, JSON.stringify(starterQuizzes));
-  if(!localStorage.getItem(LS.USERS)) localStorage.setItem(LS.USERS, JSON.stringify([]));
-  if(!localStorage.getItem(LS.CHALLENGES)) localStorage.setItem(LS.CHALLENGES, JSON.stringify([]));
-}
-ensureInitData();
-
-/* --- تحميل الحالة من التخزين --- */
-function loadState(){
-  state.quizzes = JSON.parse(localStorage.getItem(LS.QUIZZES) || '[]');
-  state.users = JSON.parse(localStorage.getItem(LS.USERS) || '[]');
-  state.challenges = JSON.parse(localStorage.getItem(LS.CHALLENGES) || '[]');
-  const activeId = localStorage.getItem(LS.ACTIVE);
-  if(activeId){
-    const u = state.users.find(x=>x.id===activeId);
-    if(u) state.user = u;
-    else localStorage.removeItem(LS.ACTIVE);
-  }
-}
-
-/* --- حفظ --- */
-function saveUsers(){ localStorage.setItem(LS.USERS, JSON.stringify(state.users)); }
-function saveQuizzes(){ localStorage.setItem(LS.QUIZZES, JSON.stringify(state.quizzes)); }
-function saveChallenges(){ localStorage.setItem(LS.CHALLENGES, JSON.stringify(state.challenges)); }
-
-/* --- رندر الواجهة العامة --- */
-function renderHeader(){
-  if(state.user){
-    const first = (state.user.name||'زائر').split(' ')[0];
-    welcomeEl.textContent = `مرحبًا ${first}`;
-    avatarEl.textContent = (state.user.name[0]||'؟').toUpperCase();
-    profileAvatar.textContent = avatarEl.textContent;
-    profileNameEl.textContent = state.user.name;
-    profileStatsEl.innerHTML = `نقاط: <strong>${state.user.points||0}</strong> — شارات: <span class="badge">${(state.user.badges||[]).length}</span>`;
-    loginBtn.textContent = 'تسجيل خروج';
-    loginBtn.style.background = '#ef4444';
-    // admin visibility
-    if(state.user.role === 'admin') adminSection.classList.remove('hidden');
-    else adminSection.classList.add('hidden');
-  } else {
-    welcomeEl.textContent = 'مرحبًا زائر';
-    avatarEl.textContent = '؟';
-    profileAvatar.textContent = '؟';
-    profileNameEl.textContent = 'زائر';
-    profileStatsEl.textContent = 'لم تقم بتسجيل الدخول';
-    loginBtn.textContent = 'دخول / تسجيل';
-    loginBtn.style.background = '#0ea5a3';
-    adminSection.classList.add('hidden');
-  }
-}
-
-/* --- رندر الاختبارات --- */
-function renderQuizzes(filter='all'){
-  quizzesList.innerHTML = '';
-  challengeQuizSelect.innerHTML = '';
-  const list = state.quizzes.filter(q => filter==='all' || q.topic===filter);
-  list.forEach(q=>{
-    const card = document.createElement('div');
-    card.className='card';
-    card.style.marginBottom='10px';
-    card.innerHTML = `
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <div>
-          <strong>${q.title}</strong>
-          <div class="muted small">${q.questions.length} سؤال — وقت ${q.timeLimitSec} ثانية</div>
+        <div class="quiz-section" id="general-quiz">
+            <h2>🌍 الجيولوجيا العامة (30 سؤال)</h2>
+            <form id="general-form">
+                </form>
+            <button class="submit-button" onclick="calculateScore('general')">إنهاء اختبار الجيولوجيا العامة</button>
+            <div class="results-section" id="general-results" style="display:none;"></div>
         </div>
-        <div style="display:flex;gap:8px;align-items:center">
-          <button class="btn" data-id="${q.id}">ابدأ</button>
-          <button class="btn" style="background:#06b6d4" data-preview="${q.id}">عرض</button>
+        
+        <div class="results-section" id="total-results" style="margin-top: 60px; display: none;">
+            <h2>🌟 لوحة النتائج النهائية 🌟</h2>
+            <div id="total-score-display" class="total-score"></div>
+            <p class="score-info" id="total-score-details"></p>
         </div>
-      </div>
-    `;
-    // attach handlers
-    const btnStart = card.querySelector('button[data-id]');
-    btnStart.onclick = ()=> startQuiz(q.id);
-    const btnPreview = card.querySelector('button[data-preview]');
-    btnPreview.onclick = ()=> alert(`${q.title}\nأسئلة: ${q.questions.length}\nوقت: ${q.timeLimitSec} ثانية\nالموضوع: ${q.topic}`);
-    quizzesList.appendChild(card);
 
-    const opt = document.createElement('option'); opt.value=q.id; opt.textContent=q.title;
-    challengeQuizSelect.appendChild(opt);
-  });
-  if(list.length===0) quizzesList.innerHTML = `<div class="muted small">لا توجد اختبارات في هذا الموضوع حالياً.</div>`;
-}
+    </div>
+    
+    <script>
+        // JavaScript Logic - منطق الموقع والتحكم بالنقاط
+        
+        const QUIZZES = {
+            // بيانات الأسئلة
+            hydro: [
+                { q: "ما الفرق بين الطبقة المائية الحرة والمحبوسة؟", ans: "الحرة لها منسوب مائي يتعادل مع الضغط الجوي، المحبوسة تحت ضغط ارتوازي." },
+                { q: "ما نوع الصخور التي تشكل أفضل خزانات مائية؟", ans: "الرملية والحجر الجيري المتشقق." },
+                { q: "ما المقصود بالـ “Aquiclude”؟", ans: "طبقة صخرية مساميتها عالية لكن نفاذيتها منخفضة جداً (مثل الصخر الطيني)." },
+                { q: "ما هو المنسوب الساكن للمياه الجوفية (Static Water Level)؟", ans: "مستوى الماء في البئر عندما لا يتم الضخ." },
+                { q: "كيف يُقاس التصريف من بئر منتجة؟", ans: "باستخدام عدادات التدفق (Flow meters) أو مقياس وير (Weir)." },
+                { q: "ماذا يعني “Recharge area”؟", ans: "المنطقة السطحية التي تتغذى منها المياه الجوفية." },
+                { q: "ما العلاقة بين نفاذية التربة والتوصيل الهيدروليكي؟", ans: "التوصيل الهيدروليكي (K) هو قياس لقدرة التربة على تمرير الماء (يرتبط بالنفاذية)." },
+                { q: "ما هو الاختبار المستخدم لتحديد النفاذية الميدانية؟", ans: "اختبار الضخ (Pumping test) أو اختبارات النضح (Slug test)." },
+                { q: "ما تأثير الضخ المفرط على منسوب المياه الجوفية؟", ans: "يسبب انخفاضاً حاداً في منسوب المياه (Drawdown) وتكوين مخروط انخفاض واسع." },
+                { q: "ما الفرق بين البئر التجريبية والبئر الإنتاجية؟", ans: "التجريبية تستخدم لاختبار خصائص الخزان، الإنتاجية تستخدم للاستغلال الفعلي للمياه." },
+                { q: "ما الغرض من اختبار الضخ (Pumping test)؟", ans: "تحديد الخصائص الهيدروليكية للخزان (مثل النفاذية والتخزين)." },
+                { q: "كيف يمكن تحديد اتجاه تدفق المياه الجوفية؟", ans: "من خلال رسم خطوط تساوي منسوب الماء (Potentiometric contours) من قراءات آبار المراقبة." },
+                { q: "ما دلالة زيادة الملوحة مع الزمن في بئر؟", ans: "غالباً تشير إلى تداخل مياه البحر (Sea Water Intrusion) أو ارتفاع مياه عميقة مالحة." },
+                { q: "ما هو الغرض من تحليل الهيدروكيمياء؟", ans: "تحديد مصدر المياه، تتبع حركة التلوث، وتقييم جودة المياه للاستخدامات المختلفة." },
+                { q: "ما هي المعادلة الأساسية لقانون دارسي؟", ans: "Q = -KA(dh/dl) - حيث Q التصريف، K التوصيل الهيدروليكي، A المساحة، dh/dl الانحدار الهيدروليكي." },
+                { q: "ما هو تأثير تلوث السطح على المياه الجوفية؟", ans: "يسبب تسرب الملوثات (مثل الكيماويات الزراعية) وصولاً للخزان عبر منطقة التغذية." },
+                { q: "كيف تُحدد حدود الخزان المائي من الخرائط؟", ans: "بواسطة الخرائط الجيولوجية التي تظهر امتداد وتكوين الطبقات الحاملة للمياه." },
+                { q: "ما الفرق بين المسامية الفعالة والمسامية الكلية؟", ans: "الكلية هي إجمالي الفراغات، والفعالة هي الفراغات المتصلة التي تسمح بتدفق الماء." },
+                { q: "ما معنى مصطلح Drawdown؟", ans: "الفرق بين منسوب الماء الساكن ومنسوب الماء أثناء الضخ." },
+                { q: "ما هي العوامل التي تؤثر على نوعية المياه الجوفية؟", ans: "نوع الصخور المارة بها، الأنشطة البشرية (تلوث)، درجة الحرارة، وعمق الخزان." },
+                { q: "ما وظيفة المراقب (Piezometer)؟", ans: "جهاز لقياس الضغط الهيدروليكي أو منسوب المياه في نقطة محددة داخل الخزان." },
+                { q: "ماذا يحدث إذا ارتفع الضغط الارتوازي في طبقة محبوسة؟", ans: "قد يؤدي إلى بئر ارتوازية متدفقة (Flowing artesian well) دون الحاجة للضخ." },
+                { q: "كيف تُحدد طبقات المياه الجوفية من السجلات الجيوكهربائية؟", ans: "من خلال الانخفاض في المقاومة الكهربائية (Resistivity) الذي يشير لوجود صخور مشبعة بالماء." },
+                { q: "ما تأثير الحفر العميق على توازن النظام المائي؟", ans: "يمكن أن يصل المياه المالحة من الأعماق أو يغير الضغوط بين الخزانات المختلفة." },
+                { q: "ما العلاقة بين نوع الصخور والتوصيل الهيدروليكي؟", ans: "الصخور الخشنة الحبيبات (الرمل) لها توصيل هيدروليكي أعلى بكثير من الصخور الناعمة (الطين)." },
+                { q: "ما دور التربة في تغذية الخزانات المائية؟", ans: "تعمل كمرشح (Filter) وتتحكم بمعدل تسرب المياه من السطح إلى الخزان." },
+                { q: "كيف يمكن اكتشاف تسرّب من خزان تحت الأرض؟", ans: "بتحليل الكيمياء أو درجات الحرارة أو استخدام مسح جيوفيزيائي للمنطقة المحيطة." },
+                { q: "ما هو المقصود بالتوازن الهيدرولوجي؟", ans: "توازن بين كمية المياه الداخلة للنظام (التغذية) والخارجة منه (التصريف والضخ)." },
+                { q: "ما أهم المؤشرات على وجود تلوث نترات في الآبار؟", ans: "عادةً تكون مؤشراً على تلوث من مصادر زراعية (أسمدة) أو مياه صرف صحي." },
+                { q: "ما استخدام نظم المعلومات الجغرافية (GIS) في الهيدروجيولوجيا؟", ans: "رسم الخرائط البوتنشومترية، تحليل مناطق التغذية، ونمذجة تدفق المياه الجوفية والتلوث." }
+            ],
+            petro: [
+                { q: "ما الفرق بين الصخور النارية الجوفية والسطحية؟", ans: "الجوفية تبرد ببطء تحت الأرض (بلورات كبيرة)، السطحية تبرد بسرعة فوق السطح (بلورات صغيرة/زجاجي)." },
+                { q: "ما هو المكون الرئيسي في الجرانيت؟", ans: "الكوارتز، الفلسبار البوتاسي، والفلسبار البلاجيوكليزي." },
+                { q: "ما دلالة وجود نسيج بورفيري في الصخر؟", ans: "يشير إلى تبريد على مرحلتين: تبريد بطيء (بلورات كبيرة) ثم تبريد سريع (مادة أرضية دقيقة)." },
+                { q: "كيف تميّز بين البازلت والأنديزيت في العينة؟", ans: "البازلت (مافي) داكن اللون، كثيف وغني بالمعادن الحديدية. الأنديزيت (متوسط) أفتح لوناً." },
+                { q: "ما الفرق بين الكلسيت والدولوميت مظهريًا؟", ans: "الكلسيت يتفاعل بقوة مع حمض $\text{HCl}$ المخفف، الدولوميت يحتاج إلى كلسيت مطحون أو تسخين." },
+                { q: "ما هي العلامة المميزة للصخر الرسوبي الكربوني؟", ans: "وجود الكلسيت أو الدولوميت كمكون رئيسي (مثل الحجر الجيري)، وغالباً له أصل عضوي." },
+                { q: "كيف يمكن التفريق بين الحجر الرملي والصخر الطيني؟", ans: "الحجر الرملي (Sandstone) حبيباته مرئية وخشنة الملمس، الطيني (Shale) ناعم جداً وقد يتشقق إلى صفائح." },
+                { q: "ما هو نسيج التورق في الصخور المتحولة؟", ans: "هو ترتيب متوازي للمعادن المستوية (كالميكا) نتيجة الضغط الموجه، يعطي الصخر مظهراً مخططاً." },
+                { q: "ما الفرق بين الشست والنايس؟", ans: "الشست (Schist) لديه تورق دقيق ورقيق، بينما النايس (Gneiss) لديه تورق خشن ونطاقات معدنية متناوبة فاتحة وداكنة." },
+                { q: "ما هي أنواع الفلسبار التي توجد عادة في الصخور النارية؟", ans: "فلسبار البوتاسي (أورثوكلاز/مايكروكلاين) وفلسبار البلاجيوكليز (من الألبيت إلى الأنورثيت)." },
+                { q: "كيف يمكن تحديد أصل الصخر من تركيب معادنه؟", ans: "الصخور النارية تتكون من سيليكات أولية (كوارتز، فلسبار)، الرسوبية غالباً من معادن فتاتية أو ترسيب كيميائي، المتحولة من إعادة تبلور." },
+                { q: "ما الأدوات الأساسية للتحليل البتروغرافي؟", ans: "المجهر المستقطب (Petrographic microscope) لتحليل الشرائح الصخرية الرقيقة." },
+                { q: "ما دلالة وجود الكوارتز الدائري في الحجر الرملي؟", ans: "يدل على نضج عالٍ وترسيب طويل المدى مع نقل وتآكل كبيرين (شواهد على مسافة نقل طويلة)." },
+                { q: "ما هو “Matrix” في الصخر الرسوبي؟", ans: "المادة الأرضية الدقيقة (الطين/الغرين) التي تحيط بالحبيبات الكبيرة وتلصقها معاً." },
+                { q: "كيف تُحدد درجة التحول من الشرائح الصخرية؟", ans: "بواسطة نوع المعادن المؤشرة (Index minerals) الناتجة عن الحرارة والضغط (مثل الكلوريت، الغارنت)." },
+                { q: "ما الفرق بين البريشيا والكونجلوميرات؟", ans: "البريشيا (Breccia) لها حبيبات زاويّة حادة، الكونجلوميرات (Conglomerate) لها حبيبات مستديرة ومصقولة." },
+                { q: "ما دلالة وجود فقاعات غازية في صخر ناري؟", ans: "تشير إلى نسيج فقاعي (Vesicular texture) نتج عن هروب الغازات أثناء التبريد السريع (مثال: البوميس)." },
+                { q: "ما الفرق بين البازلت والجابرو في المظهر؟", ans: "البازلت (سطحي) ذو بلورات دقيقة (غير مرئية) داكنة، الجابرو (جوفي) ذو بلورات خشنة مرئية داكنة." },
+                { q: "ما معنى مصطلح “Texture” في البتروغرافيا؟", ans: "يشير إلى حجم وشكل وترتيب المكونات المعدنية في الصخر." },
+                { q: "ما دلالة لون الصخر في التعرف الميداني؟", ans: "اللون الفاتح يدل على التركيب الفلسي (غني بالسيليكا)، الداكن يدل على التركيب المافي (غني بالحديد والمغنيسيوم)." },
+                { q: "ما هي المعادن المكونة الأساسية للصخور الفلسية؟", ans: "الكوارتز والفلسبار البوتاسي." },
+                { q: "ما الفرق بين المعادن المافية والفلسية؟", ans: "المافية غنية بالحديد والمغنيسيوم (داكنة)، والفلسية غنية بالفلسبار والسيليكا (فاتحة)." },
+                { q: "ما العلاقة بين معدل تبريد الماغما وحجم البلورات؟", ans: "تبريد أبطأ $\rightarrow$ بلورات أكبر؛ تبريد أسرع $\rightarrow$ بلورات أصغر." },
+                { q: "ما العلامات الدالة على أصل ناري مقابل رسوبي؟", ans: "الناري: نسيج متداخل أو بورفيري. الرسوبي: طبقات، أحافير، تكتلات رسوبية." },
+                { q: "ما هو دور التحليل المجهري في تحديد أصل الصخر؟", ans: "يسمح بدراسة النسيج (Texture) وتكوين المعادن (Mineralogy) لتحديد البيئة وعمليات التكوين." },
+                { q: "كيف تعرف الصخور الرسوبية الكيميائية؟", ans: "تتكون من ترسيب مباشر للمواد الذائبة من محلول (مثل التبخير أو التفاعلات الكيميائية) مثل الجبس أو الهاليت." },
+                { q: "ما الفرق بين الحجر الجيري والدولوميت؟", ans: "الحجر الجيري يتكون من $\text{CaCO}_3$ (كلسيت)، الدولوميت يتكون من $\text{CaMg}(\text{CO}_3)_2$ (دولوميت)." },
+                { q: "ما نوع الصخور التي تحتوي عادة على الفوسفات؟", ans: "الصخور الرسوبية البحرية (Phosphorite) التي تتشكل في بيئات بحرية قليلة الأكسجين." },
+                { q: "ما معنى مصطلح “recrystallization” في التحول؟", ans: "إعادة نمو وتبلور المعادن الموجودة في الصخر دون انصهار، لتكوين بلورات أكبر أو معادن جديدة مستقرة." },
+                { q: "ما هو مؤشر اللون في تصنيف الصخور النارية (Mafic Index)؟", ans: "نسبة المعادن المافية (الداكنة) إلى إجمالي المعادن في الصخر، ويستخدم لتصنيف الصخور النارية." }
+            ],
+            maps: [
+                { q: "ما الفرق بين الخريطة الجيولوجية والطبوغرافية؟", ans: "الطبوغرافية تظهر التضاريس والارتفاعات (كنتور)، الجيولوجية تظهر توزيع ونوع وعمر الصخور والتركيبات." },
+                { q: "ما فائدة خطوط الكنتور؟", ans: "تحديد الارتفاعات، وتصور شكل التضاريس (المنحدرات والقمم والأودية)." },
+                { q: "كيف يمكن تحديد ميل الطبقات من الخريطة؟", ans: "من خلال مقارنة اتجاه خطوط التماس بين الطبقة والسطح مع خطوط الكنتور." },
+                { q: "ما معنى رمز الطبقة (مثلاً Ksh، Jl...)؟", ans: "اختصار يشير إلى عمر الطبقة (مثلاً K للكريتاسي) ونوع الصخر (مثلاً sh للشيل/الطين)." },
+                { q: "كيف تحدد نقطة الالتقاء بين طبقة ونهر؟", ans: "قاعدة $\text{V}$: الطبقات تميل في اتجاه الفتحة في شكل $\text{V}$، النهر يقطع الطبقات." },
+                { q: "ما دلالة تقاطع الطبقات مع التضاريس؟", ans: "يحدد ميل الطبقة: خطوط متوازية مع الكنتور تعني طبقات أفقية، خطوط تتقاطع تعني طبقات مائلة." },
+                { q: "ما هو الإسقاط المستخدم عادة في الخرائط الجيولوجية؟", ans: "غالباً إسقاط مركاتور المستعرض العالمي (UTM) أو إسقاط لامبرت المخروطي." },
+                { q: "ما هي الأدوات المستخدمة في قراءة خريطة ميدانية؟", ans: "البوصلة الجيولوجية (Clino Compass)، مقياس المسافة، قلم، ومكبر." },
+                { q: "كيف تُرسم المقاطع الجيولوجية؟", ans: "بواسطة نقل معلومات الأفق (Formation contacts) والتركيبات الهيكلية على طول خط المقطع إلى لوحة رسم بمقياس رأسي وأفقي." },
+                { q: "ما معنى الفوالق والطيات في الخريطة؟", ans: "الفوالق: خطوط سميكة أو متقطعة تحدد الإزاحة. الطيات: خطوط محورية (Axial Traces) تحدد أقصى انثناء للطبقات." },
+                { q: "كيف يُحدد الاتجاه (Strike) والانحدار (Dip)؟", ans: "الاتجاه هو خط أفقي على سطح الطبقة، الانحدار هو أقصى زاوية ميل مقاسة عمودياً على الاتجاه." },
+                { q: "ما الفرق بين الفالق العادي والمعكوس؟", ans: "العادي: الكتلة المعلقة تتحرك للأسفل (ناتج عن شد). المعكوس: الكتلة المعلقة تتحرك للأعلى (ناتج عن ضغط)." },
+                { q: "كيف تميّز الطية المحدبة من المقعرة على الخريطة؟", ans: "المحدبة: الطبقات الأقدم في المركز. المقعرة: الطبقات الأحدث في المركز." },
+                { q: "ما دلالة الرموز المختلفة (خطوط، نقاط، مظللات)؟", ans: "تحديد نوع الصخور: المظللات (نقوش) للصخور الرسوبية، النقاط للكربونات، الألوان للصخور النارية والمتحولة." },
+                { q: "ما فائدة المقياس الخطي؟", ans: "تحديد المسافات الحقيقية على الأرض مباشرة من الخريطة دون الحاجة لحسابات." },
+                { q: "ما علاقة نوع الصخور باللون المستخدم في الخريطة؟", ans: "الألوان تحدد عمر وتصنيف الصخور، وغالباً الألوان الباردة للأقدم والدافئة للأحدث (تقليد متعارف عليه)." },
+                { q: "كيف تُستخدم البوصلة الجيولوجية ميدانياً؟", ans: "لقياس الاتجاه والانحدار للطبقات والفوالق والشقوق." },
+                { q: "ما الفرق بين الخريطة المحلية والإقليمية؟", ans: "المحلية تغطي مساحة صغيرة بتفاصيل عالية (مقياس كبير)، الإقليمية تغطي مساحة شاسعة بتفاصيل عامة (مقياس صغير)." },
+                { q: "كيف تحدد عمر الطبقات من ترتيبها؟", ans: "مبدأ التراكب (Principle of Superposition): الطبقات الأقدم في الأسفل والأحدث في الأعلى (ما لم يكن هناك قلب)." },
+                { q: "ما هو المقصود بـ “Legend” في الخريطة؟", ans: "مفتاح الخريطة، يوضح معاني الرموز والألوان والمظللات المستخدمة لتمثيل الصخور والتراكيب." },
+                { q: "كيف تُستخرج المقاطع الطولية؟", ans: "تُرسم لبيان التكوينات الجيولوجية والتركيبات على طول خط عمودي (بئر) أو أفقي محدد." },
+                { q: "ما هو اتجاه ميل الطبقات في حالة التوازي مع الكنتورات؟", ans: "يكون الميل (Dip) صفراً، أي أن الطبقات أفقية (Horizontal)." },
+                { q: "كيف تحدد مناطق التماس بين الصخور؟", ans: "هي الخطوط التي تفصل بين الوحدات الصخرية المختلفة (Contacts) ويتم تمثيلها بخطوط محددة." },
+                { q: "ما دلالة الفجوات الرسوبية (Unconformity)؟", ans: "تشير إلى فترات توقف في الترسيب أو تعرية، وتظهر كخطوط فاصلة تفصل بين مجموعات صخرية ذات أعمار مختلفة وميول مختلفة أحياناً." },
+                { q: "كيف تُستخدم الصور الجوية لتحديث الخريطة؟", ans: "تحديد التغيرات في الغطاء النباتي أو استخدامات الأراضي التي قد تكشف عن التراكيب أو تساعد في تحديد خطوط الأفق." },
+                { q: "ما أهمية معرفة الاتجاه الجيولوجي في الحفر؟", ans: "لتحديد عمق الوصول للطبقة المطلوبة (هدف الحفر) وتجنب الحفر الموازي للفوالق." },
+                { q: "ما معنى الرموز الجيوفيزيائية في بعض الخرائط؟", ans: "تظهر شذوذات (Anomalies) جاذبية أو مغناطيسية، وهي مؤشرات غير مباشرة للتراكيب التحت سطحية." },
+                { q: "ما علاقة الخرائط بالمسح الجيوكيميائي؟", ans: "تستخدم الخرائط كخلفية (Base map) لتوقيع مواقع العينات ونتائج التركيز الكيميائي لتحديد المناطق الواعدة للتنقيب." },
+                { q: "ما هي الأخطاء الشائعة عند قراءة الخرائط الجيولوجية؟", ans: "الخلط بين الفالق العادي والمعكوس، أو سوء تفسير علاقة الطبقات بخطوط الكنتور ($\text{V}$-rules)." },
+                { q: "كيف تُحوّل الخريطة الورقية إلى رقمية باستخدام GIS؟", ans: "عن طريق المسح (Scanning) ثم عملية تحديد الإحداثيات (Georeferencing) ورقمنة (Digitizing) التفاصيل الجيولوجية." }
+            ],
+            general: [
+                { q: "ما الفرق بين الماجما واللافا؟", ans: "الماجما: مادة صخرية منصهرة تحت سطح الأرض. اللافا: مادة صخرية منصهرة وصلت إلى سطح الأرض." },
+                { q: "ما المقصود بالدورة الصخرية؟", ans: "مجموعة العمليات التي تتشكل بها الصخور النارية، الرسوبية، والمتحولة وتتحول من نوع لآخر." },
+                { q: "ما أنواع التجوية؟", ans: "تجوية كيميائية (تحلل المعادن) وتجوية فيزيائية/ميكانيكية (تفتيت الصخر دون تغيير تركيبه)." },
+                { q: "كيف تتشكل الفوالق والطيات؟", ans: "الفوالق تتشكل بفعل الإجهاد (Stress) والكسر (بريتل)، والطيات تتشكل بفعل الضغط والانثناء (داكتيل)." },
+                { q: "ما الفرق بين القشرة القارية والمحيطية؟", ans: "القارية سميكة، أقل كثافة، وغنية بالصخور الفلسية. المحيطية رقيقة، أكثر كثافة، وغنية بالبازلت (مافية)." },
+                { q: "ما هو أصل الجبال؟", ans: "غالباً ناتجة عن تصادم الصفائح التكتونية (مثل جبال الألب والهيمالايا) أو عن طريق رفع كتل القشرة عبر الفوالق." },
+                { q: "ما المقصود بالصفائح التكتونية؟", ans: "قطع كبيرة من الغلاف الصخري (Lithosphere) تطفو وتتحرك ببطء فوق طبقة الأثينوسفير (Asthenosphere) اللزجة." },
+                { q: "ما العلاقة بين الزلازل وحدود الصفائح؟", ans: "تحدث معظم الزلازل عند حدود الصفائح (متقاربة، متباعدة، تحويلية) نتيجة تراكم وتحرير الإجهاد المتولد من الحركة." },
+                { q: "ما نوع الصخور الناتجة عن النشاط البركاني؟", ans: "صخور نارية سطحية (Extrusive) مثل البازلت، الأنديزيت، والريوليت." },
+                { q: "ما أهمية دراسة المعادن؟", ans: "فهم التركيب الأساسي للقشرة الأرضية، وتحديد أنواع الصخور، ومصدر للموارد الاقتصادية." },
+                { q: "كيف يمكن تحديد عمر الصخور؟", ans: "إما بالعمر النسبي (مقارنة الطبقات) أو بالعمر المطلق (التأريخ الإشعاعي)." },
+                { q: "ما الفرق بين العمر النسبي والمطلق؟", ans: "النسبي يحدد تسلسل الأحداث (أقدم/أحدث)، المطلق يحدد العمر بالسنوات باستخدام النظائر المشعة." },
+                { q: "ما هو دور المياه في العمليات الجيومورفولوجية؟", ans: "عامل رئيسي في التعرية، النقل، والترسيب، وتشكيل الأودية، والدلتات، والشواطئ." },
+                { q: "ما هي أنواع البراكين؟", ans: "مخروط رماد (Cinder cones)، بركان درعي (Shield volcanoes)، وبركان طبقي مركب (Composite/Stratovolcanoes)." },
+                { q: "ما المقصود بـ “Stratigraphy”؟", ans: "علم دراسة الطبقات الصخرية (Stratum) وترتيبها الزمني والمكاني." },
+                { q: "ما هو الفرق بين الفالق والطية؟", ans: "الفالق هو كسر في الصخر مع إزاحة ملحوظة، الطية هي انثناء أو التواء للصخر." },
+                { q: "ما العوامل التي تؤثر على التعرية؟", ans: "المناخ (المطر والرياح)، نوع الصخر، الغطاء النباتي، والانحدار التضاريسي." },
+                { q: "ما هي المواد المكونة للقشرة الأرضية؟", ans: "تتكون بشكل رئيسي من صخور السيليكات (الأكسجين والسيليكون) مع معادن الفلسبار والكوارتز." },
+                { q: "ما المقصود بالترسيب؟", ans: "عملية استقرار ونزول المواد المنقولة (الفتات، الأملاح الذائبة) في بيئة ترسيبية (نهر، بحيرة، بحر)." },
+                { q: "ما دور الكائنات الحية في تكوين الصخور؟", ans: "تكوين الصخور العضوية الرسوبية مثل الحجر الجيري العضوي والفحم." },
+                { q: "كيف تتشكل الصخور الرسوبية؟", ans: "تتكون من التجوية، النقل، الترسيب، ثم التصخر (Lithification) عبر الدك والالتحام." },
+                { q: "ما المقصود بالتحول المتماسك؟", ans: "يشير إلى التحول الذي يحدث نتيجة الضغط الموجه والحرارة أثناء تكون الجبال (أو التكتونيات الإقليمية)." },
+                { q: "ما الفرق بين الصخور المتحولة والرسوبية؟", ans: "المتحولة تشكلت بتغير صخر موجود بفعل الحرارة والضغط، الرسوبية تشكلت من ترسب مواد على السطح." },
+                { q: "ما هي أنواع المعادن الشائعة؟", ans: "الكوارتز، الفلسبار، الميكا، الكالسيت، الدولوميت، والحديد والأوليفين." },
+                { q: "كيف يمكن التعرف على معادن السيليكات؟", ans: "بواسطة الهيكل البلوري (مثل الكوارتز رباعي الأوجه)، الخصائص الفيزيائية (الصلادة واللون)، والتحليل المجهري." },
+                { q: "ما هي الظواهر الجيولوجية المرتبطة بالزلازل؟", ans: "تسونامي (في المحيطات)، الانهيارات الأرضية، وتسييل التربة (Liquefaction)." },
+                { q: "ما المقصود بالنظام الجيوديناميكي؟", ans: "هو دراسة العمليات والقوى التي تسبب حركة وتغير الغلاف الصخري للأرض (مثل التيارات الحملانية وحركة الصفائح)." },
+                { q: "ما هو الغلاف الصخري؟", ans: "الطبقة الخارجية الصلبة من الأرض، تتكون من القشرة والجزء العلوي من الستار (Mantle)." },
+                { q: "ما العلاقة بين الجيولوجيا والهندسة المدنية؟", ans: "توفير البيانات عن ثبات الأساسات، أنماط الفوالق، ونوع الصخور (للتشييد والأنفاق والسدود)." },
+                { q: "ما هي فائدة دراسة الجيولوجيا للموارد الطبيعية؟", ans: "تحديد مواقع وتكوين الفحم، النفط والغاز، والخامات المعدنية، ومصادر المياه الجوفية." }
+            ]
+        };
 
-/* --- دروس قصيرة --- */
-function renderLessons(){
-  const lessons = [
-    {id:'l_hydro_1',title:'مقدمة في الهيدروجيولوجيا',desc:'ملاحظات سريعة عن المخازن المائية.'},
-    {id:'l_maps_1',title:'قراءة الخرائط الطبوغرافية',desc:'كيف تقرأ خطوط الكنتور.'},
-    {id:'l_petro_1',title:'التعرف على الصخور المتحولة',desc:'العلامات والخصائص.'}
-  ];
-  lessonsList.innerHTML = '';
-  lessons.forEach(ls=>{
-    const c=document.createElement('div'); c.className='card';
-    c.innerHTML = `<h4>${ls.title}</h4><div class="muted small">${ls.desc}</div><div style="margin-top:8px"><button class="btn">عرض + اختبار</button></div>`;
-    c.querySelector('button').onclick = ()=> {
-      alert(ls.desc);
-      if(confirm('بدء اختبار قصير؟')){
-        const topic = ls.id.includes('hydro')?'hydro':(ls.id.includes('maps')?'maps':'petro');
-        const q = state.quizzes.find(x=>x.topic===topic);
-        if(q) startQuiz(q.id); else alert('لا يوجد اختبار لهذا الدرس الآن.');
-      }
-    };
-    lessonsList.appendChild(c);
-  });
-}
+        let scores = { hydro: 0, petro: 0, maps: 0, general: 0 };
+        let quizCompleted = { hydro: false, petro: false, maps: false, general: false };
 
-/* --- لوحة المتصدرين --- */
-function renderLeaderboard(){
-  const sorted = [...state.users].sort((a,b)=> (b.points||0)-(a.points||0)).slice(0,10);
-  leaderboardEl.innerHTML = '';
-  if(sorted.length===0){ leaderboardEl.innerHTML='<div class="muted small">لا متسابقين بعد.</div>'; return; }
-  sorted.forEach(u=>{
-    const li = document.createElement('li');
-    li.innerHTML = `<div><strong>${u.name}</strong><div class="muted small">${u.role||'مستخدم'}</div></div><div>${u.points||0}</div>`;
-    leaderboardEl.appendChild(li);
-  });
-}
+        // دالة إنشاء الأسئلة في النموذج
+        function createQuiz(quizId) {
+            const form = document.getElementById(`${quizId}-form`);
+            if (!form) return;
 
-/* --- تحديات محلية --- */
-function createChallenge(){
-  if(!state.user) return alert('سجل الدخول لإنشاء تحدي.');
-  const quizId = challengeQuizSelect.value;
-  const quiz = state.quizzes.find(q=>q.id===quizId);
-  if(!quiz) return alert('اختر اختباراً صالحاً.');
-  const code = Math.random().toString(36).slice(2,8).toUpperCase();
-  const ch = { code, title:`تحدي — ${quiz.title}`, quizId, creatorId: state.user.id, status:'open', createdAt:Date.now() };
-  state.challenges.push(ch); saveChallenges(); renderActiveChallenges();
-  challengeBox.innerHTML = `<div class="muted small">تم إنشاء التحدي. شارك الرمز: <strong>${code}</strong></div>`;
-}
-function renderActiveChallenges(){
-  activeChallengesEl.innerHTML = '';
-  if(state.challenges.length===0){ activeChallengesEl.innerHTML='<div class="muted small">لا تحديات حالياً.</div>'; return; }
-  state.challenges.forEach(ch=>{
-    const li = document.createElement('li');
-    li.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center">
-      <div><strong>${ch.title}</strong><div class="muted small">رمز: ${ch.code} — حالة: ${ch.status}</div></div>
-      <div style="display:flex;gap:8px">
-        <button class="btn" data-join="${ch.code}">انضم</button>
-        <button class="btn" style="background:#06b6d4" data-view="${ch.code}">عرض</button>
-      </div>
-    </div>`;
-    const joinBtn = li.querySelector('button[data-join]'); joinBtn.onclick = ()=> joinChallenge(ch.code);
-    const viewBtn = li.querySelector('button[data-view]'); viewBtn.onclick = ()=> viewChallenge(ch.code);
-    activeChallengesEl.appendChild(li);
-  });
-}
-function joinChallenge(code){
-  const ch = state.challenges.find(c=>c.code===code);
-  if(!ch) return alert('رمز التحدي غير موجود.');
-  if(!state.user) return alert('سجل الدخول للانضمام.');
-  if(ch.status!=='open') return alert('التحدي مغلق.');
-  ch.status='in-progress'; ch.joinerId = state.user.id; saveChallenges(); renderActiveChallenges();
-  alert(`انضممت للتحدي ${code} — بعد الانتهاء ستقارن النتائج محليًا.`);
-  startQuiz(ch.quizId);
-}
-function viewChallenge(code){
-  const ch = state.challenges.find(c=>c.code===code);
-  if(!ch) return alert('غير موجود');
-  alert(`التحدي: ${ch.title}\nرمز: ${ch.code}\nالحالة: ${ch.status}`);
-}
+            form.innerHTML = ''; // تفريغ النموذج أولاً
+            QUIZZES[quizId].forEach((qData, index) => {
+                const qNum = index + 1;
+                const options = [
+                    qData.ans, // الإجابة الصحيحة دائماً الخيار الأول للتسهيل
+                    `خيار خاطئ ${Math.floor(Math.random() * 10) + 1} #${qNum}`,
+                    `خيار خاطئ ${Math.floor(Math.random() * 10) + 2} #${qNum}`,
+                    `خيار خاطئ ${Math.floor(Math.random() * 10) + 3} #${qNum}`
+                ];
+                
+                // خلط الخيارات (لتجنب الإجابة الصحيحة دائماً في الخيار A)
+                const shuffledOptions = shuffleArray(options);
 
-/* --- تشغيل الكويز (أساسي) --- */
-function startQuiz(id){
-  const q = state.quizzes.find(x=>x.id===id);
-  if(!q) return alert('اختبار غير موجود');
-  state.currentQuiz = JSON.parse(JSON.stringify(q));
-  state.currentQuestionIndex = 0;
-  state.currentScore = 0;
-  qcountEl.textContent = state.currentQuiz.questions.length;
-  quizTitle.textContent = state.currentQuiz.title;
-  document.getElementById('pointsPer').textContent = state.currentQuiz.pointsPer;
-  currentScoreEl.textContent = 0;
-  quizSection.classList.remove('hidden');
-  // timer
-  if(state.timerId) clearInterval(state.timerId);
-  state.timeLeft = state.currentQuiz.timeLimitSec || (state.currentQuiz.questions.length * 30);
-  updateTimer();
-  state.timerId = setInterval(()=>{ state.timeLeft--; updateTimer(); if(state.timeLeft<=0){ clearInterval(state.timerId); finishQuiz(); } },1000);
-  renderQuestion();
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-function updateTimer(){
-  const mm = String(Math.floor(state.timeLeft/60)).padStart(2,'0');
-  const ss = String(state.timeLeft%60).padStart(2,'0');
-  timerEl.textContent = `${mm}:${ss}`;
-}
-function renderQuestion(){
-  const idx = state.currentQuestionIndex;
-  const q = state.currentQuiz.questions[idx];
-  if(!q) return finishQuiz();
-  questionArea.innerHTML = '';
-  const wrapper = document.createElement('div');
-  wrapper.innerHTML = `<h4>السؤال ${idx+1}: ${q.q}</h4>`;
-  const opts = document.createElement('div');
-  opts.className='quiz-questions';
-  q.choices.forEach((ch,i)=>{
-    const o = document.createElement('div');
-    o.className='option';
-    o.textContent = ch;
-    o.dataset.index = i;
-    o.onclick = ()=> selectOption(o,q);
-    opts.appendChild(o);
-  });
-  wrapper.appendChild(opts);
-  questionArea.appendChild(wrapper);
-  const total = state.currentQuiz.questions.length;
-  progressBar.style.width = `${Math.round((idx/total)*100)}%`;
-}
-function selectOption(el,q){
-  if(el.classList.contains('answered')) return;
-  const selected = Number(el.dataset.index);
-  const correct = q.answer;
-  const opts = questionArea.querySelectorAll('.option');
-  opts.forEach(o=>{
-    o.classList.add('answered');
-    const idx = Number(o.dataset.index);
-    if(idx===correct) o.classList.add('correct');
-    if(idx===selected && idx!==correct) o.classList.add('wrong');
-  });
-  if(selected===correct){
-    state.currentScore += (state.currentQuiz.pointsPer||10);
-    currentScoreEl.textContent = state.currentScore;
-  }
-  setTimeout(()=> {
-    state.currentQuestionIndex++;
-    if(state.currentQuestionIndex < state.currentQuiz.questions.length) renderQuestion();
-    else finishQuiz();
-  },900);
-}
-function finishQuiz(){
-  if(state.timerId) clearInterval(state.timerId);
-  quizSection.classList.add('hidden');
-  // award to user if logged in
-  if(state.user){
-    state.user.points = (state.user.points||0) + state.currentScore;
-    state.user.badges = state.user.badges || [];
-    // badge if >=80%
-    const totalPossible = (state.currentQuiz.questions.length * (state.currentQuiz.pointsPer||10));
-    if(state.currentScore >= Math.round(totalPossible * 0.8)) state.user.badges.push({title: `نجح في ${state.currentQuiz.title}`, date: Date.now()});
-    const idx = state.users.findIndex(u=>u.id===state.user.id);
-    if(idx>=0) state.users[idx] = state.user; else state.users.push(state.user);
-    saveUsers(); renderLeaderboard(); renderHeader();
-    alert(`انتهى الاختبار! حصلت على ${state.currentScore} نقطة. نقاطك الإجمالية: ${state.user.points}`);
-  } else {
-    alert(`انتهى الاختبار! حصلت على ${state.currentScore} نقطة. سجّل دخول لحفظ تقدمك.`);
-  }
-  state.currentQuiz = null; state.currentQuestionIndex = 0; state.currentScore = 0;
-}
+                const qBlock = document.createElement('div');
+                qBlock.className = 'question-block';
+                qBlock.innerHTML = `<h3>${qNum}. ${qData.q}</h3><div class="answer-options"></div>`;
+                
+                const ansOptionsDiv = qBlock.querySelector('.answer-options');
+                
+                shuffledOptions.forEach((option, optIndex) => {
+                    const id = `${quizId}-q${qNum}-o${optIndex}`;
+                    ansOptionsDiv.innerHTML += `
+                        <label for="${id}">
+                            <input type="radio" id="${id}" name="${quizId}-q${qNum}" value="${option}">
+                            ${option}
+                        </label>
+                    `;
+                });
 
-/* --- إدارة الكويزات (Admin) --- */
-function addQuizFromAdmin(){
-  if(!state.user || state.user.role!=='admin') return alert('صلاحية مشرف مطلوبة.');
-  const title = newQuizTitle.value.trim(); const topic = newQuizTopic.value; const raw = newQuizQuestions.value;
-  if(!title || !raw) return alert('ادخل العنوان والأسئلة.');
-  let questions;
-  try { questions = JSON.parse(raw); if(!Array.isArray(questions)) throw new Error('JSON يجب أن يكون مصفوفة'); }
-  catch(e){ return alert('خطأ في JSON: ' + e.message); }
-  const id = 'q_' + topic + '_' + Math.random().toString(36).slice(2,6);
-  const newQ = {id,title,topic,pointsPer:10,timeLimitSec:180,questions};
-  state.quizzes.push(newQ); saveQuizzes(); renderQuizzes(topicFilter.value); alert('تم حفظ الكويز بنجاح.');
-  newQuizTitle.value=''; newQuizQuestions.value='';
-}
-function resetData(){
-  if(!confirm('هل تريد مسح كافة البيانات (المستخدمين، الأسئلة، التحديات)؟')) return;
-  localStorage.removeItem(LS.USERS); localStorage.removeItem(LS.QUIZZES); localStorage.removeItem(LS.CHALLENGES); localStorage.removeItem(LS.ACTIVE);
-  location.reload();
-}
+                form.appendChild(qBlock);
+            });
+        }
+        
+        // دالة خلط المصفوفة (لخلط خيارات الإجابات)
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
 
-/* --- تسجيل / خروج --- */
-function showLoginModal(){
-  loginModal.classList.remove('hidden'); loginModal.style.display='flex'; loginModal.setAttribute('aria-hidden','false');
-}
-function hideLoginModal(){
-  loginModal.classList.add('hidden'); loginModal.style.display='none'; loginModal.setAttribute('aria-hidden','true');
-}
-function doLogin(){
-  const name = loginName.value.trim() || 'مستخدم';
-  const email = loginEmail.value.trim() || '';
-  const role = loginRole.value || 'user';
-  // find by email if provided
-  let user = null;
-  if(email) user = state.users.find(u=>u.email && u.email.toLowerCase()===email.toLowerCase());
-  if(!user){
-    user = { id: 'u_' + Math.random().toString(36).slice(2,8), name, email, role, points:0, badges:[] };
-    state.users.push(user);
-  } else {
-    user.name = name; user.role = role;
-    const idx = state.users.findIndex(u=>u.id===user.id); if(idx>=0) state.users[idx]=user;
-  }
-  saveUsers();
-  state.user = user;
-  localStorage.setItem(LS.ACTIVE, user.id);
-  // hide modal robustly
-  hideLoginModal();
-  // reset inputs
-  loginName.value=''; loginEmail.value=''; loginRole.value='user';
-  renderHeader(); renderLeaderboard();
-}
-function doLogout(){
-  if(!confirm('تأكيد تسجيل الخروج؟')) return;
-  state.user = null; localStorage.removeItem(LS.ACTIVE); renderHeader();
-}
+        // دالة عرض القسم المطلوب
+        function showSection(quizId, button) {
+            // إخفاء جميع الأقسام
+            document.querySelectorAll('.quiz-section').forEach(section => section.style.display = 'none');
+            // إزالة حالة التفعيل من جميع الأزرار
+            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
 
-/* --- شهادة قابلة للطباعة --- */
-function generateCertificate(){
-  if(!state.user) return alert('سجل الدخول لإنشاء شهادة.');
-  const name = state.user.name; const date = new Date().toLocaleDateString('ar-EG');
-  const html = `
-    <html><head><meta charset="utf-8"><title>شهادة إتمام</title>
-    <style>body{font-family:Arial,Helvetica,sans-serif;direction:rtl;text-align:center;padding:40px} .cert{border:10px solid #2563eb;padding:40px;border-radius:12px}</style></head>
-    <body><div class="cert"><h1>شهادة إتمام</h1><p>تشهد GeoQuest بأن</p><h2>${name}</h2><p>أكمل سلسلة تدريبات وكويزات واكتسب مهارات أولية في الجيولوجيا.</p><p>${date}</p></div></body></html>
-  `;
-  const w = window.open('','_blank'); w.document.write(html); w.document.close();
-}
+            // إظهار القسم المطلوب وتفعيل الزر
+            document.getElementById(`${quizId}-quiz`).style.display = 'block';
+            button.classList.add('active');
+        }
 
-/* --- تهيئة الأحداث --- */
-function initUI(){
-  // read state
-  loadState();
-  renderHeader(); renderQuizzes(); renderLessons(); renderLeaderboard(); renderActiveChallenges();
+        // دالة حساب النقاط وعرض النتيجة
+        function calculateScore(quizId) {
+            if (quizCompleted[quizId]) {
+                alert("لقد أكملت هذا الاختبار بالفعل. يمكنك رؤية نتيجتك.");
+                return;
+            }
+            
+            const form = document.getElementById(`${quizId}-form`);
+            let currentScore = 0;
+            let correctCount = 0;
+            let incorrectCount = 0;
 
-  // If user already active, ensure modal hidden
-  if(state.user){ hideLoginModal(); } else { hideLoginModal(); /* keep hidden initially */ }
+            QUIZZES[quizId].forEach((qData, index) => {
+                const qNum = index + 1;
+                const selected = form.querySelector(`input[name="${quizId}-q${qNum}"]:checked`);
+                
+                if (selected) {
+                    // التحقق من الإجابة
+                    if (selected.value === qData.ans) {
+                        currentScore += 10;
+                        correctCount++;
+                    } else {
+                        currentScore -= 5; // خصم 5 نقاط
+                        incorrectCount++;
+                    }
+                }
+                // الأسئلة المتروكة (غير مجاب عليها) لا تحتسب لها نقاط (0)
+            });
 
-  // event listeners
-  loginBtn.addEventListener('click', ()=> {
-    if(state.user) doLogout(); else showLoginModal();
-  });
-  cancelLoginBtn.addEventListener('click', ()=> hideLoginModal());
-  doLoginBtn.addEventListener('click', ()=> { doLogin(); });
-  profileBtn.addEventListener('click', ()=> {
-    if(state.user) alert(`ملف ${state.user.name}\nنقاط: ${state.user.points||0}\nشارات: ${(state.user.badges||[]).length}`);
-    else alert('لم تقم بتسجيل الدخول');
-  });
+            scores[quizId] = currentScore;
+            quizCompleted[quizId] = true;
 
-  addQuizBtn.addEventListener('click', addQuizFromAdmin);
-  resetDataBtn.addEventListener('click', resetData);
-  createChallengeBtn.addEventListener('click', createChallenge);
-  generateCertBtn.addEventListener('click', generateCertificate);
-  topicFilter.addEventListener('change', ()=> renderQuizzes(topicFilter.value));
-  learnBtn.addEventListener('click', ()=> { learnSection.classList.toggle('hidden'); learnSection.scrollIntoView({behavior:'smooth'}); });
-  startBtn.addEventListener('click', ()=> window.scrollTo({top:0,behavior:'smooth'}) );
+            // عرض النتائج الخاصة بالقسم
+            const resultsDiv = document.getElementById(`${quizId}-results`);
+            resultsDiv.style.display = 'block';
+            resultsDiv.innerHTML = `
+                <h2>نتائج اختبار ${document.querySelector(`.tab-button[onclick*="${quizId}"]`).textContent.trim()}</h2>
+                <div class="total-score" style="color: ${currentScore >= 0 ? 'var(--success-color)' : 'var(--error-color)'};">${currentScore} نقطة</div>
+                <p class="score-info">الإجابات الصحيحة: <span style="color: var(--success-color);">${correctCount}/30</span></p>
+                <p class="score-info">الإجابات الخاطئة: <span style="color: var(--error-color);">${incorrectCount}/30</span></p>
+            `;
+            
+            // تعطيل حقول النموذج بعد الإكمال
+            form.querySelectorAll('input').forEach(input => input.disabled = true);
+            form.nextElementSibling.disabled = true; // تعطيل زر الإرسال
 
-  nextQBtn.addEventListener('click', ()=> {
-    if(!state.currentQuiz) return;
-    state.currentQuestionIndex++;
-    if(state.currentQuestionIndex < state.currentQuiz.questions.length) renderQuestion();
-    else finishQuiz();
-  });
+            // التحقق من إكمال جميع الأقسام لعرض النتيجة الكلية
+            checkTotalCompletion();
+        }
+        
+        // دالة عرض النتيجة الكلية
+        function checkTotalCompletion() {
+            const allCompleted = Object.values(quizCompleted).every(status => status === true);
 
-  // accessibility: Esc hides modal
-  document.addEventListener('keydown', (e)=> { if(e.key==='Escape') hideLoginModal(); });
-}
+            if (allCompleted) {
+                const totalScoreDiv = document.getElementById('total-results');
+                totalScoreDiv.style.display = 'block';
 
-/* --- تشغيل --- */
-initUI();
+                const totalScore = Object.values(scores).reduce((sum, score) => sum + score, 0);
+                
+                document.getElementById('total-score-display').textContent = `${totalScore} نقطة`;
+                document.getElementById('total-score-display').style.color = totalScore >= 0 ? 'var(--success-color)' : 'var(--error-color)';
+                
+                document.getElementById('total-score-details').innerHTML = `
+                    تهانينا! لقد أكملت 120 سؤالًا عمليًا. <br>
+                    مجموع نقاطك الإجمالي في GeoChallenge هو: <strong>${totalScore} نقطة.</strong>
+                `;
+            }
+        }
 
-</script>
+
+        // تهيئة الموقع عند التحميل
+        document.addEventListener('DOMContentLoaded', () => {
+            // إنشاء الأسئلة لجميع الأقسام
+            createQuiz('hydro');
+            createQuiz('petro');
+            createQuiz('maps');
+            createQuiz('general');
+            
+            // إظهار القسم الأول تلقائياً
+            showSection('hydro', document.querySelector('.tab-button'));
+        });
+        
+    </script>
+
 </body>
 </html>
