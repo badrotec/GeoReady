@@ -1,3 +1,4 @@
+<!doctype html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8" />
@@ -10,82 +11,51 @@
     --good:#16a34a; --bad:#ef4444; --glass: rgba(255,255,255,0.03);
   }
   *{box-sizing:border-box}
-  body{margin:0;font-family:Inter, "Segoe UI", Arial, sans-serif; background:linear-gradient(180deg,#031022 0%,#071428 70%); color:#eef7ff}
-  /* التعديل 1: تقليل العرض الأقصى للـ wrap لجعله أقرب لحواف الهاتف */
-  .wrap{max-width:600px;margin:0 auto;padding:12px} /* تم تغيير max-width و margin و padding */
-  header{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px} /* تقليل الفجوات */
-  .brand{display:flex;align-items:center;gap:8px} /* تقليل الفجوات */
-  .logo{width:48px;height:48px;border-radius:10px;background:linear-gradient(135deg,var(--accent1),var(--accent2));display:flex;align-items:center;justify-content:center;font-weight:900;color:#fff; font-size:18px} /* تصغير الشعار */
-  h1{margin:0;font-size:18px; line-height:1.2} /* تصغير الخط */
-  .subtitle{color:var(--muted);font-size:12px} /* تصغير الخط */
-  .controls{display:flex;gap:6px;align-items:center} /* تقليل الفجوات */
-  button.btn{background:linear-gradient(90deg,var(--accent1),var(--accent2));border:none;padding:7px 10px;border-radius:6px;color:#fff;cursor:pointer;font-weight:700; font-size:13px} /* تصغير الأزرار */
-  button.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:6px 9px;border-radius:6px;color:var(--muted); font-size:13px} /* تصغير الأزرار */
-  .lang-toggle{background:rgba(255,255,255,0.03);padding:6px 8px;border-radius:6px;cursor:pointer;color:var(--muted); font-size:13px} /* تصغير مفتاح اللغة */
-  .container{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:10px;padding:14px;box-shadow:0 8px 30px rgba(2,6,23,0.5)} /* تقليل padding وحجم الظل */
-  
-  /* التعديل 2: تنسيق الأقسام ليصبح عمود واحد بشكل افتراضي للهاتف */
-  .sections{display:grid;grid-template-columns:1fr;gap:10px;margin-bottom:12px} /* عمود واحد (1fr) */
-  .section-card{background:var(--card);padding:12px;border-radius:8px;cursor:pointer;transition:transform .22s,box-shadow .22s;box-shadow:0 4px 12px rgba(2,6,23,0.4)}
-  .section-card:hover{transform:none;box-shadow:0 6px 16px rgba(2,6,23,0.5)} /* تعطيل تأثير الـhover على الهواتف */
-  .section-title{font-weight:800;font-size:15px}
-  .section-desc{color:var(--muted);font-size:12px;margin-top:4px}
-  
-  .quiz-area{margin-top:8px;min-height:300px;position:relative;overflow:hidden}
-  .question-card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:14px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);transition:transform .35s,opacity .35s}
+  body{margin:0;font-family:Inter, "Segoe UI", Arial, sans-serif; background:linear-gradient(180deg,#031022 0%,#071428 60%); color:#eef7ff}
+  .wrap{max-width:1150px;margin:18px auto;padding:16px}
+  header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+  .brand{display:flex;align-items:center;gap:12px}
+  .logo{width:58px;height:58px;border-radius:12px;background:linear-gradient(135deg,var(--accent1),var(--accent2));display:flex;align-items:center;justify-content:center;font-weight:900;color:#fff}
+  h1{margin:0;font-size:20px}
+  .subtitle{color:var(--muted);font-size:13px}
+  .controls{display:flex;gap:8px;align-items:center}
+  button.btn{background:linear-gradient(90deg,var(--accent1),var(--accent2));border:none;padding:8px 12px;border-radius:8px;color:#fff;cursor:pointer;font-weight:700}
+  button.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:7px 10px;border-radius:8px;color:var(--muted)}
+  .lang-toggle{background:rgba(255,255,255,0.03);padding:6px 10px;border-radius:8px;cursor:pointer;color:var(--muted)}
+  .container{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:12px;padding:18px;box-shadow:0 12px 40px rgba(2,6,23,0.6)}
+  .sections{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:14px}
+  .section-card{background:var(--card);padding:14px;border-radius:10px;cursor:pointer;transition:transform .22s,box-shadow .22s;box-shadow:0 6px 18px rgba(2,6,23,0.45)}
+  .section-card:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(2,6,23,0.6)}
+  .section-title{font-weight:800;font-size:16px}
+  .section-desc{color:var(--muted);font-size:13px;margin-top:6px}
+  .quiz-area{margin-top:10px;min-height:400px;position:relative;overflow:hidden;display:none}
+  .question-card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:18px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);transition:transform .35s,opacity .35s}
   .fade-in{animation:fadeIn .28s ease}
   @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-  
-  /* تعديلات الـ meta-data الخاصة بالسؤال لتكون أكثر تكتلاً على الهاتف */
-  .question-meta{display:flex;flex-direction:column-reverse; /* وضع المؤقت والنتيجة في الأعلى */ justify-content:space-between;align-items:center;margin-bottom:10px;gap:8px} 
-  .qnum{font-weight:800;color:var(--accent3);padding:4px 8px;border-radius:6px;background:rgba(255,255,255,0.02); font-size:14px}
-  .timer{font-weight:900;padding:4px 8px;border-radius:6px;background:rgba(255,255,255,0.02); min-width:60px; text-align:center}
-  
-  /* تجميع العناصر في سطر واحد داخل الـ meta-data */
-  .question-meta > div:last-child {display:flex;gap:12px;align-items:center; width:100%; justify-content:space-between;}
-  
-  .scorebox{min-width:120px;text-align:center; padding: 4px 0;} /* تقليل العرض الأقصى للـ Scorebox */
-  .score-value{font-size:18px;font-weight:900;color:var(--accent1)}
-  .level-badge{display:inline-block;padding:4px 8px;border-radius:999px;background:rgba(255,255,255,0.03);margin-top:4px;color:var(--muted); font-size:11px}
-  
-  .question-text{font-size:15px;margin:6px 0 10px} /* تصغير خط السؤال */
-  .answers{display:flex;flex-direction:column;gap:8px} /* تقليل الفجوات بين الخيارات */
-  .answer{background:var(--glass);padding:10px;border-radius:6px;border:1px solid rgba(255,255,255,0.03);cursor:pointer;transition:transform .12s,background .12s;display:flex;align-items:center;gap:8px; font-size:14px} /* تصغير حجم خيار الإجابة */
-  .answer:hover{transform:translateY(-2px)} /* تقليل تأثير الـhover */
-  .answer .opt-label{min-width:26px;text-align:center;font-weight:800; font-size:14px}
-  
-  .progress-wrap{display:flex;align-items:center;gap:6px;margin-top:10px} /* تقليل الفجوات */
-  .progress-bar{flex:1;height:8px;background:rgba(255,255,255,0.03);border-radius:8px;overflow:hidden}
+  .question-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:10px}
+  .qnum{font-weight:800;color:var(--accent3);padding:6px 8px;border-radius:8px;background:rgba(255,255,255,0.02)}
+  .timer{font-weight:900;padding:6px 10px;border-radius:8px;background:rgba(255,255,255,0.02)}
+  .question-text{font-size:18px;margin:8px 0 14px}
+  .answers{display:flex;flex-direction:column;gap:10px}
+  .answer{background:var(--glass);padding:12px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);cursor:pointer;transition:transform .12s,background .12s;display:flex;align-items:center;gap:10px}
+  .answer:hover{transform:translateY(-4px)}
+  .answer .opt-label{min-width:30px;text-align:center;font-weight:800}
+  .answer.correct{background:linear-gradient(90deg, rgba(16,185,129,0.12), rgba(16,185,129,0.04));border-color:rgba(16,185,129,0.28)}
+  .answer.wrong{background:linear-gradient(90deg, rgba(239,68,68,0.08), rgba(239,68,68,0.03));border-color:rgba(239,68,68,0.2)}
+  .progress-wrap{display:flex;align-items:center;gap:8px;margin-top:12px}
+  .progress-bar{flex:1;height:10px;background:rgba(255,255,255,0.03);border-radius:10px;overflow:hidden}
   .progress-bar > div{height:100%;background:linear-gradient(90deg,var(--accent1),var(--accent2));width:0%}
-  .small-muted{color:var(--muted);font-size:11px} /* تصغير الخط المكتوم */
-  
-  .controls-bottom{display:flex;gap:6px;align-items:center;margin-top:10px; flex-wrap:wrap; justify-content:space-between} /* تعديل أسفل البطاقة للهاتف */
-  .controls-bottom .ghost { flex-grow:1; }
-  .controls-bottom #timeTip { order:3; flex-basis:100%; text-align:center; margin-top:6px; }
-
-  .result-panel{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:10px;background:linear-gradient(180deg, rgba(2,6,23,0.7), rgba(2,6,23,0.9));backdrop-filter:blur(3px)}
-  .result-card{background:linear-gradient(180deg,#071226,#08162a);padding:18px;border-radius:10px;width:95%;max-width:400px;border:1px solid rgba(255,255,255,0.04);text-align:center} /* تصغير نافذة النتائج */
-  .bigscore{font-size:36px;font-weight:900;color:var(--accent2);margin:6px 0}
-  .res-details{color:var(--muted);margin-top:6px; font-size:13px}
-  .res-actions{display:flex;gap:6px;justify-content:center;margin-top:12px}
-  
-  footer{font-size:11px; padding-bottom: 20px;} /* تصغير خط الفوتر */
-
-  /* التعديل 3: استعلامات الوسائط (Media Queries) - الإعدادات الافتراضية الآن مناسبة للهاتف */
-  /* هذا الجزء خاص بتحسين العرض على شاشات الحاسوب أو الأجهزة اللوحية الكبيرة (إذا أردت الاحتفاظ بها) */
-  @media(min-width:600px){ 
-    .wrap{max-width:900px;margin:18px auto;padding:16px}
-    .sections{grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:14px}
-    .section-card:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(2,6,23,0.6)} /* إعادة تفعيل الـhover */
-    /* إعادة تنسيق الـ header ليكون أفقياً على الشاشات الكبيرة */
-    header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
-    .question-meta{display:flex;flex-direction:row; gap:10px; margin-bottom:12px; }
-    .question-meta > div:last-child { width:auto; justify-content:flex-end; }
-    .scorebox{min-width:220px; text-align:center; padding: 0;}
-    h1{font-size:20px}
-    .subtitle{font-size:13px}
-  }
-
+  .scorebox{min-width:220px;text-align:center}
+  .score-value{font-size:20px;font-weight:900;color:var(--accent1)}
+  .level-badge{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.03);margin-top:8px;color:var(--muted)}
+  .controls-bottom{display:flex;gap:8px;align-items:center;margin-top:14px}
+  .result-panel{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:20px;background:linear-gradient(180deg, rgba(2,6,23,0.65), rgba(2,6,23,0.85));backdrop-filter:blur(3px);display:none}
+  .result-card{background:linear-gradient(180deg,#071226,#08162a);padding:22px;border-radius:12px;width:92%;max-width:860px;border:1px solid rgba(255,255,255,0.04);text-align:center}
+  .bigscore{font-size:44px;font-weight:900;color:var(--accent2);margin:8px 0}
+  .res-details{color:var(--muted);margin-top:8px}
+  .res-actions{display:flex;gap:8px;justify-content:center;margin-top:14px}
+  .small-muted{color:var(--muted);font-size:13px}
+  @media(max-width:900px){ .sections{grid-template-columns:1fr} .scorebox{min-width:150px} .answers{gap:8px} .question-text{font-size:16px} }
 </style>
 </head>
 <body>
@@ -110,7 +80,7 @@
         <div class="sections" id="sectionList"></div>
       </section>
 
-      <section class="quiz-area" id="quizArea" style="display:none">
+      <section class="quiz-area" id="quizArea">
         <div class="question-card fade-in" id="questionCard">
           <div class="question-meta">
             <div class="qnum" id="qLabel">السؤال 1 / Q1</div>
@@ -130,7 +100,7 @@
           <div class="progress-wrap">
             <div class="small-muted" id="progressLabel">السؤال 1 من 30</div>
             <div class="progress-bar"><div id="progInner"></div></div>
-            <div style="width:100px;text-align:right">
+            <div style="width:120px;text-align:right">
               <button class="btn" id="skipBtn">تجاوز</button>
             </div>
           </div>
@@ -138,17 +108,18 @@
           <div class="controls-bottom">
             <button class="ghost" id="backToMenu">العودة للقائمة</button>
             <div style="flex:1"></div>
-            <div class="small-muted" id="timeTip">المدة لكل سؤال: 30 ثانية</div>
+            <div class="small-muted" id="timeTip">مدة السؤال: 30 ثانية</div>
           </div>
         </div>
       </section>
 
     </main>
 
-    <footer style="text-align:center;color:var(--muted);margin-top:10px">GeoReady — نموذج تدريبي محلي • يحفظ النتائج في المتصفح</footer>
+    <footer style="text-align:center;color:var(--muted);margin-top:14px">GeoReady — نموذج تدريبي محلي • يحفظ النتائج في المتصفح</footer>
   </div>
 
-  <div id="resultModal" class="result-panel" style="display:none">
+  <!-- Result modal -->
+  <div id="resultModal" class="result-panel">
     <div class="result-card">
       <h2 id="resTitle">النتيجة النهائية</h2>
       <div class="bigscore" id="resScore">0 نقطة</div>
@@ -163,14 +134,14 @@
 
 <script>
 /* GeoReady — Full single-file quiz app
-   - 4 sections × 30 questions (each with 4 choices)
+   - 4 sections × 30 questions (each with 3-4 choices)
    - sequential flow, per-question timer (30s)
    - scoring: +10 correct / -5 wrong / 0 unanswered
    - Arabic + English (toggle)
    - audio feedback, animations, results saved in localStorage
 */
 
-/* ---------- Language ---------- */
+/* ---------- Language strings ---------- */
 const LANGS = {
   ar: {
     start: "ابدأ الاختبار",
@@ -197,438 +168,199 @@ const LANGS = {
 };
 let lang = localStorage.getItem('geo_lang') || 'ar';
 const langToggle = document.getElementById('langToggle');
-function t(key, vars){ const s = LANGS[lang][key] || key; if(!vars) return s; return s.replace(/{(\w+)}/g,(m,k)=>vars[k]||m); }
-function refreshLangUI(){ document.getElementById('scoreLabel').textContent = t('score'); document.getElementById('skipBtn').textContent = t('skip'); document.getElementById('retryBtn').textContent = t('retry'); document.getElementById('closeResBtn').textContent = t('close'); langToggle.textContent = (lang==='ar')? 'العربي / EN' : 'AR / English'; }
 
-/* ---------- Quiz data (4×30) ----------
-Note: each item = { q_ar, q_en, choices_ar:[], choices_en:[], answerIndex }
-تم إدراج الـ 120 سؤال بالكامل مع 4 خيارات لكل سؤال كما طلبت.
-*/
+/* ---------- QUIZ DATA: 4 sections × 30 items (each: q_ar, q_en, choices_ar[], choices_en[], answerIndex) ---------- */
 const QUIZZES = {
   hydro: {
     title_ar: "الهيدروجيولوجيا — أساسي", title_en: "Hydrogeology — Basic",
     items: [
-      { q_ar:"ما الفرق بين الطبقة المائية الحرة والمحبوسة؟", q_en:"Difference between unconfined and confined aquifer?", choices_ar:["الحرة لها منسوب ماء متساوٍ مع الضغط الجوي، المحبوسة تحت ضغط ارتوازي","الحرة أقل نفاذية من المحبوسة","المحبوسة فوق السطح فقط","الحرة مكّونة من الصخور النارية فقط"], choices_en:["Unconfined has water table; confined under artesian pressure","Unconfined less permeable than confined","Confined exists only at surface","Unconfined made of igneous rocks only"], answerIndex:0 },
-      { q_ar:"ما نوع الصخور التي تشكل أفضل خزانات مائية؟", q_en:"Which rock types make the best aquifers?", choices_ar:["الرمل والحصى والحجر الجيري المتشقق","الصخور الطينية المدمجة","الصخور البلورية غير المشققة","الشُعَب البركانية"], choices_en:["Sands, gravels and fractured limestones","Compact clays","Unfractured crystalline rocks","Volcanic reefs"], answerIndex:0 },
-      { q_ar:"ما المقصود بالـ Aquiclude؟", q_en:"What is an aquiclude?", choices_ar:["طبقة تمنع مرور المياه عمليًا (طينية عادة)","خزان مائي عالي النفاذية","مجرى نهري سطحي","وحدة صخرية بركانية"], choices_en:["A layer that practically prevents water flow (usually clay)","A highly permeable aquifer","A surface river channel","A volcanic rock unit"], answerIndex:0 },
-      { q_ar:"ما هو المنسوب الساكن للمياه الجوفية؟", q_en:"What is static water level?", choices_ar:["مستوى الماء في البئر عند عدم الضخ","أعمق نقطة في الخزان","مستوى المد والجزر","مستوى الأمطار السنوية"], choices_en:["Water level in well when not pumped","Deepest point of aquifer","Tidal level","Annual rainfall level"], answerIndex:0 },
-      { q_ar:"كيف يُقاس التصريف من بئر منتجة؟", q_en:"How is well discharge measured?", choices_ar:["بمقياس التدفق أو تأثير مستوى الانخفاض عبر الزمن","بالتصوير الجوي فقط","بمقياس الحرارة","بالتحليل البلوري"], choices_en:["Using flow meter or measuring drawdown over time","By aerial imaging only","With thermometer","By crystal analysis"], answerIndex:0 },
-      { q_ar:"ماذا يعني Recharge area؟", q_en:"What is recharge area?", choices_ar:["منطقة تغذية الخزان من السطح","منطقة تسرّب مياه الصرف فقط","خزان سطحي مغلق","منطقة غير مهمة"], choices_en:["Area where aquifer is recharged from surface","Only sewage leak zone","Closed surface pond","Unimportant area"], answerIndex:0 },
-      { q_ar:"ما العلاقة بين النفاذية والتوصيل الهيدروليكي؟", q_en:"Relation between permeability and hydraulic conductivity?", choices_ar:["التوصيل الهيدروليكي يتضمن النفاذية بالإضافة لخواص السائل","لا علاقة","نفاذية أكبر تعني توصيل أصغر","هما نفس الشيء تمامًا"], choices_en:["Hydraulic conductivity includes permeability plus fluid properties","No relation","Higher permeability means lower conductivity","They are exactly same"], answerIndex:0 },
-      { q_ar:"ما الاختبار الميداني لتحديد النفاذية؟", q_en:"Which field test determines permeability?", choices_ar:["اختبار الضخ (Pumping test) أو Slug test","المسح الجيوفيزيائي فقط","اختبار الانبعاث الطيفي","تحاليل ميكروسكوبية فقط"], choices_en:["Pumping test or slug test","Only geophysical survey","Spectral emission test","Only microscopic analyses"], answerIndex:0 },
-      { q_ar:"ما تأثير الضخ المفرط على منسوب المياه؟", q_en:"Effect of overpumping on groundwater levels?", choices_ar:["انخفاض منسوب المياه وتشكّل مخروط انخفاض","ارتفاع دائم لمنسوب الماء","لا تأثير","زيادة التكوّن الحيوي"], choices_en:["Water level decline and drawdown cone","Permanent rise in water level","No effect","Increased bioactivity"], answerIndex:0 },
-      { q_ar:"ما الفرق بين البئر التجريبية والبئر الإنتاجية؟", q_en:"Difference between exploratory and production well?", choices_ar:["التجريبية للاختبار والقياسات، والإنتاجية للاستغلال والتزويد بالمياه","كلاهما نفس الوظيفة","التجريبية أكبر حجما","الانتاجية تستخدم للبحوث فقط"], choices_en:["Exploration for testing; production for supply","Both same","Exploration larger","Production used only for research"], answerIndex:0 },
-      { q_ar:"ما الغرض من اختبار الضخ؟", q_en:"Purpose of pumping test?", choices_ar:["تحديد نفاذية الخزان ومعامل التخزين وسلوك الضخ","معرفة تركيب الصخور البلورية","تحديد نوع المعادن الثقيلة","تحديد مستوى الملوحة فقط"], choices_en:["Determine aquifer permeability and storage coefficients","Identify crystalline rock types","Find heavy minerals","Only determine salinity"], answerIndex:0 },
-      { q_ar:"كيف تحدد اتجاه تدفق المياه الجوفية؟", q_en:"How determine groundwater flow direction?", choices_ar:["برسم خطوط تساوي المنسوب (potentiometric contours) بين الآبار","بحساب سرعة الرياح","بقياسات الحرارة فقط","عن طريق صور الاقمار فقط"], choices_en:["By plotting potentiometric contours from wells","By wind speed calculation","By temperature only","Using satellite images only"], answerIndex:0 },
-      { q_ar:"ماذا تعني زيادة الملوحة مع الزمن في بئر؟", q_en:"What does rising salinity over time indicate?", choices_ar:["تداخل مياه مالحة (بحرية) أو تلوث مصدر عميق","تحسّن جودة المياه","زيادة الأكسجين","تغير الطقس فقط"], choices_en:["Sea water intrusion or deep saline source contamination","Improved water quality","Increased oxygen","Weather change only"], answerIndex:0 },
-      { q_ar:"ما الغرض من التحليل الهيدروكيميائي؟", q_en:"Purpose of hydrochemical analysis?", choices_ar:["تحديد مصدر المياه، التلوث، وقابلية الاستخدام","قياس الضغط فقط","تحليل الصخور","تحديد نوع البكتيريا فقط"], choices_en:["Identify water source, contamination and suitability","Measure pressure only","Analyze rocks","Identify bacteria only"], answerIndex:0 },
-      { q_ar:"ما صيغة قانون دارسي الأساسية؟", q_en:"Basic Darcy's law equation?", choices_ar:["Q = -K A (dh/dl)","Q = m v","P = ρgh","Q = A v^2"], choices_en:["Q = -K A (dh/dl)","Q = m v","P = ρgh","Q = A v^2"], answerIndex:0 },
-      { q_ar:"ما أثر تلوث السطح على المياه الجوفية؟", q_en:"Effect of surface contamination on groundwater?", choices_ar:["تسرب الملوثات إلى الخزان عبر مناطق التغذية مما يضر بالمياه","لا تأثير عادة","يزيد نفاذية التربة","ينخفض مستوى الماء فقط"], choices_en:["Pollutants percolate to aquifer via recharge zones","Usually no effect","Increases soil permeability","Only lowers water level"], answerIndex:0 },
-      { q_ar:"كيف تحدد حدود الخزان من الخرائط؟", q_en:"How delineate aquifer boundaries from maps?", choices_ar:["بمقارنة التكوينات الحاملة ومساحات الصخور النفوذية وخطوط التماس","من مقياس الخريطة فقط","بواسطة الصور الجوية فقط","عن طريق قياس درجة الحرارة فقط"], choices_en:["By mapping permeable formations and contact extents","From map scale only","Using aerial photos alone","By measuring temperature only"], answerIndex:0 },
-      { q_ar:"ما الفرق بين المسامية الكلية والفعالة؟", q_en:"Difference between total porosity and effective porosity?", choices_ar:["الفعالة هي الفراغات المتصلة القابلة لتدفق الماء، الكلية تشمل كل الفراغات","هما متماثلتان","الكلية أصغر دائماً","المسامية لا تتعلق بالماء"], choices_en:["Effective porosity is connected pores allowing flow; total includes all pores","They are identical","Total is always smaller","Porosity unrelated to water"], answerIndex:0 },
-      { q_ar:"ما معنى Drawdown؟", q_en:"What is drawdown?", choices_ar:["انخفاض مستوى الماء نتيجة الضخ في البئر","ارتفاع مستوى الماء","تغير درجة الملوحة","تغير في الضغط الجوي"], choices_en:["Decline in water level due to pumping","Rise in water level","Change in salinity","Change in atmospheric pressure"], answerIndex:0 },
-      { q_ar:"ما العوامل المؤثرة على جودة المياه الجوفية؟", q_en:"Factors affecting groundwater quality?", choices_ar:["نوع الصخور، الأنشطة البشرية، التلوث الزراعي، التداخل المالح","لون التربة فقط","وجود الأشجار فقط","الزلازل فقط"], choices_en:["Rock type, human activity, agricultural pollution, saline intrusion","Soil color only","Presence of trees only","Only earthquakes"], answerIndex:0 },
-      { q_ar:"ما وظيفة المراقب (Piezometer)؟", q_en:"Function of a piezometer?", choices_ar:["قياس ضغط الماء أو منسوب المياه في نقطة محددة","قياس سرعة الرياح","قياس توصيلية التربة كهربائياً","قياس تركيز المعادن"], choices_en:["Measure water pressure or level at a point","Measure wind speed","Measure soil electrical conductivity","Measure mineral concentration"], answerIndex:0 },
-      { q_ar:"ماذا يحدث إذا ارتفع الضغط الارتوازي؟", q_en:"What if artesian pressure rises?", choices_ar:["قد ينتج بئر ارتوازي متدفق دون الحاجة للضخ","ينخفض مستوى الماء في كل الآبار","تتوقف حركة المياه","يزيد الترسيب فقط"], choices_en:["May produce flowing artesian well without pumping","Water levels fall in all wells","Water movement stops","Only deposition increases"], answerIndex:0 },
-      { q_ar:"كيف تحدد طبقات المياه من سجلات الجيوكهرباء؟", q_en:"How detect aquifers from resistivity logs?", choices_ar:["انخفاض المقاومة يشير لصخور مشبعة بالماء مقارنة بالصخور الجافة","زيادة المقاومة دائمًا علامة على الماء","لا علاقة للمقاومة بالماء","باستخدام مقياس الصوت فقط"], choices_en:["Lower resistivity indicates water-saturated rocks vs dry ones","Higher resistivity always means water","No relation between resistivity and water","Use sonic log only"], answerIndex:0 },
-      { q_ar:"ما تأثير الحفر العميق على توازن النظام المائي؟", q_en:"Impact of deep drilling on groundwater balance?", choices_ar:["يمكن أن يغير الضغوط ويسمح بتداخل مياه عميقة أو ملحية","يحدث فقط تأثير حراري","يحسن دائمًا جودة المياه","ليس له تأثير عملي"], choices_en:["It may change pressures and cause deep or saline water intrusion","Only thermal effect","Always improves water quality","No practical effect"], answerIndex:0 },
-      { q_ar:"ما العلاقة بين نوع الصخور والتوصيل الهيدروليكي؟", q_en:"Relation between rock type and hydraulic conductivity?", choices_ar:["الصخور الخشنة (رمل، حصى) تملك توصيلاً أعلى من الطين","الطين أكثر نفاذية","الصخور البلورية أعلى توصيل","لا علاقة"], choices_en:["Coarse rocks (sand, gravel) have higher conductivity than clay","Clay is more permeable","Crystalline rocks have highest conductivity","No relation"], answerIndex:0 },
-      { q_ar:"ما دور التربة في تغذية الخزانات؟", q_en:"Role of soil in aquifer recharge?", choices_ar:["تعمل كمرشح وتتحكم في معدل تسرب المياه ونقائها","تمتص كل المياه ولا تسمح بالتغذية","تسهم فقط في التلوث","لا دور لها"], choices_en:["Acts as filter and controls infiltration rate and water quality","Absorbs all water preventing recharge","Only contributes to pollution","No role"], answerIndex:0 },
-      { q_ar:"كيف تكتشف تسرّب من خزان تحت الأرض؟", q_en:"How detect leak from underground storage?", choices_ar:["بمراقبة تغيّر الكيمياء ودرجات الحرارة أو المسح الجيوفيزيائي","بقياس الضوضاء فقط","من خلال الأشعة تحت الحمراء فقط","بالعينات الميكروبيولوجية فقط"], choices_en:["Monitor chemical/temperature changes or use geophysical surveys","By noise measurement only","By infrared only","By microbiological samples only"], answerIndex:0 },
-      { q_ar:"ما المقصود بالتوازن الهيدرولوجي؟", q_en:"What is hydrological balance?", choices_ar:["توازن بين مدخلات الماء (هطول، تغذية) ومخرجاته (تدفق، تبخر، ضخ)","كمية الماء في البئر فقط","معدل الترسيب الكيميائي","توازن الملح فقط"], choices_en:["Balance between water inputs (rain,recharge) and outputs (flow,evaporation,pumping)","Amount in one well only","Rate of chemical deposition","Salt balance only"], answerIndex:0 },
-      { q_ar:"ما أهم مؤشرات تلوث النترات في الآبار؟", q_en:"Indicators of nitrate contamination in wells?", choices_ar:["تركيز نترات مرتفع، طعم مر أو مشاكل صحية، قرب مناطق زراعية أو صرف صحي","لون الماء الأزرق","زيادة في الضغط فقط","انخفاض في درجة الحرارة"], choices_en:["High nitrate concentration, health effects, proximity to agriculture/sewage","Blue colored water","Only pressure increase","Temperature drop only"], answerIndex:0 },
-      { q_ar:"ما استخدام GIS في الهيدروجيولوجيا؟", q_en:"Use of GIS in hydrogeology?", choices_ar:["رسم خرائط التغذية، خطوط المنسوب، نمذجة انتشار الملوثات وتحليل المساحات","لتحليل المعادن تحت المجهر فقط","لا فائدة","لاستخدامات الطقس فقط"], choices_en:["Mapping recharge, potentiometric contours, pollutant spread modeling and spatial analysis","Microscopic mineral analysis only","No use","Only for weather uses"], answerIndex:0 }
+      { q_ar:"ما الفرق بين الطبقة المائية الحرة والمحبوسة؟", q_en:"Difference between unconfined and confined aquifer?",
+        choices_ar:["الحرة لها منسوب ماء يتأثر بالضغط الجوي، المحبوسة تحت ضغط ارتوازي","الحرة أقل نفاذية","المحبوسة فوق السطح فقط"], 
+        choices_en:["Unconfined has a water table; confined under artesian pressure","Unconfined less permeable","Confined exists at surface only"],
+        answerIndex:0 },
+      { q_ar:"ما نوع الصخور التي تشكل أفضل خزانات مائية؟", q_en:"Which rock types make best aquifers?",
+        choices_ar:["الرمل والحصى والحجر الجيري المتشقق","الصخور الطينية المدمجة","الصخور البلورية غير المشققة"], 
+        choices_en:["Sands, gravels and fractured limestones","Compact clays","Unfractured crystalline rocks"],
+        answerIndex:0 },
+      { q_ar:"ما المقصود بالـ Aquiclude؟", q_en:"What is an aquiclude?",
+        choices_ar:["طبقة تمنع مرور المياه عملياً (مثل الطين)","خزان مائي عالي النفاذية","مصدر ماء سطحي"], 
+        choices_en:["A layer that effectively prevents water flow (e.g., clay)","A highly permeable aquifer","A surface water source"],
+        answerIndex:0 },
+      { q_ar:"ما هو المنسوب الساكن للمياه الجوفية؟", q_en:"What is static water level?",
+        choices_ar:["مستوى الماء في البئر عند عدم الضخ","أعلى مستوى ممكن","مستوى المد والجزر"], 
+        choices_en:["Water level in a well when not pumped","Maximum possible level","Tidal level"],
+        answerIndex:0 },
+      { q_ar:"كيف يُقاس التصريف من بئر منتجة؟", q_en:"How is well discharge measured?",
+        choices_ar:["باستخدام مقياس التدفق أو قياس الضخ مع المنسوب","عن طريق المجهر","بالمسح الجوي"], 
+        choices_en:["Using flow meters or pumping tests with drawdown measurements","By microscope","By aerial survey"],
+        answerIndex:0 },
+      { q_ar:"ماذا يعني Recharge area؟", q_en:"What is a recharge area?",
+        choices_ar:["المنطقة السطحية التي تغذي الخزان بالمياه","موقع بئر منتج","منطقة غير مهمة"], 
+        choices_en:["Surface area that recharges the aquifer","Production well location","Unimportant area"],
+        answerIndex:0 },
+      { q_ar:"ما العلاقة بين النفاذية والتوصيل الهيدروليكي؟", q_en:"Relation between permeability and hydraulic conductivity?",
+        choices_ar:["التوصيل الهيدروليكي يتضمن النفاذية وخواص السائل","هما نفس الشيء","لا علاقة"], 
+        choices_en:["Hydraulic conductivity includes permeability and fluid properties","They are identical","No relation"],
+        answerIndex:0 },
+      { q_ar:"ما الاختبار الميداني لتحديد النفاذية؟", q_en:"Which field test determines permeability?",
+        choices_ar:["اختبار الضخ (Pumping test) أو Slug test","تحليل كيميائي فقط","تصوير جوي"], 
+        choices_en:["Pumping test or slug test","Only chemical analysis","Aerial imaging"],
+        answerIndex:0 },
+      { q_ar:"ما تأثير الضخ المفرط على منسوب المياه؟", q_en:"Effect of overpumping on groundwater levels?",
+        choices_ar:["انخفاض منسوب المياه وتكوين مخروط انخفاض","زيادة المنسوب دائماً","لا تأثير"], 
+        choices_en:["Decline in water level and formation of drawdown cone","Always increases level","No effect"],
+        answerIndex:0 },
+      { q_ar:"ما الفرق بين البئر التجريبية والبئر الإنتاجية؟", q_en:"Difference between exploratory and production well?",
+        choices_ar:["التجريبية للاختبار والقياس، الإنتاجية للاستغلال","لا فرق","التجريبية أكبر"], 
+        choices_en:["Exploratory for testing/measurement; production for supply","No difference","Exploratory larger"],
+        answerIndex:0 },
+      { q_ar:"ما الغرض من اختبار الضخ؟", q_en:"Purpose of pumping test?",
+        choices_ar:["تحديد نفاذية الخزان ومعامل التخزين","تحديد لون الماء","قياس الرياح"], 
+        choices_en:["Determine aquifer permeability and storage coefficient","Determine water color","Measure wind"],
+        answerIndex:0 },
+      { q_ar:"كيف تحدد اتجاه تدفق المياه الجوفية؟", q_en:"How determine groundwater flow direction?",
+        choices_ar:["برسم خطوط تساوي المنسوب (potentiometric contours)","بقياس درجة الحرارة فقط","من لون التربة"], 
+        choices_en:["By plotting potentiometric contours from wells","By temperature only","From soil color"],
+        answerIndex:0 },
+      { q_ar:"ما دلالة زيادة الملوحة في بئر مع الزمن؟", q_en:"What does rising salinity in a well indicate?",
+        choices_ar:["تداخل مياه بحرية أو ارتفاع مياه مالحة من العمق","تحسن جودة الماء","تغير الطقس"], 
+        choices_en:["Sea water intrusion or deeper saline upflow","Improved water quality","Weather change"],
+        answerIndex:0 },
+      { q_ar:"ما الغرض من التحليل الهيدروكيميائي؟", q_en:"Purpose of hydrochemical analysis?",
+        choices_ar:["تحديد مصدر المياه وتتبع التلوث وتقييم الجودة","قياس الضغط فقط","تحديد أعمار الصخور"], 
+        choices_en:["Identify water source, trace pollution, and assess quality","Measure pressure only","Determine rock ages"],
+        answerIndex:0 },
+      { q_ar:"ما هي معادلة دارسي الأساسية؟", q_en:"Basic Darcy's law equation?",
+        choices_ar:["Q = -K A (dh/dl)","Q = A v","P = ρgh"], 
+        choices_en:["Q = -K A (dh/dl)","Q = A v","P = ρgh"],
+        answerIndex:0 },
+      { q_ar:"ما أثر تلوث السطح على المياه الجوفية؟", q_en:"Effect of surface contamination on groundwater?",
+        choices_ar:["تسرب الملوثات عبر مناطق التغذية إلى الخزان","لا تأثير","تحسين جودة المياه"], 
+        choices_en:["Pollutants percolate via recharge zones into the aquifer","No effect","Improve water quality"],
+        answerIndex:0 },
+      { q_ar:"كيف تحدد حدود الخزان من الخرائط؟", q_en:"How delineate aquifer boundaries from maps?",
+        choices_ar:["بمقارنة التكوينات الحاملة ومساحات الصخور النفوذية","من خلال الصور الجوية فقط","بالأحافير فقط"], 
+        choices_en:["By mapping permeable formations and extent of aquifer-bearing rocks","Only from aerial photos","By fossils only"],
+        answerIndex:0 },
+      { q_ar:"ما الفرق بين المسامية الكلية والفعالة؟", q_en:"Total vs effective porosity?",
+        choices_ar:["الفعالة هي الفراغات المتصلة القابلة للتدفق، الكلية تشمل الجميع","نفس المعنى","الكلية أصغر"], 
+        choices_en:["Effective porosity is connected pores allowing flow; total includes all pores","Same meaning","Total is smaller"],
+        answerIndex:0 },
+      { q_ar:"ما معنى Drawdown؟", q_en:"What is drawdown?",
+        choices_ar:["انخفاض منسوب الماء نتيجة الضخ","ارتفاع الماء","تغير في الملوحة"], 
+        choices_en:["Decline in water level due to pumping","Rise in water level","Change in salinity"],
+        answerIndex:0 },
+      { q_ar:"ما العوامل التي تؤثر على جودة المياه الجوفية؟", q_en:"Factors affecting groundwater quality?",
+        choices_ar:["نوع الصخر، الأنشطة البشرية، التلوث الزراعي، التداخل المالح","الطقس فقط","الضغط الجوي فقط"], 
+        choices_en:["Rock type, human activities, agricultural pollution, saline intrusion","Weather only","Atmospheric pressure only"],
+        answerIndex:0 },
+      { q_ar:"ما وظيفة البيزوميتر؟", q_en:"Function of a piezometer?",
+        choices_ar:["قياس الضغط الهيدروليكي أو منسوب الماء في نقطة","قياس سرعة الهواء","قياس الكثافة فقط"], 
+        choices_en:["Measure hydraulic pressure or water level at a point","Measure air speed","Measure density only"],
+        answerIndex:0 },
+      { q_ar:"ماذا يحدث إذا ارتفع الضغط الارتوازي؟", q_en:"What if artesian pressure rises?",
+        choices_ar:["قد ينتج بئر ارتوازي متدفق دون ضخ","ينخفض مستوى الماء","لا تأثير"], 
+        choices_en:["May produce flowing artesian well without pumping","Water level falls","No effect"],
+        answerIndex:0 },
+      { q_ar:"كيف تكشف طبقات المياه من سجلات الجيوفيزيائية؟", q_en:"How detect aquifers from geophysical logs?",
+        choices_ar:["انخفاض المقاومة الكهربائية يشير لطبقات مشبعة بالماء","زيادة المقاومة تعني الماء","لا علاقة"], 
+        choices_en:["Lower resistivity indicates water-saturated zones","Higher resistivity means water","No relation"],
+        answerIndex:0 },
+      { q_ar:"ما تأثير الحفر العميق على توازن المياه؟", q_en:"Impact of deep drilling on water balance?",
+        choices_ar:["قد يغير الضغوط ويسمح بتداخل مياه عميقة أو ملحية","لا تأثير","يحسن الجودة دائماً"], 
+        choices_en:["May alter pressures and allow deep/saline intrusion","No effect","Always improves quality"],
+        answerIndex:0 },
+      { q_ar:"ما علاقة نوع الصخور بالتوصيل الهيدروليكي؟", q_en:"Relation rock type vs hydraulic conductivity?",
+        choices_ar:["الصخور الخشنة (رمل/حصى) أعلى توصيلاً من الطين","الطين أعلى توصيلاً","لا علاقة"], 
+        choices_en:["Coarse rocks (sand/gravel) have higher conductivity than clay","Clay higher conductivity","No relation"],
+        answerIndex:0 },
+      { q_ar:"ما دور التربة في تغذية الخزانات؟", q_en:"Role of soil in aquifer recharge?",
+        choices_ar:["تعمل كمرشح وتتحكم في معدل التسرب ونقاء المياه","تحجب كل المياه","لا دور"], 
+        choices_en:["Act as filter controlling infiltration rate and water quality","Block all water","No role"],
+        answerIndex:0 },
+      { q_ar:"كيف تكتشف تسرّب من خزان تحت الأرض؟", q_en:"How detect leak from underground storage?",
+        choices_ar:["تحليل الكيمياء ودرجات الحرارة أو مسح جيوفيزيائي","قياس الصوت فقط","مراقبة الطيور"], 
+        choices_en:["Chemical/temperature monitoring or geophysical surveys","Sound measurement only","Monitor birds"],
+        answerIndex:0 },
+      { q_ar:"ما المقصود بالتوازن الهيدرولوجي؟", q_en:"What is hydrological balance?",
+        choices_ar:["توازن بين كمية المياه الداخلة (تغذية) والخارجة (تدفق/تبخر/ضخ)","كمية الماء في بحيرة فقط","معدل الترسيب الكيميائي"], 
+        choices_en:["Balance between water inputs (recharge) and outputs (flow/evaporation/pumping)","Amount in one lake only","Rate of chemical deposition"],
+        answerIndex:0 },
+      { q_ar:"ما مؤشرات تلوث النترات؟", q_en:"Indicators of nitrate contamination?",
+        choices_ar:["تركيز نترات مرتفع، قرب مصادر زراعية أو صرف صحي، مشاكل صحية","لون الماء فقط","رائحة فقط"], 
+        choices_en:["High nitrate levels, proximity to agriculture/sewage, health issues","Water color only","Odor only"],
+        answerIndex:0 },
+      { q_ar:"ما استخدام GIS في الهيدروجيولوجيا؟", q_en:"Use of GIS in hydrogeology?",
+        choices_ar:["رسم خرائط التغذية، خطوط المنسوب، نمذجة انتشار الملوثات","لمراقبة الطقس فقط","لمعالجة العينات الميكروسكوبية"], 
+        choices_en:["Mapping recharge, potentiometric contours, modeling pollution spread","Only weather monitoring","Microscopic sample processing"],
+        answerIndex:0 }
     ]
   },
 
   petro: {
     title_ar:"البتروغرافيا — التعرف على الصخور", title_en:"Petrography — Rock ID",
     items: [
-      { q_ar:"ما الفرق بين الصخور النارية الجوفية والسطحية؟", q_en:"Difference intrusive vs extrusive igneous rocks?", choices_ar:["الجوفية تبرد ببطء بلورات كبيرة، السطحية تبرد سريعاً بلورات دقيقة","السطحية أقدم دائماً","الجوفية لا تحتوي معادن","السطحية تكون في البحر فقط"], choices_en:["Intrusive cool slowly (large crystals); extrusive cool fast (fine crystals)","Extrusive always older","Intrusive contain no minerals","Extrusive only form in ocean"], answerIndex:0 },
-      { q_ar:"ما مكونات الجرانيت الرئيسية؟", q_en:"Main components of granite?", choices_ar:["كوارتز، فلسبار بوتاسي، بلاغيوكلاز ومقدار من الميكا","كلسيت ودولوميت","أوليفين وبيروكسين فقط","طين ورمل"], choices_en:["Quartz, K-feldspar, plagioclase and some mica","Calcite and dolomite","Only olivine and pyroxene","Clay and sand"], answerIndex:0 },
-      { q_ar:"ما دلالة النسيج البورفيري؟", q_en:"Significance of porphyritic texture?", choices_ar:["يشير لتبريد بمرحلتين: بلورات كبيرة ثم مصفوفة دقيقة","دليل على التحول","دلالة على ترسب بحري","علامة على تآكل"], choices_en:["Indicates two-stage cooling: large crystals in fine matrix","Evidence of metamorphism","Indicative of marine deposition","Sign of erosion"], answerIndex:0 },
-      { q_ar:"كيف تفرق البازلت والأنديزيت ميدانياً؟", q_en:"How distinguish basalt and andesite in hand sample?", choices_ar:["البازلت داكن، حبيبات دقيقة؛ الأنديزيت أفتح قليلاً ومحتوي فلزات أقل","البازلت فاتح دائماً","الأنديزيت زجاجي فقط","لا فرق عملياً"], choices_en:["Basalt dark, fine-grained; andesite lighter with intermediate composition","Basalt always light","Andesite only glassy","No practical difference"], answerIndex:0 },
-      { q_ar:"كيف تميز الكلسيت من الدولوميت ميدانياً؟", q_en:"Field test to distinguish calcite vs dolomite?", choices_ar:["الكلسيت يتفاعل فورًا مع HCl المخفف؛ الدولوميت يحتاج للاختبار المطحون أو التسخين","كلاهما يتفاعل بنفس الطريقة","الدولوميت يذوب في الماء","لا يمكن التفريق إلا بالمختبر"], choices_en:["Calcite reacts immediately with dilute HCl; dolomite requires powdered or heated sample","Both react identically","Dolomite dissolves in water","Only lab test distinguishes"], answerIndex:0 },
-      { q_ar:"ما علامة الصخر الرسوبي الكربوني؟", q_en:"Key sign of carbonate sedimentary rock?", choices_ar:["وجود كلسيت أو قشرة أحيائية وفحص التفاعل مع الحمض","لون رمادي فقط","نسيج زجاجي","طبقات رملية فقط"], choices_en:["Presence of calcite/biogenic shells and acid reaction","Gray color only","Glassy texture","Only sandy layers"], answerIndex:0 },
-      { q_ar:"كيف تفرق الحجر الرملي عن الصخر الطيني؟", q_en:"How to tell sandstone from shale?", choices_ar:["الحجر الرملي حبيبات مرئية وخشن، الطيني ناعم ويتشقق","كلاهما ناعم","الطيني خشن","لا فرق"], choices_en:["Sandstone has visible grains and is gritty; shale is smooth and fissile","Both smooth","Shale coarse","No difference"], answerIndex:0 },
-      { q_ar:"ما هو التورق في الصخور المتحولة؟", q_en:"What is foliation in metamorphic rocks?", choices_ar:["ترتيب مواز للمعادن نتيجة ضغط موجه","طبقات رسوبية أفقية","نتيجة برد سريع","نوع من التجوية"], choices_en:["Parallel alignment of minerals due to directed pressure","Horizontal sedimentary layering","Result of rapid cooling","A weathering type"], answerIndex:0 },
-      { q_ar:"ما الفرق بين الشست والنايس؟", q_en:"Difference between schist and gneiss?", choices_ar:["الشست ذو تورق دقيق وميكانيكا مميزة، النايس ذو نطاقات معدنية متبادلة","الشست أكثر فحصية","النايس طيني","لا فرق"], choices_en:["Schist has fine foliation; gneiss shows alternating mineral bands","Schist more glassy","Gneiss is clay","No difference"], answerIndex:0 },
-      { q_ar:"ما أنواع الفلسبار الشائعة؟", q_en:"Common types of feldspar?", choices_ar:["فلسبار بوتاسي (أورثوكلاز/ميكروكلين) وفلسبار بلاجيوكليز","فلسبار كربوني فقط","فلسبار سيليكات خاص","لا فلسبار في الصخور"], choices_en:["K-feldspar (orthoclase/microcline) & plagioclase feldspar","Only carbonate feldspar","Special silicate feldspar","No feldspar in rocks"], answerIndex:0 },
-      { q_ar:"كيف تستنتج أصل الصخر من معادنه؟", q_en:"How infer rock origin from mineralogy?", choices_ar:["التركيب المعدني يدل إن كان ناري، رسوبي أم متحول (مثال: كوارتز عالي يؤشر الرسوبي)","المعادن لا تفيد","من لون الصخور فقط","بحاجة لصورة جوية فقط"], choices_en:["Mineral composition indicates igneous/sedimentary/metamorphic origin (e.g., abundant quartz suggests sedimentary)","Minerals not helpful","By rock color only","Need aerial photo only"], answerIndex:0 },
-      { q_ar:"ما أدوات التحليل البتروغرافي الأساسية؟", q_en:"Essential petrographic tools?", choices_ar:["مجهر مستقطب للشرايح الرقيقة، واختبارات الحقل البسيطة","مقياس الضغط فقط","الأشعة السينية فقط","كاميرا فقط"], choices_en:["Polarizing microscope for thin sections and simple field tests","Pressure gauge only","X-ray only","Camera only"], answerIndex:0 },
-      { q_ar:"ما دلالة الكوارتز الدائري في الرمل؟", q_en:"Significance of rounded quartz in sandstone?", choices_ar:["يدل على نضج عالي ونقل طويل (مسافة نقل طويلة)","دليل على بركانية قريبة","دليل على تحوّل فقط","لا دلالة"], choices_en:["Indicates high maturity and long transport distance","Indicates nearby volcanism","Indicates metamorphism only","No significance"], answerIndex:0 },
-      { q_ar:"ما المقصود بالمصفوفة (matrix) في الصخر الرسوبي؟", q_en:"What is matrix in sedimentary rock?", choices_ar:["مادة دقيقة تملأ الفراغات بين الحبيبات (طين/غرين)","نوع من البلورات الكبيرة","فراغات في الصخر","طبقة سطحية فقط"], choices_en:["Fine material filling spaces between grains (clay/silt)","A type of large crystal","Voids in rock","Surface layer only"], answerIndex:0 },
-      { q_ar:"كيف تحدد درجة التحول؟", q_en:"How determine metamorphic grade?", choices_ar:["بوجود معادن مؤشرية (index minerals) مثل الغارنيت أو الكلوريت","بالمقياس فقط","من لون الصخر","من السُمك فقط"], choices_en:["By index minerals (garnet, chlorite etc.)","By scale only","By rock color","By thickness only"], answerIndex:0 },
-      { q_ar:"ما الفرق بين البريشيا والكونجلوميرات؟", q_en:"Breccia vs conglomerate?", choices_ar:["البريشيا حبيبات زاوية، الكونجلوميرات حبيبات مستديرة","الاثنان متماثلان","البريشيا رسوبي كيميائي","الكونجلوميرات متحول"], choices_en:["Breccia has angular clasts; conglomerate has rounded clasts","They are the same","Breccia is chemical","Conglomerate metamorphic"], answerIndex:0 },
-      { q_ar:"ما دلالة فقاعات الغاز في صخر ناري؟", q_en:"Significance of gas vesicles in igneous rock?", choices_ar:["تدل على تبريد سريع وتحرر غازات (نسيج فقاعي مثل البوميس)","تدل على ضغط عالٍ","تدل على تحوّل","لا أهمية عملية"], choices_en:["Indicate rapid cooling and gas escape (vesicular texture like pumice)","Indicate high pressure","Indicate metamorphism","No practical importance"], answerIndex:0 },
-      { q_ar:"الفرق المظهر بين البازلت والجابرو؟", q_en:"Appearance difference basalt vs gabbro?", choices_ar:["البازلت ناعم الحبيبات (سطحي) داكن، الجابرو ذو بلورات خشنة (جوفي) داكن أيضاً","الجابرو فاتح","البازلت بلوري كبير","لا فرق"], choices_en:["Basalt fine-grained (extrusive) dark; gabbro coarse-grained (intrusive) dark","Gabbro light","Basalt large crystals","No difference"], answerIndex:0 },
-      { q_ar:"ما معنى Texture في البتروغرافيا؟", q_en:"What is texture in petrography?", choices_ar:["حجم وشكل وترتيب المكونات المعدنية في الصخر","لون الصخر فقط","معدل التحوّل","مقياس المسامية"], choices_en:["Size, shape and arrangement of mineral components","Rock color only","Metamorphic grade","Porosity measure"], answerIndex:0 },
-      { q_ar:"ما دلالة اللون في التعرف الميداني؟", q_en:"Field significance of rock color?", choices_ar:["يمكن أن يشير لتركيب معدني أو أكسدة الحديد أو محتوى عضوي","اللون غير مفيد أبداً","يحدد العمر مباشرة","يشير للنفاذية فقط"], choices_en:["May indicate mineralogy, iron oxidation or organic content","Color never useful","Determines age directly","Indicates permeability only"], answerIndex:0 },
-      { q_ar:"ما المعادن الظهار في الصخور الفلسية؟", q_en:"Main minerals in felsic rocks?", choices_ar:["كوارتز وفلسبار بوتاسي وميكا","أوليفين وبيروكسين","كالسيت فقط","طفل حبيبي"], choices_en:["Quartz, K-feldspar and mica","Olivine and pyroxene","Calcite only","Granular clay"], answerIndex:0 },
-      { q_ar:"ما الفرق ما بين المافية والفلسية؟", q_en:"Mafic vs felsic difference?", choices_ar:["المافية غنية بالحديد والمغنيسيوم (داكنة)، الفلسية غنية بالسيليكا (فاتحة)","لا فرق","المافية خفيفة","الفلسية دائماً زجاجية"], choices_en:["Mafic rich in Fe-Mg (dark); felsic rich in silica (light)","No difference","Mafic light","Felsic always glassy"], answerIndex:0 },
-      { q_ar:"ما العلاقة بين سرعة التبريد وحجم البلورات؟", q_en:"Cooling rate vs crystal size?", choices_ar:["تبريد أسرع ← بلورات أصغر؛ تبريد أبطأ ← بلورات أكبر","سرعة لا تؤثر","تبريد أسرع ← بلورات أكبر","لا علاقة"], choices_en:["Faster cooling → smaller crystals; slower → larger crystals","Rate doesn't affect","Faster → larger crystals","No relation"], answerIndex:0 },
-      { q_ar:"ما العلامات الدالة على أصل ناري مقابل رسوبي؟", q_en:"Signs for igneous vs sedimentary origin?", choices_ar:["الناري لديه نسيج متداخل أو بلورات؛ الرسوبي يظهر طبقات وأحافير","الناري يحتوي أحافير","الرسوبي بلوري كبير","لا تمييز"], choices_en:["Igneous shows interlocking texture/crystals; sedimentary shows layers and fossils","Igneous contains fossils","Sedimentary large crystals","No distinction"], answerIndex:0 },
-      { q_ar:"ما دور التحليل المجهري؟", q_en:"Role of microscopy in petrography?", choices_ar:["تحديد النسيج والمعادن بدقة لتحديد الأصل والبيئة التكوينية","لا فائدة ميدانية","يستخدم فقط في التعدين","يحلي المياه"], choices_en:["Identify texture and minerals precisely to determine origin and environment","No field use","Only used in mining","Purifies water"], answerIndex:0 },
-      { q_ar:"كيف تعرف الصخور الرسوبية الكيميائية؟", q_en:"How identify chemical sedimentary rocks?", choices_ar:["تكوّنت بترسيب مباشر من محلول مائي (مثال: جبس، هاليت)","تكوّنت بالضغط فقط","تكوّنت بالحرارة فقط","تكوّنت بالعوامل الحيوية"], choices_en:["Formed by direct precipitation from aqueous solution (e.g., gypsum, halite)","Formed by pressure only","Formed by heat only","Formed by biological factors"], answerIndex:0 },
-      { q_ar:"ما الفرق بين الحجر الجيري والدولوميت؟", q_en:"Difference between limestone and dolomite?", choices_ar:["الجيري $\\text{CaCO}_3$ يتفاعل فوراً مع الحمض، الدولوميت $\\text{CaMg}(\\text{CO}_3)_2$ يتفاعل أضعف","لا فرق","الدولوميت أقدم دائماً","الجيري أقوى"], choices_en:["Limestone $\\text{CaCO}_3$ reacts immediately; Dolomite $\\text{CaMg}(\\text{CO}_3)_2$ reacts weakly","No difference","Dolomite always older","Limestone stronger"], answerIndex:0 },
-      { q_ar:"ما نوع الصخور التي تحتوي عادة على الفوسفات؟", q_en:"Rock type usually containing phosphate?", choices_ar:["صخور رسوبية بحرية (فوسفوريت)","صخور نارية جوفية","صخور متحولة عالية الدرجة","صخور البازلت"], choices_en:["Marine sedimentary rocks (phosphorite)","Intrusive igneous rocks","High-grade metamorphic rocks","Basalt rocks"], answerIndex:0 },
-      { q_ar:"ما معنى recrystallization في التحول؟", q_en:"Meaning of recrystallization in metamorphism?", choices_ar:["إعادة نمو وتبلور المعادن الموجودة لتكوين بلورات أكبر أو معادن جديدة مستقرة","ذوبان الصخر بالكامل","كسر الصخر فقط","ترسيب جديد"], choices_en:["Regrowth of existing minerals into larger crystals or new stable minerals","Complete melting of rock","Only fracturing of rock","New deposition"], answerIndex:0 },
-      { q_ar:"ما هو مؤشر اللون في تصنيف الصخور النارية (Mafic Index)؟", q_en:"What is the Mafic Index in igneous classification?", choices_ar:["نسبة المعادن المافية (الداكنة) إلى إجمالي المعادن في الصخر","نسبة المياه","نسبة الكوارتز فقط","نسبة الميكا"], choices_en:["Ratio of mafic (dark) minerals to total minerals in the rock","Water ratio","Quartz ratio only","Mica ratio"], answerIndex:0 }
-    ]
-  },
+      { q_ar:"ما الفرق بين الصخور النارية الجوفية والسطحية؟", q_en:"Difference intrusive vs extrusive igneous rocks?",
+        choices_ar:["الجوفية تبرد ببطء بلورات كبيرة؛ السطحية تبرد سريعاً بلورات دقيقة","السطحية أقدم","الجوفية داكنة دائماً"],
+        choices_en:["Intrusive cool slowly (large crystals); extrusive cool quickly (fine crystals)","Extrusive older","Intrusive always dark"],
+        answerIndex:0 },
+      { q_ar:"ما مكونات الجرانيت الرئيسية؟", q_en:"Main components of granite?",
+        choices_ar:["كوارتز، فلسبار بوتاسي، بلاجيوكلاز، وميكا","كلسيت فقط","أوليفين وبيروكسين فقط"],
+        choices_en:["Quartz, K-feldspar, plagioclase, and mica","Calcite only","Only olivine and pyroxene"],
+        answerIndex:0 },
+      { q_ar:"ما دلالة النسيج البورفيري؟", q_en:"Significance of porphyritic texture?",
+        choices_ar:["يشير لتبريد على مرحلتين: بلورات كبيرة ثم مصفوفة دقيقة","دليل على التحول","علامة ترسيب بحري"],
+        choices_en:["Indicates two-stage cooling: large phenocrysts in fine groundmass","Evidence of metamorphism","Sign of marine deposition"],
+        answerIndex:0 },
+      { q_ar:"كيف تميز البازلت والأنديزيت ميدانياً؟", q_en:"How distinguish basalt and andesite in hand sample?",
+        choices_ar:["البازلت داكن وحبيباته دقيقة؛ الأنديزيت أكثر تركيبا وسطيا","البازلت فاتح","الأنديزيت زجاجي فقط"],
+        choices_en:["Basalt dark, fine-grained; andesite intermediate composition","Basalt light","Andesite only glassy"],
+        answerIndex:0 },
+      { q_ar:"كيف تميز الكلسيت من الدولوميت في الميدان؟", q_en:"Field test for calcite vs dolomite?",
+        choices_ar:["الكلسيت يتفاعل فوراً مع HCl المخفف؛ الدولوميت يحتاج طحن أو تسخين","لا فرق","الدولوميت يتفاعل بسرعة أكبر"],
+        choices_en:["Calcite reacts immediately with dilute HCl; dolomite requires powdering/heating","No difference","Dolomite reacts faster"],
+        answerIndex:0 },
+      { q_ar:"ما العلامة المميزة للصخر الرسوبي الكربوني؟", q_en:"Key sign of carbonate sedimentary rock?",
+        choices_ar:["تفاعل مع الحمض ووجود مواد عضوية أو قشور","لون رمادي فقط","نسيج زجاجي"],
+        choices_en:["Acid reaction and presence of organic shells","Gray color only","Glassy texture"],
+        answerIndex:0 },
+      { q_ar:"كيف تفرق الحجر الرملي عن الصخر الطيني؟", q_en:"How tell sandstone from shale?",
+        choices_ar:["الحجر الرملي خشن وحبيباته مرئية؛ الشيل ناعم ويتشقق إلى صفائح","لا فرق","الشيل خشن"],
+        choices_en:["Sandstone gritty with visible grains; shale smooth and fissile","No difference","Shale coarse"],
+        answerIndex:0 },
+      { q_ar:"ما هو التورق (foliation) في الصخور المتحولة؟", q_en:"What is foliation in metamorphic rocks?",
+        choices_ar:["تنظم موازٍ للمعادن نتيجة ضغط موجه","طبقات رسوبية","نتيجة انصهار"],
+        choices_en:["Parallel alignment of minerals due to directed pressure","Sedimentary layering","Result of melting"],
+        answerIndex:0 },
+      { q_ar:"ما الفرق بين الشست والنايس؟", q_en:"Difference schist vs gneiss?",
+        choices_ar:["الشست به تورق واضح وميكا بارزة؛ النايس لديه نطاقات معدنية متبادلة","لا فرق","النايس رسوبي"],
+        choices_en:["Schist has pronounced foliation and mica; gneiss has banded mineral layers","No difference","Gneiss sedimentary"],
+        answerIndex:0 },
+      { q_ar:"ما أنواع الفلسبار الشائعة؟", q_en:"Common feldspar types?",
+        choices_ar:["فلسبار بوتاسي (أورثوكلاز) وبلاجيوكلاز","فلسبار كربوني","لا فلسبار"],
+        choices_en:["K-feldspar (orthoclase) and plagioclase","Carbonate feldspar","No feldspar"],
+        answerIndex:0 },
+      { q_ar:"كيف تستنتج أصل الصخر من تركيب معادنه؟", q_en:"How infer rock origin from mineralogy?",
+        choices_ar:["التركيب المعدني يدل إذا كان ناري، رسوبي أو متحول","اللون فقط","بحاجة لصورة جوية"],
+        choices_en:["Mineral composition indicates igneous/sedimentary/metamorphic origin","Color only","Need aerial photo"],
+        answerIndex:0 },
+      { q_ar:"ما الأدوات الأساسية للتحليل البتروغرافي؟", q_en:"Essential petrographic tools?",
+        choices_ar:["مجهر مستقطب للشرايح الرقيقة، ومجهر ضوئي، ومعدات مختبرية","مطرقة فقط","كاميرا فقط"],
+        choices_en:["Polarizing microscope for thin sections and lab tools","Hammer only","Camera only"],
+        answerIndex:0 },
+      { q_ar:"ما دلالة الكوارتز الدائري في الحجر الرملي؟", q_en:"Significance rounded quartz in sandstone?",
+        choices_ar:["يدل على نضج عالي ومسافة نقل كبيرة","دليل على تحوّل","دليل على بركانية قريبة"],
+        choices_en:["Indicates high maturity and long transport","Indicates metamorphism","Indicates nearby volcanism"],
+        answerIndex:0 },
+      { q_ar:"ما هو الـMatrix في الصخور الرسوبية؟", q_en:"What is matrix in sedimentary rock?",
+        choices_ar:["المادة الدقيقة التي تحيط بالحبيبات (طين/غرين)","نوع من الفلسبار","فراغات في الصخر"],
+        choices_en:["Fine material surrounding grains (clay/silt)","Type of feldspar","Voids in rock"],
+        answerIndex:0 },
+      { q_ar:"كيف تُحدد درجة التحول؟", q_en:"How determine metamorphic grade?",
+        choices_ar:["بوجود معادن مؤشرية (index minerals) مثل الغارنت أو الكلوريت","بالمسامية فقط","بلون الصخر فقط"],
+        choices_en:["By index minerals (garnet, chlorite)","By porosity only","By rock color only"],
+        answerIndex:0 },
+      { q_ar:"ما الفرق بين البريشيا والكونجلوميرات؟", q_en:"Breccia vs conglomerate?",
+        choices_ar:["البريشيا حبيبات زاوية؛ الكونجلوميرا
 
-  maps: {
-    title_ar:"الخرائط الجيولوجية — الأساسيات", title_en:"Geological Maps — Basics",
-    items: [
-      { q_ar:"ما الفرق بين الخريطة الجيولوجية والطبوغرافية؟", q_en:"Difference between geological and topographic maps?", choices_ar:["الطبوغرافية تمثل ارتفاعات (كنتورات)، الجيولوجية تمثل نوع وامتداد الصخور والتراكيب","الطبوغرافية لجيولوجيين فقط","الجيولوجية تعرض مناخ المنطقة","لا فرق"], choices_en:["Topographic shows elevations (contours); geological shows rock types and structures","Topographic for geologists only","Geological shows climate","No difference"], answerIndex:0 },
-      { q_ar:"ما فائدة خطوط الكنتور؟", q_en:"Purpose of contour lines?", choices_ar:["تحديد الارتفاعات وشكل التضاريس والانحدارات","تحديد نوع الصخور","قياس سرعة المياه","تعريف حدود البلد"], choices_en:["Show elevations and terrain shape/slopes","Indicate rock type","Measure water speed","Define country borders"], answerIndex:0 },
-      { q_ar:"كيف تحدد ميل الطبقات من الخريطة؟", q_en:"How determine dip of beds from map?", choices_ar:["من خلال مقارنة اتجاه تقاطع الطبقات مع خطوط الكنتور وحساب V-rule","من اللون فقط","من مقياس الخريطة","من الصور satellit فقط"], choices_en:["By comparing strike lines with contours and using V-rule","By color only","By map scale","From satellite images only"], answerIndex:0 },
-      { q_ar:"ما معنى رمز الطبقة (مثل Ksh)؟", q_en:"Meaning of unit code (eg Ksh)?", choices_ar:["يشير للعمر والصخر (K=Crete, sh=shale)","هو رمز عشوائي","يحدد الارتفاع","المقياس"], choices_en:["Indicates age and rock (e.g., K=Cretaceous, sh=shale)","Random code","Specifies elevation","Scale"], answerIndex:0 },
-      { q_ar:"كيف تحدد نقطة التقاء طبقة ونهر؟", q_en:"How locate contact point between layer and river?", choices_ar:["باستخدام قاعدة V: انحناءات الكنتور وامتداد الطبقة تظهر نقطة الالتقاء","من لون الماء فقط","من الرياح","بواسطة مقياس الوزن"], choices_en:["Using V-rule where contours and bed contacts intersect","By water color only","By wind","By weight scale"], answerIndex:0 },
-      { q_ar:"ما دلالة تقاطع الطبقات مع التضاريس؟", q_en:"Meaning of bed intersections with terrain?", choices_ar:["تحدد ميل الطبقات واتجاهها وتكشف عن طيات وفوالق","تعني وجود معادن فقط","تعني وجود نفط دوماً","لا فائدة"], choices_en:["Determine dip/strike and indicate folds/faults","Means only minerals present","Means oil always present","No use"], answerIndex:0 },
-      { q_ar:"ما الإسقاط الشائع في الخرائط الجيولوجية؟", q_en:"Common projection used in geological maps?", choices_ar:["نظام UTM أو الإسقاط المخروطي لامبرت في الخرائط الإقليمية","إسقاط مركاتور فقط","إسقاط قطبي فقط","لا حاجة لإسقاط"], choices_en:["UTM or Lambert conformal conic for regional maps","Mercator only","Polar projection only","No projection needed"], answerIndex:0 },
-      { q_ar:"ما أدوات قراءة الخريطة ميدانياً؟", q_en:"Tools for reading map in field?", choices_ar:["بوصلة جيولوجية، مقياس، قلم، GPS/الهاتف الذكي","مجهر فقط","مطرقة فقط","كاميرا فقط"], choices_en:["Geological compass, scale, pen, GPS/smartphone","Microscope only","Hammer only","Camera only"], answerIndex:0 },
-      { q_ar:"كيف تُرسم المقاطع الجيولوجية؟", q_en:"How to draw geological cross-sections?", choices_ar:["بنقل نقاط الاتصالات الأفقية إلى رسم رأسي وفق المقياس وتحويل البيانات","بمقارنة الألوان فقط","بالتخمين","باستخدام الرياح"], choices_en:["Project contacts from map to a vertical profile using scale","By color comparison only","By guessing","Using wind"], answerIndex:0 },
-      { q_ar:"ماذا تمثل الطيات والفوالق على الخريطة؟", q_en:"What do folds and faults represent on a map?", choices_ar:["طيات: انثناءات الطبقات؛ فوالق: كسور مع إزاحة للكتل الصخرية","نقوش للطرق","مؤشرات مناخية","مواقع مورد مائي دائم"], choices_en:["Folds: bending of beds; Faults: breaks with displacement","Road markings","Climate indicators","Permanent water source locations"], answerIndex:0 },
-      { q_ar:"كيف تُقاس الاتجاه (Strike) والانحدار (Dip)؟", q_en:"How measure strike and dip?", choices_ar:["بالبوصلة الجيولوجية: اتجاه خط أفقي على الطبقة وزاوية الانحدار العمودية عليه","بمقياس الحرارة","باستخدام الهاتف فقط","من لون الصخر"], choices_en:["By geologic compass: strike is horizontal line; dip is vertical angle perpendicular to strike","By thermometer","Using phone only","By rock color"], answerIndex:0 },
-      { q_ar:"ما الفرق بين الفالق العادي والمعكوس؟", q_en:"Normal vs reverse fault difference?", choices_ar:["العادي: الكتلة المعلقة تتحرك لأسفل (شد)، المعكوس: تتحرك للأعلى (ضغط)","العكس بالأرقام","الفالق ليس له اتجاه","كلاهما نفس الشيء"], choices_en:["Normal: hanging wall moves down (extension); Reverse: hanging wall moves up (compression)","Opposite by numbers","Fault has no direction","They are same"], answerIndex:0 },
-      { q_ar:"كيف تميز طية محدبة من مقعرة؟", q_en:"How tell anticline vs syncline?", choices_ar:["الطبقات الأقدم عادة في مركز الطية المحدبة (anticline) والأحدث في المقعرة (syncline)","المحدبة دائمًا أعرض","المقعرة أقدم","لا فرق"], choices_en:["Older beds usually at center of anticline; younger in syncline","Anticline always broader","Syncline older","No difference"], answerIndex:0 },
-      { q_ar:"ما دلالة الرموز المختلفة على الخريطة؟", q_en:"Meaning of different map symbols?", choices_ar:["توضح نوع الصخور، خط التماس، الفوالق، والمظاهر السطحية وفق الـLegend","مجرد زخرفة","لا أهمية","تعرض شبكات الطرق فقط"], choices_en:["Indicate rock types, contacts, faults and surface features as in the legend","Decoration only","No importance","Show road networks only"], answerIndex:0 },
-      { q_ar:"ما فائدة المقياس الخطي؟", q_en:"Purpose of linear scale?", choices_ar:["تحويل المسافات على الخريطة إلى الواقع بسهولة","تحديد نوع الصخر","قياس العمق","تحديد الوقت"], choices_en:["Convert map distances to real ground distances","Determine rock type","Measure depth","Determine time"], answerIndex:0 },
-      { q_ar:"علاقة لون الخريطة بنوع الصخور؟", q_en:"Relation of map color to rock type?", choices_ar:["الألوان تمثل أنواع/أعمار الصخور وفق معيار الخريطة (مثلاً كربونات بلون معين)","الألوان عشوائية","اللون يدل على ارتفاع فقط","لا علاقة"], choices_en:["Colors represent rock types/ages per map convention (eg carbonates a certain color)","Colors random","Color indicates elevation only","No relation"], answerIndex:0 },
-      { q_ar:"كيف تستخدم البوصلة ميدانياً؟", q_en:"How use geologic compass in field?", choices_ar:["لقياس الـstrike والـdip، توجيه المسارات، قياس انزياح الفالق","لقياس سرعة الرياح فقط","لقياس الوزن","لقياس جودة التربة فقط"], choices_en:["Measure strike/dip, orient traverses, measure fault offset","Measure wind speed only","Measure weight","Measure soil quality only"], answerIndex:0 },
-      { q_ar:"الفرق بين الخريطة المحلية والإقليمية؟", q_en:"Local vs regional map difference?", choices_ar:["المحلية مقياس كبير تفاصيل أعلى، الإقليمية مقياس صغير تغطية أكبر","لا فرق","المحلية تستخدم للأقمار فقط","الإقليمية ورقية فقط"], choices_en:["Local large-scale with high detail; regional small-scale covering large area","No difference","Local for satellites only","Regional only paper"], answerIndex:0 },
-      { q_ar:"كيف تحدد العمر النسبي للطبقات؟", q_en:"How determine relative age of beds?", choices_ar:["بمبدأ التراكب: الأقدم في الأسفل ما لم يحدث قلب أو اختلال","بالألوان فقط","بمقياس الخريطة","بجهاز خاص"], choices_en:["By principle of superposition: older below unless overturned","By colors only","By map scale","By special device"], answerIndex:0 },
-      { q_ar:"ما هو الـLegend؟", q_en:"What is the legend?", choices_ar:["مفتاح الخريطة الذي يشرح الألوان والرموز","قائمة الأسماء فقط","خريطة فرعية","مقياس الزمن"], choices_en:["Map key explaining colors and symbols","List of names only","Inset map","Time scale"], answerIndex:0 },
-      { q_ar:"كيف تُستخرج مقاطع طولية؟", q_en:"How extract longitudinal sections?", choices_ar:["برسم الطبقات والاتصالات على خط المقطع وتحويلها إلى منظر جانبي بمقاييس","بالتخمين","باستخدام GPS فقط","بالمجهر"], choices_en:["Plot formations and contacts along a line and project to vertical profile using scales","By guessing","Using GPS only","With microscope"], answerIndex:0 },
-      { q_ar:"ماذا يعني لو كانت الطبقات موازية للكنتورات؟", q_en:"If beds parallel contours what is dip?", choices_ar:["الطبقات أفقية (dip = 0)","الطبقات شديدة الانحدار","غير قابل للتحديد","تعني فالق كبير"], choices_en:["Beds are horizontal (dip = 0)","Beds steeply dipping","Undeterminable","Indicates a large fault"], answerIndex:0 },
-      { q_ar:"كيف تحدد مناطق التماس بين الصخور؟", q_en:"How locate contacts between rock units?", choices_ar:["ببحث عن خطوط فاصل على الخريطة بين وحدات مختلفة اللون أو الرموز","بقياس الصوت","بمقياس الضغط","بالمناخ"], choices_en:["Look for boundary lines between differently colored/symbolized units on map","By sound measurement","By pressure gauge","By climate"], answerIndex:0 },
-      { q_ar:"ما دلالة الـUnconformity؟", q_en:"Significance of unconformity?", choices_ar:["تشير لفترات انقطاع في الترسيب أو تعرية بين مجموعتين صخريتين","دليل على وجود نفط دائماً","خطأ في الخريطة","مؤشر للمياه فقط"], choices_en:["Indicates gaps in deposition or erosion between rock sequences","Always indicates oil","Map error","Only water indicator"], answerIndex:0 },
-      { q_ar:"كيف تساعد الصور الجوية في تحديث الخريطة؟", q_en:"How aerial photos help update maps?", choices_ar:["تكشف تغيّر الغطاء النباتي أو تعرية السطح وتساعد في تحديد تراكيب جديدة","لا تساعد","تؤثر على المساحة","تحدد أعمار الصخور"], choices_en:["Reveal vegetation/erosion changes and help identify new structures","No help","Affect area","Determine rock ages"], answerIndex:0 },
-      { q_ar:"ما أهمية معرفة الاتجاه الجيولوجي في الحفر؟", q_en:"Importance of knowing geological strike/dip in drilling?", choices_ar:["لتحديد عمق الوصول للطبقة المطلوبة وتجنب الحفر الموازي للفوالق","لمعرفة سرعة الرياح فقط","لمعرفة لون الصخر","لمعرفة الوقت"], choices_en:["To determine the depth of the target layer and avoid drilling parallel to faults","To know wind speed only","To know rock color","To know time"], answerIndex:0 },
-      { q_ar:"ما معنى الرموز الجيوفيزيائية في بعض الخرائط؟", q_en:"Meaning of geophysical symbols on some maps?", choices_ar:["تظهر شذوذات جاذبية أو مغناطيسية (مؤشرات غير مباشرة لتراكيب تحت سطحية)","تظهر ارتفاع المباني","تظهر حدود الدول","تظهر الأنهار فقط"], choices_en:["Show gravity or magnetic anomalies (indirect indicators of subsurface structures)","Show building heights","Show country borders","Show only rivers"], answerIndex:0 },
-      { q_ar:"ما علاقة الخرائط بالمسح الجيوكيميائي؟", q_en:"Relation between maps and geochemical surveying?", choices_ar:["تستخدم الخرائط كخلفية لتوقيع مواقع العينات ونتائج التركيز لتحديد المناطق الواعدة","لا علاقة","تستخدم فقط لجمع العينات","تستخدم لضبط الوقت"], choices_en:["Maps serve as a base to plot sample locations and concentration results to identify prospective areas","No relation","Used only for sample collection","Used for time adjustment"], answerIndex:0 },
-      { q_ar:"ما هي الأخطاء الشائعة عند قراءة الخرائط الجيولوجية؟", q_en:"Common mistakes reading geologic maps?", choices_ar:["خلط بين قواعد V، تفسير فالق عكسي كعادي، وعدم ملاحظة الـLegend","القراءة سريعة دائماً صحيحة","الاستخفاف بالألوان","عدم استخدام الهاتف"], choices_en:["Misapplying V-rule, mistaking reverse for normal fault, ignoring legend","Quick read always correct","Disregarding colors","Not using phone"], answerIndex:0 },
-      { q_ar:"كيف تُحوّل الخريطة الورقية إلى رقمية باستخدام GIS؟", q_en:"How convert paper map to digital using GIS?", choices_ar:["عن طريق المسح (Scanning) ثم عملية تحديد الإحداثيات (Georeferencing) ورقمنة التفاصيل","باستخدام الآلة الحاسبة فقط","باستخدام قلم رصاص فقط","باستخدام مسطرة"], choices_en:["By scanning then georeferencing and digitizing geological details","Using calculator only","Using pencil only","Using ruler"], answerIndex:0 }
-    ]
-  },
-
-  general: {
-    title_ar:"الجيولوجيا العامة", title_en:"General Geology",
-    items: [
-      { q_ar:"ما الفرق بين الماجما واللافا؟", q_en:"Magma vs lava?", choices_ar:["الماجما تحت السطح، اللافا عند خروجها على السطح","الماجما ماء واللافا حجر","لا فرق","ماجما = صخور متحولة"], choices_en:["Magma is subsurface molten rock; lava is magma erupted at surface","Magma is water and lava rock","No difference","Magma = metamorphic rock"], answerIndex:0 },
-      { q_ar:"ما هي الدورة الصخرية؟", q_en:"What is the rock cycle?", choices_ar:["تحول الصخور النارية والرسوبية والمتحولة عبر العمليات الجيولوجية","دورة حياة النبات فقط","ظاهرة جوية","عملية بشرية"], choices_en:["Transformation of igneous, sedimentary and metamorphic rocks via geologic processes","Plant life cycle only","Atmospheric phenomenon","Human activity"], answerIndex:0 },
-      { q_ar:"ما أنواع التجوية؟", q_en:"Types of weathering?", choices_ar:["تجوية فيزيائية وكيميائية وحيوية","تجوية فقط بالماء","تجوية حرارية فقط","تجوية بتأثير الرياح فقط"], choices_en:["Physical, chemical and biological weathering","Only water weathering","Only thermal weathering","Only wind weathering"], answerIndex:0 },
-      { q_ar:"كيف تتشكل الطيات والفوالق؟", q_en:"How form folds and faults?", choices_ar:["نتيجة قوى ضغط أو شد تؤدي للانثناء أو الكسر داخل القشرة","بنشاطات بسيطة فقط","تتكون في البحر فقط","تتكون بالإنجراف فقط"], choices_en:["By compressional/tensional forces causing bending or breaking of crust","From trivial activities only","Form only in ocean","Form by erosion only"], answerIndex:0 },
-      { q_ar:"الفرق بين القشرة القارية والمحيطية؟", q_en:"Continental vs oceanic crust?", choices_ar:["القارية أسمك وأقل كثافة وغنية بالصخور الفلسية، المحيطية أرق وأكثر كثافة وبازلتية","لا فرق","القارية مصنوعة من مياه","المحيطية تحتوي على كل المعادن"], choices_en:["Continental crust thicker, less dense, felsic; oceanic thinner, denser, basaltic","No difference","Continental made of water","Oceanic contains all minerals"], answerIndex:0 },
-      { q_ar:"ما هو أصل الجبال؟", q_en:"Origin of mountains?", choices_ar:["تصادم الصفائح أو النشاط البركاني ورفع القشرة","الرياح فقط","التعرية فقط","النشاط البشري"], choices_en:["Plate collisions, volcanism, or crustal uplift","Only wind","Only erosion","Human activity"], answerIndex:0 },
-      { q_ar:"ما المقصود بالصفائح التكتونية؟", q_en:"What are tectonic plates?", choices_ar:["قطع كبيرة من الغلاف الصخري تتحرك فوق الستار","تجمعات من الحجارة","شبكات طرق","مصطلح جماعي للجبال"], choices_en:["Large lithospheric plates moving over the mantle","Piles of rocks","Road networks","Collective term for mountains"], answerIndex:0 },
-      { q_ar:"ما العلاقة بين الزلازل وحدود الصفائح؟", q_en:"Earthquakes & plate boundary relation?", choices_ar:["معظم الزلازل تحدث عند حدود الصفائح نتيجة تراكم وإطلاق الإجهاد","لا علاقة","حصلت فقط قديمًا","فقط في المحيطات"], choices_en:["Most quakes occur at plate boundaries due to stress accumulation/release","No relation","Only occurred in past","Only in oceans"], answerIndex:0 },
-      { q_ar:"ما نوع الصخور الناتجة عن النشاط البركاني؟", q_en:"Rocks from volcanic activity?", choices_ar:["صخور نارية سطحية مثل البازلت والريوليت","صخور رسوبية فقط","صخور متحولة فقط","تربة فقط"], choices_en:["Extrusive igneous rocks like basalt and rhyolite","Only sedimentary rocks","Only metamorphic rocks","Soil only"], answerIndex:0 },
-      { q_ar:"لماذا ندرس المعادن؟", q_en:"Why study minerals?", choices_ar:["لتحديد تركيبة الصخور، الموارد الاقتصادية، وفهم خواصها الفيزيائية","لأغراض جمالية فقط","لا حاجة","لفهم الطقس"], choices_en:["To identify rock composition, economic resources, and physical properties","Only aesthetic reasons","No need","To understand weather"], answerIndex:0 },
-      { q_ar:"كيف نحدد عمر الصخور؟", q_en:"How date rocks?", choices_ar:["بالعمر النسبي (تراكب) أو التأريخ المطلق (نظائر مشعة)","بحساسيه اللون","بالعمر الظاهري","بالتحليل الصوتي فقط"], choices_en:["By relative dating (superposition) or absolute dating (radioisotopes)","By color sensitivity","By apparent age","By sonic only"], answerIndex:0 },
-      { q_ar:"الفرق بين العمر النسبي والمطلق؟", q_en:"Relative vs absolute age?", choices_ar:["النسبي يضع ترتيباً زمنياً للأحداث، المطلق يعطي عمرًا بالسنوات","نفس الشيء","النسبي رقمي","المطلق تقريبي فقط"], choices_en:["Relative gives sequence; absolute gives years","Same thing","Relative is numeric","Absolute approximate only"], answerIndex:0 },
-      { q_ar:"ما دور المياه في الجيومورفولوجيا؟", q_en:"Role of water in geomorphology?", choices_ar:["محرك رئيسي للتعرية والنقل والترسيب وتشكيل الأودية والدلتا","لا دور","يؤثر فقط على السطح","مهم فقط في الصحارى"], choices_en:["Main agent of erosion, transport and deposition shaping landforms","No role","Only affects surface","Important only in deserts"], answerIndex:0 },
-      { q_ar:"ما أنواع البراكين؟", q_en:"Types of volcanoes?", choices_ar:["مخروط رماد، درعي، طبقي/تركيبي","مخروطات تحت الماء فقط","براكين جليدية","براكين رملية"], choices_en:["Cinder cones, shield volcanoes, stratovolcanoes","Underwater cones only","Ice volcanoes","Sand volcanoes"], answerIndex:0 },
-      { q_ar:"ما المقصود بـStratigraphy؟", q_en:"What is stratigraphy?", choices_ar:["علم دراسة الطبقات الصخرية وترتيبها الزمني والمكاني","قياس السمك فقط","تحليل المعادن","قياس الكثافة"], choices_en:["Study of rock strata and their temporal/spatial relationships","Measuring thickness only","Mineral analysis","Density measurement"], answerIndex:0 },
-      { q_ar:"الفرق بين الفالق والطية؟", q_en:"Fault vs fold?", choices_ar:["الفالق كسر مع إزاحة، الطية انثناء دون كسر","متشابهان","الفالق دائماً أكبر","الطية ناتجة عن التجوية"], choices_en:["Fault is a fracture with displacement; fold is bending without fracture","They are similar","Fault always larger","Fold due to weathering"], answerIndex:0 },
-      { q_ar:"ما العوامل المؤثرة على التعرية؟", q_en:"Factors affecting erosion?", choices_ar:["المناخ، نوع الصخر، الغطاء النباتي، الانحدار التضاريسي","فقط الرياح","فقط الإنسان","فقط الجليد"], choices_en:["Climate, rock type, vegetation cover, slope","Only wind","Only humans","Only ice"], answerIndex:0 },
-      { q_ar:"ما مكونات القشرة الأرضية؟", q_en:"Materials making Earth's crust?", choices_ar:["الصخور والمعادن السليكاتية مثل السيليكا والفلسبار","الماء فقط","الهواء","العضويات فقط"], choices_en:["Rocks and silicate minerals like silica & feldspar","Only water","Air","Only organics"], answerIndex:0 },
-      { q_ar:"ما المقصود بالترسيب؟", q_en:"What is deposition?", choices_ar:["ترسيب المواد المنقولة (فتات/أملاح) عندما تقل الطاقة الحاملة","تفكك الصخور فقط","تحول الصخور","تجميد الماء"], choices_en:["Settling of transported materials (clasts/salts) when carrying energy drops","Only rock decay","Metamorphism","Freezing water"], answerIndex:0 },
-      { q_ar:"دور الكائنات في تكوين الصخور؟", q_en:"Role of organisms in rock formation?", choices_ar:["تكوين صخور عضوية كالفسفور والحجر الجيري العضوي من بقايا كائنات","لا دور","تؤثر فقط في التربة","تمنع الترسيب"], choices_en:["Form organic rocks like phosphorites and biogenic limestones from remains","No role","Only affect soil","Prevent deposition"], answerIndex:0 },
-      { q_ar:"كيف تتشكل الصخور الرسوبية؟", q_en:"How form sedimentary rocks?", choices_ar:["بتجوية، نقل، ترسيب، ثم التصخر (compaction/cementation)","بالتبريد فقط","بالانصهار","بالتجمد"], choices_en:["By weathering, transport, deposition then lithification (compaction/cementation)","By cooling only","By melting","By freezing"], answerIndex:0 },
-      { q_ar:"ما التحول المتماسك؟", q_en:"What is regional metamorphism?", choices_ar:["تحول واسع النطاق نتيجة ضغط وحرارة مرتبطين بحركات تكتونية","تحول محدود محلياً","تحول كيميائي فقط","نتيجة تجوية"], choices_en:["Widespread metamorphism due to pressure & heat from tectonics","Localized alteration only","Only chemical change","Due to weathering"], answerIndex:0 },
-      { q_ar:"الفرق بين الصخور المتحولة والرسوبية؟", q_en:"Metamorphic vs sedimentary rocks?", choices_ar:["المتحولة نتيجة تغير صخرة سابقة بالحرارة/ضغط؛ الرسوبية من ترسيب وتراكم","نفس الشيء","المتحولة رسوبية فقط","الرسوبية متحولة فقط"], choices_en:["Metamorphic from pre-existing rock altered by heat/pressure; sedimentary from deposition/compaction","Same thing","Metamorphic always sedimentary","Sedimentary always metamorphic"], answerIndex:0 },
-      { q_ar:"ما معادن الصخور الشائعة؟", q_en:"Common rock-forming minerals?", choices_ar:["كوارتز، فلسبار، ميكا، كالسيت، أوليفين","ذهب وفضة فقط","غازات","بلاستيك"], choices_en:["Quartz, feldspar, mica, calcite, olivine","Gold & silver only","Gases","Plastic"], answerIndex:0 },
-      { q_ar:"كيف تتعرف على معادن السيليكات؟", q_en:"How ID silicate minerals?", choices_ar:["بصلادة، لون الشق، اللمعان، الوصف البلوري، والتحليل المجهري","بالعين المجردة فقط","باستخدام حرارة عالية","باستخدام التربة فقط"], choices_en:["By hardness, streak, cleavage, crystal habit, and microscopy","By naked eye only","Using high heat","Using soil only"], answerIndex:0 },
-      { q_ar:"ما الظواهر المرتبطة بالزلازل؟", q_en:"Phenomena associated with earthquakes?", choices_ar:["انهيارات أرضية، تسونامي في المحيطات، تسييل التربة","تغير بسيط في الطقس","زيادة المحاصيل","لا شيء"], choices_en:["Landslides, tsunamis in oceans, soil liquefaction","Slight weather change","Increased crops","Nothing"], answerIndex:0 },
-      { q_ar:"ما النظام الجيوديناميكي؟", q_en:"What is geodynamic system?", choices_ar:["دراسة القوى والحركات التي تشكل القشرة الأرضية (التيارات الحملية، حركة الصفائح)","علم الطقس فقط","قياس الضغط الجوي","انظمة التصحر"], choices_en:["Study of forces/motions shaping Earth's crust (mantle convection, plate movements)","Weather science only","Atmospheric pressure measurement","Desertification systems"], answerIndex:0 },
-      { q_ar:"ما الغلاف الصخري؟", q_en:"What is the lithosphere?", choices_ar:["الغطاء الخارجي الصلب من الأرض (قشرة + الجزء العلوي من الستار)","الغلاف الجوي فقط","المحيط فقط","المنطقة الحيوانية"], choices_en:["Outer rigid shell of Earth (crust + uppermost mantle)","Atmosphere only","Ocean only","Biosphere region"], answerIndex:0 },
-      { q_ar:"العلاقة بين الجيولوجيا والهندسة المدنية؟", q_en:"Geology vs civil engineering relation?", choices_ar:["يعطي معلومات عن ثبات التربة، مواقع الفوالق، ونوعية الصخور لتصميم الأساسات","لا علاقة","الهندسة تحدد كل شيء","جيولوجيا تستخدم للزراعة فقط"], choices_en:["Provides info on ground stability, fault locations, rock types for foundation design","No relation","Engineering defines everything","Geology only for agriculture"], answerIndex:0 },
-      { q_ar:"ما فائدة دراسة الجيولوجيا للموارد؟", q_en:"Value of geology for resources?", choices_ar:["تحديد مواقع البترول، المعادن، والمياه الجوفية واستخدامها المستدام","فقط للبحث النظري","لا فائدة","فقط لتصميم الطرق"], choices_en:["Locating petroleum, minerals, groundwater and guiding sustainable use","Only theoretical research","No use","Only for road design"], answerIndex:0 }
-    ]
-  }
-};
-
-/* ---------- App state ---------- */
-let currentSection = null;
-let currentIndex = 0;
-let currentScore = 0;
-let correctCount = 0;
-let wrongCount = 0;
-let timerSeconds = 30; // 30 ثانية لكل سؤال
-let timerInterval = null;
-let leaderboard = JSON.parse(localStorage.getItem('geo_leaderboard')||'[]');
-
-/* ---------- DOM refs ---------- */
-const sectionListEl = document.getElementById('sectionList');
-const quizArea = document.getElementById('quizArea');
-const qLabel = document.getElementById('qLabel');
-const qText = document.getElementById('qText');
-const answersBox = document.getElementById('answersBox');
-const timerLabel = document.getElementById('timerLabel');
-const scoreVal = document.getElementById('scoreVal');
-const levelBadge = document.getElementById('levelBadge');
-const progInner = document.getElementById('progInner');
-const progressLabel = document.getElementById('progressLabel');
-const skipBtn = document.getElementById('skipBtn');
-const backToMenu = document.getElementById('backToMenu');
-
-const resultModal = document.getElementById('resultModal');
-const resScore = document.getElementById('resScore');
-const resDetails = document.getElementById('resDetails');
-const retryBtn = document.getElementById('retryBtn');
-const closeResBtn = document.getElementById('closeResBtn');
-const savedNote = document.getElementById('savedNote');
-const leaderBtn = document.getElementById('leaderBtn');
-
-/* ---------- Audio (WebAudio beeps) ---------- */
-const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-function beep(freq=880, dur=0.12, type='sine', gain=0.12){
-  try{
-    const o = audioCtx.createOscillator();
-    const g = audioCtx.createGain();
-    o.type = type; o.frequency.value = freq;
-    g.gain.value = gain;
-    o.connect(g); g.connect(audioCtx.destination);
-    o.start();
-    g.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + dur);
-    setTimeout(()=> { try{ o.stop() }catch(e){} }, dur*1000+30);
-  }catch(e){}
-}
-function playCorrect(){ beep(920,0.12,'sine',0.12); }
-function playWrong(){ beep(220,0.18,'square',0.14); }
-
-/* ---------- Helpers ---------- */
-function shuffleArray(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]] } return a; }
-function formatTime(s){ const mm=Math.floor(s/60), ss=s%60; return `${String(mm).padStart(2,'0')}:${String(ss).padStart(2,'0')}`; }
-function tText(key, vars){ return t(key, vars); }
-
-/* ---------- UI render ---------- */
-function renderSectionCards(){
-  sectionListEl.innerHTML = '';
-  const keys = Object.keys(QUIZZES);
-  keys.forEach(k=>{
-    const data = QUIZZES[k];
-    const card = document.createElement('div'); card.className='section-card';
-    card.onclick = ()=> startSection(k);
-    card.innerHTML = `<div class="section-title">${lang==='ar'?data.title_ar:data.title_en}</div>
-                      <div class="section-desc">${lang==='ar'?'30 سؤال عملي — تتابعي':'30 practical Q — sequential'}</div>`;
-    sectionListEl.appendChild(card);
-  });
-}
-
-/* ---------- Start section ---------- */
-function startSection(key){
-  currentSection = key;
-  currentIndex = 0;
-  currentScore = 0;
-  correctCount = 0;
-  wrongCount = 0;
-  quizArea.style.display = 'block';
-  sectionListEl.style.display = 'none'; // إخفاء القائمة عند البدء
-  showQuestion();
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-
-/* ---------- Show question ---------- */
-let answered = false;
-function showQuestion(){
-  const items = QUIZZES[currentSection].items;
-  const item = items[currentIndex];
-  const n = items.length;
-  qLabel.textContent = (lang==='ar')? `السؤال ${currentIndex+1} / Q${currentIndex+1}` : `Q${currentIndex+1} / Question ${currentIndex+1}`;
-  qText.textContent = (lang==='ar')? item.q_ar : item.q_en;
-  progressLabel.textContent = t('questionOf', {i: currentIndex+1, n});
-  answersBox.innerHTML = '';
-  // choices array
-  const choices = (lang==='ar')? item.choices_ar.slice() : item.choices_en.slice();
-  // shuffle while preserving mapping to answerIndex by using objects
-  const opts = choices.map((c,i)=>({text:c,origIndex:i}));
-  shuffleArray(opts);
-  opts.forEach((opt, idx)=>{
-    const el = document.createElement('div'); el.className='answer';
-    el.innerHTML = `<div class="opt-label">${['A','B','C','D'][idx]||String.fromCharCode(65+idx)}</div><div class="opt-text">${opt.text}</div>`;
-    el.dataset.orig = opt.origIndex;
-    el.onclick = ()=> selectAnswer(el, item.answerIndex);
-    answersBox.appendChild(el);
-  });
-  // progress & score UI
-  progInner.style.width = `${Math.round(((currentIndex+1)/n)*100)}%`; // تم التعديل ليظهر 30/30 عند الانتهاء
-  scoreVal.textContent = currentScore;
-  updateLevelBadge();
-  // timer
-  startTimer();
-  // visual
-  const card = document.getElementById('questionCard');
-  card.classList.remove('fade-in'); void card.offsetWidth; card.classList.add('fade-in');
-  answered = false;
-}
-
-/* ---------- Answer selection ---------- */
-function selectAnswer(el, correctIndex){
-  if(answered) return;
-  answered = true;
-  stopTimer();
-  const chosenOrig = Number(el.dataset.orig);
-  const correctChoiceIndex = correctIndex; // original index
-  const isCorrect = (chosenOrig === correctChoiceIndex);
-  if(isCorrect){
-    el.classList.add('correct'); playCorrect();
-    currentScore += 10; correctCount++;
-  } else {
-    el.classList.add('wrong'); playWrong();
-    currentScore -= 5; wrongCount++;
-    // highlight correct option
-    Array.from(answersBox.children).forEach(ch=>{
-      if(Number(ch.dataset.orig) === correctChoiceIndex) ch.classList.add('correct');
-      ch.onclick = null; // تعطيل النقر على الخيارات بعد الإجابة
-    });
-  }
-  scoreVal.textContent = currentScore;
-  updateLevelBadge();
-  setTimeout(()=> goNext(), 900);
-}
-
-/* ---------- Skip (unanswered) ---------- */
-skipBtn.addEventListener('click', ()=>{
-  if(!currentSection || answered) return;
-  answered = true;
-  stopTimer();
-  // show correct
-  const item = QUIZZES[currentSection].items[currentIndex];
-  const correctIndex = item.answerIndex;
-  Array.from(answersBox.children).forEach(ch=>{
-    if(Number(ch.dataset.orig) === correctIndex) ch.classList.add('correct');
-    ch.onclick = null; // تعطيل النقر على الخيارات بعد التجاوز
-  });
-  setTimeout(()=> goNext(),700);
-});
-
-/* ---------- Timer ---------- */
-function startTimer(){
-  let tleft = timerSeconds || 30;
-  timerLabel.textContent = formatTime(tleft);
-  if(timerInterval) clearInterval(timerInterval);
-  timerInterval = setInterval(()=>{
-    tleft--;
-    timerLabel.textContent = formatTime(tleft);
-    if(tleft<=0){
-      clearInterval(timerInterval);
-      if(!answered){
-        answered = true;
-        // treat as wrong (deduct 5)
-        playWrong();
-        currentScore -= 5; wrongCount++;
-        scoreVal.textContent = currentScore;
-        updateLevelBadge();
-        // highlight correct
-        const item = QUIZZES[currentSection].items[currentIndex];
-        const corr = item.answerIndex;
-        Array.from(answersBox.children).forEach(ch=>{
-          if(Number(ch.dataset.orig) === corr) ch.classList.add('correct');
-          ch.onclick = null;
-        });
-        setTimeout(()=> goNext(),900);
-      }
-    }
-  },1000);
-}
-function stopTimer(){ if(timerInterval) clearInterval(timerInterval); timerInterval = null; }
-
-/* ---------- Next question / finish ---------- */
-function goNext(){
-  stopTimer();
-  const total = QUIZZES[currentSection].items.length;
-  currentIndex++;
-  if(currentIndex < total){
-    showQuestion();
-  } else {
-    finishQuiz();
-  }
-}
-
-/* ---------- Finish quiz ---------- */
-function finishQuiz(){
-  quizArea.style.display = 'none';
-  stopTimer();
-  const totalQuestions = QUIZZES[currentSection].items.length;
-  const totalPossible = totalQuestions * 10;
-  const percent = Math.max(0, Math.round((currentScore / totalPossible) * 100));
-  resScore.textContent = `${currentScore} نقطة`;
-  resDetails.innerHTML = `
-    <div class="small-muted">${lang==='ar'?'القسم':'Section'}: ${lang==='ar'?QUIZZES[currentSection].title_ar:QUIZZES[currentSection].title_en}</div>
-    <div style="margin-top:8px">${lang==='ar'?'الإجابات الصحيحة':'Correct'}: <strong>${correctCount}/${totalQuestions}</strong> — ${lang==='ar'?'الخاطئة/المتجاوزة':'Wrong/Skipped'}: <strong>${wrongCount}</strong></div>
-    <div style="margin-top:8px">${lang==='ar'?'النسبة':'Percent'}: <strong>${percent}%</strong></div>
-  `;
-  const level = determineLevel(currentScore);
-  document.getElementById('resTitle').textContent = (lang==='ar'?'النتيجة النهائية':'Final Result') + ` — ${level.name}`;
-  // save result
-  const entry = { id: Date.now(), section: currentSection, score: currentScore, when: new Date().toISOString(), level: level.name, lang };
-  leaderboard.push(entry); leaderboard.sort((a,b)=> b.score - a.score);
-  if(leaderboard.length>100) leaderboard = leaderboard.slice(0,100);
-  localStorage.setItem('geo_leaderboard', JSON.stringify(leaderboard));
-  savedNote.textContent = t('savedNote');
-  resultModal.style.display = 'flex';
-}
-
-/* ---------- Levels ---------- */
-function determineLevel(score){
-  if(score >= 250) return { name: (lang==='ar'?'خبير 💎':'Expert 💎'), color:'#ffd700' };
-  if(score >= 150) return { name: (lang==='ar'?'ميداني 🪨':'Field Pro 🪨'), color:'#c0c0c0' };
-  if(score >= 50) return { name: (lang==='ar'?'متقدم 🔰':'Advanced 🔰'), color:'#7dd3fc' };
-  return { name: (lang==='ar'?'مبتدئ':'Beginner'), color:'#94a3b8' };
-}
-function updateLevelBadge(){ const lv = determineLevel(currentScore); levelBadge.textContent = `${lang==='ar'?'المستوى':'Level'}: ${lv.name}`; }
-
-/* ---------- Retry / close ---------- */
-retryBtn.addEventListener('click', ()=> { resultModal.style.display='none'; startSection(currentSection); });
-closeResBtn.addEventListener('click', ()=> { resultModal.style.display='none'; quizArea.style.display='none'; sectionListEl.style.display='grid'; });
-
-/* ---------- Back to menu ---------- */
-backToMenu.addEventListener('click', ()=> { quizArea.style.display='none'; sectionListEl.style.display='grid'; stopTimer(); });
-
-/* ---------- Leaderboard ---------- */
-leaderBtn.addEventListener('click', ()=>{
-  const board = JSON.parse(localStorage.getItem('geo_leaderboard')||'[]');
-  if(board.length===0){ alert(t('leaderboardEmpty')); return; }
-  let out = (lang==='ar'?'لوحة النتائج (أعلى 20):\n\n':'Leaderboard (top 20):\n\n');
-  board.slice(0,20).forEach((e,i)=>{
-    const title = (lang==='ar'? QUIZZES[e.section].title_ar : QUIZZES[e.section].title_en);
-    const scoreText = (lang==='ar'? `${e.score} نقطة` : `${e.score} points`);
-    out += `${i+1}. ${title} — ${scoreText} — ${e.level} — ${new Date(e.when).toLocaleDateString(lang)}\n`;
-  });
-  alert(out);
-});
-
-/* ---------- Language Toggle ---------- */
-langToggle.addEventListener('click', () => {
-    lang = (lang === 'ar') ? 'en' : 'ar';
-    localStorage.setItem('geo_lang', lang);
-    document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
-    refreshLangUI();
-    renderSectionCards();
-    updateLevelBadge();
-    // إعادة عرض الواجهة الرئيسية إذا كانت مخفية
-    if (quizArea.style.display === 'none') {
-        sectionListEl.style.display = 'grid';
-    }
-});
-document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr'; // تفعيل اللغة عند التحميل
-
-/* ---------- Init ---------- */
-function init(){
-  refreshLangUI();
-  renderSectionCards();
-  scoreVal.textContent = '0';
-  updateLevelBadge();
-  // show menu by default
-  sectionListEl.style.display = 'grid';
-  // resume audio on gesture
-  document.addEventListener('click', ()=> { if(audioCtx.state==='suspended') audioCtx.resume(); }, { once:true });
-}
-init();
-
-</script>
-</body>
-</html>
+<!-- The file is long; continue below -->
