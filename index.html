@@ -1,303 +1,685 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<!doctype html>
+<html lang="ar">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GeoChallenge | تحدي الجيولوجيين</title>
-    <style>
-        /* CSS Styling */
-        :root {
-            --rock-gray: #4a4e69; /* رمادي صخري داكن */
-            --sky-blue: #61a5c2; /* أزرق سماوي */
-            --earth-orange: #ff9f1c; /* برتقالي ترابي/تحفيزي */
-            --light-bg: #f5f5f7;
-            --font-main: 'Arial', sans-serif;
-        }
-
-        body {
-            font-family: var(--font-main);
-            margin: 0;
-            padding: 0;
-            background-color: var(--light-bg);
-            color: var(--rock-gray);
-            line-height: 1.6;
-        }
-
-        /* Navbar & Header */
-        .navbar {
-            background-color: var(--rock-gray);
-            color: white;
-            padding: 15px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .logo {
-            font-size: 1.8em;
-            font-weight: bold;
-            color: var(--earth-orange);
-        }
-
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            margin: 0 15px;
-            font-size: 1.1em;
-            transition: color 0.3s;
-        }
-
-        .nav-links a:hover {
-            color: var(--sky-blue);
-        }
-
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('geology-bg.jpg'); /* يجب استبدال الصورة */
-            background-size: cover;
-            background-position: center;
-            color: white;
-            text-align: center;
-            padding: 80px 20px;
-        }
-
-        .hero h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-        }
-
-        .hero p {
-            font-size: 1.2em;
-            margin-bottom: 30px;
-        }
-
-        .cta-button {
-            background-color: var(--earth-orange);
-            color: white;
-            padding: 12px 30px;
-            text-decoration: none;
-            border-radius: 5px;
-            font-size: 1.2em;
-            transition: background-color 0.3s;
-        }
-
-        .cta-button:hover {
-            background-color: #e08b1a;
-        }
-
-        /* Content Sections */
-        .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: 40px auto;
-            display: flex;
-            gap: 30px;
-        }
-
-        .main-content {
-            flex: 3;
-            background-color: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
-        }
-
-        .sidebar {
-            flex: 1;
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
-        }
-
-        h2 {
-            color: var(--sky-blue);
-            border-bottom: 2px solid var(--earth-orange);
-            padding-bottom: 10px;
-            margin-bottom: 25px;
-        }
-
-        /* Quiz Cards */
-        .quiz-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-        }
-
-        .quiz-card {
-            background-color: var(--light-bg);
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s;
-        }
-
-        .quiz-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        .quiz-card h3 {
-            color: var(--rock-gray);
-            margin-top: 0;
-            font-size: 1.3em;
-        }
-
-        .quiz-card p {
-            font-size: 0.9em;
-            color: #666;
-        }
-
-        .quiz-card span {
-            display: block;
-            margin-top: 10px;
-            color: var(--sky-blue);
-            font-weight: bold;
-        }
-
-        /* Leaderboard Styling */
-        .leaderboard-list {
-            list-style: none;
-            padding: 0;
-        }
-
-        .leaderboard-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 0;
-            border-bottom: 1px dashed #ddd;
-        }
-
-        .leaderboard-item:last-child {
-            border-bottom: none;
-        }
-
-        .rank {
-            font-weight: bold;
-            color: var(--earth-orange);
-            font-size: 1.1em;
-        }
-
-        .points {
-            font-weight: bold;
-            color: var(--rock-gray);
-        }
-
-        /* Footer */
-        .footer {
-            background-color: var(--rock-gray);
-            color: white;
-            text-align: center;
-            padding: 20px 0;
-            margin-top: 40px;
-        }
-
-        .footer p {
-            margin: 0;
-            font-size: 0.9em;
-        }
-
-        /* Utility Classes (Icons/Badges) */
-        .icon-badge {
-            margin-left: 5px;
-            color: var(--earth-orange);
-        }
-    </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>GeoQuest — تدريب الجيولوجيين</title>
+<style>
+  /* Reset & base */
+  *{box-sizing:border-box;font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, system-ui;}
+  html,body{height:100%;margin:0;background:#f4f7fb;color:#0f172a;direction:rtl}
+  a{color:inherit}
+  .hidden{display:none !important}
+  header{background:linear-gradient(90deg,#0ea5a3,#2563eb);color:#fff;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;position:sticky;top:0;z-index:10}
+  .brand{display:flex;align-items:center;gap:12px}
+  .brand h1{margin:0;font-size:18px}
+  .container{max-width:1100px;margin:18px auto;padding:12px}
+  .grid{display:grid;gap:12px}
+  .cols-3{grid-template-columns:repeat(3,1fr)}
+  .cols-2{grid-template-columns:repeat(2,1fr)}
+  .card{background:#fff;border-radius:10px;padding:14px;box-shadow:0 6px 18px rgba(2,6,23,0.06)}
+  .btn{display:inline-block;padding:8px 12px;border-radius:8px;background:#2563eb;color:#fff;cursor:pointer;border:none}
+  .muted{color:#6b7280;font-size:13px}
+  .avatar{width:44px;height:44px;border-radius:10px;background:linear-gradient(180deg,#fff,#e6f7ff);display:flex;align-items:center;justify-content:center;font-weight:700;color:#0b1320}
+  footer{padding:20px;text-align:center;color:#6b7280;margin-top:18px}
+  input,select,textarea{padding:8px;border-radius:8px;border:1px solid #e6eef8;width:100%}
+  .option{padding:10px;border-radius:8px;border:1px solid #e6eef8;margin-bottom:8px;cursor:pointer}
+  .option.correct{border-color:#10b981;background:#ecfdf5}
+  .option.wrong{border-color:#ef4444;background:#fff1f2}
+  .progress{height:10px;background:#e6eef8;border-radius:8px;overflow:hidden}
+  .progress>div{height:100%;background:linear-gradient(90deg,#34d399,#06b6d4)}
+  .badge{display:inline-block;padding:6px 8px;border-radius:999px;background:#ffedd5;color:#92400e;font-weight:600;margin-right:6px}
+  .leaderboard li{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px dashed #eef2ff}
+  @media (max-width:900px){ .cols-3{grid-template-columns:1fr} header{flex-direction:column;align-items:flex-start} }
+  .center{display:flex;align-items:center;justify-content:center}
+  .timer{font-weight:700}
+  .admin-panel{background:#fff7ed;border:1px solid #ffedd5}
+  /* Modal overlay style */
+  #loginModal{position:fixed;inset:0;background:rgba(2,6,23,0.5);display:flex;align-items:center;justify-content:center;z-index:9999}
+  #loginModal .modalBox{width:420px;background:#fff;padding:18px;border-radius:12px;box-shadow:0 12px 40px rgba(2,6,23,0.4)}
+</style>
 </head>
 <body>
+<header>
+  <div class="brand">
+    <div style="width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,#06b6d4,#2563eb);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700">GQ</div>
+    <div>
+      <h1>GeoQuest — اختبر مهاراتك الجيولوجية</h1>
+      <div class="muted" style="font-size:12px">كويزات، تحديات، وشهادات — كل شيء يعمل محليًا</div>
+    </div>
+  </div>
 
-    <div class="navbar">
-        <div class="logo">GeoChallenge 🧭</div>
-        <div class="nav-links">
-            <a href="#home">الرئيسية</a>
-            <a href="#quizzes">الكويزات</a>
-            <a href="#challenges">التحديات</a>
-            <a href="#learn">تعلم</a>
-            <a href="profile.html">حسابي</a>
+  <div style="display:flex;gap:12px;align-items:center">
+    <button class="btn" id="startBtn">ابدأ التحدي</button>
+    <button class="btn" id="learnBtn" style="background:#06b6d4">المواد القصيرة</button>
+    <select id="topicFilter" style="padding:8px;border-radius:8px;border:none">
+      <option value="all">كل المواضيع</option>
+      <option value="hydro">الهيدروجيولوجيا</option>
+      <option value="petro">البتروغرافيا</option>
+      <option value="maps">الخرائط</option>
+      <option value="general">الجيولوجيا العامة</option>
+    </select>
+
+    <div id="userArea" style="display:flex;gap:12px;align-items:center;margin-inline-start:12px">
+      <div id="welcome" class="muted small">مرحبًا زائر</div>
+      <div id="avatar" class="avatar">؟</div>
+      <button class="btn" id="loginBtn" style="background:#0ea5a3">دخول / تسجيل</button>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <section id="homeSection" class="grid cols-3">
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <h3>أحدث الاختبارات</h3>
+        <div class="muted small">جرب الآن</div>
+      </div>
+      <div id="quizzesList" style="margin-top:12px"></div>
+    </div>
+
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <h3>المتصدرون هذا الأسبوع</h3>
+        <div class="muted small">نظام النقاط</div>
+      </div>
+      <ul id="leaderboard" class="leaderboard" style="margin-top:12px;list-style:none;padding:0"></ul>
+    </div>
+
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <h3>حسابي</h3>
+        <div class="muted small">نقاط، شارات، مستوى</div>
+      </div>
+      <div style="margin-top:12px" id="profileCard">
+        <div style="display:flex;gap:12px;align-items:center">
+          <div id="profileAvatar" class="avatar">؟</div>
+          <div>
+            <div id="profileName" style="font-weight:700">زائر</div>
+            <div id="profileStats" class="muted small">لم تقم بتسجيل الدخول</div>
+          </div>
         </div>
+        <div style="margin-top:12px">
+          <button class="btn" id="profileBtn" style="background:#2563eb">عرض الملف</button>
+        </div>
+      </div>
     </div>
+  </section>
 
-    <header class="hero" id="home">
-        <h1>اختبر مهاراتك الجيولوجية، تسلق الترتيب، وكن مستعدًا لسوق العمل الحقيقي.</h1>
-        <p>نظام تفاعلي يجمع بين التحدي والمكافأة لرفع مستوى الجيولوجيين الجدد.</p>
-        <a href="register.html" class="cta-button">ابدأ التحدي الآن</a>
-    </header>
-
-    <div class="container">
-        <main class="main-content">
-            <section id="quizzes-latest">
-                <h2>🔹 أحدث الاختبارات</h2>
-                <div class="quiz-grid">
-                    <div class="quiz-card">
-                        <h3>مقدمة في البتروغرافيا</h3>
-                        <p>أساسيات تصنيف الصخور النارية والمتحولة.</p>
-                        <span><i class="icon-badge">🧱</i> 15 سؤال | مستوى متوسط</span>
-                    </div>
-                    <div class="quiz-card">
-                        <h3>أساسيات الهيدروجيولوجيا</h3>
-                        <p>مفاهيم طبقات المياه الجوفية والمسامية.</p>
-                        <span><i class="icon-badge">💧</i> 10 أسئلة | مستوى سهل</span>
-                    </div>
-                    <div class="quiz-card">
-                        <h3>تفسير الخرائط الهيكلية</h3>
-                        <p>تحديد الميول والاتجاهات للطبقات الصخرية.</p>
-                        <span><i class="icon-badge">🗺️</i> 20 سؤال | مستوى صعب</span>
-                    </div>
-                </div>
-            </section>
-
-            <section id="topics" style="margin-top: 40px;">
-                <h2>⭐ مواضيع مميزة</h2>
-                <div class="quiz-grid">
-                    <div class="quiz-card" style="background-color: #fff3e6;">
-                        <h3>🌋 الجيولوجيا العامة</h3>
-                    </div>
-                    <div class="quiz-card" style="background-color: #e6f7ff;">
-                        <h3>🧭 الجيوفيزياء</h3>
-                    </div>
-                    <div class="quiz-card" style="background-color: #f0e6ff;">
-                        <h3>🧱 البتروغرافيا</h3>
-                    </div>
-                </div>
-            </section>
-        </main>
-
-        <aside class="sidebar">
-            <section id="leaderboard">
-                <h2>🏆 أفضل المتصدرين هذا الأسبوع</h2>
-                <ul class="leaderboard-list">
-                    <li class="leaderboard-item">
-                        <span class="rank">#1</span>
-                        <span>أحمد الصخري</span>
-                        <span class="points">5400 نقطة</span>
-                    </li>
-                    <li class="leaderboard-item">
-                        <span class="rank">#2</span>
-                        <span>فاطمة الكويكب</span>
-                        <span class="points">4950 نقطة</span>
-                    </li>
-                    <li class="leaderboard-item">
-                        <span class="rank">#3</span>
-                        <span>خالد البوصلة</span>
-                        <span class="points">4120 نقطة</span>
-                    </li>
-                    <li class="leaderboard-item">
-                        <span class="rank">#4</span>
-                        <span>مريم الطبقات</span>
-                        <span class="points">3890 نقطة</span>
-                    </li>
-                </ul>
-                <a href="leaderboard.html" class="cta-button" style="display: block; text-align: center; margin-top: 15px;">عرض اللوحة كاملة</a>
-            </section>
-        </aside>
+  <section id="learnSection" class="card hidden" style="margin-top:18px">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <h3>المواد التعليمية السريعة</h3>
+      <div class="muted small">مشاهدات قصيرة واختبار فوري</div>
     </div>
+    <div style="margin-top:12px">
+      <div id="lessonsList" class="grid cols-2"></div>
+    </div>
+  </section>
 
-    <footer class="footer">
-        <p>© 2025 GeoChallenge. جميع الحقوق محفوظة. | تصميم بواجهة صخرية وترابية.</p>
-    </footer>
+  <section id="quizSection" class="card hidden" style="margin-top:18px">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <h3 id="quizTitle">كويز</h3>
+      <div class="small">الوقت المتبقي: <span id="timer" class="timer">00:00</span></div>
+    </div>
+    <div id="quizMeta" class="muted small" style="margin-top:8px">عدد الأسئلة: <span id="qcount">0</span> — النقاط لكل إجابة: <span id="pointsPer">10</span></div>
+    <div id="questionArea" style="margin-top:12px"></div>
+    <div style="margin-top:12px;display:flex;gap:8px;align-items:center">
+      <button class="btn" id="nextQBtn">تجاوز</button>
+      <div class="muted small">النتيجة الحالية: <span id="currentScore">0</span></div>
+      <div style="flex:1"></div>
+      <div class="progress" style="width:200px">
+        <div id="progressBar" style="width:0%"></div>
+      </div>
+    </div>
+  </section>
 
+  <section id="challengeSection" class="card" style="margin-top:18px">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <h3>التحديات</h3>
+      <div class="muted small">تحديات 1v1 محلية</div>
+    </div>
+    <div style="margin-top:12px" class="grid cols-2">
+      <div class="card">
+        <h4>ابدأ تحدي 1v1</h4>
+        <p class="muted small">اختر اختبارًا وأرسل رمز التحدي لصديق</p>
+        <div style="display:flex;gap:6px;margin-top:8px">
+          <select id="challengeQuizSelect"></select>
+          <button class="btn" id="createChallengeBtn">انشاء</button>
+        </div>
+        <div id="challengeBox" style="margin-top:10px" class="muted small"></div>
+      </div>
+      <div class="card">
+        <h4>التحديات الحالية</h4>
+        <ul id="activeChallenges" style="list-style:none;padding:0;margin-top:8px"></ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="adminSection" class="card hidden" style="margin-top:18px">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <h3>لوحة التحكم (Admin)</h3>
+      <div class="muted small">إضافة / تعديل أسئلة</div>
+    </div>
+    <div class="admin-panel" style="padding:12px;margin-top:10px">
+      <h4>إضافة كويز جديد</h4>
+      <div style="display:grid;gap:8px;margin-top:8px">
+        <input id="newQuizTitle" placeholder="عنوان الكويز (مثال: الهيدروجيولوجيا — أساسي)" />
+        <select id="newQuizTopic">
+          <option value="hydro">الهيدروجيولوجيا</option>
+          <option value="petro">البتروغرافيا</option>
+          <option value="maps">الخرائط</option>
+          <option value="general">الجيولوجيا العامة</option>
+        </select>
+        <textarea id="newQuizQuestions" placeholder='أسئلة بصيغة JSON. مثال:
+[
+ {"q":"ما مصدر المياه الجوفية؟","choices":["أ","ب","ج","د"],"answer":0}
+]
+' rows="6"></textarea>
+        <div style="display:flex;gap:8px">
+          <button class="btn" id="addQuizBtn">حفظ الكويز</button>
+          <button class="btn" id="resetDataBtn" style="background:#ef4444">مسح بيانات احتياطية</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="certSection" class="card hidden" style="margin-top:18px">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <h3>شهادة إتمام</h3>
+      <div class="muted small">بعد اجتياز اختبارات تحصل على شهادة</div>
+    </div>
+    <div style="margin-top:12px">
+      <button class="btn" id="generateCertBtn">إنشاء شهادة قابلة للطباعة</button>
+      <div id="certBox" style="margin-top:10px"></div>
+    </div>
+  </section>
+
+  <footer class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+      <div><strong>GeoQuest</strong> — نسخة تجريبية محلية.</div>
+      <div class="muted small">حفظ البيانات في جهازك فقط</div>
+    </div>
+  </footer>
+</main>
+
+<!-- Login Modal -->
+<div id="loginModal" class="hidden" aria-hidden="true">
+  <div class="modalBox">
+    <h3>تسجيل / دخول</h3>
+    <div style="display:grid;gap:8px;margin-top:8px">
+      <input id="loginName" placeholder="الاسم الكامل" />
+      <input id="loginEmail" placeholder="البريد الإلكتروني (اختياري)" />
+      <select id="loginRole">
+        <option value="user">مستخدم</option>
+        <option value="admin">مشرف (Admin)</option>
+      </select>
+      <div style="display:flex;gap:8px">
+        <button class="btn" id="doLoginBtn">تسجيل / دخول</button>
+        <button class="btn" id="cancelLoginBtn" style="background:#94a3b8">إلغاء</button>
+      </div>
+      <div class="muted small">ملاحظة: هذه نسخة محلية؛ البيانات تحفظ في جهازك فقط.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* GeoQuest — ملف واحد محدث:
+   - يحفظ المستخدم في localStorage
+   - يعالج مشكلة النافذة التي لا تختفي (يستخدم style.display + class)
+   - يدعم مشرف admin، حفظ الأسئلة، تحديات محلية، شهادات
+*/
+
+/* --- مفاتيح التخزين --- */
+const LS = {
+  USERS: 'geo_users_v2',
+  QUIZZES: 'geo_quizzes_v2',
+  CHALLENGES: 'geo_challenges_v2',
+  ACTIVE: 'geo_active_v2'
+};
+
+/* --- بيانات ابتدائية --- */
+const starterQuizzes = [
+  { id: 'q_hydro_01', title: 'الهيدروجيولوجيا — أساسي', topic: 'hydro', pointsPer: 10, timeLimitSec: 300, questions: [
+    {"q":"ما هو تعريف الطبقة الحاملة للمياه (Aquifer)؟","choices":["صخور تمنع مرور المياه","تربة مشبعة بالمياه وتخزنها","مادة نفاذة تسمح بتخزين ونقل الماء الجوفي","سطح الماء في البئر"],"answer":2},
+    {"q":"أي من التالي يقلل من تغذية المياه الجوفية؟","choices":["هطول الأمطار","قطع الغطاء النباتي","تخطيط جيد للصرف","زراعة مسطحات نباتية"],"answer":1}
+  ]},
+  { id:'q_petro_01', title:'البتروغرافيا — التعرف على الصخور', topic:'petro', pointsPer:10, timeLimitSec:240, questions:[
+    {"q":"الصخور المتحولة تنتج من؟","choices":["تبريد الحمم","تغيرات حرارية وضغطية على صخور أخرى","ترسب الرواسب","تبلور المعادن في الماء"],"answer":1},
+    {"q":"ماذا يعني لفظ 'غلين' (gneiss)؟","choices":["نوع من الصخور الترسبية","صخر متحول مخطط","معدن نفيس","نوع تربة"],"answer":1}
+  ]},
+  { id:'q_maps_01', title:'الخرائط الجيولوجية — الأساسيات', topic:'maps', pointsPer:10, timeLimitSec:200, questions:[
+    {"q":"خط الارتفاع على الخريطة الطبوغرافية يمثل؟","choices":["نفس الارتفاع","خطوط متوازية دائما","منحنى يربط نقاط بنفس الارتفاع","ماركة حدودية"],"answer":2},
+    {"q":"مقياس الخريطة 1:50,000 يعني؟","choices":["1 متر على الخريطة = 50,000 متر على الواقع","الخريطة مخصصة للتضاريس فقط","غير مرتبط بالمسافة","مقياس رقمي للارتفاع"],"answer":0}
+  ]},
+  { id:'q_general_01', title:'الجيولوجيا العامة — اختبارات سريعة', topic:'general', pointsPer:10, timeLimitSec:180, questions:[
+    {"q":"قشرة الأرض تتكون أساسًا من؟","choices":["ماء وغاز","معادن وصخور","هواء","مواد عضوية فقط"],"answer":1},
+    {"q":"ما هي العمليات الجوّية؟","choices":["عمليات داخل القشرة الأرضية","عمليات سطحية تشمل التعرية والنحت","مصطلح لمعالجة المياه","نوع من الصخور"],"answer":1}
+  ]}
+];
+
+/* --- حالة التطبيق --- */
+let state = {
+  user: null,
+  users: [],
+  quizzes: [],
+  challenges: [],
+  currentQuiz: null,
+  currentQuestionIndex: 0,
+  currentScore: 0,
+  timerId: null,
+  timeLeft: 0
+};
+
+/* --- عناصر DOM --- */
+const loginModal = document.getElementById('loginModal');
+const loginBtn = document.getElementById('loginBtn');
+const doLoginBtn = document.getElementById('doLoginBtn');
+const cancelLoginBtn = document.getElementById('cancelLoginBtn');
+const loginName = document.getElementById('loginName');
+const loginEmail = document.getElementById('loginEmail');
+const loginRole = document.getElementById('loginRole');
+
+const avatarEl = document.getElementById('avatar');
+const welcomeEl = document.getElementById('welcome');
+const profileNameEl = document.getElementById('profileName');
+const profileStatsEl = document.getElementById('profileStats');
+const profileAvatar = document.getElementById('profileAvatar');
+const profileBtn = document.getElementById('profileBtn');
+
+const quizzesList = document.getElementById('quizzesList');
+const topicFilter = document.getElementById('topicFilter');
+const lessonsList = document.getElementById('lessonsList');
+const learnSection = document.getElementById('learnSection');
+
+const quizSection = document.getElementById('quizSection');
+const quizTitle = document.getElementById('quizTitle');
+const timerEl = document.getElementById('timer');
+const questionArea = document.getElementById('questionArea');
+const qcountEl = document.getElementById('qcount');
+const nextQBtn = document.getElementById('nextQBtn');
+const currentScoreEl = document.getElementById('currentScore');
+const progressBar = document.getElementById('progressBar');
+
+const challengeQuizSelect = document.getElementById('challengeQuizSelect');
+const createChallengeBtn = document.getElementById('createChallengeBtn');
+const challengeBox = document.getElementById('challengeBox');
+const activeChallengesEl = document.getElementById('activeChallenges');
+
+const leaderboardEl = document.getElementById('leaderboard');
+const challengeSection = document.getElementById('challengeSection');
+
+const adminSection = document.getElementById('adminSection');
+const newQuizTitle = document.getElementById('newQuizTitle');
+const newQuizTopic = document.getElementById('newQuizTopic');
+const newQuizQuestions = document.getElementById('newQuizQuestions');
+const addQuizBtn = document.getElementById('addQuizBtn');
+const resetDataBtn = document.getElementById('resetDataBtn');
+
+const learnBtn = document.getElementById('learnBtn');
+const startBtn = document.getElementById('startBtn');
+
+const generateCertBtn = document.getElementById('generateCertBtn');
+
+/* --- مساعدة: تهيئة البيانات --- */
+function ensureInitData(){
+  if(!localStorage.getItem(LS.QUIZZES)) localStorage.setItem(LS.QUIZZES, JSON.stringify(starterQuizzes));
+  if(!localStorage.getItem(LS.USERS)) localStorage.setItem(LS.USERS, JSON.stringify([]));
+  if(!localStorage.getItem(LS.CHALLENGES)) localStorage.setItem(LS.CHALLENGES, JSON.stringify([]));
+}
+ensureInitData();
+
+/* --- تحميل الحالة من التخزين --- */
+function loadState(){
+  state.quizzes = JSON.parse(localStorage.getItem(LS.QUIZZES) || '[]');
+  state.users = JSON.parse(localStorage.getItem(LS.USERS) || '[]');
+  state.challenges = JSON.parse(localStorage.getItem(LS.CHALLENGES) || '[]');
+  const activeId = localStorage.getItem(LS.ACTIVE);
+  if(activeId){
+    const u = state.users.find(x=>x.id===activeId);
+    if(u) state.user = u;
+    else localStorage.removeItem(LS.ACTIVE);
+  }
+}
+
+/* --- حفظ --- */
+function saveUsers(){ localStorage.setItem(LS.USERS, JSON.stringify(state.users)); }
+function saveQuizzes(){ localStorage.setItem(LS.QUIZZES, JSON.stringify(state.quizzes)); }
+function saveChallenges(){ localStorage.setItem(LS.CHALLENGES, JSON.stringify(state.challenges)); }
+
+/* --- رندر الواجهة العامة --- */
+function renderHeader(){
+  if(state.user){
+    const first = (state.user.name||'زائر').split(' ')[0];
+    welcomeEl.textContent = `مرحبًا ${first}`;
+    avatarEl.textContent = (state.user.name[0]||'؟').toUpperCase();
+    profileAvatar.textContent = avatarEl.textContent;
+    profileNameEl.textContent = state.user.name;
+    profileStatsEl.innerHTML = `نقاط: <strong>${state.user.points||0}</strong> — شارات: <span class="badge">${(state.user.badges||[]).length}</span>`;
+    loginBtn.textContent = 'تسجيل خروج';
+    loginBtn.style.background = '#ef4444';
+    // admin visibility
+    if(state.user.role === 'admin') adminSection.classList.remove('hidden');
+    else adminSection.classList.add('hidden');
+  } else {
+    welcomeEl.textContent = 'مرحبًا زائر';
+    avatarEl.textContent = '؟';
+    profileAvatar.textContent = '؟';
+    profileNameEl.textContent = 'زائر';
+    profileStatsEl.textContent = 'لم تقم بتسجيل الدخول';
+    loginBtn.textContent = 'دخول / تسجيل';
+    loginBtn.style.background = '#0ea5a3';
+    adminSection.classList.add('hidden');
+  }
+}
+
+/* --- رندر الاختبارات --- */
+function renderQuizzes(filter='all'){
+  quizzesList.innerHTML = '';
+  challengeQuizSelect.innerHTML = '';
+  const list = state.quizzes.filter(q => filter==='all' || q.topic===filter);
+  list.forEach(q=>{
+    const card = document.createElement('div');
+    card.className='card';
+    card.style.marginBottom='10px';
+    card.innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <strong>${q.title}</strong>
+          <div class="muted small">${q.questions.length} سؤال — وقت ${q.timeLimitSec} ثانية</div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <button class="btn" data-id="${q.id}">ابدأ</button>
+          <button class="btn" style="background:#06b6d4" data-preview="${q.id}">عرض</button>
+        </div>
+      </div>
+    `;
+    // attach handlers
+    const btnStart = card.querySelector('button[data-id]');
+    btnStart.onclick = ()=> startQuiz(q.id);
+    const btnPreview = card.querySelector('button[data-preview]');
+    btnPreview.onclick = ()=> alert(`${q.title}\nأسئلة: ${q.questions.length}\nوقت: ${q.timeLimitSec} ثانية\nالموضوع: ${q.topic}`);
+    quizzesList.appendChild(card);
+
+    const opt = document.createElement('option'); opt.value=q.id; opt.textContent=q.title;
+    challengeQuizSelect.appendChild(opt);
+  });
+  if(list.length===0) quizzesList.innerHTML = `<div class="muted small">لا توجد اختبارات في هذا الموضوع حالياً.</div>`;
+}
+
+/* --- دروس قصيرة --- */
+function renderLessons(){
+  const lessons = [
+    {id:'l_hydro_1',title:'مقدمة في الهيدروجيولوجيا',desc:'ملاحظات سريعة عن المخازن المائية.'},
+    {id:'l_maps_1',title:'قراءة الخرائط الطبوغرافية',desc:'كيف تقرأ خطوط الكنتور.'},
+    {id:'l_petro_1',title:'التعرف على الصخور المتحولة',desc:'العلامات والخصائص.'}
+  ];
+  lessonsList.innerHTML = '';
+  lessons.forEach(ls=>{
+    const c=document.createElement('div'); c.className='card';
+    c.innerHTML = `<h4>${ls.title}</h4><div class="muted small">${ls.desc}</div><div style="margin-top:8px"><button class="btn">عرض + اختبار</button></div>`;
+    c.querySelector('button').onclick = ()=> {
+      alert(ls.desc);
+      if(confirm('بدء اختبار قصير؟')){
+        const topic = ls.id.includes('hydro')?'hydro':(ls.id.includes('maps')?'maps':'petro');
+        const q = state.quizzes.find(x=>x.topic===topic);
+        if(q) startQuiz(q.id); else alert('لا يوجد اختبار لهذا الدرس الآن.');
+      }
+    };
+    lessonsList.appendChild(c);
+  });
+}
+
+/* --- لوحة المتصدرين --- */
+function renderLeaderboard(){
+  const sorted = [...state.users].sort((a,b)=> (b.points||0)-(a.points||0)).slice(0,10);
+  leaderboardEl.innerHTML = '';
+  if(sorted.length===0){ leaderboardEl.innerHTML='<div class="muted small">لا متسابقين بعد.</div>'; return; }
+  sorted.forEach(u=>{
+    const li = document.createElement('li');
+    li.innerHTML = `<div><strong>${u.name}</strong><div class="muted small">${u.role||'مستخدم'}</div></div><div>${u.points||0}</div>`;
+    leaderboardEl.appendChild(li);
+  });
+}
+
+/* --- تحديات محلية --- */
+function createChallenge(){
+  if(!state.user) return alert('سجل الدخول لإنشاء تحدي.');
+  const quizId = challengeQuizSelect.value;
+  const quiz = state.quizzes.find(q=>q.id===quizId);
+  if(!quiz) return alert('اختر اختباراً صالحاً.');
+  const code = Math.random().toString(36).slice(2,8).toUpperCase();
+  const ch = { code, title:`تحدي — ${quiz.title}`, quizId, creatorId: state.user.id, status:'open', createdAt:Date.now() };
+  state.challenges.push(ch); saveChallenges(); renderActiveChallenges();
+  challengeBox.innerHTML = `<div class="muted small">تم إنشاء التحدي. شارك الرمز: <strong>${code}</strong></div>`;
+}
+function renderActiveChallenges(){
+  activeChallengesEl.innerHTML = '';
+  if(state.challenges.length===0){ activeChallengesEl.innerHTML='<div class="muted small">لا تحديات حالياً.</div>'; return; }
+  state.challenges.forEach(ch=>{
+    const li = document.createElement('li');
+    li.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center">
+      <div><strong>${ch.title}</strong><div class="muted small">رمز: ${ch.code} — حالة: ${ch.status}</div></div>
+      <div style="display:flex;gap:8px">
+        <button class="btn" data-join="${ch.code}">انضم</button>
+        <button class="btn" style="background:#06b6d4" data-view="${ch.code}">عرض</button>
+      </div>
+    </div>`;
+    const joinBtn = li.querySelector('button[data-join]'); joinBtn.onclick = ()=> joinChallenge(ch.code);
+    const viewBtn = li.querySelector('button[data-view]'); viewBtn.onclick = ()=> viewChallenge(ch.code);
+    activeChallengesEl.appendChild(li);
+  });
+}
+function joinChallenge(code){
+  const ch = state.challenges.find(c=>c.code===code);
+  if(!ch) return alert('رمز التحدي غير موجود.');
+  if(!state.user) return alert('سجل الدخول للانضمام.');
+  if(ch.status!=='open') return alert('التحدي مغلق.');
+  ch.status='in-progress'; ch.joinerId = state.user.id; saveChallenges(); renderActiveChallenges();
+  alert(`انضممت للتحدي ${code} — بعد الانتهاء ستقارن النتائج محليًا.`);
+  startQuiz(ch.quizId);
+}
+function viewChallenge(code){
+  const ch = state.challenges.find(c=>c.code===code);
+  if(!ch) return alert('غير موجود');
+  alert(`التحدي: ${ch.title}\nرمز: ${ch.code}\nالحالة: ${ch.status}`);
+}
+
+/* --- تشغيل الكويز (أساسي) --- */
+function startQuiz(id){
+  const q = state.quizzes.find(x=>x.id===id);
+  if(!q) return alert('اختبار غير موجود');
+  state.currentQuiz = JSON.parse(JSON.stringify(q));
+  state.currentQuestionIndex = 0;
+  state.currentScore = 0;
+  qcountEl.textContent = state.currentQuiz.questions.length;
+  quizTitle.textContent = state.currentQuiz.title;
+  document.getElementById('pointsPer').textContent = state.currentQuiz.pointsPer;
+  currentScoreEl.textContent = 0;
+  quizSection.classList.remove('hidden');
+  // timer
+  if(state.timerId) clearInterval(state.timerId);
+  state.timeLeft = state.currentQuiz.timeLimitSec || (state.currentQuiz.questions.length * 30);
+  updateTimer();
+  state.timerId = setInterval(()=>{ state.timeLeft--; updateTimer(); if(state.timeLeft<=0){ clearInterval(state.timerId); finishQuiz(); } },1000);
+  renderQuestion();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function updateTimer(){
+  const mm = String(Math.floor(state.timeLeft/60)).padStart(2,'0');
+  const ss = String(state.timeLeft%60).padStart(2,'0');
+  timerEl.textContent = `${mm}:${ss}`;
+}
+function renderQuestion(){
+  const idx = state.currentQuestionIndex;
+  const q = state.currentQuiz.questions[idx];
+  if(!q) return finishQuiz();
+  questionArea.innerHTML = '';
+  const wrapper = document.createElement('div');
+  wrapper.innerHTML = `<h4>السؤال ${idx+1}: ${q.q}</h4>`;
+  const opts = document.createElement('div');
+  opts.className='quiz-questions';
+  q.choices.forEach((ch,i)=>{
+    const o = document.createElement('div');
+    o.className='option';
+    o.textContent = ch;
+    o.dataset.index = i;
+    o.onclick = ()=> selectOption(o,q);
+    opts.appendChild(o);
+  });
+  wrapper.appendChild(opts);
+  questionArea.appendChild(wrapper);
+  const total = state.currentQuiz.questions.length;
+  progressBar.style.width = `${Math.round((idx/total)*100)}%`;
+}
+function selectOption(el,q){
+  if(el.classList.contains('answered')) return;
+  const selected = Number(el.dataset.index);
+  const correct = q.answer;
+  const opts = questionArea.querySelectorAll('.option');
+  opts.forEach(o=>{
+    o.classList.add('answered');
+    const idx = Number(o.dataset.index);
+    if(idx===correct) o.classList.add('correct');
+    if(idx===selected && idx!==correct) o.classList.add('wrong');
+  });
+  if(selected===correct){
+    state.currentScore += (state.currentQuiz.pointsPer||10);
+    currentScoreEl.textContent = state.currentScore;
+  }
+  setTimeout(()=> {
+    state.currentQuestionIndex++;
+    if(state.currentQuestionIndex < state.currentQuiz.questions.length) renderQuestion();
+    else finishQuiz();
+  },900);
+}
+function finishQuiz(){
+  if(state.timerId) clearInterval(state.timerId);
+  quizSection.classList.add('hidden');
+  // award to user if logged in
+  if(state.user){
+    state.user.points = (state.user.points||0) + state.currentScore;
+    state.user.badges = state.user.badges || [];
+    // badge if >=80%
+    const totalPossible = (state.currentQuiz.questions.length * (state.currentQuiz.pointsPer||10));
+    if(state.currentScore >= Math.round(totalPossible * 0.8)) state.user.badges.push({title: `نجح في ${state.currentQuiz.title}`, date: Date.now()});
+    const idx = state.users.findIndex(u=>u.id===state.user.id);
+    if(idx>=0) state.users[idx] = state.user; else state.users.push(state.user);
+    saveUsers(); renderLeaderboard(); renderHeader();
+    alert(`انتهى الاختبار! حصلت على ${state.currentScore} نقطة. نقاطك الإجمالية: ${state.user.points}`);
+  } else {
+    alert(`انتهى الاختبار! حصلت على ${state.currentScore} نقطة. سجّل دخول لحفظ تقدمك.`);
+  }
+  state.currentQuiz = null; state.currentQuestionIndex = 0; state.currentScore = 0;
+}
+
+/* --- إدارة الكويزات (Admin) --- */
+function addQuizFromAdmin(){
+  if(!state.user || state.user.role!=='admin') return alert('صلاحية مشرف مطلوبة.');
+  const title = newQuizTitle.value.trim(); const topic = newQuizTopic.value; const raw = newQuizQuestions.value;
+  if(!title || !raw) return alert('ادخل العنوان والأسئلة.');
+  let questions;
+  try { questions = JSON.parse(raw); if(!Array.isArray(questions)) throw new Error('JSON يجب أن يكون مصفوفة'); }
+  catch(e){ return alert('خطأ في JSON: ' + e.message); }
+  const id = 'q_' + topic + '_' + Math.random().toString(36).slice(2,6);
+  const newQ = {id,title,topic,pointsPer:10,timeLimitSec:180,questions};
+  state.quizzes.push(newQ); saveQuizzes(); renderQuizzes(topicFilter.value); alert('تم حفظ الكويز بنجاح.');
+  newQuizTitle.value=''; newQuizQuestions.value='';
+}
+function resetData(){
+  if(!confirm('هل تريد مسح كافة البيانات (المستخدمين، الأسئلة، التحديات)؟')) return;
+  localStorage.removeItem(LS.USERS); localStorage.removeItem(LS.QUIZZES); localStorage.removeItem(LS.CHALLENGES); localStorage.removeItem(LS.ACTIVE);
+  location.reload();
+}
+
+/* --- تسجيل / خروج --- */
+function showLoginModal(){
+  loginModal.classList.remove('hidden'); loginModal.style.display='flex'; loginModal.setAttribute('aria-hidden','false');
+}
+function hideLoginModal(){
+  loginModal.classList.add('hidden'); loginModal.style.display='none'; loginModal.setAttribute('aria-hidden','true');
+}
+function doLogin(){
+  const name = loginName.value.trim() || 'مستخدم';
+  const email = loginEmail.value.trim() || '';
+  const role = loginRole.value || 'user';
+  // find by email if provided
+  let user = null;
+  if(email) user = state.users.find(u=>u.email && u.email.toLowerCase()===email.toLowerCase());
+  if(!user){
+    user = { id: 'u_' + Math.random().toString(36).slice(2,8), name, email, role, points:0, badges:[] };
+    state.users.push(user);
+  } else {
+    user.name = name; user.role = role;
+    const idx = state.users.findIndex(u=>u.id===user.id); if(idx>=0) state.users[idx]=user;
+  }
+  saveUsers();
+  state.user = user;
+  localStorage.setItem(LS.ACTIVE, user.id);
+  // hide modal robustly
+  hideLoginModal();
+  // reset inputs
+  loginName.value=''; loginEmail.value=''; loginRole.value='user';
+  renderHeader(); renderLeaderboard();
+}
+function doLogout(){
+  if(!confirm('تأكيد تسجيل الخروج؟')) return;
+  state.user = null; localStorage.removeItem(LS.ACTIVE); renderHeader();
+}
+
+/* --- شهادة قابلة للطباعة --- */
+function generateCertificate(){
+  if(!state.user) return alert('سجل الدخول لإنشاء شهادة.');
+  const name = state.user.name; const date = new Date().toLocaleDateString('ar-EG');
+  const html = `
+    <html><head><meta charset="utf-8"><title>شهادة إتمام</title>
+    <style>body{font-family:Arial,Helvetica,sans-serif;direction:rtl;text-align:center;padding:40px} .cert{border:10px solid #2563eb;padding:40px;border-radius:12px}</style></head>
+    <body><div class="cert"><h1>شهادة إتمام</h1><p>تشهد GeoQuest بأن</p><h2>${name}</h2><p>أكمل سلسلة تدريبات وكويزات واكتسب مهارات أولية في الجيولوجيا.</p><p>${date}</p></div></body></html>
+  `;
+  const w = window.open('','_blank'); w.document.write(html); w.document.close();
+}
+
+/* --- تهيئة الأحداث --- */
+function initUI(){
+  // read state
+  loadState();
+  renderHeader(); renderQuizzes(); renderLessons(); renderLeaderboard(); renderActiveChallenges();
+
+  // If user already active, ensure modal hidden
+  if(state.user){ hideLoginModal(); } else { hideLoginModal(); /* keep hidden initially */ }
+
+  // event listeners
+  loginBtn.addEventListener('click', ()=> {
+    if(state.user) doLogout(); else showLoginModal();
+  });
+  cancelLoginBtn.addEventListener('click', ()=> hideLoginModal());
+  doLoginBtn.addEventListener('click', ()=> { doLogin(); });
+  profileBtn.addEventListener('click', ()=> {
+    if(state.user) alert(`ملف ${state.user.name}\nنقاط: ${state.user.points||0}\nشارات: ${(state.user.badges||[]).length}`);
+    else alert('لم تقم بتسجيل الدخول');
+  });
+
+  addQuizBtn.addEventListener('click', addQuizFromAdmin);
+  resetDataBtn.addEventListener('click', resetData);
+  createChallengeBtn.addEventListener('click', createChallenge);
+  generateCertBtn.addEventListener('click', generateCertificate);
+  topicFilter.addEventListener('change', ()=> renderQuizzes(topicFilter.value));
+  learnBtn.addEventListener('click', ()=> { learnSection.classList.toggle('hidden'); learnSection.scrollIntoView({behavior:'smooth'}); });
+  startBtn.addEventListener('click', ()=> window.scrollTo({top:0,behavior:'smooth'}) );
+
+  nextQBtn.addEventListener('click', ()=> {
+    if(!state.currentQuiz) return;
+    state.currentQuestionIndex++;
+    if(state.currentQuestionIndex < state.currentQuiz.questions.length) renderQuestion();
+    else finishQuiz();
+  });
+
+  // accessibility: Esc hides modal
+  document.addEventListener('keydown', (e)=> { if(e.key==='Escape') hideLoginModal(); });
+}
+
+/* --- تشغيل --- */
+initUI();
+
+</script>
 </body>
 </html>
-
