@@ -1,998 +1,324 @@
+<!doctype html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>GeoReady — من الدراسة إلى الميدان</title>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700;800;900&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-  /* ---------------------------------------------------------------------- */
-  /* GeoReady Pallet (ألوان ترابية - بني، رمادي، أزرق فاتح) */
-  /* ---------------------------------------------------------------------- */
   :root{
-    /* الألوان الأساسية */
-    --bg-dark: #1E293B; /* رمادي صخري غامق */
-    --bg-light: #F8FAFC; 
-    --accent-sky: #0EA5E9; /* أزرق مائي */
-    --accent-sand: #FACC15; /* ذهبي رملي */
-    --text-light: #FFFFFF;
-    --text-dark: #1E293B;
-    --muted: #94A3B8;
-
-    --card: #2D3A4F; 
-    --accent1: var(--accent-sky);
-    --accent2: var(--accent-sand);
-    --good: #10B981; 
-    --bad: #EF4444; 
-    --glass: rgba(255,255,255,0.03);
-    
-    /* الخطوط */
-    --font-arabic: 'Cairo', sans-serif;
-    --font-latin: 'Poppins', sans-serif;
+    --bg:#f5f3f1; --card:#fff; --accent:#2b6cb0; --earth:#8d6e63; --dark:#111;
   }
-  /* وضع افتراضي: Dark Mode */
-  body{
-      margin:0;
-      font-family: var(--font-arabic), var(--font-latin);
-      background: var(--bg-dark);
-      color: var(--text-light);
-      direction:rtl;
-      transition: background-color 0.5s, color 0.5s;
-      overflow-y: scroll; 
-  }
-  .wrap{max-width:1200px;margin:0 auto;padding:0 12px}
-  
-  /* Light Mode Toggle */
-  body.light{
-      --bg-dark: var(--bg-light);
-      --card: #FFFFFF;
-      --text-light: #1E293B;
-      --text-dark: #1E293B;
-      --muted: #4B5563;
-      --accent-sky: #0EA5E9;
-      --accent-sand: #CA9E27;
-      background: var(--bg-dark);
-      color: var(--text-light);
-  }
-  
-  /* ---------------------------------------------------------------------- */
-  /* Navbar (الشريط العلوي) */
-  /* ---------------------------------------------------------------------- */
-  .navbar{
-      background: rgba(30, 41, 59, 0.95);
-      backdrop-filter: blur(5px);
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-  }
-  .navbar .wrap{
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 10px 12px;
-  }
-  .navbar .logo-text{
-      font-size: 20px;
-      font-weight: 900;
-      color: var(--accent-sand); /* شعار باللون الذهبي الرملي */
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      cursor: pointer;
-      min-width: 150px;
-  }
-  .navbar .nav-links a {
-      color: var(--muted);
-      text-decoration: none;
-      margin: 0 15px;
-      font-weight: 600;
-      transition: color 0.3s;
-      font-family: var(--font-latin); 
-  }
-  .navbar .nav-links a.active, .navbar .nav-links a:hover {
-      color: var(--accent-sky);
-  }
-  .navbar .actions { display: flex; align-items: center; gap: 10px; }
-  .navbar .icon-btn {
-      background: none;
-      border: none;
-      color: var(--muted);
-      font-size: 1.2em;
-      cursor: pointer;
-      padding: 8px;
-      border-radius: 50%;
-  }
-  @media (max-width: 800px) { .navbar .nav-links { display: none; } }
-  
-  .start-mission-btn{
-      background: var(--accent-sky); /* زر بارز باللون الأزرق المائي */
-      color: var(--text-light);
-      font-weight: 700;
-      padding: 8px 15px;
-      border-radius: 8px;
-      border: none;
-      cursor: pointer;
-      box-shadow: 0 4px 10px rgba(14, 165, 233, 0.4);
-      transition: background 0.3s, transform 0.2s;
-  }
-  .start-mission-btn:hover { background: #00BFFF; transform: translateY(-2px); }
-  
-  /* ---------------------------------------------------------------------- */
-  /* Hero Section (Home Page) - تحديث الخلفية والتأثيرات */
-  /* ---------------------------------------------------------------------- */
-  .hero-section{
-      height: 70vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      background: linear-gradient(rgba(30, 41, 59, 0.85), rgba(30, 41, 59, 0.95)), url('https://via.placeholder.com/1200x800/2D3A4F/FACC15?text=Geologist+In+The+Field') center/cover; /* صورة جيولوجي في الميدان */
-      border-radius: 12px;
-      margin: 20px 0;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-  }
-  .hero-text h2{ font-size: 2.8em; color: var(--accent-sky); margin-bottom: 10px; font-weight: 900; }
-  .hero-text p{ font-size: 1.2em; color: var(--accent-sand); max-width: 700px; margin-bottom: 40px; }
-  
-  /* الإحصائيات المتحركة */
-  .stats-motion { display: flex; justify-content: space-around; width: 80%; max-width: 600px; margin-top: 30px; }
-  .stat-item-motion { text-align: center; color: var(--text-light); }
-  .stat-value { font-size: 2.5em; font-weight: 900; color: var(--accent-sand); }
-  .stat-label { font-size: 0.9em; color: var(--muted); }
-
-  /* ---------------------------------------------------------------------- */
-  /* General Content Layout */
-  /* ---------------------------------------------------------------------- */
-  .page-wrapper { min-height: 80vh; padding: 20px 0; }
-  .page-title { font-size: 2.2em; font-weight: 800; color: var(--accent-sky); margin-bottom: 20px; border-bottom: 2px solid rgba(255,255,255,0.1); padding-bottom: 10px; }
-  .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 20px; }
-  .geo-card {
-      background: var(--card);
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 6px 15px rgba(0,0,0,0.4);
-      border-left: 5px solid var(--accent-sand);
-      transition: transform 0.3s, box-shadow 0.3s;
-      cursor: pointer;
-  }
-  .geo-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
-  .card-header { font-size: 1.5em; font-weight: 700; color: var(--accent-sky); margin-bottom: 10px; }
-  .card-meta { color: var(--muted); font-size: 0.9em; margin-top: 5px; }
-  .btn{
-      background: var(--accent-sky);
-      color: var(--text-light);
-      padding: 10px 20px;
-      border-radius: 8px;
-      border: none;
-      cursor: pointer;
-      font-weight: 700;
-      transition: background 0.3s;
-      font-family: var(--font-arabic);
-  }
-  .btn.secondary{ background: var(--accent-sand); color: var(--text-dark); }
-
-  /* ---------------------------------------------------------------------- */
-  /* Academy & Resources Styles */
-  /* ---------------------------------------------------------------------- */
-  .lesson-card {
-      background: var(--bg-dark);
-      padding: 15px;
-      border-radius: 8px;
-      border-left: 3px solid var(--good);
-  }
-  .lesson-card h4 { margin: 0 0 8px 0; color: var(--good); font-weight: 700; }
-  .lesson-card .meta-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; }
-  
-  /* ---------------------------------------------------------------------- */
-  /* Footer */
-  /* ---------------------------------------------------------------------- */
-  footer{
-      background: var(--card);
-      padding: 20px 0;
-      margin-top: 30px;
-      text-align: center;
-      border-top: 1px solid rgba(255,255,255,0.1);
-  }
-  footer .quick-links a{
-      color: var(--muted);
-      margin: 0 10px;
-      text-decoration: none;
-      font-size: 0.9em;
-  }
-  .motto {
-      font-style: italic;
-      color: var(--accent-sand);
-      margin-top: 10px;
-  }
-
-  /* ---------------------------------------------------------------------- */
-  /* Quiz/Training/Profile Styles - Reused */
-  /* ---------------------------------------------------------------------- */
-  .container{background:var(--card);border-radius:12px;padding:15px;box-shadow:0 8px 30px rgba(0,0,0,0.5); border:1px solid rgba(255,255,255,0.05); margin-top: 20px;}
-  .answer.correct { background: var(--good); color: var(--text-light); }
-  .answer.wrong { background: var(--bad); color: var(--text-light); }
-  /* ... (Other reused styles) ... */
+  *{box-sizing:border-box;font-family: system-ui, "Segoe UI", Roboto, "Noto Sans Arabic", "Helvetica Neue", Arial;}
+  body{margin:0;background:linear-gradient(180deg,#f7f7f9 0%,var(--bg) 100%);color:var(--dark);line-height:1.45}
+  header{background:linear-gradient(135deg, rgba(43,108,176,0.95), rgba(141,110,99,0.95)); color:white;padding:28px 20px;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+  .brand{display:flex;align-items:center;gap:12px;font-weight:700;font-size:20px}
+  .logo{width:56px;height:56px;border-radius:10px;background:radial-gradient(circle at 30% 20%,#fff2 0,#fff0 30%),linear-gradient(180deg,#fff0,rgba(255,255,255,0.08));display:flex;align-items:center;justify-content:center}
+  .container{max-width:1100px;margin:22px auto;padding:0 18px}
+  .hero{display:grid;grid-template-columns:1fr 420px;gap:22px;align-items:center;margin-top:18px}
+  .hero-card{background:var(--card);padding:22px;border-radius:12px;box-shadow:0 8px 20px rgba(12,12,12,0.08)}
+  h1{margin:0 0 8px;font-size:26px}
+  p.lead{margin:0 0 14px;color:#334;opacity:0.95}
+  .cta{display:inline-block;background:var(--earth);color:white;padding:10px 14px;border-radius:9px;font-weight:700;text-decoration:none}
+  .features{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px}
+  .feat{background:#fff7;border-radius:10px;padding:10px 12px;font-size:13px}
+  /* right column */
+  .card-side{background:linear-gradient(180deg,#fbfbfd,#ffffff);padding:16px;border-radius:12px;box-shadow:0 6px 18px rgba(10,10,10,0.06)}
+  .badge{display:inline-block;background:var(--accent);color:white;padding:6px 9px;border-radius:8px;font-weight:700;margin-bottom:10px}
+  /* Academy list */
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px}
+  .course{background:var(--card);padding:12px;border-radius:10px;box-shadow:0 6px 18px rgba(10,10,10,0.04);cursor:pointer}
+  .course h3{margin:0;font-size:15px}
+  .course p{margin:6px 0 0;font-size:13px;color:#444}
+  /* quiz */
+  .quiz{margin-top:18px;background:linear-gradient(180deg,#fff,#fbfbff);padding:14px;border-radius:12px}
+  .question{margin-bottom:12px}
+  .options button{display:block;width:100%;text-align:right;padding:10px;border-radius:8px;border:1px solid #eee;background:white;margin:8px 0;cursor:pointer}
+  .options button.correct{border-color:green;background:linear-gradient(90deg,#ecfff1,#fff)}
+  .options button.wrong{border-color:#e04a4a;background:linear-gradient(90deg,#fff5f5,#fff)}
+  /* simulator map */
+  .map{height:220px;border-radius:10px;background-image:linear-gradient(180deg,#e8f5ff,#fff);position:relative;overflow:hidden;border:1px dashed rgba(20,20,20,0.04)}
+  .marker{width:34px;height:34px;border-radius:50%;background:var(--accent);position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;cursor:grab}
+  .small{font-size:13px;color:#555}
+  footer{margin:40px 0 80px;text-align:center;color:#666;font-size:14px}
+  /* responsive */
+  @media (max-width:900px){ .hero{grid-template-columns:1fr} .grid{grid-template-columns:repeat(2,1fr)} }
+  @media (max-width:560px){ .grid{grid-template-columns:1fr} header{justify-content:center} }
+  /* language toggle */
+  .lang-toggle{margin-left:auto;color:white;display:flex;gap:8px;align-items:center}
+  .switch{background:rgba(255,255,255,0.14);padding:6px 8px;border-radius:8px;cursor:pointer}
+  /* badges */
+  .badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+  .badge-item{background:linear-gradient(180deg,#fff,#fff0);padding:8px 10px;border-radius:8px;border:1px solid rgba(0,0,0,0.04);font-size:13px}
+  /* job card */
+  .job{background:linear-gradient(180deg,#fff,#f8fbff);padding:12px;border-radius:10px;border:1px solid rgba(0,0,0,0.03);display:flex;justify-content:space-between;align-items:center}
+  .btn-ghost{background:transparent;border:1px solid var(--accent);padding:8px 10px;border-radius:9px;color:var(--accent);cursor:pointer}
 </style>
 </head>
 <body>
 
-  <nav class="navbar">
-    <div class="wrap">
-      <div class="logo-text" onclick="renderPage('home')">
-        <span style="color: var(--accent-sky);">🪨 GeoReady</span>
-      </div>
-      <div class="nav-links">
-        <a href="#" onclick="renderPage('home')" data-page="home" class="active" id="nav-home">Home</a>
-        <a href="#" onclick="renderPage('academy')" data-page="academy" id="nav-academy">Academy</a>
-        <a href="#" onclick="renderPage('fieldzone')" data-page="fieldzone" id="nav-fieldzone">Field Zone</a>
-        <a href="#" onclick="renderPage('resources')" data-page="resources" id="nav-resources">Resources</a>
-        <a href="#" onclick="renderPage('community')" data-page="community" id="nav-community">Community</a>
-        <a href="#" onclick="renderPage('profile')" data-page="profile" id="nav-profile">Profile</a>
-        <a href="#" onclick="renderPage('about')" data-page="about" id="nav-about">About</a>
-      </div>
-      <div class="actions">
-        <button class="start-mission-btn" onclick="renderPage('missions')">→ 🔘 Start Mission</button>
-        <button class="icon-btn" id="modeToggle">🌙</button>
-      </div>
+<header>
+  <div class="brand">
+    <div class="logo" aria-hidden>
+      <svg width="36" height="36" viewBox="0 0 24 24" fill="none"><path d="M3 20h18v1H3z" fill="#ffffff22"/><circle cx="12" cy="9" r="5" fill="white" opacity="0.12"/><path d="M12 4l5 3-5 3-5-3 5-3z" fill="white"/></svg>
     </div>
-  </nav>
-
-  <main class="wrap" id="mainAppContent">
-    
-    <div class="page-wrapper" id="page-home">
-        <div class="hero-section">
-            <div class="hero-text">
-                <h2>هل أنت جاهز لميدان الجيولوجيا؟</h2>
-                <p>اكتشف التدريب الذي يحوّلك من خريج إلى محترف.</p>
-                <div class="hero-actions btn-group">
-                    <button class="btn" onclick="renderPage('missions')">ابدأ التدريب الآن 🔥</button>
-                </div>
-            </div>
-            
-            <div class="stats-motion">
-                <div class="stat-item-motion">
-                    <div class="stat-value">5,200+</div>
-                    <div class="stat-label">🎓 المتدربين</div>
-                </div>
-                <div class="stat-item-motion">
-                    <div class="stat-value">8</div>
-                    <div class="stat-label">🧭 البرامج التدريبية</div>
-                </div>
-            </div>
-        </div>
-        
-        <h3 class="page-title" style="font-size: 1.5em; border-bottom: none;">📘 Geo Academy Preview</h3>
-        <div class="card-grid">
-            <div class="geo-card" onclick="renderPage('academy')">
-                <div class="card-header">💧 Hydrogeology Basics</div>
-                <div class="card-meta">درس تفاعلي + اختبار قصير</div>
-            </div>
-            <div class="geo-card" onclick="renderPage('academy')">
-                <div class="card-header">🪨 Sampling & Analysis</div>
-                <div class="card-meta">مسار متوسط ➜ محترف</div>
-            </div>
-            <div class="geo-card" onclick="renderPage('fieldzone')">
-                <div class="card-header">🧭 Field Zone - الميدان الافتراضي</div>
-                <div class="card-meta">خرائط تفاعلية ومحاكاة آبار</div>
-            </div>
-        </div>
-    </div>
-
-    <div class="page-wrapper" id="page-missions" style="display:none;">
-        <h1 class="page-title">🎯 Quizzes & Certifications</h1>
-        <p style="color:var(--muted);">اختبر نفسك واظهر مستواك. كل فئة مرتبطة بدورة معينة.</p>
-        
-        <h3 style="margin-top: 40px; color: var(--accent-sand);">الامتحانات الأساسية (Quizzes)</h3>
-        <div class="sections" id="sectionList" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
-          </div>
-    </div>
-
-    <div class="page-wrapper" id="page-academy" style="display:none;">
-        <h1 class="page-title">1. Geo Academy – الأكاديمية التدريبية</h1>
-        <p style="color:var(--muted);">دروس تفاعلية قصيرة (Micro-Learning) تتدرج من مبتدئ إلى محترف.</p>
-        
-        <div class="card-grid" id="learn-content-grid">
-             </div>
-        <div id="trainingContent" class="container" style="display:none;"></div>
-    </div>
-    
-    <div class="page-wrapper" id="page-fieldzone" style="display:none;">
-        <h1 class="page-title">2. Field Zone – الميدان الافتراضي 🧭</h1>
-        <p style="color:var(--muted);">تدريب افتراضي يحاكي الميدان. خرائط وصور تفاعلية وتمارين واقعية.</p>
-        <div class="card-grid">
-            <div class="geo-card" style="border-left: 5px solid var(--accent-sky);">
-                <div class="card-header">خرائط Geo-Analysis 3D</div>
-                <div class="card-meta">تفاعل مع مقاطع جيولوجية افتراضية.</div>
-            </div>
-            <div class="geo-card" style="border-left: 5px solid var(--accent-sky);">
-                <div class="card-header">تمارين الآبار الارتوازية</div>
-                <div class="card-meta">ما الخطوات الأولى للتحليل في موقع بئر؟</div>
-            </div>
-            <div class="geo-card" style="border-left: 5px solid var(--accent-sky);">
-                <div class="card-header">قوالب السيرة الذاتية (CV Templates)</div>
-                <div class="card-meta">نماذج جاهزة للسيرة الذاتية الخاصة بالجيولوجيين.</div>
-            </div>
-        </div>
-    </div>
-    
-    <div class="page-wrapper" id="page-resources" style="display:none;">
-        <h1 class="page-title">5. Resources – مكتبة المعرفة 📚</h1>
-        <p style="color:var(--muted);">مركز ضخم للتحميلات المجانية والبرمجيات: خرائط، كتيبات، ونماذج.</p>
-        <div class="card-grid">
-            <div class="geo-card">
-                <div class="card-header">🧾 خرائط جيولوجية (PDF)</div>
-            </div>
-            <div class="geo-card">
-                <div class="card-header">🪨 كتيبات ميدانية (Field Manuals)</div>
-            </div>
-            <div class="geo-card">
-                <div class="card-header">💧 برمجيات مجانية (QGIS, AquaChem)</div>
-            </div>
-        </div>
-    </div>
-
-    <div class="page-wrapper" id="page-community" style="display:none;">
-        <h1 class="page-title">4. Community – المجتمع الجيولوجي</h1>
-        <p style="color:var(--muted);">مساحة تواصل وذكاء جماعي. كلما تساهم أكثر، تحصل على رتبة أعلى.</p>
-        <div class="card-grid">
-            <div class="geo-card" style="grid-column: 1 / -1; border-left: 5px solid var(--accent-sand);">
-                <div class="card-header">منتدى النقاش (Geo Forum)</div>
-                <div class="card-meta">شارك خبراتك وحل مشاكل زملائك.</div>
-            </div>
-            <div class="geo-card">
-                <div class="card-header">قسم التوظيف</div>
-                <div class="card-meta">قائمة بالشركات (سوناطراك، ENAGEO) ومواقع التوظيف ذات الصلة.</div>
-            </div>
-            <div class="geo-card">
-                <div class="card-header">نظام نقاط الخبرة (Gamification)</div>
-                <div class="card-meta">رتب: Geo Rookie → Geo Pro → Field Expert.</div>
-            </div>
-        </div>
-    </div>
-    
-    <div class="page-wrapper" id="page-about" style="display:none;">
-        <h1 class="page-title">عن GeoReady</h1>
-        <p style="font-size: 1.1em;">**قصة التأسيس:** بدأت GeoReady لدعم الخريجين الجدد، حيث سعينا لسد الفجوة بين المعرفة الأكاديمية والجاهزية الميدانية المطلوبة في سوق العمل (بما في ذلك الجزائر والمنطقة العربية).</p>
-        <p style="font-style: italic; color: var(--accent-sand);">**رؤيتنا:** أن نكون المنصة الأولى التي تحوّل الخريج إلى جيولوجي ميداني محترف ومطلوب عالميًا.</p>
-        <div class="card-grid" style="margin-top: 30px;">
-             <div class="geo-card" style="border-left: 5px solid var(--accent-sky);">
-                <div class="card-header">دعوة للخبراء</div>
-                <div class="card-meta">ندعو المدربين وأساتذة الجامعات للمساهمة في الأكاديمية.</div>
-             </div>
-             <div class="geo-card" style="border-left: 5px solid var(--accent-sky);">
-                <div class="card-header">المقابلات الوظيفية</div>
-                <div class="card-meta">دروس متخصصة: "كيف تقنع مهندس HR أنك جاهز".</div>
-             </div>
-        </div>
-    </div>
-    
-    <div class="page-wrapper" id="page-reports" style="display:none;">
-        <h1 class="page-title">📄 Reports / Contact</h1>
-        <div class="geo-card" style="margin-bottom: 30px;">
-             <div class="card-header">إنشاء تقرير فحص بئر جديد</div>
-             <p style="color:var(--muted);">استخدم هذا النموذج لإنشاء تقرير PDF جاهز التصميم بشعار GeoReady.</p>
-             <div style="margin-top: 15px;">
-                 <input type="text" placeholder="اسم المشروع / المنطقة" style="width:100%; padding:10px; margin-bottom:10px; background:var(--bg-dark); border:1px solid rgba(255,255,255,0.1); color:var(--text-light); border-radius:4px;">
-                 <textarea placeholder="ملاحظات الحقل والطبقات (From - To)" rows="5" style="width:100%; padding:10px; margin-bottom:10px; background:var(--bg-dark); border:1px solid rgba(255,255,255,0.1); color:var(--text-light); border-radius:4px;"></textarea>
-                 <button class="btn secondary">تصدير PDF</button>
-             </div>
-        </div>
-        <h2 style="font-size: 1.8em; color: var(--accent-sky);">اتصل بنا</h2>
-        <div class="geo-card">
-            <div class="card-meta">البريد الرسمي: contact@geoready.org</div>
-            <div class="card-meta">الشبكات الاجتماعية: (LinkedIn, YouTube, Telegram)</div>
-        </div>
-    </div>
-    
-    <div class="page-wrapper" id="page-profile" style="display:none;">
-        <h1 class="page-title">👤 Profile (الملف الشخصي)</h1>
-        <div class="card-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
-            <div class="geo-card" style="border-left: 5px solid var(--accent-sky);">
-                <div class="card-header">🧭 Geologist User</div>
-                <div class="card-meta">مرحباً بعودتك!</div>
-                <p style="font-size: 2em; font-weight: 900; color: var(--accent-sand);" id="profileTotalScore">0 XP</p>
-                <div class="card-meta" id="profileLevel">المستوى: Trainee 1</div>
-                <button class="btn secondary" style="font-size: 13px;">🔗 شارك ملفي</button>
-            </div>
-            
-            <div class="geo-card">
-                <div class="card-header">🎖️ الشارات المكتسبة</div>
-                <div class="badges-grid" id="profileBadgesGrid" style="justify-content: flex-start; margin-top: 10px; display: flex; flex-wrap: wrap; gap: 8px;">
-                    </div>
-            </div>
-            <div class="geo-card" style="grid-column: 1 / -1;">
-                <div class="card-header">📁 المهمات المنجزة</div>
-                <ul id="completedMissionsList" style="list-style: none; padding: 0;">
-                    <li style="color: var(--muted);">لم تنجز أي مهمة بعد...</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    
-    <section class="quiz-area container" id="quizArea" style="display:none">
-        <div class="question-card" id="questionCard">
-          <div class="question-meta">
-            <div class="qnum" id="qLabel">السؤال 1 / Q1</div>
-            <div style="display:flex;gap:12px;align-items:center">
-              <div class="scorebox">
-                <div class="small-muted" id="scoreLabel">النقاط</div>
-                <div class="score-value" id="scoreVal">0</div>
-                <div class="level-badge" id="levelBadge">مبتدئ</div>
-              </div>
-              <div class="timer" id="timerLabel">00:30</div>
-            </div>
-          </div>
-
-          <div class="question-text" id="qText">نص السؤال …</div>
-          <div class="answers" id="answersBox"></div>
-
-          <div class="controls-bottom" style="border-top:1px solid rgba(255,255,255,0.05); padding-top:12px;">
-            <div style="display:flex; align-items:center; gap:8px;">
-                <div class="small-muted" id="progressLabel">السؤال 1 من 30</div>
-                <div class="progress-bar" style="width:100px; height:8px;"><div id="progInner"></div></div>
-            </div>
-            <button class="ghost" id="backToMenu">العودة للقائمة</button>
-            <button class="ghost" id="skipBtn" style="flex-grow:0; min-width:80px;">تجاوز</button>
-          </div>
-        </div>
-    </section>
-  </main>
-  
-  <footer>
-      <div class="quick-links">
-          <a href="#" onclick="renderPage('about')">About</a>
-          <a href="#" onclick="renderPage('reports')">Contact</a>
-          <a href="#">Privacy</a>
-      </div>
-      <div class="logo-text" style="justify-content: center; margin-top: 10px;">🪨 GeoReady</div>
-      <p class="motto">“حوّل معرفتك إلى جاهزية ميدانية.”</p>
-  </footer>
-
-  <div id="resultModal" class="result-panel" style="display:none">
-    <div class="result-card">
-      <h2 id="resTitle">النتيجة النهائية</h2>
-      <div class="bigscore" id="resScore">0 نقطة</div>
-      <div class="res-details" id="resDetails"></div>
-      <div class="res-actions">
-        <button class="btn" id="retryBtn">إعادة المحاولة</button>
-        <button class="ghost" id="closeResBtn">إغلاق</button>
-      </div>
-      <div style="margin-top:10px" class="small-muted" id="savedNote"></div>
-    </div>
+    GeoReady
   </div>
 
+  <div style="flex:1"></div>
+
+  <div class="lang-toggle" role="navigation">
+    <div class="switch" onclick="setLang('ar')">العربية</div>
+    <div class="switch" onclick="setLang('en')">EN</div>
+  </div>
+</header>
+
+<div class="container">
+  <div class="hero">
+    <div class="hero-card">
+      <span class="badge">GeoReady • تجربة ميدانية</span>
+      <h1 id="hero-title">حوّل معرفتك إلى جاهزية ميدانية — برنامج تدريبي عملي</h1>
+      <p class="lead" id="hero-desc">دورات قصيرة، تحديات تفاعلية، شهادة قابلة للتحميل، ومشاريع حقيقية لتبني ملفك المهني. جاهز للتحدي؟</p>
+      <a class="cta" href="#academy" onclick="document.getElementById('academy').scrollIntoView()">ابدأ التدريب الآن</a>
+
+      <div class="features" aria-hidden>
+        <div class="feat">🎓 شهادات قابلة للتحميل</div>
+        <div class="feat">🧭 تدريبات ميدانية تفاعلية</div>
+        <div class="feat">🏆 شارات وتحديات</div>
+      </div>
+
+      <div id="academy" class="grid" style="margin-top:18px">
+        <div class="course" onclick="openCourse('hydro')">
+          <h3>Hydrogeology Basics</h3>
+          <p>مقدمة عن المياه الجوفية، مفاهيم أساسية، عملي وجاهز. (10 دقائق)</p>
+        </div>
+        <div class="course" onclick="openCourse('field')">
+          <h3>Field Methods</h3>
+          <p>أخذ عينات، قياسات، وطرق ميدانية عملية.</p>
+        </div>
+        <div class="course" onclick="openCourse('gis')">
+          <h3>GIS for Geologists</h3>
+          <p>تعلم أساسيات QGIS وGeoJSON لعرض الخرائط.</p>
+        </div>
+      </div>
+
+      <div class="quiz" id="quizSection">
+        <strong>اختبار سريع — اجمع 3 نقاط للحصول على شارة</strong>
+        <div id="quiz"></div>
+        <div style="margin-top:10px">
+          <small class="small">نقاطك: <span id="points">0</span></small>
+        </div>
+      </div>
+
+    </div>
+
+    <aside class="card-side">
+      <div style="display:flex;gap:12px;align-items:center">
+        <div>
+          <div style="font-weight:800;font-size:18px">تحدي ميداني الآن</div>
+          <div class="small">علّمنا بعنوان: "موقع بئر ملوّث" — ضع علامة العينة</div>
+        </div>
+      </div>
+
+      <div style="margin-top:12px" class="map" id="map">
+        <div class="marker" id="marker" title="اسحب لوضع العينة">عينة</div>
+      </div>
+
+      <div style="margin-top:12px">
+        <button class="btn-ghost" onclick="downloadReport()">تحميل تقرير موجز</button>
+      </div>
+
+      <div style="margin-top:14px">
+        <strong>شاراتك</strong>
+        <div class="badges" id="badges">
+          <div class="badge-item">Beginner</div>
+        </div>
+      </div>
+
+      <div style="margin-top:12px">
+        <strong>فرص عمل (نماذج)</strong>
+        <div style="margin-top:8px">
+          <div class="job">
+            <div>
+              <div style="font-weight:700">مهندس جيولوجي — ENAGEO</div>
+              <div class="small">تبسة • دوام كامل</div>
+            </div>
+            <div><button class="btn-ghost" onclick="applyJob('ENAGEO')">قدّم</button></div>
+          </div>
+          <div style="height:8px"></div>
+          <div class="job">
+            <div>
+              <div style="font-weight:700">حقل بيانات — شركة مياه</div>
+              <div class="small">بسكرة • عمل ميداني</div>
+            </div>
+            <div><button class="btn-ghost" onclick="applyJob('WaterCo')">قدّم</button></div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:14px">
+        <button class="cta" onclick="generateCertificate()">الحصول على شهادة تجريبية</button>
+      </div>
+
+    </aside>
+  </div>
+
+  <!-- Footer / Notes -->
+  <div style="margin-top:20px" class="hero-card">
+    <h3>لماذا GeoReady مختلف؟</h3>
+    <ul style="margin:8px 0 0 18px">
+      <li>تدريب عملي مع سيناريوهات حقيقية.</li>
+      <li>حفظ تقدّمك — سجلّ مشاريعك الصغيرة.</li>
+      <li>قابل للشركات — عرض Portfolio بضغطة.</li>
+    </ul>
+  </div>
+
+  <footer>
+    &copy; GeoReady — جميع الحقوق محفوظة — نموذج تجريبي
+  </footer>
+</div>
 
 <script>
-/* ---------------------------------------------------------------------- */
-/* GeoReady Application Logic (JS) - All data and functions */
-/* ---------------------------------------------------------------------- */
-
-document.body.style.fontFamily = `'Cairo', 'Poppins', sans-serif`;
-
-// --- Configuration Data (Full Content Re-integrated) ---
-// [FULL_TRAINING_SECTIONS and QUIZZES data are assumed here to be complete from the previous step]
-const FULL_TRAINING_SECTIONS = [
-  { id: 'intro', icon: '🧭', title_ar: 'القسم 1 — مقدمة الجيولوجي الميداني', quiz_key: 'general', content: `<h2>📘 الشرح الكامل</h2>الجيولوجي الميداني هو **العين العلمية** للمشاريع الأرضية. وظيفته تبدأ من جمع البيانات وتنتهي بتفسيرها وربطها بالواقع الجيوميكانيكي والهيدروجيولوجي. <h2>⚙️ المهارات المطلوبة</h2><ul><li>الملاحظة الدقيقة.</li><li>الدقة في الوصف والتوثيق.</li><li>استخدام الأدوات الميدانية.</li><li>التفكير التحليلي وربط الظواهر.</li></ul> <h2>❓ الأسئلة والإجابات النموذجية</h2><p><strong>ما هو الهدف الرئيسي للجيولوجي الميداني؟</strong><br>✅ تحليل وتفسير الظواهر الجيولوجية بدقة بناءً على بيانات الحقل.</p>`},
-  { id: 'tools', icon: '⛏️', title_ar: 'القسم 2 — الأدوات الجيولوجية واستخدامها', quiz_key: 'general', content: `<h2>📘 المحتوى (أهم الأدوات)</h2><table><tr><th>الأداة</th><th>الاستعمال</th></tr><tr><td>Brunton Compass</td><td>قياس الاتجاه والميل (Strike & Dip)</td></tr><tr><td>Rock Hammer</td><td>كسر الصخور وأخذ عينات</td></tr><tr><td>Hand Lens (10x)</td><td>فحص المعادن والحبيبات</td></tr><tr><td>GPS</td><td>تحديد الإحداثيات بدقة</td></tr></table> <h2>⚙️ تدريب عملي</h2><ul><li>استخدم البوصلة لتحديد ميل الطبقات.</li><li>سجل موقعك في GPS واحفظ الإحداثيات.</li></ul>`},
-  { id: 'rocks', icon: '🌋', title_ar: 'القسم 3 — الصخور وأنواعها', quiz_key: 'petro', content: `<h2>📘 المحتوى</h2>تنقسم الصخور إلى ثلاثة أنواع رئيسية: **نارية**، **رسوبية**، **متحولة**. <h2>⚙️ ملاحظات ميدانية</h2><ul><li>الصخور النارية داكنة وثقيلة.</li><li>الرسوبية تحتوي على طبقات واضحة.</li><li>المتحولة فيها خطوط متموجة (foliation).</li></ul> <h2>❓ أسئلة</h2><p><strong>ما الفرق بين البازلت والغرانيت؟</strong><br>✅ البازلت سطحي داكن، الغرانيت جوفي فاتح اللون.</p>`},
-  { id: 'hydro', icon: '💧', title_ar: 'القسم 4 — الهيدروجيولوجيا الميدانية', quiz_key: 'hydro', content: `<h2>📘 المحتوى</h2>الهيدروجيولوجيا تدرس حركة وتوزيع المياه الجوفية. تعتمد على: قانون دارسي، المسامية والنفاذية. <h2>🧮 الحسابات</h2><div class="math">Q = K &times; A &times; (Δh / L)</div><div class="math">φ = (Vv / Vt) &times; 100</div> <h2>❓ أسئلة</h2><p><strong>ما العامل الذي يحدد كمية الماء التي يمكن أن تخزنها طبقة؟</strong><br>✅ المسامية.</p>`},
-  { id: 'calcs', icon: '🧮', title_ar: 'القسم 5 — الحسابات الجيولوجية', quiz_key: null, content: `<h2>📘 المعادلات الأساسية</h2><table><tr><th>المعادلة</th><th>المعنى</th></tr><tr><td>ROP = Δh/Δt</td><td>سرعة الحفر</td></tr><tr><td>φ = Vv/Vt &times; 100</td><td>المسامية</td></tr><tr><td>T = K &times; b</td><td>النفاذية الطبقية</td></tr></table>`},
-  { id: 'log', icon: '🧱', title_ar: 'القسم 6 — السجل الطبقي (Lithological Log)', quiz_key: null, content: `<h2>📘 مثال على السجل</h2><table><tr><th>From</th><th>To</th><th>نوع الصخر</th><th>الملاحظات</th></tr><tr><td>0</td><td>2</td><td>طين رمادي</td><td>نفاذية ضعيفة</td></tr><tr><td>2</td><td>5</td><td>رمل ناعم بني</td><td>نفاذية عالية</td></tr></table> <h2>❓ أسئلة</h2><p><strong>ما أهمية السجل الطبقي؟</strong><br>✅ تحديد الطبقات الحاملة للماء أو النفط.</p>`},
-  { id: 'drilling', icon: '⚙️', title_ar: 'القسم 7 — مهام الجيولوجي أثناء الحفر', quiz_key: null, content: `<h2>📘 المهام الرئيسية</h2><ul><li>مراقبة تقدم الحفر وتسجيل العمق.</li><li>وصف عينات cuttings أو core.</li><li>حساب نسبة استعادة النواة (Core Recovery).</li></ul> <h2>❓ أسئلة</h2><p><strong>ما معنى Core Recovery؟</strong><br>✅ نسبة النواة المستخرجة إلى العمق المحفور.</p>`},
-  { id: 'safety', icon: '🧯', title_ar: 'القسم 8 — السلامة الميدانية', quiz_key: null, content: `<h2>📘 قواعد السلامة الأساسية</h2><ul><li>ارتداء الخوذة والنظارات.</li><li>الابتعاد عن أنبوب الحفر.</li><li>معرفة زر الطوارئ.</li></ul> <h2>❓ اختبار</h2><p><strong>ما أول إجراء عند وقوع حادث؟</strong><br>✅ إيقاف الحفر فورًا.</p>`},
-  { id: 'analysis', icon: '🧪', title_ar: 'القسم 9 — تحليل العينات', quiz_key: null, content: `<h2>📘 التحاليل المطلوبة</h2><table><tr><th>نوع العينة</th><th>التحليل المطلوب</th><th>الهدف</th></tr><tr><td>صخرية</td><td>XRD / Thin Section</td><td>تحديد المعادن</td></tr><tr><td>مياه</td><td>pH, EC, TDS</td><td>تقييم الجودة</td></tr><tr><td>تربة</td><td>Grain Size / Permeability</td><td>تحديد قابلية الترشيح</td></tr></table> <h2>❓ سؤال</h2><p><strong>ما الفرق بين EC وTDS؟</strong><br>✅ EC ملوحة كهربائية، TDS تركيز الأملاح الكلية.</p>`},
-  { id: 'maps_interpret', icon: '🗺️', title_ar: 'القسم 10 — الخرائط والتفسير الجيولوجي', quiz_key: 'maps', content: `<h2>📘 المحتوى</h2><ul><li>قراءة الخرائط الطبوغرافية والجيولوجية.</li><li>تحديد الفوالق والطيات.</li><li>ترسيم حدود التكوينات.</li></ul> <h2>⚙️ تدريب</h2><p>ارسم مقطع جيولوجي بسيط من خريطة.</p> <h2>❓ أسئلة</h2><p><strong>ما الفرق بين الخريطة الجيولوجية والطبوغرافية؟</strong><br>✅ الطبوغرافية تمثل ارتفاعات، الجيولوجية تمثل نوع وامتداد الصخور والتراكيب.</p>`},
-  { id: 'quiz_final', icon: '🧩', title_ar: 'القسم 11 — الاختبارات النهائية', quiz_key: null, content: `<h2>📘 أسئلة اختيار من متعدد (أمثلة)</h2><p><strong>أي من الصخور التالية نارية؟</strong><br>ب) الغرانيت ✅</p><p><strong>أي خاصية تحدد قدرة الطبقة على نقل الماء؟</strong><br>✅ النفاذية (Permeability)</p>`},
-  { id: 'evaluation', icon: '🏁', title_ar: 'القسم 12 — تقييم الجاهزية المهنية', quiz_key: null, content: `<h2>📘 جدول التقييم</h2><table><tr><th>البند</th><th>التقييم</th></tr><tr><td>دقة الملاحظات الميدانية</td><td>✅ ممتاز</td></tr><tr><td>الالتزام بالسلامة</td><td>✅ ممتاز</td></tr><tr><td>القدرة على التفسير والتحليل</td><td>✅ ممتاز</td></tr></table>`}
-];
-
-const QUIZZES = {
-  // NOTE: Sample questions are used here for code validation. A full version would have 30 per section.
-  hydro: { id: 'hydro', title_ar:"💧 الهيدروجيولوجيا", title_en:"💧 Hydrogeology", items: [
-    { q_ar:"ما الفرق بين الطبقة المائية الحرة والمحبوسة؟", q_en:"Difference between unconfined and confined aquifer?", choices_ar:["الحرة لها منسوب ماء متساوٍ مع الضغط الجوي، المحبوسة تحت ضغط ارتوازي","الحرة أقل نفاذية من المحبوسة","المحبوسة فوق السطح فقط","الحرة مكّونة من الصخور النارية فقط"], choices_en:["Unconfined has water table; confined under artesian pressure","Unconfined less permeable than confined","Confined exists only at surface","Unconfined made of igneous rocks only"], answerIndex:0 },
-    { q_ar:"ما نوع الصخور التي تشكل أفضل خزانات مائية؟", q_en:"Which rock types make the best aquifers?", choices_ar:["الرمل والحصى والحجر الجيري المتشقق","الصخور الطينية المدمجة","الصخور البلورية غير المشققة","الشُعَب البركانية"], choices_en:["Sands, gravels and fractured limestones","Compact clays","Unfractured crystalline rocks","Volcanic reefs"], answerIndex:0 },
-    ...Array(28).fill(null).map((_, i) => ({ q_ar:`سؤال هيدروجيولوجيا ${i+3}`, q_en:`Hydro Q ${i+3}`, choices_ar:[`إجابة صحيحة ${i+3}`, `خطأ1 ${i+3}`, `خطأ2 ${i+3}`, `خطأ3 ${i+3}`], choices_en:[`Correct ${i+3}`, `Wrong1 ${i+3}`, `Wrong2 ${i+3}`, `Wrong3 ${i+3}`], answerIndex:0 }))
-  ] },
-  petro: { id: 'petro', title_ar:"🌋 البتروغرافيا", title_en:"🌋 Petrography", items: [
-    { q_ar:"ما الفرق بين الصخور النارية الجوفية والسطحية؟", q_en:"Difference intrusive vs extrusive igneous rocks?", choices_ar:["الجوفية تبرد ببطء بلورات كبيرة، السطحية تبرد سريعاً بلورات دقيقة","السطحية أقدم دائماً","الجوفية لا تحتوي معادن","السطحية تكون في البحر فقط"], choices_en:["Intrusive cool slowly (large crystals); extrusive cool fast (fine crystals)","Extrusive always older","Intrusive contain no minerals","Extrusive only form in ocean"], answerIndex:0 },
-    ...Array(29).fill(null).map((_, i) => ({ q_ar:`سؤال بتروغرافي ${i+2}`, q_en:`Petro Q ${i+2}`, choices_ar:[`إجابة صحيحة ${i+2}`, `خطأ1 ${i+2}`, `خطأ2 ${i+2}`, `خطأ3 ${i+2}`], choices_en:[`Correct ${i+2}`, `Wrong1 ${i+2}`, `Wrong2 ${i+2}`, `Wrong3 ${i+2}`], answerIndex:0 }))
-  ] },
-  maps: { id: 'maps', title_ar:"🗺️ الخرائط الجيولوجية", title_en:"🗺️ Geological Maps", items: [
-    { q_ar:"ما الفرق بين الخريطة الجيولوجية والطبوغرافية؟", q_en:"Difference between geological and topographic maps?", choices_ar:["الطبوغرافية تمثل ارتفاعات (كنتورات)، الجيولوجية تمثل نوع وامتداد الصخور والتراكيب","الطبوغرافية لجيولوجيين فقط","الجيولوجية تعرض مناخ المنطقة","لا فرق"], choices_en:["Topographic shows elevations (contours); geological shows rock types and structures","Topographic for geologists only","Geological shows climate","No difference"], answerIndex:0 },
-    ...Array(29).fill(null).map((_, i) => ({ q_ar:`سؤال خرائط ${i+2}`, q_en:`Maps Q ${i+2}`, choices_ar:[`إجابة صحيحة ${i+2}`, `خطأ1 ${i+2}`, `خطأ2 ${i+2}`, `خطأ3 ${i+2}`], choices_en:[`Correct ${i+2}`, `Wrong1 ${i+2}`, `Wrong2 ${i+2}`, `Wrong3 ${i+2}`], answerIndex:0 }))
-  ] },
-  general: { id: 'general', title_ar:"🪨 الجيولوجيا العامة", title_en:"🪨 General Geology", items: [
-    { q_ar:"ما الفرق بين الماجما واللافا؟", q_en:"Magma vs lava?", choices_ar:["الماجما تحت السطح، اللافا عند خروجها على السطح","الماجما ماء واللافا حجر","لا فرق","ماجما = صخور متحولة"], choices_en:["Magma is subsurface molten rock; lava is magma erupted at surface","Magma is water and lava rock","No difference","Magma = metamorphic rock"], answerIndex:0 },
-    ...Array(29).fill(null).map((_, i) => ({ q_ar:`سؤال عام ${i+2}`, q_en:`General Q ${i+2}`, choices_ar:[`إجابة صحيحة ${i+2}`, `خطأ1 ${i+2}`, `خطأ2 ${i+2}`, `خطأ3 ${i+2}`], choices_en:[`Correct ${i+2}`, `Wrong1 ${i+2}`, `Wrong2 ${i+2}`, `Wrong3 ${i+2}`], answerIndex:0 }))
-  ] }
-};
-const LEVEL_CONFIG = [
-    { name_ar: 'Trainee 1', name_en: 'Trainee 1', min_score: 0, next_score: 50 },
-    { name_ar: 'Trainee 2', name_en: 'Trainee 2', min_score: 50, next_score: 150 },
-    { name_ar: 'Rookie 🔰', name_en: 'Rookie 🔰', min_score: 150, next_score: 300 },
-    { name_ar: 'Field Geologist 💼', name_en: 'Field Geologist 💼', min_score: 300, next_score: 500 },
-    { name_ar: 'Expert 💎', name_en: 'Expert 💎', min_score: 500, next_score: 9999 },
-];
-const BADGE_CONFIG = {
-    hydro: { name_ar: 'خبير مياه 💧', name_en: 'Water Expert 💧', required_score: 100 },
-    petro: { name_ar: 'خبير صخور 🌋', name_en: 'Rock Master 🌋', required_score: 100 },
-    maps: { name_ar: 'رائد خرائط 🗺️', name_en: 'Map Pioneer 🗺️', required_score: 100 },
-    general: { name_ar: 'الجيولوجي الشامل 🪨', name_en: 'General Geologist 🪨', required_score: 100 }
-};
-
-// --- Language Config ---
-const LANGS = {
+/* ---------- Internationalization (basic) ---------- */
+const strings = {
   ar: {
-    home: "الرئيسية", academy: "الأكاديمية", fieldzone: "الميدان الافتراضي", resources: "المكتبة", community: "المجتمع", profile: "الملف الشخصي", about: "عن الموقع",
-    missions: "الاختبارات", tools: "الأدوات", reports: "التقارير", 
-    start: "ابدأ التحدي الآن 🔥", skip: "تجاوز", retry: "إعادة المحاولة", close: "إغلاق",
-    level: "المستوى", questionOf: "سؤال {i} من {n}", backToMenu: "العودة للقائمة", startQuiz: "ابدأ الاختبار",
-    welcome: "مرحبًا بك في GeoReady!👋", totalScore: "إجمالي النقاط", currentLevel: "مستواك الحالي", completed: "الاختبارات المنجزة",
-    levelPrefix: "المستوى الحالي:", points: "النقاط:",
+    heroTitle: "حوّل معرفتك إلى جاهزية ميدانية — برنامج تدريبي عملي",
+    heroDesc: "دورات قصيرة، تحديات تفاعلية، شهادة قابلة للتحميل، ومشاريع حقيقية لتبني ملفك المهني. جاهز للتحدي؟",
   },
   en: {
-    home: "Home", academy: "Academy", fieldzone: "Field Zone", resources: "Resources", community: "Community", profile: "Profile", about: "About",
-    missions: "Quizzes", tools: "Tools", reports: "Reports",
-    start: "Start Challenge Now 🔥", skip: "Skip", retry: "Retry", close: "Close",
-    level: "Level", questionOf: "Q {i} of {n}", backToMenu: "Back to Menu", startQuiz: "Start Quiz",
-    welcome: "Welcome to GeoReady!👋", totalScore: "Total Score", currentLevel: "Your Level", completed: "Quizzes Completed",
-    levelPrefix: "Current Level:", points: "Points:",
+    heroTitle: "Turn knowledge into field readiness — Practical training program",
+    heroDesc: "Short lessons, interactive challenges, downloadable certificate, and real mini-projects to build your portfolio. Ready?",
   }
-};
-let lang = localStorage.getItem('geo_lang') || 'ar';
-
-
-// --- Application State ---
-let currentSection = null;
-let currentIndex = 0;
-let currentScore = 0;
-let timerSeconds = 30;
-let timerInterval = null;
-let userData = { totalScore: 0, completedQuizzes: {}, badges: [] };
-let answered = false;
-let correctCount = 0;
-let wrongCount = 0; // Number of wrong answers and time-outs
-
-
-// --- DOM References ---
-const pageRefs = ['home', 'missions', 'tools', 'academy', 'fieldzone', 'resources', 'community', 'reports', 'profile', 'about'];
-const quizArea = document.getElementById('quizArea');
-const sectionListEl = document.getElementById('sectionList');
-const trainingContentEl = document.getElementById('trainingContent');
-const modeToggleBtn = document.getElementById('modeToggle');
-const navLinks = document.querySelectorAll('.navbar .nav-links a');
-const backToMenu = document.getElementById('backToMenu');
-const retryBtn = document.getElementById('retryBtn');
-const closeResBtn = document.getElementById('closeResBtn');
-const skipBtn = document.getElementById('skipBtn');
-
-
-// --- Audio Functions (FIXED) ---
-const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-function beep(freq=880, dur=0.12, type='sine', gain=0.12){
-  try{
-    if (audioCtx.state === 'suspended') audioCtx.resume();
-    const o = audioCtx.createOscillator();
-    const g = audioCtx.createGain();
-    o.type = type; o.frequency.value = freq;
-    g.gain.value = gain;
-    o.connect(g); g.connect(audioCtx.destination);
-    o.start();
-    g.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + dur);
-    setTimeout(()=> { try{ o.stop() }catch(e){} }, dur*1000+30);
-  }catch(e){}
 }
-function playCorrect(){ beep(920,0.12,'sine',0.12); }
-function playWrong(){ beep(220,0.18,'square',0.14); }
-
-// --- Helper Functions (Updated to support new nav keys) ---
-function shuffleArray(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]] } return a; }
-function formatTime(s){ const mm=Math.floor(s/60), ss=s%60; return `${String(mm).padStart(2,'0')}:${String(ss).padStart(2,'0')}`; }
-function loadUserData() {
-    try {
-        const stored = JSON.parse(localStorage.getItem('geo_userData'));
-        if (stored) { userData = { ...userData, ...stored }; }
-    } catch(e) {}
-}
-function saveUserData() { localStorage.setItem('geo_userData', JSON.stringify(userData)); }
-function updateLevelBadge(score) {
-    const currentLevel = getUserLevel().current;
-    document.getElementById('levelBadge').textContent = `${LANGS[lang].level}: ${lang === 'ar' ? currentLevel.name_ar : currentLevel.name_en}`;
-}
-function getUserLevel() {
-    const score = userData.totalScore;
-    let currentLevel = LEVEL_CONFIG[0];
-    let nextLevel = null;
-    for (let i = 0; i < LEVEL_CONFIG.length; i++) {
-        if (score >= LEVEL_CONFIG[i].min_score) {
-            currentLevel = LEVEL_CONFIG[i];
-            nextLevel = LEVEL_CONFIG[i + 1] || currentLevel;
-        } else { break; }
-    }
-    const required = nextLevel.next_score - currentLevel.min_score;
-    const progress = score - currentLevel.min_score;
-    const percent = required > 0 ? (progress / required) * 100 : 100;
-    return { current: currentLevel, next: nextLevel, progress: progress, required: required, percent: Math.min(100, percent) };
-}
-function updateProgressUI() {
-    const levelInfo = getUserLevel();
-    const currentLevelName = lang === 'ar' ? levelInfo.current.name_ar : levelInfo.current.name_en;
-    document.getElementById('profileTotalScore').textContent = `${userData.totalScore} XP`;
-    document.getElementById('profileLevel').textContent = `${LANGS[lang].level}: ${currentLevelName}`;
-
-    const profileBadgesGrid = document.getElementById('profileBadgesGrid');
-    profileBadgesGrid.innerHTML = '';
-    const unlockedBadges = Object.keys(BADGE_CONFIG).filter(key => userData.badges.includes(key));
-    if (unlockedBadges.length > 0) {
-        unlockedBadges.forEach(key => {
-            const badgeData = BADGE_CONFIG[key];
-            const badgeEl = document.createElement('div');
-            badgeEl.className = 'badge-item';
-            badgeEl.textContent = lang === 'ar' ? badgeData.name_ar : badgeData.name_en;
-            profileBadgesGrid.appendChild(badgeEl);
-        });
-    } else {
-        profileBadgesGrid.innerHTML = `<div class="card-meta">${lang === 'ar' ? 'اكمل مهمة واحدة للحصول على شارتك الأولى!' : 'Complete one mission to get your first badge!'}</div>`;
-    }
-    const completedMissionsList = document.getElementById('completedMissionsList');
-    completedMissionsList.innerHTML = '';
-    const completedQuizzesKeys = Object.keys(userData.completedQuizzes).filter(k => userData.completedQuizzes[k] > 0);
-    if (completedQuizzesKeys.length > 0) {
-        completedQuizzesKeys.forEach(key => {
-            const quizTitle = QUIZZES[key] ? (lang === 'ar' ? QUIZZES[key].title_ar : QUIZZES[key].title_en) : key;
-            const li = document.createElement('li');
-            li.innerHTML = `<strong>${quizTitle.replace(/[\uD800-\uDBFF\uDC00-\uDFFF]/g, '').trim()}</strong>: ${lang === 'ar' ? 'أعلى نتيجة' : 'High Score'}: ${userData.completedQuizzes[key]} نقطة.`;
-            completedMissionsList.appendChild(li);
-        });
-    } else {
-        completedMissionsList.innerHTML = `<li style="color: var(--muted);">${lang === 'ar' ? 'لم تنجز أي مهمة بعد...' : 'No missions completed yet...'}</li>`;
-    }
-}
-function refreshLangUI(){
-  // Update Navbar links
-  document.getElementById('nav-home').textContent = LANGS[lang].home;
-  document.getElementById('nav-academy').textContent = LANGS[lang].academy;
-  document.getElementById('nav-fieldzone').textContent = LANGS[lang].fieldzone;
-  document.getElementById('nav-resources').textContent = LANGS[lang].resources;
-  document.getElementById('nav-community').textContent = LANGS[lang].community;
-  document.getElementById('nav-profile').textContent = LANGS[lang].profile;
-  document.getElementById('nav-about').textContent = LANGS[lang].about;
-  document.querySelector('.start-mission-btn').textContent = `→ 🔘 ${LANGS[lang].missions}`;
-  
-  // Update Buttons/Quiz UI
-  document.getElementById('scoreLabel').textContent = LANGS[lang].level;
-  document.getElementById('skipBtn').textContent = LANGS[lang].skip;
-  document.getElementById('retryBtn').textContent = LANGS[lang].retry;
-  document.getElementById('closeResBtn').textContent = LANGS[lang].close;
-  document.getElementById('backToMenu').textContent = LANGS[lang].backToMenu;
-  langToggle.textContent = (lang==='ar')? 'العربي / EN' : 'AR / English';
-  
-  // Update Hero texts (FIX: ensuring all texts are updated)
-  document.querySelector('#page-home .hero-text h2').textContent = lang === 'ar' ? "هل أنت جاهز لميدان الجيولوجيا؟" : "Are You Ready for Field Geology?";
-  document.querySelector('#page-home .hero-text p').textContent = lang === 'ar' ? "اكتشف التدريب الذي يحوّلك من خريج إلى محترف." : "Discover the training that turns you from graduate to professional.";
-  document.querySelector('#page-home .hero-actions .btn:nth-child(1)').textContent = lang === 'ar' ? "ابدأ التدريب الآن 🔥" : "Start Training Now 🔥";
-  document.querySelector('#page-home .hero-actions .btn:nth-child(2)').textContent = lang === 'ar' ? "تعرّف على المسارات التدريبية" : "View Training Paths";
-  document.querySelector('footer .motto').textContent = lang === 'ar' ? "“حوّل معرفتك إلى جاهزية ميدانية.”" : "“Turn your knowledge into field readiness.”";
+function setLang(l){
+  const s = strings[l] || strings.ar;
+  document.getElementById('hero-title').textContent = s.heroTitle;
+  document.getElementById('hero-desc').textContent = s.heroDesc;
+  document.documentElement.lang = (l==='en' ? 'en' : 'ar');
+  document.documentElement.dir = (l==='en' ? 'ltr' : 'rtl');
 }
 
-
-// --- Page Rendering ---
-function renderPage(pageKey) {
-    pageRefs.forEach(key => {
-        const page = document.getElementById(`page-${key}`);
-        if (page) page.style.display = 'none';
-    });
-    quizArea.style.display = 'none';
-    trainingContentEl.style.display = 'none';
-
-    const targetPage = document.getElementById(`page-${pageKey}`);
-    if (targetPage) targetPage.style.display = 'block';
-
-    navLinks.forEach(link => {
-        link.classList.remove('active');
-        if (link.dataset.page === pageKey) { link.classList.add('active'); }
-    });
-    
-    // FIX: Update context for quiz/learn pages
-    if (pageKey === 'missions') {
-        renderSectionCards();
-    }
-    if (pageKey === 'profile') {
-        updateProgressUI();
-    }
-    if (pageKey === 'academy') { // Changed from 'learn' to 'academy'
-        renderLearnCards();
-    }
-    
-    stopTimer();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+/* ---------- Simple quiz + points ---------- */
+const quizData = [
+  {q:"ما هو التعريف الأساسي للمستوى المائي (water table)؟", opts:["الحد الأعلى للماء الجوفي","قناة مياه سطحية","أداة قياس الضغط"], a:0},
+  {q:"أي طريقة مناسبة لأخذ عينة مياه من بئر عميق؟", opts:["أخذها من السطح مباشرة","استخدام مضخة غاطسة بعد تنظيف البئر","مزج مع ماء جديد"], a:1},
+  {q:"ما الأداة الشائعة لقياس مستوى الماء؟", opts:["Meter tape","Electric sounder","Hammer"], a:1},
+];
+let points = 0;
+function renderQuiz(){
+  const out = document.getElementById('quiz');
+  out.innerHTML = '';
+  quizData.forEach((item, i)=>{
+    const div = document.createElement('div'); div.className='question';
+    const q = document.createElement('div'); q.innerHTML = `<strong>${i+1}. ${item.q}</strong>`;
+    const opts = document.createElement('div'); opts.className='options';
+    item.opts.forEach((op,idx)=>{
+      const b = document.createElement('button'); b.textContent = op;
+      b.onclick = ()=>selectOption(i,idx,b);
+      opts.appendChild(b);
+    })
+    div.appendChild(q); div.appendChild(opts);
+    out.appendChild(div);
+  })
 }
-
-// --- Specific UI Renders ---
-function renderSectionCards(){
-  sectionListEl.innerHTML = '';
-  const quizSections = Object.values(QUIZZES);
-  quizSections.forEach(q => {
-    const quizId = q.id;
-    const highscore = userData.completedQuizzes[quizId] || 0;
-    const isCompleted = highscore >= BADGE_CONFIG[quizId].required_score;
-    const statusIcon = isCompleted ? '✅' : '🎯';
-    const title = lang === 'ar' ? q.title_ar : q.title_en;
-    const desc = lang === 'ar' ? `30 سؤال عملي. (أعلى نتيجة: ${highscore})` : `30 Qs. (High Score: ${highscore})`;
-
-    const card = document.createElement('div'); card.className='geo-card';
-    card.onclick = ()=> startSection(quizId);
-    card.style.cursor = 'pointer';
-    card.style.borderLeft = `5px solid ${isCompleted ? 'var(--good)' : 'var(--accent-sky)'}`;
-    
-    card.innerHTML = `<div class="card-header"><span style="margin-left: 10px;">${statusIcon}</span> ${title.replace(/[\uD800-\uDBFF\uDC00-\uDFFF]/g, '').trim()}</div>
-                      <div class="card-meta">${desc}</div>
-                      <button class="btn" style="font-size: 13px; padding: 6px 10px;">${LANGS[lang].startQuiz}</button>`;
-    sectionListEl.appendChild(card);
-  });
-}
-function renderLearnCards() {
-    const learnGrid = document.getElementById('learn-content-grid');
-    learnGrid.innerHTML = '';
-    
-    FULL_TRAINING_SECTIONS.forEach(s => {
-        const card = document.createElement('div'); 
-        card.className = 'geo-card';
-        card.onclick = () => showTrainingContent(s.id);
-        
-        const title = lang === 'ar' ? s.title_ar : s.title_en;
-        const shortDesc = s.content.length > 100 ? s.content.substring(0, 100).replace(/<[^>]*>?/gm, '').trim() + '...' : s.content.replace(/<[^>]*>?/gm, '').trim();
-
-        card.innerHTML = `
-            <div class="card-header"><span style="margin-left: 10px;">${s.icon}</span> ${title}</div>
-            <div class="card-meta">${shortDesc}</div>
-            <button class="btn secondary" style="font-size: 13px; padding: 6px 10px;">${lang === 'ar' ? 'اقرأ الدرس' : 'Read Lesson'}</button>
-        `;
-        learnGrid.appendChild(card);
-    });
-}
-function showTrainingContent(key) {
-    const section = FULL_TRAINING_SECTIONS.find(s => s.id === key);
-    if (!section) return;
-
-    document.getElementById('page-academy').style.display = 'none'; // Changed from 'learn'
-    trainingContentEl.style.display = 'block';
-
-    const contentTitle = lang === 'ar' ? section.title_ar : section.title_en;
-    const quizKey = section.quiz_key;
-    
-    trainingContentEl.innerHTML = `
-      <h2 class="page-title" style="font-size: 1.8em;">${contentTitle}</h2>
-      ${section.content}
-      <div class="controls-bottom" style="margin-top:20px;">
-        <button class="ghost" onclick="hideTrainingContent()">${LANGS[lang].backToMenu}</button>
-        ${quizKey ? `<button class="btn" onclick="startSection('${quizKey}')">${LANGS[lang].startQuiz}</button>` : ''}
-      </div>
-    `;
-    window.scrollTo({top:0,behavior:'smooth'});
-}
-function hideTrainingContent() {
-    trainingContentEl.style.display = 'none';
-    document.getElementById('page-academy').style.display = 'block'; // Changed from 'learn'
-    renderLearnCards();
-}
-
-
-// --- Quiz Flow ---
-function startSection(key){
-  if(!QUIZZES[key] || QUIZZES[key].items.length === 0) { alert('Quiz data is empty or corrupted!'); return; }
-  currentSection = key;
-  currentIndex = 0;
-  currentScore = 0;
-  correctCount = 0;
-  wrongCount = 0;
-  
-  pageRefs.forEach(key => {
-        const page = document.getElementById(`page-${key}`);
-        if (page) page.style.display = 'none';
-  });
-  trainingContentEl.style.display = 'none';
-  quizArea.style.display = 'block';
-  
-  showQuestion();
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-
-function disableAnswers() {
-  Array.from(document.getElementById('answersBox').children).forEach(ch => { ch.onclick = null; });
-}
-
-function showQuestion(){
-  const items = QUIZZES[currentSection].items;
-  const item = items[currentIndex];
-  const n = items.length;
-  
-  document.getElementById('qLabel').textContent = (lang==='ar')? `السؤال ${currentIndex+1} / Q${currentIndex+1}` : `Q${currentIndex+1} / Question ${currentIndex+1}`;
-  document.getElementById('qText').textContent = (lang==='ar')? item.q_ar : item.q_en;
-  document.getElementById('progressLabel').textContent = LANGS[lang].questionOf.replace('{i}', currentIndex+1).replace('{n}', n);
-  document.getElementById('progInner').style.width = `${Math.round(((currentIndex+1)/n)*100)}%`;
-  document.getElementById('scoreVal').textContent = currentScore;
-  
-  const answersBox = document.getElementById('answersBox');
-  answersBox.innerHTML = '';
-  const choices = (lang==='ar')? item.choices_ar.slice() : item.choices_en.slice();
-  const opts = choices.map((c,i)=>({text:c,origIndex:i}));
-  shuffleArray(opts);
-  
-  opts.forEach((opt, idx)=>{
-    const el = document.createElement('div'); el.className='answer';
-    el.innerHTML = `<div class="opt-label">${['A','B','C','D'][idx]||String.fromCharCode(65+idx)}</div><div class="opt-text">${opt.text}</div>`;
-    el.dataset.orig = opt.origIndex;
-    el.onclick = ()=> selectAnswer(el, item.answerIndex); 
-    answersBox.appendChild(el);
-  });
-  
-  updateLevelBadge(currentScore);
-  startTimer();
-  const card = document.getElementById('questionCard');
-  card.classList.remove('fade-in'); void card.offsetWidth; card.classList.add('fade-in');
-  answered = false;
-}
-
-function selectAnswer(el, correctIndex){
-  if(answered) return;
-  answered = true;
-  stopTimer();
-  disableAnswers();
-  
-  const chosenOrig = Number(el.dataset.orig);
-  const isCorrect = (chosenOrig === correctIndex);
-  if(isCorrect){
-    el.classList.add('correct');
-    playCorrect();
-    currentScore += 10; correctCount++;
+function selectOption(qIdx,optIdx(btn),btn){
+  const item = quizData[qIdx];
+  const buttons = btn.parentElement.querySelectorAll('button');
+  buttons.forEach(b=>b.disabled=true);
+  if(optIdx === item.a){
+    btn.classList.add('correct'); points += 1;
   } else {
-    el.classList.add('wrong');
-    playWrong();
-    currentScore -= 5; wrongCount++;
-    Array.from(document.getElementById('answersBox').children).forEach(ch=>{
-      if(Number(ch.dataset.orig) === correctIndex) ch.classList.add('correct');
-    });
+    btn.classList.add('wrong');
+    buttons[item.a].classList.add('correct');
   }
-  document.getElementById('scoreVal').textContent = currentScore;
-  updateLevelBadge(currentScore);
-  
-  setTimeout(()=> goNext(), 900);
+  document.getElementById('points').textContent = points;
+  checkBadges();
+}
+function checkBadges(){
+  const badges = document.getElementById('badges');
+  if(points >= 3 && !document.getElementById('badge-pro')){
+    const el = document.createElement('div'); el.className='badge-item'; el.id='badge-pro'; el.textContent='Field Ready • شارة';
+    badges.appendChild(el);
+  }
 }
 
-skipBtn.addEventListener('click', ()=>{
-  if(!currentSection || answered) return;
-  answered = true;
-  stopTimer();
-  disableAnswers();
-  const item = QUIZZES[currentSection].items[currentIndex];
-  const correctIndex = item.answerIndex;
-  // Show correct answer (No score change on skip)
-  Array.from(document.getElementById('answersBox').children).forEach(ch=>{
-    if(Number(ch.dataset.orig) === correctIndex) ch.classList.add('correct');
-  });
-  setTimeout(()=> goNext(),700);
-});
-
-function goNext(){
-  stopTimer();
-  const total = QUIZZES[currentSection].items.length;
-  currentIndex++;
-  if(currentIndex < total){
-    showQuestion();
+/* Fix for parameter name collision */
+function selectOption(qIdx, optIdx, btn){
+  const item = quizData[qIdx];
+  const buttons = btn.parentElement.querySelectorAll('button');
+  buttons.forEach(b=>b.disabled=true);
+  if(optIdx === item.a){
+    btn.classList.add('correct'); points += 1;
   } else {
-    finishQuiz();
+    btn.classList.add('wrong');
+    buttons[item.a].classList.add('correct');
   }
-}
-function startTimer(){
-  let tleft = timerSeconds || 30;
-  document.getElementById('timerLabel').textContent = formatTime(tleft);
-  if(timerInterval) clearInterval(timerInterval);
-  timerInterval = setInterval(()=>{
-    tleft--;
-    document.getElementById('timerLabel').textContent = formatTime(tleft);
-    if(tleft<=0){
-      clearInterval(timerInterval);
-      if(!answered){
-        answered = true;
-        disableAnswers();
-        playWrong(); // Indicate time ran out
-        
-        // FIX: No score change, act as skipped
-        wrongCount++; // Count as a skipped/missed question
-        
-        const item = QUIZZES[currentSection].items[currentIndex];
-        const corr = item.answerIndex;
-        Array.from(document.getElementById('answersBox').children).forEach(ch=>{
-          if(Number(ch.dataset.orig) === corr) ch.classList.add('correct');
-        });
-        setTimeout(()=> goNext(),900);
-      }
-    }
-  },1000);
-}
-function stopTimer(){ if(timerInterval) clearInterval(timerInterval); timerInterval = null; }
-
-function finishQuiz(){
-  quizArea.style.display = 'none';
-  stopTimer();
-
-  const totalQuestions = QUIZZES[currentSection].items.length;
-  const previousHigh = userData.completedQuizzes[currentSection] || 0;
-  let scoreGained = 0;
-  
-  if (currentScore > previousHigh) {
-    scoreGained = currentScore - previousHigh;
-    userData.totalScore += scoreGained;
-    userData.completedQuizzes[currentSection] = currentScore;
-  }
-  
-  const badgeData = BADGE_CONFIG[currentSection];
-  if (currentScore >= badgeData.required_score && !userData.badges.includes(currentSection)) {
-      userData.badges.push(currentSection);
-      // alert for badge win in a real app
-  }
-  saveUserData();
-  
-  const sectionTitle = lang === 'ar' ? QUIZZES[currentSection].title_ar : QUIZZES[currentSection].title_en;
-  const level = getUserLevel().current;
-  
-  document.getElementById('resScore').textContent = `${currentScore} نقطة`;
-  document.getElementById('resTitle').textContent = (lang==='ar'?'النتيجة النهائية':'Final Result') + ` — ${lang === 'ar' ? level.name_ar : level.name_en}`;
-  document.getElementById('resDetails').innerHTML = `
-    <div class="small-muted">${lang==='ar'?'القسم':'Section'}: ${sectionTitle.replace(/[\uD800-\uDBFF\uDC00-\uDFFF]/g, '').trim()}</div>
-    <div style="margin-top:8px">${lang==='ar'?'النقاط المكتسبة الآن':'Score Gained Now'}: <strong>${scoreGained}</strong></div>
-    <div style="margin-top:8px">${lang==='ar'?'الإجابات الصحيحة':'Correct'}: <strong>${correctCount}/${totalQuestions}</strong></div>
-  `;
-  
-  document.getElementById('savedNote').textContent = LANGS[lang].savedNote;
-  document.getElementById('resultModal').style.display = 'flex';
-  
-  renderPage('missions');
+  document.getElementById('points').textContent = points;
+  checkBadges();
 }
 
-// --- Event Listeners ---
-document.getElementById('retryBtn').addEventListener('click', ()=> { document.getElementById('resultModal').style.display='none'; startSection(currentSection); });
-closeResBtn.addEventListener('click', ()=> { document.getElementById('resultModal').style.display='none'; renderPage('missions'); });
-document.querySelector('.start-mission-btn').addEventListener('click', () => { renderPage('missions'); });
-document.getElementById('backToMenu').addEventListener('click', () => { renderPage('missions'); });
-document.querySelector('#page-home .hero-actions .btn:nth-child(2)').addEventListener('click', () => { renderPage('academy'); }); // FIX: Link to Academy
+/* ---------- Simple draggable marker on the map ---------- */
+const marker = document.getElementById('marker');
+let isDown = false, offset = {x:0,y:0};
+marker.addEventListener('pointerdown', e=>{ isDown=true; marker.setPointerCapture(e.pointerId); offset.x = e.clientX - marker.offsetLeft; offset.y = e.clientY - marker.offsetTop; marker.style.cursor='grabbing';});
+document.addEventListener('pointermove', e=>{ if(!isDown) return; const map = document.getElementById('map'); const r = map.getBoundingClientRect(); let left = e.clientX - r.left - offset.x; let top = e.clientY - r.top - offset.y; left = Math.max(6, Math.min(left, r.width-40)); top = Math.max(6, Math.min(top, r.height-40)); marker.style.left = (left + 17) + 'px'; marker.style.top = (top + 17) + 'px';});
+document.addEventListener('pointerup', e=>{ if(!isDown) return; isDown=false; marker.style.cursor='grab'; saveSamplePosition(); });
 
-// --- Toggle Dark/Light Mode ---
-modeToggleBtn.addEventListener('click', () => {
-    document.body.classList.toggle('light');
-    const isLight = document.body.classList.contains('light');
-    modeToggleBtn.textContent = isLight ? '☀️' : '🌙';
-    localStorage.setItem('geo_mode', isLight ? 'light' : 'dark');
-});
-
-// --- Language Toggle ---
-langToggle.addEventListener('click', () => {
-    lang = (lang === 'ar') ? 'en' : 'ar';
-    localStorage.setItem('geo_lang', lang);
-    document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
-    refreshLangUI();
-    const currentPage = Array.from(document.querySelectorAll('.page-wrapper')).find(el => el.style.display !== 'none')?.id.replace('page-', '') || 'home';
-    renderPage(currentPage);
-});
-document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
-
-// --- Init ---
-function init(){
-  loadUserData();
-  const savedMode = localStorage.getItem('geo_mode');
-  if (savedMode === 'light') {
-      document.body.classList.add('light');
-      modeToggleBtn.textContent = '☀️';
-  } else if (savedMode === null && window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
-     document.body.classList.add('light');
-     modeToggleBtn.textContent = '☀️';
-  }
-  refreshLangUI();
-  renderPage('home');
+function saveSamplePosition(){
+  localStorage.setItem('samplePos', JSON.stringify({l: marker.style.left, t: marker.style.top}));
 }
-init();
+
+function loadSamplePosition(){
+  const p = JSON.parse(localStorage.getItem('samplePos')||'null');
+  if(p){ marker.style.left = p.l; marker.style.top = p.t; }
+}
+
+/* ---------- Download a short report (text file) ---------- */
+function downloadReport(){
+  const pos = marker.style.left + ' / ' + marker.style.top;
+  const content = `GeoReady Quick Report\nDate: ${new Date().toLocaleString()}\nSample Position: ${pos}\nPoints: ${points}\nNotes: نموذج اختبار سريع.`;
+  const blob = new Blob([content],{type:'text/plain;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = 'geoready_report.txt'; a.click(); URL.revokeObjectURL(url);
+}
+
+/* ---------- Certificate generation (canvas -> png) ---------- */
+function generateCertificate(){
+  const name = prompt('أدخل اسمك ليظهر على الشهادة','Medjahed Badreddine') || 'Candidate';
+  const canvas = document.createElement('canvas'); canvas.width=1200; canvas.height=800;
+  const ctx = canvas.getContext('2d');
+  // Background
+  ctx.fillStyle = '#f6f8fb'; ctx.fillRect(0,0,canvas.width,canvas.height);
+  // header
+  ctx.fillStyle = '#2b6cb0'; ctx.fillRect(0,0,canvas.width,120);
+  ctx.fillStyle = 'white'; ctx.font='28px sans-serif'; ctx.fillText('GeoReady Certification',40,70);
+  // title
+  ctx.fillStyle = '#222'; ctx.font='40px serif'; ctx.fillText('شهادة اجتياز تدريب ميداني',60,220);
+  ctx.font='24px sans-serif'; ctx.fillText(`تم منحه(ها) إلى: ${name}`,60,280);
+  ctx.font='18px sans-serif'; ctx.fillText(`لإكمال التحديات الميدانية واجتياز الاختبارات (نقاط: ${points})`,60,320);
+  ctx.font='16px sans-serif'; ctx.fillText('التاريخ: ' + new Date().toLocaleDateString(),60,360);
+  // footer stamp
+  ctx.fillStyle = '#8d6e63'; ctx.beginPath(); ctx.arc(1040,640,80,0,2*Math.PI); ctx.fill();
+  ctx.fillStyle='white'; ctx.font='20px sans-serif'; ctx.fillText('GeoReady',990,648);
+  // download
+  const url = canvas.toDataURL('image/png');
+  const a = document.createElement('a'); a.href = url; a.download = 'GeoReady_Certificate.png'; a.click();
+}
+
+/* ---------- Apply job (demo) ---------- */
+function applyJob(company){
+  alert('تم إرسال ملف التقديم إلى ' + company + ' (نموذج). يمكنك إضافة Portfolio حقيقي لاحقاً.');
+}
+
+/* ---------- Course open (simple modal via prompt) ---------- */
+function openCourse(id){
+  if(id==='hydro') alert('فتح دورة: Hydrogeology Basics — (محتوى تجريبي). شاهد الفيديو والتحدي.');
+  else if(id==='field') alert('فتح دورة: Field Methods — (محتوى تجريبي). تعليمات أخذ العينات.');
+  else alert('الدورة قيد الإضافة.');
+}
+
+/* ---------- Load initial state ---------- */
+renderQuiz(); loadSamplePosition();
 </script>
+
 </body>
 </html>
