@@ -1,13 +1,22 @@
 /* 1. الإعدادات الأساسية والتصميم العام */
 :root {
-    --primary-color: #007bff; /* أزرق احترافي */
-    --secondary-color: #ffc107; /* أصفر للتنبيه */
-    --background-dark: #1e1e2f; /* خلفية داكنة احترافية */
-    --card-background: #2a2a3e; /* لون البطاقات */
-    --text-color: #f0f0f0; /* لون النص الفاتح */
-    --correct-color: #28a745; /* أخضر للإجابة الصحيحة */
-    --incorrect-color: #dc3545; /* أحمر للإجابة الخاطئة */
-    --hover-color: #0056b3;
+    --primary-color: #2c7873;
+    --primary-dark: #235e5a;
+    --primary-light: #3a9a94;
+    --secondary-color: #ffb74d;
+    --secondary-dark: #f57c00;
+    --background-dark: #1a2a3a;
+    --background-medium: #243b53;
+    --card-background: #2d4a62;
+    --card-hover: #355c7d;
+    --text-color: #f0f0f0;
+    --text-light: #b0b0b0;
+    --correct-color: #4caf50;
+    --incorrect-color: #f44336;
+    --warning-color: #ff9800;
+    --border-radius: 12px;
+    --box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    --transition: all 0.3s ease;
 }
 
 * {
@@ -18,7 +27,7 @@
 
 body {
     font-family: 'Cairo', sans-serif;
-    background-color: var(--background-dark);
+    background: linear-gradient(135deg, var(--background-dark) 0%, var(--background-medium) 100%);
     color: var(--text-color);
     line-height: 1.6;
     display: flex;
@@ -30,18 +39,20 @@ body {
 
 #app-container {
     width: 100%;
-    max-width: 800px;
+    max-width: 900px;
     background: var(--card-background);
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    padding: 40px;
-    text-align: center;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    overflow: hidden;
+    position: relative;
 }
 
 /* 2. الأقسام/الشاشات */
 .screen {
     display: none;
     animation: fadeIn 0.5s ease-out;
+    padding: 30px;
+    min-height: 600px;
 }
 
 .screen.active {
@@ -53,62 +64,156 @@ body {
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* 3. عناصر الرأس (Header) */
-.header h1 {
+/* 3. شاشة التحميل */
+#loading-screen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.loading-content .loading-spinner {
+    font-size: 4rem;
     color: var(--primary-color);
-    font-size: 2.5em;
+    margin-bottom: 20px;
+}
+
+.loading-content h2 {
     margin-bottom: 10px;
+    color: var(--text-color);
+}
+
+.loading-content p {
+    color: var(--text-light);
+}
+
+/* 4. عناصر الرأس (Header) */
+.header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.logo i {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+}
+
+.header h1 {
+    color: var(--text-color);
+    font-size: 2.2rem;
+    font-weight: 700;
 }
 
 .header p {
-    font-size: 1.1em;
-    margin-bottom: 30px;
+    font-size: 1.1rem;
+    color: var(--text-light);
+    max-width: 600px;
+    margin: 0 auto;
 }
 
-/* 4. أزرار اختيار الفئة */
-.category-selection {
-    margin-top: 40px;
-}
-
+/* 5. أزرار اختيار الفئة */
 .category-selection h2 {
-    margin-bottom: 25px;
-    color: var(--secondary-color);
+    text-align: center;
+    margin-bottom: 30px;
+    color: var(--text-color);
+    font-size: 1.5rem;
 }
 
-.category-btn {
-    display: block;
-    width: 100%;
-    padding: 15px;
-    margin: 15px 0;
-    font-size: 1.2em;
-    font-weight: bold;
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.category-card {
+    background: var(--background-medium);
     border: none;
-    border-radius: 8px;
+    border-radius: var(--border-radius);
+    padding: 25px 20px;
     cursor: pointer;
-    background-color: var(--primary-color);
-    color: white;
-    transition: background-color 0.3s, transform 0.1s;
+    transition: var(--transition);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
 }
 
-.category-btn:hover {
-    background-color: var(--hover-color);
-    transform: translateY(-2px);
+.category-card:hover {
+    background: var(--card-hover);
+    transform: translateY(-5px);
+    box-shadow: var(--box-shadow);
 }
 
-/* 5. تصميم شاشة الاختبار */
+.category-icon {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: rgba(44, 120, 115, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    color: var(--primary-color);
+}
+
+.category-card h3 {
+    color: var(--text-color);
+    font-size: 1.3rem;
+    margin: 0;
+}
+
+.category-card p {
+    color: var(--text-light);
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+/* 6. تصميم شاشة الاختبار */
 .quiz-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 25px;
-    padding-bottom: 10px;
-    border-bottom: 2px solid var(--card-background);
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.back-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 6px;
+    padding: 8px 15px;
+    color: var(--text-color);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: var(--transition);
+}
+
+.back-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
 }
 
 .quiz-header .title {
-    font-size: 1.5em;
-    font-weight: bold;
-    color: var(--secondary-color);
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--text-color);
 }
 
 .stats-container {
@@ -117,76 +222,134 @@ body {
 }
 
 .stat-box {
-    background-color: #383852;
+    background-color: rgba(255, 255, 255, 0.1);
     padding: 8px 15px;
-    border-radius: 5px;
-    font-size: 0.9em;
-    font-weight: 700;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 5px;
 }
 
 /* بطاقة السؤال */
 .card {
-    background-color: var(--background-dark);
+    background-color: var(--background-medium);
     padding: 30px;
-    border-radius: 10px;
-    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.question-number {
+    color: var(--text-light);
+    font-size: 0.9rem;
 }
 
 .question-text {
-    font-size: 1.4em;
-    margin-bottom: 25px;
-    font-weight: 700;
+    font-size: 1.4rem;
+    margin-bottom: 30px;
+    font-weight: 600;
+    line-height: 1.5;
 }
 
 /* خيارات الإجابة */
 .options-container {
     display: grid;
-    grid-template-columns: 1fr 1fr; /* خياران في الصف */
-    gap: 15px;
-    margin-bottom: 25px;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-bottom: 30px;
 }
 
 .option-btn {
     padding: 15px 20px;
-    font-size: 1.1em;
-    border: 2px solid var(--primary-color);
+    font-size: 1.1rem;
+    border: 2px solid rgba(255, 255, 255, 0.2);
     border-radius: 8px;
-    background-color: transparent;
+    background-color: rgba(255, 255, 255, 0.05);
     color: var(--text-color);
     cursor: pointer;
-    transition: background-color 0.3s, border-color 0.3s;
+    transition: var(--transition);
+    text-align: right;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .option-btn:hover:not([disabled]) {
-    background-color: rgba(0, 123, 255, 0.1);
-    border-color: var(--hover-color);
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: var(--primary-light);
+}
+
+.option-btn::before {
+    content: "";
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    transition: var(--transition);
 }
 
 /* حالات الإجابة */
 .option-btn.correct {
-    background-color: var(--correct-color);
+    background-color: rgba(76, 175, 80, 0.2);
     border-color: var(--correct-color);
     color: white;
-    transform: scale(1.05);
+}
+
+.option-btn.correct::before {
+    background-color: var(--correct-color);
+    border-color: var(--correct-color);
+    content: "✓";
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    color: white;
 }
 
 .option-btn.incorrect {
-    background-color: var(--incorrect-color);
+    background-color: rgba(244, 67, 54, 0.2);
     border-color: var(--incorrect-color);
     color: white;
 }
 
+.option-btn.incorrect::before {
+    background-color: var(--incorrect-color);
+    border-color: var(--incorrect-color);
+    content: "✗";
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    color: white;
+}
+
 /* زر السؤال التالي */
+.quiz-footer {
+    display: flex;
+    justify-content: flex-end;
+}
+
 .next-btn {
-    padding: 12px 30px;
-    font-size: 1.1em;
+    padding: 12px 25px;
+    font-size: 1.1rem;
     border: none;
-    border-radius: 6px;
+    border-radius: 8px;
     cursor: pointer;
-    background-color: var(--secondary-color);
-    color: var(--background-dark);
-    font-weight: bold;
-    transition: opacity 0.3s;
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: 600;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .next-btn:disabled {
@@ -194,81 +357,222 @@ body {
     cursor: not-allowed;
 }
 
-/* 6. شريط التقدم */
+.next-btn:not(:disabled):hover {
+    background-color: var(--primary-dark);
+    transform: translateX(-5px);
+}
+
+/* 7. شريط التقدم */
 .progress-bar-container {
-    height: 10px;
-    background-color: #383852;
-    border-radius: 5px;
-    margin-bottom: 20px;
+    height: 8px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    margin-bottom: 25px;
     overflow: hidden;
 }
 
 #progress-bar-fill {
     height: 100%;
     width: 0%;
-    background-color: var(--primary-color);
+    background: linear-gradient(90deg, var(--primary-color), var(--primary-light));
     transition: width 0.4s ease-in-out;
+    border-radius: 4px;
 }
 
-/* 7. شاشة النتائج */
+/* 8. شاشة النتائج */
+.results-container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
 .results-summary {
-    background-color: #383852;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    background: var(--background-medium);
     padding: 30px;
-    border-radius: 10px;
-    margin: 30px 0;
-    text-align: right;
+    border-radius: var(--border-radius);
 }
 
-.results-summary p {
-    font-size: 1.2em;
-    margin: 10px 0;
-    border-bottom: 1px dashed #4e4e6d;
-    padding-bottom: 5px;
+.score-circle {
+    position: relative;
+    width: 180px;
+    height: 180px;
 }
 
-.results-summary p span {
-    float: left;
-    font-weight: bold;
-    color: var(--secondary-color);
+.circle-bg {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    position: relative;
+    overflow: hidden;
 }
 
-.results-summary p:last-child {
-    border-bottom: none;
+.circle-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: conic-gradient(var(--primary-color) 0%, transparent 0%);
+    transition: background 1s ease;
+}
+
+.score-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.score-text span {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--text-color);
+}
+
+.results-details {
+    text-align: center;
+    width: 100%;
+}
+
+.results-details h2 {
+    color: var(--text-color);
+    margin-bottom: 10px;
+    font-size: 1.8rem;
+}
+
+.results-details .message {
+    color: var(--text-light);
+    margin-bottom: 25px;
+    font-size: 1.1rem;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.stat-item {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 15px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.stat-label {
+    color: var(--text-light);
+    font-size: 0.9rem;
+}
+
+.stat-value {
+    color: var(--text-color);
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.results-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
 }
 
 .restart-btn {
-    padding: 15px 40px;
-    font-size: 1.2em;
+    padding: 15px 25px;
+    font-size: 1.1rem;
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    background-color: var(--correct-color);
+    font-weight: 600;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.restart-btn.primary {
+    background-color: var(--primary-color);
     color: white;
-    font-weight: bold;
-    transition: background-color 0.3s;
 }
 
-.restart-btn:hover {
-    background-color: #1e7e34;
+.restart-btn.primary:hover {
+    background-color: var(--primary-dark);
 }
 
-/* تصميم تفاعلي (للشاشات الصغيرة) */
-@media (max-width: 600px) {
+.restart-btn.secondary {
+    background-color: transparent;
+    color: var(--text-color);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.restart-btn.secondary:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* 9. تصميم تفاعلي (للشاشات الصغيرة) */
+@media (max-width: 768px) {
     #app-container {
+        padding: 0;
+        border-radius: 0;
+    }
+    
+    .screen {
         padding: 20px;
     }
+    
     .quiz-header {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+    }
+    
+    .stats-container {
+        width: 100%;
+        justify-content: space-between;
+    }
+    
+    .category-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .results-summary {
+        flex-direction: column;
+    }
+    
+    .results-actions {
+        flex-direction: column;
+    }
+    
+    .question-text {
+        font-size: 1.2rem;
+    }
+    
+    .header h1 {
+        font-size: 1.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .stats-container {
         flex-direction: column;
         gap: 10px;
     }
-    .stats-container {
-        justify-content: center;
+    
+    .stat-box {
         width: 100%;
+        justify-content: center;
     }
-    .options-container {
-        grid-template-columns: 1fr; /* خيار واحد في الصف */
-    }
-    .question-text {
-        font-size: 1.2em;
+    
+    .card {
+        padding: 20px;
     }
 }
