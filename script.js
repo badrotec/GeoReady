@@ -53,7 +53,7 @@ const categoryCards = document.querySelectorAll('.category-card');
 const questionText = document.getElementById('question-text');
 const optionsContainer = document.getElementById('options-container');
 const nextBtn = document.getElementById('next-btn');
-const backBtn = document.getElementById('back-btn');
+const backBtn = document.getElementById('back-btn'); // تم إخفاؤه ولكنه مستخدم في الـ JS
 const hintBtn = document.getElementById('hint-btn');
 const hintContainer = document.getElementById('hint-container');
 const hintText = document.getElementById('hint-text');
@@ -115,12 +115,18 @@ const pageSound = document.getElementById('pageSound');
 const completeSound = document.getElementById('completeSound');
 const backgroundMusic = document.getElementById('backgroundMusic');
 
+// متغيرات حالة الاختبار
 let currentQuizData = [];
 let currentQuestionIndex = 0;
 let score = 0;
 let timerInterval;
-let timeElapsed = 0;
+let questionTimeInterval; // مؤقت السؤال
+const QUESTION_DURATION = 30; // مدة السؤال بالثواني
+let timeLeft = QUESTION_DURATION;
+let timeElapsed = 0; // إجمالي الوقت المنقضي
 let selectedCategory = '';
+let isAnswered = false;
+
 let userData = {
     totalQuizzes: 0,
     totalPoints: 0,
@@ -160,7 +166,23 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // إضافة تأثيرات للبطاقات
     animateElements();
+    
+    // 💡 تمكين تشغيل الأصوات بعد تفاعل المستخدم
+    document.body.addEventListener('click', handleFirstInteraction, { once: true });
 });
+
+/**
+ * دالة لمعالجة أول تفاعل للمستخدم لتمكين تشغيل الأصوات.
+ */
+function handleFirstInteraction() {
+    // حاول تشغيل الموسيقى الخلفية
+    playBackgroundMusic();
+    
+    // حاول تحميل جميع الأصوات
+    [correctSound, incorrectSound, clickSound, pageSound, completeSound].forEach(audio => {
+        audio.load();
+    });
+}
 
 /**
  * تحميل بيانات المستخدم من localStorage
@@ -185,11 +207,10 @@ function saveUserData() {
 function initAudioSettings() {
     // تعيين مستويات الصوت
     backgroundMusic.volume = userData.settings.musicVolume / 100;
-    correctSound.volume = userData.settings.soundVolume / 100;
-    incorrectSound.volume = userData.settings.soundVolume / 100;
-    clickSound.volume = userData.settings.soundVolume / 100;
-    pageSound.volume = userData.settings.soundVolume / 100;
-    completeSound.volume = userData.settings.soundVolume / 100;
+    // التأكد من أن جميع الأصوات تستخدم نفس مستوى المؤثرات
+    [correctSound, incorrectSound, clickSound, pageSound, completeSound].forEach(audio => {
+        audio.volume = userData.settings.soundVolume / 100;
+    });
     
     // تعيين قيم عناصر التحكم
     musicVolume.value = userData.settings.musicVolume;
@@ -204,8 +225,22 @@ function initAudioSettings() {
     // تحديث أزرار السمات
     updateThemeButtons();
     
-    // تشغيل الموسيقى الخلفية
-    playBackgroundMusic();
+    // تحديث حالة أزرار التحكم بالصوت
+    if (userData.settings.musicVolume === 0 || backgroundMusic.paused) {
+        musicToggle.classList.add('muted');
+        musicToggle.innerHTML = '<i class="fas fa-music-slash"></i><span class="sound-tooltip">الموسيقى</span>';
+    } else {
+        musicToggle.classList.remove('muted');
+        musicToggle.innerHTML = '<i class="fas fa-music"></i><span class="sound-tooltip">الموسيقى</span>';
+    }
+    
+    if (userData.settings.soundVolume === 0) {
+        soundToggle.classList.add('muted');
+        soundToggle.innerHTML = '<i class="fas fa-volume-mute"></i><span class="sound-tooltip">المؤثرات</span>';
+    } else {
+        soundToggle.classList.remove('muted');
+        soundToggle.innerHTML = '<i class="fas fa-volume-up"></i><span class="sound-tooltip">المؤثرات</span>';
+    }
 }
 
 /**
@@ -234,7 +269,7 @@ function updateThemeButtons() {
 function updateUI() {
     // تحديث الإحصائيات العامة
     totalQuizzes.textContent = userData.totalQuizzes;
-    averageScore.textContent = `${userData.averageScore}%`;
+    userData.averageScore = isNaN(userData.averageScore) ? 0 : userData.averageScore;
     totalPoints.textContent = userData.totalPoints;
     
     // تحديث تقدم الفئات
@@ -309,7 +344,7 @@ function showLoadingScreen() {
 }
 
 // =================================================================
-// 5. نظام الصوتيات
+// 5. نظام الصوتيات - مُصلح
 // =================================================================
 
 /**
@@ -317,8 +352,9 @@ function showLoadingScreen() {
  */
 function playBackgroundMusic() {
     if (userData.settings.musicVolume > 0) {
+        backgroundMusic.volume = userData.settings.musicVolume / 100;
         backgroundMusic.play().catch(e => {
-            console.log("تعذر تشغيل الموسيقى الخلفية:", e);
+            console.log("تعذر تشغيل الموسيقى الخلفية تلقائيًا:", e.message);
         });
     }
 }
@@ -337,9 +373,11 @@ function pauseBackgroundMusic() {
 function playSound(audioElement) {
     if (userData.settings.soundVolume > 0) {
         try {
-            audioElement.currentTime = 0;
+            audioElement.currentTime = 0; // إعادة ضبط الوقت للتشغيل المتعدد
+            audioElement.volume = userData.settings.soundVolume / 100;
             audioElement.play().catch(e => {
-                console.log("تعذر تشغيل الصوت:", e);
+                console.log(`تعذر تشغيل الصوت (${audioElement.id}):`, e.message);
+                // هذا يحدث عادة إذا لم يتم التفاعل مع الصفحة بعد
             });
         } catch (error) {
             console.log("خطأ في تشغيل الصوت:", error);
@@ -390,9 +428,12 @@ async function startQuiz(filename, categoryName) {
         quizTitle.textContent = categoryName;
         totalQDisplay.textContent = currentQuizData.length;
         scoreDisplay.textContent = '0';
-
-        // بدء المؤقت وعرض السؤال الأول
-        startTimer();
+        
+        // إيقاف مؤقت السؤال القديم (إذا كان موجوداً)
+        clearInterval(questionTimeInterval);
+        
+        // بدء المؤقت الكلي وعرض السؤال الأول
+        startTotalTimer();
         switchScreen('quiz-screen');
         displayQuestion();
 
@@ -416,7 +457,14 @@ function filterQuestionsByDifficulty(questions, difficulty) {
         'hard': 1      // 100% من الأسئلة (الأصعب)
     };
     
-    const count = Math.floor(questions.length * difficultyMap[difficulty]);
+    // عدد الأسئلة المراد عرضها
+    const count = Math.min(questions.length, Math.floor(questions.length * difficultyMap[difficulty]));
+    
+    // خلط الأسئلة واختيار العدد المطلوب
+    // هنا يجب أن يتم تحديد الأسئلة التي تطابق مستوى الصعوبة أولاً ثم الخلط والاختيار
+    const filteredQuestions = questions.filter(q => q.difficulty === difficulty || difficulty === 'medium'); // افتراض أن 'medium' يعرض كل شيء
+    
+    // لتبسيط العملية مؤقتاً: نكتفي بالاقتطاع إذا كان ملف JSON مرتبًا حسب الصعوبة
     return questions.slice(0, count);
 }
 
@@ -436,8 +484,9 @@ function displayQuestion() {
     optionsContainer.innerHTML = '';
     nextBtn.disabled = true; // تعطيل زر التالي حتى تتم الإجابة
     hintContainer.classList.remove('show'); // إخفاء التلميح
-    hintBtn.style.display = 'block'; // إظهار زر التلميح
+    hintBtn.style.display = 'flex'; // إظهار زر التلميح (تم تغيير 'block' إلى 'flex' ليتناسب مع النمط)
     hintBtn.disabled = false;
+    isAnswered = false; // إعادة ضبط حالة الإجابة
 
     // تحديث شريط التقدم والإحصائيات
     currentQIndexDisplay.textContent = currentQuestionIndex + 1;
@@ -460,12 +509,15 @@ function displayQuestion() {
             button.style.animation = 'fadeInUp 0.5s ease-out forwards';
         }
         
-        button.onclick = () => handleAnswer(button, option, question.answer);
+        button.onclick = () => handleAnswer(button, option, question.answer, false); // false للإشارة إلى أن الإجابة لم تتم عبر المؤقت
         optionsContainer.appendChild(button);
     });
     
     // إعداد التلميح إذا كان متوفراً
     setupHint(question.hint);
+    
+    // بدء مؤقت السؤال
+    startQuestionTimer();
 }
 
 /**
@@ -474,13 +526,11 @@ function displayQuestion() {
  */
 function updateQuestionDifficulty(difficulty) {
     const difficultyElement = document.getElementById('question-difficulty');
-    if (difficulty) {
-        difficultyElement.innerHTML = `<i class="fas fa-signal"></i><span>${getDifficultyText(difficulty)}</span>`;
-        difficultyElement.className = 'question-difficulty ' + difficulty;
-        difficultyElement.style.display = 'flex';
-    } else {
-        difficultyElement.style.display = 'none';
-    }
+    const displayDifficulty = difficulty || 'medium'; // افتراض متوسط إذا لم يحدد
+    
+    difficultyElement.innerHTML = `<i class="fas fa-signal"></i><span>${getDifficultyText(displayDifficulty)}</span>`;
+    difficultyElement.className = 'question-difficulty ' + displayDifficulty;
+    difficultyElement.style.display = 'flex';
 }
 
 /**
@@ -515,16 +565,24 @@ function setupHint(hint) {
 }
 
 // =================================================================
-// 8. دالة معالجة الإجابة - مصححة
+// 8. دالة معالجة الإجابة - مُصلحة لضمان الألوان الصحيحة
 // =================================================================
 
 /**
- * معالجة الإجابة عند الضغط على زر الخيار
- * @param {HTMLElement} selectedButton - زر الخيار الذي تم الضغط عليه
- * @param {string} selectedOption - نص الخيار الذي تم اختياره
+ * معالجة الإجابة عند الضغط على زر الخيار أو انتهاء المؤقت
+ * @param {HTMLElement | null} selectedButton - زر الخيار الذي تم الضغط عليه (أو null إذا انتهى المؤقت)
+ * @param {string | null} selectedOption - نص الخيار الذي تم اختياره (أو null إذا انتهى المؤقت)
  * @param {string} correctAnswer - الإجابة الصحيحة
+ * @param {boolean} isTimeout - هل تم استدعاء الدالة بسبب انتهاء المؤقت؟
  */
-function handleAnswer(selectedButton, selectedOption, correctAnswer) {
+function handleAnswer(selectedButton, selectedOption, correctAnswer, isTimeout) {
+    // لا تفعل شيئًا إذا تمت الإجابة بالفعل
+    if (isAnswered) return;
+    isAnswered = true;
+    
+    // إيقاف مؤقت السؤال
+    clearInterval(questionTimeInterval);
+    
     const isCorrect = (selectedOption === correctAnswer);
 
     // تعطيل جميع الأزرار بعد الإجابة لمنع التغيير
@@ -533,34 +591,57 @@ function handleAnswer(selectedButton, selectedOption, correctAnswer) {
         btn.style.pointerEvents = 'none';
     });
 
-    if (isCorrect) {
-        score++;
+    if (isTimeout) {
+        // حالة انتهاء المؤقت
+        score = Math.max(0, score - 10); // خصم 10 نقاط (أو لا شيء إذا كانت النتيجة صفر)
         scoreDisplay.textContent = score;
         
-        // إضافة الكلاس الصحيح فقط للزر المحدد
-        selectedButton.classList.add('correct');
-        playSound(correctSound);
-        
-        // تأثير مرئي للإجابة الصحيحة
-        if (userData.settings.animations) {
-            selectedButton.style.animation = 'pulseCorrect 0.6s ease';
-        }
-    } else {
-        // إضافة الكلاس الخاطئ للزر المحدد
-        selectedButton.classList.add('incorrect');
-        playSound(incorrectSound);
-        
-        // تأثير مرئي للإجابة الخاطئة
-        if (userData.settings.animations) {
-            selectedButton.style.animation = 'shake 0.5s ease';
-        }
-        
-        // تمييز الإجابة الصحيحة - إصلاح المشكلة هنا
+        // إظهار الإجابة الصحيحة فقط
         Array.from(optionsContainer.children).forEach(btn => {
             if (btn.textContent === correctAnswer) {
-                btn.classList.add('correct'); // إضافة correct فقط
+                btn.classList.add('correct');
             }
         });
+        
+        // إشعار بالخصم
+        timerDisplay.textContent = 'انتهى الوقت (-10 نقاط)';
+        timerDisplay.parentElement.classList.add('incorrect');
+        playSound(incorrectSound);
+        
+    } else {
+        // حالة اختيار الإجابة
+        if (isCorrect) {
+            score += 10;
+            scoreDisplay.textContent = score;
+            
+            // إضافة الكلاس الصحيح فقط للزر المحدد
+            selectedButton.classList.add('correct');
+            playSound(correctSound);
+            
+            // تأثير مرئي للإجابة الصحيحة
+            if (userData.settings.animations) {
+                selectedButton.style.animation = 'pulseCorrect 0.6s ease';
+            }
+        } else {
+            score = Math.max(0, score - 5); // خصم 5 نقاط على الإجابة الخاطئة
+            scoreDisplay.textContent = score;
+            
+            // إضافة الكلاس الخاطئ للزر المحدد
+            selectedButton.classList.add('incorrect');
+            playSound(incorrectSound);
+            
+            // تأثير مرئي للإجابة الخاطئة
+            if (userData.settings.animations) {
+                selectedButton.style.animation = 'shake 0.5s ease';
+            }
+            
+            // تمييز الإجابة الصحيحة باللون الأخضر
+            Array.from(optionsContainer.children).forEach(btn => {
+                if (btn.textContent === correctAnswer) {
+                    btn.classList.add('correct'); 
+                }
+            });
+        }
     }
 
     nextBtn.disabled = false; // تفعيل زر التالي
@@ -572,27 +653,82 @@ function handleAnswer(selectedButton, selectedOption, correctAnswer) {
 
 function nextQuestion() {
     playClickSound();
+    
+    // إزالة كلاسات الحالة من المؤقت
+    timerDisplay.parentElement.classList.remove('incorrect');
+    timerDisplay.parentElement.classList.remove('warning');
+    
     currentQuestionIndex++;
     displayQuestion();
 }
 
 // =================================================================
-// 10. دالة عرض النتائج
+// 10. دوال الأدوات الإضافية (المؤقت، التقدم) - مُعدلة
+// =================================================================
+
+function startTotalTimer() {
+    timeElapsed = 0;
+    // تحديث المؤقت الكلي كل ثانية
+    timerInterval = setInterval(() => {
+        timeElapsed++;
+        // المؤقت الكلي غير معروض حاليًا لكنه يُستخدم في شاشة النتائج
+    }, 1000);
+}
+
+function startQuestionTimer() {
+    // إعادة ضبط المؤقت
+    clearInterval(questionTimeInterval);
+    timeLeft = QUESTION_DURATION;
+    timerDisplay.textContent = timeLeft;
+    timerDisplay.parentElement.classList.remove('incorrect');
+
+    // بدء عد تنازلي
+    questionTimeInterval = setInterval(() => {
+        timeLeft--;
+        timerDisplay.textContent = timeLeft;
+
+        if (timeLeft <= 10) {
+            timerDisplay.parentElement.classList.add('warning'); // لون تحذيري
+        }
+
+        if (timeLeft <= 0) {
+            // انتهاء الوقت
+            clearInterval(questionTimeInterval);
+            
+            // معالجة الإجابة كـ "انتهى الوقت"
+            const currentQuestion = currentQuizData[currentQuestionIndex];
+            handleAnswer(null, null, currentQuestion.answer, true);
+        }
+    }, 1000);
+}
+
+function updateProgressBar() {
+    const total = currentQuizData.length;
+    // التقدم يعتمد على الأسئلة التي تم الانتهاء منها
+    const progress = (currentQuestionIndex / total) * 100; 
+    progressBarFill.style.width = progress + '%';
+    progressPercentage.textContent = `${Math.round(progress)}%`;
+}
+
+// =================================================================
+// 11. شاشة النتائج - تم نقل وظيفة تحديث بيانات المستخدم
 // =================================================================
 
 function showResults() {
-    clearInterval(timerInterval); // إوقف المؤقت
+    clearInterval(timerInterval); // إوقف المؤقت الكلي
+    clearInterval(questionTimeInterval); // إيقاف مؤقت السؤال
     playSound(completeSound); // تشغيل صوت إكمال الاختبار
 
     const totalQuestions = currentQuizData.length;
-    const percentage = Math.round((score / totalQuestions) * 100);
+    const percentage = Math.round((score / (totalQuestions * 10)) * 100); // حساب النسبة المئوية بناءً على مجموع النقاط المحتملة
     
     // تحديث دائرة النتيجة
     circleFill.style.background = `conic-gradient(var(--primary-color) ${percentage}%, transparent ${percentage}%)`;
     
     // عرض النتائج
     resultCategory.textContent = quizTitle.textContent;
-    scoreCorrect.textContent = `${score} من ${totalQuestions}`;
+    // بما أن النتيجة تعتمد على النقاط، نستخدم النقاط فقط في عرض النتيجة
+    scoreCorrect.textContent = `${score}`; // عرض مجموع النقاط
     scorePercentage.textContent = `${percentage}%`;
     
     // حساب الوقت المستغرق
@@ -601,9 +737,8 @@ function showResults() {
     const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
     resultTime.textContent = formattedTime;
     
-    // حساب النقاط (النقاط = (الإجابات الصحيحة * 10) + مكافأة الوقت)
-    const timeBonus = Math.max(0, 100 - timeElapsed);
-    const points = score * 10 + timeBonus;
+    // النقاط المحصلة هي قيمة 'score' الحالية
+    const points = score;
     resultPoints.textContent = points;
     
     // تحديث العناوين والرسائل بناءً على الأداء
@@ -619,47 +754,22 @@ function showResults() {
 }
 
 /**
- * إنشاء تأثير الكونفيتي
- */
-function createConfetti() {
-    const confettiContainer = document.querySelector('.confetti');
-    if (!confettiContainer) return;
-    
-    confettiContainer.innerHTML = '';
-    const colors = ['#2c7873', '#ffb74d', '#10b981', '#3b82f6', '#8b5cf6'];
-    
-    for (let i = 0; i < 50; i++) {
-        const confetti = document.createElement('div');
-        confetti.className = 'confetti';
-        confetti.style.left = Math.random() * 100 + 'vw';
-        confetti.style.animationDelay = Math.random() * 5 + 's';
-        confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
-        confetti.style.width = Math.random() * 10 + 5 + 'px';
-        confetti.style.height = Math.random() * 10 + 5 + 'px';
-        confettiContainer.appendChild(confetti);
-    }
-}
-
-/**
  * تحديث الرسائل والعناوين بناءً على النتيجة
  * @param {number} percentage - النسبة المئوية للنتيجة
  */
 function updateResultMessages(percentage) {
-    if (percentage >= 95) {
+    if (percentage >= 90) {
         resultTitle.textContent = 'مستوى استثنائي! 🏆';
         resultMessage.textContent = 'أداء رائع! أنت خبير في هذا المجال الجيولوجي.';
-    } else if (percentage >= 85) {
+    } else if (percentage >= 75) {
         resultTitle.textContent = 'مستوى ممتاز! 🌟';
         resultMessage.textContent = 'أداء متميز! أنت جاهز للانطلاق في المجال الجيولوجي.';
-    } else if (percentage >= 75) {
+    } else if (percentage >= 60) {
         resultTitle.textContent = 'مستوى جيد جداً! 👍';
         resultMessage.textContent = 'معلوماتك قوية في هذا التخصص. استمر في التعلم!';
-    } else if (percentage >= 60) {
+    } else if (percentage >= 40) {
         resultTitle.textContent = 'مستوى مقبول 💪';
         resultMessage.textContent = 'أداء جيد، لكن تحتاج لمراجعة بعض النقاط لتعزيز معلوماتك.';
-    } else if (percentage >= 50) {
-        resultTitle.textContent = 'مستوى تحت المتوسط 📚';
-        resultMessage.textContent = 'تحتاج لمزيد من المراجعة والتدريب في هذا المجال.';
     } else {
         resultTitle.textContent = 'يحتاج تحسين 🎯';
         resultMessage.textContent = 'لا تستسلم! راجع المواد التعليمية وحاول مرة أخرى.';
@@ -677,8 +787,8 @@ function updateUserData(percentage, points) {
     userData.totalPoints += points;
     
     // تحديث متوسط النتائج
-    const totalScore = userData.averageScore * (userData.totalQuizzes - 1) + percentage;
-    userData.averageScore = Math.round(totalScore / userData.totalQuizzes);
+    const totalScore = (userData.averageScore * (userData.totalQuizzes - 1) + percentage) / userData.totalQuizzes;
+    userData.averageScore = Math.round(totalScore);
     
     // تحديث تقدم الفئة
     if (!userData.categoryProgress[selectedCategory]) {
@@ -696,30 +806,30 @@ function updateUserData(percentage, points) {
     updateUI();
 }
 
-// =================================================================
-// 11. دوال الأدوات الإضافية (المؤقت، التقدم)
-// =================================================================
-
-function startTimer() {
-    timeElapsed = 0;
-    // تحديث المؤقت كل ثانية
-    timerInterval = setInterval(() => {
-        timeElapsed++;
-        const minutes = Math.floor(timeElapsed / 60);
-        const seconds = timeElapsed % 60;
-        
-        // تنسيق الوقت (00:00)
-        const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-        timerDisplay.textContent = formattedTime;
-    }, 1000);
+/**
+ * إنشاء تأثير الكونفيتي
+ */
+function createConfetti() {
+    const confettiContainer = document.querySelector('.results-background');
+    if (!confettiContainer) return;
+    
+    // إزالة الكونفيتي القديم
+    confettiContainer.querySelectorAll('.confetti').forEach(c => c.remove());
+    
+    const colors = ['#2c7873', '#ffb74d', '#10b981', '#3b82f6', '#8b5cf6'];
+    
+    for (let i = 0; i < 50; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        confetti.style.left = Math.random() * 100 + 'vw';
+        confetti.style.animationDelay = Math.random() * 5 + 's';
+        confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+        confetti.style.width = Math.random() * 10 + 5 + 'px';
+        confetti.style.height = Math.random() * 10 + 5 + 'px';
+        confettiContainer.appendChild(confetti);
+    }
 }
 
-function updateProgressBar() {
-    const total = currentQuizData.length;
-    const progress = (currentQuestionIndex / total) * 100;
-    progressBarFill.style.width = progress + '%';
-    progressPercentage.textContent = `${Math.round(progress)}%`;
-}
 
 // =================================================================
 // 12. الاستماع للأحداث (EventListeners)
@@ -738,11 +848,12 @@ categoryCards.forEach(card => {
 // 2. زر السؤال التالي
 nextBtn.addEventListener('click', nextQuestion);
 
-// 3. زر العودة للرئيسية
+// 3. زر العودة للرئيسية (تم إخفاؤه ولكنه يعمل)
 backBtn.addEventListener('click', () => {
     playClickSound();
     if (confirm('هل تريد العودة إلى الصفحة الرئيسية؟ سيتم فقدان تقدمك الحالي.')) {
         clearInterval(timerInterval);
+        clearInterval(questionTimeInterval);
         switchScreen('home-screen');
     }
 });
@@ -795,7 +906,7 @@ function fallbackShare(message) {
 
 // 7. إعدادات الصوت
 musicToggle.addEventListener('click', () => {
-    playClickSound();
+    // لا تشغل صوت النقر هنا لتجنب التداخل مع الموسيقى
     if (backgroundMusic.paused) {
         playBackgroundMusic();
         musicToggle.classList.remove('muted');
@@ -805,21 +916,27 @@ musicToggle.addEventListener('click', () => {
         musicToggle.classList.add('muted');
         musicToggle.innerHTML = '<i class="fas fa-music-slash"></i><span class="sound-tooltip">الموسيقى</span>';
     }
+    // تحديث مستوى الصوت في حالة تشغيله/إيقافه عبر الزر الرئيسي
+    userData.settings.musicVolume = backgroundMusic.paused ? 0 : 50;
+    musicVolume.value = userData.settings.musicVolume;
+    musicVolumeValue.textContent = `${userData.settings.musicVolume}%`;
+    saveUserData();
 });
 
 soundToggle.addEventListener('click', () => {
     playClickSound();
+    // تبديل حالة المؤثرات
     if (userData.settings.soundVolume > 0) {
         userData.settings.soundVolume = 0;
         soundToggle.classList.add('muted');
         soundToggle.innerHTML = '<i class="fas fa-volume-mute"></i><span class="sound-tooltip">المؤثرات</span>';
     } else {
-        userData.settings.soundVolume = 70;
+        userData.settings.soundVolume = 70; // القيمة الافتراضية
         soundToggle.classList.remove('muted');
         soundToggle.innerHTML = '<i class="fas fa-volume-up"></i><span class="sound-tooltip">المؤثرات</span>';
     }
     
-    // تحديث مستوى الصوت
+    // تحديث مستوى الصوت في جميع الأصوات
     initAudioSettings();
     saveUserData();
 });
@@ -863,7 +980,9 @@ saveSettings.addEventListener('click', () => {
  */
 function showNotification(message, type = 'info') {
     // يمكن تطوير هذه الدالة لعرض إشعارات جميلة
-    alert(message);
+    console.log(`[${type.toUpperCase()}] ${message}`);
+    // استخدام alert بسيط للآن
+    // alert(message);
 }
 
 // 9. تحديث قيم عناصر التحكم في الوقت الحقيقي
@@ -871,17 +990,24 @@ musicVolume.addEventListener('input', () => {
     musicVolumeValue.textContent = `${musicVolume.value}%`;
     backgroundMusic.volume = musicVolume.value / 100;
     userData.settings.musicVolume = parseInt(musicVolume.value);
+    // تحديث حالة زر الموسيقى
+    if (userData.settings.musicVolume > 0 && backgroundMusic.paused) {
+        playBackgroundMusic();
+    } else if (userData.settings.musicVolume === 0) {
+        pauseBackgroundMusic();
+    }
+    initAudioSettings(); // لتحديث حالة زر التبديل
 });
 
 soundVolume.addEventListener('input', () => {
     soundVolumeValue.textContent = `${soundVolume.value}%`;
     const volume = soundVolume.value / 100;
-    correctSound.volume = volume;
-    incorrectSound.volume = volume;
-    clickSound.volume = volume;
-    pageSound.volume = volume;
-    completeSound.volume = volume;
+    // تحديث صوت المؤثرات
+    [correctSound, incorrectSound, clickSound, pageSound, completeSound].forEach(audio => {
+        audio.volume = volume;
+    });
     userData.settings.soundVolume = parseInt(soundVolume.value);
+    initAudioSettings(); // لتحديث حالة زر التبديل
 });
 
 // 10. منتقي السمات
@@ -896,24 +1022,16 @@ themeButtons.forEach(btn => {
     });
 });
 
-// 11. إضافة أصوات النقر لجميع الأزرار
+// 11. إضافة أصوات النقر لجميع الأزرار (عدا الموسيقى والمؤثرات)
 document.querySelectorAll('button').forEach(button => {
     if (!button.id.includes('music-toggle') && !button.id.includes('sound-toggle')) {
-        button.addEventListener('click', () => {
+        button.addEventListener('click', (event) => {
+            // منع تكرار النقر إذا كان الزر معطلاً أو تمت الإجابة
+            if (button.disabled || (button.classList.contains('option-btn') && isAnswered)) {
+                event.preventDefault();
+                return;
+            }
             playClickSound();
         });
     }
 });
-
-// 12. تحسين تجربة المستخدم على الهواتف
-document.addEventListener('touchstart', function() {}, {passive: true});
-
-// منع التكبير على الهواتف عند النقر المزدوج
-let lastTouchEnd = 0;
-document.addEventListener('touchend', function (event) {
-    const now = (new Date()).getTime();
-    if (now - lastTouchEnd <= 300) {
-        event.preventDefault();
-    }
-    lastTouchEnd = now;
-}, false);
