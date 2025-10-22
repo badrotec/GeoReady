@@ -9,22 +9,31 @@
 </head>
 <body>
 
+    <div id="sections-menu" class="menu-sidebar">
+        <button id="close-menu-btn" class="close-btn">❌ إغلاق</button>
+        <h2>اختر القسم (مستوى)</h2>
+        <div id="sections-grid" class="sidebar-grid">
+            </div>
+    </div>
+
     <div class="container">
         <header>
-            <h1 class="logo animated-logo">GeoMaster Challenge 🌎</h1>
-            <p class="slogan">تحليل متقدم لعلوم الأرض - إبدأ رحلة المعرفة!</p>
+            <button id="menu-toggle" class="header-menu-btn">القائمة (الأقسام) ☰</button>
+            <h1 class="logo">GeoMaster Challenge 💎</h1>
         </header>
 
-        <div id="level-select-screen" class="screen active">
+        <div id="welcome-screen" class="screen active">
+            <h2 class="welcome-title">مرحبًا بك في التحدي الجيولوجي المتقدم!</h2>
             
-            <p class="intro-text">جاهز للانطلاق في تحدي الجيولوجيا المتقدم؟ <br> إثبت أنك خبير GeoMaster حقيقي!</p>
-            
-            <button id="start-btn" class="action-btn big-start-btn">بدء تحليل البيانات 🔑</button>
-            
-            <h2 id="select-level-title" class="hidden-title">اختر المستوى 🔥</h2>
-            <div id="loading-msg" class="loading-msg hidden">جاري تجميع البيانات الجيولوجية... 🔄</div>
-            <div id="level-buttons-container" class="grid-levels">
+            <div class="progress-wrapper">
+                <span class="progress-label">التقدم الكلي في التحديات:</span>
+                <div id="progress-container" class="progress-bar-shell">
+                    <div id="progress-level" style="width: 0%;"></div>
                 </div>
+                <p id="progress-text" class="ready-text">هل أنت جاهز؟</p>
+            </div>
+
+            <button id="start-button" class="action-btn big-start-btn">ابدأ التحدي 🚀</button>
         </div>
 
         <div id="quiz-screen" class="screen">
@@ -33,10 +42,6 @@
                 <div id="timer" class="timer">00:00</div>
             </div>
             
-            <div id="progress-bar-container">
-                <div id="progress-bar"></div>
-            </div>
-
             <div class="question-container-wrapper">
                 <div id="quiz-content" class="question-card">
                     </div>
@@ -60,11 +65,10 @@
         </div>
     </div>
 
-    <audio id="sound-correct" src="local/correct.mp3" preload="auto"></audio>
-    <audio id="sound-wrong" src="local/wrong.mp3" preload="auto"></audio>
-    <audio id="sound-click" src="local/click.mp3" preload="auto"></audio>
-    <audio id="sound-timeup" src="local/timeup.mp3" preload="auto"></audio>
-    <audio id="sound-finish" src="local/fanfare.mp3" preload="auto"></audio>
+    <audio id="sound-correct" src="" preload="auto"></audio>
+    <audio id="sound-wrong" src="" preload="auto"></audio>
+    <audio id="sound-click" src="" preload="auto"></audio>
+    <audio id="sound-timeup" src="" preload="auto"></audio>
 
     <script src="script.js"></script>
 </body>
