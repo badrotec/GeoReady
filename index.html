@@ -7,7 +7,8 @@
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
@@ -16,28 +17,76 @@
 
     <div id="app-container">
 
+        <!-- شاشة التحميل -->
+        <section id="loading-screen" class="screen">
+            <div class="loading-content">
+                <div class="loading-spinner">
+                    <i class="fas fa-mountain fa-spin"></i>
+                </div>
+                <h2>جاري تحميل الأسئلة...</h2>
+                <p>يرجى الانتظار قليلاً</p>
+            </div>
+        </section>
+
+        <!-- الصفحة الرئيسية -->
         <section id="home-screen" class="screen active">
             <header class="header">
-                <h1>منصة الجيولوجي المحترف ⛏️</h1>
+                <div class="logo">
+                    <i class="fas fa-mountain"></i>
+                    <h1>منصة الجيولوجي المحترف</h1>
+                </div>
                 <p>اختبر معلوماتك وارفع مستواك في التخصصات الجيولوجية!</p>
             </header>
             <div class="category-selection">
                 <h2>اختر مجال الاختبار:</h2>
-                <button class="category-btn" data-category="Basic Geology.json">الجيولوجيا الأساسية 🌍</button>
-                <button class="category-btn" data-category="Hydrogeology.json">الجيولوجيا المائية 💧</button>
-                <button class="category-btn" data-category="Petrology.json">علم الصخور (البترولوجيا) 🔥</button>
+                <div class="category-grid">
+                    <button class="category-card" data-category="Basic Geology.json">
+                        <div class="category-icon">
+                            <i class="fas fa-globe-americas"></i>
+                        </div>
+                        <h3>الجيولوجيا الأساسية</h3>
+                        <p>اختبار شامل في أساسيات علم الجيولوجيا</p>
+                    </button>
+                    <button class="category-card" data-category="Hydrogeology.json">
+                        <div class="category-icon">
+                            <i class="fas fa-tint"></i>
+                        </div>
+                        <h3>الجيولوجيا المائية</h3>
+                        <p>اختبار متخصص في المياه الجوفية والهيدروجيولوجيا</p>
+                    </button>
+                    <button class="category-card" data-category="Petrology.json">
+                        <div class="category-icon">
+                            <i class="fas fa-gem"></i>
+                        </div>
+                        <h3>علم الصخور</h3>
+                        <p>اختبار في أنواع الصخور وتكوينها وخصائصها</p>
+                    </button>
+                </div>
             </div>
         </section>
 
+        <!-- شاشة الاختبار -->
         <section id="quiz-screen" class="screen">
             <div class="quiz-header">
-                <span id="quiz-title" class="title"></span>
+                <div class="header-left">
+                    <button id="back-btn" class="back-btn">
+                        <i class="fas fa-arrow-right"></i>
+                        العودة
+                    </button>
+                    <span id="quiz-title" class="title"></span>
+                </div>
                 <div class="stats-container">
                     <div class="stat-box timer-box">
-                        ⏱️ <span id="timer-display">00:00</span>
+                        <i class="fas fa-clock"></i>
+                        <span id="timer-display">00:00</span>
+                    </div>
+                    <div class="stat-box score-box">
+                        <i class="fas fa-star"></i>
+                        <span id="score-display">0</span>
                     </div>
                     <div class="stat-box progress-box">
-                        السؤال: <span id="current-question-index">1</span> / <span id="total-questions">10</span>
+                        <i class="fas fa-list-ol"></i>
+                        <span id="current-question-index">1</span> / <span id="total-questions">10</span>
                     </div>
                 </div>
             </div>
@@ -47,24 +96,78 @@
             </div>
 
             <div id="question-card" class="card">
+                <div class="question-header">
+                    <span class="question-number">السؤال <span id="question-number">1</span></span>
+                </div>
                 <p id="question-text" class="question-text">نص السؤال سيظهر هنا...</p>
                 <div id="options-container" class="options-container">
-                    </div>
-                <button id="next-btn" class="next-btn" disabled>السؤال التالي</button>
+                    <!-- سيتم إضافة الخيارات ديناميكياً -->
+                </div>
+                <div class="quiz-footer">
+                    <button id="next-btn" class="next-btn" disabled>
+                        <span>السؤال التالي</span>
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                </div>
             </div>
         </section>
 
+        <!-- شاشة النتائج -->
         <section id="results-screen" class="screen">
             <header class="header">
-                <h1>نتائج الاختبار 🎉</h1>
+                <div class="logo">
+                    <i class="fas fa-award"></i>
+                    <h1>نتائج الاختبار</h1>
+                </div>
             </header>
-            <div class="results-summary">
-                <p>التخصص: <span id="result-category"></span></p>
-                <p>الأسئلة الصحيحة: <span id="score-correct"></span></p>
-                <p>النسبة المئوية: <span id="score-percentage"></span></p>
+            
+            <div class="results-container">
+                <div class="results-summary">
+                    <div class="score-circle">
+                        <div class="circle-bg">
+                            <div class="circle-fill" id="circle-fill"></div>
+                        </div>
+                        <div class="score-text">
+                            <span id="score-percentage">0%</span>
+                        </div>
+                    </div>
+                    
+                    <div class="results-details">
+                        <h2>تهانينا!</h2>
+                        <p id="result-message" class="message">لقد أكملت الاختبار بنجاح</p>
+                        
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <span class="stat-label">التخصص</span>
+                                <span id="result-category" class="stat-value">-</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">الأسئلة الصحيحة</span>
+                                <span id="score-correct" class="stat-value">0/0</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">الوقت المستغرق</span>
+                                <span id="result-time" class="stat-value">00:00</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">النقاط</span>
+                                <span id="result-points" class="stat-value">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="results-actions">
+                    <button class="restart-btn primary">
+                        <i class="fas fa-home"></i>
+                        العودة للصفحة الرئيسية
+                    </button>
+                    <button class="restart-btn secondary" id="retry-btn">
+                        <i class="fas fa-redo"></i>
+                        إعادة الاختبار
+                    </button>
+                </div>
             </div>
-            <p id="result-message" class="message"></p>
-            <button class="restart-btn">العودة للصفحة الرئيسية</button>
         </section>
 
     </div>
