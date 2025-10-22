@@ -1,271 +1,263 @@
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>GeoReady — 10x Edition</title>
+<title>GeoChallenge — مسار الخبير الجيولوجي</title>
 <style>
+  /* --- Variables & Reset --- */
   :root{
     --bg1:#041426; --card:#071726; --muted:#9fb0c8;
     --accent1:#06b6d4; --accent2:#7c3aed; --accent3:#ff8a3d;
     --good:#16a34a; --bad:#ef4444; --glass: rgba(255,255,255,0.03);
-    --warn:#facc15;
+    --level-newgrad: #94a3b8; /* خريج جديد */
+    --level-junior: #7dd3fc; /* مبتدئ */
+    --level-field: #c0c0c0; /* ميداني */
+    --level-expert: #ffd700; /* خبير */
+    --level-track: linear-gradient(90deg, var(--accent2), var(--accent1)); /* لون شريط المسار */
   }
   *{box-sizing:border-box}
-  body{margin:0;font-family:Inter, "Segoe UI", Arial, sans-serif; background:linear-gradient(180deg,#031022 0%,#071428 70%); color:#eef7ff; position:relative;}
-  
-  /* --- التعديلات: Wrap and Header --- */
-  .wrap{max-width:600px;margin:0 auto;padding:12px; position:relative; z-index:10;}
-  header{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px}
-  .brand{display:flex;align-items:center;gap:8px}
-  .logo{width:48px;height:48px;border-radius:10px;background:linear-gradient(135deg,var(--accent1),var(--accent2));display:flex;align-items:center;justify-content:center;font-weight:900;color:#fff; font-size:18px; flex-shrink:0;}
-  h1{margin:0;font-size:18px; line-height:1.2}
-  .subtitle{color:var(--muted);font-size:12px}
-  
-  .controls{display:flex;gap:6px;align-items:center}
-  button.btn{background:linear-gradient(90deg,var(--accent1),var(--accent2));border:none;padding:7px 10px;border-radius:6px;color:#fff;cursor:pointer;font-weight:700; font-size:13px; transition: transform 0.15s, box-shadow 0.15s;}
-  button.btn:hover{transform:translateY(-1px); box-shadow: 0 4px 10px rgba(0,0,0,0.2);}
-  button.btn:active{transform:translateY(0px); opacity:0.9;}
-  
-  button.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:6px 9px;border-radius:6px;color:var(--muted); font-size:13px; cursor:pointer;}
-  button.ghost:hover{background:var(--glass); color:#fff;}
-  
-  .lang-toggle, .settings-btn {
-    background:var(--glass);padding:6px 8px;border-radius:6px;cursor:pointer;color:var(--muted); font-size:13px; line-height: 1;
-    display:flex; align-items:center; justify-content:center; width: 34px; height: 34px;
-  }
-  .lang-toggle { width: auto; padding: 6px 9px; }
-  .settings-btn svg { width: 18px; height: 18px; fill: var(--muted); }
-  .settings-btn:hover svg { fill: #fff; }
+  body{margin:0;font-family:Inter, "Segoe UI", Arial, sans-serif; background:linear-gradient(180deg,#031022 0%,#071428 70%); color:#eef7ff}
 
-  .container{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:10px;padding:14px;box-shadow:0 8px 30px rgba(2,6,23,0.5)}
+  /* --- Layout --- */
+  .wrap{max-width:650px;margin:0 auto;padding:15px} 
+  .container{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:12px;padding:16px;box-shadow:0 8px 30px rgba(2,6,23,0.5)}
+  header{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:15px}
+  .brand{display:flex;align-items:center;gap:10px}
+  .logo{width:50px;height:50px;border-radius:10px;background:var(--level-expert);display:flex;align-items:center;justify-content:center;font-weight:900;color:var(--bg1); font-size:20px}
+  h1{margin:0;font-size:22px; line-height:1.2}
+  .subtitle{color:var(--muted);font-size:13px}
+
+  /* --- Header Controls (Back/Lang/Results) --- */
+  .controls{display:flex;gap:8px;align-items:center}
+  button.btn{background:linear-gradient(90deg,var(--accent1),var(--accent2));border:none;padding:8px 12px;border-radius:8px;color:#fff;cursor:pointer;font-weight:700; font-size:14px; transition: transform .1s}
+  button.btn:active{transform:scale(0.98)}
+  button.ghost{background:transparent;border:1px solid rgba(255,255,255,0.08);padding:7px 11px;border-radius:8px;color:var(--muted); font-size:14px; transition: border-color .1s}
+  button.ghost:hover{border-color:var(--accent1)}
+  .lang-toggle, .back-arrow{background:var(--glass);padding:8px;border-radius:8px;cursor:pointer;color:var(--muted); font-size:14px; display:inline-flex; align-items:center; justify-content:center; transition: color .1s}
+  .lang-toggle:hover, .back-arrow:hover{color:#fff;}
+  .back-arrow{padding:8px 12px; font-weight:700;}
   
-  /* --- التعديل: Section Cards (with icons) --- */
-  .sections{display:grid;grid-template-columns:1fr;gap:10px;margin-bottom:12px}
-  .section-card{background:var(--card);padding:12px;border-radius:8px;cursor:pointer;transition:transform .22s,box-shadow .22s;box-shadow:0 4px 12px rgba(2,6,23,0.4); display:flex; align-items:center; gap:12px;}
-  .section-card:hover{transform:none;box-shadow:0 6px 16px rgba(2,6,23,0.5)}
-  .section-icon{font-size:24px; opacity:0.6;}
-  .section-title{font-weight:800;font-size:15px}
-  .section-desc{color:var(--muted);font-size:12px;margin-top:4px}
-  
-  /* --- Quiz Area & Question Card --- */
-  .quiz-area{margin-top:8px;min-height:300px;position:relative;overflow:hidden}
-  .question-card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:14px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);transition:transform .35s,opacity .35s; position:relative;}
+  /* --- Dashboard (Main Page) --- */
+  #dashboard{display:block; transition: opacity .3s}
+  .path-title{font-size:16px;font-weight:700;margin-bottom:8px;color:var(--accent3)}
+  .level-info{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;padding:8px 10px;border-radius:8px;background:var(--card);border:1px solid rgba(255,255,255,0.06)}
+  .current-level{font-size:18px;font-weight:800;color:var(--level-newgrad)} /* سيتم تغيير اللون بالجافاسكريبت */
+  .progress-percent{font-size:24px;font-weight:900;color:var(--accent1)}
+  .progress-bar-path{height:16px;background:rgba(255,255,255,0.1);border-radius:8px;overflow:hidden;margin-top:4px}
+  .progress-inner-path{height:100%;background:var(--level-track);width:0%;transition:width 1s ease-out;border-radius:8px}
+
+  /* --- Main Sections Grid --- */
+  .main-sections{display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:12px;margin-top:20px}
+  .section-tile{background:var(--card);padding:15px;border-radius:10px;cursor:pointer;transition:transform .2s,box-shadow .2s;box-shadow:0 4px 12px rgba(2,6,23,0.4);border-top:3px solid var(--accent1)}
+  .section-tile:nth-child(2){border-top-color:var(--accent2)}
+  .section-tile:nth-child(3){border-top-color:var(--good)}
+  .section-tile:nth-child(4){border-top-color:var(--accent3)}
+  .section-tile:hover{transform:translateY(-3px);box-shadow:0 10px 20px rgba(2,6,23,0.5)}
+  .section-icon{font-size:28px;margin-bottom:8px}
+  .section-tile-title{font-weight:800;font-size:17px;margin-bottom:4px}
+  .section-tile-desc{color:var(--muted);font-size:12px}
+
+  /* --- Quiz Area (Questions) --- */
+  #quizArea{display:none} /* مخفي افتراضيا */
+  .quiz-area{margin-top:8px;min-height:300px;position:relative}
+  .question-card{background:var(--card);padding:16px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);transition:transform .35s,opacity .35s}
   .fade-in{animation:fadeIn .28s ease}
   @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
   
-  /* --- التعديل: Question Meta (Added Streak) --- */
-  .question-meta{display:flex;flex-direction:column-reverse;justify-content:space-between;align-items:center;margin-bottom:10px;gap:8px} 
-  .qnum{font-weight:800;color:var(--accent3);padding:4px 8px;border-radius:6px;background:var(--glass); font-size:14px}
-  .timer{font-weight:900;padding:4px 8px;border-radius:6px;background:var(--glass); min-width:60px; text-align:center; transition: color 0.3s, background 0.3s;}
-  .timer.timer-warn { background: rgba(239, 68, 68, 0.2); color: var(--bad); animation: pulseWarn 1s infinite; }
-  @keyframes pulseWarn { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
-
-  .question-meta > div:last-child {display:flex;gap:12px;align-items:center; width:100%; justify-content:space-between;}
+  .question-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px} 
+  .qnum{font-weight:800;color:var(--accent3);padding:6px 10px;border-radius:6px;background:rgba(255,255,255,0.02); font-size:15px}
+  .timer{font-weight:900;padding:6px 10px;border-radius:6px;background:rgba(255,255,255,0.02); min-width:75px; text-align:center; font-size:18px}
   
-  .scorebox{min-width:120px;text-align:center; padding: 4px 0;}
-  .score-value{font-size:18px;font-weight:900;color:var(--accent1)}
-  .level-badge{display:inline-block;padding:4px 8px;border-radius:999px;background:var(--glass);margin-top:4px;color:var(--muted); font-size:11px}
+  .scorebox{display:flex;gap:12px;align-items:center}
+  .score-value{font-size:20px;font-weight:900;color:var(--accent1)}
+  .level-badge{display:inline-block;padding:4px 8px;border-radius:999px;background:rgba(255,255,255,0.03);color:var(--muted); font-size:12px}
   
-  /* --- التعديل: Streak Counter --- */
-  .streak-counter {
-    font-size: 16px; font-weight: 800; color: var(--warn);
-    opacity: 0; transition: opacity 0.3s, transform 0.3s; transform: scale(0.8);
-  }
-  .streak-counter.visible { opacity: 1; transform: scale(1); }
-
-  /* --- التعديل: Image Question --- */
-  .q-image-container {
-    margin: 6px 0 10px;
-    text-align: center;
-    max-height: 180px;
-    overflow: hidden;
-    border-radius: 6px;
-  }
-  .q-image-container img {
-    width: 100%; height: auto; max-height: 180px;
-    object-fit: cover; border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);
-  }
-
-  .question-text{font-size:15px;margin:6px 0 10px}
-  .answers{display:flex;flex-direction:column;gap:8px}
-  .answer{background:var(--glass);padding:10px;border-radius:6px;border:1px solid rgba(255,255,255,0.03);cursor:pointer;transition:transform .12s,background .12s, border-color 0.12s;display:flex;align-items:center;gap:8px; font-size:14px}
-  .answer:not(.correct):not(.wrong):hover{transform:translateY(-2px); background:rgba(255,255,255,0.06);}
-  .answer .opt-label{min-width:26px;text-align:center;font-weight:800; font-size:14px}
+  .question-text{font-size:16px;font-weight:600;margin:10px 0 15px;line-height:1.4}
+  .answers{display:flex;flex-direction:column;gap:10px} 
+  .answer{background:var(--glass);padding:12px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);cursor:pointer;transition:transform .15s,background .15s, border-color .15s;display:flex;align-items:center;gap:10px; font-size:15px; user-select:none;} 
+  .answer:hover{transform:translateY(-2px); border-color:var(--accent2)} 
+  .answer.correct{background-color:var(--good);border-color:var(--good); color:#fff}
+  .answer.wrong{background-color:var(--bad);border-color:var(--bad); color:#fff; opacity:0.6}
+  .answer .opt-label{min-width:30px;text-align:center;font-weight:800; font-size:15px; background:rgba(0,0,0,0.1); padding:4px 0; border-radius:4px}
   
-  /* --- التعديل: Answer visual feedback --- */
-  .answer.correct { background: rgba(22, 163, 74, 0.2); border-color: var(--good); }
-  .answer.wrong { background: rgba(239, 68, 68, 0.2); border-color: var(--bad); }
-  .answer.pulse { animation: pulseGreen 0.4s; }
-  .answer.shake { animation: shakeRed 0.4s; }
-  @keyframes pulseGreen { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
-  @keyframes shakeRed { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
+  .progress-wrap{display:flex;align-items:center;gap:10px;margin-top:15px} 
+  .progress-bar{flex:1;height:10px;background:rgba(255,255,255,0.03);border-radius:10px;overflow:hidden}
+  .progress-bar > div{height:100%;background:linear-gradient(90deg,var(--accent1),var(--accent2));width:0%; transition: width 0.3s}
+  .small-muted{color:var(--muted);font-size:12px}
 
+  /* --- Result Panel --- */
+  .result-panel{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:15px;background:linear-gradient(180deg, rgba(2,6,23,0.8), rgba(2,6,23,0.9));backdrop-filter:blur(4px);z-index:100}
+  .result-card{background:linear-gradient(180deg,#071226,#08162a);padding:20px;border-radius:12px;width:95%;max-width:450px;border:1px solid rgba(255,255,255,0.06);text-align:center} 
+  .bigscore{font-size:40px;font-weight:900;color:var(--accent2);margin:8px 0}
+  .res-details{color:var(--muted);margin-top:8px; font-size:14px; line-height:1.6}
+  .res-actions{display:flex;gap:10px;justify-content:center;margin-top:20px}
 
-  /* --- التعديل: Floating Score Popup --- */
-  .score-popup-area {
-    position: absolute;
-    top: 50px; right: 20px;
-    z-index: 100;
-    pointer-events: none;
-  }
-  .score-popup {
-    font-size: 18px; font-weight: 900;
-    padding: 4px 8px; border-radius: 6px;
-    position: absolute;
-    animation: floatUpFade 1.2s ease-out;
-  }
-  .score-popup.good { color: var(--good); }
-  .score-popup.bad { color: var(--bad); }
-  @keyframes floatUpFade {
-    from { opacity: 1; transform: translateY(0); }
-    to { opacity: 0; transform: translateY(-30px); }
+  /* --- Media Queries (Desktop) --- */
+  @media(min-width:700px){ 
+    .wrap{max-width:1100px;margin:20px auto;padding:20px}
+    .main-sections{grid-template-columns:repeat(4,1fr)}
+    .section-tile{padding:20px}
+    .question-card{padding:20px}
+    .result-card{max-width:500px}
   }
 
-  .progress-wrap{display:flex;align-items:center;gap:6px;margin-top:10px}
-  .progress-bar{flex:1;height:8px;background:rgba(255,255,255,0.03);border-radius:8px;overflow:hidden}
-  .progress-bar > div{height:100%;background:linear-gradient(90deg,var(--accent1),var(--accent2));width:0%; transition: width 0.3s;}
-  .small-muted{color:var(--muted);font-size:11px}
+  /* --- New Components (Other Sections) --- */
+  .other-section{display:none; padding:20px; background:var(--card); border-radius:10px; margin-top:15px}
+  .section-header{font-size:24px; font-weight:800; margin-bottom:15px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:10px}
+  .info-text{font-size:16px; line-height:1.6; color:var(--muted)}
+  .glossary-item{margin-bottom:15px; padding:10px; background:rgba(255,255,255,0.03); border-radius:6px}
+  .term-title{font-weight:700; color:var(--accent1); font-size:18px}
+  .term-def{font-size:14px; margin-top:4px}
   
-  .controls-bottom{display:flex;gap:6px;align-items:center;margin-top:10px; flex-wrap:wrap; justify-content:space-between}
-  .controls-bottom .ghost { flex-grow:1; }
-  .controls-bottom #timeTip { order:3; flex-basis:100%; text-align:center; margin-top:6px; }
-
-  /* --- Modals (Result, Leaderboard, Settings, Resume) --- */
-  .modal-panel{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:10px;background:linear-gradient(180deg, rgba(2,6,23,0.7), rgba(2,6,23,0.9));backdrop-filter:blur(3px); z-index:1000;}
-  .modal-card{background:linear-gradient(180deg,#071226,#08162a);padding:18px;border-radius:10px;width:95%;max-width:400px;border:1px solid rgba(255,255,255,0.04);text-align:center; animation: fadeIn 0.2s;}
-  
-  /* --- Result Modal --- */
-  .bigscore{font-size:36px;font-weight:900;color:var(--accent2);margin:6px 0}
-  .res-details{color:var(--muted);margin-top:6px; font-size:13px; text-align:right; direction:rtl;}
-  [dir="ltr"] .res-details { text-align: left; }
-  .res-actions{display:flex;gap:6px;justify-content:center;margin-top:12px; flex-wrap: wrap;}
-  
-  /* --- التعديل: Leaderboard Modal --- */
-  .leaderboard-list {
-    max-height: 300px; overflow-y: auto;
-    text-align: right; direction:rtl;
-    margin-top: 10px; border-top: 1px solid var(--glass);
-    padding-top: 10px;
-  }
-  [dir="ltr"] .leaderboard-list { text-align: left; }
-  .leaderboard-item {
-    padding: 8px 6px; border-bottom: 1px solid var(--glass);
-    display: flex; justify-content: space-between; align-items: center;
-    font-size: 13px;
-  }
-  .leaderboard-item:last-child { border-bottom: none; }
-  .leaderboard-item .score { font-weight: 800; color: var(--accent1); flex-shrink: 0; }
-  .leaderboard-item .details { display:flex; flex-direction:column; align-items: flex-end; }
-  [dir="ltr"] .leaderboard-item .details { align-items: flex-start; }
-  .leaderboard-item .title { font-weight: 700; }
-  .leaderboard-item .date { font-size: 11px; color: var(--muted); }
-
-  /* --- التعديل: Review Modal --- */
-  .review-list { max-height: 300px; overflow-y: auto; text-align: right; direction:rtl; margin: 10px 0; }
-  [dir="ltr"] .review-list { text-align: left; }
-  .review-item { padding: 8px; border-bottom: 1px solid var(--glass); }
-  .review-item .q-text { font-weight: 700; font-size: 14px; margin-bottom: 4px; }
-  .review-item .r-ans { color: var(--bad); font-size: 13px; }
-  .review-item .c-ans { color: var(--good); font-size: 13px; }
-
-  /* --- التعديل: Settings Modal --- */
-  .settings-group { text-align: right; direction: rtl; margin-bottom: 15px; }
-  [dir="ltr"] .settings-group { text-align: left; }
-  .settings-group label { display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-size: 14px; }
-  /* Basic toggle switch */
-  .toggle-switch { position: relative; display: inline-block; width: 44px; height: 24px; }
-  .toggle-switch input { opacity: 0; width: 0; height: 0; }
-  .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--glass); transition: .3s; border-radius: 34px; }
-  .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .3s; border-radius: 50%; }
-  input:checked + .slider { background-color: var(--accent1); }
-  input:checked + .slider:before { transform: translateX(20px); }
-
-  /* --- التعديل: Resume Prompt --- */
-  .resume-prompt {
-    position: fixed; top: 12px; left: 50%; transform: translateX(-50%);
-    background: linear-gradient(135deg, var(--accent3), var(--accent2));
-    padding: 12px 16px;
-    border-radius: 8px;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.4);
-    z-index: 1001;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    animation: fadeIn 0.3s;
-  }
-  .resume-prompt .msg { font-size: 14px; font-weight: 700; color: #fff; }
-  .resume-prompt .btn { padding: 5px 8px; font-size: 13px; }
-  .resume-prompt .ghost { border-color: rgba(255,255,255,0.3); color: #fff; }
-
-  footer{font-size:11px; padding-bottom: 20px; text-align:center;color:var(--muted);margin-top:10px}
-
-  /* --- Media Queries for Desktop --- */
-  @media(min-width:600px){ 
-    .wrap{max-width:900px;margin:18px auto;padding:16px}
-    .sections{grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:14px}
-    .section-card:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(2,6,23,0.6)}
-    header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
-    .question-meta{display:flex;flex-direction:row; gap:10px; margin-bottom:12px; }
-    .question-meta > div:last-child { width:auto; justify-content:flex-end; }
-    .scorebox{min-width:220px; text-align:center; padding: 0;}
-    h1{font-size:20px}
-    .subtitle{font-size:13px}
-    .q-image-container { max-height: 220px; }
-    .q-image-container img { max-height: 220px; }
-  }
+  /* --- Quiz Section (Start Challenge) --- */
+  #quizSection{display:none} /* القسم الذي يظهر قبل بدء الاختبار لاختيار مستوى الصعوبة */
+  .start-challenge-panel{text-align:center; padding:30px}
+  .start-challenge-panel h2{font-size:24px; margin-bottom:20px}
+  .difficulty-options{display:flex; flex-direction:column; gap:15px}
+  .difficulty-btn{background:var(--glass); border:1px solid var(--accent1); padding:15px; border-radius:10px; cursor:pointer; font-size:16px; font-weight:700; transition: background .15s}
+  .difficulty-btn:hover{background:rgba(6, 182, 212, 0.2)}
+  .difficulty-desc{font-size:12px; color:var(--muted); margin-top:4px}
 </style>
 </head>
 <body>
-  
-  <div class="score-popup-area" id="scorePopupArea"></div>
-
-  <div class="resume-prompt" id="resumePrompt" style="display:none">
-    <div class="msg" id="resumeMsg">لديك اختبار غير مكتمل!</div>
-    <button class="btn" id="resumeYes">استئناف</button>
-    <button class="ghost" id="resumeNo">بدء جديد</button>
-  </div>
-
   <div class="wrap">
     <header>
-      <div class="brand">
-        <div class="logo">GQ</div>
+      <div class="back-arrow" id="backBtn" style="display:none">
+        <span class="ar-only">العودة</span>
+        <span class="en-only">Back</span>
+      </div>
+      
+      <div class="brand" id="brandContainer">
+        <div class="logo">GC</div>
         <div>
-          <h1>GeoReady — 10x</h1>
-          <div class="subtitle">تدريب ميداني تفاعلي — عربي / English</div>
+          <h1>GeoChallenge — مسار الخبير الجيولوجي</h1>
+          <div class="subtitle">تحديات جيولوجية تفاعلية — عربي / English</div>
         </div>
       </div>
 
       <div class="controls">
         <div class="lang-toggle" id="langToggle">العربي / EN</div>
-        <button class="ghost" id="leaderBtn">النتائج</button>
-        <button class="settings-btn" id="settingsBtn" title="Settings">
-          <svg viewBox="0 0 20 20"><path d="M10 3.75c-3.45 0-6.25 2.8-6.25 6.25s2.8 6.25 6.25 6.25 6.25-2.8 6.25-6.25-2.8-6.25-6.25-6.25zM10 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"></path><path d="M10 8.12c-1.04 0-1.88.84-1.88 1.88s.84 1.88 1.88 1.88 1.88-.84 1.88-1.88-.84-1.88-1.88-1.88zM19.4 7.5l-2.28-1.42c-.1-.63-.26-1.24-.48-1.82l.85-2.58-2.12-2.12-2.58.85c-.58-.22-1.19-.38-1.82-.48l-1.42-2.28h-3l-1.42 2.28c-.63.1-1.24.26-1.82.48l-2.58-.85-2.12 2.12.85 2.58c-.22.58-.38 1.19-.48 1.82l-2.28 1.42v3l2.28 1.42c.1.63.26 1.24.48 1.82l-.85 2.58 2.12 2.12 2.58-.85c.58.22 1.19.38 1.82.48l1.42 2.28h3l1.42-2.28c.63-.1 1.24-.26 1.82-.48l2.58.85 2.12-2.12-.85-2.58c.22-.58.38 1.19.48 1.82l2.28-1.42v-3zM17.17 11.16c-.2.12-.38.29-.53.47l-.68 1.25 1.21 1.21.68-1.25c.18-.33.43-.63.73-.87l1.12-1.12v-1.12l-1.12-1.12c-.3-.24-.57-.5-.87-.73l-1.25-.68-1.21 1.21 1.25.68c.18.1.35.21.47.35l.08.08c-.01 0-.01 0 0 0zM4.6 11.72c.18.33.43.63.73.87l1.12 1.12v1.12l-1.12 1.12c-.3.24-.57.5-.87.73l-1.25.68-1.21-1.21 1.25-.68c.18-.1.35-.21.47-.35s.23-.3.35-.47l.68-1.25-1.21-1.21-.68 1.25c-.18.33-.43.63-.73.87l-1.12 1.12v-1.12l1.12-1.12c.3-.24.57-.5.87-.73l1.25-.68 1.21 1.21-1.25.68c-.18.1-.35.21-.47.35zM11.16 2.83c.12.2.29.38.47.53l1.25.68 1.21-1.21-1.25-.68c-.33-.18-.63-.43-.87-.73l-1.12-1.12h-1.12l-1.12 1.12c-.24.3-.5.57-.73.87l-.68 1.25 1.21 1.21.68-1.25c.1-.18.21-.35.35-.47z"></path></svg>
+        <button class="ghost" id="leaderBtn">
+          <span class="ar-only">النتائج</span>
+          <span class="en-only">Results</span>
         </button>
       </div>
     </header>
 
     <main class="container">
-      <section>
-        <div class="sections" id="sectionList"></div>
+      <section id="dashboard">
+        <div class="path-title">
+          <span class="ar-only">مسار الخبير الجيولوجي</span>
+          <span class="en-only">The Geologist's Path</span>
+        </div>
+        
+        <div class="level-info">
+          <div>
+            <div class="small-muted" id="pathLevelLabel">المستوى الحالي</div>
+            <div class="current-level" id="currentLevelText">خريج جديد (0%)</div>
+          </div>
+          <div class="progress-percent" id="progressPercent">0%</div>
+        </div>
+
+        <div class="progress-bar-path">
+          <div id="progressInnerPath"></div>
+        </div>
+        <div class="small-muted" style="text-align:right; margin-top:5px">
+            <span class="ar-only">تقدمك في المسار: </span>
+            <span class="en-only">Your Path Progress: </span>
+            <span id="completedQ">0</span> / 120
+        </div>
+
+        <div class="main-sections" id="mainSections">
+          <div class="section-tile" data-section="challenge">
+            <div class="section-icon">📚</div>
+            <div class="section-tile-title">
+              <span class="ar-only">ابدأ الاختبار</span>
+              <span class="en-only">Start Challenge</span>
+            </div>
+            <div class="section-tile-desc">
+              <span class="ar-only">أكثر من 120 سؤال تدريبي في الجيولوجيا الأساسية.</span>
+              <span class="en-only">120+ fundamental geology practice questions.</span>
+            </div>
+          </div>
+          <div class="section-tile" data-section="scenarios">
+            <div class="section-icon">🗺️</div>
+            <div class="section-tile-title">
+              <span class="ar-only">سيناريوهات ميدانية</span>
+              <span class="en-only">Field Scenarios</span>
+            </div>
+            <div class="section-tile-desc">
+              <span class="ar-only">تحديات تطبيقية متقدمة لرفع المستوى.</span>
+              <span class="en-only">Advanced practical challenges to boost your rank.</span>
+            </div>
+          </div>
+          <div class="section-tile" data-section="glossary">
+            <div class="section-icon">📖</div>
+            <div class="section-tile-title">
+              <span class="ar-only">قاموس المصطلحات</span>
+              <span class="en-only">Geo-Glossary</span>
+            </div>
+            <div class="section-tile-desc">
+              <span class="ar-only">مرجع سريع للمصطلحات والمفاهيم الجيولوجية.</span>
+              <span class="en-only">Quick reference for geological terms and concepts.</span>
+            </div>
+          </div>
+          <div class="section-tile" data-section="toolkit">
+            <div class="section-icon">🔨</div>
+            <div class="section-tile-title">
+              <span class="ar-only">أدوات الحقل</span>
+              <span class="en-only">Field Toolkit</span>
+            </div>
+            <div class="section-tile-desc">
+              <span class="ar-only">دليل مبسط لأهم الأدوات والقياسات الميدانية.</span>
+              <span class="en-only">Simple guide to essential field tools and measurements.</span>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <section id="quizSection" class="other-section">
+        <div class="start-challenge-panel">
+          <h2 id="quizStartTitle">ابدأ الاختبار التحدي</h2>
+          <div class="difficulty-options">
+            <button class="difficulty-btn" data-level="easy" onclick="startChallenge(10)">
+              <span class="ar-only">جولة سريعة (10 أسئلة)</span>
+              <span class="en-only">Quick Round (10 Questions)</span>
+              <div class="difficulty-desc">
+                <span class="ar-only">اختبار عشوائي وسريع لجميع الأقسام.</span>
+                <span class="en-only">Fast, random test across all sections.</span>
+              </div>
+            </button>
+            <button class="difficulty-btn" data-level="medium" onclick="startChallenge(20)">
+              <span class="ar-only">جولة متوسطة (20 سؤال)</span>
+              <span class="en-only">Medium Round (20 Questions)</span>
+              <div class="difficulty-desc">
+                <span class="ar-only">جولة أطول لتقييم عمق معرفتك.</span>
+                <span class="en-only">A longer round to assess your knowledge depth.</span>
+              </div>
+            </button>
+            <button class="difficulty-btn" data-level="full" onclick="startChallenge(30)">
+              <span class="ar-only">قسم كامل (30 سؤال)</span>
+              <span class="en-only">Full Section (30 Questions)</span>
+              <div class="difficulty-desc">
+                <span class="ar-only">اختبار شامل لواحد من الأقسام الأربعة باختيار عشوائي.</span>
+                <span class="en-only">Comprehensive test of one randomly selected section.</span>
+              </div>
+            </button>
+          </div>
+        </div>
       </section>
 
-      <section class="quiz-area" id="quizArea" style="display:none">
+      <section class="quiz-area" id="quizArea">
         <div class="question-card fade-in" id="questionCard">
           <div class="question-meta">
             <div class="qnum" id="qLabel">السؤال 1 / Q1</div>
-            <div>
-              <div class="streak-counter" id="streakCounter">🔥 0</div>
-              <div class="scorebox">
-                <div class="small-muted" id="scoreLabel">النقاط</div>
-                <div class="score-value" id="scoreVal">0</div>
-                <div class="level-badge" id="levelBadge">مبتدئ</div>
-              </div>
-              <div class="timer" id="timerLabel">00:30</div>
+            <div class="scorebox">
+              <div class="small-muted" id="scoreLabel">النقاط</div>
+              <div class="score-value" id="scoreVal">0</div>
             </div>
-          </div>
-          
-          <div class="q-image-container" id="qImageContainer" style="display:none;">
-            <img id="qImage" src="" alt="Question Image" />
+            <div class="timer" id="timerLabel">00:30</div>
           </div>
 
           <div class="question-text" id="qText">نص السؤال …</div>
@@ -274,349 +266,409 @@
           <div class="progress-wrap">
             <div class="small-muted" id="progressLabel">السؤال 1 من 30</div>
             <div class="progress-bar"><div id="progInner"></div></div>
-            <div style="width:100px;text-align:right">
-              <button class="btn" id="skipBtn">تجاوز</button>
-            </div>
+            <button class="btn" id="skipBtn">تجاوز</button>
           </div>
+        </div>
+      </section>
 
-          <div class="controls-bottom">
-            <button class="ghost" id="backToMenu">العودة للقائمة</button>
-            <div style="flex:1"></div>
-            <div class="small-muted" id="timeTip">المدة لكل سؤال: 30 ثانية</div>
-          </div>
+      <section id="scenariosSection" class="other-section">
+        <div class="section-header">
+          <span class="ar-only">سيناريوهات ميدانية (Field Scenarios) 🗺️</span>
+          <span class="en-only">Field Scenarios 🗺️</span>
+        </div>
+        <div class="info-text">
+          <span class="ar-only">
+            **تعتبر سيناريوهات محاكاة لقرارات جيولوجية حقيقية تتطلب تطبيق المعرفة. إكمالها يزيد نقاطك في "مسار الخبير" بنسبة أكبر.**
+            <br><br>
+            **مثال لسيناريو:** عُثر على حقل نفط جديد بين طبقات حجر رملي ورسوبي كربوني. صمم برنامج الحفر مع تحديد المخاطر الهيدرولوجية. (هذا القسم في طور البناء حاليًا ليتضمن تحديات تفاعلية).
+          </span>
+          <span class="en-only">
+            **These are simulated real-world geological decision-making tasks. Completing them boosts your Expert Path progress significantly.**
+            <br><br>
+            **Scenario Example:** A new oil field is found between sandstone and carbonate layers. Design the drilling program while identifying hydrogeological risks. (This section is currently under construction for interactive challenges).
+          </span>
+        </div>
+      </section>
+
+      <section id="glossarySection" class="other-section">
+        <div class="section-header">
+          <span class="ar-only">قاموس المصطلحات (Geo-Glossary) 📖</span>
+          <span class="en-only">Geo-Glossary 📖</span>
+        </div>
+        <div class="info-text">
+          <span class="ar-only">تعريفات لبعض المصطلحات الجيولوجية الهامة (سيتم توسيعه لاحقًا).</span>
+          <span class="en-only">Definitions for some important geological terms (will be expanded later).</span>
+        </div>
+        <br>
+        <div class="glossary-item">
+          <div class="term-title"><span class="ar-only">التوصيل الهيدروليكي</span><span class="en-only">Hydraulic Conductivity</span></div>
+          <div class="term-def"><span class="ar-only">قدرة وسط مسامي (مثل صخر) على نقل الماء تحت تأثير التدرج الهيدروليكي.</span><span class="en-only">Ability of a porous medium (like rock) to transmit water under a hydraulic gradient.</span></div>
+        </div>
+        <div class="glossary-item">
+          <div class="term-title"><span class="ar-only">النسيج البورفيري</span><span class="en-only">Porphyritic Texture</span></div>
+          <div class="term-def"><span class="ar-only">نسيج ناري يتميز بوجود بلورات كبيرة (ظاهرات) داخل مصفوفة دقيقة التبلور.</span><span class="en-only">Igneous texture with large crystals (phenocrysts) set in a fine-grained groundmass.</span></div>
+        </div>
+      </section>
+
+      <section id="toolkitSection" class="other-section">
+        <div class="section-header">
+          <span class="ar-only">أدوات الحقل (Field Toolkit) 🔨</span>
+          <span class="en-only">Field Toolkit 🔨</span>
+        </div>
+        <div class="info-text">
+          <span class="ar-only">أدلة عملية لاستخدام الأدوات الميدانية الجيولوجية:</span>
+          <span class="en-only">Practical guides for using geological field tools:</span>
+        </div>
+        <br>
+        <div class="glossary-item">
+          <div class="term-title"><span class="ar-only">البوصلة الجيولوجية (كلينوميتر)</span><span class="en-only">Geological Compass (Clinometer)</span></div>
+          <div class="term-def"><span class="ar-only">تستخدم لقياس اتجاه الانحدار (Strike) وزاوية الميل (Dip) للطبقات الصخرية والتراكيب.</span><span class="en-only">Used to measure the strike and dip of rock layers and structures.</span></div>
+        </div>
+        <div class="glossary-item">
+          <div class="term-title"><span class="ar-only">محلول حمض الهيدروكلوريك (HCl)</span><span class="en-only">Hydrochloric Acid (HCl)</span></div>
+          <div class="term-def"><span class="ar-only">يستخدم لاختبار وجود معادن الكربونات (مثل الكلسيت والدولوميت) من خلال تفاعلها.</span><span class="en-only">Used to test for the presence of carbonate minerals (e.g., calcite, dolomite) via their reaction.</span></div>
         </div>
       </section>
 
     </main>
 
-    <footer style="text-align:center;color:var(--muted);margin-top:10px">GeoReady 10x — نموذج تدريبي مطور • يحفظ النتائج في المتصفح</footer>
+    <footer style="text-align:center;color:var(--muted);margin-top:15px; font-size:12px">GeoChallenge — نموذج تدريبي • يحفظ النتائج والتقدم في المتصفح</footer>
   </div>
 
-  <div id="resultModal" class="modal-panel" style="display:none">
-    <div class="modal-card">
+  <div id="resultModal" class="result-panel" style="display:none">
+    <div class="result-card">
       <h2 id="resTitle">النتيجة النهائية</h2>
       <div class="bigscore" id="resScore">0 نقطة</div>
       <div class="res-details" id="resDetails"></div>
       <div class="res-actions">
-        <button class="ghost" id="reviewBtn">مراجعة الأخطاء</button>
         <button class="btn" id="retryBtn">إعادة المحاولة</button>
-        <button class="ghost" id="closeResBtn">إغلاق</button>
+        <button class="ghost" id="closeResBtn">العودة للوحة</button>
       </div>
       <div style="margin-top:10px" class="small-muted" id="savedNote"></div>
     </div>
   </div>
-  
-  <div id="leaderboardModal" class="modal-panel" style="display:none">
-    <div class="modal-card">
-      <h2 id="leaderTitle">لوحة النتائج</h2>
-      <div class="leaderboard-list" id="leaderboardList">
-        </div>
-      <div class="res-actions">
-        <button class="ghost" id="closeLeaderBtn">إغلاق</button>
-      </div>
-    </div>
-  </div>
-  
-  <div id="reviewModal" class="modal-panel" style="display:none">
-    <div class="modal-card">
-      <h2 id="reviewTitle">مراجعة الأخطاء</h2>
-      <div class="review-list" id="reviewList">
-        </div>
-      <div class="res-actions">
-        <button class="ghost" id="closeReviewBtn">إغلاق</button>
-      </div>
-    </div>
-  </div>
-
-  <div id="settingsModal" class="modal-panel" style="display:none">
-    <div class="modal-card">
-      <h2 id="settingsTitle">الإعدادات</h2>
-      <div class="settings-group">
-        <label for="audioToggle">
-          <span id="audioToggleLabel">المؤثرات الصوتية</span>
-          <div class="toggle-switch">
-            <input type="checkbox" id="audioToggle" checked>
-            <span class="slider"></span>
-          </div>
-        </label>
-      </div>
-      <div class="settings-group">
-        <button class="btn" id="clearDataBtn" style="background:var(--bad); width: 100%;">
-          مسح كل البيانات المحفوظة
-        </button>
-        <div class="small-muted" id="clearDataWarning" style="margin-top:5px;">(النتائج + الاختبارات المعلقة)</div>
-      </div>
-      <div class="res-actions">
-        <button class="ghost" id="closeSettingsBtn">إغلاق</button>
-      </div>
-    </div>
-  </div>
-
 
 <script>
-/* GeoReady 10x Edition — Full single-file quiz app
-   --- 10x Features ---
-   - Resume Quiz: Saves state to localStorage, prompts user to continue.
-   - Streaks: Bonus points for consecutive correct answers.
-   - Image Questions: Added 'image_url' to data structure for visual questions.
-   - Modals: Replaced 'alert' leaderboard. Added Settings & Review modals.
-   - Visual FX: Timer warning, answer shake/pulse, score popups.
-   - Audio Toggle: Setting to mute beeps.
-   - Full i18n: All new UI text is translatable.
-   - Answer Review: Users can review wrong answers post-quiz.
-*/
+/* GeoChallenge — Full single-file quiz app with enhanced UI and path progress */
 
-/* ---------- Language ---------- */
+/* ---------- Language Strings ---------- */
 const LANGS = {
   ar: {
-    start: "ابدأ الاختبار",
-    skip: "تجاوز",
-    retry: "إعادة المحاولة",
-    close: "إغلاق",
-    score: "النقاط",
-    level: "المستوى",
+    title: "GeoChallenge — مسار الخبير الجيولوجي",
+    subtitle: "تحديات جيولوجية تفاعلية — عربي / English",
+    back: "العودة",
+    results: "النتائج",
+    startChallenge: "ابدأ الاختبار",
+    fieldScenarios: "سيناريوهات ميدانية",
+    glossary: "قاموس المصطلحات",
+    toolkit: "أدوات الحقل",
+    pathTitle: "مسار الخبير الجيولوجي",
+    currentLevel: "المستوى الحالي",
     questionOf: "السؤال {i} من {n}",
-    savedNote: "تم حفظ النتيجة محليًا في متصفحك.",
-    leaderboard: "لوحة النتائج",
-    leaderboardEmpty: "لا نتائج محفوظة بعد.",
-    streak: "سلسلة",
-    resumePrompt: "لديك اختبار غير مكتمل!",
-    resume: "استئناف",
-    startNew: "بدء جديد",
-    review: "مراجعة الأخطاء",
-    yourAnswer: "إجابتك",
-    correctAnswer: "الصحيحة",
-    settings: "الإعدادات",
-    audioFX: "المؤثرات الصوتية",
-    clearData: "مسح كل البيانات المحفوظة",
-    clearDataWarn: "(النتائج + الاختبارات المعلقة)",
-    clearDataConfirm: "هل أنت متأكد؟ سيتم حذف كل النتائج والاختبارات المعلقة.",
+    score: "النقاط",
+    skip: "تجاوز",
+    timeTip: "المدة لكل سؤال: 30 ثانية",
     finalResult: "النتيجة النهائية",
-    section: "القسم",
+    retry: "إعادة المحاولة",
+    close: "العودة للوحة",
     correct: "الإجابات الصحيحة",
     wrongSkipped: "الخاطئة/المتجاوزة",
     percent: "النسبة",
-    points: "نقطة",
-    beginner: "مبتدئ",
-    advanced: "متقدم 🔰",
-    fieldPro: "ميداني 🪨",
-    expert: "خبير 💎"
+    savedNote: "تم حفظ النتيجة محليًا في متصفحك.",
+    leaderboardEmpty: "لا نتائج محفوظة بعد.",
+    quickRound: "جولة سريعة (10 أسئلة)",
+    mediumRound: "جولة متوسطة (20 سؤال)",
+    fullSection: "قسم كامل (30 سؤال)",
+    quickRoundDesc: "اختبار عشوائي وسريع لجميع الأقسام.",
+    mediumRoundDesc: "جولة أطول لتقييم عمق معرفتك.",
+    fullSectionDesc: "اختبار شامل لواحد من الأقسام الأربعة باختيار عشوائي.",
+    levelNewGrad: "خريج جديد",
+    levelJunior: "جيولوجي مبتدئ",
+    levelField: "جيولوجي ميداني",
+    levelExpert: "جيولوجي خبير",
+    completedQ: "تقدمك في المسار: ",
+    secHydro: "الهيدروجيولوجيا — أساسي",
+    secPetro: "البتروغرافيا — التعرف على الصخور",
+    secMaps: "الخرائط الجيولوجية — الأساسيات",
+    secGeneral: "الجيولوجيا العامة"
   },
   en: {
-    start: "Start Quiz",
-    skip: "Skip",
-    retry: "Retry",
-    close: "Close",
-    score: "Score",
-    level: "Level",
+    title: "GeoChallenge — The Geologist's Path",
+    subtitle: "Interactive Geology Challenges — AR / English",
+    back: "Back",
+    results: "Results",
+    startChallenge: "Start Challenge",
+    fieldScenarios: "Field Scenarios",
+    glossary: "Geo-Glossary",
+    toolkit: "Field Toolkit",
+    pathTitle: "The Geologist's Path",
+    currentLevel: "Current Level",
     questionOf: "Question {i} of {n}",
-    savedNote: "Saved locally in your browser.",
-    leaderboard: "Leaderboard",
-    leaderboardEmpty: "No saved results yet.",
-    streak: "Streak",
-    resumePrompt: "You have an unfinished quiz!",
-    resume: "Resume",
-    startNew: "Start New",
-    review: "Review Answers",
-    yourAnswer: "Your Answer",
-    correctAnswer: "Correct",
-    settings: "Settings",
-    audioFX: "Audio Effects",
-    clearData: "Clear All Saved Data",
-    clearDataWarn: "(Scores + Pending Quizzes)",
-    clearDataConfirm: "Are you sure? This will delete all scores and pending quizzes.",
+    score: "Score",
+    skip: "Skip",
+    timeTip: "Time per question: 30s",
     finalResult: "Final Result",
-    section: "Section",
-    correct: "Correct",
+    retry: "Retry",
+    close: "Return to Dashboard",
+    correct: "Correct Answers",
     wrongSkipped: "Wrong/Skipped",
     percent: "Percent",
-    points: "points",
-    beginner: "Beginner",
-    advanced: "Advanced 🔰",
-    fieldPro: "Field Pro 🪨",
-    expert: "Expert 💎"
+    savedNote: "Saved locally in your browser.",
+    leaderboardEmpty: "No saved results yet.",
+    quickRound: "Quick Round (10 Questions)",
+    mediumRound: "Medium Round (20 Questions)",
+    fullSection: "Full Section (30 Questions)",
+    quickRoundDesc: "Fast, random test across all sections.",
+    mediumRoundDesc: "A longer round to assess your knowledge depth.",
+    fullSectionDesc: "Comprehensive test of one randomly selected section.",
+    levelNewGrad: "New Graduate",
+    levelJunior: "Junior Geologist",
+    levelField: "Field Geologist",
+    levelExpert: "Expert Geologist",
+    completedQ: "Your Path Progress: ",
+    secHydro: "Hydrogeology — Basic",
+    secPetro: "Petrography — Rock ID",
+    secMaps: "Geological Maps — Basics",
+    secGeneral: "General Geology"
   }
 };
 let lang = localStorage.getItem('geo_lang') || 'ar';
+const langToggle = document.getElementById('langToggle');
+
 function t(key, vars){ const s = LANGS[lang][key] || key; if(!vars) return s; return s.replace(/{(\w+)}/g,(m,k)=>vars[k]||m); }
+
 function refreshLangUI(){ 
-  // Main UI
-  document.getElementById('scoreLabel').textContent = t('score'); 
-  document.getElementById('skipBtn').textContent = t('skip'); 
-  langToggle.textContent = (lang==='ar')? 'العربي / EN' : 'AR / English';
-  document.getElementById('leaderBtn').textContent = t('leaderboard');
-  document.getElementById('settingsBtn').title = t('settings');
-  document.getElementById('backToMenu').textContent = t('backToMenu') || 'العودة للقائمة';
-  
-  // Result Modal
-  document.getElementById('resTitle').textContent = t('finalResult');
-  document.getElementById('retryBtn').textContent = t('retry'); 
+  document.title = t('title');
+  document.querySelector('.brand .subtitle').textContent = t('subtitle');
+  document.getElementById('leaderBtn').querySelector('.ar-only').textContent = t('results');
+  document.getElementById('leaderBtn').querySelector('.en-only').textContent = t('results');
+  document.getElementById('backBtn').querySelector('.ar-only').textContent = t('back');
+  document.getElementById('backBtn').querySelector('.en-only').textContent = t('back');
+  document.getElementById('scoreLabel').textContent = t('score');
+  document.getElementById('skipBtn').textContent = t('skip');
+  document.getElementById('retryBtn').textContent = t('retry');
   document.getElementById('closeResBtn').textContent = t('close');
-  document.getElementById('reviewBtn').textContent = t('review');
-  
-  // Leaderboard Modal
-  document.getElementById('leaderTitle').textContent = t('leaderboard');
-  document.getElementById('closeLeaderBtn').textContent = t('close');
-  
-  // Review Modal
-  document.getElementById('reviewTitle').textContent = t('review');
-  document.getElementById('closeReviewBtn').textContent = t('close');
+  document.getElementById('pathLevelLabel').textContent = t('currentLevel');
+  document.getElementById('quizStartTitle').textContent = lang === 'ar' ? 'ابدأ الاختبار التحدي' : 'Start The Challenge Quiz';
+  document.getElementById('quizSection').querySelector('.section-header').innerHTML = lang === 'ar' ? 'ابدأ الاختبار (Start Challenge) 📚' : 'Start Challenge 📚';
 
-  // Settings Modal
-  document.getElementById('settingsTitle').textContent = t('settings');
-  document.getElementById('audioToggleLabel').textContent = t('audioFX');
-  document.getElementById('clearDataBtn').textContent = t('clearData');
-  document.getElementById('clearDataWarning').textContent = t('clearDataWarn');
-  document.getElementById('closeSettingsBtn').textContent = t('close');
+  // Update section tiles
+  document.querySelector('[data-section="challenge"] .section-tile-title .ar-only').textContent = t('startChallenge');
+  document.querySelector('[data-section="challenge"] .section-tile-title .en-only').textContent = t('startChallenge');
+  document.querySelector('[data-section="scenarios"] .section-tile-title .ar-only').textContent = t('fieldScenarios');
+  document.querySelector('[data-section="scenarios"] .section-tile-title .en-only').textContent = t('fieldScenarios');
+  document.querySelector('[data-section="glossary"] .section-tile-title .ar-only').textContent = t('glossary');
+  document.querySelector('[data-section="glossary"] .section-tile-title .en-only').textContent = t('glossary');
+  document.querySelector('[data-section="toolkit"] .section-tile-title .ar-only').textContent = t('toolkit');
+  document.querySelector('[data-section="toolkit"] .section-tile-title .en-only').textContent = t('toolkit');
+  
+  // Update language toggle text
+  langToggle.textContent = (lang==='ar')? 'العربي / EN' : 'AR / English'; 
+  
+  // Show/Hide AR/EN spans
+  document.querySelectorAll('.ar-only').forEach(el => el.style.display = lang === 'ar' ? 'inline' : 'none');
+  document.querySelectorAll('.en-only').forEach(el => el.style.display = lang === 'en' ? 'inline' : 'none');
 
-  // Resume Prompt
-  document.getElementById('resumeMsg').textContent = t('resumePrompt');
-  document.getElementById('resumeYes').textContent = t('resume');
-  document.getElementById('resumeNo').textContent = t('startNew');
+  updatePathProgressUI();
 }
 
-/* ---------- Quiz data (4×30) ----------
-   --- 10x التعديل: ---
-   - إضافة `icon` لكل قسم.
-   - إضافة `image_url` لبعض الأسئلة (خاصة في petro و maps) لزيادة التفاعلية.
+/* ---------- Quiz data (4×30) - Kept original data structure, but removed it here for brevity.
+   The QUIZZES constant remains with the 120 questions.
 */
 const QUIZZES = {
   hydro: {
-    title_ar: "الهيدروجيولوجيا — أساسي", title_en: "Hydrogeology — Basic", icon: "💧",
+    title_ar: "الهيدروجيولوجيا — أساسي", title_en: "Hydrogeology — Basic",
     items: [
-      { q_ar:"ما الفرق بين الطبقة المائية الحرة والمحبوسة؟", q_en:"Difference between unconfined and confined aquifer?", 
-        // --- 10x: إضافة صورة توضيحية ---
-        image_url: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Aquifer_types-en.svg/640px-Aquifer_types-en.svg.png",
-        choices_ar:["الحرة لها منسوب ماء متساوٍ مع الضغط الجوي، المحبوسة تحت ضغط ارتوازي","الحرة أقل نفاذية من المحبوسة","المحبوسة فوق السطح فقط","الحرة مكّونة من الصخور النارية فقط"], choices_en:["Unconfined has water table; confined under artesian pressure","Unconfined less permeable than confined","Confined exists only at surface","Unconfined made of igneous rocks only"], answerIndex:0 },
+      { q_ar:"ما الفرق بين الطبقة المائية الحرة والمحبوسة؟", q_en:"Difference between unconfined and confined aquifer?", choices_ar:["الحرة لها منسوب ماء متساوٍ مع الضغط الجوي، المحبوسة تحت ضغط ارتوازي","الحرة أقل نفاذية من المحبوسة","المحبوسة فوق السطح فقط","الحرة مكّونة من الصخور النارية فقط"], choices_en:["Unconfined has water table; confined under artesian pressure","Unconfined less permeable than confined","Confined exists only at surface","Unconfined made of igneous rocks only"], answerIndex:0 },
       { q_ar:"ما نوع الصخور التي تشكل أفضل خزانات مائية؟", q_en:"Which rock types make the best aquifers?", choices_ar:["الرمل والحصى والحجر الجيري المتشقق","الصخور الطينية المدمجة","الصخور البلورية غير المشققة","الشُعَب البركانية"], choices_en:["Sands, gravels and fractured limestones","Compact clays","Unfractured crystalline rocks","Volcanic reefs"], answerIndex:0 },
       { q_ar:"ما المقصود بالـ Aquiclude؟", q_en:"What is an aquiclude?", choices_ar:["طبقة تمنع مرور المياه عمليًا (طينية عادة)","خزان مائي عالي النفاذية","مجرى نهري سطحي","وحدة صخرية بركانية"], choices_en:["A layer that practically prevents water flow (usually clay)","A highly permeable aquifer","A surface river channel","A volcanic rock unit"], answerIndex:0 },
-      // ... (يتم الاحتفاظ بجميع الأسئلة الـ 27 المتبقية في هذا القسم كما هي)
+      { q_ar:"ما هو المنسوب الساكن للمياه الجوفية؟", q_en:"What is static water level?", choices_ar:["مستوى الماء في البئر عند عدم الضخ","أعمق نقطة في الخزان","مستوى المد والجزر","مستوى الأمطار السنوية"], choices_en:["Water level in well when not pumped","Deepest point of aquifer","Tidal level","Annual rainfall level"], answerIndex:0 },
+      { q_ar:"كيف يُقاس التصريف من بئر منتجة؟", q_en:"How is well discharge measured?", choices_ar:["بمقياس التدفق أو تأثير مستوى الانخفاض عبر الزمن","بالتصوير الجوي فقط","بمقياس الحرارة","بالتحليل البلوري"], choices_en:["Using flow meter or measuring drawdown over time","By aerial imaging only","With thermometer","By crystal analysis"], answerIndex:0 },
+      { q_ar:"ماذا يعني Recharge area؟", q_en:"What is recharge area?", choices_ar:["منطقة تغذية الخزان من السطح","منطقة تسرّب مياه الصرف فقط","خزان سطحي مغلق","منطقة غير مهمة"], choices_en:["Area where aquifer is recharged from surface","Only sewage leak zone","Closed surface pond","Unimportant area"], answerIndex:0 },
+      { q_ar:"ما العلاقة بين النفاذية والتوصيل الهيدروليكي؟", q_en:"Relation between permeability and hydraulic conductivity?", choices_ar:["التوصيل الهيدروليكي يتضمن النفاذية بالإضافة لخواص السائل","لا علاقة","نفاذية أكبر تعني توصيل أصغر","هما نفس الشيء تمامًا"], choices_en:["Hydraulic conductivity includes permeability plus fluid properties","No relation","Higher permeability means lower conductivity","They are exactly same"], answerIndex:0 },
+      { q_ar:"ما الاختبار الميداني لتحديد النفاذية؟", q_en:"Which field test determines permeability?", choices_ar:["اختبار الضخ (Pumping test) أو Slug test","المسح الجيوفيزيائي فقط","اختبار الانبعاث الطيفي","تحاليل ميكروسكوبية فقط"], choices_en:["Pumping test or slug test","Only geophysical survey","Spectral emission test","Only microscopic analyses"], answerIndex:0 },
+      { q_ar:"ما تأثير الضخ المفرط على منسوب المياه؟", q_en:"Effect of overpumping on groundwater levels?", choices_ar:["انخفاض منسوب المياه وتشكّل مخروط انخفاض","ارتفاع دائم لمنسوب الماء","لا تأثير","زيادة التكوّن الحيوي"], choices_en:["Water level decline and drawdown cone","Permanent rise in water level","No effect","Increased bioactivity"], answerIndex:0 },
+      { q_ar:"ما الفرق بين البئر التجريبية والبئر الإنتاجية؟", q_en:"Difference between exploratory and production well?", choices_ar:["التجريبية للاختبار والقياسات، والإنتاجية للاستغلال والتزويد بالمياه","كلاهما نفس الوظيفة","التجريبية أكبر حجما","الانتاجية تستخدم للبحوث فقط"], choices_en:["Exploration for testing; production for supply","Both same","Exploration larger","Production used only for research"], answerIndex:0 },
+      { q_ar:"ما الغرض من اختبار الضخ؟", q_en:"Purpose of pumping test?", choices_ar:["تحديد نفاذية الخزان ومعامل التخزين وسلوك الضخ","معرفة تركيب الصخور البلورية","تحديد نوع المعادن الثقيلة","تحديد مستوى الملوحة فقط"], choices_en:["Determine aquifer permeability and storage coefficients","Identify crystalline rock types","Find heavy minerals","Only determine salinity"], answerIndex:0 },
+      { q_ar:"كيف تحدد اتجاه تدفق المياه الجوفية؟", q_en:"How determine groundwater flow direction?", choices_ar:["برسم خطوط تساوي المنسوب (potentiometric contours) بين الآبار","بحساب سرعة الرياح","بقياسات الحرارة فقط","عن طريق صور الاقمار فقط"], choices_en:["By plotting potentiometric contours from wells","By wind speed calculation","By temperature only","Using satellite images only"], answerIndex:0 },
+      { q_ar:"ماذا تعني زيادة الملوحة مع الزمن في بئر؟", q_en:"What does rising salinity over time indicate?", choices_ar:["تداخل مياه مالحة (بحرية) أو تلوث مصدر عميق","تحسّن جودة المياه","زيادة الأكسجين","تغير الطقس فقط"], choices_en:["Sea water intrusion or deep saline source contamination","Improved water quality","Increased oxygen","Weather change only"], answerIndex:0 },
+      { q_ar:"ما الغرض من التحليل الهيدروكيميائي؟", q_en:"Purpose of hydrochemical analysis?", choices_ar:["تحديد مصدر المياه، التلوث، وقابلية الاستخدام","قياس الضغط فقط","تحليل الصخور","تحديد نوع البكتيريا فقط"], choices_en:["Identify water source, contamination and suitability","Measure pressure only","Analyze rocks","Identify bacteria only"], answerIndex:0 },
+      { q_ar:"ما صيغة قانون دارسي الأساسية؟", q_en:"Basic Darcy's law equation?", choices_ar:["Q = -K A (dh/dl)","Q = m v","P = ρgh","Q = A v^2"], choices_en:["Q = -K A (dh/dl)","Q = m v","P = ρgh","Q = A v^2"], answerIndex:0 },
+      { q_ar:"ما أثر تلوث السطح على المياه الجوفية؟", q_en:"Effect of surface contamination on groundwater?", choices_ar:["تسرب الملوثات إلى الخزان عبر مناطق التغذية مما يضر بالمياه","لا تأثير عادة","يزيد نفاذية التربة","ينخفض مستوى الماء فقط"], choices_en:["Pollutants percolate to aquifer via recharge zones","Usually no effect","Increases soil permeability","Only lowers water level"], answerIndex:0 },
+      { q_ar:"كيف تحدد حدود الخزان من الخرائط؟", q_en:"How delineate aquifer boundaries from maps?", choices_ar:["بمقارنة التكوينات الحاملة ومساحات الصخور النفوذية وخطوط التماس","من مقياس الخريطة فقط","بواسطة الصور الجوية فقط","عن طريق قياس درجة الحرارة فقط"], choices_en:["By mapping permeable formations and contact extents","From map scale only","Using aerial photos alone","By measuring temperature only"], answerIndex:0 },
+      { q_ar:"ما الفرق بين المسامية الكلية والفعالة؟", q_en:"Difference between total porosity and effective porosity?", choices_ar:["الفعالة هي الفراغات المتصلة القابلة لتدفق الماء، الكلية تشمل كل الفراغات","هما متماثلتان","الكلية أصغر دائماً","المسامية لا تتعلق بالماء"], choices_en:["Effective porosity is connected pores allowing flow; total includes all pores","They are identical","Total is always smaller","Porosity unrelated to water"], answerIndex:0 },
+      { q_ar:"ما معنى Drawdown؟", q_en:"What is drawdown?", choices_ar:["انخفاض مستوى الماء نتيجة الضخ في البئر","ارتفاع مستوى الماء","تغير درجة الملوحة","تغير في الضغط الجوي"], choices_en:["Decline in water level due to pumping","Rise in water level","Change in salinity","Change in atmospheric pressure"], answerIndex:0 },
+      { q_ar:"ما العوامل المؤثرة على جودة المياه الجوفية؟", q_en:"Factors affecting groundwater quality?", choices_ar:["نوع الصخور، الأنشطة البشرية، التلوث الزراعي، التداخل المالح","لون التربة فقط","وجود الأشجار فقط","الزلازل فقط"], choices_en:["Rock type, human activity, agricultural pollution, saline intrusion","Soil color only","Presence of trees only","Only earthquakes"], answerIndex:0 },
+      { q_ar:"ما وظيفة المراقب (Piezometer)؟", q_en:"Function of a piezometer?", choices_ar:["قياس ضغط الماء أو منسوب المياه في نقطة محددة","قياس سرعة الرياح","قياس توصيلية التربة كهربائياً","قياس تركيز المعادن"], choices_en:["Measure water pressure or level at a point","Measure wind speed","Measure soil electrical conductivity","Measure mineral concentration"], answerIndex:0 },
+      { q_ar:"ماذا يحدث إذا ارتفع الضغط الارتوازي؟", q_en:"What if artesian pressure rises?", choices_ar:["قد ينتج بئر ارتوازي متدفق دون الحاجة للضخ","ينخفض مستوى الماء في كل الآبار","تتوقف حركة المياه","يزيد الترسيب فقط"], choices_en:["May produce flowing artesian well without pumping","Water levels fall in all wells","Water movement stops","Only deposition increases"], answerIndex:0 },
+      { q_ar:"كيف تحدد طبقات المياه من سجلات الجيوكهرباء؟", q_en:"How detect aquifers from resistivity logs?", choices_ar:["انخفاض المقاومة يشير لصخور مشبعة بالماء مقارنة بالصخور الجافة","زيادة المقاومة دائمًا علامة على الماء","لا علاقة للمقاومة بالماء","باستخدام مقياس الصوت فقط"], choices_en:["Lower resistivity indicates water-saturated rocks vs dry ones","Higher resistivity always means water","No relation between resistivity and water","Use sonic log only"], answerIndex:0 },
+      { q_ar:"ما تأثير الحفر العميق على توازن النظام المائي؟", q_en:"Impact of deep drilling on groundwater balance?", choices_ar:["يمكن أن يغير الضغوط ويسمح بتداخل مياه عميقة أو ملحية","يحدث فقط تأثير حراري","يحسن دائمًا جودة المياه","ليس له تأثير عملي"], choices_en:["It may change pressures and cause deep or saline water intrusion","Only thermal effect","Always improves water quality","No practical effect"], answerIndex:0 },
+      { q_ar:"ما العلاقة بين نوع الصخور والتوصيل الهيدروليكي؟", q_en:"Relation between rock type and hydraulic conductivity?", choices_ar:["الصخور الخشنة (رمل، حصى) تملك توصيلاً أعلى من الطين","الطين أكثر نفاذية","الصخور البلورية أعلى توصيل","لا علاقة"], choices_en:["Coarse rocks (sand, gravel) have higher conductivity than clay","Clay is more permeable","Crystalline rocks have highest conductivity","No relation"], answerIndex:0 },
+      { q_ar:"ما دور التربة في تغذية الخزانات؟", q_en:"Role of soil in aquifer recharge?", choices_ar:["تعمل كمرشح وتتحكم في معدل تسرب المياه ونقائها","تمتص كل المياه ولا تسمح بالتغذية","تسهم فقط في التلوث","لا دور لها"], choices_en:["Acts as filter and controls infiltration rate and water quality","Absorbs all water preventing recharge","Only contributes to pollution","No role"], answerIndex:0 },
+      { q_ar:"كيف تكتشف تسرّب من خزان تحت الأرض؟", q_en:"How detect leak from underground storage?", choices_ar:["بمراقبة تغيّر الكيمياء ودرجات الحرارة أو المسح الجيوفيزيائي","بقياس الضوضاء فقط","من خلال الأشعة تحت الحمراء فقط","بالعينات الميكروبيولوجية فقط"], choices_en:["Monitor chemical/temperature changes or use geophysical surveys","By noise measurement only","By infrared only","By microbiological samples only"], answerIndex:0 },
+      { q_ar:"ما المقصود بالتوازن الهيدرولوجي؟", q_en:"What is hydrological balance?", choices_ar:["توازن بين مدخلات الماء (هطول، تغذية) ومخرجاته (تدفق، تبخر، ضخ)","كمية الماء في البئر فقط","معدل الترسيب الكيميائي","توازن الملح فقط"], choices_en:["Balance between water inputs (rain,recharge) and outputs (flow,evaporation,pumping)","Amount in one well only","Rate of chemical deposition","Salt balance only"], answerIndex:0 },
+      { q_ar:"ما أهم مؤشرات تلوث النترات في الآبار؟", q_en:"Indicators of nitrate contamination in wells?", choices_ar:["تركيز نترات مرتفع، طعم مر أو مشاكل صحية، قرب مناطق زراعية أو صرف صحي","لون الماء الأزرق","زيادة في الضغط فقط","انخفاض في درجة الحرارة"], choices_en:["High nitrate concentration, health effects, proximity to agriculture/sewage","Blue colored water","Only pressure increase","Temperature drop only"], answerIndex:0 },
       { q_ar:"ما استخدام GIS في الهيدروجيولوجيا؟", q_en:"Use of GIS in hydrogeology?", choices_ar:["رسم خرائط التغذية، خطوط المنسوب، نمذجة انتشار الملوثات وتحليل المساحات","لتحليل المعادن تحت المجهر فقط","لا فائدة","لاستخدامات الطقس فقط"], choices_en:["Mapping recharge, potentiometric contours, pollutant spread modeling and spatial analysis","Microscopic mineral analysis only","No use","Only for weather uses"], answerIndex:0 }
     ]
   },
 
   petro: {
-    title_ar:"البتروغرافيا — التعرف على الصخور", title_en:"Petrography — Rock ID", icon: "🪨",
+    title_ar:"البتروغرافيا — التعرف على الصخور", title_en:"Petrography — Rock ID",
     items: [
       { q_ar:"ما الفرق بين الصخور النارية الجوفية والسطحية؟", q_en:"Difference intrusive vs extrusive igneous rocks?", choices_ar:["الجوفية تبرد ببطء بلورات كبيرة، السطحية تبرد سريعاً بلورات دقيقة","السطحية أقدم دائماً","الجوفية لا تحتوي معادن","السطحية تكون في البحر فقط"], choices_en:["Intrusive cool slowly (large crystals); extrusive cool fast (fine crystals)","Extrusive always older","Intrusive contain no minerals","Extrusive only form in ocean"], answerIndex:0 },
-      { q_ar:"ما مكونات هذا الصخر الفاتح ذو البلورات الخشنة؟", q_en:"Main components of this coarse-grained, felsic rock?", 
-        // --- 10x: إضافة صورة توضيحية (جرانيت) ---
-        image_url: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Granite_G%C3%A4rkam-3.jpg/640px-Granite_G%C3%A4rkam-3.jpg",
-        choices_ar:["كوارتز، فلسبار بوتاسي، بلاغيوكلاز ومقدار من الميكا","كلسيت ودولوميت","أوليفين وبيروكسين فقط","طين ورمل"], choices_en:["Quartz, K-feldspar, plagioclase and some mica","Calcite and dolomite","Only olivine and pyroxene","Clay and sand"], answerIndex:0 },
+      { q_ar:"ما مكونات الجرانيت الرئيسية؟", q_en:"Main components of granite?", choices_ar:["كوارتز، فلسبار بوتاسي، بلاغيوكلاز ومقدار من الميكا","كلسيت ودولوميت","أوليفين وبيروكسين فقط","طين ورمل"], choices_en:["Quartz, K-feldspar, plagioclase and some mica","Calcite and dolomite","Only olivine and pyroxene","Clay and sand"], answerIndex:0 },
       { q_ar:"ما دلالة النسيج البورفيري؟", q_en:"Significance of porphyritic texture?", choices_ar:["يشير لتبريد بمرحلتين: بلورات كبيرة ثم مصفوفة دقيقة","دليل على التحول","دلالة على ترسب بحري","علامة على تآكل"], choices_en:["Indicates two-stage cooling: large crystals in fine matrix","Evidence of metamorphism","Indicative of marine deposition","Sign of erosion"], answerIndex:0 },
-      { q_ar:"كيف تفرق البازلت (مثل هذا) والأنديزيت ميدانياً؟", q_en:"How distinguish basalt (like this) and andesite in hand sample?", 
-        // --- 10x: إضافة صورة توضيحية (بازلت) ---
-        image_url: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Basalt_%286%29.jpg/640px-Basalt_%286%29.jpg",
-        choices_ar:["البازلت داكن، حبيبات دقيقة؛ الأنديزيت أفتح قليلاً ومحتوي فلزات أقل","البازلت فاتح دائماً","الأنديزيت زجاجي فقط","لا فرق عملياً"], choices_en:["Basalt dark, fine-grained; andesite lighter with intermediate composition","Basalt always light","Andesite only glassy","No practical difference"], answerIndex:0 },
-      // ... (يتم الاحتفاظ بجميع الأسئلة الـ 26 المتبقية في هذا القسم كما هي)
+      { q_ar:"كيف تفرق البازلت والأنديزيت ميدانياً؟", q_en:"How distinguish basalt and andesite in hand sample?", choices_ar:["البازلت داكن، حبيبات دقيقة؛ الأنديزيت أفتح قليلاً ومحتوي فلزات أقل","البازلت فاتح دائماً","الأنديزيت زجاجي فقط","لا فرق عملياً"], choices_en:["Basalt dark, fine-grained; andesite lighter with intermediate composition","Basalt always light","Andesite only glassy","No practical difference"], answerIndex:0 },
+      { q_ar:"كيف تميز الكلسيت من الدولوميت ميدانياً؟", q_en:"Field test to distinguish calcite vs dolomite?", choices_ar:["الكلسيت يتفاعل فورًا مع HCl المخفف؛ الدولوميت يحتاج للاختبار المطحون أو التسخين","كلاهما يتفاعل بنفس الطريقة","الدولوميت يذوب في الماء","لا يمكن التفريق إلا بالمختبر"], choices_en:["Calcite reacts immediately with dilute HCl; dolomite requires powdered or heated sample","Both react identically","Dolomite dissolves in water","Only lab test distinguishes"], answerIndex:0 },
+      { q_ar:"ما علامة الصخر الرسوبي الكربوني؟", q_en:"Key sign of carbonate sedimentary rock?", choices_ar:["وجود كلسيت أو قشرة أحيائية وفحص التفاعل مع الحمض","لون رمادي فقط","نسيج زجاجي","طبقات رملية فقط"], choices_en:["Presence of calcite/biogenic shells and acid reaction","Gray color only","Glassy texture","Only sandy layers"], answerIndex:0 },
+      { q_ar:"كيف تفرق الحجر الرملي عن الصخر الطيني؟", q_en:"How to tell sandstone from shale?", choices_ar:["الحجر الرملي حبيبات مرئية وخشن، الطيني ناعم ويتشقق","كلاهما ناعم","الطيني خشن","لا فرق"], choices_en:["Sandstone has visible grains and is gritty; shale is smooth and fissile","Both smooth","Shale coarse","No difference"], answerIndex:0 },
+      { q_ar:"ما هو التورق في الصخور المتحولة؟", q_en:"What is foliation in metamorphic rocks?", choices_ar:["ترتيب مواز للمعادن نتيجة ضغط موجه","طبقات رسوبية أفقية","نتيجة برد سريع","نوع من التجوية"], choices_en:["Parallel alignment of minerals due to directed pressure","Horizontal sedimentary layering","Result of rapid cooling","A weathering type"], answerIndex:0 },
+      { q_ar:"ما الفرق بين الشست والنايس؟", q_en:"Difference between schist and gneiss?", choices_ar:["الشست ذو تورق دقيق وميكانيكا مميزة، النايس ذو نطاقات معدنية متبادلة","الشست أكثر فحصية","النايس طيني","لا فرق"], choices_en:["Schist has fine foliation; gneiss shows alternating mineral bands","Schist more glassy","Gneiss is clay","No difference"], answerIndex:0 },
+      { q_ar:"ما أنواع الفلسبار الشائعة؟", q_en:"Common types of feldspar?", choices_ar:["فلسبار بوتاسي (أورثوكلاز/ميكروكلين) وفلسبار بلاجيوكليز","فلسبار كربوني فقط","فلسبار سيليكات خاص","لا فلسبار في الصخور"], choices_en:["K-feldspar (orthoclase/microcline) & plagioclase feldspar","Only carbonate feldspar","Special silicate feldspar","No feldspar in rocks"], answerIndex:0 },
+      { q_ar:"كيف تستنتج أصل الصخر من معادنه؟", q_en:"How infer rock origin from mineralogy?", choices_ar:["التركيب المعدني يدل إن كان ناري، رسوبي أم متحول (مثال: كوارتز عالي يؤشر الرسوبي)","المعادن لا تفيد","من لون الصخور فقط","بحاجة لصورة جوية فقط"], choices_en:["Mineral composition indicates igneous/sedimentary/metamorphic origin (e.g., abundant quartz suggests sedimentary)","Minerals not helpful","By rock color only","Need aerial photo only"], answerIndex:0 },
+      { q_ar:"ما أدوات التحليل البتروغرافي الأساسية؟", q_en:"Essential petrographic tools?", choices_ar:["مجهر مستقطب للشرايح الرقيقة، واختبارات الحقل البسيطة","مقياس الضغط فقط","الأشعة السينية فقط","كاميرا فقط"], choices_en:["Polarizing microscope for thin sections and simple field tests","Pressure gauge only","X-ray only","Camera only"], answerIndex:0 },
+      { q_ar:"ما دلالة الكوارتز الدائري في الرمل؟", q_en:"Significance of rounded quartz in sandstone?", choices_ar:["يدل على نضج عالي ونقل طويل (مسافة نقل طويلة)","دليل على بركانية قريبة","دليل على تحوّل فقط","لا دلالة"], choices_en:["Indicates high maturity and long transport distance","Indicates nearby volcanism","Indicates metamorphism only","No significance"], answerIndex:0 },
+      { q_ar:"ما المقصود بالمصفوفة (matrix) في الصخر الرسوبي؟", q_en:"What is matrix in sedimentary rock?", choices_ar:["مادة دقيقة تملأ الفراغات بين الحبيبات (طين/غرين)","نوع من البلورات الكبيرة","فراغات في الصخر","طبقة سطحية فقط"], choices_en:["Fine material filling spaces between grains (clay/silt)","A type of large crystal","Voids in rock","Surface layer only"], answerIndex:0 },
+      { q_ar:"كيف تحدد درجة التحول؟", q_en:"How determine metamorphic grade?", choices_ar:["بوجود معادن مؤشرية (index minerals) مثل الغارنيت أو الكلوريت","بالمقياس فقط","من لون الصخر","من السُمك فقط"], choices_en:["By index minerals (garnet, chlorite etc.)","By scale only","By rock color","By thickness only"], answerIndex:0 },
+      { q_ar:"ما الفرق بين البريشيا والكونجلوميرات؟", q_en:"Breccia vs conglomerate?", choices_ar:["البريشيا حبيبات زاوية، الكونجلوميرات حبيبات مستديرة","الاثنان متماثلان","البريشيا رسوبي كيميائي","الكونجلوميرات متحول"], choices_en:["Breccia has angular clasts; conglomerate has rounded clasts","They are the same","Breccia is chemical","Conglomerate metamorphic"], answerIndex:0 },
+      { q_ar:"ما دلالة فقاعات الغاز في صخر ناري؟", q_en:"Significance of gas vesicles in igneous rock?", choices_ar:["تدل على تبريد سريع وتحرر غازات (نسيج فقاعي مثل البوميس)","تدل على ضغط عالٍ","تدل على تحوّل","لا أهمية عملية"], choices_en:["Indicate rapid cooling and gas escape (vesicular texture like pumice)","Indicate high pressure","Indicate metamorphism","No practical importance"], answerIndex:0 },
+      { q_ar:"الفرق المظهر بين البازلت والجابرو؟", q_en:"Appearance difference basalt vs gabbro?", choices_ar:["البازلت ناعم الحبيبات (سطحي) داكن، الجابرو ذو بلورات خشنة (جوفي) داكن أيضاً","الجابرو فاتح","البازلت بلوري كبير","لا فرق"], choices_en:["Basalt fine-grained (extrusive) dark; gabbro coarse-grained (intrusive) dark","Gabbro light","Basalt large crystals","No difference"], answerIndex:0 },
+      { q_ar:"ما معنى Texture في البتروغرافيا؟", q_en:"What is texture in petrography?", choices_ar:["حجم وشكل وترتيب المكونات المعدنية في الصخر","لون الصخر فقط","معدل التحوّل","مقياس المسامية"], choices_en:["Size, shape and arrangement of mineral components","Rock color only","Metamorphic grade","Porosity measure"], answerIndex:0 },
+      { q_ar:"ما دلالة اللون في التعرف الميداني؟", q_en:"Field significance of rock color?", choices_ar:["يمكن أن يشير لتركيب معدني أو أكسدة الحديد أو محتوى عضوي","اللون غير مفيد أبداً","يحدد العمر مباشرة","يشير للنفاذية فقط"], choices_en:["May indicate mineralogy, iron oxidation or organic content","Color never useful","Determines age directly","Indicates permeability only"], answerIndex:0 },
+      { q_ar:"ما المعادن الظهار في الصخور الفلسية؟", q_en:"Main minerals in felsic rocks?", choices_ar:["كوارتز وفلسبار بوتاسي وميكا","أوليفين وبيروكسين","كالسيت فقط","طفل حبيبي"], choices_en:["Quartz, K-feldspar and mica","Olivine and pyroxene","Calcite only","Granular clay"], answerIndex:0 },
+      { q_ar:"ما الفرق ما بين المافية والفلسية؟", q_en:"Mafic vs felsic difference?", choices_ar:["المافية غنية بالحديد والمغنيسيوم (داكنة)، الفلسية غنية بالسيليكا (فاتحة)","لا فرق","المافية خفيفة","الفلسية دائماً زجاجية"], choices_en:["Mafic rich in Fe-Mg (dark); felsic rich in silica (light)","No difference","Mafic light","Felsic always glassy"], answerIndex:0 },
+      { q_ar:"ما العلاقة بين سرعة التبريد وحجم البلورات؟", q_en:"Cooling rate vs crystal size?", choices_ar:["تبريد أسرع ← بلورات أصغر؛ تبريد أبطأ ← بلورات أكبر","سرعة لا تؤثر","تبريد أسرع ← بلورات أكبر","لا علاقة"], choices_en:["Faster cooling → smaller crystals; slower → larger crystals","Rate doesn't affect","Faster → larger crystals","No relation"], answerIndex:0 },
+      { q_ar:"ما العلامات الدالة على أصل ناري مقابل رسوبي؟", q_en:"Signs for igneous vs sedimentary origin?", choices_ar:["الناري لديه نسيج متداخل أو بلورات؛ الرسوبي يظهر طبقات وأحافير","الناري يحتوي أحافير","الرسوبي بلوري كبير","لا تمييز"], choices_en:["Igneous shows interlocking texture/crystals; sedimentary shows layers and fossils","Igneous contains fossils","Sedimentary large crystals","No distinction"], answerIndex:0 },
+      { q_ar:"ما دور التحليل المجهري؟", q_en:"Role of microscopy in petrography?", choices_ar:["تحديد النسيج والمعادن بدقة لتحديد الأصل والبيئة التكوينية","لا فائدة ميدانية","يستخدم فقط في التعدين","يحلي المياه"], choices_en:["Identify texture and minerals precisely to determine origin and environment","No field use","Only used in mining","Purifies water"], answerIndex:0 },
+      { q_ar:"كيف تعرف الصخور الرسوبية الكيميائية؟", q_en:"How identify chemical sedimentary rocks?", choices_ar:["تكوّنت بترسيب مباشر من محلول مائي (مثال: جبس، هاليت)","تكوّنت بالضغط فقط","تكوّنت بالحرارة فقط","تكوّنت بالعوامل الحيوية"], choices_en:["Formed by direct precipitation from aqueous solution (e.g., gypsum, halite)","Formed by pressure only","Formed by heat only","Formed by biological factors"], answerIndex:0 },
+      { q_ar:"ما الفرق بين الحجر الجيري والدولوميت؟", q_en:"Difference between limestone and dolomite?", choices_ar:["الجيري $\\text{CaCO}_3$ يتفاعل فوراً مع الحمض، الدولوميت $\\text{CaMg}(\\text{CO}_3)_2$ يتفاعل أضعف","لا فرق","الدولوميت أقدم دائماً","الجيري أقوى"], choices_en:["Limestone $\\text{CaCO}_3$ reacts immediately; Dolomite $\\text{CaMg}(\\text{CO}_3)_2$ reacts weakly","No difference","Dolomite always older","Limestone stronger"], answerIndex:0 },
+      { q_ar:"ما نوع الصخور التي تحتوي عادة على الفوسفات؟", q_en:"Rock type usually containing phosphate?", choices_ar:["صخور رسوبية بحرية (فوسفوريت)","صخور نارية جوفية","صخور متحولة عالية الدرجة","صخور البازلت"], choices_en:["Marine sedimentary rocks (phosphorite)","Intrusive igneous rocks","High-grade metamorphic rocks","Basalt rocks"], answerIndex:0 },
+      { q_ar:"ما معنى recrystallization في التحول؟", q_en:"Meaning of recrystallization in metamorphism?", choices_ar:["إعادة نمو وتبلور المعادن الموجودة لتكوين بلورات أكبر أو معادن جديدة مستقرة","ذوبان الصخر بالكامل","كسر الصخر فقط","ترسيب جديد"], choices_en:["Regrowth of existing minerals into larger crystals or new stable minerals","Complete melting of rock","Only fracturing of rock","New deposition"], answerIndex:0 },
       { q_ar:"ما هو مؤشر اللون في تصنيف الصخور النارية (Mafic Index)؟", q_en:"What is the Mafic Index in igneous classification?", choices_ar:["نسبة المعادن المافية (الداكنة) إلى إجمالي المعادن في الصخر","نسبة المياه","نسبة الكوارتز فقط","نسبة الميكا"], choices_en:["Ratio of mafic (dark) minerals to total minerals in the rock","Water ratio","Quartz ratio only","Mica ratio"], answerIndex:0 }
     ]
   },
 
   maps: {
-    title_ar:"الخرائط الجيولوجية — الأساسيات", title_en:"Geological Maps — Basics", icon: "🗺️",
+    title_ar:"الخرائط الجيولوجية — الأساسيات", title_en:"Geological Maps — Basics",
     items: [
       { q_ar:"ما الفرق بين الخريطة الجيولوجية والطبوغرافية؟", q_en:"Difference between geological and topographic maps?", choices_ar:["الطبوغرافية تمثل ارتفاعات (كنتورات)، الجيولوجية تمثل نوع وامتداد الصخور والتراكيب","الطبوغرافية لجيولوجيين فقط","الجيولوجية تعرض مناخ المنطقة","لا فرق"], choices_en:["Topographic shows elevations (contours); geological shows rock types and structures","Topographic for geologists only","Geological shows climate","No difference"], answerIndex:0 },
       { q_ar:"ما فائدة خطوط الكنتور؟", q_en:"Purpose of contour lines?", choices_ar:["تحديد الارتفاعات وشكل التضاريس والانحدارات","تحديد نوع الصخور","قياس سرعة المياه","تعريف حدود البلد"], choices_en:["Show elevations and terrain shape/slopes","Indicate rock type","Measure water speed","Define country borders"], answerIndex:0 },
       { q_ar:"كيف تحدد ميل الطبقات من الخريطة؟", q_en:"How determine dip of beds from map?", choices_ar:["من خلال مقارنة اتجاه تقاطع الطبقات مع خطوط الكنتور وحساب V-rule","من اللون فقط","من مقياس الخريطة","من الصور satellit فقط"], choices_en:["By comparing strike lines with contours and using V-rule","By color only","By map scale","From satellite images only"], answerIndex:0 },
       { q_ar:"ما معنى رمز الطبقة (مثل Ksh)؟", q_en:"Meaning of unit code (eg Ksh)?", choices_ar:["يشير للعمر والصخر (K=Crete, sh=shale)","هو رمز عشوائي","يحدد الارتفاع","المقياس"], choices_en:["Indicates age and rock (e.g., K=Cretaceous, sh=shale)","Random code","Specifies elevation","Scale"], answerIndex:0 },
-      // ... (يتم الاحتفاظ بجميع الأسئلة الـ 8 المتبقية في هذا القسم كما هي)
-      { q_ar:"كيف تميز طية محدبة (Anticline) من مقعرة (Syncline) على الخريطة؟", q_en:"How tell anticline vs syncline on a map?", 
-        // --- 10x: إضافة صورة توضيحية (طيات) ---
-        image_url: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Geologic_map_symbols_for_folds.svg/640px-Geologic_map_symbols_for_folds.svg.png",
-        choices_ar:["الطبقات الأقدم عادة في مركز الطية المحدبة والأحدث في المقعرة","المحدبة دائمًا أعرض","المقعرة أقدم","لا فرق"], choices_en:["Older beds usually at center of anticline; younger in syncline","Anticline always broader","Syncline older","No difference"], answerIndex:0 },
-      // ... (يتم الاحتفاظ بجميع الأسئلة الـ 17 المتبقية في هذا القسم كما هي)
+      { q_ar:"كيف تحدد نقطة التقاء طبقة ونهر؟", q_en:"How locate contact point between layer and river?", choices_ar:["باستخدام قاعدة V: انحناءات الكنتور وامتداد الطبقة تظهر نقطة الالتقاء","من لون الماء فقط","من الرياح","بواسطة مقياس الوزن"], choices_en:["Using V-rule where contours and bed contacts intersect","By water color only","By wind","By weight scale"], answerIndex:0 },
+      { q_ar:"ما دلالة تقاطع الطبقات مع التضاريس؟", q_en:"Meaning of bed intersections with terrain?", choices_ar:["تحدد ميل الطبقات واتجاهها وتكشف عن طيات وفوالق","تعني وجود معادن فقط","تعني وجود نفط دوماً","لا فائدة"], choices_en:["Determine dip/strike and indicate folds/faults","Means only minerals present","Means oil always present","No use"], answerIndex:0 },
+      { q_ar:"ما الإسقاط الشائع في الخرائط الجيولوجية؟", q_en:"Common projection used in geological maps?", choices_ar:["نظام UTM أو الإسقاط المخروطي لامبرت في الخرائط الإقليمية","إسقاط مركاتور فقط","إسقاط قطبي فقط","لا حاجة لإسقاط"], choices_en:["UTM or Lambert conformal conic for regional maps","Mercator only","Polar projection only","No projection needed"], answerIndex:0 },
+      { q_ar:"ما أدوات قراءة الخريطة ميدانياً؟", q_en:"Tools for reading map in field?", choices_ar:["بوصلة جيولوجية، مقياس، قلم، GPS/الهاتف الذكي","مجهر فقط","مطرقة فقط","كاميرا فقط"], choices_en:["Geological compass, scale, pen, GPS/smartphone","Microscope only","Hammer only","Camera only"], answerIndex:0 },
+      { q_ar:"كيف تُرسم المقاطع الجيولوجية؟", q_en:"How to draw geological cross-sections?", choices_ar:["بنقل نقاط الاتصالات الأفقية إلى رسم رأسي وفق المقياس وتحويل البيانات","بمقارنة الألوان فقط","بالتخمين","باستخدام الرياح"], choices_en:["Project contacts from map to a vertical profile using scale","By color comparison only","By guessing","Using wind"], answerIndex:0 },
+      { q_ar:"ماذا تمثل الطيات والفوالق على الخريطة؟", q_en:"What do folds and faults represent on a map?", choices_ar:["طيات: انثناءات الطبقات؛ فوالق: كسور مع إزاحة للكتل الصخرية","نقوش للطرق","مؤشرات مناخية","مواقع مورد مائي دائم"], choices_en:["Folds: bending of beds; Faults: breaks with displacement","Road markings","Climate indicators","Permanent water source locations"], answerIndex:0 },
+      { q_ar:"كيف تُقاس الاتجاه (Strike) والانحدار (Dip)؟", q_en:"How measure strike and dip?", choices_ar:["بالبوصلة الجيولوجية: اتجاه خط أفقي على الطبقة وزاوية الانحدار العمودية عليه","بمقياس الحرارة","باستخدام الهاتف فقط","من لون الصخر"], choices_en:["By geologic compass: strike is horizontal line; dip is vertical angle perpendicular to strike","By thermometer","Using phone only","By rock color"], answerIndex:0 },
+      { q_ar:"ما الفرق بين الفالق العادي والمعكوس؟", q_en:"Normal vs reverse fault difference?", choices_ar:["العادي: الكتلة المعلقة تتحرك لأسفل (شد)، المعكوس: تتحرك للأعلى (ضغط)","العكس بالأرقام","الفالق ليس له اتجاه","كلاهما نفس الشيء"], choices_en:["Normal: hanging wall moves down (extension); Reverse: hanging wall moves up (compression)","Opposite by numbers","Fault has no direction","They are same"], answerIndex:0 },
+      { q_ar:"كيف تميز طية محدبة من مقعرة؟", q_en:"How tell anticline vs syncline?", choices_ar:["الطبقات الأقدم عادة في مركز الطية المحدبة (anticline) والأحدث في المقعرة (syncline)","المحدبة دائمًا أعرض","المقعرة أقدم","لا فرق"], choices_en:["Older beds usually at center of anticline; younger in syncline","Anticline always broader","Syncline older","No difference"], answerIndex:0 },
+      { q_ar:"ما دلالة الرموز المختلفة على الخريطة؟", q_en:"Meaning of different map symbols?", choices_ar:["توضح نوع الصخور، خط التماس، الفوالق، والمظاهر السطحية وفق الـLegend","مجرد زخرفة","لا أهمية","تعرض شبكات الطرق فقط"], choices_en:["Indicate rock types, contacts, faults and surface features as in the legend","Decoration only","No importance","Show road networks only"], answerIndex:0 },
+      { q_ar:"ما فائدة المقياس الخطي؟", q_en:"Purpose of linear scale?", choices_ar:["تحويل المسافات على الخريطة إلى الواقع بسهولة","تحديد نوع الصخر","قياس العمق","تحديد الوقت"], choices_en:["Convert map distances to real ground distances","Determine rock type","Measure depth","Determine time"], answerIndex:0 },
+      { q_ar:"علاقة لون الخريطة بنوع الصخور؟", q_en:"Relation of map color to rock type?", choices_ar:["الألوان تمثل أنواع/أعمار الصخور وفق معيار الخريطة (مثلاً كربونات بلون معين)","الألوان عشوائية","اللون يدل على ارتفاع فقط","لا علاقة"], choices_en:["Colors represent rock types/ages per map convention (eg carbonates a certain color)","Colors random","Color indicates elevation only","No relation"], answerIndex:0 },
+      { q_ar:"كيف تستخدم البوصلة ميدانياً؟", q_en:"How use geologic compass in field?", choices_ar:["لقياس الـstrike والـdip، توجيه المسارات، قياس انزياح الفالق","لقياس سرعة الرياح فقط","لقياس الوزن","لقياس جودة التربة فقط"], choices_en:["Measure strike/dip, orient traverses, measure fault offset","Measure wind speed only","Measure weight","Measure soil quality only"], answerIndex:0 },
+      { q_ar:"الفرق بين الخريطة المحلية والإقليمية؟", q_en:"Local vs regional map difference?", choices_ar:["المحلية مقياس كبير تفاصيل أعلى، الإقليمية مقياس صغير تغطية أكبر","لا فرق","المحلية تستخدم للأقمار فقط","الإقليمية ورقية فقط"], choices_en:["Local large-scale with high detail; regional small-scale covering large area","No difference","Local for satellites only","Regional only paper"], answerIndex:0 },
+      { q_ar:"كيف تحدد العمر النسبي للطبقات؟", q_en:"How determine relative age of beds?", choices_ar:["بمبدأ التراكب: الأقدم في الأسفل ما لم يحدث قلب أو اختلال","بالألوان فقط","بمقياس الخريطة","بجهاز خاص"], choices_en:["By principle of superposition: older below unless overturned","By colors only","By map scale","By special device"], answerIndex:0 },
+      { q_ar:"ما هو الـLegend؟", q_en:"What is the legend?", choices_ar:["مفتاح الخريطة الذي يشرح الألوان والرموز","قائمة الأسماء فقط","خريطة فرعية","مقياس الزمن"], choices_en:["Map key explaining colors and symbols","List of names only","Inset map","Time scale"], answerIndex:0 },
+      { q_ar:"كيف تُستخرج مقاطع طولية؟", q_en:"How extract longitudinal sections?", choices_ar:["برسم الطبقات والاتصالات على خط المقطع وتحويلها إلى منظر جانبي بمقاييس","بالتخمين","باستخدام GPS فقط","بالمجهر"], choices_en:["Plot formations and contacts along a line and project to vertical profile using scales","By guessing","Using GPS only","With microscope"], answerIndex:0 },
+      { q_ar:"ماذا يعني لو كانت الطبقات موازية للكنتورات؟", q_en:"If beds parallel contours what is dip?", choices_ar:["الطبقات أفقية (dip = 0)","الطبقات شديدة الانحدار","غير قابل للتحديد","تعني فالق كبير"], choices_en:["Beds are horizontal (dip = 0)","Beds steeply dipping","Undeterminable","Indicates a large fault"], answerIndex:0 },
+      { q_ar:"كيف تحدد مناطق التماس بين الصخور؟", q_en:"How locate contacts between rock units?", choices_ar:["ببحث عن خطوط فاصل على الخريطة بين وحدات مختلفة اللون أو الرموز","بقياس الصوت","بمقياس الضغط","بالمناخ"], choices_en:["Look for boundary lines between differently colored/symbolized units on map","By sound measurement","By pressure gauge","By climate"], answerIndex:0 },
+      { q_ar:"ما دلالة الـUnconformity؟", q_en:"Significance of unconformity?", choices_ar:["تشير لفترات انقطاع في الترسيب أو تعرية بين مجموعتين صخريتين","دليل على وجود نفط دائماً","خطأ في الخريطة","مؤشر للمياه فقط"], choices_en:["Indicates gaps in deposition or erosion between rock sequences","Always indicates oil","Map error","Only water indicator"], answerIndex:0 },
+      { q_ar:"كيف تساعد الصور الجوية في تحديث الخريطة؟", q_en:"How aerial photos help update maps?", choices_ar:["تكشف تغيّر الغطاء النباتي أو تعرية السطح وتساعد في تحديد تراكيب جديدة","لا تساعد","تؤثر على المساحة","تحدد أعمار الصخور"], choices_en:["Reveal vegetation/erosion changes and help identify new structures","No help","Affect area","Determine rock ages"], answerIndex:0 },
+      { q_ar:"ما أهمية معرفة الاتجاه الجيولوجي في الحفر؟", q_en:"Importance of knowing geological strike/dip in drilling?", choices_ar:["لتحديد عمق الوصول للطبقة المطلوبة وتجنب الحفر الموازي للفوالق","لمعرفة سرعة الرياح فقط","لمعرفة لون الصخر","لمعرفة الوقت"], choices_en:["To determine the depth of the target layer and avoid drilling parallel to faults","To know wind speed only","To know rock color","To know time"], answerIndex:0 },
+      { q_ar:"ما معنى الرموز الجيوفيزيائية في بعض الخرائط؟", q_en:"Meaning of geophysical symbols on some maps?", choices_ar:["تظهر شذوذات جاذبية أو مغناطيسية (مؤشرات غير مباشرة لتراكيب تحت سطحية)","تظهر ارتفاع المباني","تظهر حدود الدول","تظهر الأنهار فقط"], choices_en:["Show gravity or magnetic anomalies (indirect indicators of subsurface structures)","Show building heights","Show country borders","Show only rivers"], answerIndex:0 },
+      { q_ar:"ما علاقة الخرائط بالمسح الجيوكيميائي؟", q_en:"Relation between maps and geochemical surveying?", choices_ar:["تستخدم الخرائط كخلفية لتوقيع مواقع العينات ونتائج التركيز لتحديد المناطق الواعدة","لا علاقة","تستخدم فقط لجمع العينات","تستخدم لضبط الوقت"], choices_en:["Maps serve as a base to plot sample locations and concentration results to identify prospective areas","No relation","Used only for sample collection","Used for time adjustment"], answerIndex:0 },
+      { q_ar:"ما هي الأخطاء الشائعة عند قراءة الخرائط الجيولوجية؟", q_en:"Common mistakes reading geologic maps?", choices_ar:["خلط بين قواعد V، تفسير فالق عكسي كعادي، وعدم ملاحظة الـLegend","القراءة سريعة دائماً صحيحة","الاستخفاف بالألوان","عدم استخدام الهاتف"], choices_en:["Misapplying V-rule, mistaking reverse for normal fault, ignoring legend","Quick read always correct","Disregarding colors","Not using phone"], answerIndex:0 },
       { q_ar:"كيف تُحوّل الخريطة الورقية إلى رقمية باستخدام GIS؟", q_en:"How convert paper map to digital using GIS?", choices_ar:["عن طريق المسح (Scanning) ثم عملية تحديد الإحداثيات (Georeferencing) ورقمنة التفاصيل","باستخدام الآلة الحاسبة فقط","باستخدام قلم رصاص فقط","باستخدام مسطرة"], choices_en:["By scanning then georeferencing and digitizing geological details","Using calculator only","Using pencil only","Using ruler"], answerIndex:0 }
     ]
   },
 
   general: {
-    title_ar:"الجيولوجيا العامة", title_en:"General Geology", icon: "🌍",
+    title_ar:"الجيولوجيا العامة", title_en:"General Geology",
     items: [
       { q_ar:"ما الفرق بين الماجما واللافا؟", q_en:"Magma vs lava?", choices_ar:["الماجما تحت السطح، اللافا عند خروجها على السطح","الماجما ماء واللافا حجر","لا فرق","ماجما = صخور متحولة"], choices_en:["Magma is subsurface molten rock; lava is magma erupted at surface","Magma is water and lava rock","No difference","Magma = metamorphic rock"], answerIndex:0 },
-      { q_ar:"ما هي الدورة الصخرية؟", q_en:"What is the rock cycle?", 
-        // --- 10x: إضافة صورة توضيحية (دورة الصخور) ---
-        image_url: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Rock_cycle.jpg/640px-Rock_cycle.jpg",
-        choices_ar:["تحول الصخور النارية والرسوبية والمتحولة عبر العمليات الجيولوجية","دورة حياة النبات فقط","ظاهرة جوية","عملية بشرية"], choices_en:["Transformation of igneous, sedimentary and metamorphic rocks via geologic processes","Plant life cycle only","Atmospheric phenomenon","Human activity"], answerIndex:0 },
-      // ... (يتم الاحتفاظ بجميع الأسئلة الـ 28 المتبقية في هذا القسم كما هي)
+      { q_ar:"ما هي الدورة الصخرية؟", q_en:"What is the rock cycle?", choices_ar:["تحول الصخور النارية والرسوبية والمتحولة عبر العمليات الجيولوجية","دورة حياة النبات فقط","ظاهرة جوية","عملية بشرية"], choices_en:["Transformation of igneous, sedimentary and metamorphic rocks via geologic processes","Plant life cycle only","Atmospheric phenomenon","Human activity"], answerIndex:0 },
+      { q_ar:"ما أنواع التجوية؟", q_en:"Types of weathering?", choices_ar:["تجوية فيزيائية وكيميائية وحيوية","تجوية فقط بالماء","تجوية حرارية فقط","تجوية بتأثير الرياح فقط"], choices_en:["Physical, chemical and biological weathering","Only water weathering","Only thermal weathering","Only wind weathering"], answerIndex:0 },
+      { q_ar:"كيف تتشكل الطيات والفوالق؟", q_en:"How form folds and faults?", choices_ar:["نتيجة قوى ضغط أو شد تؤدي للانثناء أو الكسر داخل القشرة","بنشاطات بسيطة فقط","تتكون في البحر فقط","تتكون بالإنجراف فقط"], choices_en:["By compressional/tensional forces causing bending or breaking of crust","From trivial activities only","Form only in ocean","Form by erosion only"], answerIndex:0 },
+      { q_ar:"الفرق بين القشرة القارية والمحيطية؟", q_en:"Continental vs oceanic crust?", choices_ar:["القارية أسمك وأقل كثافة وغنية بالصخور الفلسية، المحيطية أرق وأكثر كثافة وبازلتية","لا فرق","القارية مصنوعة من مياه","المحيطية تحتوي على كل المعادن"], choices_en:["Continental crust thicker, less dense, felsic; oceanic thinner, denser, basaltic","No difference","Continental made of water","Oceanic contains all minerals"], answerIndex:0 },
+      { q_ar:"ما هو أصل الجبال؟", q_en:"Origin of mountains?", choices_ar:["تصادم الصفائح أو النشاط البركاني ورفع القشرة","الرياح فقط","التعرية فقط","النشاط البشري"], choices_en:["Plate collisions, volcanism, or crustal uplift","Only wind","Only erosion","Human activity"], answerIndex:0 },
+      { q_ar:"ما المقصود بالصفائح التكتونية؟", q_en:"What are tectonic plates?", choices_ar:["قطع كبيرة من الغلاف الصخري تتحرك فوق الستار","تجمعات من الحجارة","شبكات طرق","مصطلح جماعي للجبال"], choices_en:["Large lithospheric plates moving over the mantle","Piles of rocks","Road networks","Collective term for mountains"], answerIndex:0 },
+      { q_ar:"ما العلاقة بين الزلازل وحدود الصفائح؟", q_en:"Earthquakes & plate boundary relation?", choices_ar:["معظم الزلازل تحدث عند حدود الصفائح نتيجة تراكم وإطلاق الإجهاد","لا علاقة","حصلت فقط قديمًا","فقط في المحيطات"], choices_en:["Most quakes occur at plate boundaries due to stress accumulation/release","No relation","Only occurred in past","Only in oceans"], answerIndex:0 },
+      { q_ar:"ما نوع الصخور الناتجة عن النشاط البركاني؟", q_en:"Rocks from volcanic activity?", choices_ar:["صخور نارية سطحية مثل البازلت والريوليت","صخور رسوبية فقط","صخور متحولة فقط","تربة فقط"], choices_en:["Extrusive igneous rocks like basalt and rhyolite","Only sedimentary rocks","Only metamorphic rocks","Soil only"], answerIndex:0 },
+      { q_ar:"لماذا ندرس المعادن؟", q_en:"Why study minerals?", choices_ar:["لتحديد تركيبة الصخور، الموارد الاقتصادية، وفهم خواصها الفيزيائية","لأغراض جمالية فقط","لا حاجة","لفهم الطقس"], choices_en:["To identify rock composition, economic resources, and physical properties","Only aesthetic reasons","No need","To understand weather"], answerIndex:0 },
+      { q_ar:"كيف نحدد عمر الصخور؟", q_en:"How date rocks?", choices_ar:["بالعمر النسبي (تراكب) أو التأريخ المطلق (نظائر مشعة)","بحساسيه اللون","بالعمر الظاهري","بالتحليل الصوتي فقط"], choices_en:["By relative dating (superposition) or absolute dating (radioisotopes)","By color sensitivity","By apparent age","By sonic only"], answerIndex:0 },
+      { q_ar:"الفرق بين العمر النسبي والمطلق؟", q_en:"Relative vs absolute age?", choices_ar:["النسبي يضع ترتيباً زمنياً للأحداث، المطلق يعطي عمرًا بالسنوات","نفس الشيء","النسبي رقمي","المطلق تقريبي فقط"], choices_en:["Relative gives sequence; absolute gives years","Same thing","Relative is numeric","Absolute approximate only"], answerIndex:0 },
+      { q_ar:"ما دور المياه في الجيومورفولوجيا؟", q_en:"Role of water in geomorphology?", choices_ar:["محرك رئيسي للتعرية والنقل والترسيب وتشكيل الأودية والدلتا","لا دور","يؤثر فقط على السطح","مهم فقط في الصحارى"], choices_en:["Main agent of erosion, transport and deposition shaping landforms","No role","Only affects surface","Important only in deserts"], answerIndex:0 },
+      { q_ar:"ما أنواع البراكين؟", q_en:"Types of volcanoes?", choices_ar:["مخروط رماد، درعي، طبقي/تركيبي","مخروطات تحت الماء فقط","براكين جليدية","براكين رملية"], choices_en:["Cinder cones, shield volcanoes, stratovolcanoes","Underwater cones only","Ice volcanoes","Sand volcanoes"], answerIndex:0 },
+      { q_ar:"ما المقصود بـStratigraphy؟", q_en:"What is stratigraphy?", choices_ar:["علم دراسة الطبقات الصخرية وترتيبها الزمني والمكاني","قياس السمك فقط","تحليل المعادن","قياس الكثافة"], choices_en:["Study of rock strata and their temporal/spatial relationships","Measuring thickness only","Mineral analysis","Density measurement"], answerIndex:0 },
+      { q_ar:"الفرق بين الفالق والطية؟", q_en:"Fault vs fold?", choices_ar:["الفالق كسر مع إزاحة، الطية انثناء دون كسر","متشابهان","الفالق دائماً أكبر","الطية ناتجة عن التجوية"], choices_en:["Fault is a fracture with displacement; fold is bending without fracture","They are similar","Fault always larger","Fold due to weathering"], answerIndex:0 },
+      { q_ar:"ما العوامل المؤثرة على التعرية؟", q_en:"Factors affecting erosion?", choices_ar:["المناخ، نوع الصخر، الغطاء النباتي، الانحدار التضاريسي","فقط الرياح","فقط الإنسان","فقط الجليد"], choices_en:["Climate, rock type, vegetation cover, slope","Only wind","Only humans","Only ice"], answerIndex:0 },
+      { q_ar:"ما مكونات القشرة الأرضية؟", q_en:"Materials making Earth's crust?", choices_ar:["الصخور والمعادن السليكاتية مثل السيليكا والفلسبار","الماء فقط","الهواء","العضويات فقط"], choices_en:["Rocks and silicate minerals like silica & feldspar","Only water","Air","Only organics"], answerIndex:0 },
+      { q_ar:"ما المقصود بالترسيب؟", q_en:"What is deposition?", choices_ar:["ترسيب المواد المنقولة (فتات/أملاح) عندما تقل الطاقة الحاملة","تفكك الصخور فقط","تحول الصخور","تجميد الماء"], choices_en:["Settling of transported materials (clasts/salts) when carrying energy drops","Only rock decay","Metamorphism","Freezing water"], answerIndex:0 },
+      { q_ar:"دور الكائنات في تكوين الصخور؟", q_en:"Role of organisms in rock formation?", choices_ar:["تكوين صخور عضوية كالفسفور والحجر الجيري العضوي من بقايا كائنات","لا دور","تؤثر فقط في التربة","تمنع الترسيب"], choices_en:["Form organic rocks like phosphorites and biogenic limestones from remains","No role","Only affect soil","Prevent deposition"], answerIndex:0 },
+      { q_ar:"كيف تتشكل الصخور الرسوبية؟", q_en:"How form sedimentary rocks?", choices_ar:["بتجوية، نقل، ترسيب، ثم التصخر (compaction/cementation)","بالتبريد فقط","بالانصهار","بالتجمد"], choices_en:["By weathering, transport, deposition then lithification (compaction/cementation)","By cooling only","By melting","By freezing"], answerIndex:0 },
+      { q_ar:"ما التحول المتماسك؟", q_en:"What is regional metamorphism?", choices_ar:["تحول واسع النطاق نتيجة ضغط وحرارة مرتبطين بحركات تكتونية","تحول محدود محلياً","تحول كيميائي فقط","نتيجة تجوية"], choices_en:["Widespread metamorphism due to pressure & heat from tectonics","Localized alteration only","Only chemical change","Due to weathering"], answerIndex:0 },
+      { q_ar:"الفرق بين الصخور المتحولة والرسوبية؟", q_en:"Metamorphic vs sedimentary rocks?", choices_ar:["المتحولة نتيجة تغير صخرة سابقة بالحرارة/ضغط؛ الرسوبية من ترسيب وتراكم","نفس الشيء","المتحولة رسوبية فقط","الرسوبية متحولة فقط"], choices_en:["Metamorphic from pre-existing rock altered by heat/pressure; sedimentary from deposition/compaction","Same thing","Metamorphic always sedimentary","Sedimentary always metamorphic"], answerIndex:0 },
+      { q_ar:"ما معادن الصخور الشائعة؟", q_en:"Common rock-forming minerals?", choices_ar:["كوارتز، فلسبار، ميكا، كالسيت، أوليفين","ذهب وفضة فقط","غازات","بلاستيك"], choices_en:["Quartz, feldspar, mica, calcite, olivine","Gold & silver only","Gases","Plastic"], answerIndex:0 },
+      { q_ar:"كيف تتعرف على معادن السيليكات؟", q_en:"How ID silicate minerals?", choices_ar:["بصلادة، لون الشق، اللمعان، الوصف البلوري، والتحليل المجهري","بالعين المجردة فقط","باستخدام حرارة عالية","باستخدام التربة فقط"], choices_en:["By hardness, streak, cleavage, crystal habit, and microscopy","By naked eye only","Using high heat","Using soil only"], answerIndex:0 },
+      { q_ar:"ما الظواهر المرتبطة بالزلازل؟", q_en:"Phenomena associated with earthquakes?", choices_ar:["انهيارات أرضية، تسونامي في المحيطات، تسييل التربة","تغير بسيط في الطقس","زيادة المحاصيل","لا شيء"], choices_en:["Landslides, tsunamis in oceans, soil liquefaction","Slight weather change","Increased crops","Nothing"], answerIndex:0 },
+      { q_ar:"ما النظام الجيوديناميكي؟", q_en:"What is geodynamic system?", choices_ar:["دراسة القوى والحركات التي تشكل القشرة الأرضية (التيارات الحملية، حركة الصفائح)","علم الطقس فقط","قياس الضغط الجوي","انظمة التصحر"], choices_en:["Study of forces/motions shaping Earth's crust (mantle convection, plate movements)","Weather science only","Atmospheric pressure measurement","Desertification systems"], answerIndex:0 },
+      { q_ar:"ما الغلاف الصخري؟", q_en:"What is the lithosphere?", choices_ar:["الغطاء الخارجي الصلب من الأرض (قشرة + الجزء العلوي من الستار)","الغلاف الجوي فقط","المحيط فقط","المنطقة الحيوانية"], choices_en:["Outer rigid shell of Earth (crust + uppermost mantle)","Atmosphere only","Ocean only","Biosphere region"], answerIndex:0 },
+      { q_ar:"العلاقة بين الجيولوجيا والهندسة المدنية؟", q_en:"Geology vs civil engineering relation?", choices_ar:["يعطي معلومات عن ثبات التربة، مواقع الفوالق، ونوعية الصخور لتصميم الأساسات","لا علاقة","الهندسة تحدد كل شيء","جيولوجيا تستخدم للزراعة فقط"], choices_en:["Provides info on ground stability, fault locations, rock types for foundation design","No relation","Engineering defines everything","Geology only for agriculture"], answerIndex:0 },
       { q_ar:"ما فائدة دراسة الجيولوجيا للموارد؟", q_en:"Value of geology for resources?", choices_ar:["تحديد مواقع البترول، المعادن، والمياه الجوفية واستخدامها المستدام","فقط للبحث النظري","لا فائدة","فقط لتصميم الطرق"], choices_en:["Locating petroleum, minerals, groundwater and guiding sustainable use","Only theoretical research","No use","Only for road design"], answerIndex:0 }
     ]
   }
 };
-// -- 10x: ضمان وجود 30 سؤال في كل قسم --
-// (الكود الأصلي كان يحتوي على 30 سؤال لكل قسم، لذا لا حاجة لتعديل العدد)
-
+const ALL_QUESTIONS = Object.values(QUIZZES).flatMap(quiz => quiz.items);
+const TOTAL_QUESTIONS_COUNT = ALL_QUESTIONS.length;
+const QUESTIONS_PER_LEVEL = Math.ceil(TOTAL_QUESTIONS_COUNT / 4); // 30 سؤال لكل مستوى تقريباً
 
 /* ---------- App state ---------- */
-let currentSection = null;
+let currentSectionKey = null; // Key of the section being tested (or 'mixed' for random)
+let currentQuizItems = []; // Questions for the current round
 let currentIndex = 0;
-let currentScore = 0;
+let currentRoundScore = 0;
 let correctCount = 0;
 let wrongCount = 0;
-let timerSeconds = 30;
+let totalCorrectLifetime = Number(localStorage.getItem('geo_total_correct') || 0); // Progress tracker
+let timerSeconds = 30; 
 let timerInterval = null;
 let leaderboard = JSON.parse(localStorage.getItem('geo_leaderboard')||'[]');
-let answered = false;
-// --- 10x: متغيرات الحالة الجديدة ---
-let currentStreak = 0;
-let wrongAnswers = []; // لتخزين مراجعة الأخطاء
-let settings = JSON.parse(localStorage.getItem('geo_settings')) || { audio: true };
-const RESUME_KEY = 'geo_resume_state';
 
 /* ---------- DOM refs ---------- */
-const sectionListEl = document.getElementById('sectionList');
+const dashboardEl = document.getElementById('dashboard');
+const quizSectionEl = document.getElementById('quizSection');
 const quizArea = document.getElementById('quizArea');
+const backBtn = document.getElementById('backBtn');
+const mainSectionsEl = document.getElementById('mainSections');
+
+// Quiz elements
 const qLabel = document.getElementById('qLabel');
 const qText = document.getElementById('qText');
 const answersBox = document.getElementById('answersBox');
 const timerLabel = document.getElementById('timerLabel');
 const scoreVal = document.getElementById('scoreVal');
-const levelBadge = document.getElementById('levelBadge');
 const progInner = document.getElementById('progInner');
 const progressLabel = document.getElementById('progressLabel');
 const skipBtn = document.getElementById('skipBtn');
-const backToMenu = document.getElementById('backToMenu');
-// --- 10x: DOM refs جديدة ---
-const scorePopupArea = document.getElementById('scorePopupArea');
-const streakCounter = document.getElementById('streakCounter');
-const qImageContainer = document.getElementById('qImageContainer');
-const qImage = document.getElementById('qImage');
-const resumePrompt = document.getElementById('resumePrompt');
 
-// Result Modal
-const resultModal = document.getElementById('resultModal');
-const resScore = document.getElementById('resScore');
-const resDetails = document.getElementById('resDetails');
-const retryBtn = document.getElementById('retryBtn');
-const closeResBtn = document.getElementById('closeResBtn');
-const savedNote = document.getElementById('savedNote');
-const reviewBtn = document.getElementById('reviewBtn');
+// Path elements
+const progressInnerPath = document.getElementById('progressInnerPath');
+const progressPercent = document.getElementById('progressPercent');
+const currentLevelText = document.getElementById('currentLevelText');
+const completedQEl = document.getElementById('completedQ');
 
-// Leaderboard Modal
-const leaderBtn = document.getElementById('leaderBtn');
-const leaderboardModal = document.getElementById('leaderboardModal');
-const leaderboardList = document.getElementById('leaderboardList');
-
-// Review Modal
-const reviewModal = document.getElementById('reviewModal');
-const reviewList = document.getElementById('reviewList');
-
-// Settings Modal
-const settingsBtn = document.getElementById('settingsBtn');
-const settingsModal = document.getElementById('settingsModal');
-const audioToggle = document.getElementById('audioToggle');
-const clearDataBtn = document.getElementById('clearDataBtn');
+// Other sections
+const scenariosSection = document.getElementById('scenariosSection');
+const glossarySection = document.getElementById('glossarySection');
+const toolkitSection = document.getElementById('toolkitSection');
 
 
 /* ---------- Audio (WebAudio beeps) ---------- */
-const audioCtx = (typeof AudioContext !== 'undefined' || typeof webkitAudioContext !== 'undefined') 
-  ? new (window.AudioContext || window.webkitAudioContext)() 
-  : null;
-
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 function beep(freq=880, dur=0.12, type='sine', gain=0.12){
-  if (!settings.audio || !audioCtx) return; // --- 10x: التحقق من الإعدادات
   try{
-    if(audioCtx.state === 'suspended') audioCtx.resume();
     const o = audioCtx.createOscillator();
     const g = audioCtx.createGain();
     o.type = type; o.frequency.value = freq;
@@ -625,297 +677,241 @@ function beep(freq=880, dur=0.12, type='sine', gain=0.12){
     o.start();
     g.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + dur);
     setTimeout(()=> { try{ o.stop() }catch(e){} }, dur*1000+30);
-  }catch(e){
-    console.warn("WebAudio failed:", e);
-  }
+  }catch(e){}
 }
 function playCorrect(){ beep(920,0.12,'sine',0.12); }
 function playWrong(){ beep(220,0.18,'square',0.14); }
-function playStreak(){ beep(1200, 0.08, 'triangle', 0.15); }
 
 /* ---------- Helpers ---------- */
 function shuffleArray(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]] } return a; }
 function formatTime(s){ const mm=Math.floor(s/60), ss=s%60; return `${String(mm).padStart(2,'0')}:${String(ss).padStart(2,'0')}`; }
 
-/* ---------- 10x: Floating Score Popup ---------- */
-function showScorePopup(text, type = 'good'){
-  const el = document.createElement('div');
-  el.className = `score-popup ${type}`;
-  el.textContent = text;
-  scorePopupArea.appendChild(el);
-  setTimeout(()=> el.remove(), 1200);
-}
-
-/* ---------- 10x: State Management (Resume) ---------- */
-function saveState(){
-  if (!currentSection) return;
-  const state = { 
-    currentSection, 
-    currentIndex, 
-    currentScore, 
-    correctCount, 
-    wrongCount,
-    currentStreak,
-    wrongAnswers 
-  };
-  localStorage.setItem(RESUME_KEY, JSON.stringify(state));
-}
-function clearState(){
-  localStorage.removeItem(RESUME_KEY);
-}
-function loadState(state){
-  currentSection = state.currentSection;
-  currentIndex = state.currentIndex;
-  currentScore = state.currentScore;
-  correctCount = state.correctCount;
-  wrongCount = state.wrongCount;
-  currentStreak = state.currentStreak;
-  wrongAnswers = state.wrongAnswers;
-
-  quizArea.style.display = 'block';
-  sectionListEl.style.display = 'none';
-  showQuestion();
-}
-
-/* ---------- UI render ---------- */
-function renderSectionCards(){
-  sectionListEl.innerHTML = '';
-  const keys = Object.keys(QUIZZES);
-  keys.forEach(k=>{
-    const data = QUIZZES[k];
-    const card = document.createElement('div'); card.className='section-card';
-    card.onclick = ()=> startSection(k);
-    card.innerHTML = `
-      <div class="section-icon">${data.icon}</div>
-      <div>
-        <div class="section-title">${lang==='ar'?data.title_ar:data.title_en}</div>
-        <div class="section-desc">${lang==='ar'?'30 سؤال عملي — تتابعي':'30 practical Q — sequential'}</div>
-      </div>`;
-    sectionListEl.appendChild(card);
-  });
-}
-
-/* ---------- Start section ---------- */
-function startSection(key){
-  clearState(); // --- 10x: امسح أي حالة سابقة
-  currentSection = key;
-  currentIndex = 0;
-  currentScore = 0;
-  correctCount = 0;
-  wrongCount = 0;
-  currentStreak = 0; // --- 10x: تصفير السلسلة
-  wrongAnswers = []; // --- 10x: تصفير مصفوفة الأخطاء
+/* ---------- Navigation and UI Display ---------- */
+function showView(viewId){
+  const views = [dashboardEl, quizSectionEl, quizArea, scenariosSection, glossarySection, toolkitSection];
+  views.forEach(v => v.style.display = 'none');
   
-  quizArea.style.display = 'block';
-  sectionListEl.style.display = 'none';
-  showQuestion();
+  if (viewId === 'dashboard'){
+    dashboardEl.style.display = 'block';
+    backBtn.style.display = 'none'; // لا يوجد زر رجوع في الرئيسية
+    updatePathProgressUI();
+  } else if (viewId === 'quizStart'){
+    quizSectionEl.style.display = 'block';
+    backBtn.style.display = 'flex';
+  } else if (viewId === 'quiz'){
+    quizArea.style.display = 'block';
+    backBtn.style.display = 'flex';
+    document.getElementById('brandContainer').style.display = 'none'; // اخفاء العنوان في شاشة السؤال
+  } else if (viewId === 'scenarios'){
+    scenariosSection.style.display = 'block';
+    backBtn.style.display = 'flex';
+  } else if (viewId === 'glossary'){
+    glossarySection.style.display = 'block';
+    backBtn.style.display = 'flex';
+  } else if (viewId === 'toolkit'){
+    toolkitSection.style.display = 'block';
+    backBtn.style.display = 'flex';
+  }
+  
+  if(viewId !== 'quiz') {
+      document.getElementById('brandContainer').style.display = 'flex'; // اظهار العنوان في أي مكان ليس سؤال
+      stopTimer();
+  }
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
-/* ---------- Show question ---------- */
+// Attach listeners for main section tiles
+mainSectionsEl.addEventListener('click', (e) => {
+    let target = e.target.closest('.section-tile');
+    if (target) {
+        const sectionKey = target.getAttribute('data-section');
+        if (sectionKey === 'challenge') showView('quizStart');
+        else showView(sectionKey);
+    }
+});
+
+backBtn.addEventListener('click', ()=> { showView('dashboard'); });
+document.getElementById('closeResBtn').addEventListener('click', ()=> { resultModal.style.display='none'; showView('dashboard'); });
+
+/* ---------- Level and Path Logic ---------- */
+const PATH_LEVELS = [
+    { threshold: 0.70, ar: "جيولوجي خبير 💎", en: "Expert Geologist 💎", color: 'var(--level-expert)' },
+    { threshold: 0.40, ar: "جيولوجي ميداني 🪨", en: "Field Geologist 🪨", color: 'var(--level-field)' },
+    { threshold: 0.15, ar: "جيولوجي مبتدئ 🔰", en: "Junior Geologist 🔰", color: 'var(--level-junior)' },
+    { threshold: 0.00, ar: "خريج جديد", en: "New Graduate", color: 'var(--level-newgrad)' }
+];
+function calculateProgress(){
+    const progress = Math.min(1, totalCorrectLifetime / TOTAL_QUESTIONS_COUNT);
+    const percent = Math.round(progress * 100);
+    let level = PATH_LEVELS.find(l => progress >= l.threshold);
+    if (!level) level = PATH_LEVELS[PATH_LEVELS.length - 1]; // Fallback to New Grad
+
+    return { progress, percent, level };
+}
+function updatePathProgressUI(){
+    const { progress, percent, level } = calculateProgress();
+    
+    progressInnerPath.style.width = `${percent}%`;
+    progressPercent.textContent = `${percent}%`;
+    currentLevelText.textContent = lang === 'ar' ? level.ar : level.en;
+    currentLevelText.style.color = level.color;
+    completedQEl.textContent = totalCorrectLifetime;
+}
+
+/* ---------- Start Challenge Logic (Selection) ---------- */
+function startChallenge(numQuestions){
+    currentQuizItems = [];
+    currentRoundScore = 0;
+    currentIndex = 0;
+    correctCount = 0;
+    wrongCount = 0;
+
+    let itemsToPick = [];
+    const keys = shuffleArray(Object.keys(QUIZZES));
+
+    if (numQuestions === 30) {
+        // Full Section (randomly chosen)
+        currentSectionKey = keys[0];
+        itemsToPick = QUIZZES[currentSectionKey].items.slice();
+    } else {
+        // Quick or Medium Round (mixed questions)
+        currentSectionKey = 'mixed';
+        // Pick questions equally from all 4 sections if possible
+        const questionsPerSection = Math.floor(numQuestions / keys.length);
+        keys.forEach(key => {
+            const sectionItems = QUIZZES[key].items.slice();
+            shuffleArray(sectionItems);
+            itemsToPick = itemsToPick.concat(sectionItems.slice(0, questionsPerSection));
+        });
+        // Pad with remaining questions if not enough
+        const remaining = numQuestions - itemsToPick.length;
+        if (remaining > 0) {
+            let allItems = ALL_QUESTIONS.slice();
+            shuffleArray(allItems);
+            // Filter out already selected if complex logic is needed, but for simplicity:
+            itemsToPick = itemsToPick.concat(allItems.slice(0, remaining));
+        }
+    }
+    
+    currentQuizItems = shuffleArray(itemsToPick).slice(0, numQuestions); // Final questions for this round
+    
+    if (currentQuizItems.length > 0) {
+        showView('quiz');
+        showQuestion();
+    } else {
+        alert(lang === 'ar' ? 'حدث خطأ: لا توجد أسئلة متاحة.' : 'Error: No questions available.');
+        showView('dashboard');
+    }
+}
+
+/* ---------- Quiz Flow (Show/Answer/Timer) ---------- */
+let answered = false;
 function showQuestion(){
-  answered = false;
-  const items = QUIZZES[currentSection].items;
+  const items = currentQuizItems;
   const item = items[currentIndex];
   const n = items.length;
-  
-  qLabel.textContent = (lang==='ar')? `السؤال ${currentIndex+1} / Q${currentIndex+1}` : `Q${currentIndex+1} / Question ${currentIndex+1}`;
+  qLabel.textContent = `Q${currentIndex+1} / ${n}`;
   qText.textContent = (lang==='ar')? item.q_ar : item.q_en;
   progressLabel.textContent = t('questionOf', {i: currentIndex+1, n});
-  
-  // --- 10x: إظهار/إخفاء صورة السؤال ---
-  if(item.image_url) {
-    qImage.src = item.image_url;
-    qImageContainer.style.display = 'block';
-  } else {
-    qImageContainer.style.display = 'none';
-  }
-  
   answersBox.innerHTML = '';
+  
   const choices = (lang==='ar')? item.choices_ar.slice() : item.choices_en.slice();
   const opts = choices.map((c,i)=>({text:c,origIndex:i}));
   shuffleArray(opts);
   
   opts.forEach((opt, idx)=>{
     const el = document.createElement('div'); el.className='answer';
-    el.innerHTML = `<div class="opt-label">${['A','B','C','D'][idx]}</div><div class="opt-text">${opt.text}</div>`;
+    const label = ['A','B','C','D'][idx] || String.fromCharCode(65+idx);
+    el.innerHTML = `<div class="opt-label">${label}</div><div class="opt-text">${opt.text}</div>`;
     el.dataset.orig = opt.origIndex;
-    el.onclick = ()=> selectAnswer(el, item);
+    el.onclick = ()=> selectAnswer(el, item.answerIndex);
     answersBox.appendChild(el);
   });
   
-  // UI updates
-  progInner.style.width = `${Math.round(((currentIndex+1)/n)*100)}%`;
-  scoreVal.textContent = currentScore;
-  updateLevelBadge();
-  updateStreakCounter();
+  progInner.style.width = `${Math.round(((currentIndex)/n)*100)}%`; // 0% on first question
+  scoreVal.textContent = currentRoundScore;
   
-  // Timer
   startTimer();
-  
-  // Visual
   const card = document.getElementById('questionCard');
   card.classList.remove('fade-in'); void card.offsetWidth; card.classList.add('fade-in');
-  
-  // --- 10x: حفظ الحالة عند عرض السؤال ---
-  saveState();
+  answered = false;
 }
 
-/* ---------- Answer selection ---------- */
-function selectAnswer(el, item){
+function selectAnswer(el, correctIndex){
   if(answered) return;
   answered = true;
   stopTimer();
-  
   const chosenOrig = Number(el.dataset.orig);
-  const correctIndex = item.answerIndex;
   const isCorrect = (chosenOrig === correctIndex);
   
-  let points = 0;
-  
   if(isCorrect){
-    // --- 10x: منطق السلسلة والنقاط الإضافية ---
-    currentStreak++;
-    let basePoints = 10;
-    let bonus = Math.min(10, (currentStreak - 1) * 2); // يبدأ البونص من السلسلة 2
-    points = basePoints + bonus;
-    currentScore += points;
-    correctCount++;
-    
-    el.classList.add('correct', 'pulse');
-    playCorrect();
-    if(currentStreak > 1) {
-      setTimeout(playStreak, 100);
-      showScorePopup(`+${points} (🔥${currentStreak})`, 'good');
-    } else {
-      showScorePopup(`+${points}`, 'good');
-    }
-    
+    el.classList.add('correct'); playCorrect();
+    currentRoundScore += 10; correctCount++;
+    totalCorrectLifetime++; // Update progress only on correct answer
+    localStorage.setItem('geo_total_correct', totalCorrectLifetime);
   } else {
-    // --- 10x: كسر السلسلة ---
-    currentStreak = 0;
-    points = -5; // العقوبة
-    currentScore = Math.max(0, currentScore + points); // لا تنزل تحت الصفر
-    wrongCount++;
-    
-    el.classList.add('wrong', 'shake');
-    playWrong();
-    showScorePopup(`${points}`, 'bad');
-    
-    // --- 10x: إضافة للمراجعة ---
-    wrongAnswers.push({ 
-      q_ar: item.q_ar, q_en: item.q_en,
-      choices_ar: item.choices_ar, choices_en: item.choices_en,
-      chosen: chosenOrig,
-      answerIndex: correctIndex
-    });
-    
-    // Highlight correct option
-    Array.from(answersBox.children).forEach(ch=>{
-      if(Number(ch.dataset.orig) === correctIndex) ch.classList.add('correct');
-      ch.onclick = null;
-    });
+    el.classList.add('wrong'); playWrong();
+    currentRoundScore -= 5; wrongCount++;
   }
   
-  scoreVal.textContent = currentScore;
-  updateLevelBadge();
-  updateStreakCounter();
+  // Highlight correct option if needed
+  Array.from(answersBox.children).forEach(ch=>{
+    if(Number(ch.dataset.orig) === correctIndex) ch.classList.add('correct');
+    ch.onclick = null; 
+  });
   
+  scoreVal.textContent = currentRoundScore;
+  updatePathProgressUI();
   setTimeout(()=> goNext(), 900);
 }
 
-/* ---------- Skip (unanswered) ---------- */
 skipBtn.addEventListener('click', ()=>{
-  if(!currentSection || answered) return;
+  if(!currentQuizItems.length || answered) return;
   answered = true;
   stopTimer();
-  
-  // --- 10x: كسر السلسلة ومعاملته كخطأ (بدون عقوبة نقاط) ---
-  currentStreak = 0;
-  wrongCount++;
-  showScorePopup(`0`, 'bad');
-  updateStreakCounter();
-  
-  const item = QUIZZES[currentSection].items[currentIndex];
+  // Highlight correct answer for skipped (score 0, skip count +1)
+  const item = currentQuizItems[currentIndex];
   const correctIndex = item.answerIndex;
-
-  // --- 10x: إضافة للمراجعة ---
-  wrongAnswers.push({ 
-    q_ar: item.q_ar, q_en: item.q_en,
-    choices_ar: item.choices_ar, choices_en: item.choices_en,
-    chosen: -1, // -1 يدل على التجاوز
-    answerIndex: correctIndex
-  });
-
   Array.from(answersBox.children).forEach(ch=>{
     if(Number(ch.dataset.orig) === correctIndex) ch.classList.add('correct');
-    ch.onclick = null;
+    ch.onclick = null; 
   });
-  
-  setTimeout(()=> goNext(), 700);
+  wrongCount++; // Count as skipped/wrong for round summary
+  setTimeout(()=> goNext(),700);
 });
 
-/* ---------- Timer ---------- */
 function startTimer(){
   let tleft = timerSeconds || 30;
   timerLabel.textContent = formatTime(tleft);
-  timerLabel.classList.remove('timer-warn');
-  
   if(timerInterval) clearInterval(timerInterval);
   timerInterval = setInterval(()=>{
     tleft--;
     timerLabel.textContent = formatTime(tleft);
-    
-    // --- 10x: تحذير المؤقت ---
-    if(tleft <= 10) {
-      timerLabel.classList.add('timer-warn');
-      if(tleft <= 5) beep(440, 0.08, 'sawtooth', 0.05); // صوت تحذير خافت
-    }
-    
-    if(tleft <= 0){
+    if(tleft<=0){
       clearInterval(timerInterval);
       if(!answered){
         answered = true;
-        // --- 10x: معاملة انتهاء الوقت كخطأ ---
         playWrong();
-        currentStreak = 0;
-        currentScore = Math.max(0, currentScore - 5); // عقوبة
-        wrongCount++;
-        showScorePopup('-5', 'bad');
-        
-        scoreVal.textContent = currentScore;
-        updateLevelBadge();
-        updateStreakCounter();
-        
-        const item = QUIZZES[currentSection].items[currentIndex];
+        currentRoundScore -= 5; wrongCount++;
+        scoreVal.textContent = currentRoundScore;
+        // Highlight correct
+        const item = currentQuizItems[currentIndex];
         const corr = item.answerIndex;
-        // --- 10x: إضافة للمراجعة ---
-        wrongAnswers.push({ 
-          q_ar: item.q_ar, q_en: item.q_en,
-          choices_ar: item.choices_ar, choices_en: item.choices_en,
-          chosen: -2, // -2 يدل على انتهاء الوقت
-          answerIndex: corr
-        });
-        
         Array.from(answersBox.children).forEach(ch=>{
           if(Number(ch.dataset.orig) === corr) ch.classList.add('correct');
           ch.onclick = null;
         });
-        setTimeout(()=> goNext(), 900);
+        updatePathProgressUI();
+        setTimeout(()=> goNext(),900);
       }
     }
   },1000);
 }
-function stopTimer(){ 
-  if(timerInterval) clearInterval(timerInterval); 
-  timerInterval = null; 
-  timerLabel.classList.remove('timer-warn');
-}
+function stopTimer(){ if(timerInterval) clearInterval(timerInterval); timerInterval = null; }
 
-/* ---------- Next question / finish ---------- */
 function goNext(){
   stopTimer();
-  const total = QUIZZES[currentSection].items.length;
+  const total = currentQuizItems.length;
   currentIndex++;
   if(currentIndex < total){
     showQuestion();
@@ -924,147 +920,53 @@ function goNext(){
   }
 }
 
-/* ---------- Finish quiz ---------- */
+/* ---------- Finish quiz & Results ---------- */
 function finishQuiz(){
-  quizArea.style.display = 'none';
+  showView('dashboard'); // نعود إلى لوحة التحكم
+  resultModal.style.display = 'flex';
   stopTimer();
-  clearState(); // --- 10x: مسح حالة الاستئناف
   
-  const totalQuestions = QUIZZES[currentSection].items.length;
-  const totalPossible = totalQuestions * 10; // (النتيجة الأساسية بدون بونص)
-  const percent = Math.max(0, Math.round((correctCount / totalQuestions) * 100));
+  const totalQuestions = currentQuizItems.length;
+  const totalPossible = totalQuestions * 10;
+  const percent = Math.max(0, Math.round((currentRoundScore / totalPossible) * 100));
   
-  resScore.textContent = `${currentScore} ${t('points')}`;
+  resScore.textContent = `${currentRoundScore} ${t('score')}`;
+  
+  const { level } = calculateProgress();
+  
   resDetails.innerHTML = `
-    <div>${t('section')}: <strong>${lang==='ar'?QUIZZES[currentSection].title_ar:QUIZZES[currentSection].title_en}</strong></div>
-    <div style="margin-top:8px">${t('correct')}: <strong>${correctCount}/${totalQuestions}</strong></div>
-    <div>${t('wrongSkipped')}: <strong>${wrongCount}</strong></div>
+    <div class="small-muted">${lang==='ar'?'نوع الجولة':'Round Type'}: ${currentQuizItems.length === 30 ? (lang === 'ar' ? 'قسم كامل' : 'Full Section') : (lang === 'ar' ? 'مختلط' : 'Mixed')}</div>
+    <div style="margin-top:8px">${t('correct')}: <strong>${correctCount}/${totalQuestions}</strong> — ${t('wrongSkipped')}: <strong>${wrongCount}</strong></div>
     <div style="margin-top:8px">${t('percent')}: <strong>${percent}%</strong></div>
+    <div style="margin-top:8px">${t('currentLevel')}: <strong>${lang === 'ar' ? level.ar : level.en}</strong></div>
   `;
-  const level = determineLevel(currentScore);
-  document.getElementById('resTitle').textContent = `${t('finalResult')} — ${level.name}`;
+  document.getElementById('resTitle').textContent = t('finalResult');
   
   // save result
-  const entry = { id: Date.now(), section: currentSection, score: currentScore, when: new Date().toISOString(), level: level.name, lang };
+  const entry = { id: Date.now(), section: currentSectionKey, score: currentRoundScore, when: new Date().toISOString(), level: (lang === 'ar' ? level.ar : level.en), lang, correct: correctCount, total: totalQuestions };
   leaderboard.push(entry); leaderboard.sort((a,b)=> b.score - a.score);
   if(leaderboard.length>100) leaderboard = leaderboard.slice(0,100);
   localStorage.setItem('geo_leaderboard', JSON.stringify(leaderboard));
-  
   savedNote.textContent = t('savedNote');
-  
-  // --- 10x: إظهار/إخفاء زر المراجعة ---
-  reviewBtn.style.display = (wrongAnswers.length > 0) ? 'inline-block' : 'none';
-  
-  resultModal.style.display = 'flex';
 }
 
-/* ---------- Levels ---------- */
-function determineLevel(score){
-  if(score >= 250) return { name: t('expert'), color:'#ffd700' };
-  if(score >= 150) return { name: t('fieldPro'), color:'#c0c0c0' };
-  if(score >= 50) return { name: t('advanced'), color:'#7dd3fc' };
-  return { name: t('beginner'), color:'#94a3b8' };
-}
-function updateLevelBadge(){ const lv = determineLevel(currentScore); levelBadge.textContent = `${t('level')}: ${lv.name}`; }
-
-/* ---------- 10x: Streak Counter ---------- */
-function updateStreakCounter(){
-  if(currentStreak > 1){
-    streakCounter.textContent = `🔥 ${currentStreak} ${t('streak')}`;
-    streakCounter.classList.add('visible');
-  } else {
-    streakCounter.classList.remove('visible');
-  }
-}
-
-/* ---------- Retry / close ---------- */
-retryBtn.addEventListener('click', ()=> { resultModal.style.display='none'; startSection(currentSection); });
-closeResBtn.addEventListener('click', ()=> { resultModal.style.display='none'; quizArea.style.display='none'; sectionListEl.style.display='grid'; });
-
-/* ---------- Back to menu ---------- */
-backToMenu.addEventListener('click', ()=> { 
-  // 10x: لا يمسح الحالة، فقط يعود للقائمة
-  quizArea.style.display='none'; 
-  sectionListEl.style.display='grid'; 
-  stopTimer(); 
+document.getElementById('retryBtn').addEventListener('click', ()=> { 
+    resultModal.style.display='none'; 
+    showView('quizStart'); // العودة لشاشة اختيار الصعوبة
 });
 
-/* ---------- 10x: Leaderboard Modal ---------- */
+/* ---------- Leaderboard (Results) ---------- */
 leaderBtn.addEventListener('click', ()=>{
   const board = JSON.parse(localStorage.getItem('geo_leaderboard')||'[]');
-  if(board.length===0){ 
-    leaderboardList.innerHTML = `<div style="padding:20px; color:var(--muted);">${t('leaderboardEmpty')}</div>`;
-  } else {
-    let out = '';
-    board.slice(0,20).forEach((e,i)=>{
-      const title = (lang==='ar'? QUIZZES[e.section].title_ar : QUIZZES[e.section].title_en);
-      out += `
-        <div class="leaderboard-item">
-          <div class="score">${e.score}</div>
-          <div class="details">
-            <div class="title">${i+1}. ${title}</div>
-            <div class="date">${e.level} — ${new Date(e.when).toLocaleDateString(lang)}</div>
-          </div>
-        </div>`;
-    });
-    leaderboardList.innerHTML = out;
-  }
-  leaderboardModal.style.display = 'flex';
-});
-document.getElementById('closeLeaderBtn').addEventListener('click', ()=> leaderboardModal.style.display='none');
-
-/* ---------- 10x: Review Answers Modal ---------- */
-reviewBtn.addEventListener('click', ()=>{
-  reviewList.innerHTML = '';
-  let out = '';
-  wrongAnswers.forEach(item => {
-    const qText = (lang === 'ar') ? item.q_ar : item.q_en;
-    const choices = (lang === 'ar') ? item.choices_ar : item.choices_en;
-    let chosenText = '';
-    if (item.chosen === -1) chosenText = `(${t('skip')})`;
-    else if (item.chosen === -2) chosenText = `(${t('timer') || 'Time Out'})`;
-    else chosenText = choices[item.chosen];
-    
-    const correctText = choices[item.answerIndex];
-
-    out += `
-      <div class="review-item">
-        <div class="q-text">${qText}</div>
-        <div class="r-ans"><b>${t('yourAnswer')}:</b> ${chosenText}</div>
-        <div class="c-ans"><b>${t('correctAnswer')}:</b> ${correctText}</div>
-      </div>
-    `;
+  if(board.length===0){ alert(t('leaderboardEmpty')); return; }
+  let out = (lang==='ar'?'لوحة النتائج (أعلى 20):\n\n':'Leaderboard (top 20):\n\n');
+  board.slice(0,20).forEach((e,i)=>{
+    const title = (e.section === 'mixed') ? (e.lang === 'ar' ? 'جولة مختلطة' : 'Mixed Round') : (e.lang === 'ar' ? QUIZZES[e.section].title_ar : QUIZZES[e.section].title_en);
+    const scoreText = (e.lang==='ar'? `${e.score} نقطة (${e.correct}/${e.total})` : `${e.score} points (${e.correct}/${e.total})`);
+    out += `${i+1}. ${title} — ${scoreText} — ${e.level} — ${new Date(e.when).toLocaleDateString(e.lang)}\n`;
   });
-  reviewList.innerHTML = out;
-  resultModal.style.display = 'none';
-  reviewModal.style.display = 'flex';
+  alert(out);
 });
-document.getElementById('closeReviewBtn').addEventListener('click', ()=>{
-  reviewModal.style.display = 'none';
-  resultModal.style.display = 'flex'; // العودة لنافذة النتائج
-});
-
-
-/* ---------- 10x: Settings Modal ---------- */
-settingsBtn.addEventListener('click', ()=>{
-  audioToggle.checked = settings.audio;
-  settingsModal.style.display = 'flex';
-});
-audioToggle.addEventListener('change', (e)=>{
-  settings.audio = e.target.checked;
-  localStorage.setItem('geo_settings', JSON.stringify(settings));
-});
-clearDataBtn.addEventListener('click', ()=>{
-  if(confirm(t('clearDataConfirm'))){
-    localStorage.removeItem('geo_leaderboard');
-    localStorage.removeItem(RESUME_KEY);
-    localStorage.removeItem('geo_lang');
-    localStorage.removeItem('geo_settings');
-    location.reload();
-  }
-});
-document.getElementById('closeSettingsBtn').addEventListener('click', ()=> settingsModal.style.display='none');
-
 
 /* ---------- Language Toggle ---------- */
 langToggle.addEventListener('click', () => {
@@ -1072,42 +974,18 @@ langToggle.addEventListener('click', () => {
     localStorage.setItem('geo_lang', lang);
     document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
     refreshLangUI();
-    renderSectionCards();
-    updateLevelBadge();
-    if (quizArea.style.display === 'none') {
-        sectionListEl.style.display = 'grid';
-    }
+    // إعادة عرض الواجهة الرئيسية
+    showView(document.querySelector('.container > section:not([style*="display: none"])')?.id || 'dashboard');
 });
+document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr'; 
 
 /* ---------- Init ---------- */
 function init(){
-  document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
-  settings.audio = audioToggle.checked; // مزامنة الإعدادات عند البدء
-  
   refreshLangUI();
-  renderSectionCards();
-  scoreVal.textContent = '0';
-  updateLevelBadge();
-  sectionListEl.style.display = 'grid';
-  
-  // --- 10x: التحقق من وجود اختبار معلق ---
-  const resumeState = localStorage.getItem(RESUME_KEY);
-  if(resumeState){
-    resumePrompt.style.display = 'flex';
-    document.getElementById('resumeYes').onclick = () => {
-      loadState(JSON.parse(resumeState));
-      resumePrompt.style.display = 'none';
-    };
-    document.getElementById('resumeNo').onclick = () => {
-      clearState();
-      resumePrompt.style.display = 'none';
-    };
-  }
-
+  updatePathProgressUI();
+  showView('dashboard'); // Start on dashboard
   // resume audio on gesture
-  document.addEventListener('click', ()=> { 
-    if(audioCtx && audioCtx.state === 'suspended') audioCtx.resume(); 
-  }, { once:true });
+  document.addEventListener('click', ()=> { if(audioCtx.state==='suspended') audioCtx.resume(); }, { once:true });
 }
 init();
 
