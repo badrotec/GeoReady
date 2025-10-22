@@ -14,6 +14,7 @@
     --correct-color: #4caf50;
     --incorrect-color: #f44336;
     --warning-color: #ff9800;
+    --info-color: #2196f3;
     --border-radius: 12px;
     --box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
     --transition: all 0.3s ease;
@@ -47,7 +48,40 @@ body {
     position: relative;
 }
 
-/* 2. الأقسام/الشاشات */
+/* 2. لوحة تحكم الصوت */
+#sound-controls {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    display: flex;
+    gap: 10px;
+    z-index: 100;
+}
+
+.sound-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: var(--text-color);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+}
+
+.sound-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+}
+
+.sound-btn.muted {
+    color: var(--text-light);
+}
+
+/* 3. الأقسام/الشاشات */
 .screen {
     display: none;
     animation: fadeIn 0.5s ease-out;
@@ -64,7 +98,22 @@ body {
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* 3. شاشة التحميل */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in-up {
+    animation: fadeInUp 0.5s ease-out forwards;
+}
+
+/* 4. شاشة التحميل */
 #loading-screen {
     display: flex;
     justify-content: center;
@@ -85,9 +134,27 @@ body {
 
 .loading-content p {
     color: var(--text-light);
+    margin-bottom: 20px;
 }
 
-/* 4. عناصر الرأس (Header) */
+.loading-bar {
+    width: 200px;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    overflow: hidden;
+    margin: 0 auto;
+}
+
+.loading-progress {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--primary-color), var(--primary-light));
+    border-radius: 3px;
+    transition: width 0.3s ease;
+}
+
+/* 5. عناصر الرأس (Header) */
 .header {
     text-align: center;
     margin-bottom: 40px;
@@ -119,7 +186,37 @@ body {
     margin: 0 auto;
 }
 
-/* 5. أزرار اختيار الفئة */
+/* 6. إحصائيات المستخدم */
+.user-stats {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+}
+
+.stat-item {
+    text-align: center;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 15px 20px;
+    border-radius: var(--border-radius);
+    min-width: 120px;
+}
+
+.stat-value {
+    display: block;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 5px;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+/* 7. أزرار اختيار الفئة */
 .category-selection h2 {
     text-align: center;
     margin-bottom: 30px;
@@ -131,6 +228,7 @@ body {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 20px;
+    margin-bottom: 30px;
 }
 
 .category-card {
@@ -145,12 +243,30 @@ body {
     flex-direction: column;
     align-items: center;
     gap: 15px;
+    position: relative;
+    overflow: hidden;
+}
+
+.category-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--primary-color);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
 }
 
 .category-card:hover {
     background: var(--card-hover);
     transform: translateY(-5px);
     box-shadow: var(--box-shadow);
+}
+
+.category-card:hover::before {
+    transform: scaleX(1);
 }
 
 .category-icon {
@@ -163,6 +279,12 @@ body {
     justify-content: center;
     font-size: 1.8rem;
     color: var(--primary-color);
+    transition: var(--transition);
+}
+
+.category-card:hover .category-icon {
+    transform: scale(1.1);
+    background: rgba(44, 120, 115, 0.3);
 }
 
 .category-card h3 {
@@ -177,7 +299,198 @@ body {
     margin: 0;
 }
 
-/* 6. تصميم شاشة الاختبار */
+.category-progress {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.progress-bar {
+    flex: 1;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--primary-color), var(--primary-light));
+    border-radius: 3px;
+    transition: width 0.5s ease;
+}
+
+.progress-text {
+    font-size: 0.8rem;
+    color: var(--text-light);
+    min-width: 35px;
+}
+
+/* 8. أزرار الصفحة الرئيسية */
+.home-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.action-btn {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1rem;
+}
+
+.action-btn.primary {
+    background: var(--primary-color);
+    color: white;
+}
+
+.action-btn.primary:hover {
+    background: var(--primary-dark);
+}
+
+.action-btn.secondary {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-color);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.action-btn.secondary:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* 9. شاشة الإعدادات */
+.settings-container {
+    background: var(--background-medium);
+    border-radius: var(--border-radius);
+    padding: 25px;
+    margin-bottom: 30px;
+}
+
+.setting-group {
+    margin-bottom: 30px;
+}
+
+.setting-group:last-child {
+    margin-bottom: 0;
+}
+
+.setting-group h3 {
+    color: var(--text-color);
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.setting-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    padding: 10px 0;
+}
+
+.setting-item label {
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+.setting-item input[type="range"] {
+    width: 150px;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    outline: none;
+    -webkit-appearance: none;
+}
+
+.setting-item input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    cursor: pointer;
+}
+
+.setting-item span {
+    color: var(--text-light);
+    min-width: 40px;
+    text-align: left;
+}
+
+.setting-item select {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+    padding: 8px 12px;
+    color: var(--text-color);
+    outline: none;
+    width: 120px;
+}
+
+/* التبديل (Switch) */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.2);
+    transition: .4s;
+    border-radius: 24px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: var(--primary-color);
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+.settings-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+/* 10. تصميم شاشة الاختبار */
 .quiz-header {
     display: flex;
     justify-content: space-between;
@@ -252,6 +565,28 @@ body {
     font-size: 0.9rem;
 }
 
+.question-difficulty {
+    font-size: 0.8rem;
+    padding: 4px 10px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.question-difficulty.easy {
+    background: rgba(76, 175, 80, 0.2);
+    color: var(--correct-color);
+}
+
+.question-difficulty.medium {
+    background: rgba(255, 152, 0, 0.2);
+    color: var(--warning-color);
+}
+
+.question-difficulty.hard {
+    background: rgba(244, 67, 54, 0.2);
+    color: var(--incorrect-color);
+}
+
 .question-text {
     font-size: 1.4rem;
     margin-bottom: 30px;
@@ -280,11 +615,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-}
-
-.option-btn:hover:not([disabled]) {
-    background-color: rgba(255, 255, 255, 0.1);
-    border-color: var(--primary-light);
+    position: relative;
+    overflow: hidden;
 }
 
 .option-btn::before {
@@ -296,11 +628,18 @@ body {
     transition: var(--transition);
 }
 
+.option-btn:hover:not([disabled]) {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: var(--primary-light);
+    transform: translateX(-5px);
+}
+
 /* حالات الإجابة */
 .option-btn.correct {
     background-color: rgba(76, 175, 80, 0.2);
     border-color: var(--correct-color);
     color: white;
+    animation: pulse 0.5s;
 }
 
 .option-btn.correct::before {
@@ -318,6 +657,7 @@ body {
     background-color: rgba(244, 67, 54, 0.2);
     border-color: var(--incorrect-color);
     color: white;
+    animation: shake 0.5s;
 }
 
 .option-btn.incorrect::before {
@@ -331,10 +671,63 @@ body {
     color: white;
 }
 
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+/* تلميحات الأسئلة */
+.hint-container {
+    display: none;
+    margin-bottom: 20px;
+    padding: 15px;
+    background: rgba(33, 150, 243, 0.1);
+    border-radius: 8px;
+    border-left: 4px solid var(--info-color);
+}
+
+.hint-container.show {
+    display: block;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.hint-btn {
+    background: rgba(33, 150, 243, 0.2);
+    border: 1px solid var(--info-color);
+    color: var(--text-color);
+    padding: 8px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    transition: var(--transition);
+}
+
+.hint-btn:hover {
+    background: rgba(33, 150, 243, 0.3);
+}
+
+.hint-text {
+    margin-top: 10px;
+    color: var(--text-light);
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
 /* زر السؤال التالي */
 .quiz-footer {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .next-btn {
@@ -362,7 +755,7 @@ body {
     transform: translateX(-5px);
 }
 
-/* 7. شريط التقدم */
+/* 11. شريط التقدم */
 .progress-bar-container {
     height: 8px;
     background-color: rgba(255, 255, 255, 0.1);
@@ -379,7 +772,7 @@ body {
     border-radius: 4px;
 }
 
-/* 8. شاشة النتائج */
+/* 12. شاشة النتائج */
 .results-container {
     display: flex;
     flex-direction: column;
@@ -480,10 +873,72 @@ body {
     font-weight: 600;
 }
 
+/* الإنجازات المكتسبة */
+.achievements-earned {
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.achievements-earned h3 {
+    color: var(--text-color);
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+}
+
+.achievements-list {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.achievement-badge {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--secondary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--background-dark);
+    font-size: 1.2rem;
+    position: relative;
+    animation: bounce 0.5s;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+    40% {transform: translateY(-10px);}
+    60% {transform: translateY(-5px);}
+}
+
+.achievement-badge::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+}
+
+.achievement-badge:hover::after {
+    opacity: 1;
+}
+
 .results-actions {
     display: flex;
     gap: 15px;
     justify-content: center;
+    flex-wrap: wrap;
 }
 
 .restart-btn {
@@ -518,7 +973,7 @@ body {
     background-color: rgba(255, 255, 255, 0.1);
 }
 
-/* 9. تصميم تفاعلي (للشاشات الصغيرة) */
+/* 13. تصميم تفاعلي (للشاشات الصغيرة) */
 @media (max-width: 768px) {
     #app-container {
         padding: 0;
@@ -548,8 +1003,13 @@ body {
         flex-direction: column;
     }
     
-    .results-actions {
+    .results-actions, .settings-actions, .home-actions {
         flex-direction: column;
+    }
+    
+    .quiz-footer {
+        flex-direction: column;
+        gap: 15px;
     }
     
     .question-text {
@@ -558,6 +1018,19 @@ body {
     
     .header h1 {
         font-size: 1.8rem;
+    }
+    
+    .user-stats {
+        gap: 15px;
+    }
+    
+    .stat-item {
+        min-width: 100px;
+        padding: 10px 15px;
+    }
+    
+    .stat-value {
+        font-size: 1.5rem;
     }
 }
 
@@ -574,5 +1047,20 @@ body {
     
     .card {
         padding: 20px;
+    }
+    
+    .setting-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .setting-item input[type="range"] {
+        width: 100%;
+    }
+    
+    #sound-controls {
+        top: 10px;
+        left: 10px;
     }
 }
