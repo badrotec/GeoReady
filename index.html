@@ -3,184 +3,139 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة تدريب الجيولوجيين | اختبارات تخصصية</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>نظام تدريب الجيولوجيا - الجيولوجيا الأساسية، الهيدروجيولوجيا، البترولوجيا</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-    <audio id="correctSound" src="sounds/correct.mp3" preload="auto"></audio>
-    <audio id="incorrectSound" src="sounds/incorrect.mp3" preload="auto"></audio>
-    <audio id="clickSound" src="sounds/click.mp3" preload="auto"></audio>
-    <audio id="pageSound" src="sounds/page.mp3" preload="auto"></audio>
-    <audio id="completeSound" src="sounds/complete.mp3" preload="auto"></audio>
-    <audio id="backgroundMusic" src="sounds/background.mp3" preload="auto" loop></audio>
-
-    <div id="particles-js"></div>
-
-    <div id="app-container">
-
-        <div id="sound-controls">
-            <button id="music-toggle" class="sound-btn" title="تشغيل/إيقاف الموسيقى">
-                <i class="fas fa-music"></i>
-                <span class="sound-tooltip">الموسيقى</span>
-            </button>
-            <button id="sound-toggle" class="sound-btn" title="تشغيل/إيقاف المؤثرات">
-                <i class="fas fa-volume-up"></i>
-                <span class="sound-tooltip">المؤثرات</span>
-            </button>
-        </div>
-
-        <section id="loading-screen" class="screen">
-            <div class="loading-content">
-                <div class="loading-spinner">
-                    <div class="spinner-circle"></div>
-                    <i class="fas fa-mountain"></i>
-                </div>
-                <h2>جاري تحميل الأسئلة</h2>
-                <div class="loading-bar">
-                    <div class="loading-progress"></div>
-                </div>
-            </div>
-        </section>
-
-        <section id="home-screen" class="screen active">
-            <div class="background-animation"></div>
-            
-            <header class="header">
+    <header>
+        <div class="container">
+            <div class="header-content">
                 <div class="logo">
-                    <div class="logo-icon">
+                    <i class="fas fa-mountain"></i>
+                    <h1>نظام تدريب الجيولوجيا</h1>
+                </div>
+                <div class="user-info">
+                    <div class="user-avatar">ط</div>
+                    <div>
+                        <div class="user-name">طالب الجيولوجيا</div>
+                        <div class="user-level">المستوى: <span id="user-level">مبتدئ</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="dashboard">
+            <div class="sidebar">
+                <h2><i class="fas fa-book-open"></i> المواد الدراسية</h2>
+                <ul class="subject-list">
+                    <li class="subject-item active" data-subject="basic-geology">
                         <i class="fas fa-mountain"></i>
+                        <span>الجيولوجيا الأساسية</span>
+                    </li>
+                    <li class="subject-item" data-subject="hydrogeology">
+                        <i class="fas fa-tint"></i>
+                        <span>هيدروجيولوجيا</span>
+                    </li>
+                    <li class="subject-item" data-subject="petrology">
+                        <i class="fas fa-gem"></i>
+                        <span>بترولوجيا</span>
+                    </li>
+                </ul>
+
+                <h2 style="margin-top: 30px;"><i class="fas fa-chart-line"></i> التقدم</h2>
+                <div class="progress-section">
+                    <div>الجيولوجيا الأساسية</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="basic-geology-progress" style="width: 65%"></div>
                     </div>
-                    <div class="logo-text">
-                        <h1>منصة الجيولوجي المحترف</h1>
-                        <p>اختبر معلوماتك وارفع مستواك في التخصصات الجيولوجية!</p>
+                    
+                    <div style="margin-top: 15px;">هيدروجيولوجيا</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="hydrogeology-progress" style="width: 30%"></div>
+                    </div>
+                    
+                    <div style="margin-top: 15px;">بترولوجيا</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="petrology-progress" style="width: 45%"></div>
                     </div>
                 </div>
-            </header>
-            
+            </div>
+
             <div class="main-content">
-                <div class="user-stats">
-                    <div class="stat-item">
-                        <div class="stat-icon">
-                            <i class="fas fa-trophy"></i>
-                        </div>
-                        <div class="stat-info">
-                            <span class="stat-value" id="total-quizzes">0</span>
-                            <span class="stat-label">الاختبارات المكتملة</span>
-                        </div>
+                <div class="stats-cards">
+                    <div class="stat-card">
+                        <i class="fas fa-check-circle"></i>
+                        <h3 id="completed-questions">0</h3>
+                        <p>أسئلة مكتملة</p>
                     </div>
-                    <div class="stat-item">
-                        <div class="stat-icon">
-                            <i class="fas fa-chart-line"></i>
-                        </div>
-                        <div class="stat-info">
-                            <span class="stat-value" id="average-score">0%</span>
-                            <span class="stat-label">متوسط النتائج</span>
-                        </div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-icon">
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <div class="stat-info">
-                            <span class="stat-value" id="total-points">0</span>
-                            <span class="stat-label">النقاط الإجمالية</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="category-selection">
-                    <h2 class="section-title">اختر مجال الاختبار</h2>
-                    <div class="category-grid">
-                        
-                        <!-- ✅ تم تعديل اسم الملف هنا -->
-                        <button class="category-card" data-category="BasicGeology.json">
-                            <div class="card-glow"></div>
-                            <div class="category-icon">
-                                <i class="fas fa-globe-americas"></i>
-                            </div>
-                            <div class="category-content">
-                                <h3>الجيولوجيا الأساسية</h3>
-                                <p>اختبار شامل في أساسيات علم الجيولوجيا والصخور والمعادن</p>
-                                <div class="category-progress">
-                                    <div class="progress-bar">
-                                        <div class="progress-fill" data-category="BasicGeology.json"></div>
-                                    </div>
-                                    <span class="progress-text">0%</span>
-                                </div>
-                            </div>
-                            <div class="card-arrow">
-                                <i class="fas fa-arrow-left"></i>
-                            </div>
-                        </button>
-                        
-                        <button class="category-card" data-category="Hydrogeology.json">
-                            <div class="card-glow"></div>
-                            <div class="category-icon">
-                                <i class="fas fa-tint"></i>
-                            </div>
-                            <div class="category-content">
-                                <h3>الجيولوجيا المائية</h3>
-                                <p>اختبار متخصص في المياه الجوفية والهيدروجيولوجيا</p>
-                                <div class="category-progress">
-                                    <div class="progress-bar">
-                                        <div class="progress-fill" data-category="Hydrogeology.json"></div>
-                                    </div>
-                                    <span class="progress-text">0%</span>
-                                </div>
-                            </div>
-                            <div class="card-arrow">
-                                <i class="fas fa-arrow-left"></i>
-                            </div>
-                        </button>
-                        
-                        <button class="category-card" data-category="Petrology.json">
-                            <div class="card-glow"></div>
-                            <div class="category-icon">
-                                <i class="fas fa-gem"></i>
-                            </div>
-                            <div class="category-content">
-                                <h3>علم الصخور</h3>
-                                <p>اختبار في أنواع الصخور وتكوينها وخصائصها</p>
-                                <div class="category-progress">
-                                    <div class="progress-bar">
-                                        <div class="progress-fill" data-category="Petrology.json"></div>
-                                    </div>
-                                    <span class="progress-text">0%</span>
-                                </div>
-                            </div>
-                            <div class="card-arrow">
-                                <i class="fas fa-arrow-left"></i>
-                            </div>
-                        </button>
-                    </div>
-                </div>
-                
-                <div class="home-actions">
-                    <button id="settings-btn" class="action-btn glass">
-                        <i class="fas fa-cog"></i>
-                        <span>الإعدادات</span>
-                    </button>
-                    <button id="leaderboard-btn" class="action-btn glass">
+                    <div class="stat-card">
                         <i class="fas fa-trophy"></i>
-                        <span>لوحة المتصدرين</span>
+                        <h3 id="correct-answers">0</h3>
+                        <p>إجابات صحيحة</p>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-bolt"></i>
+                        <h3 id="streak-count">0</h3>
+                        <p>تتابع الإجابات الصحيحة</p>
+                    </div>
+                </div>
+
+                <div class="quiz-container">
+                    <div class="quiz-header">
+                        <h2 id="current-subject">الجيولوجيا الأساسية</h2>
+                        <div class="question-counter">سؤال <span id="current-question">1</span> من <span id="total-questions">0</span></div>
+                    </div>
+
+                    <div id="question-text" class="question-text">
+                        يرجى اختيار مادة لبدء الاختبار
+                    </div>
+
+                    <div class="options-container" id="options-container">
+                        <!-- سيتم ملء الخيارات ديناميكيًا -->
+                    </div>
+
+                    <div class="quiz-controls">
+                        <button class="btn btn-secondary" id="prev-btn">
+                            <i class="fas fa-arrow-right"></i> السابق
+                        </button>
+                        <button class="btn btn-primary" id="next-btn">
+                            التالي <i class="fas fa-arrow-left"></i>
+                        </button>
+                        <button class="btn btn-primary" id="submit-btn" style="display: none;">
+                            <i class="fas fa-paper-plane"></i> تقديم الإجابة
+                        </button>
+                    </div>
+                </div>
+
+                <div id="results-container" class="results-container" style="display: none;">
+                    <h2>نتيجة الاختبار</h2>
+                    <div class="score-circle">
+                        <div class="score-text">0%</div>
+                    </div>
+                    <p>لقد أجبت بشكل صحيح على <strong>0</strong> من أصل <strong>0</strong> أسئلة</p>
+                    
+                    <div class="achievements" id="achievements-container">
+                        <!-- سيتم ملء الإنجازات ديناميكيًا -->
+                    </div>
+                    
+                    <button class="btn btn-primary" id="restart-btn" style="margin-top: 20px;">
+                        <i class="fas fa-redo"></i> إعادة الاختبار
                     </button>
                 </div>
             </div>
-        </section>
-
-        <!-- بقية الشاشات تبقى كما هي -->
-        <section id="settings-screen" class="screen">...</section>
-        <section id="quiz-screen" class="screen">...</section>
-        <section id="results-screen" class="screen">...</section>
-
+        </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <footer>
+        <div class="container">
+            <p>نظام تدريب الجيولوجيا - تم التطوير لتدريب طلبة الجيولوجيا على المواد الأساسية</p>
+            <p>© 2023 جميع الحقوق محفوظة</p>
+        </div>
+    </footer>
+
     <script src="script.js"></script>
 </body>
 </html>
