@@ -12,7 +12,6 @@
 </head>
 <body>
 
-    <!-- ملفات الصوت -->
     <audio id="correctSound" src="sounds/correct.mp3" preload="auto"></audio>
     <audio id="incorrectSound" src="sounds/incorrect.mp3" preload="auto"></audio>
     <audio id="clickSound" src="sounds/click.mp3" preload="auto"></audio>
@@ -20,12 +19,10 @@
     <audio id="completeSound" src="sounds/complete.mp3" preload="auto"></audio>
     <audio id="backgroundMusic" src="sounds/background.mp3" preload="auto" loop></audio>
 
-    <!-- تأثيرات جزيئية -->
     <div id="particles-js"></div>
 
     <div id="app-container">
 
-        <!-- لوحة تحكم الصوت -->
         <div id="sound-controls">
             <button id="music-toggle" class="sound-btn" title="تشغيل/إيقاف الموسيقى">
                 <i class="fas fa-music"></i>
@@ -37,7 +34,6 @@
             </button>
         </div>
 
-        <!-- شاشة التحميل -->
         <section id="loading-screen" class="screen">
             <div class="loading-content">
                 <div class="loading-spinner">
@@ -51,7 +47,6 @@
             </div>
         </section>
 
-        <!-- الصفحة الرئيسية -->
         <section id="home-screen" class="screen active">
             <div class="background-animation"></div>
             
@@ -176,7 +171,6 @@
             </div>
         </section>
 
-        <!-- شاشة الإعدادات -->
         <section id="settings-screen" class="screen">
             <header class="header">
                 <div class="logo">
@@ -270,11 +264,10 @@
             </div>
         </section>
 
-        <!-- شاشة الاختبار -->
         <section id="quiz-screen" class="screen">
             <div class="quiz-header">
                 <div class="header-left">
-                    <button id="back-btn" class="back-btn glass">
+                    <button id="back-btn" class="back-btn glass" style="display: none;">
                         <i class="fas fa-arrow-right"></i>
                         <span>العودة</span>
                     </button>
@@ -286,10 +279,6 @@
                     </div>
                 </div>
                 <div class="stats-container">
-                    <div class="stat-box timer-box glass">
-                        <i class="fas fa-clock"></i>
-                        <span id="timer-display">00:00</span>
-                    </div>
                     <div class="stat-box score-box glass">
                         <i class="fas fa-star"></i>
                         <span id="score-display">0</span>
@@ -300,7 +289,7 @@
                     </div>
                 </div>
             </div>
-
+            
             <div class="progress-bar-container glass">
                 <div class="progress-labels">
                     <span>التقدم</span>
@@ -329,9 +318,13 @@
                 <div class="question-content">
                     <p id="question-text" class="question-text">نص السؤال سيظهر هنا...</p>
                     
-                    <div id="options-container" class="options-container">
-                        <!-- سيتم إضافة الخيارات ديناميكياً -->
+                    <div class="stat-box timer-box question-timer glass">
+                        <i class="fas fa-clock"></i>
+                        <span id="timer-display">30</span>
                     </div>
+
+                    <div id="options-container" class="options-container">
+                        </div>
                 </div>
 
                 <div class="quiz-footer">
@@ -354,7 +347,6 @@
             </div>
         </section>
 
-        <!-- شاشة النتائج -->
         <section id="results-screen" class="screen">
             <div class="results-background">
                 <div class="confetti"></div>
@@ -469,7 +461,6 @@
 
     </div>
 
-    <!-- مكتبة الجزيئيات -->
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script src="script.js"></script>
 </body>
