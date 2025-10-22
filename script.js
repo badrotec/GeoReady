@@ -1,252 +1,240 @@
-/* script.js — احترافي ومتوافق مع الأسماء الحالية للملفات */
-const SUBJECT_FILES = [
-  { file: "Basic Geology.json", title: "Basic Geology" },
-  { file: "Hydrogeology.json", title: "Hydrogeology" },
-  { file: "Petrology.json", title: "Petrology" }
-];
+// =================================================================
+// 1. تحديد العناصر الأساسية وحالة اللعبة
+// =================================================================
+const homeScreen = document.getElementById('home-screen');
+const quizScreen = document.getElementById('quiz-screen');
+const resultsScreen = document.getElementById('results-screen');
 
-// DOM
-const subjectScreen = document.getElementById("subject-screen");
-const subjectsContainer = document.getElementById("subjects");
+const categoryBtns = document.querySelectorAll('.category-btn');
+const questionText = document.getElementById('question-text');
+const optionsContainer = document.getElementById('options-container');
+const nextBtn = document.getElementById('next-btn');
 
-const quizScreen = document.getElementById("quiz-screen");
-const subjectTitle = document.getElementById("subject-title");
-const timerEl = document.getElementById("timer");
-const questionText = document.getElementById("question-text");
-const optionsContainer = document.getElementById("options-container");
-const currentSpan = document.getElementById("current");
-const totalSpan = document.getElementById("total");
-const prevBtn = document.getElementById("prev-btn");
-const nextBtn = document.getElementById("next-btn");
-const feedback = document.getElementById("feedback");
+// الإحصائيات والمؤقت
+const timerDisplay = document.getElementById('timer-display');
+const currentQIndexDisplay = document.getElementById('current-question-index');
+const totalQDisplay = document.getElementById('total-questions');
+const progressBarFill = document.getElementById('progress-bar-fill');
+const quizTitle = document.getElementById('quiz-title');
 
-const resultScreen = document.getElementById("result-screen");
-const correctCountEl = document.getElementById("correct-count");
-const totalCountEl = document.getElementById("total-count");
-const percentageEl = document.getElementById("percentage");
-const levelText = document.getElementById("level-text");
-const reviewList = document.getElementById("review");
+// النتائج
+const resultCategory = document.getElementById('result-category');
+const scoreCorrect = document.getElementById('score-correct');
+const scorePercentage = document.getElementById('score-percentage');
+const resultMessage = document.getElementById('result-message');
+const restartBtn = document.querySelector('.restart-btn');
 
-const restartBtn = document.getElementById("restart-btn");
-const retryBtn = document.getElementById("retry-btn");
+// ملفات الصوت
+const correctSound = document.getElementById('correctSound');
+const incorrectSound = document.getElementById('incorrectSound');
 
-const soundCorrect = document.getElementById("sound-correct");
-const soundWrong = document.getElementById("sound-wrong");
-const soundTimeup = document.getElementById("sound-timeup");
-
-// State
-let questions = [];
-let currentIndex = 0;
-let selectedSubjectFile = null;
-let answers = []; // store selected index per question
+let currentQuizData = [];
+let currentQuestionIndex = 0;
 let score = 0;
-let timerInterval = null;
-const TIME_PER_QUESTION = 20; // seconds per question (يمكن تعديلها)
+let timerInterval;
+let timeElapsed = 0;
 
-/* Utility: clear screens */
-function showScreen(screenEl){
-  [subjectScreen, quizScreen, resultScreen].forEach(s => s.classList.remove("active"));
-  screenEl.classList.add("active");
+
+// =================================================================
+// 2. دوال التحويل بين الشاشات
+// =================================================================
+
+/**
+ * تبديل الشاشة النشطة
+ * @param {string} targetId - معرف الشاشة الهدف
+ */
+function switchScreen(targetId) {
+    const screens = document.querySelectorAll('.screen');
+    screens.forEach(screen => {
+        screen.classList.remove('active');
+    });
+    document.getElementById(targetId).classList.add('active');
 }
 
-/* 1) generate subject cards */
-function renderSubjects(){
-  subjectsContainer.innerHTML = "";
-  SUBJECT_FILES.forEach(s => {
-    const card = document.createElement("div");
-    card.className = "subject-card";
-    card.innerHTML = `<h3>${s.title}</h3><p>${s.file}</p>`;
-    card.addEventListener("click", () => startSubject(s));
-    subjectsContainer.appendChild(card);
-  });
-}
+// =================================================================
+// 3. دالة بدء الاختبار
+// =================================================================
 
-/* 2) start subject: load JSON then start quiz */
-async function startSubject(subject){
-  selectedSubjectFile = subject;
-  subjectTitle.textContent = subject.title;
-  showScreen(quizScreen);
-  try {
-    // encodeURI to handle spaces in filename
-    const res = await fetch(encodeURI(subject.file));
-    if(!res.ok) throw new Error("Failed to fetch file: " + subject.file);
-    const data = await res.json();
-    // Expecting data as array of { question, options:[...], correct: index }
-    questions = Array.isArray(data) ? data : [];
-    if(questions.length === 0) {
-      feedback.textContent = "لا توجد أسئلة في هذا الملف.";
-      return;
+/**
+ * يبدأ الاختبار بناءً على الفئة المختارة (اسم ملف JSON)
+ * @param {string} filename - اسم ملف JSON (مثل 'Basic Geology.json')
+ * @param {string} categoryName - اسم الفئة للعرض
+ */
+async function startQuiz(filename, categoryName) {
+    try {
+        // تحميل ملف الأسئلة
+        const response = await fetch(filename);
+        if (!response.ok) {
+            throw new Error(`Failed to load ${filename}`);
+        }
+        currentQuizData = await response.json();
+
+        // إعداد حالة الاختبار
+        currentQuestionIndex = 0;
+        score = 0;
+        timeElapsed = 0;
+        
+        quizTitle.textContent = categoryName;
+        totalQDisplay.textContent = currentQuizData.length;
+
+        // بدء المؤقت وعرض السؤال الأول
+        startTimer();
+        switchScreen('quiz-screen');
+        displayQuestion();
+
+    } catch (error) {
+        console.error('Error starting quiz:', error);
+        alert('حدث خطأ في تحميل الأسئلة. تأكد من وجود ملف JSON الصحيح.');
+        switchScreen('home-screen');
     }
-    answers = new Array(questions.length).fill(null);
-    currentIndex = 0;
-    score = 0;
-    totalSpan.textContent = questions.length;
-    renderQuestion();
-  } catch(err){
-    console.error(err);
-    showScreen(subjectScreen);
-    alert("حدث خطأ في تحميل ملف الأسئلة: " + subject.file + "\nتحقق من وجود الملف في نفس المجلد.");
-  }
 }
 
-/* 3) render question */
-function renderQuestion(){
-  clearInterval(timerInterval);
-  const q = questions[currentIndex];
-  questionText.textContent = q.question || "نص السؤال مفقود";
-  optionsContainer.innerHTML = "";
-  feedback.textContent = "";
+// =================================================================
+// 4. دالة عرض السؤال
+// =================================================================
 
-  q.options.forEach((opt, idx) => {
-    const btn = document.createElement("button");
-    btn.className = "option";
-    btn.textContent = opt;
-    // restore previous selection style
-    if(answers[currentIndex] !== null){
-      btn.classList.add("disabled");
-      if(answers[currentIndex] === idx){
-        if(idx === q.correct) btn.classList.add("correct");
-        else btn.classList.add("wrong");
-      }
+function displayQuestion() {
+    // التأكد من وجود أسئلة
+    if (currentQuestionIndex >= currentQuizData.length) {
+        showResults();
+        return;
+    }
+
+    const question = currentQuizData[currentQuestionIndex];
+    questionText.textContent = question.question;
+    optionsContainer.innerHTML = '';
+    nextBtn.disabled = true; // تعطيل زر التالي حتى تتم الإجابة
+
+    // تحديث شريط التقدم والإحصائيات
+    currentQIndexDisplay.textContent = currentQuestionIndex + 1;
+    updateProgressBar();
+    
+    // إنشاء أزرار الخيارات
+    question.options.forEach(option => {
+        const button = document.createElement('button');
+        button.textContent = option;
+        button.classList.add('option-btn');
+        button.onclick = () => handleAnswer(button, option, question.answer);
+        optionsContainer.appendChild(button);
+    });
+}
+
+// =================================================================
+// 5. دالة معالجة الإجابة
+// =================================================================
+
+/**
+ * معالجة الإجابة عند الضغط على زر الخيار
+ * @param {HTMLElement} selectedButton - زر الخيار الذي تم الضغط عليه
+ * @param {string} selectedOption - نص الخيار الذي تم اختياره
+ * @param {string} correctAnswer - الإجابة الصحيحة
+ */
+function handleAnswer(selectedButton, selectedOption, correctAnswer) {
+    const isCorrect = (selectedOption === correctAnswer);
+
+    // تعطيل جميع الأزرار بعد الإجابة لمنع التغيير
+    document.querySelectorAll('.option-btn').forEach(btn => btn.disabled = true);
+
+    if (isCorrect) {
+        score++;
+        selectedButton.classList.add('correct');
+        playAudio(correctSound);
     } else {
-      btn.addEventListener("click", () => chooseOption(idx, btn));
+        selectedButton.classList.add('incorrect');
+        playAudio(incorrectSound);
+        // تمييز الإجابة الصحيحة
+        Array.from(optionsContainer.children).forEach(btn => {
+            if (btn.textContent === correctAnswer) {
+                btn.classList.add('correct');
+            }
+        });
     }
-    optionsContainer.appendChild(btn);
-  });
 
-  currentSpan.textContent = currentIndex + 1;
-  prevBtn.disabled = currentIndex === 0;
-  nextBtn.disabled = answers[currentIndex] === null;
-  // start per-question timer
-  startTimer(TIME_PER_QUESTION);
+    nextBtn.disabled = false; // تفعيل زر التالي
 }
 
-/* 4) choose option */
-function chooseOption(idx, btn){
-  const q = questions[currentIndex];
-  // disable all
-  const allBtns = optionsContainer.querySelectorAll(".option");
-  allBtns.forEach(b => b.classList.add("disabled"));
-  // mark chosen
-  answers[currentIndex] = idx;
-  if(idx === q.correct){
-    btn.classList.add("correct");
-    feedback.textContent = "إجابة صحيحة 🎉";
-    try { soundCorrect.play(); } catch(e){}
-  } else {
-    btn.classList.add("wrong");
-    // highlight correct one
-    const correctBtn = allBtns[q.correct];
-    if(correctBtn) correctBtn.classList.add("correct");
-    feedback.textContent = "إجابة خاطئة ❌";
-    try { soundWrong.play(); } catch(e){}
-  }
-  // enable next
-  nextBtn.disabled = false;
-  clearInterval(timerInterval);
+// =================================================================
+// 6. دالة المضي إلى السؤال التالي
+// =================================================================
+
+function nextQuestion() {
+    currentQuestionIndex++;
+    displayQuestion();
 }
 
-/* 5) next & prev handlers */
-prevBtn.addEventListener("click", () => {
-  if(currentIndex > 0){
-    currentIndex--;
-    renderQuestion();
-  }
-});
+// =================================================================
+// 7. دالة عرض النتائج
+// =================================================================
 
-nextBtn.addEventListener("click", () => {
-  // if on last question, finish
-  if(currentIndex < questions.length - 1){
-    currentIndex++;
-    renderQuestion();
-  } else {
-    finishQuiz();
-  }
-});
+function showResults() {
+    clearInterval(timerInterval); // إيقاف المؤقت
 
-/* 6) timer */
-function startTimer(seconds){
-  let time = seconds;
-  updateTimerUI(time);
-  timerInterval = setInterval(() => {
-    time--;
-    updateTimerUI(time);
-    if(time <= 0){
-      clearInterval(timerInterval);
-      // mark unanswered as timed out (null stays) but show correct
-      handleTimeUp();
+    const totalQuestions = currentQuizData.length;
+    const percentage = ((score / totalQuestions) * 100).toFixed(0) + '%';
+    
+    // عرض النتائج
+    resultCategory.textContent = quizTitle.textContent;
+    scoreCorrect.textContent = `${score} من ${totalQuestions}`;
+    scorePercentage.textContent = percentage;
+
+    // رسالة تحفيزية
+    if (score / totalQuestions >= 0.8) {
+        resultMessage.textContent = 'مستوى ممتاز! أنت جاهز للانطلاق في المجال الجيولوجي. 🚀';
+    } else if (score / totalQuestions >= 0.5) {
+        resultMessage.textContent = 'مستوى جيد. تحتاج لمراجعة بعض النقاط لتعزيز معلوماتك. 💪';
+    } else {
+        resultMessage.textContent = 'تحتاج لمزيد من المراجعة والتدريب. لا تستسلم! 📚';
     }
-  },1000);
-}
-function updateTimerUI(t){
-  const mm = String(Math.floor(t / 60)).padStart(2,"0");
-  const ss = String(t % 60).padStart(2,"0");
-  timerEl.textContent = `${mm}:${ss}`;
-  if(t <= 5) timerEl.style.boxShadow = "0 6px 20px rgba(255,87,34,0.2)";
-  else timerEl.style.boxShadow = "";
-}
-function handleTimeUp(){
-  const q = questions[currentIndex];
-  // disable options and show correct
-  const allBtns = optionsContainer.querySelectorAll(".option");
-  allBtns.forEach((b, i) => {
-    b.classList.add("disabled");
-    if(i === q.correct) b.classList.add("correct");
-  });
-  feedback.textContent = "انتهى الوقت ⏰";
-  try { soundTimeup.play(); } catch(e){}
-  // allow next
-  nextBtn.disabled = false;
+
+    switchScreen('results-screen');
 }
 
-/* 7) finish quiz */
-function finishQuiz(){
-  clearInterval(timerInterval);
-  // calculate score
-  score = 0;
-  questions.forEach((q, i) => {
-    if(answers[i] === q.correct) score++;
-  });
+// =================================================================
+// 8. دوال الأدوات الإضافية (المؤقت، التقدم، الصوت)
+// =================================================================
 
-  correctCountEl.textContent = score;
-  totalCountEl.textContent = questions.length;
-  const perc = Math.round((score / questions.length) * 100);
-  percentageEl.textContent = perc + "%";
-  // level logic (مثال)
-  let level = "مبتدئ";
-  if(perc >= 85) level = "خبير";
-  else if(perc >= 65) level = "متقدم";
-  else if(perc >= 45) level = "متوسط";
-  levelText.textContent = level;
-
-  // review
-  reviewList.innerHTML = "";
-  questions.forEach((q, i) => {
-    const item = document.createElement("div");
-    item.className = "review-item";
-    const userAnsText = answers[i] !== null && answers[i] !== undefined ? q.options[answers[i]] : "لم تُجب";
-    const correctText = q.options[q.correct];
-    const status = (answers[i] === q.correct) ? "✓ صحيح" : "✗ خاطئ";
-    item.innerHTML = `<p><strong>س${i+1}:</strong> ${q.question}</p>
-      <p>إجابتك: <span class="${answers[i]===q.correct ? 'correct' : 'wrong'}">${userAnsText}</span> — ${status}</p>
-      <p>الإجابة الصحيحة: <strong>${correctText}</strong></p>`;
-    reviewList.appendChild(item);
-  });
-
-  showScreen(resultScreen);
+function startTimer() {
+    timeElapsed = 0;
+    // تحديث المؤقت كل ثانية
+    timerInterval = setInterval(() => {
+        timeElapsed++;
+        const minutes = Math.floor(timeElapsed / 60);
+        const seconds = timeElapsed % 60;
+        
+        // تنسيق الوقت (00:00)
+        const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        timerDisplay.textContent = formattedTime;
+    }, 1000);
 }
 
-/* 8) restart / retry */
-restartBtn && restartBtn.addEventListener("click", () => {
-  showScreen(subjectScreen);
-  questions = []; answers = []; score = 0;
-  subjectTitle.textContent = "";
-});
-retryBtn && retryBtn.addEventListener("click", () => {
-  // restart same subject
-  if(selectedSubjectFile) startSubject(selectedSubjectFile);
+function updateProgressBar() {
+    const total = currentQuizData.length;
+    const progress = (currentQuestionIndex / total) * 100;
+    progressBarFill.style.width = progress + '%';
+}
+
+function playAudio(audioElement) {
+    audioElement.currentTime = 0; // إعادة الصوت من البداية إذا تم تشغيله بسرعة
+    audioElement.play();
+}
+
+// =================================================================
+// 9. الاستماع للأحداث (EventListeners)
+// =================================================================
+
+// 1. اختيار الفئة
+categoryBtns.forEach(button => {
+    button.addEventListener('click', () => {
+        const filename = button.getAttribute('data-category');
+        const categoryName = button.textContent.trim().replace(/[\uD800-\uDBFF\uDC00-\uDFFF]/g, '').trim(); // إزالة الإيموجي لتسمية نظيفة
+        startQuiz(filename, categoryName);
+    });
 });
 
-/* init */
-renderSubjects();
-showScreen(subjectScreen);
+// 2. زر السؤال التالي
+nextBtn.addEventListener('click', nextQuestion);
+
+// 3. زر العودة للرئيسية
+restartBtn.addEventListener('click', () => {
+    switchScreen('home-screen');
+});
