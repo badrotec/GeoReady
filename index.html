@@ -11,15 +11,20 @@
 
     <div class="container">
         <header>
-            <h1 class="logo">GeoMaster Challenge 💎</h1>
+            <h1 class="logo animated-logo">GeoMaster Challenge 🌎</h1>
+            <p class="slogan">تحليل متقدم لعلوم الأرض - إبدأ رحلة المعرفة!</p>
         </header>
 
         <div id="level-select-screen" class="screen active">
-            <h2>اختر المستوى وابدأ التحدي 🔥</h2>
-            <div id="loading-msg" class="loading-msg">جاري تحميل البيانات... 🔄</div>
+            
+            <p class="intro-text">جاهز للانطلاق في تحدي الجيولوجيا المتقدم؟ <br> إثبت أنك خبير GeoMaster حقيقي!</p>
+            
+            <button id="start-btn" class="action-btn big-start-btn">بدء تحليل البيانات 🔑</button>
+            
+            <h2 id="select-level-title" class="hidden-title">اختر المستوى 🔥</h2>
+            <div id="loading-msg" class="loading-msg hidden">جاري تجميع البيانات الجيولوجية... 🔄</div>
             <div id="level-buttons-container" class="grid-levels">
                 </div>
-            <p class="tagline">تحدى معرفتك في 7 أقسام رئيسية للجيولوجيا.</p>
         </div>
 
         <div id="quiz-screen" class="screen">
@@ -43,13 +48,14 @@
 
         <div id="final-results-screen" class="screen">
             <div class="results-box">
-                <h2 class="results-title">🏆 تهانينا! أنجزت التحدي 🏆</h2>
+                <h2 class="results-title">🏆 تحليل النتائج النهائية 🏆</h2>
                 <div class="score-summary">
-                    <p>النتيجة النهائية:</p>
-                    <span class="final-score-display" id="final-score-display">0</span>
-                    <p>الوقت المستغرق: <span id="time-spent-display">00:00</span></p>
+                    <p>نسبة الإنجاز:</p>
+                    <span class="final-score-display" id="final-score-display">0%</span>
+                    <p>الزمن الإجمالي للتحليل: <span id="time-spent-display">00:00</span></p>
+                    <p id="achievement-msg" class="achievement-msg"></p>
                 </div>
-                <button id="restart-btn" class="action-btn" onclick="resetQuiz()">تحدي جديد 🔄</button>
+                <button id="restart-btn" class="action-btn" onclick="resetQuiz()">بدء تحليل جديد 🔄</button>
             </div>
         </div>
     </div>
