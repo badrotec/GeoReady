@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GeoMaster Core | نظام التحدي الجغرافي المتقدم</title>
+    <title>GeoMaster | التحدي الجغرافي</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Orbitron:wght@600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
@@ -12,7 +12,7 @@
     <div id="sections-menu" class="menu-sidebar">
         <div class="sidebar-header">
             <button id="close-menu-btn" class="close-btn">❌ إغلاق</button>
-            <h2>وحدة اختيار المسار</h2>
+            <h2>اختر التخصص</h2>
         </div>
         <div id="sections-grid" class="sidebar-grid"></div>
     </div>
@@ -21,29 +21,16 @@
     <div class="container">
         <!-- الرأس -->
         <header>
-            <button id="menu-toggle" class="header-menu-btn">وحدات المعرفة ☰</button>
-            <h1 class="logo">GeoMaster Core <span class="logo-icon">🌐</span></h1>
-            <div class="header-stats">
-                <span id="user-level">مبتدئ</span>
-                <div class="xp-bar">
-                    <div class="xp-progress"></div>
-                </div>
-            </div>
+            <button id="menu-toggle" class="header-menu-btn">☰</button>
+            <h1 class="logo">التحدي الجغرافي</h1>
+            <button id="back-button" class="header-menu-btn back-btn">← رجوع</button>
         </header>
 
         <!-- شاشة الترحيب -->
         <div id="welcome-screen" class="screen active">
             <div class="welcome-content">
-                <h2 class="welcome-title">مرحباً في نظام GeoMaster Core</h2>
-                <p class="welcome-subtitle">نظام التحليل الجغرافي المتقدم جاهز للعمل</p>
-                
-                <div class="progress-wrapper">
-                    <span class="progress-label">استقرار النظام الكلي:</span>
-                    <div id="progress-container" class="progress-bar-shell">
-                        <div id="progress-level" class="progress-fill"></div>
-                    </div>
-                    <p id="progress-text" class="ready-text">جاري مزامنة البيانات... (50%)</p>
-                </div>
+                <h2 class="welcome-title">مرحباً في التحدي الجغرافي</h2>
+                <p class="welcome-subtitle">اختبر معرفتك الجغرافية مع أسئلة تفاعلية مشوقة</p>
 
                 <div class="features-grid">
                     <div class="feature-card">
@@ -72,19 +59,12 @@
 
         <!-- شاشة الاختبار -->
         <div id="quiz-screen" class="screen">
-            <div id="quiz-header" class="quiz-header">
-                <div class="quiz-info">
-                    <span id="current-section-title" class="level-badge">الجغرافيا العامة</span>
-                    <span id="question-counter" class="question-counter">سؤال 1/10</span>
-                </div>
+            <div class="quiz-header">
                 <div id="timer" class="timer">00:20</div>
             </div>
             
             <div class="question-container-wrapper">
                 <div id="quiz-content" class="question-card">
-                    <div class="question-header">
-                        <span class="difficulty-indicator">متوسط</span>
-                    </div>
                     <p class="question-text">تحميل السؤال...</p>
                     <div id="options-container" class="options-grid"></div>
                 </div>
@@ -92,7 +72,7 @@
             
             <div class="quiz-controls">
                 <button id="next-question-btn" class="action-btn next-btn" disabled>
-                    <span class="btn-text">تأكيد الإدخال</span>
+                    <span class="btn-text">تأكيد الإجابة</span>
                     <span class="btn-icon">🔒</span>
                 </button>
                 <p id="feedback-message" class="feedback-msg"></p>
@@ -103,8 +83,7 @@
         <div id="final-results-screen" class="screen">
             <div class="results-box">
                 <div class="results-header">
-                    <h2 class="results-title">تقرير الأداء النهائي</h2>
-                    <div class="results-icon">📈</div>
+                    <h2 class="results-title">نتيجة التحدي</h2>
                 </div>
                 
                 <div class="score-display">
@@ -129,10 +108,6 @@
                         <span class="stat-label">زمن الإكمال:</span>
                         <span class="stat-value" id="time-spent-display">00:00</span>
                     </div>
-                    <div class="stat-item">
-                        <span class="stat-label">مستوى الأداء:</span>
-                        <span class="stat-value" id="performance-level">-</span>
-                    </div>
                 </div>
                 
                 <div class="achievement-section">
@@ -141,24 +116,25 @@
                 
                 <div class="results-actions">
                     <button id="restart-btn" class="action-btn restart-btn">
-                        <span class="btn-text">إعادة التشغيل</span>
+                        <span class="btn-text">حاول مجدداً</span>
                         <span class="btn-icon">🔄</span>
-                    </button>
-                    <button id="review-btn" class="action-btn review-btn">
-                        <span class="btn-text">مراجعة الإجابات</span>
-                        <span class="btn-icon">📝</span>
                     </button>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- تذييل الصفحة -->
+    <footer class="site-footer">
+        <p>© 2024 التحدي الجغرافي. جميع الحقوق محفوظة.</p>
+    </footer>
+
     <!-- العناصر الصوتية -->
-    <audio id="sound-correct" src="" preload="auto"></audio>
-    <audio id="sound-wrong" src="" preload="auto"></audio>
-    <audio id="sound-click" src="" preload="auto"></audio>
-    <audio id="sound-timeup" src="" preload="auto"></audio>
-    <audio id="sound-finish" src="" preload="auto"></audio>
+    <audio id="sound-correct" src="https://assets.mixkit.co/sfx/preview/mixkit-correct-answer-tone-2870.mp3" preload="auto"></audio>
+    <audio id="sound-wrong" src="https://assets.mixkit.co/sfx/preview/mixkit-wrong-answer-fail-notification-946.mp3" preload="auto"></audio>
+    <audio id="sound-click" src="https://assets.mixkit.co/sfx/preview/mixkit-select-click-1109.mp3" preload="auto"></audio>
+    <audio id="sound-timeup" src="https://assets.mixkit.co/sfx/preview/mixkit-fast-game-timer-1007.mp3" preload="auto"></audio>
+    <audio id="sound-finish" src="https://assets.mixkit.co/sfx/preview/mixkit-achievement-bell-600.mp3" preload="auto"></audio>
 
     <script src="script.js"></script>
 </body>
