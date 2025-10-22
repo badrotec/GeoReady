@@ -4,11 +4,13 @@
 const homeScreen = document.getElementById('home-screen');
 const quizScreen = document.getElementById('quiz-screen');
 const resultsScreen = document.getElementById('results-screen');
+const loadingScreen = document.getElementById('loading-screen');
 
-const categoryBtns = document.querySelectorAll('.category-btn');
+const categoryCards = document.querySelectorAll('.category-card');
 const questionText = document.getElementById('question-text');
 const optionsContainer = document.getElementById('options-container');
 const nextBtn = document.getElementById('next-btn');
+const backBtn = document.getElementById('back-btn');
 
 // الإحصائيات والمؤقت
 const timerDisplay = document.getElementById('timer-display');
@@ -16,13 +18,19 @@ const currentQIndexDisplay = document.getElementById('current-question-index');
 const totalQDisplay = document.getElementById('total-questions');
 const progressBarFill = document.getElementById('progress-bar-fill');
 const quizTitle = document.getElementById('quiz-title');
+const scoreDisplay = document.getElementById('score-display');
+const questionNumber = document.getElementById('question-number');
 
 // النتائج
 const resultCategory = document.getElementById('result-category');
 const scoreCorrect = document.getElementById('score-correct');
 const scorePercentage = document.getElementById('score-percentage');
 const resultMessage = document.getElementById('result-message');
-const restartBtn = document.querySelector('.restart-btn');
+const resultTime = document.getElementById('result-time');
+const resultPoints = document.getElementById('result-points');
+const circleFill = document.getElementById('circle-fill');
+const restartBtn = document.querySelector('.restart-btn.primary');
+const retryBtn = document.getElementById('retry-btn');
 
 // ملفات الصوت
 const correctSound = document.getElementById('correctSound');
@@ -33,6 +41,7 @@ let currentQuestionIndex = 0;
 let score = 0;
 let timerInterval;
 let timeElapsed = 0;
+let selectedCategory = '';
 
 
 // =================================================================
@@ -51,6 +60,13 @@ function switchScreen(targetId) {
     document.getElementById(targetId).classList.add('active');
 }
 
+/**
+ * إظهار شاشة التحميل
+ */
+function showLoadingScreen() {
+    switchScreen('loading-screen');
+}
+
 // =================================================================
 // 3. دالة بدء الاختبار
 // =================================================================
@@ -62,6 +78,9 @@ function switchScreen(targetId) {
  */
 async function startQuiz(filename, categoryName) {
     try {
+        showLoadingScreen();
+        selectedCategory = filename;
+        
         // تحميل ملف الأسئلة
         const response = await fetch(filename);
         if (!response.ok) {
@@ -76,6 +95,7 @@ async function startQuiz(filename, categoryName) {
         
         quizTitle.textContent = categoryName;
         totalQDisplay.textContent = currentQuizData.length;
+        scoreDisplay.textContent = '0';
 
         // بدء المؤقت وعرض السؤال الأول
         startTimer();
@@ -107,10 +127,11 @@ function displayQuestion() {
 
     // تحديث شريط التقدم والإحصائيات
     currentQIndexDisplay.textContent = currentQuestionIndex + 1;
+    questionNumber.textContent = currentQuestionIndex + 1;
     updateProgressBar();
     
     // إنشاء أزرار الخيارات
-    question.options.forEach(option => {
+    question.options.forEach((option, index) => {
         const button = document.createElement('button');
         button.textContent = option;
         button.classList.add('option-btn');
@@ -137,6 +158,7 @@ function handleAnswer(selectedButton, selectedOption, correctAnswer) {
 
     if (isCorrect) {
         score++;
+        scoreDisplay.textContent = score;
         selectedButton.classList.add('correct');
         playAudio(correctSound);
     } else {
@@ -170,18 +192,35 @@ function showResults() {
     clearInterval(timerInterval); // إيقاف المؤقت
 
     const totalQuestions = currentQuizData.length;
-    const percentage = ((score / totalQuestions) * 100).toFixed(0) + '%';
+    const percentage = Math.round((score / totalQuestions) * 100);
+    
+    // تحديث دائرة النتيجة
+    circleFill.style.background = `conic-gradient(var(--primary-color) ${percentage}%, transparent ${percentage}%)`;
     
     // عرض النتائج
     resultCategory.textContent = quizTitle.textContent;
     scoreCorrect.textContent = `${score} من ${totalQuestions}`;
-    scorePercentage.textContent = percentage;
+    scorePercentage.textContent = `${percentage}%`;
+    
+    // حساب الوقت المستغرق
+    const minutes = Math.floor(timeElapsed / 60);
+    const seconds = timeElapsed % 60;
+    const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    resultTime.textContent = formattedTime;
+    
+    // حساب النقاط
+    const points = score * 10 + Math.max(0, 100 - timeElapsed);
+    resultPoints.textContent = points;
 
     // رسالة تحفيزية
-    if (score / totalQuestions >= 0.8) {
+    if (percentage >= 90) {
+        resultMessage.textContent = 'مستوى استثنائي! أنت خبير في هذا المجال. 🏆';
+    } else if (percentage >= 80) {
         resultMessage.textContent = 'مستوى ممتاز! أنت جاهز للانطلاق في المجال الجيولوجي. 🚀';
-    } else if (score / totalQuestions >= 0.5) {
-        resultMessage.textContent = 'مستوى جيد. تحتاج لمراجعة بعض النقاط لتعزيز معلوماتك. 💪';
+    } else if (percentage >= 70) {
+        resultMessage.textContent = 'مستوى جيد جداً. معلوماتك قوية في هذا التخصص. 👍';
+    } else if (percentage >= 50) {
+        resultMessage.textContent = 'مستوى مقبول. تحتاج لمراجعة بعض النقاط لتعزيز معلوماتك. 💪';
     } else {
         resultMessage.textContent = 'تحتاج لمزيد من المراجعة والتدريب. لا تستسلم! 📚';
     }
@@ -214,8 +253,15 @@ function updateProgressBar() {
 }
 
 function playAudio(audioElement) {
-    audioElement.currentTime = 0; // إعادة الصوت من البداية إذا تم تشغيله بسرعة
-    audioElement.play();
+    // محاولة تشغيل الصوت مع معالجة الأخطاء
+    try {
+        audioElement.currentTime = 0; // إعادة الصوت من البداية إذا تم تشغيله بسرعة
+        audioElement.play().catch(e => {
+            console.log("تعذر تشغيل الصوت:", e);
+        });
+    } catch (error) {
+        console.log("خطأ في تشغيل الصوت:", error);
+    }
 }
 
 // =================================================================
@@ -223,10 +269,10 @@ function playAudio(audioElement) {
 // =================================================================
 
 // 1. اختيار الفئة
-categoryBtns.forEach(button => {
-    button.addEventListener('click', () => {
-        const filename = button.getAttribute('data-category');
-        const categoryName = button.textContent.trim().replace(/[\uD800-\uDBFF\uDC00-\uDFFF]/g, '').trim(); // إزالة الإيموجي لتسمية نظيفة
+categoryCards.forEach(card => {
+    card.addEventListener('click', () => {
+        const filename = card.getAttribute('data-category');
+        const categoryName = card.querySelector('h3').textContent;
         startQuiz(filename, categoryName);
     });
 });
@@ -235,6 +281,34 @@ categoryBtns.forEach(button => {
 nextBtn.addEventListener('click', nextQuestion);
 
 // 3. زر العودة للرئيسية
+backBtn.addEventListener('click', () => {
+    if (confirm('هل تريد العودة إلى الصفحة الرئيسية؟ سيتم فقدان تقدمك الحالي.')) {
+        clearInterval(timerInterval);
+        switchScreen('home-screen');
+    }
+});
+
+// 4. زر العودة للرئيسية من شاشة النتائج
 restartBtn.addEventListener('click', () => {
     switchScreen('home-screen');
+});
+
+// 5. زر إعادة الاختبار
+retryBtn.addEventListener('click', () => {
+    const categoryName = quizTitle.textContent;
+    startQuiz(selectedCategory, categoryName);
+});
+
+// =================================================================
+// 10. تهيئة التطبيق
+// =================================================================
+
+// إضافة تأثيرات عند التحميل
+document.addEventListener('DOMContentLoaded', () => {
+    // إضافة تأثيرات ظهور للبطاقات
+    const cards = document.querySelectorAll('.category-card');
+    cards.forEach((card, index) => {
+        card.style.animationDelay = `${index * 0.1}s`;
+        card.classList.add('fade-in-up');
+    });
 });
