@@ -1,5 +1,47 @@
 // =================================================================
-// 1. تحديد العناصر الأساسية وحالة اللعبة
+// 1. تهيئة الجزيئيات
+// =================================================================
+function initParticles() {
+    if (typeof particlesJS !== 'undefined') {
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 80, density: { enable: true, value_area: 800 } },
+                color: { value: "#2c7873" },
+                shape: { type: "circle" },
+                opacity: { value: 0.5, random: true },
+                size: { value: 3, random: true },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: "#2c7873",
+                    opacity: 0.2,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 2,
+                    direction: "none",
+                    random: true,
+                    straight: false,
+                    out_mode: "out",
+                    bounce: false
+                }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: { enable: true, mode: "repulse" },
+                    onclick: { enable: true, mode: "push" },
+                    resize: true
+                }
+            },
+            retina_detect: true
+        });
+    }
+}
+
+// =================================================================
+// 2. تحديد العناصر الأساسية وحالة اللعبة
 // =================================================================
 const homeScreen = document.getElementById('home-screen');
 const quizScreen = document.getElementById('quiz-screen');
@@ -21,9 +63,11 @@ const timerDisplay = document.getElementById('timer-display');
 const currentQIndexDisplay = document.getElementById('current-question-index');
 const totalQDisplay = document.getElementById('total-questions');
 const progressBarFill = document.getElementById('progress-bar-fill');
+const progressPercentage = document.getElementById('progress-percentage');
 const quizTitle = document.getElementById('quiz-title');
 const scoreDisplay = document.getElementById('score-display');
 const questionNumber = document.getElementById('question-number');
+const questionCounter = document.getElementById('question-counter');
 const questionDifficulty = document.getElementById('question-difficulty');
 
 // النتائج
@@ -37,6 +81,7 @@ const resultPoints = document.getElementById('result-points');
 const circleFill = document.getElementById('circle-fill');
 const homeBtn = document.getElementById('home-btn');
 const retryBtn = document.getElementById('retry-btn');
+const shareBtn = document.getElementById('share-btn');
 
 // الإحصائيات العامة
 const totalQuizzes = document.getElementById('total-quizzes');
@@ -45,6 +90,7 @@ const totalPoints = document.getElementById('total-points');
 
 // الإعدادات
 const settingsBtn = document.getElementById('settings-btn');
+const leaderboardBtn = document.getElementById('leaderboard-btn');
 const backFromSettings = document.getElementById('back-from-settings');
 const saveSettings = document.getElementById('save-settings');
 const musicVolume = document.getElementById('music-volume');
@@ -53,6 +99,9 @@ const musicVolumeValue = document.getElementById('music-volume-value');
 const soundVolumeValue = document.getElementById('sound-volume-value');
 const animationToggle = document.getElementById('animation-toggle');
 const difficultySetting = document.getElementById('difficulty');
+
+// السمات
+const themeButtons = document.querySelectorAll('.theme-btn');
 
 // تحكم الصوت
 const musicToggle = document.getElementById('music-toggle');
@@ -81,26 +130,36 @@ let userData = {
         musicVolume: 50,
         soundVolume: 70,
         animations: true,
-        difficulty: 'medium'
+        difficulty: 'medium',
+        theme: 'default'
     }
 };
 
 // =================================================================
-// 2. تهيئة التطبيق
+// 3. تهيئة التطبيق
 // =================================================================
 
 document.addEventListener('DOMContentLoaded', function() {
+    // تهيئة الجزيئيات
+    initParticles();
+    
     // تحميل بيانات المستخدم من localStorage
     loadUserData();
     
     // تهيئة إعدادات الصوت
     initAudioSettings();
     
+    // تطبيق السمة
+    applyTheme(userData.settings.theme);
+    
     // تحديث واجهة المستخدم
     updateUI();
     
     // إخفاء شاشة التحميل بشكل صحيح
     loadingScreen.style.display = 'none';
+    
+    // إضافة تأثيرات للبطاقات
+    animateElements();
 });
 
 /**
@@ -142,8 +201,31 @@ function initAudioSettings() {
     animationToggle.checked = userData.settings.animations;
     difficultySetting.value = userData.settings.difficulty;
     
+    // تحديث أزرار السمات
+    updateThemeButtons();
+    
     // تشغيل الموسيقى الخلفية
     playBackgroundMusic();
+}
+
+/**
+ * تطبيق السمة المختارة
+ */
+function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    userData.settings.theme = theme;
+}
+
+/**
+ * تحديث أزرار السمات
+ */
+function updateThemeButtons() {
+    themeButtons.forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.getAttribute('data-theme') === userData.settings.theme) {
+            btn.classList.add('active');
+        }
+    });
 }
 
 /**
@@ -167,8 +249,22 @@ function updateUI() {
     });
 }
 
+/**
+ * إضافة تأثيرات للعناصر
+ */
+function animateElements() {
+    // تأثيرات للبطاقات
+    const cards = document.querySelectorAll('.category-card, .stat-item');
+    cards.forEach((card, index) => {
+        if (userData.settings.animations) {
+            card.style.animationDelay = `${index * 0.1}s`;
+            card.style.animation = 'fadeInUp 0.6s ease-out forwards';
+        }
+    });
+}
+
 // =================================================================
-// 3. دوال التحويل بين الشاشات
+// 4. دوال التحويل بين الشاشات
 // =================================================================
 
 /**
@@ -184,6 +280,12 @@ function switchScreen(targetId) {
     
     // تشغيل صوت الانتقال بين الصفحات
     playSound(pageSound);
+    
+    // إضافة تأثيرات للشاشة الجديدة
+    if (userData.settings.animations) {
+        const targetScreen = document.getElementById(targetId);
+        targetScreen.style.animation = 'fadeInUp 0.6s ease-out';
+    }
 }
 
 /**
@@ -207,7 +309,7 @@ function showLoadingScreen() {
 }
 
 // =================================================================
-// 4. نظام الصوتيات
+// 5. نظام الصوتيات
 // =================================================================
 
 /**
@@ -253,7 +355,7 @@ function playClickSound() {
 }
 
 // =================================================================
-// 5. دالة بدء الاختبار
+// 6. دالة بدء الاختبار
 // =================================================================
 
 /**
@@ -308,11 +410,10 @@ async function startQuiz(filename, categoryName) {
  * @returns {Array} - الأسئلة المصفاة
  */
 function filterQuestionsByDifficulty(questions, difficulty) {
-    // هذا مثال بسيط - يمكنك تطويره بناءً على هيكل بياناتك
     const difficultyMap = {
-        'easy': 0.3,   // 30% من الأسئلة
-        'medium': 0.6, // 60% من الأسئلة
-        'hard': 0.9    // 90% من الأسئلة
+        'easy': 0.6,   // 60% من الأسئلة (الأسهل)
+        'medium': 0.8, // 80% من الأسئلة
+        'hard': 1      // 100% من الأسئلة (الأصعب)
     };
     
     const count = Math.floor(questions.length * difficultyMap[difficulty]);
@@ -320,7 +421,7 @@ function filterQuestionsByDifficulty(questions, difficulty) {
 }
 
 // =================================================================
-// 6. دالة عرض السؤال
+// 7. دالة عرض السؤال
 // =================================================================
 
 function displayQuestion() {
@@ -336,10 +437,12 @@ function displayQuestion() {
     nextBtn.disabled = true; // تعطيل زر التالي حتى تتم الإجابة
     hintContainer.classList.remove('show'); // إخفاء التلميح
     hintBtn.style.display = 'block'; // إظهار زر التلميح
+    hintBtn.disabled = false;
 
     // تحديث شريط التقدم والإحصائيات
     currentQIndexDisplay.textContent = currentQuestionIndex + 1;
     questionNumber.textContent = currentQuestionIndex + 1;
+    questionCounter.textContent = `السؤال ${currentQuestionIndex + 1} من ${currentQuizData.length}`;
     updateProgressBar();
     
     // تحديث مستوى صعوبة السؤال
@@ -350,6 +453,13 @@ function displayQuestion() {
         const button = document.createElement('button');
         button.textContent = option;
         button.classList.add('option-btn');
+        
+        // إضافة تأثيرات للخيارات
+        if (userData.settings.animations) {
+            button.style.animationDelay = `${index * 0.1}s`;
+            button.style.animation = 'fadeInUp 0.5s ease-out forwards';
+        }
+        
         button.onclick = () => handleAnswer(button, option, question.answer);
         optionsContainer.appendChild(button);
     });
@@ -363,12 +473,13 @@ function displayQuestion() {
  * @param {string} difficulty - مستوى الصعوبة
  */
 function updateQuestionDifficulty(difficulty) {
+    const difficultyElement = document.getElementById('question-difficulty');
     if (difficulty) {
-        questionDifficulty.textContent = getDifficultyText(difficulty);
-        questionDifficulty.className = 'question-difficulty ' + difficulty;
-        questionDifficulty.style.display = 'inline-block';
+        difficultyElement.innerHTML = `<i class="fas fa-signal"></i><span>${getDifficultyText(difficulty)}</span>`;
+        difficultyElement.className = 'question-difficulty ' + difficulty;
+        difficultyElement.style.display = 'flex';
     } else {
-        questionDifficulty.style.display = 'none';
+        difficultyElement.style.display = 'none';
     }
 }
 
@@ -398,14 +509,13 @@ function setupHint(hint) {
             hintBtn.disabled = true;
             playClickSound();
         };
-        hintBtn.disabled = false;
     } else {
         hintBtn.style.display = 'none';
     }
 }
 
 // =================================================================
-// 7. دالة معالجة الإجابة
+// 8. دالة معالجة الإجابة - مصححة
 // =================================================================
 
 /**
@@ -420,31 +530,35 @@ function handleAnswer(selectedButton, selectedOption, correctAnswer) {
     // تعطيل جميع الأزرار بعد الإجابة لمنع التغيير
     document.querySelectorAll('.option-btn').forEach(btn => {
         btn.disabled = true;
+        btn.style.pointerEvents = 'none';
     });
 
     if (isCorrect) {
         score++;
         scoreDisplay.textContent = score;
+        
+        // إضافة الكلاس الصحيح فقط للزر المحدد
         selectedButton.classList.add('correct');
         playSound(correctSound);
         
         // تأثير مرئي للإجابة الصحيحة
         if (userData.settings.animations) {
-            selectedButton.style.animation = 'pulse 0.5s';
+            selectedButton.style.animation = 'pulseCorrect 0.6s ease';
         }
     } else {
+        // إضافة الكلاس الخاطئ للزر المحدد
         selectedButton.classList.add('incorrect');
         playSound(incorrectSound);
         
         // تأثير مرئي للإجابة الخاطئة
         if (userData.settings.animations) {
-            selectedButton.style.animation = 'shake 0.5s';
+            selectedButton.style.animation = 'shake 0.5s ease';
         }
         
-        // تمييز الإجابة الصحيحة
+        // تمييز الإجابة الصحيحة - إصلاح المشكلة هنا
         Array.from(optionsContainer.children).forEach(btn => {
             if (btn.textContent === correctAnswer) {
-                btn.classList.add('correct');
+                btn.classList.add('correct'); // إضافة correct فقط
             }
         });
     }
@@ -453,7 +567,7 @@ function handleAnswer(selectedButton, selectedOption, correctAnswer) {
 }
 
 // =================================================================
-// 8. دالة المضي إلى السؤال التالي
+// 9. دالة المضي إلى السؤال التالي
 // =================================================================
 
 function nextQuestion() {
@@ -463,11 +577,11 @@ function nextQuestion() {
 }
 
 // =================================================================
-// 9. دالة عرض النتائج
+// 10. دالة عرض النتائج
 // =================================================================
 
 function showResults() {
-    clearInterval(timerInterval); // إيقاف المؤقت
+    clearInterval(timerInterval); // إوقف المؤقت
     playSound(completeSound); // تشغيل صوت إكمال الاختبار
 
     const totalQuestions = currentQuizData.length;
@@ -498,7 +612,32 @@ function showResults() {
     // تحديث بيانات المستخدم
     updateUserData(percentage, points);
     
+    // إنشاء تأثيرات الكونفيتي
+    createConfetti();
+    
     switchScreen('results-screen');
+}
+
+/**
+ * إنشاء تأثير الكونفيتي
+ */
+function createConfetti() {
+    const confettiContainer = document.querySelector('.confetti');
+    if (!confettiContainer) return;
+    
+    confettiContainer.innerHTML = '';
+    const colors = ['#2c7873', '#ffb74d', '#10b981', '#3b82f6', '#8b5cf6'];
+    
+    for (let i = 0; i < 50; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        confetti.style.left = Math.random() * 100 + 'vw';
+        confetti.style.animationDelay = Math.random() * 5 + 's';
+        confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+        confetti.style.width = Math.random() * 10 + 5 + 'px';
+        confetti.style.height = Math.random() * 10 + 5 + 'px';
+        confettiContainer.appendChild(confetti);
+    }
 }
 
 /**
@@ -558,7 +697,7 @@ function updateUserData(percentage, points) {
 }
 
 // =================================================================
-// 10. دوال الأدوات الإضافية (المؤقت، التقدم)
+// 11. دوال الأدوات الإضافية (المؤقت، التقدم)
 // =================================================================
 
 function startTimer() {
@@ -579,10 +718,11 @@ function updateProgressBar() {
     const total = currentQuizData.length;
     const progress = (currentQuestionIndex / total) * 100;
     progressBarFill.style.width = progress + '%';
+    progressPercentage.textContent = `${Math.round(progress)}%`;
 }
 
 // =================================================================
-// 11. الاستماع للأحداث (EventListeners)
+// 12. الاستماع للأحداث (EventListeners)
 // =================================================================
 
 // 1. اختيار الفئة
@@ -620,17 +760,50 @@ retryBtn.addEventListener('click', () => {
     startQuiz(selectedCategory, categoryName);
 });
 
-// 6. إعدادات الصوت
+// 6. زر مشاركة النتيجة
+shareBtn.addEventListener('click', () => {
+    playClickSound();
+    const percentage = scorePercentage.textContent;
+    const category = resultCategory.textContent;
+    const message = `🎯 حصلت على ${percentage} في اختبار ${category} على منصة الجيولوجي المحترف!`;
+    
+    if (navigator.share) {
+        navigator.share({
+            title: 'نتيجة اختبار الجيولوجيا',
+            text: message,
+            url: window.location.href
+        }).catch(err => {
+            console.log('Error sharing:', err);
+            fallbackShare(message);
+        });
+    } else {
+        fallbackShare(message);
+    }
+});
+
+/**
+ * طريقة بديلة للمشاركة إذا لم يكن Web Share API مدعوماً
+ */
+function fallbackShare(message) {
+    navigator.clipboard.writeText(message).then(() => {
+        alert('✅ تم نسخ النتيجة إلى الحافظة! يمكنك مشاركتها الآن.');
+    }).catch(err => {
+        console.log('Failed to copy: ', err);
+        alert(`📋 يمكنك مشاركة نتيجتك يدوياً:\n\n${message}`);
+    });
+}
+
+// 7. إعدادات الصوت
 musicToggle.addEventListener('click', () => {
     playClickSound();
     if (backgroundMusic.paused) {
         playBackgroundMusic();
         musicToggle.classList.remove('muted');
-        musicToggle.innerHTML = '<i class="fas fa-music"></i>';
+        musicToggle.innerHTML = '<i class="fas fa-music"></i><span class="sound-tooltip">الموسيقى</span>';
     } else {
         pauseBackgroundMusic();
         musicToggle.classList.add('muted');
-        musicToggle.innerHTML = '<i class="fas fa-music-slash"></i>';
+        musicToggle.innerHTML = '<i class="fas fa-music-slash"></i><span class="sound-tooltip">الموسيقى</span>';
     }
 });
 
@@ -639,11 +812,11 @@ soundToggle.addEventListener('click', () => {
     if (userData.settings.soundVolume > 0) {
         userData.settings.soundVolume = 0;
         soundToggle.classList.add('muted');
-        soundToggle.innerHTML = '<i class="fas fa-volume-mute"></i>';
+        soundToggle.innerHTML = '<i class="fas fa-volume-mute"></i><span class="sound-tooltip">المؤثرات</span>';
     } else {
         userData.settings.soundVolume = 70;
         soundToggle.classList.remove('muted');
-        soundToggle.innerHTML = '<i class="fas fa-volume-up"></i>';
+        soundToggle.innerHTML = '<i class="fas fa-volume-up"></i><span class="sound-tooltip">المؤثرات</span>';
     }
     
     // تحديث مستوى الصوت
@@ -651,10 +824,15 @@ soundToggle.addEventListener('click', () => {
     saveUserData();
 });
 
-// 7. شاشة الإعدادات
+// 8. شاشة الإعدادات
 settingsBtn.addEventListener('click', () => {
     playClickSound();
     switchScreen('settings-screen');
+});
+
+leaderboardBtn.addEventListener('click', () => {
+    playClickSound();
+    alert('🚧 هذه الميزة قيد التطوير!');
 });
 
 backFromSettings.addEventListener('click', () => {
@@ -676,11 +854,19 @@ saveSettings.addEventListener('click', () => {
     saveUserData();
     
     // إظهار رسالة نجاح
-    alert('تم حفظ الإعدادات بنجاح!');
-    switchScreen('home-screen');
+    showNotification('تم حفظ الإعدادات بنجاح!', 'success');
+    setTimeout(() => switchScreen('home-screen'), 1000);
 });
 
-// 8. تحديث قيم عناصر التحكم في الوقت الحقيقي
+/**
+ * عرض إشعار
+ */
+function showNotification(message, type = 'info') {
+    // يمكن تطوير هذه الدالة لعرض إشعارات جميلة
+    alert(message);
+}
+
+// 9. تحديث قيم عناصر التحكم في الوقت الحقيقي
 musicVolume.addEventListener('input', () => {
     musicVolumeValue.textContent = `${musicVolume.value}%`;
     backgroundMusic.volume = musicVolume.value / 100;
@@ -698,7 +884,19 @@ soundVolume.addEventListener('input', () => {
     userData.settings.soundVolume = parseInt(soundVolume.value);
 });
 
-// 9. إضافة أصوات النقر لجميع الأزرار
+// 10. منتقي السمات
+themeButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+        playClickSound();
+        const theme = btn.getAttribute('data-theme');
+        applyTheme(theme);
+        updateThemeButtons();
+        userData.settings.theme = theme;
+        saveUserData();
+    });
+});
+
+// 11. إضافة أصوات النقر لجميع الأزرار
 document.querySelectorAll('button').forEach(button => {
     if (!button.id.includes('music-toggle') && !button.id.includes('sound-toggle')) {
         button.addEventListener('click', () => {
@@ -706,3 +904,16 @@ document.querySelectorAll('button').forEach(button => {
         });
     }
 });
+
+// 12. تحسين تجربة المستخدم على الهواتف
+document.addEventListener('touchstart', function() {}, {passive: true});
+
+// منع التكبير على الهواتف عند النقر المزدوج
+let lastTouchEnd = 0;
+document.addEventListener('touchend', function (event) {
+    const now = (new Date()).getTime();
+    if (now - lastTouchEnd <= 300) {
+        event.preventDefault();
+    }
+    lastTouchEnd = now;
+}, false);
