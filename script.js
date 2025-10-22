@@ -1,4 +1,3 @@
-GeoQuest
 
 let currentSubject = '';
 let currentQuestions = [];
