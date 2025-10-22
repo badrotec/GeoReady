@@ -159,26 +159,6 @@ body {
     opacity: 0.8;
 }
 
-.user-stats {
-    display: flex;
-    gap: 15px;
-}
-
-.stat {
-    text-align: center;
-}
-
-.stat-value {
-    display: block;
-    font-size: 1.3rem;
-    font-weight: bold;
-}
-
-.stat-label {
-    font-size: 0.8rem;
-    opacity: 0.8;
-}
-
 /* المحتوى الرئيسي */
 .app-main {
     padding: 40px 0;
@@ -268,6 +248,21 @@ body {
     line-height: 1.6;
 }
 
+.subject-stats {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin: 20px 0;
+}
+
+.stat {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--gray);
+    font-size: 0.9rem;
+}
+
 .subject-progress {
     margin: 25px 0;
 }
@@ -289,7 +284,6 @@ body {
     background: linear-gradient(90deg, var(--primary), var(--primary-light));
     border-radius: 4px;
     transition: width 0.5s ease;
-    width: 0%;
 }
 
 .progress-text {
@@ -311,6 +305,11 @@ body {
     gap: 8px;
     font-size: 0.95rem;
     text-decoration: none;
+}
+
+.btn-sm {
+    padding: 8px 16px;
+    font-size: 0.85rem;
 }
 
 .btn-primary {
@@ -364,33 +363,33 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     padding: 20px;
     background: white;
     border-radius: var(--radius);
     box-shadow: var(--shadow);
+    flex-wrap: wrap;
+    gap: 15px;
 }
 
 .quiz-info h2 {
     font-size: 1.8rem;
     color: var(--dark);
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 }
 
-.quiz-stats {
+.quiz-meta {
     display: flex;
+    align-items: center;
     gap: 15px;
 }
 
-.stat-badge {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    background: var(--light);
-    padding: 8px 12px;
+.question-counter {
+    background: var(--primary);
+    color: white;
+    padding: 8px 16px;
     border-radius: 20px;
-    font-size: 0.9rem;
-    font-weight: 500;
+    font-weight: 600;
 }
 
 .quiz-content {
@@ -400,32 +399,45 @@ body {
     overflow: hidden;
 }
 
-.question-card {
-    padding: 30px;
-}
-
-.question-header {
+/* المؤقت */
+.timer-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 25px;
-    padding-bottom: 15px;
-    border-bottom: 2px solid var(--light);
-}
-
-.question-number {
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: var(--primary);
-}
-
-.question-difficulty .difficulty-label {
-    background: var(--accent);
+    padding: 20px 30px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
     color: white;
-    padding: 4px 12px;
-    border-radius: 15px;
-    font-size: 0.8rem;
-    font-weight: 500;
+}
+
+.timer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+.timer.warning {
+    color: var(--accent);
+}
+
+.timer.danger {
+    color: var(--danger);
+    animation: pulse 1s infinite;
+}
+
+.streak-counter {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: 600;
+}
+
+.question-card {
+    padding: 30px;
 }
 
 .question-text {
@@ -434,6 +446,7 @@ body {
     margin-bottom: 30px;
     color: var(--dark);
     font-weight: 500;
+    text-align: center;
 }
 
 .options-grid {
@@ -727,18 +740,6 @@ body {
     opacity: 0.8;
 }
 
-.footer-stats {
-    display: flex;
-    gap: 20px;
-}
-
-.footer-stat {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    opacity: 0.8;
-}
-
 /* النوافذ المنبثقة */
 .modal {
     position: fixed;
@@ -863,6 +864,15 @@ body {
     }
 }
 
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
+}
+
 /* التجاوب مع الشاشات الصغيرة */
 @media (max-width: 768px) {
     .container {
@@ -887,10 +897,6 @@ body {
         flex-direction: column;
         gap: 15px;
         text-align: center;
-    }
-
-    .quiz-stats {
-        justify-content: center;
     }
 
     .score-display {
@@ -921,8 +927,10 @@ body {
         text-align: center;
     }
 
-    .footer-stats {
-        justify-content: center;
+    .timer-container {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
     }
 }
 
