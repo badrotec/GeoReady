@@ -3,230 +3,254 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>اختبار الجيولوجيا التفاعلي - تحدي المعرفة</title>
+    <title>تحدي الجيولوجيا المدهش 🚀</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
-    
     <style>
         :root {
-            --primary-color: #007bff;
-            --secondary-color: #6c757d;
-            --success-color: #28a745;
-            --danger-color: #dc3545;
-            --background-light: #f8f9fa;
-            --text-dark: #343a40;
+            --primary-color: #f39c12; /* لون ذهبي جذاب */
+            --secondary-color: #2c3e50; /* لون أساسي داكن */
+            --success-color: #2ecc71;
+            --danger-color: #e74c3c;
+            --background-dark: #34495e; /* خلفية داكنة */
+            --card-light: #ffffff;
         }
 
         body {
             font-family: 'Cairo', sans-serif;
-            background-color: var(--background-light);
+            background-color: var(--background-dark);
+            color: #ecf0f1;
             direction: rtl;
             text-align: right;
             margin: 0;
-            padding: 40px 20px;
-            color: var(--text-dark);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
 
         .container {
-            max-width: 900px;
-            margin: 0 auto;
-            background-color: #ffffff;
+            width: 95%;
+            max-width: 1000px;
+            background-color: var(--secondary-color);
             padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+            border: 5px solid var(--primary-color);
         }
 
         h1 {
             color: var(--primary-color);
             text-align: center;
-            padding-bottom: 15px;
             margin-bottom: 30px;
-            font-weight: 700;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
         }
 
-        /* شريط التقدم والنتائج الفورية */
-        #status-bar {
+        /* شاشة اختيار الأقسام (Section Select Screen) */
+        #section-select-screen {
+            text-align: center;
+        }
+
+        #section-select-screen h2 {
+            color: #ecf0f1;
+            margin-bottom: 30px;
+        }
+
+        .section-button {
+            display: block;
+            width: 80%;
+            margin: 15px auto;
+            padding: 15px 20px;
+            background-color: var(--primary-color);
+            color: var(--secondary-color);
+            border: none;
+            border-radius: 10px;
+            font-size: 1.2em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .section-button:hover {
+            background-color: #f1c40f;
+            transform: translateY(-3px) scale(1.02);
+        }
+
+        /* شاشة الاختبار (Quiz Screen) */
+        #quiz-screen {
+            display: none; /* مخفية في البداية */
+        }
+        
+        #quiz-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
-            padding: 15px;
-            background-color: #e9ecef;
-            border-radius: 10px;
-        }
-
-        #score-display, #progress-display {
-            font-size: 1.1em;
-            font-weight: 700;
-            color: var(--text-dark);
-        }
-
-        #progress-bar-container {
-            flex-grow: 1;
-            height: 10px;
-            background-color: #dee2e6;
-            border-radius: 5px;
-            margin: 0 20px;
-            overflow: hidden;
-        }
-
-        #progress-bar {
-            height: 100%;
-            width: 0%;
-            background-color: var(--success-color);
-            transition: width 0.4s ease-in-out;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 2px dashed #7f8c8d;
         }
         
-        /* تصميم كرت السؤال */
-        .question-card {
-            border: 1px solid #ddd;
-            padding: 25px;
-            margin-bottom: 25px;
-            border-radius: 10px;
-            background-color: #fff;
-            transition: all 0.3s;
+        #timer, #score-display {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: var(--primary-color);
         }
 
-        .question-card.answered {
-            border-left: 5px solid var(--primary-color);
+        #current-section-title {
+            font-size: 1.3em;
+            color: #ecf0f1;
+        }
+
+        .question-card {
+            background-color: var(--card-light);
+            color: var(--secondary-color);
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
 
         .question-text {
-            font-weight: bold;
-            color: var(--primary-color);
+            font-size: 1.3em;
             margin-bottom: 20px;
-            font-size: 1.2em;
+            font-weight: 700;
         }
 
         .option-label {
             display: flex;
             align-items: center;
+            padding: 15px;
             margin: 10px 0;
-            padding: 12px 15px;
+            border: 2px solid #ccc;
+            border-radius: 8px;
             cursor: pointer;
-            border-radius: 7px;
             transition: all 0.2s;
-            border: 1px solid #ccc;
-            background-color: #fff;
         }
 
         .option-label:hover {
-            background-color: #e9ecef;
-        }
-
-        input[type="radio"] {
-            margin-left: 10px;
-            /* إخفاء الراديو الافتراضي واستبداله بتصميم مخصص */
-            appearance: none;
-            width: 18px;
-            height: 18px;
-            border: 2px solid var(--primary-color);
-            border-radius: 50%;
-            transition: all 0.2s;
-            flex-shrink: 0; /* منع انكماشه */
+            background-color: #f0f0f0;
+            border-color: var(--primary-color);
         }
         
-        input[type="radio"]:checked {
-            background-color: var(--primary-color);
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.3);
-        }
-
         /* حالات التصحيح */
         .correct-answer {
-            background-color: #d4edda !important;
-            border: 1px solid var(--success-color) !important;
-            color: var(--success-color);
-            font-weight: 700;
+            background-color: var(--success-color) !important;
+            color: white !important;
+            border-color: var(--success-color) !important;
         }
 
         .wrong-answer {
-            background-color: #f8d7da !important;
-            border: 1px solid var(--danger-color) !important;
-            color: var(--danger-color);
+            background-color: var(--danger-color) !important;
+            color: white !important;
+            border-color: var(--danger-color) !important;
+            animation: shake 0.5s;
         }
 
-        .user-selected-wrong {
-            border: 3px solid var(--danger-color) !important;
-        }
-        .user-selected-correct {
-            border: 3px solid var(--success-color) !important;
-        }
-        
-        /* زر الإرسال */
-        #submit-btn {
+        /* زر المتابعة */
+        #next-question-btn {
             display: block;
             width: 100%;
             padding: 15px;
-            background-color: var(--primary-color);
+            background-color: #3498db;
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             font-size: 1.2em;
             cursor: pointer;
-            margin-top: 40px;
-            transition: background-color 0.3s, transform 0.2s;
+            margin-top: 30px;
+            transition: background-color 0.3s;
         }
-
-        #submit-btn:hover {
-            background-color: #0056b3;
-            transform: translateY(-2px);
-        }
-
-        #submit-btn:disabled {
-            background-color: #ccc;
+        
+        #next-question-btn:disabled {
+            background-color: #95a5a6;
             cursor: not-allowed;
         }
-
+        
         /* شاشة النتائج النهائية */
-        #final-results {
-            margin-top: 40px;
-            padding: 30px;
-            border: 3px solid var(--primary-color);
-            border-radius: 10px;
-            text-align: center;
+        #final-results-screen {
             display: none;
-            background-color: #e9f5ff;
+            text-align: center;
+            padding: 40px;
+            background-color: #ecf0f1;
+            color: var(--secondary-color);
+            border-radius: 10px;
         }
 
-        #final-results p {
-            font-size: 1.3em;
+        #final-results-screen h2 {
+            color: var(--primary-color);
+            font-size: 2em;
+        }
+        
+        .score-summary p {
+            font-size: 1.2em;
             font-weight: 700;
+        }
+
+        .score-summary .final-score {
+            font-size: 3em;
+            color: var(--success-color);
+            display: block;
             margin: 10px 0;
         }
         
-        .section-title {
-            background-color: var(--secondary-color);
-            color: white;
-            padding: 10px 15px;
-            margin-top: 30px;
-            margin-bottom: 15px;
+        #restart-btn {
+            background-color: var(--primary-color);
+            color: var(--secondary-color);
+            margin-top: 20px;
+            padding: 10px 20px;
+            border: none;
             border-radius: 5px;
-            font-size: 1.3em;
+            font-size: 1.1em;
+            cursor: pointer;
+        }
+        
+        /* تأثيرات الحركة */
+        @keyframes shake {
+            0%, 100% {transform: translateX(0);}
+            20%, 60% {transform: translateX(-10px);}
+            40%, 80% {transform: translateX(10px);}
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h1>اختبار الجيولوجيا الشامل ⛏️</h1>
-        
-        <div id="status-bar">
-            <span id="score-display">النقاط: 0</span>
-            <div id="progress-bar-container">
-                <div id="progress-bar"></div>
+        <h1>تحدي الجيولوجيا المدهش ⛏️</h1>
+
+        <div id="section-select-screen">
+            <h2>اختر القسم لتبدأ التحدي 🔥</h2>
             </div>
-            <span id="progress-display">التقدم: 0%</span>
+
+        <div id="quiz-screen">
+            <div id="quiz-header">
+                <span id="current-section-title"></span>
+                <span id="timer">00:00</span>
+            </div>
+
+            <div id="quiz-content">
+                </div>
+            
+            <button id="next-question-btn" disabled>تأكيد الإجابة والمتابعة ➡️</button>
         </div>
 
-        <div id="quiz-container">
+        <div id="final-results-screen">
+            <h2>انتهى التحدي! لنرى نتيجتك 🏆</h2>
+            <div class="score-summary">
+                <p>النقاط الإجمالية:</p>
+                <span class="final-score" id="final-score-display">0</span>
+                <p>الوقت المتبقي: <span id="time-spent-display"></span></p>
             </div>
-
-        <button id="submit-btn" onclick="submitQuiz()">إنهاء الاختبار وتصحيحه 🚀</button>
-
-        <div id="final-results">
-            </div>
+            <button id="restart-btn" onclick="resetQuiz()">ابدأ تحدياً جديداً</button>
+        </div>
     </div>
 
+    <audio id="sound-correct" src="https://www.soundjay.com/buttons/button-10.mp3" preload="auto"></audio>
+    <audio id="sound-wrong" src="https://www.soundjay.com/misc/fail-buzzer-01.mp3" preload="auto"></audio>
+    <audio id="sound-timeup" src="https://www.soundjay.com/misc/bell-ring-03.mp3" preload="auto"></audio>
+    <audio id="sound-click" src="https://www.soundjay.com/misc/click-01.mp3" preload="auto"></audio>
+
+
     <script src="script.js"></script>
-</body>
+    </body>
 </html>
