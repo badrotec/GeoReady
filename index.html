@@ -3,75 +3,162 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GeoMaster Core | تحدي الواجهة المتقدمة</title>
+    <title>GeoMaster Core | نظام التحدي الجغرافي المتقدم</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Orbitron:wght@600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
+    <!-- القائمة الجانبية -->
     <div id="sections-menu" class="menu-sidebar">
-        <button id="close-menu-btn" class="close-btn">❌ إغلاق</button>
-        <h2>وحدة اختيار المسار</h2>
-        <div id="sections-grid" class="sidebar-grid">
-            </div>
+        <div class="sidebar-header">
+            <button id="close-menu-btn" class="close-btn">❌ إغلاق</button>
+            <h2>وحدة اختيار المسار</h2>
+        </div>
+        <div id="sections-grid" class="sidebar-grid"></div>
     </div>
 
+    <!-- الشاشة الرئيسية -->
     <div class="container">
+        <!-- الرأس -->
         <header>
             <button id="menu-toggle" class="header-menu-btn">وحدات المعرفة ☰</button>
-            <h1 class="logo">GeoMaster Core 🌐</h1>
+            <h1 class="logo">GeoMaster Core <span class="logo-icon">🌐</span></h1>
+            <div class="header-stats">
+                <span id="user-level">مبتدئ</span>
+                <div class="xp-bar">
+                    <div class="xp-progress"></div>
+                </div>
+            </div>
         </header>
 
+        <!-- شاشة الترحيب -->
         <div id="welcome-screen" class="screen active">
-            <h2 class="welcome-title">تحية! نظام التحليل جاهز للعمل.</h2>
-            
-            <div class="progress-wrapper">
-                <span class="progress-label">استقرار النظام الكلي:</span>
-                <div id="progress-container" class="progress-bar-shell">
-                    <div id="progress-level" style="width: 0%;"></div>
+            <div class="welcome-content">
+                <h2 class="welcome-title">مرحباً في نظام GeoMaster Core</h2>
+                <p class="welcome-subtitle">نظام التحليل الجغرافي المتقدم جاهز للعمل</p>
+                
+                <div class="progress-wrapper">
+                    <span class="progress-label">استقرار النظام الكلي:</span>
+                    <div id="progress-container" class="progress-bar-shell">
+                        <div id="progress-level" class="progress-fill"></div>
+                    </div>
+                    <p id="progress-text" class="ready-text">جاري مزامنة البيانات... (50%)</p>
                 </div>
-                <p id="progress-text" class="ready-text">جاري مزامنة البيانات... (50%)</p>
-            </div>
 
-            <button id="start-button" class="action-btn big-start-btn">هل أنت جاهز؟ [ابدأ] 🔑</button>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">⚡</div>
+                        <h3>أسئلة تفاعلية</h3>
+                        <p>اختبارات جغرافية متقدمة مع مؤقت</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🌍</div>
+                        <h3>مواضيع متنوعة</h3>
+                        <p>تغطية شاملة للمواضيع الجغرافية</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📊</div>
+                        <h3>تحليل النتائج</h3>
+                        <p>تقرير مفصل عن أدائك وتقدمك</p>
+                    </div>
+                </div>
+
+                <button id="start-button" class="action-btn big-start-btn">
+                    <span class="btn-text">ابدأ التحدي</span>
+                    <span class="btn-icon">🚀</span>
+                </button>
+            </div>
         </div>
 
+        <!-- شاشة الاختبار -->
         <div id="quiz-screen" class="screen">
             <div id="quiz-header" class="quiz-header">
-                <span id="current-section-title" class="level-badge"></span>
-                <div id="timer" class="timer">00:00</div>
+                <div class="quiz-info">
+                    <span id="current-section-title" class="level-badge">الجغرافيا العامة</span>
+                    <span id="question-counter" class="question-counter">سؤال 1/10</span>
+                </div>
+                <div id="timer" class="timer">00:20</div>
             </div>
             
             <div class="question-container-wrapper">
                 <div id="quiz-content" class="question-card">
+                    <div class="question-header">
+                        <span class="difficulty-indicator">متوسط</span>
+                    </div>
                     <p class="question-text">تحميل السؤال...</p>
-                    <div id="options-container" class="options-grid">
-                        </div>
+                    <div id="options-container" class="options-grid"></div>
                 </div>
             </div>
             
-            <button id="next-question-btn" class="action-btn next-btn" disabled>تأكيد الإدخال 🔒</button>
-            <p id="feedback-message" class="feedback-msg"></p>
+            <div class="quiz-controls">
+                <button id="next-question-btn" class="action-btn next-btn" disabled>
+                    <span class="btn-text">تأكيد الإدخال</span>
+                    <span class="btn-icon">🔒</span>
+                </button>
+                <p id="feedback-message" class="feedback-msg"></p>
+            </div>
         </div>
 
+        <!-- شاشة النتائج -->
         <div id="final-results-screen" class="screen">
             <div class="results-box">
-                <h2 class="results-title">تقرير الأداء 📈</h2>
-                <div class="score-summary">
-                    <p>نسبة الإنجاز:</p>
-                    <span class="final-score-display" id="final-score-display">0%</span>
-                    <p>زمن العملية: <span id="time-spent-display">00:00</span></p>
-                    <p id="achievement-msg" class="achievement-msg"></p>
+                <div class="results-header">
+                    <h2 class="results-title">تقرير الأداء النهائي</h2>
+                    <div class="results-icon">📈</div>
                 </div>
-                <button id="restart-btn" class="action-btn" onclick="resetQuiz()">إعادة تشغيل النظام 🔄</button>
+                
+                <div class="score-display">
+                    <div class="score-circle">
+                        <svg class="progress-ring" width="200" height="200">
+                            <circle class="progress-ring-background" cx="100" cy="100" r="90" stroke-width="10"></circle>
+                            <circle class="progress-ring-circle" cx="100" cy="100" r="90" stroke-width="10" stroke-dasharray="565.48" stroke-dashoffset="565.48"></circle>
+                        </svg>
+                        <div class="score-text">
+                            <span class="final-score-display" id="final-score-display">0%</span>
+                            <span class="score-label">نسبة الإنجاز</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="score-summary">
+                    <div class="stat-item">
+                        <span class="stat-label">الإجابات الصحيحة:</span>
+                        <span class="stat-value" id="correct-answers">0/0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">زمن الإكمال:</span>
+                        <span class="stat-value" id="time-spent-display">00:00</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">مستوى الأداء:</span>
+                        <span class="stat-value" id="performance-level">-</span>
+                    </div>
+                </div>
+                
+                <div class="achievement-section">
+                    <p id="achievement-msg" class="achievement-msg">ابدأ رحلتك نحو إتقان الجغرافيا!</p>
+                </div>
+                
+                <div class="results-actions">
+                    <button id="restart-btn" class="action-btn restart-btn">
+                        <span class="btn-text">إعادة التشغيل</span>
+                        <span class="btn-icon">🔄</span>
+                    </button>
+                    <button id="review-btn" class="action-btn review-btn">
+                        <span class="btn-text">مراجعة الإجابات</span>
+                        <span class="btn-icon">📝</span>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 
+    <!-- العناصر الصوتية -->
     <audio id="sound-correct" src="" preload="auto"></audio>
     <audio id="sound-wrong" src="" preload="auto"></audio>
     <audio id="sound-click" src="" preload="auto"></audio>
     <audio id="sound-timeup" src="" preload="auto"></audio>
+    <audio id="sound-finish" src="" preload="auto"></audio>
 
     <script src="script.js"></script>
 </body>
