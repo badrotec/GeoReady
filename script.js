@@ -1,176 +1,593 @@
-// ====== المتغيرات الرئيسية والثوابت ======
-let allSectionsData = []; 
-let currentSectionQuestions = []; 
+// ====== نظام الصوت المحسن ======
+class SoundSystem {
+    constructor() {
+        this.sounds = {
+            correct: document.getElementById('sound-correct'),
+            wrong: document.getElementById('sound-wrong'),
+            click: document.getElementById('sound-click'),
+            timeup: document.getElementById('sound-timeup'),
+            finish: document.getElementById('sound-finish'),
+            levelup: document.getElementById('sound-levelup')
+        };
+        this.volume = 0.7;
+        this.enabled = true;
+    }
+
+    play(soundName) {
+        if (!this.enabled) return;
+        
+        const sound = this.sounds[soundName];
+        if (sound) {
+            sound.volume = this.volume;
+            sound.currentTime = 0;
+            sound.play().catch(e => {
+                console.log('Sound play failed:', e);
+            });
+        }
+    }
+
+    setVolume(level) {
+        this.volume = Math.max(0, Math.min(1, level));
+    }
+
+    toggle() {
+        this.enabled = !this.enabled;
+        return this.enabled;
+    }
+}
+
+// ====== نظام الرسوم المتحركة ======
+class AnimationSystem {
+    static fadeIn(element, duration = 500) {
+        element.style.opacity = '0';
+        element.style.display = 'block';
+        
+        let start = null;
+        const animate = (timestamp) => {
+            if (!start) start = timestamp;
+            const progress = timestamp - start;
+            const opacity = Math.min(progress / duration, 1);
+            
+            element.style.opacity = opacity.toString();
+            
+            if (progress < duration) {
+                requestAnimationFrame(animate);
+            }
+        };
+        
+        requestAnimationFrame(animate);
+    }
+
+    static slideIn(element, from = 'right', duration = 500) {
+        const transformMap = {
+            'right': 'translateX(100%)',
+            'left': 'translateX(-100%)',
+            'top': 'translateY(-100%)',
+            'bottom': 'translateY(100%)'
+        };
+
+        element.style.transform = transformMap[from];
+        element.style.display = 'block';
+        
+        let start = null;
+        const animate = (timestamp) => {
+            if (!start) start = timestamp;
+            const progress = timestamp - start;
+            const percentage = Math.min(progress / duration, 1);
+            
+            element.style.transform = `translateX(${(1 - percentage) * 100}%)`;
+            
+            if (progress < duration) {
+                requestAnimationFrame(animate);
+            } else {
+                element.style.transform = 'translateX(0)';
+            }
+        };
+        
+        requestAnimationFrame(animate);
+    }
+
+    static pulse(element, scale = 1.1, duration = 300) {
+        const originalTransform = element.style.transform;
+        
+        element.style.transform = `${originalTransform} scale(${scale})`;
+        element.style.transition = `transform ${duration}ms ease-in-out`;
+        
+        setTimeout(() => {
+            element.style.transform = originalTransform;
+        }, duration);
+    }
+}
+
+// ====== نظام الإنجازات ======
+class AchievementSystem {
+    constructor() {
+        this.achievements = new Map();
+        this.unlocked = new Set();
+    }
+
+    addAchievement(id, name, description, condition) {
+        this.achievements.set(id, { name, description, condition });
+    }
+
+    checkAchievements(gameState) {
+        const newAchievements = [];
+        
+        for (const [id, achievement] of this.achievements) {
+            if (!this.unlocked.has(id) && achievement.condition(gameState)) {
+                this.unlocked.add(id);
+                newAchievements.push(achievement);
+            }
+        }
+        
+        return newAchievements;
+    }
+
+    showAchievement(achievement) {
+        // تنفيذ عرض الإنجاز للمستخدم
+        console.log(`إنجاز مفتوح: ${achievement.name} - ${achievement.description}`);
+    }
+}
+
+// ====== المتغيرات الرئيسية ======
+const soundSystem = new SoundSystem();
+const achievementSystem = new AchievementSystem();
+
+let allSectionsData = [];
+let currentSectionQuestions = [];
 let currentQuestionIndex = 0;
 let score = 0;
 let timerInterval;
-const TIME_LIMIT_PER_QUESTION = 20;
-let timeLeft = TIME_LIMIT_PER_QUESTION;
-let quizStartTime = 0; 
+let timeLeft = 20;
+let quizStartTime = 0;
 let userAnswers = [];
+let currentSection = null;
 
-// ====== عناصر الـ DOM ======
+// ====== عناصر DOM ======
 const DOM = {
+    // الشاشات
     screens: {
         welcome: document.getElementById('welcome-screen'),
         quiz: document.getElementById('quiz-screen'),
         results: document.getElementById('final-results-screen'),
         menu: document.getElementById('sections-menu')
     },
+
+    // الأزرار الرئيسية
     elements: {
-        startBtn: document.getElementById('start-button'), 
+        startBtn: document.getElementById('start-button'),
         menuToggle: document.getElementById('menu-toggle'),
         closeMenuBtn: document.getElementById('close-menu-btn'),
         backButton: document.getElementById('back-button'),
         sectionsGrid: document.getElementById('sections-grid'),
-
-        quizContent: document.getElementById('quiz-content'),
-        timer: document.getElementById('timer'),
         nextButton: document.getElementById('next-question-btn'),
-        finalScore: document.getElementById('final-score-display'),
-        timeSpent: document.getElementById('time-spent-display'),
-        correctAnswers: document.getElementById('correct-answers'),
-        feedbackMsg: document.getElementById('feedback-message'),
-        achievementMsg: document.getElementById('achievement-msg'),
-        restartBtn: document.getElementById('restart-btn')
+        restartBtn: document.getElementById('restart-btn'),
+        shareBtn: document.getElementById('share-btn')
     },
-    sounds: {
-        correct: document.getElementById('sound-correct'),
-        wrong: document.getElementById('sound-wrong'),
-        click: document.getElementById('sound-click'),
-        timeup: document.getElementById('sound-timeup'),
-        finish: document.getElementById('sound-finish')
+
+    // عناصر الاختبار
+    quiz: {
+        progress: document.getElementById('quiz-progress'),
+        progressText: document.getElementById('progress-text'),
+        timer: document.getElementById('timer'),
+        timerFill: document.querySelector('.timer-fill'),
+        timerCircle: document.querySelector('.timer-circle'),
+        questionText: document.getElementById('question-text'),
+        optionsContainer: document.getElementById('options-container'),
+        feedback: document.getElementById('feedback-message')
+    },
+
+    // عناصر النتائج
+    results: {
+        finalScore: document.getElementById('final-score-display'),
+        correctAnswers: document.getElementById('correct-answers'),
+        timeSpent: document.getElementById('time-spent-display'),
+        performanceLevel: document.getElementById('performance-level'),
+        achievementTitle: document.getElementById('achievement-title'),
+        achievementMessage: document.getElementById('achievement-message')
     }
 };
 
-// ====== دوال المساعدة والخدمة ======
+// ====== تهيئة الإنجازات ======
+function initializeAchievements() {
+    achievementSystem.addAchievement(
+        'first_win',
+        'الفائز الأول',
+        'أكمل أول اختبار بنجاح',
+        (state) => state.quizzesCompleted > 0
+    );
 
-function playSound(soundElement) {
-    if (soundElement && soundElement.src) {
-        soundElement.currentTime = 0;
-        soundElement.play().catch(e => { 
-            console.warn("Sound blocked:", e); 
-        });
-    }
+    achievementSystem.addAchievement(
+        'perfectionist',
+        'المثالي',
+        'احصل على 100% في أحد الاختبارات',
+        (state) => state.perfectScores > 0
+    );
+
+    achievementSystem.addAchievement(
+        'speed_demon',
+        'سريع كالبرق',
+        'أكمل اختباراً في أقل من دقيقة',
+        (state) => state.fastestTime < 60
+    );
 }
 
+// ====== دوال المساعدة ======
 function formatTime(seconds) {
-    const minutes = Math.floor(seconds / 60);
+    const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
-    return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
 }
 
-function switchScreen(activeScreen) {
-    document.querySelectorAll('.screen').forEach(screen => {
+function switchScreen(targetScreen) {
+    // إخفاء جميع الشاشات
+    Object.values(DOM.screens).forEach(screen => {
         screen.classList.remove('active');
     });
-    activeScreen.classList.add('active');
+
+    // إظهار الشاشة المطلوبة
+    targetScreen.classList.add('active');
+
+    // إغلاق القائمة الجانبية
     DOM.screens.menu.classList.remove('open');
+
+    // التحكم في ظهور زر الرجوع
+    DOM.elements.backButton.style.display = 
+        targetScreen === DOM.screens.welcome ? 'none' : 'flex';
 }
 
-function showFeedback(message, type) {
-    DOM.elements.feedbackMsg.textContent = message;
-    DOM.elements.feedbackMsg.style.display = 'block';
-    DOM.elements.feedbackMsg.style.background = type === 'success' 
-        ? 'rgba(0, 255, 194, 0.2)' 
-        : 'rgba(255, 51, 153, 0.2)';
-    DOM.elements.feedbackMsg.style.border = type === 'success' 
-        ? '1px solid var(--success)' 
-        : '1px solid var(--danger)';
-    DOM.elements.feedbackMsg.style.color = type === 'success' ? 'var(--success)' : 'var(--danger)';
+function updateProgressBar(percentage) {
+    DOM.quiz.progress.style.width = `${percentage}%`;
 }
 
-function hideFeedback() {
-    DOM.elements.feedbackMsg.style.display = 'none';
+function updateTimerCircle(percentage) {
+    const circumference = 226; // 2 * π * 36
+    const offset = circumference - (percentage * circumference);
+    DOM.quiz.timerFill.style.strokeDashoffset = offset;
 }
 
+// ====== نظام المؤقت ======
 function startTimer() {
     clearInterval(timerInterval);
-    timeLeft = TIME_LIMIT_PER_QUESTION; 
-    DOM.elements.timer.textContent = formatTime(timeLeft);
-    DOM.elements.timer.classList.remove('danger');
+    timeLeft = 20;
     
+    // تحديث واجهة المؤقت
+    DOM.quiz.timer.textContent = timeLeft;
+    updateTimerCircle(1);
+    DOM.quiz.timerCircle.classList.remove('timer-danger', 'timer-warning');
+
     timerInterval = setInterval(() => {
         timeLeft--;
-        DOM.elements.timer.textContent = formatTime(timeLeft);
-
-        if (timeLeft <= 5) {
-            DOM.elements.timer.classList.add('danger'); 
-        }
         
+        // تحديث الواجهة
+        DOM.quiz.timer.textContent = timeLeft;
+        updateTimerCircle(timeLeft / 20);
+
+        // تغيير اللون عند انخفاض الوقت
+        if (timeLeft <= 5) {
+            DOM.quiz.timerCircle.classList.add('timer-danger');
+        } else if (timeLeft <= 10) {
+            DOM.quiz.timerCircle.classList.add('timer-warning');
+        }
+
+        // انتهاء الوقت
         if (timeLeft <= 0) {
             clearInterval(timerInterval);
-            checkAnswer(-1); 
+            handleTimeUp();
         }
     }, 1000);
 }
 
-function updateScoreRing(percentage) {
-    const circle = document.querySelector('.progress-ring-circle');
-    if (circle) {
-        const radius = circle.r.baseVal.value;
-        const circumference = 2 * Math.PI * radius;
-        const offset = circumference - (percentage / 100) * circumference;
-        circle.style.strokeDashoffset = offset;
-    }
+function handleTimeUp() {
+    soundSystem.play('timeup');
+    checkAnswer(-1); // -1 يعني انتهاء الوقت
 }
 
-// ====== وظائف القائمة الجانبية والتحميل ======
-
-function toggleMenu(forceClose = false) {
-    playSound(DOM.sounds.click);
-    if (DOM.screens.menu.classList.contains('open') || forceClose) {
-        DOM.screens.menu.classList.remove('open');
-    } else {
-        DOM.screens.menu.classList.add('open');
-    }
+// ====== إدارة القائمة الجانبية ======
+function toggleMenu() {
+    soundSystem.play('click');
+    DOM.screens.menu.classList.toggle('open');
 }
 
-function renderSectionsForMenu() {
+function renderSectionsMenu() {
     DOM.elements.sectionsGrid.innerHTML = '';
+    
     allSectionsData.forEach((section, index) => {
         const button = document.createElement('button');
-        button.className = 'section-item';
-        // عرض اسم القسم فقط بدون عدد الأسئلة
+        button.className = 'sidebar-item';
         button.textContent = section.section.split(':')[1] || section.section;
         button.onclick = () => {
             startQuiz(index);
-            toggleMenu(true);
+            toggleMenu();
         };
         DOM.elements.sectionsGrid.appendChild(button);
     });
 }
 
-async function loadSections() {
+// ====== نظام الاختبار ======
+function startQuiz(sectionIndex) {
+    soundSystem.play('click');
+    
+    const selectedSection = allSectionsData[sectionIndex];
+    currentSection = selectedSection;
+    currentSectionQuestions = selectedSection.questions;
+    currentQuestionIndex = 0;
+    score = 0;
+    userAnswers = [];
+    quizStartTime = Date.now();
+    
+    switchScreen(DOM.screens.quiz);
+    displayQuestion();
+}
+
+function displayQuestion() {
+    if (currentQuestionIndex >= currentSectionQuestions.length) {
+        showResults();
+        return;
+    }
+
+    // إعادة تعيين حالة الزر
+    DOM.elements.nextButton.disabled = true;
+    DOM.elements.nextButton.innerHTML = `
+        <span class="button-text">تأكيد الإجابة</span>
+        <span class="button-icon"><i class="fas fa-lock"></i></span>
+    `;
+
+    // تحديث شريط التقدم
+    const progress = ((currentQuestionIndex) / currentSectionQuestions.length) * 100;
+    updateProgressBar(progress);
+    DOM.quiz.progressText.textContent = `${currentQuestionIndex + 1}/${currentSectionQuestions.length}`;
+
+    // إخفاء رسالة التغذية الراجعة
+    DOM.quiz.feedback.style.display = 'none';
+
+    // الحصول على السؤال الحالي
+    const question = currentSectionQuestions[currentQuestionIndex];
+    DOM.quiz.questionText.textContent = question.question;
+
+    // إنشاء الخيارات
+    DOM.quiz.optionsContainer.innerHTML = '';
+    question.options.forEach((option, index) => {
+        const label = document.createElement('label');
+        label.className = 'option-label';
+        label.innerHTML = `
+            <input type="radio" name="answer" value="${index}">
+            <span class="option-text">${option}</span>
+        `;
+        
+        label.querySelector('input').onclick = () => selectAnswer(index);
+        DOM.quiz.optionsContainer.appendChild(label);
+    });
+
+    // بدء المؤقت
+    startTimer();
+}
+
+function selectAnswer(selectedIndex) {
+    soundSystem.play('click');
+    
+    // إلغاء تحديد جميع الخيارات
+    document.querySelectorAll('.option-label').forEach(label => {
+        label.classList.remove('selected');
+    });
+
+    // تحديد الخيار المختار
+    const selectedLabel = document.querySelectorAll('.option-label')[selectedIndex];
+    selectedLabel.classList.add('selected');
+
+    // تفعيل زر التأكيد
+    DOM.elements.nextButton.disabled = false;
+    DOM.elements.nextButton.innerHTML = `
+        <span class="button-text">تأكيد الإجابة</span>
+        <span class="button-icon"><i class="fas fa-rocket"></i></span>
+    `;
+
+    // حفظ الإجابة المحددة
+    DOM.elements.nextButton.dataset.selectedIndex = selectedIndex;
+}
+
+function checkAnswer(selectedIndex = null) {
+    clearInterval(timerInterval);
+    
+    const question = currentSectionQuestions[currentQuestionIndex];
+    const correctIndex = question.correct;
+    
+    // إذا لم يتم تحديد إجابة (انتهاء الوقت)
+    if (selectedIndex === null) {
+        selectedIndex = parseInt(DOM.elements.nextButton.dataset.selectedIndex);
+    }
+
+    // تعطيل جميع الخيارات
+    document.querySelectorAll('input[type="radio"]').forEach(input => {
+        input.disabled = true;
+    });
+
+    // عرض الإجابات الصحيحة والخاطئة
+    document.querySelectorAll('.option-label').forEach((label, index) => {
+        if (index === correctIndex) {
+            label.classList.add('correct');
+        } else if (index === selectedIndex && index !== correctIndex) {
+            label.classList.add('wrong');
+        }
+    });
+
+    // التحقق من صحة الإجابة
+    const isCorrect = selectedIndex === correctIndex;
+    
+    // حفظ إجابة المستخدم
+    userAnswers.push({
+        question: question.question,
+        userAnswer: selectedIndex !== -1 ? question.options[selectedIndex] : "لم يتم الإجابة",
+        correctAnswer: question.options[correctIndex],
+        isCorrect: isCorrect,
+        timeSpent: 20 - timeLeft
+    });
+
+    // تحديث النتيجة
+    if (isCorrect) {
+        score++;
+        soundSystem.play('correct');
+        showFeedback('إجابة صحيحة! 🎉', 'correct');
+    } else if (selectedIndex === -1) {
+        soundSystem.play('timeup');
+        showFeedback(`انتهى الوقت! الإجابة الصحيحة: ${question.options[correctIndex]}`, 'wrong');
+    } else {
+        soundSystem.play('wrong');
+        showFeedback(`إجابة خاطئة. الإجابة الصحيحة: ${question.options[correctIndex]}`, 'wrong');
+    }
+
+    // تحديث زر الانتقال
+    DOM.elements.nextButton.disabled = false;
+    DOM.elements.nextButton.innerHTML = `
+        <span class="button-text">${currentQuestionIndex < currentSectionQuestions.length - 1 ? 'السؤال التالي' : 'عرض النتائج'}</span>
+        <span class="button-icon"><i class="fas fa-arrow-left"></i></span>
+    `;
+    DOM.elements.nextButton.onclick = nextQuestion;
+}
+
+function showFeedback(message, type) {
+    DOM.quiz.feedback.textContent = message;
+    DOM.quiz.feedback.className = `feedback-message feedback-${type}`;
+    DOM.quiz.feedback.style.display = 'block';
+    AnimationSystem.fadeIn(DOM.quiz.feedback);
+}
+
+function nextQuestion() {
+    currentQuestionIndex++;
+    DOM.elements.nextButton.onclick = null;
+    displayQuestion();
+}
+
+// ====== شاشة النتائج ======
+function showResults() {
+    clearInterval(timerInterval);
+    soundSystem.play('finish');
+    
+    const totalTime = Math.floor((Date.now() - quizStartTime) / 1000);
+    const totalQuestions = currentSectionQuestions.length;
+    const percentage = Math.round((score / totalQuestions) * 100);
+    
+    switchScreen(DOM.screens.results);
+    
+    // تحديث النتائج
+    DOM.results.finalScore.textContent = `${percentage}%`;
+    DOM.results.correctAnswers.textContent = `${score}/${totalQuestions}`;
+    DOM.results.timeSpent.textContent = formatTime(totalTime);
+    
+    // تحديث حلقة النتيجة
+    setTimeout(() => {
+        updateScoreRing(percentage);
+    }, 500);
+    
+    // تحديد مستوى الأداء والرسالة
+    let performance, title, message;
+    
+    if (percentage >= 90) {
+        performance = 'متميز';
+        title = 'أداء استثنائي! 🏆';
+        message = 'أنت خبير جغرافي حقيقي! معرفتك مذهلة وتستحق الإشادة.';
+        soundSystem.play('levelup');
+    } else if (percentage >= 70) {
+        performance = 'متقدم';
+        title = 'أداء رائع! 💫';
+        message = 'معرفتك الجغرافية قوية ومتطورة. استمر في التقدم!';
+    } else if (percentage >= 50) {
+        performance = 'متوسط';
+        title = 'أداء جيد! 👍';
+        message = 'لديك معرفة جيدة ولكن هناك مجال للتحسين. استمر في التعلم!';
+    } else {
+        performance = 'مبتدئ';
+        title = 'حاول مرة أخرى! 📚';
+        message = 'لا تيأس! كل رحلة تبدأ بخطوة. استمر في التعلم والتحدي.';
+    }
+    
+    DOM.results.performanceLevel.textContent = performance;
+    DOM.results.achievementTitle.textContent = title;
+    DOM.results.achievementMessage.textContent = message;
+    
+    // تحديث لون النتيجة
+    const scoreColor = percentage >= 70 ? 'var(--success)' : 
+                      percentage >= 50 ? 'var(--warning)' : 'var(--danger)';
+    DOM.results.finalScore.style.color = scoreColor;
+}
+
+function updateScoreRing(percentage) {
+    const circle = document.querySelector('.progress-ring-fill');
+    if (circle) {
+        const circumference = 628; // 2 * π * 100
+        const offset = circumference - (percentage / 100) * circumference;
+        circle.style.strokeDashoffset = offset;
+    }
+}
+
+// ====== دوال المساعدة العامة ======
+function goBack() {
+    soundSystem.play('click');
+    
+    if (DOM.screens.quiz.classList.contains('active')) {
+        if (confirm('هل تريد حقاً العودة؟ سيتم فقدان تقدمك الحالي.')) {
+            switchScreen(DOM.screens.welcome);
+        }
+    } else if (DOM.screens.results.classList.contains('active')) {
+        switchScreen(DOM.screens.welcome);
+    }
+}
+
+function resetQuiz() {
+    soundSystem.play('click');
+    switchScreen(DOM.screens.welcome);
+}
+
+function shareResults() {
+    soundSystem.play('click');
+    
+    const score = DOM.results.finalScore.textContent;
+    const message = `حصلت على ${score} في اختبار الجغرافي على GeoQuest! جرب التحدي بنفسك.`;
+    
+    if (navigator.share) {
+        navigator.share({
+            title: 'نتيجة اختبار GeoQuest',
+            text: message,
+            url: window.location.href
+        });
+    } else {
+        // نسخ النتيجة إلى الحافظة
+        navigator.clipboard.writeText(message).then(() => {
+            alert('تم نسخ النتيجة إلى الحافظة! 🎉');
+        });
+    }
+}
+
+// ====== تحميل البيانات ======
+async function loadQuizData() {
     try {
-        const response = await fetch('questions.json');
-        if (!response.ok) throw new Error('Failed to fetch JSON');
-        allSectionsData = await response.json();
+        // محاكاة تحميل البيانات
+        await new Promise(resolve => setTimeout(resolve, 1000));
         
-        renderSectionsForMenu();
-        
-    } catch (error) {
-        console.error('JSON Load Error:', error);
-        
-        // بيانات تجريبية للاختبار
+        // بيانات تجريبية شاملة
         allSectionsData = [
             {
-                section: "الجغرافيا العامة: أساسيات الجغرافيا",
+                section: "الجغرافيا العامة: أساسيات المعرفة الجغرافية",
                 questions: [
                     {
-                        question: "ما هو أكبر محيط في العالم؟",
+                        question: "ما هو أكبر محيط في العالم من حيث المساحة؟",
                         options: ["المحيط الهادئ", "المحيط الأطلسي", "المحيط الهندي", "المحيط المتجمد الشمالي"],
                         correct: 0
                     },
                     {
-                        question: "أي من هذه الدول لا تقع في أمريكا الجنوبية؟",
+                        question: "أي من هذه الدول لا تقع في قارة أمريكا الجنوبية؟",
                         options: ["البرازيل", "الأرجنتين", "نيجيريا", "تشيلي"],
                         correct: 2
                     },
                     {
                         question: "ما هي أعلى قمة جبل في العالم؟",
-                        options: ["كليمنجارو", "إفرست", "الألب", K2],
+                        options: ["جبل كليمنجارو", "جبل إفرست", "جبل الألب", "جبل K2"],
                         correct: 1
+                    },
+                    {
+                        question: "أي من هذه البحيرات هي الأكبر في أفريقيا؟",
+                        options: ["بحيرة فيكتوريا", "بحيرة تنجانيقا", "بحيرة ملاوي", "بحيرة تشاد"],
+                        correct: 0
                     }
                 ]
             },
@@ -186,230 +603,83 @@ async function loadSections() {
                         question: "أي من هذه الدول تقع في قارة أوروبا؟",
                         options: ["مصر", "تركيا", "فرنسا", "اليابان"],
                         correct: 2
+                    },
+                    {
+                        question: "ما هي عاصمة أستراليا؟",
+                        options: ["سيدني", "ملبورن", "كانبرا", "بريزبان"],
+                        correct: 2
+                    }
+                ]
+            },
+            {
+                section: "الجغرافيا المناخية: الأنماط المناخية",
+                questions: [
+                    {
+                        question: "أي من هذه المناطق تتميز بمناخ البحر المتوسط؟",
+                        options: ["شمال أفريقيا", "أمريكا الجنوبية", "أستراليا", "كل ما سبق"],
+                        correct: 3
+                    },
+                    {
+                        question: "ما هو أعلى معدل لدرجات الحرارة سجل على سطح الأرض؟",
+                        options: ["48°م", "56.7°م", "62°م", "70°م"],
+                        correct: 1
                     }
                 ]
             }
         ];
-        renderSectionsForMenu();
+        
+        renderSectionsMenu();
+        
+    } catch (error) {
+        console.error('Error loading quiz data:', error);
+        // عرض رسالة خطأ للمستخدم
+        alert('حدث خطأ في تحميل البيانات. يرجى تحديث الصفحة.');
     }
 }
 
-// ====== دوال الاختبار الأساسية ======
-
-function startQuiz(sectionIndex) {
-    playSound(DOM.sounds.click);
-    const selectedSection = allSectionsData[sectionIndex];
-    currentSectionQuestions = selectedSection.questions;
-    currentQuestionIndex = 0;
-    score = 0;
-    userAnswers = [];
-    quizStartTime = Date.now(); 
+// ====== تهيئة التطبيق ======
+function initializeApp() {
+    // إعداد نظام الإنجازات
+    initializeAchievements();
     
-    switchScreen(DOM.screens.quiz);
-    DOM.elements.nextButton.onclick = () => checkAnswer(parseInt(DOM.elements.nextButton.getAttribute('data-selected-index')));
-    DOM.elements.nextButton.disabled = true;
-    
-    displayQuestion();
-}
-
-function displayQuestion() {
-    if (currentQuestionIndex >= currentSectionQuestions.length) {
-        return showResults();
-    }
-    
-    hideFeedback();
-    startTimer();
-    
-    const q = currentSectionQuestions[currentQuestionIndex];
-    
-    let optionsHTML = '';
-    q.options.forEach((option, optionIndex) => {
-        const inputId = `opt-${currentQuestionIndex}${optionIndex}`;
-        optionsHTML += `
-            <label for="${inputId}" class="option-label">
-                <input type="radio" id="${inputId}" name="current-q" value="${optionIndex}" onclick="selectAnswer(${optionIndex})">
-                <span class="option-text">${option}</span>
-            </label>
-        `;
-    });
-
-    DOM.elements.quizContent.innerHTML = `
-        <p class="question-text">${q.question}</p>
-        <div id="options-container" class="options-grid">
-            ${optionsHTML}
-        </div>
-    `;
-
-    DOM.elements.nextButton.innerHTML = `
-        <span class="btn-text">تأكيد الإجابة</span>
-        <span class="btn-icon">🔒</span>
-    `;
-    DOM.elements.nextButton.disabled = true;
-    DOM.elements.nextButton.removeAttribute('data-selected-index');
-}
-
-window.selectAnswer = function(selectedIndex) {
-    playSound(DOM.sounds.click);
-    
-    DOM.elements.nextButton.disabled = false;
-    DOM.elements.nextButton.innerHTML = `
-        <span class="btn-text">تأكيد الإجابة</span>
-        <span class="btn-icon">🚀</span>
-    `;
-    DOM.elements.nextButton.setAttribute('data-selected-index', selectedIndex);
-}
-
-function checkAnswer(selectedIndex) {
-    if (selectedIndex === -1 && timeLeft > 0) return; 
-
-    clearInterval(timerInterval);
-    
-    const q = currentSectionQuestions[currentQuestionIndex];
-    const correctIndex = q.correct;
-    const card = DOM.elements.quizContent;
-    const optionsLabels = card.querySelectorAll('.option-label');
-    
-    card.querySelectorAll('input[type="radio"]').forEach(input => input.disabled = true);
-    DOM.elements.nextButton.disabled = true;
-    
-    let isCorrect = (selectedIndex === correctIndex);
-    
-    // حفظ إجابة المستخدم
-    userAnswers.push({
-        question: q.question,
-        userAnswer: selectedIndex !== -1 ? q.options[selectedIndex] : "لم يتم الإجابة",
-        correctAnswer: q.options[correctIndex],
-        isCorrect: isCorrect
-    });
-
-    optionsLabels.forEach((label, index) => {
-        if (index === correctIndex) {
-            label.classList.add('correct-answer');
-        } else if (index === selectedIndex && index !== correctIndex) {
-            label.classList.add('wrong-answer');
+    // ربط الأحداث
+    DOM.elements.startBtn.addEventListener('click', () => {
+        if (allSectionsData.length > 0) {
+            toggleMenu();
         }
     });
-
-    if (isCorrect) {
-        score++;
-        playSound(DOM.sounds.correct);
-        showFeedback("إجابة صحيحة! ✅", 'success');
-    } else if (selectedIndex === -1) {
-        playSound(DOM.sounds.timeup);
-        showFeedback(`انتهاء الزمن! الإجابة الصحيحة: ${q.options[correctIndex]} ⌛`, 'danger');
-    } else {
-        playSound(DOM.sounds.wrong);
-        showFeedback(`إجابة خاطئة. الإجابة الصحيحة: ${q.options[correctIndex]} ❌`, 'danger');
-    }
     
-    DOM.elements.nextButton.innerHTML = `
-        <span class="btn-text">السؤال التالي</span>
-        <span class="btn-icon">➡️</span>
-    `;
-    DOM.elements.nextButton.disabled = false;
-    DOM.elements.nextButton.onclick = nextQuestion;
-}
-
-function nextQuestion() {
-    currentQuestionIndex++;
-    DOM.elements.nextButton.disabled = true;
-    DOM.elements.nextButton.onclick = () => checkAnswer(parseInt(DOM.elements.nextButton.getAttribute('data-selected-index')));
-    displayQuestion();
-}
-
-function showResults() {
-    clearInterval(timerInterval);
-    playSound(DOM.sounds.finish);
+    DOM.elements.menuToggle.addEventListener('click', toggleMenu);
+    DOM.elements.closeMenuBtn.addEventListener('click', toggleMenu);
+    DOM.elements.backButton.addEventListener('click', goBack);
+    DOM.elements.restartBtn.addEventListener('click', resetQuiz);
+    DOM.elements.shareBtn.addEventListener('click', shareResults);
     
-    const timeEnd = Date.now();
-    const totalTimeSeconds = Math.floor((timeEnd - quizStartTime) / 1000);
+    // إعداد زر التأكيد الافتراضي
+    DOM.elements.nextButton.addEventListener('click', () => {
+        const selectedIndex = parseInt(DOM.elements.nextButton.dataset.selectedIndex);
+        if (!isNaN(selectedIndex)) {
+            checkAnswer(selectedIndex);
+        }
+    });
     
-    switchScreen(DOM.screens.results);
-
-    const totalQuestionsInCurrentSection = currentSectionQuestions.length;
-    const percentage = Math.round((score / totalQuestionsInCurrentSection) * 100);
+    // تحميل البيانات
+    loadQuizData();
     
-    // تحديث النتائج
-    DOM.elements.finalScore.textContent = `${percentage}%`;
-    DOM.elements.correctAnswers.textContent = `${score}/${totalQuestionsInCurrentSection}`;
-    DOM.elements.timeSpent.textContent = formatTime(totalTimeSeconds);
-    
-    // تحديث حلقة النتيجة
-    updateScoreRing(percentage);
-    
-    // تحديد مستوى الأداء
-    let achievementMessage;
-    if (percentage >= 90) { 
-        achievementMessage = "مستوى متميز! 🥇 أداء استثنائي في اختبار الجغرافيا."; 
-    } 
-    else if (percentage >= 70) { 
-        achievementMessage = "مستوى متقدم! 🥈 أداء رائع في المعرفة الجغرافية."; 
-    } 
-    else if (percentage >= 50) { 
-        achievementMessage = "مستوى متوسط. 🥉 استمر في التعلم والتطوير."; 
-    } 
-    else { 
-        achievementMessage = "تحسين مطلوب. 📚 راجع المواد وحاول مرة أخرى!"; 
-    }
-    
-    DOM.elements.achievementMsg.textContent = achievementMessage;
-
-    // تحديث لون النتيجة بناءً على الأداء
-    DOM.elements.finalScore.style.color = percentage >= 70 ? 'var(--success)' : 
-                                         percentage >= 50 ? 'var(--warning)' : 'var(--danger)';
-}
-
-function goBack() {
-    if (DOM.screens.quiz.classList.contains('active')) {
-        // إذا كنا في شاشة الاختبار، ارجع إلى الشاشة الرئيسية
-        switchScreen(DOM.screens.welcome);
-    } else if (DOM.screens.results.classList.contains('active')) {
-        // إذا كنا في شاشة النتائج، ارجع إلى الشاشة الرئيسية
-        switchScreen(DOM.screens.welcome);
-    } else {
-        // إذا كنا في الشاشة الرئيسية، لا تفعل شيئاً أو أظهر القائمة
-        toggleMenu();
-    }
-}
-
-function resetQuiz() {
-    clearInterval(timerInterval);
-    score = 0;
-    currentQuestionIndex = 0;
-    timeLeft = TIME_LIMIT_PER_QUESTION;
-    currentSectionQuestions = [];
-    userAnswers = [];
-    hideFeedback();
-    
-    switchScreen(DOM.screens.welcome);
-}
-
-// ====== ربط الأحداث ======
-DOM.elements.startBtn.addEventListener('click', () => {
-    if (allSectionsData.length > 0) {
-        toggleMenu();
-    } else {
-        alert('جاري تحميل البيانات، يرجى الانتظار...');
-    }
-});
-
-DOM.elements.menuToggle.addEventListener('click', toggleMenu);
-DOM.elements.closeMenuBtn.addEventListener('click', () => toggleMenu(true));
-DOM.elements.backButton.addEventListener('click', goBack);
-DOM.elements.restartBtn.addEventListener('click', resetQuiz);
-
-// تشغيل دالة التحميل عند بداية النظام
-window.onload = () => {
-    switchScreen(DOM.screens.welcome);
-    loadSections();
-    
-    // إخفاء زر الرجوع في الشاشة الرئيسية
+    // إخفاء زر الرجوع في البداية
     DOM.elements.backButton.style.display = 'none';
     
-    // إضافة تأثيرات دخول للعناصر
+    // تأثيرات دخول أولية
     setTimeout(() => {
         document.querySelectorAll('.feature-card').forEach((card, index) => {
-            card.style.animation = `fadeIn 0.5s ease-out ${index * 0.2}s both`;
+            card.style.animation = `fadeInUp 0.6s ease-out ${index * 0.2}s both`;
         });
     }, 500);
-};
+}
+
+// بدء التطبيق عند تحميل الصفحة
+window.addEventListener('DOMContentLoaded', initializeApp);
+
+// تصدير الدوال للاستخدام العام
+window.AnimationSystem = AnimationSystem;
+window.soundSystem = soundSystem;
