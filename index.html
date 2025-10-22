@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GeoMaster Challenge | تحدي خبير الجيولوجيا 🚀</title>
+    <title>GeoMaster Core | تحدي الواجهة المتقدمة</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Orbitron:wght@600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
@@ -11,29 +11,29 @@
 
     <div id="sections-menu" class="menu-sidebar">
         <button id="close-menu-btn" class="close-btn">❌ إغلاق</button>
-        <h2>اختر القسم (مستوى)</h2>
+        <h2>وحدة اختيار المسار</h2>
         <div id="sections-grid" class="sidebar-grid">
             </div>
     </div>
 
     <div class="container">
         <header>
-            <button id="menu-toggle" class="header-menu-btn">القائمة (الأقسام) ☰</button>
-            <h1 class="logo">GeoMaster Challenge 💎</h1>
+            <button id="menu-toggle" class="header-menu-btn">وحدات المعرفة ☰</button>
+            <h1 class="logo">GeoMaster Core 🌐</h1>
         </header>
 
         <div id="welcome-screen" class="screen active">
-            <h2 class="welcome-title">مرحبًا بك في التحدي الجيولوجي المتقدم!</h2>
+            <h2 class="welcome-title">تحية! نظام التحليل جاهز للعمل.</h2>
             
             <div class="progress-wrapper">
-                <span class="progress-label">التقدم الكلي في التحديات:</span>
+                <span class="progress-label">استقرار النظام الكلي:</span>
                 <div id="progress-container" class="progress-bar-shell">
                     <div id="progress-level" style="width: 0%;"></div>
                 </div>
-                <p id="progress-text" class="ready-text">هل أنت جاهز؟</p>
+                <p id="progress-text" class="ready-text">جاري مزامنة البيانات... (50%)</p>
             </div>
 
-            <button id="start-button" class="action-btn big-start-btn">ابدأ التحدي 🚀</button>
+            <button id="start-button" class="action-btn big-start-btn">هل أنت جاهز؟ [ابدأ] 🔑</button>
         </div>
 
         <div id="quiz-screen" class="screen">
@@ -44,23 +44,26 @@
             
             <div class="question-container-wrapper">
                 <div id="quiz-content" class="question-card">
-                    </div>
+                    <p class="question-text">تحميل السؤال...</p>
+                    <div id="options-container" class="options-grid">
+                        </div>
+                </div>
             </div>
             
-            <button id="next-question-btn" class="action-btn next-btn" disabled>تأكيد الإجابة 🔒</button>
+            <button id="next-question-btn" class="action-btn next-btn" disabled>تأكيد الإدخال 🔒</button>
             <p id="feedback-message" class="feedback-msg"></p>
         </div>
 
         <div id="final-results-screen" class="screen">
             <div class="results-box">
-                <h2 class="results-title">🏆 تحليل النتائج النهائية 🏆</h2>
+                <h2 class="results-title">تقرير الأداء 📈</h2>
                 <div class="score-summary">
                     <p>نسبة الإنجاز:</p>
                     <span class="final-score-display" id="final-score-display">0%</span>
-                    <p>الزمن الإجمالي للتحليل: <span id="time-spent-display">00:00</span></p>
+                    <p>زمن العملية: <span id="time-spent-display">00:00</span></p>
                     <p id="achievement-msg" class="achievement-msg"></p>
                 </div>
-                <button id="restart-btn" class="action-btn" onclick="resetQuiz()">بدء تحليل جديد 🔄</button>
+                <button id="restart-btn" class="action-btn" onclick="resetQuiz()">إعادة تشغيل النظام 🔄</button>
             </div>
         </div>
     </div>
