@@ -1,88 +1,74 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>GeoPro — تدريب الجيولوجيين</title>
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصة تدريب الجيولوجيين | اختبارات تخصصية</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <!-- HEADER -->
-  <header class="topbar">
-    <div class="logo">GeoPro<span class="dot">.</span></div>
-    <div class="top-info">
-      <div id="user-level" class="level">المستوى: <span id="level-value">مبتدئ</span></div>
-      <div id="progress-mini" class="mini-prog">0%</div>
+
+    <audio id="correctSound" src="correct.mp3" preload="auto"></audio>
+    <audio id="incorrectSound" src="incorrect.mp3" preload="auto"></audio>
+
+    <div id="app-container">
+
+        <section id="home-screen" class="screen active">
+            <header class="header">
+                <h1>منصة الجيولوجي المحترف ⛏️</h1>
+                <p>اختبر معلوماتك وارفع مستواك في التخصصات الجيولوجية!</p>
+            </header>
+            <div class="category-selection">
+                <h2>اختر مجال الاختبار:</h2>
+                <button class="category-btn" data-category="Basic Geology.json">الجيولوجيا الأساسية 🌍</button>
+                <button class="category-btn" data-category="Hydrogeology.json">الجيولوجيا المائية 💧</button>
+                <button class="category-btn" data-category="Petrology.json">علم الصخور (البترولوجيا) 🔥</button>
+            </div>
+        </section>
+
+        <section id="quiz-screen" class="screen">
+            <div class="quiz-header">
+                <span id="quiz-title" class="title"></span>
+                <div class="stats-container">
+                    <div class="stat-box timer-box">
+                        ⏱️ <span id="timer-display">00:00</span>
+                    </div>
+                    <div class="stat-box progress-box">
+                        السؤال: <span id="current-question-index">1</span> / <span id="total-questions">10</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="progress-bar-container">
+                <div id="progress-bar-fill"></div>
+            </div>
+
+            <div id="question-card" class="card">
+                <p id="question-text" class="question-text">نص السؤال سيظهر هنا...</p>
+                <div id="options-container" class="options-container">
+                    </div>
+                <button id="next-btn" class="next-btn" disabled>السؤال التالي</button>
+            </div>
+        </section>
+
+        <section id="results-screen" class="screen">
+            <header class="header">
+                <h1>نتائج الاختبار 🎉</h1>
+            </header>
+            <div class="results-summary">
+                <p>التخصص: <span id="result-category"></span></p>
+                <p>الأسئلة الصحيحة: <span id="score-correct"></span></p>
+                <p>النسبة المئوية: <span id="score-percentage"></span></p>
+            </div>
+            <p id="result-message" class="message"></p>
+            <button class="restart-btn">العودة للصفحة الرئيسية</button>
+        </section>
+
     </div>
-  </header>
 
-  <!-- SUBJECTS (الصفحة الرئيسية) -->
-  <main class="container">
-    <section id="subject-screen" class="card active">
-      <h1>اختبر مهاراتك الجيولوجية</h1>
-      <p class="lead">اختر التخصص للبدء — الأسئلة مخزنة في 3 ملفات JSON مختلفة.</p>
-      <div id="subjects" class="subjects-grid">
-        <!-- تولد ديناميكياً من script.js -->
-      </div>
-
-      <div class="help">
-        <p>كل اختبار يحتوي أسئلة متعددة الخيارات (4 اقتراحات). المؤقت يظهر في صفحة الاختبار.</p>
-      </div>
-    </section>
-
-    <!-- QUIZ SCREEN -->
-    <section id="quiz-screen" class="card">
-      <div class="quiz-top">
-        <div id="subject-title" class="subject-title">المادة</div>
-        <div class="timer-wrap">
-          <div id="timer" class="timer">00:20</div>
-          <div id="question-counter" class="qcount">سؤال <span id="current">1</span>/<span id="total">10</span></div>
-        </div>
-      </div>
-
-      <div class="question-box">
-        <p id="question-text" class="question-text">تحميل السؤال...</p>
-        <div id="options-container" class="options-container"></div>
-      </div>
-
-      <div class="quiz-controls">
-        <button id="prev-btn" class="btn secondary">السابق</button>
-        <button id="next-btn" class="btn primary" disabled>تأكيد الإجابة</button>
-      </div>
-
-      <div id="feedback" class="feedback"></div>
-    </section>
-
-    <!-- RESULTS -->
-    <section id="result-screen" class="card">
-      <h2>النتيجة</h2>
-      <div class="result-summary">
-        <div>الإجابات الصحيحة: <strong id="correct-count">0</strong></div>
-        <div>من أصل: <strong id="total-count">0</strong></div>
-        <div>النسبة: <strong id="percentage">0%</strong></div>
-        <div>المستوى: <strong id="level-text">---</strong></div>
-      </div>
-
-      <div id="review" class="review-list"></div>
-
-      <div class="result-actions">
-        <button id="restart-btn" class="btn secondary">العودة للاختيارات</button>
-        <button id="retry-btn" class="btn primary">إعادة نفس الاختبار</button>
-      </div>
-    </section>
-  </main>
-
-  <!-- أصوات -->
-  <audio id="sound-correct" preload="auto">
-    <source src="https://assets.mixkit.co/sfx/preview/mixkit-correct-answer-tone-2870.mp3" type="audio/mpeg">
-  </audio>
-  <audio id="sound-wrong" preload="auto">
-    <source src="https://assets.mixkit.co/sfx/preview/mixkit-wrong-answer-fail-notification-946.mp3" type="audio/mpeg">
-  </audio>
-  <audio id="sound-timeup" preload="auto">
-    <source src="https://assets.mixkit.co/sfx/preview/mixkit-fast-game-timer-1007.mp3" type="audio/mpeg">
-  </audio>
-
-  <script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
