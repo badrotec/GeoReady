@@ -918,6 +918,16 @@ input:checked + .switch-slider:before {
     justify-content: center;
 }
 
+/* النمط الجديد لمؤقت السؤال */
+.question-timer {
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--warning-color);
+    background: rgba(245, 158, 11, 0.1);
+    border: 1px solid var(--warning-color);
+}
+
 .timer-box {
     color: var(--warning-color);
 }
@@ -1085,15 +1095,15 @@ input:checked + .switch-slider:before {
     transform: translateX(-5px);
 }
 
-/* إصلاح مشكلة الألوان - التأكد من أن الإجابات الصحيحة تظهر باللون الأخضر */
-.option-btn.correct {
+/* إصلاح أولوية الألوان - زيادة الأولوية عبر تحديد الفئة والزر معًا */
+.options-container .option-btn.correct {
     background: var(--correct-glow) !important;
     border-color: var(--correct-color) !important;
     color: white;
     animation: pulseCorrect 0.6s ease;
 }
 
-.option-btn.correct::before {
+.options-container .option-btn.correct::before {
     background-color: var(--correct-color) !important;
     border-color: var(--correct-color) !important;
     content: "✓";
@@ -1104,14 +1114,14 @@ input:checked + .switch-slider:before {
     color: white;
 }
 
-.option-btn.incorrect {
+.options-container .option-btn.incorrect {
     background: var(--incorrect-glow) !important;
     border-color: var(--incorrect-color) !important;
     color: white;
     animation: shake 0.5s ease;
 }
 
-.option-btn.incorrect::before {
+.options-container .option-btn.incorrect::before {
     background-color: var(--incorrect-color) !important;
     border-color: var(--incorrect-color) !important;
     content: "✗";
@@ -1139,6 +1149,7 @@ input:checked + .switch-slider:before {
     margin-bottom: 20px;
     border-radius: var(--border-radius);
     overflow: hidden;
+    flex: 1; /* للسماح للزر التالي بالاستفادة من المساحة */
 }
 
 .hint-btn {
@@ -1201,6 +1212,7 @@ input:checked + .switch-slider:before {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 15px; /* إضافة مسافة بين زر التلميح والتالي */
 }
 
 .next-btn {
@@ -1503,6 +1515,15 @@ input:checked + .switch-slider:before {
     .quiz-footer {
         flex-direction: column;
         gap: 15px;
+        width: 100%;
+    }
+    
+    .hint-container {
+        width: 100%;
+    }
+    
+    .next-btn {
+        width: 100%;
     }
     
     .question-text {
