@@ -1,1 +1,137 @@
-ب
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اختبار الجيولوجيا الشامل</title>
+    <style>
+        /* يمكنك وضع كود الـ CSS هنا أو في ملف style.css */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+            direction: rtl;
+            text-align: right;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            background-color: #3498db;
+            color: white;
+            padding: 10px 15px;
+            margin-top: 20px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+        }
+
+        .question-card {
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            background-color: #fafafa;
+        }
+
+        .question-text {
+            font-weight: bold;
+            color: #e74c3c;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .option-label {
+            display: block;
+            margin: 8px 0;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            border: 1px solid #ccc;
+        }
+
+        .option-label:hover {
+            background-color: #ecf0f1;
+        }
+
+        input[type="radio"] {
+            margin-left: 10px;
+        }
+
+        #submit-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background-color: #2ecc71;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2em;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: background-color 0.3s;
+        }
+
+        #submit-btn:hover {
+            background-color: #27ae60;
+        }
+
+        #results {
+            margin-top: 30px;
+            padding: 20px;
+            border: 2px dashed #3498db;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 1.2em;
+            font-weight: bold;
+            display: none; /* مخفية حتى يتم النقر على زر الإرسال */
+        }
+
+        .correct-answer {
+            background-color: #d4edda !important;
+            border: 1px solid #c3e6cb !important;
+        }
+
+        .wrong-answer {
+            background-color: #f8d7da !important;
+            border: 1px solid #f5c6cb !important;
+        }
+
+        .user-selected {
+            border: 2px solid #e67e22 !important;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>اختبار الجيولوجيا الشامل</h1>
+
+        <div id="quiz-container">
+            </div>
+
+        <button id="submit-btn" onclick="submitQuiz()">إنهاء وعرض النتيجة</button>
+
+        <div id="results">
+            </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
