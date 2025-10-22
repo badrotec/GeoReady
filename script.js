@@ -1,4 +1,3 @@
-
 let currentSubject = '';
 let currentQuestions = [];
 let currentQuestionIndex = 0;
