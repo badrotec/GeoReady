@@ -21,25 +21,18 @@ const DOM = {
         startBtn: document.getElementById('start-button'), 
         menuToggle: document.getElementById('menu-toggle'),
         closeMenuBtn: document.getElementById('close-menu-btn'),
+        backButton: document.getElementById('back-button'),
         sectionsGrid: document.getElementById('sections-grid'),
-        userLevel: document.getElementById('user-level'),
 
-        progressLevel: document.getElementById('progress-level'),
-        progressText: document.getElementById('progress-text'),
-
-        sectionTitle: document.getElementById('current-section-title'),
-        questionCounter: document.getElementById('question-counter'),
         quizContent: document.getElementById('quiz-content'),
         timer: document.getElementById('timer'),
         nextButton: document.getElementById('next-question-btn'),
         finalScore: document.getElementById('final-score-display'),
         timeSpent: document.getElementById('time-spent-display'),
         correctAnswers: document.getElementById('correct-answers'),
-        performanceLevel: document.getElementById('performance-level'),
         feedbackMsg: document.getElementById('feedback-message'),
         achievementMsg: document.getElementById('achievement-msg'),
-        restartBtn: document.getElementById('restart-btn'),
-        reviewBtn: document.getElementById('review-btn')
+        restartBtn: document.getElementById('restart-btn')
     },
     sounds: {
         correct: document.getElementById('sound-correct'),
@@ -73,17 +66,6 @@ function switchScreen(activeScreen) {
     });
     activeScreen.classList.add('active');
     DOM.screens.menu.classList.remove('open');
-}
-
-function updateProgress(percentage) {
-    DOM.elements.progressLevel.style.width = `${percentage}%`;
-    DOM.elements.progressText.textContent = `استقرار النظام الكلي: ${percentage.toFixed(0)}%`;
-    
-    // تحديث شريط XP في الرأس
-    const xpProgress = document.querySelector('.xp-progress');
-    if (xpProgress) {
-        xpProgress.style.width = `${percentage}%`;
-    }
 }
 
 function showFeedback(message, type) {
@@ -149,10 +131,8 @@ function renderSectionsForMenu() {
     allSectionsData.forEach((section, index) => {
         const button = document.createElement('button');
         button.className = 'section-item';
-        button.innerHTML = `
-            <span class="section-name">${section.section.split(':')[1] || section.section}</span>
-            <span class="section-count">${section.questions.length} سؤال</span>
-        `;
+        // عرض اسم القسم فقط بدون عدد الأسئلة
+        button.textContent = section.section.split(':')[1] || section.section;
         button.onclick = () => {
             startQuiz(index);
             toggleMenu(true);
@@ -163,33 +143,14 @@ function renderSectionsForMenu() {
 
 async function loadSections() {
     try {
-        // محاكاة تحميل البيانات مع شريط تقدم
-        let progress = 50;
-        updateProgress(progress);
-        
-        const progressInterval = setInterval(() => {
-            progress += Math.random() * 10;
-            if (progress >= 100) {
-                progress = 100;
-                clearInterval(progressInterval);
-            }
-            updateProgress(progress);
-        }, 200);
-
         const response = await fetch('questions.json');
         if (!response.ok) throw new Error('Failed to fetch JSON');
         allSectionsData = await response.json();
         
-        clearInterval(progressInterval);
-        updateProgress(100);
-        
         renderSectionsForMenu();
-        DOM.elements.progressText.textContent = 'النظام جاهز. اضغط [ابدأ]';
         
     } catch (error) {
         console.error('JSON Load Error:', error);
-        updateProgress(10);
-        DOM.elements.progressText.textContent = '❌ فشل تحميل البيانات. تأكد من وجود ملف questions.json.';
         
         // بيانات تجريبية للاختبار
         allSectionsData = [
@@ -204,6 +165,26 @@ async function loadSections() {
                     {
                         question: "أي من هذه الدول لا تقع في أمريكا الجنوبية؟",
                         options: ["البرازيل", "الأرجنتين", "نيجيريا", "تشيلي"],
+                        correct: 2
+                    },
+                    {
+                        question: "ما هي أعلى قمة جبل في العالم؟",
+                        options: ["كليمنجارو", "إفرست", "الألب", K2],
+                        correct: 1
+                    }
+                ]
+            },
+            {
+                section: "الجغرافيا السياسية: الدول والحدود",
+                questions: [
+                    {
+                        question: "ما هي أكبر دولة في العالم من حيث المساحة؟",
+                        options: ["كندا", "الولايات المتحدة", "روسيا", "الصين"],
+                        correct: 2
+                    },
+                    {
+                        question: "أي من هذه الدول تقع في قارة أوروبا؟",
+                        options: ["مصر", "تركيا", "فرنسا", "اليابان"],
                         correct: 2
                     }
                 ]
@@ -225,7 +206,6 @@ function startQuiz(sectionIndex) {
     quizStartTime = Date.now(); 
     
     switchScreen(DOM.screens.quiz);
-    DOM.elements.sectionTitle.textContent = selectedSection.section.split(':')[0];
     DOM.elements.nextButton.onclick = () => checkAnswer(parseInt(DOM.elements.nextButton.getAttribute('data-selected-index')));
     DOM.elements.nextButton.disabled = true;
     
@@ -241,14 +221,10 @@ function displayQuestion() {
     startTimer();
     
     const q = currentSectionQuestions[currentQuestionIndex];
-    const questionNumber = currentQuestionIndex + 1;
-    
-    // تحديث عداد الأسئلة
-    DOM.elements.questionCounter.textContent = `سؤال ${questionNumber}/${currentSectionQuestions.length}`;
     
     let optionsHTML = '';
     q.options.forEach((option, optionIndex) => {
-        const inputId = `opt-${questionNumber}${optionIndex}`;
+        const inputId = `opt-${currentQuestionIndex}${optionIndex}`;
         optionsHTML += `
             <label for="${inputId}" class="option-label">
                 <input type="radio" id="${inputId}" name="current-q" value="${optionIndex}" onclick="selectAnswer(${optionIndex})">
@@ -258,9 +234,6 @@ function displayQuestion() {
     });
 
     DOM.elements.quizContent.innerHTML = `
-        <div class="question-header">
-            <span class="difficulty-indicator">${getDifficultyLevel(currentQuestionIndex)}</span>
-        </div>
         <p class="question-text">${q.question}</p>
         <div id="options-container" class="options-grid">
             ${optionsHTML}
@@ -268,16 +241,11 @@ function displayQuestion() {
     `;
 
     DOM.elements.nextButton.innerHTML = `
-        <span class="btn-text">تأكيد الإدخال</span>
+        <span class="btn-text">تأكيد الإجابة</span>
         <span class="btn-icon">🔒</span>
     `;
     DOM.elements.nextButton.disabled = true;
     DOM.elements.nextButton.removeAttribute('data-selected-index');
-}
-
-function getDifficultyLevel(index) {
-    const levels = ['سهل', 'متوسط', 'صعب', 'متقدم'];
-    return levels[Math.min(index, levels.length - 1)];
 }
 
 window.selectAnswer = function(selectedIndex) {
@@ -285,7 +253,7 @@ window.selectAnswer = function(selectedIndex) {
     
     DOM.elements.nextButton.disabled = false;
     DOM.elements.nextButton.innerHTML = `
-        <span class="btn-text">تأكيد الإدخال</span>
+        <span class="btn-text">تأكيد الإجابة</span>
         <span class="btn-icon">🚀</span>
     `;
     DOM.elements.nextButton.setAttribute('data-selected-index', selectedIndex);
@@ -370,25 +338,20 @@ function showResults() {
     updateScoreRing(percentage);
     
     // تحديد مستوى الأداء
-    let performanceLevel, achievementMessage;
+    let achievementMessage;
     if (percentage >= 90) { 
-        performanceLevel = "متميز"; 
-        achievementMessage = "GeoMaster مطلق! 🥇 أداء استثنائي في اختبار الجغرافيا."; 
+        achievementMessage = "مستوى متميز! 🥇 أداء استثنائي في اختبار الجغرافيا."; 
     } 
     else if (percentage >= 70) { 
-        performanceLevel = "متقدم"; 
-        achievementMessage = "خبير متقدم في الجغرافيا! 🥈 أداء رائع."; 
+        achievementMessage = "مستوى متقدم! 🥈 أداء رائع في المعرفة الجغرافية."; 
     } 
     else if (percentage >= 50) { 
-        performanceLevel = "متوسط"; 
-        achievementMessage = "محلل جغرافي متوسط. 🥉 استمر في التعلم والتطوير."; 
+        achievementMessage = "مستوى متوسط. 🥉 استمر في التعلم والتطوير."; 
     } 
     else { 
-        performanceLevel = "مبتدئ"; 
         achievementMessage = "تحسين مطلوب. 📚 راجع المواد وحاول مرة أخرى!"; 
     }
     
-    DOM.elements.performanceLevel.textContent = performanceLevel;
     DOM.elements.achievementMsg.textContent = achievementMessage;
 
     // تحديث لون النتيجة بناءً على الأداء
@@ -396,12 +359,20 @@ function showResults() {
                                          percentage >= 50 ? 'var(--warning)' : 'var(--danger)';
 }
 
-function reviewAnswers() {
-    // تنفيذ وظيفة مراجعة الإجابات
-    alert("وظيفة مراجعة الإجابات قيد التطوير. ستكون متاحة قريباً!");
+function goBack() {
+    if (DOM.screens.quiz.classList.contains('active')) {
+        // إذا كنا في شاشة الاختبار، ارجع إلى الشاشة الرئيسية
+        switchScreen(DOM.screens.welcome);
+    } else if (DOM.screens.results.classList.contains('active')) {
+        // إذا كنا في شاشة النتائج، ارجع إلى الشاشة الرئيسية
+        switchScreen(DOM.screens.welcome);
+    } else {
+        // إذا كنا في الشاشة الرئيسية، لا تفعل شيئاً أو أظهر القائمة
+        toggleMenu();
+    }
 }
 
-window.resetQuiz = function() {
+function resetQuiz() {
     clearInterval(timerInterval);
     score = 0;
     currentQuestionIndex = 0;
@@ -410,7 +381,6 @@ window.resetQuiz = function() {
     userAnswers = [];
     hideFeedback();
     
-    updateProgress(100);
     switchScreen(DOM.screens.welcome);
 }
 
@@ -425,21 +395,16 @@ DOM.elements.startBtn.addEventListener('click', () => {
 
 DOM.elements.menuToggle.addEventListener('click', toggleMenu);
 DOM.elements.closeMenuBtn.addEventListener('click', () => toggleMenu(true));
+DOM.elements.backButton.addEventListener('click', goBack);
 DOM.elements.restartBtn.addEventListener('click', resetQuiz);
-DOM.elements.reviewBtn.addEventListener('click', reviewAnswers);
-
-// إضافة تأثيرات إضافية عند التمرير
-window.addEventListener('scroll', () => {
-    const scrolled = window.pageYOffset;
-    const rate = scrolled * -0.5;
-    document.body.style.backgroundPosition = `calc(50% + ${rate}px) calc(20% + ${rate*0.5}px)`;
-});
 
 // تشغيل دالة التحميل عند بداية النظام
 window.onload = () => {
     switchScreen(DOM.screens.welcome);
-    updateProgress(50);
     loadSections();
+    
+    // إخفاء زر الرجوع في الشاشة الرئيسية
+    DOM.elements.backButton.style.display = 'none';
     
     // إضافة تأثيرات دخول للعناصر
     setTimeout(() => {
