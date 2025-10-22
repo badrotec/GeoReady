@@ -12,10 +12,25 @@
 </head>
 <body>
 
-    <audio id="correctSound" src="correct.mp3" preload="auto"></audio>
-    <audio id="incorrectSound" src="incorrect.mp3" preload="auto"></audio>
+    <!-- ملفات الصوت -->
+    <audio id="correctSound" src="sounds/correct.mp3" preload="auto"></audio>
+    <audio id="incorrectSound" src="sounds/incorrect.mp3" preload="auto"></audio>
+    <audio id="clickSound" src="sounds/click.mp3" preload="auto"></audio>
+    <audio id="pageSound" src="sounds/page.mp3" preload="auto"></audio>
+    <audio id="completeSound" src="sounds/complete.mp3" preload="auto"></audio>
+    <audio id="backgroundMusic" src="sounds/background.mp3" preload="auto" loop></audio>
 
     <div id="app-container">
+
+        <!-- لوحة تحكم الصوت -->
+        <div id="sound-controls">
+            <button id="music-toggle" class="sound-btn" title="تشغيل/إيقاف الموسيقى">
+                <i class="fas fa-music"></i>
+            </button>
+            <button id="sound-toggle" class="sound-btn" title="تشغيل/إيقاف المؤثرات">
+                <i class="fas fa-volume-up"></i>
+            </button>
+        </div>
 
         <!-- شاشة التحميل -->
         <section id="loading-screen" class="screen">
@@ -25,6 +40,9 @@
                 </div>
                 <h2>جاري تحميل الأسئلة...</h2>
                 <p>يرجى الانتظار قليلاً</p>
+                <div class="loading-bar">
+                    <div class="loading-progress"></div>
+                </div>
             </div>
         </section>
 
@@ -37,6 +55,22 @@
                 </div>
                 <p>اختبر معلوماتك وارفع مستواك في التخصصات الجيولوجية!</p>
             </header>
+            
+            <div class="user-stats">
+                <div class="stat-item">
+                    <span class="stat-value" id="total-quizzes">0</span>
+                    <span class="stat-label">الاختبارات المكتملة</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value" id="average-score">0%</span>
+                    <span class="stat-label">متوسط النتائج</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value" id="total-points">0</span>
+                    <span class="stat-label">النقاط الإجمالية</span>
+                </div>
+            </div>
+            
             <div class="category-selection">
                 <h2>اختر مجال الاختبار:</h2>
                 <div class="category-grid">
@@ -46,6 +80,12 @@
                         </div>
                         <h3>الجيولوجيا الأساسية</h3>
                         <p>اختبار شامل في أساسيات علم الجيولوجيا</p>
+                        <div class="category-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" data-category="Basic Geology.json"></div>
+                            </div>
+                            <span class="progress-text">0%</span>
+                        </div>
                     </button>
                     <button class="category-card" data-category="Hydrogeology.json">
                         <div class="category-icon">
@@ -53,6 +93,12 @@
                         </div>
                         <h3>الجيولوجيا المائية</h3>
                         <p>اختبار متخصص في المياه الجوفية والهيدروجيولوجيا</p>
+                        <div class="category-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" data-category="Hydrogeology.json"></div>
+                            </div>
+                            <span class="progress-text">0%</span>
+                        </div>
                     </button>
                     <button class="category-card" data-category="Petrology.json">
                         <div class="category-icon">
@@ -60,8 +106,81 @@
                         </div>
                         <h3>علم الصخور</h3>
                         <p>اختبار في أنواع الصخور وتكوينها وخصائصها</p>
+                        <div class="category-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" data-category="Petrology.json"></div>
+                            </div>
+                            <span class="progress-text">0%</span>
+                        </div>
                     </button>
                 </div>
+            </div>
+            
+            <div class="home-actions">
+                <button id="settings-btn" class="action-btn secondary">
+                    <i class="fas fa-cog"></i>
+                    الإعدادات
+                </button>
+                <button id="achievements-btn" class="action-btn secondary">
+                    <i class="fas fa-trophy"></i>
+                    الإنجازات
+                </button>
+            </div>
+        </section>
+
+        <!-- شاشة الإعدادات -->
+        <section id="settings-screen" class="screen">
+            <header class="header">
+                <div class="logo">
+                    <i class="fas fa-cog"></i>
+                    <h1>الإعدادات</h1>
+                </div>
+            </header>
+            
+            <div class="settings-container">
+                <div class="setting-group">
+                    <h3>إعدادات الصوت</h3>
+                    <div class="setting-item">
+                        <label for="music-volume">مستوى الموسيقى:</label>
+                        <input type="range" id="music-volume" min="0" max="100" value="50">
+                        <span id="music-volume-value">50%</span>
+                    </div>
+                    <div class="setting-item">
+                        <label for="sound-volume">مستوى المؤثرات:</label>
+                        <input type="range" id="sound-volume" min="0" max="100" value="70">
+                        <span id="sound-volume-value">70%</span>
+                    </div>
+                </div>
+                
+                <div class="setting-group">
+                    <h3>إعدادات الواجهة</h3>
+                    <div class="setting-item">
+                        <label for="animation-toggle">الرسوم المتحركة:</label>
+                        <label class="switch">
+                            <input type="checkbox" id="animation-toggle" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <label for="difficulty">صعوبة الأسئلة:</label>
+                        <select id="difficulty">
+                            <option value="easy">سهل</option>
+                            <option value="medium" selected>متوسط</option>
+                            <option value="hard">صعب</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="settings-actions">
+                <button id="save-settings" class="action-btn primary">
+                    <i class="fas fa-save"></i>
+                    حفظ الإعدادات
+                </button>
+                <button id="back-from-settings" class="action-btn secondary">
+                    <i class="fas fa-arrow-right"></i>
+                    العودة
+                </button>
             </div>
         </section>
 
@@ -98,12 +217,20 @@
             <div id="question-card" class="card">
                 <div class="question-header">
                     <span class="question-number">السؤال <span id="question-number">1</span></span>
+                    <span class="question-difficulty" id="question-difficulty">متوسط</span>
                 </div>
                 <p id="question-text" class="question-text">نص السؤال سيظهر هنا...</p>
                 <div id="options-container" class="options-container">
                     <!-- سيتم إضافة الخيارات ديناميكياً -->
                 </div>
                 <div class="quiz-footer">
+                    <div class="hint-container" id="hint-container">
+                        <button id="hint-btn" class="hint-btn">
+                            <i class="fas fa-lightbulb"></i>
+                            تلميح
+                        </button>
+                        <p id="hint-text" class="hint-text"></p>
+                    </div>
                     <button id="next-btn" class="next-btn" disabled>
                         <span>السؤال التالي</span>
                         <i class="fas fa-arrow-left"></i>
@@ -133,7 +260,7 @@
                     </div>
                     
                     <div class="results-details">
-                        <h2>تهانينا!</h2>
+                        <h2 id="result-title">تهانينا!</h2>
                         <p id="result-message" class="message">لقد أكملت الاختبار بنجاح</p>
                         
                         <div class="stats-grid">
@@ -154,17 +281,26 @@
                                 <span id="result-points" class="stat-value">0</span>
                             </div>
                         </div>
+                        
+                        <div class="achievements-earned" id="achievements-earned">
+                            <h3>الإنجازات المُكتسبة:</h3>
+                            <div class="achievements-list"></div>
+                        </div>
                     </div>
                 </div>
                 
                 <div class="results-actions">
-                    <button class="restart-btn primary">
+                    <button class="restart-btn primary" id="home-btn">
                         <i class="fas fa-home"></i>
                         العودة للصفحة الرئيسية
                     </button>
                     <button class="restart-btn secondary" id="retry-btn">
                         <i class="fas fa-redo"></i>
                         إعادة الاختبار
+                    </button>
+                    <button class="restart-btn secondary" id="share-btn">
+                        <i class="fas fa-share"></i>
+                        مشاركة النتيجة
                     </button>
                 </div>
             </div>
