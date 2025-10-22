@@ -43,8 +43,8 @@ async function startQuiz(subject) {
     userAnswers = {};
     
     try {
-        // تحميل الأسئلة من ملف JSON المناسب
-        const response = await fetch(`questions/${subject}.json`);
+        // ✅ تصحيح المسار هنا — لأن الملفات في نفس المستوى
+        const response = await fetch(`${subject}.json`);
         currentQuestions = await response.json();
         
         // إخفاء اختيار المادة وإظهار الاختبار
@@ -67,18 +67,13 @@ async function startQuiz(subject) {
 function showQuestion() {
     const question = currentQuestions[currentQuestionIndex];
     
-    // تحديث رقم السؤال والتقدم
     document.getElementById('question-number').textContent = currentQuestionIndex + 1;
     document.getElementById('total-questions').textContent = currentQuestions.length;
     progressElement.textContent = `${currentQuestionIndex + 1}/${currentQuestions.length}`;
     
-    // عرض نص السؤال
     questionElement.textContent = question.question;
-    
-    // مسح الإجابات السابقة
     answersElement.innerHTML = '';
     
-    // إنشاء خيارات الإجابة
     question.options.forEach((option, index) => {
         const optionElement = document.createElement('div');
         optionElement.className = 'option';
@@ -89,7 +84,6 @@ function showQuestion() {
         input.value = index;
         input.id = `option-${index}`;
         
-        // تحديد إذا كانت الإجابة مختارة مسبقاً
         if (userAnswers[currentQuestionIndex]) {
             if (question.type === 'multiple') {
                 input.checked = userAnswers[currentQuestionIndex].includes(index);
@@ -105,13 +99,10 @@ function showQuestion() {
         optionElement.appendChild(input);
         optionElement.appendChild(label);
         
-        // إضافة مستمع الحدث لتحديد الإجابة
         input.addEventListener('change', () => saveAnswer());
-        
         answersElement.appendChild(optionElement);
     });
     
-    // تحديث حالة أزرار التنقل
     updateNavigationButtons();
 }
 
@@ -121,9 +112,7 @@ function saveAnswer() {
     const inputs = answersElement.querySelectorAll('input');
     
     inputs.forEach(input => {
-        if (input.checked) {
-            selectedOptions.push(parseInt(input.value));
-        }
+        if (input.checked) selectedOptions.push(parseInt(input.value));
     });
     
     const question = currentQuestions[currentQuestionIndex];
@@ -180,17 +169,13 @@ function updateTimerDisplay(time) {
     const seconds = time % 60;
     timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
     
-    // تغيير اللون عندما يقل الوقت عن 5 دقائق
-    if (time < 300) { // 5 دقائق
-        timerElement.classList.add('warning');
-    }
+    if (time < 300) timerElement.classList.add('warning');
 }
 
 // عرض النتائج
 function showResults() {
     clearInterval(timerInterval);
     
-    // حساب النتيجة
     let score = 0;
     let totalQuestions = currentQuestions.length;
     
@@ -199,29 +184,22 @@ function showResults() {
         const correctAnswer = question.correctAnswer;
         
         if (question.type === 'multiple') {
-            // مقارنة مصفوفات الإجابات للأسئلة متعددة الخيارات
             if (Array.isArray(userAnswer) && 
                 userAnswer.length === correctAnswer.length &&
                 userAnswer.every(val => correctAnswer.includes(val))) {
                 score++;
             }
         } else {
-            // مقارنة الإجابات للأسئلة ذات الخيار الواحد
-            if (userAnswer === correctAnswer) {
-                score++;
-            }
+            if (userAnswer === correctAnswer) score++;
         }
     });
     
-    // إخفاء الاختبار وإظهار النتائج
     quizContainer.style.display = 'none';
     resultsContainer.style.display = 'block';
     
-    // عرض النتيجة
     const percentage = Math.round((score / totalQuestions) * 100);
     scoreElement.textContent = `${score}/${totalQuestions} (${percentage}%)`;
     
-    // عرض تقرير بالإجابات الصحيحة والخاطئة
     displayAnswerReport();
 }
 
@@ -258,11 +236,9 @@ function displayAnswerReport() {
     });
 }
 
-// تنسيق الإجابة لعرضها
+// تنسيق الإجابة
 function formatAnswer(answer, options) {
-    if (answer === null || answer === undefined) {
-        return 'لم تجب على هذا السؤال';
-    }
+    if (answer === null || answer === undefined) return 'لم تجب على هذا السؤال';
     
     if (Array.isArray(answer)) {
         if (answer.length === 0) return 'لم تختر أي إجابة';
