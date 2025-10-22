@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -20,15 +20,20 @@
     <audio id="completeSound" src="sounds/complete.mp3" preload="auto"></audio>
     <audio id="backgroundMusic" src="sounds/background.mp3" preload="auto" loop></audio>
 
+    <!-- تأثيرات جزيئية -->
+    <div id="particles-js"></div>
+
     <div id="app-container">
 
         <!-- لوحة تحكم الصوت -->
         <div id="sound-controls">
             <button id="music-toggle" class="sound-btn" title="تشغيل/إيقاف الموسيقى">
                 <i class="fas fa-music"></i>
+                <span class="sound-tooltip">الموسيقى</span>
             </button>
             <button id="sound-toggle" class="sound-btn" title="تشغيل/إيقاف المؤثرات">
                 <i class="fas fa-volume-up"></i>
+                <span class="sound-tooltip">المؤثرات</span>
             </button>
         </div>
 
@@ -36,9 +41,10 @@
         <section id="loading-screen" class="screen">
             <div class="loading-content">
                 <div class="loading-spinner">
-                    <i class="fas fa-mountain fa-spin"></i>
+                    <div class="spinner-circle"></div>
+                    <i class="fas fa-mountain"></i>
                 </div>
-                <h2>جاري تحميل الأسئلة...</h2>
+                <h2>جاري تحميل الأسئلة</h2>
                 <div class="loading-bar">
                     <div class="loading-progress"></div>
                 </div>
@@ -47,79 +53,126 @@
 
         <!-- الصفحة الرئيسية -->
         <section id="home-screen" class="screen active">
+            <div class="background-animation"></div>
+            
             <header class="header">
                 <div class="logo">
-                    <i class="fas fa-mountain"></i>
-                    <h1>منصة الجيولوجي المحترف</h1>
+                    <div class="logo-icon">
+                        <i class="fas fa-mountain"></i>
+                    </div>
+                    <div class="logo-text">
+                        <h1>منصة الجيولوجي المحترف</h1>
+                        <p>اختبر معلوماتك وارفع مستواك في التخصصات الجيولوجية!</p>
+                    </div>
                 </div>
-                <p>اختبر معلوماتك وارفع مستواك في التخصصات الجيولوجية!</p>
             </header>
             
-            <div class="user-stats">
-                <div class="stat-item">
-                    <span class="stat-value" id="total-quizzes">0</span>
-                    <span class="stat-label">الاختبارات المكتملة</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-value" id="average-score">0%</span>
-                    <span class="stat-label">متوسط النتائج</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-value" id="total-points">0</span>
-                    <span class="stat-label">النقاط الإجمالية</span>
-                </div>
-            </div>
-            
-            <div class="category-selection">
-                <h2>اختر مجال الاختبار:</h2>
-                <div class="category-grid">
-                    <button class="category-card" data-category="Basic Geology.json">
-                        <div class="category-icon">
-                            <i class="fas fa-globe-americas"></i>
+            <div class="main-content">
+                <div class="user-stats">
+                    <div class="stat-item">
+                        <div class="stat-icon">
+                            <i class="fas fa-trophy"></i>
                         </div>
-                        <h3>الجيولوجيا الأساسية</h3>
-                        <p>اختبار شامل في أساسيات علم الجيولوجيا</p>
-                        <div class="category-progress">
-                            <div class="progress-bar">
-                                <div class="progress-fill" data-category="Basic Geology.json"></div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="total-quizzes">0</span>
+                            <span class="stat-label">الاختبارات المكتملة</span>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="average-score">0%</span>
+                            <span class="stat-label">متوسط النتائج</span>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="total-points">0</span>
+                            <span class="stat-label">النقاط الإجمالية</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="category-selection">
+                    <h2 class="section-title">اختر مجال الاختبار</h2>
+                    <div class="category-grid">
+                        <button class="category-card" data-category="Basic Geology.json">
+                            <div class="card-glow"></div>
+                            <div class="category-icon">
+                                <i class="fas fa-globe-americas"></i>
                             </div>
-                            <span class="progress-text">0%</span>
-                        </div>
-                    </button>
-                    <button class="category-card" data-category="Hydrogeology.json">
-                        <div class="category-icon">
-                            <i class="fas fa-tint"></i>
-                        </div>
-                        <h3>الجيولوجيا المائية</h3>
-                        <p>اختبار متخصص في المياه الجوفية والهيدروجيولوجيا</p>
-                        <div class="category-progress">
-                            <div class="progress-bar">
-                                <div class="progress-fill" data-category="Hydrogeology.json"></div>
+                            <div class="category-content">
+                                <h3>الجيولوجيا الأساسية</h3>
+                                <p>اختبار شامل في أساسيات علم الجيولوجيا والصخور والمعادن</p>
+                                <div class="category-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" data-category="Basic Geology.json"></div>
+                                    </div>
+                                    <span class="progress-text">0%</span>
+                                </div>
                             </div>
-                            <span class="progress-text">0%</span>
-                        </div>
-                    </button>
-                    <button class="category-card" data-category="Petrology.json">
-                        <div class="category-icon">
-                            <i class="fas fa-gem"></i>
-                        </div>
-                        <h3>علم الصخور</h3>
-                        <p>اختبار في أنواع الصخور وتكوينها وخصائصها</p>
-                        <div class="category-progress">
-                            <div class="progress-bar">
-                                <div class="progress-fill" data-category="Petrology.json"></div>
+                            <div class="card-arrow">
+                                <i class="fas fa-arrow-left"></i>
                             </div>
-                            <span class="progress-text">0%</span>
-                        </div>
+                        </button>
+                        
+                        <button class="category-card" data-category="Hydrogeology.json">
+                            <div class="card-glow"></div>
+                            <div class="category-icon">
+                                <i class="fas fa-tint"></i>
+                            </div>
+                            <div class="category-content">
+                                <h3>الجيولوجيا المائية</h3>
+                                <p>اختبار متخصص في المياه الجوفية والهيدروجيولوجيا</p>
+                                <div class="category-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" data-category="Hydrogeology.json"></div>
+                                    </div>
+                                    <span class="progress-text">0%</span>
+                                </div>
+                            </div>
+                            <div class="card-arrow">
+                                <i class="fas fa-arrow-left"></i>
+                            </div>
+                        </button>
+                        
+                        <button class="category-card" data-category="Petrology.json">
+                            <div class="card-glow"></div>
+                            <div class="category-icon">
+                                <i class="fas fa-gem"></i>
+                            </div>
+                            <div class="category-content">
+                                <h3>علم الصخور</h3>
+                                <p>اختبار في أنواع الصخور وتكوينها وخصائصها</p>
+                                <div class="category-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" data-category="Petrology.json"></div>
+                                    </div>
+                                    <span class="progress-text">0%</span>
+                                </div>
+                            </div>
+                            <div class="card-arrow">
+                                <i class="fas fa-arrow-left"></i>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="home-actions">
+                    <button id="settings-btn" class="action-btn glass">
+                        <i class="fas fa-cog"></i>
+                        <span>الإعدادات</span>
+                    </button>
+                    <button id="leaderboard-btn" class="action-btn glass">
+                        <i class="fas fa-trophy"></i>
+                        <span>لوحة المتصدرين</span>
                     </button>
                 </div>
-            </div>
-            
-            <div class="home-actions">
-                <button id="settings-btn" class="action-btn secondary">
-                    <i class="fas fa-cog"></i>
-                    الإعدادات
-                </button>
             </div>
         </section>
 
@@ -127,42 +180,80 @@
         <section id="settings-screen" class="screen">
             <header class="header">
                 <div class="logo">
-                    <i class="fas fa-cog"></i>
-                    <h1>الإعدادات</h1>
+                    <div class="logo-icon">
+                        <i class="fas fa-cog"></i>
+                    </div>
+                    <div class="logo-text">
+                        <h1>الإعدادات</h1>
+                    </div>
                 </div>
             </header>
             
             <div class="settings-container">
-                <div class="setting-group">
-                    <h3>إعدادات الصوت</h3>
+                <div class="setting-group glass">
+                    <h3><i class="fas fa-volume-up"></i> إعدادات الصوت</h3>
                     <div class="setting-item">
-                        <label for="music-volume">مستوى الموسيقى:</label>
-                        <input type="range" id="music-volume" min="0" max="100" value="50">
-                        <span id="music-volume-value">50%</span>
+                        <label for="music-volume">
+                            <i class="fas fa-music"></i>
+                            مستوى الموسيقى
+                        </label>
+                        <div class="slider-container">
+                            <input type="range" id="music-volume" min="0" max="100" value="50" class="modern-slider">
+                            <span id="music-volume-value">50%</span>
+                        </div>
                     </div>
                     <div class="setting-item">
-                        <label for="sound-volume">مستوى المؤثرات:</label>
-                        <input type="range" id="sound-volume" min="0" max="100" value="70">
-                        <span id="sound-volume-value">70%</span>
+                        <label for="sound-volume">
+                            <i class="fas fa-bell"></i>
+                            مستوى المؤثرات
+                        </label>
+                        <div class="slider-container">
+                            <input type="range" id="sound-volume" min="0" max="100" value="70" class="modern-slider">
+                            <span id="sound-volume-value">70%</span>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="setting-group">
-                    <h3>إعدادات الواجهة</h3>
+                <div class="setting-group glass">
+                    <h3><i class="fas fa-palette"></i> إعدادات الواجهة</h3>
                     <div class="setting-item">
-                        <label for="animation-toggle">الرسوم المتحركة:</label>
-                        <label class="switch">
+                        <label for="animation-toggle">
+                            <i class="fas fa-film"></i>
+                            الرسوم المتحركة
+                        </label>
+                        <label class="modern-switch">
                             <input type="checkbox" id="animation-toggle" checked>
-                            <span class="slider"></span>
+                            <span class="switch-slider"></span>
                         </label>
                     </div>
                     <div class="setting-item">
-                        <label for="difficulty">صعوبة الأسئلة:</label>
-                        <select id="difficulty">
+                        <label for="difficulty">
+                            <i class="fas fa-brain"></i>
+                            صعوبة الأسئلة
+                        </label>
+                        <select id="difficulty" class="modern-select">
                             <option value="easy">سهل</option>
                             <option value="medium" selected>متوسط</option>
                             <option value="hard">صعب</option>
                         </select>
+                    </div>
+                </div>
+
+                <div class="setting-group glass">
+                    <h3><i class="fas fa-paint-brush"></i> المظهر</h3>
+                    <div class="theme-selector">
+                        <button class="theme-btn active" data-theme="default">
+                            <span class="theme-preview default-theme"></span>
+                            <span>الافتراضي</span>
+                        </button>
+                        <button class="theme-btn" data-theme="dark">
+                            <span class="theme-preview dark-theme"></span>
+                            <span>داكن</span>
+                        </button>
+                        <button class="theme-btn" data-theme="nature">
+                            <span class="theme-preview nature-theme"></span>
+                            <span>طبيعي</span>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -174,7 +265,7 @@
                 </button>
                 <button id="back-from-settings" class="action-btn secondary">
                     <i class="fas fa-arrow-right"></i>
-                    العودة
+                    العودة للرئيسية
                 </button>
             </div>
         </section>
@@ -183,50 +274,79 @@
         <section id="quiz-screen" class="screen">
             <div class="quiz-header">
                 <div class="header-left">
-                    <button id="back-btn" class="back-btn">
+                    <button id="back-btn" class="back-btn glass">
                         <i class="fas fa-arrow-right"></i>
-                        العودة
+                        <span>العودة</span>
                     </button>
-                    <span id="quiz-title" class="title"></span>
+                    <div class="quiz-info">
+                        <span id="quiz-title" class="title"></span>
+                        <div class="quiz-meta">
+                            <span class="question-counter" id="question-counter">السؤال 1 من 10</span>
+                        </div>
+                    </div>
                 </div>
                 <div class="stats-container">
-                    <div class="stat-box timer-box">
+                    <div class="stat-box timer-box glass">
                         <i class="fas fa-clock"></i>
                         <span id="timer-display">00:00</span>
                     </div>
-                    <div class="stat-box score-box">
+                    <div class="stat-box score-box glass">
                         <i class="fas fa-star"></i>
                         <span id="score-display">0</span>
                     </div>
-                    <div class="stat-box progress-box">
+                    <div class="stat-box progress-box glass">
                         <i class="fas fa-list-ol"></i>
-                        <span id="current-question-index">1</span> / <span id="total-questions">10</span>
+                        <span id="current-question-index">1</span>/<span id="total-questions">10</span>
                     </div>
                 </div>
             </div>
 
-            <div class="progress-bar-container">
-                <div id="progress-bar-fill"></div>
+            <div class="progress-bar-container glass">
+                <div class="progress-labels">
+                    <span>التقدم</span>
+                    <span id="progress-percentage">0%</span>
+                </div>
+                <div class="progress-track">
+                    <div id="progress-bar-fill" class="progress-fill-animated"></div>
+                </div>
             </div>
 
-            <div id="question-card" class="card">
+            <div id="question-card" class="card glass">
                 <div class="question-header">
-                    <span class="question-number">السؤال <span id="question-number">1</span></span>
-                    <span class="question-difficulty" id="question-difficulty">متوسط</span>
+                    <div class="question-meta">
+                        <span class="question-number">السؤال <span id="question-number">1</span></span>
+                        <span class="question-difficulty" id="question-difficulty">
+                            <i class="fas fa-signal"></i>
+                            <span>متوسط</span>
+                        </span>
+                    </div>
+                    <div class="question-points">
+                        <i class="fas fa-coins"></i>
+                        <span>+10 نقاط</span>
+                    </div>
                 </div>
-                <p id="question-text" class="question-text">نص السؤال سيظهر هنا...</p>
-                <div id="options-container" class="options-container">
-                    <!-- سيتم إضافة الخيارات ديناميكياً -->
+                
+                <div class="question-content">
+                    <p id="question-text" class="question-text">نص السؤال سيظهر هنا...</p>
+                    
+                    <div id="options-container" class="options-container">
+                        <!-- سيتم إضافة الخيارات ديناميكياً -->
+                    </div>
                 </div>
+
                 <div class="quiz-footer">
-                    <div class="hint-container" id="hint-container">
+                    <div class="hint-container glass" id="hint-container">
                         <button id="hint-btn" class="hint-btn">
                             <i class="fas fa-lightbulb"></i>
-                            تلميح
+                            <span>الحصول على تلميح</span>
                         </button>
-                        <p id="hint-text" class="hint-text"></p>
+                        <div class="hint-content" id="hint-content">
+                            <i class="fas fa-info-circle"></i>
+                            <p id="hint-text" class="hint-text"></p>
+                        </div>
                     </div>
-                    <button id="next-btn" class="next-btn" disabled>
+                    
+                    <button id="next-btn" class="next-btn primary" disabled>
                         <span>السؤال التالي</span>
                         <i class="fas fa-arrow-left"></i>
                     </button>
@@ -236,45 +356,96 @@
 
         <!-- شاشة النتائج -->
         <section id="results-screen" class="screen">
+            <div class="results-background">
+                <div class="confetti"></div>
+            </div>
+            
             <header class="header">
                 <div class="logo">
-                    <i class="fas fa-award"></i>
-                    <h1>نتائج الاختبار</h1>
+                    <div class="logo-icon">
+                        <i class="fas fa-award"></i>
+                    </div>
+                    <div class="logo-text">
+                        <h1>نتائج الاختبار</h1>
+                    </div>
                 </div>
             </header>
             
             <div class="results-container">
-                <div class="results-summary">
-                    <div class="score-circle">
-                        <div class="circle-bg">
-                            <div class="circle-fill" id="circle-fill"></div>
+                <div class="results-summary glass">
+                    <div class="score-display">
+                        <div class="score-circle">
+                            <div class="circle-bg">
+                                <div class="circle-fill" id="circle-fill"></div>
+                            </div>
+                            <div class="score-text">
+                                <span id="score-percentage">0%</span>
+                                <div class="score-label">النسبة المئوية</div>
+                            </div>
                         </div>
-                        <div class="score-text">
-                            <span id="score-percentage">0%</span>
+                        
+                        <div class="results-details">
+                            <h2 id="result-title">تهانينا!</h2>
+                            <p id="result-message" class="message">لقد أكملت الاختبار بنجاح</p>
+                            
+                            <div class="stats-grid">
+                                <div class="stat-item">
+                                    <div class="stat-icon">
+                                        <i class="fas fa-book"></i>
+                                    </div>
+                                    <div class="stat-info">
+                                        <span class="stat-label">التخصص</span>
+                                        <span id="result-category" class="stat-value">-</span>
+                                    </div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-icon">
+                                        <i class="fas fa-check-circle"></i>
+                                    </div>
+                                    <div class="stat-info">
+                                        <span class="stat-label">الإجابات الصحيحة</span>
+                                        <span id="score-correct" class="stat-value">0/0</span>
+                                    </div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-icon">
+                                        <i class="fas fa-clock"></i>
+                                    </div>
+                                    <div class="stat-info">
+                                        <span class="stat-label">الوقت المستغرق</span>
+                                        <span id="result-time" class="stat-value">00:00</span>
+                                    </div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-icon">
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                    <div class="stat-info">
+                                        <span class="stat-label">النقاط المكتسبة</span>
+                                        <span id="result-points" class="stat-value">0</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    
-                    <div class="results-details">
-                        <h2 id="result-title">تهانينا!</h2>
-                        <p id="result-message" class="message">لقد أكملت الاختبار بنجاح</p>
-                        
-                        <div class="stats-grid">
-                            <div class="stat-item">
-                                <span class="stat-label">التخصص</span>
-                                <span id="result-category" class="stat-value">-</span>
+                </div>
+                
+                <div class="performance-section glass">
+                    <h3>تحليل الأداء</h3>
+                    <div class="performance-stats">
+                        <div class="performance-item">
+                            <span class="performance-label">سرعة الإجابة</span>
+                            <div class="performance-bar">
+                                <div class="performance-fill" style="width: 75%"></div>
                             </div>
-                            <div class="stat-item">
-                                <span class="stat-label">الأسئلة الصحيحة</span>
-                                <span id="score-correct" class="stat-value">0/0</span>
+                            <span class="performance-value">جيد</span>
+                        </div>
+                        <div class="performance-item">
+                            <span class="performance-label">الدقة</span>
+                            <div class="performance-bar">
+                                <div class="performance-fill" style="width: 60%"></div>
                             </div>
-                            <div class="stat-item">
-                                <span class="stat-label">الوقت المستغرق</span>
-                                <span id="result-time" class="stat-value">00:00</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-label">النقاط</span>
-                                <span id="result-points" class="stat-value">0</span>
-                            </div>
+                            <span class="performance-value">متوسط</span>
                         </div>
                     </div>
                 </div>
@@ -282,11 +453,15 @@
                 <div class="results-actions">
                     <button class="restart-btn primary" id="home-btn">
                         <i class="fas fa-home"></i>
-                        العودة للصفحة الرئيسية
+                        <span>العودة للرئيسية</span>
                     </button>
                     <button class="restart-btn secondary" id="retry-btn">
                         <i class="fas fa-redo"></i>
-                        إعادة الاختبار
+                        <span>إعادة الاختبار</span>
+                    </button>
+                    <button class="restart-btn share" id="share-btn">
+                        <i class="fas fa-share-alt"></i>
+                        <span>مشاركة النتيجة</span>
                     </button>
                 </div>
             </div>
@@ -294,6 +469,8 @@
 
     </div>
 
+    <!-- مكتبة الجزيئيات -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
