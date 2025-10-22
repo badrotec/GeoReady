@@ -30,17 +30,6 @@
                             <p>الجيولوجيا الأساسية • الهيدروجيولوجيا • البترولوجيا</p>
                         </div>
                     </div>
-                    <div class="user-profile">
-                        <div class="user-info">
-                            <div class="user-avatar">
-                                <i class="fas fa-user-graduate"></i>
-                            </div>
-                            <div class="user-details">
-                                <div class="user-name">مرحباً بك</div>
-                                <div class="user-level">ابدأ رحلة التعلم</div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </header>
@@ -52,7 +41,7 @@
                 <section id="subject-selection" class="subject-selection">
                     <div class="section-header">
                         <h2><i class="fas fa-book-open"></i> اختر المادة التدريبية</h2>
-                        <p>اختر أحد المواد الثلاثة لبدء التدريب التفاعلي - 25 سؤال في كل مادة</p>
+                        <p>اختر أحد المواد الثلاثة لبدء التدريب التفاعلي</p>
                     </div>
                     
                     <div class="subjects-grid">
@@ -61,15 +50,11 @@
                                 <i class="fas fa-mountain"></i>
                             </div>
                             <h3>الجيولوجيا الأساسية</h3>
-                            <p>25 سؤالاً في أساسيات الجيولوجيا والمعادن والصخور</p>
+                            <p>أسئلة في أساسيات الجيولوجيا والمعادن والصخور</p>
                             <div class="subject-stats">
                                 <div class="stat">
                                     <i class="fas fa-clock"></i>
-                                    <span>20 دقيقة</span>
-                                </div>
-                                <div class="stat">
-                                    <i class="fas fa-question"></i>
-                                    <span>25 سؤال</span>
+                                    <span>20 ثانية لكل سؤال</span>
                                 </div>
                             </div>
                             <div class="subject-progress">
@@ -86,15 +71,11 @@
                                 <i class="fas fa-tint"></i>
                             </div>
                             <h3>الهيدروجيولوجيا</h3>
-                            <p>25 سؤالاً في المياه الجوفية والطبقات الحاملة</p>
+                            <p>أسئلة في المياه الجوفية والطبقات الحاملة</p>
                             <div class="subject-stats">
                                 <div class="stat">
                                     <i class="fas fa-clock"></i>
-                                    <span>20 دقيقة</span>
-                                </div>
-                                <div class="stat">
-                                    <i class="fas fa-question"></i>
-                                    <span>25 سؤال</span>
+                                    <span>20 ثانية لكل سؤال</span>
                                 </div>
                             </div>
                             <div class="subject-progress">
@@ -111,15 +92,11 @@
                                 <i class="fas fa-gem"></i>
                             </div>
                             <h3>البترولوجيا</h3>
-                            <p>25 سؤالاً في الجيولوجيا البترولية والتطبيقية</p>
+                            <p>أسئلة في الجيولوجيا البترولية والتطبيقية</p>
                             <div class="subject-stats">
                                 <div class="stat">
                                     <i class="fas fa-clock"></i>
-                                    <span>20 دقيقة</span>
-                                </div>
-                                <div class="stat">
-                                    <i class="fas fa-question"></i>
-                                    <span>25 سؤال</span>
+                                    <span>20 ثانية لكل سؤال</span>
                                 </div>
                             </div>
                             <div class="subject-progress">
@@ -143,7 +120,7 @@
                             <h2 id="current-subject">الجيولوجيا الأساسية</h2>
                         </div>
                         <div class="quiz-meta">
-                            <div class="question-counter">سؤال <span id="current-q-number">1</span> من 25</div>
+                            <div class="question-counter">سؤال <span id="current-q-number">1</span></div>
                         </div>
                     </div>
 
@@ -152,7 +129,8 @@
                         <div class="timer-container">
                             <div class="timer">
                                 <i class="fas fa-clock"></i>
-                                <span id="timer">20:00</span>
+                                <span id="timer">20</span>
+                                <span>ثانية</span>
                             </div>
                             <div class="streak-counter">
                                 <i class="fas fa-bolt"></i>
@@ -193,10 +171,10 @@
                         <div class="progress-container">
                             <div class="progress-labels">
                                 <span>التقدم في الاختبار</span>
-                                <span id="progress-percent">4%</span>
+                                <span id="progress-percent">0%</span>
                             </div>
                             <div class="progress-bar large">
-                                <div class="progress-fill" id="quiz-progress" style="width: 4%"></div>
+                                <div class="progress-fill" id="quiz-progress" style="width: 0%"></div>
                             </div>
                         </div>
                     </div>
@@ -234,10 +212,6 @@
                                         <span class="score-label">أفضل تتابع</span>
                                         <span class="score-value" id="best-streak">0</span>
                                     </div>
-                                    <div class="score-item">
-                                        <span class="score-label">الوقت المستغرق</span>
-                                        <span class="score-value" id="time-taken">00:00</span>
-                                    </div>
                                 </div>
                             </div>
 
@@ -254,9 +228,6 @@
                                 </button>
                                 <button id="new-quiz-btn" class="btn btn-primary">
                                     <i class="fas fa-rocket"></i> اختبار جديد
-                                </button>
-                                <button id="share-btn" class="btn btn-success">
-                                    <i class="fas fa-share"></i> مشاركة النتيجة
                                 </button>
                             </div>
                         </div>
