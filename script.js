@@ -1,182 +1,241 @@
-// المتغير الذي سيخزن جميع الأسئلة بعد تحميلها
-let allQuestions = [];
-let userAnswers = {}; // لتخزين إجابات المستخدمين: {questionIndex: selectedOptionIndex}
-let currentScore = 0;
-let totalQuestions = 0;
-let answeredCount = 0;
+// ====== المتغيرات الرئيسية ======
+let allSectionsData = []; // يخزن جميع الأقسام والأسئلة من JSON
+let currentSectionQuestions = []; // أسئلة القسم الحالي فقط
+let currentQuestionIndex = 0;
+let score = 0;
+let timerInterval;
+const TIME_LIMIT_PER_QUESTION = 20; // 20 ثانية لكل سؤال
+let timeLeft = TIME_LIMIT_PER_QUESTION;
 
-// العناصر الرئيسية في DOM
-const container = document.getElementById('quiz-container');
-const scoreDisplay = document.getElementById('score-display');
-const progressBar = document.getElementById('progress-bar');
-const progressDisplay = document.getElementById('progress-display');
-const submitButton = document.getElementById('submit-btn');
-const finalResultsDiv = document.getElementById('final-results');
-
-
-// دالة لتحميل الأسئلة من ملف questions.json
-async function loadQuestions() {
-    try {
-        const response = await fetch('questions.json');
-        const data = await response.json();
-        
-        allQuestions = []; // مسح الأسئلة القديمة
-        
-        // تجميع جميع الأسئلة من جميع الأقسام
-        data.forEach(section => {
-            section.questions.forEach(question => {
-                question.sectionTitle = section.section;
-                allQuestions.push(question);
-            });
-        });
-
-        totalQuestions = allQuestions.length;
-        displayQuestions();
-        updateStatus();
-    } catch (error) {
-        console.error('خطأ في تحميل ملف الأسئلة:', error);
-        container.innerHTML = '<p style="color:var(--danger-color); text-align:center;">تعذر تحميل الأسئلة. تأكد من وجود ملف questions.json</p>';
-        submitButton.disabled = true;
-    }
-}
-
-// دالة لعرض الأسئلة في صفحة HTML
-function displayQuestions() {
-    container.innerHTML = '';
-    let currentSection = '';
-
-    allQuestions.forEach((q, questionIndex) => {
-        // عرض عنوان القسم
-        if (q.sectionTitle !== currentSection) {
-            container.innerHTML += `<h2 class="section-title">${q.sectionTitle}</h2>`;
-            currentSection = q.sectionTitle;
-        }
-
-        let questionHTML = `
-            <div class="question-card" data-question-index="${questionIndex}">
-                <p class="question-text">سؤال ${questionIndex + 1}: ${q.question}</p>
-                <div class="options-container">
-        `;
-
-        // عرض خيارات الإجابة
-        q.options.forEach((option, optionIndex) => {
-            const radioName = `q${questionIndex}`;
-            const inputId = `q${questionIndex}o${optionIndex}`;
-            
-            questionHTML += `
-                <label for="${inputId}" class="option-label">
-                    <input type="radio" id="${inputId}" name="${radioName}" value="${optionIndex}" onclick="handleAnswer(${questionIndex}, ${optionIndex})">
-                    ${option}
-                </label>
-            `;
-        });
-
-        questionHTML += `
-                </div>
-            </div>
-        `;
-        container.innerHTML += questionHTML;
-    });
-}
-
-// دالة لتحديث شريط التقدم والنتيجة الفورية
-function updateStatus() {
-    scoreDisplay.textContent = `النقاط: ${currentScore} / ${answeredCount}`;
-    
-    // تحديث التقدم العام (كم سؤال تم الإجابة عليه)
-    const progress = totalQuestions > 0 ? (answeredCount / totalQuestions) * 100 : 0;
-    progressBar.style.width = `${progress}%`;
-    progressDisplay.textContent = `التقدم: ${answeredCount} من ${totalQuestions}`;
-}
-
-// دالة لمعالجة اختيار الإجابة (تفاعلي)
-window.handleAnswer = function(questionIndex, selectedOptionIndex) {
-    const questionData = allQuestions[questionIndex];
-    const card = document.querySelector(`.question-card[data-question-index="${questionIndex}"]`);
-    const isAlreadyAnswered = userAnswers.hasOwnProperty(questionIndex);
-    
-    // تحديث الإجابة في سجل المستخدم
-    userAnswers[questionIndex] = selectedOptionIndex;
-
-    // تحديث عداد الإجابات المنجزة فقط إذا كان هذا أول اختيار لهذا السؤال
-    if (!isAlreadyAnswered) {
-        answeredCount++;
-        card.classList.add('answered');
-    }
-    
-    // تحديث النقاط الفورية: إعادة احتساب النقاط
-    currentScore = 0;
-    Object.keys(userAnswers).forEach(idx => {
-        const q = allQuestions[idx];
-        if (userAnswers[idx] === q.correct) {
-            currentScore++;
-        }
-    });
-
-    updateStatus();
+// ====== عناصر الـ DOM ======
+const screens = {
+    select: document.getElementById('section-select-screen'),
+    quiz: document.getElementById('quiz-screen'),
+    results: document.getElementById('final-results-screen')
 };
 
-// دالة لمعالجة إرسال الاختبار وعرض النتيجة النهائية
-window.submitQuiz = function() {
-    let finalScore = 0;
-    
-    // التأكد من أن جميع الأسئلة قد تم عرضها وحسابها
-    allQuestions.forEach((q, questionIndex) => {
-        const card = document.querySelector(`.question-card[data-question-index="${questionIndex}"]`);
-        const userSelected = userAnswers[questionIndex];
-        const optionsLabels = card.querySelectorAll('.option-label');
-        
-        // تعطيل الزر لمنع إعادة الإرسال
-        submitButton.disabled = true;
+const elements = {
+    sectionButtons: document.getElementById('section-select-screen'),
+    sectionTitle: document.getElementById('current-section-title'),
+    quizContent: document.getElementById('quiz-content'),
+    timer: document.getElementById('timer'),
+    nextButton: document.getElementById('next-question-btn'),
+    finalScore: document.getElementById('final-score-display'),
+    timeSpent: document.getElementById('time-spent-display'),
+    soundCorrect: document.getElementById('sound-correct'),
+    soundWrong: document
+        .getElementById('sound-wrong'),
+    soundClick: document.getElementById('sound-click'),
+    soundTimeup: document.getElementById('sound-timeup')
+};
 
-        // إزالة الفئات القديمة قبل التصحيح
-        optionsLabels.forEach(label => label.classList.remove('correct-answer', 'wrong-answer', 'user-selected-wrong', 'user-selected-correct'));
-        
-        // تحديد الإجابة الصحيحة ووضع علامة عليها
-        const correctAnswerLabel = optionsLabels[q.correct];
-        correctAnswerLabel.classList.add('correct-answer');
-
-        if (userSelected !== undefined) {
-            const userSelectedLabel = optionsLabels[userSelected];
-            
-            if (userSelected === q.correct) {
-                // الإجابة صحيحة
-                finalScore++;
-                userSelectedLabel.classList.add('user-selected-correct');
-            } else {
-                // الإجابة خاطئة
-                userSelectedLabel.classList.add('wrong-answer', 'user-selected-wrong');
-            }
-        }
-        
-        // تعطيل جميع الخيارات لمنع التغيير بعد الإرسال
-        card.querySelectorAll('input[type="radio"]').forEach(input => input.disabled = true);
-    });
-
-    // عرض النتيجة النهائية
-    finalResultsDiv.style.display = 'block';
-    const percentage = ((finalScore / totalQuestions) * 100).toFixed(2);
-    
-    let message = '';
-    if (percentage >= 80) {
-        message = 'ممتاز! مستوى معرفة جيولوجية عالي. 💎';
-    } else if (percentage >= 60) {
-        message = 'جيد جداً! لديك أساس متين في الجيولوجيا. ⛰️';
-    } else {
-        message = 'تحتاج إلى مراجعة بعض المفاهيم الجيولوجية. 📚';
+// ====== دوال الصوت ======
+function playSound(soundElement) {
+    if (soundElement) {
+        soundElement.currentTime = 0; // إعادة التشغيل من البداية
+        soundElement.play().catch(e => console.log("Sound playback blocked:", e)); // التعامل مع حظر التشغيل التلقائي
     }
-    
-    finalResultsDiv.innerHTML = `
-        <h3>🎉 نتيجة الاختبار النهائية 🎉</h3>
-        <p>النقاط المحتسبة: <span style="color: var(--success-color);">${finalScore}</span> من أصل ${totalQuestions} سؤال.</p>
-        <p>نسبة النجاح: <span style="color: var(--primary-color);">${percentage}%</span></p>
-        <p style="margin-top: 20px;">${message}</p>
-        <p>تم تظليل الإجابة الصحيحة باللون الأخضر.</p>
-    `;
-    
-    // التمرير إلى قسم النتائج
-    finalResultsDiv.scrollIntoView({ behavior: 'smooth' });
 }
 
-// تشغيل دالة تحميل الأسئلة عند تحميل الصفحة
-window.onload = loadQuestions;
+// ====== دوال المؤقت (Timer) ======
+function formatTime(seconds) {
+    const minutes = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+}
+
+function startTimer() {
+    clearInterval(timerInterval);
+    elements.timer.textContent = formatTime(timeLeft);
+    elements.timer.style.color = '#ecf0f1';
+    
+    timerInterval = setInterval(() => {
+        timeLeft--;
+        elements.timer.textContent = formatTime(timeLeft);
+
+        if (timeLeft <= 5) {
+            elements.timer.style.color = 'var(--danger-color)'; // لون أحمر عند قرب الانتهاء
+        }
+        
+        if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            playSound(elements.soundTimeup);
+            // معالجة السؤال كإجابة خاطئة
+            checkAnswer(-1); // إرسال -1 للإشارة إلى انتهاء الوقت
+        }
+    }, 1000);
+}
+
+// ====== دوال إدارة الواجهة ======
+
+// دالة تحميل الأسئلة
+async function loadSections() {
+    try {
+        const response = await fetch('questions.json');
+        allSectionsData = await response.json();
+        renderSectionSelection();
+    } catch (error) {
+        console.error('خطأ في تحميل ملف الأسئلة:', error);
+        elements.sectionButtons.innerHTML = '<p style="color:var(--danger-color); text-align:center;">تعذر تحميل الأقسام. تأكد من وجود ملف questions.json</p>';
+    }
+}
+
+// دالة عرض شاشة اختيار الأقسام
+function renderSectionSelection() {
+    screens.select.style.display = 'block';
+    screens.quiz.style.display = 'none';
+    screens.results.style.display = 'none';
+    
+    elements.sectionButtons.innerHTML = '<h2>اختر القسم لتبدأ التحدي 🔥</h2>';
+    
+    allSectionsData.forEach((section, index) => {
+        const button = document.createElement('button');
+        button.className = 'section-button';
+        button.textContent = `${section.section} (${section.questions.length} أسئلة)`;
+        button.onclick = () => startQuiz(index);
+        elements.sectionButtons.appendChild(button);
+    });
+}
+
+// دالة بدء الاختبار
+function startQuiz(sectionIndex) {
+    playSound(elements.soundClick);
+    const selectedSection = allSectionsData[sectionIndex];
+    currentSectionQuestions = selectedSection.questions;
+    currentQuestionIndex = 0;
+    score = 0;
+    
+    // إظهار شاشة الاختبار وإخفاء الباقي
+    screens.select.style.display = 'none';
+    screens.quiz.style.display = 'block';
+    screens.results.style.display = 'none';
+    
+    elements.sectionTitle.textContent = selectedSection.section;
+    elements.nextButton.onclick = nextQuestion;
+    elements.nextButton.disabled = true;
+    
+    displayQuestion();
+}
+
+// دالة عرض السؤال الحالي
+function displayQuestion() {
+    if (currentQuestionIndex >= currentSectionQuestions.length) {
+        return showResults();
+    }
+
+    const q = currentSectionQuestions[currentQuestionIndex];
+    const questionNumber = currentQuestionIndex + 1;
+    
+    // إعادة تعيين المؤقت
+    timeLeft = TIME_LIMIT_PER_QUESTION;
+    startTimer();
+
+    let questionHTML = `
+        <div class="question-card" id="q-card">
+            <p class="question-text">سؤال ${questionNumber}/${currentSectionQuestions.length}: ${q.question}</p>
+            <div class="options-container">
+    `;
+
+    q.options.forEach((option, optionIndex) => {
+        const inputId = `opt-${questionIndex}`;
+        questionHTML += `
+            <label for="${inputId}${optionIndex}" class="option-label" data-index="${optionIndex}">
+                <input type="radio" id="${inputId}${optionIndex}" name="current-q" value="${optionIndex}" onclick="selectAnswer(${optionIndex})">
+                ${option}
+            </label>
+        `;
+    });
+
+    questionHTML += `
+            </div>
+        </div>
+    `;
+    elements.quizContent.innerHTML = questionHTML;
+    elements.nextButton.textContent = "تأكيد الإجابة والمتابعة ➡️";
+    elements.nextButton.disabled = true;
+}
+
+// دالة اختيار الإجابة
+window.selectAnswer = function(selectedIndex) {
+    playSound(elements.soundClick);
+    
+    // تفعيل زر المتابعة
+    elements.nextButton.disabled = false;
+    elements.nextButton.setAttribute('data-selected-index', selectedIndex);
+}
+
+// دالة فحص الإجابة
+function checkAnswer() {
+    // تعطيل المؤقت فوراً
+    clearInterval(timerInterval);
+    
+    const selectedIndex = parseInt(elements.nextButton.getAttribute('data-selected-index'));
+    const q = currentSectionQuestions[currentQuestionIndex];
+    const correctIndex = q.correct;
+    const card = document.getElementById('q-card');
+    const optionsLabels = card.querySelectorAll('.option-label');
+    
+    // تعطيل جميع الخيارات بعد الإجابة
+    card.querySelectorAll('input[type="radio"]').forEach(input => input.disabled = true);
+    
+    let isCorrect = false;
+
+    if (selectedIndex === correctIndex) {
+        // حالة الإجابة الصحيحة
+        score++;
+        isCorrect = true;
+        playSound(elements.soundCorrect);
+    } else {
+        // حالة الإجابة الخاطئة أو انتهاء الوقت (-1)
+        playSound(elements.soundWrong);
+    }
+    
+    // عرض التصحيح على الواجهة
+    optionsLabels.forEach((label, index) => {
+        if (index === correctIndex) {
+            label.classList.add('correct-answer');
+        } else if (index === selectedIndex && index !== correctIndex) {
+            label.classList.add('wrong-answer');
+        }
+    });
+    
+    // تغيير زر المتابعة لـ "السؤال التالي"
+    elements.nextButton.textContent = "السؤال التالي >>";
+    elements.nextButton.onclick = nextQuestion;
+    elements.nextButton.disabled = false;
+}
+
+// دالة الانتقال للسؤال التالي
+function nextQuestion() {
+    currentQuestionIndex++;
+    elements.nextButton.disabled = true;
+    displayQuestion();
+}
+
+// دالة عرض النتائج النهائية
+function showResults() {
+    clearInterval(timerInterval);
+    screens.quiz.style.display = 'none';
+    screens.results.style.display = 'block';
+
+    const timeSpentSeconds = (currentSectionQuestions.length * TIME_LIMIT_PER_QUESTION) - timeLeft;
+    const timeSpent = formatTime(timeSpentSeconds);
+
+    elements.finalScore.textContent = `${score} / ${currentSectionQuestions.length}`;
+    elements.timeSpent.textContent = timeSpent;
+}
+
+// دالة إعادة تعيين الاختبار
+window.resetQuiz = function() {
+    clearInterval(timerInterval);
+    score = 0;
+    currentQuestionIndex = 0;
+    currentSectionQuestions = [];
+    renderSectionSelection();
+}
+
+// ربط زر المتابعة بدالة فحص الإجابة أولاً
+elements.nextButton.onclick = checkAnswer;
+
+// تشغيل دالة تحميل الأقسام عند تحميل الصفحة
+window.onload = loadSections;
