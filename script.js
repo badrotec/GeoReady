@@ -1,1037 +1,692 @@
-// =================================================================
-// 1. تهيئة الجزيئيات
-// =================================================================
-function initParticles() {
-    if (typeof particlesJS !== 'undefined') {
-        particlesJS('particles-js', {
-            particles: {
-                number: { value: 80, density: { enable: true, value_area: 800 } },
-                color: { value: "#2c7873" },
-                shape: { type: "circle" },
-                opacity: { value: 0.5, random: true },
-                size: { value: 3, random: true },
-                line_linked: {
-                    enable: true,
-                    distance: 150,
-                    color: "#2c7873",
-                    opacity: 0.2,
-                    width: 1
-                },
-                move: {
-                    enable: true,
-                    speed: 2,
-                    direction: "none",
-                    random: true,
-                    straight: false,
-                    out_mode: "out",
-                    bounce: false
-                }
-            },
-            interactivity: {
-                detect_on: "canvas",
-                events: {
-                    onhover: { enable: true, mode: "repulse" },
-                    onclick: { enable: true, mode: "push" },
-                    resize: true
-                }
-            },
-            retina_detect: true
-        });
-    }
-}
+// بيانات الأسئلة
+const questionsData = {
+    "basic-geology": [
+        {
+            "id": 1,
+            "question": "أي مما يلي يُعتبر من المعادن؟",
+            "options": ["الكوارتز", "البازلت", "الجرانيت", "الحجر الجيري"],
+            "answer": "الكوارتز",
+            "explanation": "الكوارتز هو معدن مكون من ثاني أكسيد السيليكون، بينما البازلت والجرانيت والحجر الجيري هي صخور تتكون من مجموعة من المعادن."
+        },
+        {
+            "id": 2,
+            "question": "العنصر الأساسي في تركيب الكوارتز هو:",
+            "options": ["الحديد", "السيليكون", "الكالسيوم", "الألومنيوم"],
+            "answer": "السيليكون",
+            "explanation": "الكوارتز يتكون أساسًا من ثاني أكسيد السيليكون (SiO₂)، حيث يشكل السيليكون العنصر الأساسي في تركيبه الكيميائي."
+        },
+        {
+            "id": 3,
+            "question": "الصخور النارية تتكون نتيجة:",
+            "options": [
+                "ترسيب المواد الذائبة في الماء",
+                "تبخر مياه البحار",
+                "تبرد وتصلب الصهارة",
+                "ضغط المواد العضوية"
+            ],
+            "answer": "تبرد وتصلب الصهارة",
+            "explanation": "تنشأ الصخور النارية من تبرد وتصلب الصهارة (الماغما) سواء في باطن الأرض (صخور جوفية) أو على سطحها (صخور بركانية)."
+        },
+        {
+            "id": 4,
+            "question": "من أمثلة الصخور الرسوبية الكيميائية:",
+            "options": ["الجرانيت", "الحجر الجيري", "البازلت", "الرخام"],
+            "answer": "الحجر الجيري",
+            "explanation": "الحجر الجيري هو صخر رسوبي كيميائي يتكون من ترسب كربونات الكالسيوم من المحاليل المائية."
+        },
+        {
+            "id": 5,
+            "question": "التحول في الصخور يحدث بفعل:",
+            "options": ["الحرارة والضغط", "الرياح", "التجوية", "المياه الجوفية فقط"],
+            "answer": "الحرارة والضغط",
+            "explanation": "تحدث عملية التحول في الصخور نتيجة تعرضها لدرجات حرارة وضغوط عالية، مما يؤدي إلى تغير في تركيبها المعدني ونسيجها."
+        }
+    ],
+    "hydrogeology": [
+        {
+            "id": 1,
+            "question": "الهيدروجيولوجيا تدرس:",
+            "options": ["الصخور النارية فقط", "المياه الجوفية وحركتها", "التكتونيات", "المعادن"],
+            "answer": "المياه الجوفية وحركتها",
+            "explanation": "الهيدروجيولوجيا هي العلم الذي يدرس توزيع وحركة المياه الجوفية في التربة والصخور تحت سطح الأرض."
+        },
+        {
+            "id": 2,
+            "question": "الطبقة الحاملة للمياه الجوفية تُسمى:",
+            "options": ["الطبقة غير المشبعة", "الطبقة الحاملة (Aquifer)", "الطبقة المعدنية", "الصخر المتحول"],
+            "answer": "الطبقة الحاملة (Aquifer)",
+            "explanation": "الطبقة الحاملة (Aquifer) هي طبقة صخرية مسامية ونفاذة قادرة على تخزين ونقل كميات كبيرة من المياه الجوفية."
+        },
+        {
+            "id": 3,
+            "question": "الطبقة غير المشبعة تعرف بـ:",
+            "options": ["Zone of Saturation", "Zone of Aeration", "Aquifer", "Bedrock"],
+            "answer": "Zone of Aeration",
+            "explanation": "الطبقة غير المشبعة (Zone of Aeration) هي المنطقة الواقعة فوق مستوى الماء الجوفي حيث تكون المسام مليئة جزئيًا بالماء والهواء."
+        },
+        {
+            "id": 4,
+            "question": "معدل نفاذية الصخور يعني:",
+            "options": ["صلابة الصخور", "قدرة الصخور على تمرير المياه", "كثافة المياه", "عمق الصخر"],
+            "answer": "قدرة الصخور على تمرير المياه",
+            "explanation": "النفاذية هي خاصية الصخور والتربة التي تسمح للمياه بالتدفق خلالها، وتقاس بكمية المياه التي يمكن أن تمر عبر مساحة معينة في زمن محدد."
+        },
+        {
+            "id": 5,
+            "question": "الصخور الرملية غالبًا ما تكون:",
+            "options": ["طبقات حاملة للمياه", "طبقات غير حاملة", "صخور متحولة", "صخور نارية"],
+            "answer": "طبقات حاملة للمياه",
+            "explanation": "الصخور الرملية تتميز بمسامية ونفاذية عالية، مما يجعلها طبقات حاملة ممتازة للمياه الجوفية."
+        }
+    ],
+    "petrology": [
+        {
+            "id": 1,
+            "topic": "الجيولوجيا البترولية",
+            "question": "البترول يتكون أساسًا من:",
+            "options": ["الكربون والهيدروجين", "الأكسجين والنيتروجين", "الكالسيوم والحديد", "الكبريت والسيليكا"],
+            "answer": "الكربون والهيدروجين",
+            "explanation": "يتكون البترول أساسًا من مركبات الهيدروكربونات التي تتألف من ذرات الكربون والهيدروجين بنسب مختلفة."
+        },
+        {
+            "id": 2,
+            "topic": "الجيولوجيا البترولية",
+            "question": "أصل النفط يعود إلى:",
+            "options": ["بقايا كائنات بحرية دقيقة", "الصخور النارية", "النشاط البركاني", "التفاعلات الكيميائية غير العضوية"],
+            "answer": "بقايا كائنات بحرية دقيقة",
+            "explanation": "ينشأ النفط من تحلل الكائنات البحرية الدقيقة (العوالق) التي ترسبت في قيعان البحار والمحيطات وتحللت في ظروف خالية من الأكسجين."
+        },
+        {
+            "id": 3,
+            "topic": "الجيولوجيا البترولية",
+            "question": "الصخور المصدرية (Source Rocks) هي:",
+            "options": ["التي يخزن فيها النفط", "التي يتكون فيها النفط", "التي تمنع هجرة النفط", "التي تغطي المكمن"],
+            "answer": "التي يتكون فيها النفط",
+            "explanation": "الصخور المصدرية هي الصخور الغنية بالمواد العضوية التي تتحول بفعل الحرارة والضغط إلى النفط والغاز."
+        },
+        {
+            "id": 4,
+            "topic": "الجيولوجيا البترولية",
+            "question": "الصخور الخازنة (Reservoir Rocks) تتميز بـ:",
+            "options": ["قلة المسامية", "ارتفاع النفاذية والمسامية", "احتوائها على معادن ثقيلة", "طبيعتها النارية فقط"],
+            "answer": "ارتفاع النفاذية والمسامية",
+            "explanation": "الصخور الخازنة تتميز بمسامية عالية تسمح بتخزين النفط ونفاذية عالية تسمح له بالتدفق خلالها."
+        },
+        {
+            "id": 5,
+            "topic": "الجيولوجيا البترولية",
+            "question": "الصخور الغطائية (Cap Rocks) تكون عادة:",
+            "options": ["مسامية", "غير منفذة", "جيرية", "رملية"],
+            "answer": "غير منفذة",
+            "explanation": "الصخور الغطائية هي صخور غير منفذة تعلو المكمن النفطي وتمنع هجرة النفط والغاز إلى الأعلى."
+        }
+    ]
+};
 
-// =================================================================
-// 2. تحديد العناصر الأساسية وحالة اللعبة
-// =================================================================
-const homeScreen = document.getElementById('home-screen');
-const quizScreen = document.getElementById('quiz-screen');
-const resultsScreen = document.getElementById('results-screen');
-const loadingScreen = document.getElementById('loading-screen');
-const settingsScreen = document.getElementById('settings-screen');
-
-const categoryCards = document.querySelectorAll('.category-card');
-const questionText = document.getElementById('question-text');
-const optionsContainer = document.getElementById('options-container');
-const nextBtn = document.getElementById('next-btn');
-const backBtn = document.getElementById('back-btn'); // تم إخفاؤه ولكنه مستخدم في الـ JS
-const hintBtn = document.getElementById('hint-btn');
-const hintContainer = document.getElementById('hint-container');
-const hintText = document.getElementById('hint-text');
-
-// الإحصائيات والمؤقت
-const timerDisplay = document.getElementById('timer-display');
-const currentQIndexDisplay = document.getElementById('current-question-index');
-const totalQDisplay = document.getElementById('total-questions');
-const progressBarFill = document.getElementById('progress-bar-fill');
-const progressPercentage = document.getElementById('progress-percentage');
-const quizTitle = document.getElementById('quiz-title');
-const scoreDisplay = document.getElementById('score-display');
-const questionNumber = document.getElementById('question-number');
-const questionCounter = document.getElementById('question-counter');
-const questionDifficulty = document.getElementById('question-difficulty');
-
-// النتائج
-const resultCategory = document.getElementById('result-category');
-const scoreCorrect = document.getElementById('score-correct');
-const scorePercentage = document.getElementById('score-percentage');
-const resultMessage = document.getElementById('result-message');
-const resultTitle = document.getElementById('result-title');
-const resultTime = document.getElementById('result-time');
-const resultPoints = document.getElementById('result-points');
-const circleFill = document.getElementById('circle-fill');
-const homeBtn = document.getElementById('home-btn');
-const retryBtn = document.getElementById('retry-btn');
-const shareBtn = document.getElementById('share-btn');
-
-// الإحصائيات العامة
-const totalQuizzes = document.getElementById('total-quizzes');
-const averageScore = document.getElementById('average-score');
-const totalPoints = document.getElementById('total-points');
-
-// الإعدادات
-const settingsBtn = document.getElementById('settings-btn');
-const leaderboardBtn = document.getElementById('leaderboard-btn');
-const backFromSettings = document.getElementById('back-from-settings');
-const saveSettings = document.getElementById('save-settings');
-const musicVolume = document.getElementById('music-volume');
-const soundVolume = document.getElementById('sound-volume');
-const musicVolumeValue = document.getElementById('music-volume-value');
-const soundVolumeValue = document.getElementById('sound-volume-value');
-const animationToggle = document.getElementById('animation-toggle');
-const difficultySetting = document.getElementById('difficulty');
-
-// السمات
-const themeButtons = document.querySelectorAll('.theme-btn');
-
-// تحكم الصوت
-const musicToggle = document.getElementById('music-toggle');
-const soundToggle = document.getElementById('sound-toggle');
-
-// ملفات الصوت
-const correctSound = document.getElementById('correctSound');
-const incorrectSound = document.getElementById('incorrectSound');
-const clickSound = document.getElementById('clickSound');
-const pageSound = document.getElementById('pageSound');
-const completeSound = document.getElementById('completeSound');
-const backgroundMusic = document.getElementById('backgroundMusic');
-
-// متغيرات حالة الاختبار
-let currentQuizData = [];
-let currentQuestionIndex = 0;
-let score = 0;
-let timerInterval;
-let questionTimeInterval; // مؤقت السؤال
-const QUESTION_DURATION = 30; // مدة السؤال بالثواني
-let timeLeft = QUESTION_DURATION;
-let timeElapsed = 0; // إجمالي الوقت المنقضي
-let selectedCategory = '';
-let isAnswered = false;
-
-let userData = {
-    totalQuizzes: 0,
+// حالة التطبيق
+let appState = {
+    currentSubject: null,
+    currentQuestionIndex: 0,
+    userAnswers: {},
+    quizStarted: false,
+    quizCompleted: false,
+    score: 0,
+    currentStreak: 0,
+    bestStreak: 0,
     totalPoints: 0,
-    averageScore: 0,
-    categoryProgress: {},
-    settings: {
-        musicVolume: 50,
-        soundVolume: 70,
-        animations: true,
-        difficulty: 'medium',
-        theme: 'default'
+    timeSpent: 0,
+    timerInterval: null,
+    userLevel: 'مبتدئ',
+    progress: {
+        'basic-geology': 0,
+        'hydrogeology': 0,
+        'petrology': 0
     }
 };
 
-// =================================================================
-// 3. تهيئة التطبيق
-// =================================================================
+// عناصر DOM
+const elements = {
+    loadingScreen: document.getElementById('loading-screen'),
+    mainApp: document.getElementById('main-app'),
+    subjectSelection: document.getElementById('subject-selection'),
+    quizSection: document.getElementById('quiz-section'),
+    resultsSection: document.getElementById('results-section'),
+    confirmationModal: document.getElementById('confirmation-modal')
+};
 
-document.addEventListener('DOMContentLoaded', function() {
-    // تهيئة الجزيئيات
-    initParticles();
-    
-    // تحميل بيانات المستخدم من localStorage
-    loadUserData();
-    
-    // تهيئة إعدادات الصوت
-    initAudioSettings();
-    
-    // تطبيق السمة
-    applyTheme(userData.settings.theme);
-    
-    // تحديث واجهة المستخدم
-    updateUI();
-    
-    // إخفاء شاشة التحميل بشكل صحيح
-    loadingScreen.style.display = 'none';
-    
-    // إضافة تأثيرات للبطاقات
-    animateElements();
-    
-    // 💡 تمكين تشغيل الأصوات بعد تفاعل المستخدم
-    document.body.addEventListener('click', handleFirstInteraction, { once: true });
-});
+// تهيئة التطبيق
+function initApp() {
+    // محاكاة تحميل البيانات
+    setTimeout(() => {
+        elements.loadingScreen.classList.add('hidden');
+        elements.mainApp.classList.remove('hidden');
+        loadUserProgress();
+        setupEventListeners();
+        updateUI();
+    }, 2000);
+}
 
-/**
- * دالة لمعالجة أول تفاعل للمستخدم لتمكين تشغيل الأصوات.
- */
-function handleFirstInteraction() {
-    // حاول تشغيل الموسيقى الخلفية
-    playBackgroundMusic();
-    
-    // حاول تحميل جميع الأصوات
-    [correctSound, incorrectSound, clickSound, pageSound, completeSound].forEach(audio => {
-        audio.load();
+// تحميل تقدم المستخدم
+function loadUserProgress() {
+    const savedProgress = localStorage.getItem('geologyTrainingProgress');
+    if (savedProgress) {
+        const progress = JSON.parse(savedProgress);
+        appState.progress = progress.progress || appState.progress;
+        appState.totalPoints = progress.totalPoints || 0;
+        appState.bestStreak = progress.bestStreak || 0;
+        appState.userLevel = progress.userLevel || 'مبتدئ';
+    }
+    updateProgressBars();
+}
+
+// حفظ تقدم المستخدم
+function saveUserProgress() {
+    const progressData = {
+        progress: appState.progress,
+        totalPoints: appState.totalPoints,
+        bestStreak: appState.bestStreak,
+        userLevel: appState.userLevel,
+        lastUpdated: new Date().toISOString()
+    };
+    localStorage.setItem('geologyTrainingProgress', JSON.stringify(progressData));
+}
+
+// إعداد مستمعي الأحداث
+function setupEventListeners() {
+    // أزرار بدء التدريب
+    document.querySelectorAll('.start-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const subjectCard = e.target.closest('.subject-card');
+            const subject = subjectCard.dataset.subject;
+            startQuiz(subject);
+        });
     });
-}
 
-/**
- * تحميل بيانات المستخدم من localStorage
- */
-function loadUserData() {
-    const savedData = localStorage.getItem('geologyQuizUserData');
-    if (savedData) {
-        userData = JSON.parse(savedData);
-    }
-}
+    // أزرار التحكم في الاختبار
+    document.getElementById('exit-quiz').addEventListener('click', showExitConfirmation);
+    document.getElementById('prev-btn').addEventListener('click', prevQuestion);
+    document.getElementById('next-btn').addEventListener('click', nextQuestion);
+    document.getElementById('submit-btn').addEventListener('click', submitAnswer);
 
-/**
- * حفظ بيانات المستخدم في localStorage
- */
-function saveUserData() {
-    localStorage.setItem('geologyQuizUserData', JSON.stringify(userData));
-}
+    // أزرار النتائج
+    document.getElementById('review-btn').addEventListener('click', reviewAnswers);
+    document.getElementById('new-quiz-btn').addEventListener('click', newQuiz);
+    document.getElementById('share-btn').addEventListener('click', shareResults);
 
-/**
- * تهيئة إعدادات الصوت
- */
-function initAudioSettings() {
-    // تعيين مستويات الصوت
-    backgroundMusic.volume = userData.settings.musicVolume / 100;
-    // التأكد من أن جميع الأصوات تستخدم نفس مستوى المؤثرات
-    [correctSound, incorrectSound, clickSound, pageSound, completeSound].forEach(audio => {
-        audio.volume = userData.settings.soundVolume / 100;
-    });
-    
-    // تعيين قيم عناصر التحكم
-    musicVolume.value = userData.settings.musicVolume;
-    soundVolume.value = userData.settings.soundVolume;
-    musicVolumeValue.textContent = `${userData.settings.musicVolume}%`;
-    soundVolumeValue.textContent = `${userData.settings.soundVolume}%`;
-    
-    // تعيين التبديلات
-    animationToggle.checked = userData.settings.animations;
-    difficultySetting.value = userData.settings.difficulty;
-    
-    // تحديث أزرار السمات
-    updateThemeButtons();
-    
-    // تحديث حالة أزرار التحكم بالصوت
-    if (userData.settings.musicVolume === 0 || backgroundMusic.paused) {
-        musicToggle.classList.add('muted');
-        musicToggle.innerHTML = '<i class="fas fa-music-slash"></i><span class="sound-tooltip">الموسيقى</span>';
-    } else {
-        musicToggle.classList.remove('muted');
-        musicToggle.innerHTML = '<i class="fas fa-music"></i><span class="sound-tooltip">الموسيقى</span>';
-    }
-    
-    if (userData.settings.soundVolume === 0) {
-        soundToggle.classList.add('muted');
-        soundToggle.innerHTML = '<i class="fas fa-volume-mute"></i><span class="sound-tooltip">المؤثرات</span>';
-    } else {
-        soundToggle.classList.remove('muted');
-        soundToggle.innerHTML = '<i class="fas fa-volume-up"></i><span class="sound-tooltip">المؤثرات</span>';
-    }
-}
+    // النافذة المنبثقة
+    document.getElementById('cancel-exit').addEventListener('click', hideModal);
+    document.getElementById('confirm-exit').addEventListener('click', exitQuiz);
+    document.querySelector('.modal-close').addEventListener('click', hideModal);
 
-/**
- * تطبيق السمة المختارة
- */
-function applyTheme(theme) {
-    document.documentElement.setAttribute('data-theme', theme);
-    userData.settings.theme = theme;
-}
-
-/**
- * تحديث أزرار السمات
- */
-function updateThemeButtons() {
-    themeButtons.forEach(btn => {
-        btn.classList.remove('active');
-        if (btn.getAttribute('data-theme') === userData.settings.theme) {
-            btn.classList.add('active');
+    // إغلاق النافذة المنبثقة بالنقر خارجها
+    elements.confirmationModal.addEventListener('click', (e) => {
+        if (e.target === elements.confirmationModal) {
+            hideModal();
         }
     });
 }
 
-/**
- * تحديث واجهة المستخدم بناءً على بيانات المستخدم
- */
+// تحديث واجهة المستخدم
 function updateUI() {
-    // تحديث الإحصائيات العامة
-    totalQuizzes.textContent = userData.totalQuizzes;
-    userData.averageScore = isNaN(userData.averageScore) ? 0 : userData.averageScore;
-    totalPoints.textContent = userData.totalPoints;
-    
-    // تحديث تقدم الفئات
-    categoryCards.forEach(card => {
-        const category = card.getAttribute('data-category');
-        const progressFill = card.querySelector('.progress-fill');
-        const progressText = card.querySelector('.progress-text');
-        
-        const progress = userData.categoryProgress[category] || 0;
-        progressFill.style.width = `${progress}%`;
-        progressText.textContent = `${progress}%`;
-    });
+    // تحديث الإحصائيات
+    document.getElementById('user-level').textContent = appState.userLevel;
+    document.getElementById('total-points').textContent = appState.totalPoints;
+    document.getElementById('total-streak').textContent = appState.bestStreak;
+
+    // تحديث أشرطة التقدم
+    updateProgressBars();
 }
 
-/**
- * إضافة تأثيرات للعناصر
- */
-function animateElements() {
-    // تأثيرات للبطاقات
-    const cards = document.querySelectorAll('.category-card, .stat-item');
-    cards.forEach((card, index) => {
-        if (userData.settings.animations) {
-            card.style.animationDelay = `${index * 0.1}s`;
-            card.style.animation = 'fadeInUp 0.6s ease-out forwards';
+// تحديث أشرطة التقدم
+function updateProgressBars() {
+    const subjects = ['basic-geology', 'hydrogeology', 'petrology'];
+    subjects.forEach(subject => {
+        const progressFill = document.getElementById(`${subject.split('-')[0]}-progress`);
+        if (progressFill) {
+            progressFill.style.width = `${appState.progress[subject]}%`;
+            progressFill.closest('.subject-progress').querySelector('.progress-text').textContent = 
+                `${appState.progress[subject]}% مكتمل`;
         }
     });
 }
 
-// =================================================================
-// 4. دوال التحويل بين الشاشات
-// =================================================================
+// بدء الاختبار
+function startQuiz(subject) {
+    appState.currentSubject = subject;
+    appState.currentQuestionIndex = 0;
+    appState.userAnswers = {};
+    appState.quizStarted = true;
+    appState.quizCompleted = false;
+    appState.score = 0;
+    appState.currentStreak = 0;
+    appState.timeSpent = 0;
 
-/**
- * تبديل الشاشة النشطة
- * @param {string} targetId - معرف الشاشة الهدف
- */
-function switchScreen(targetId) {
-    const screens = document.querySelectorAll('.screen');
-    screens.forEach(screen => {
-        screen.classList.remove('active');
-    });
-    document.getElementById(targetId).classList.add('active');
-    
-    // تشغيل صوت الانتقال بين الصفحات
-    playSound(pageSound);
-    
-    // إضافة تأثيرات للشاشة الجديدة
-    if (userData.settings.animations) {
-        const targetScreen = document.getElementById(targetId);
-        targetScreen.style.animation = 'fadeInUp 0.6s ease-out';
-    }
+    // تبديل الأقسام
+    elements.subjectSelection.classList.add('hidden');
+    elements.quizSection.classList.remove('hidden');
+    elements.resultsSection.classList.add('hidden');
+
+    // تحديث واجهة الاختبار
+    updateQuizUI();
+    startTimer();
+
+    // تحميل السؤال الأول
+    loadQuestion();
 }
 
-/**
- * إظهار شاشة التحميل
- */
-function showLoadingScreen() {
-    switchScreen('loading-screen');
-    
-    // محاكاة شريط التقدم
-    const loadingProgress = document.querySelector('.loading-progress');
-    let width = 0;
-    const interval = setInterval(() => {
-        if (width >= 100) {
-            clearInterval(interval);
-        } else {
-            width += Math.random() * 15;
-            if (width > 100) width = 100;
-            loadingProgress.style.width = `${width}%`;
-        }
-    }, 200);
-}
-
-// =================================================================
-// 5. نظام الصوتيات - مُصلح
-// =================================================================
-
-/**
- * تشغيل الموسيقى الخلفية
- */
-function playBackgroundMusic() {
-    if (userData.settings.musicVolume > 0) {
-        backgroundMusic.volume = userData.settings.musicVolume / 100;
-        backgroundMusic.play().catch(e => {
-            console.log("تعذر تشغيل الموسيقى الخلفية تلقائيًا:", e.message);
-        });
-    }
-}
-
-/**
- * إيقاف الموسيقى الخلفية
- */
-function pauseBackgroundMusic() {
-    backgroundMusic.pause();
-}
-
-/**
- * تشغيل صوت معين
- * @param {HTMLAudioElement} audioElement - عنصر الصوت المراد تشغيله
- */
-function playSound(audioElement) {
-    if (userData.settings.soundVolume > 0) {
-        try {
-            audioElement.currentTime = 0; // إعادة ضبط الوقت للتشغيل المتعدد
-            audioElement.volume = userData.settings.soundVolume / 100;
-            audioElement.play().catch(e => {
-                console.log(`تعذر تشغيل الصوت (${audioElement.id}):`, e.message);
-                // هذا يحدث عادة إذا لم يتم التفاعل مع الصفحة بعد
-            });
-        } catch (error) {
-            console.log("خطأ في تشغيل الصوت:", error);
-        }
-    }
-}
-
-/**
- * تشغيل صوت النقر
- */
-function playClickSound() {
-    playSound(clickSound);
-}
-
-// =================================================================
-// 6. دالة بدء الاختبار
-// =================================================================
-
-/**
- * يبدأ الاختبار بناءً على الفئة المختارة (اسم ملف JSON)
- * @param {string} filename - اسم ملف JSON (مثل 'Basic Geology.json')
- * @param {string} categoryName - اسم الفئة للعرض
- */
-async function startQuiz(filename, categoryName) {
-    try {
-        showLoadingScreen();
-        selectedCategory = filename;
-        
-        // تحميل ملف الأسئلة
-        const response = await fetch(filename);
-        if (!response.ok) {
-            throw new Error(`Failed to load ${filename}`);
-        }
-        let questions = await response.json();
-        
-        // تصفية الأسئلة حسب مستوى الصعوبة
-        if (userData.settings.difficulty !== 'medium') {
-            questions = filterQuestionsByDifficulty(questions, userData.settings.difficulty);
-        }
-        
-        currentQuizData = questions;
-
-        // إعداد حالة الاختبار
-        currentQuestionIndex = 0;
-        score = 0;
-        timeElapsed = 0;
-        
-        quizTitle.textContent = categoryName;
-        totalQDisplay.textContent = currentQuizData.length;
-        scoreDisplay.textContent = '0';
-        
-        // إيقاف مؤقت السؤال القديم (إذا كان موجوداً)
-        clearInterval(questionTimeInterval);
-        
-        // بدء المؤقت الكلي وعرض السؤال الأول
-        startTotalTimer();
-        switchScreen('quiz-screen');
-        displayQuestion();
-
-    } catch (error) {
-        console.error('Error starting quiz:', error);
-        alert('حدث خطأ في تحميل الأسئلة. تأكد من وجود ملف JSON الصحيح.');
-        switchScreen('home-screen');
-    }
-}
-
-/**
- * تصفية الأسئلة حسب مستوى الصعوبة
- * @param {Array} questions - مصفوفة الأسئلة
- * @param {string} difficulty - مستوى الصعوبة (easy, medium, hard)
- * @returns {Array} - الأسئلة المصفاة
- */
-function filterQuestionsByDifficulty(questions, difficulty) {
-    const difficultyMap = {
-        'easy': 0.6,   // 60% من الأسئلة (الأسهل)
-        'medium': 0.8, // 80% من الأسئلة
-        'hard': 1      // 100% من الأسئلة (الأصعب)
+// تحديث واجهة الاختبار
+function updateQuizUI() {
+    const subjectNames = {
+        'basic-geology': 'الجيولوجيا الأساسية',
+        'hydrogeology': 'الهيدروجيولوجيا',
+        'petrology': 'البترولوجيا'
     };
-    
-    // عدد الأسئلة المراد عرضها
-    const count = Math.min(questions.length, Math.floor(questions.length * difficultyMap[difficulty]));
-    
-    // خلط الأسئلة واختيار العدد المطلوب
-    // هنا يجب أن يتم تحديد الأسئلة التي تطابق مستوى الصعوبة أولاً ثم الخلط والاختيار
-    const filteredQuestions = questions.filter(q => q.difficulty === difficulty || difficulty === 'medium'); // افتراض أن 'medium' يعرض كل شيء
-    
-    // لتبسيط العملية مؤقتاً: نكتفي بالاقتطاع إذا كان ملف JSON مرتبًا حسب الصعوبة
-    return questions.slice(0, count);
+
+    document.getElementById('current-subject').textContent = subjectNames[appState.currentSubject];
+    document.getElementById('streak-counter').textContent = `${appState.currentStreak} تتابع`;
 }
 
-// =================================================================
-// 7. دالة عرض السؤال
-// =================================================================
+// تحميل السؤال
+function loadQuestion() {
+    const questions = questionsData[appState.currentSubject];
+    const currentQuestion = questions[appState.currentQuestionIndex];
 
-function displayQuestion() {
-    // التأكد من وجود أسئلة
-    if (currentQuestionIndex >= currentQuizData.length) {
-        showResults();
-        return;
-    }
+    if (!currentQuestion) return;
 
-    const question = currentQuizData[currentQuestionIndex];
-    questionText.textContent = question.question;
+    // تحديث العداد
+    document.getElementById('current-q-number').textContent = appState.currentQuestionIndex + 1;
+    document.getElementById('question-counter').textContent = 
+        `${appState.currentQuestionIndex + 1}/${questions.length}`;
+
+    // تحديث نص السؤال
+    document.getElementById('question-text').textContent = currentQuestion.question;
+
+    // تحديث الخيارات
+    const optionsContainer = document.getElementById('options-container');
     optionsContainer.innerHTML = '';
-    nextBtn.disabled = true; // تعطيل زر التالي حتى تتم الإجابة
-    hintContainer.classList.remove('show'); // إخفاء التلميح
-    hintBtn.style.display = 'flex'; // إظهار زر التلميح (تم تغيير 'block' إلى 'flex' ليتناسب مع النمط)
-    hintBtn.disabled = false;
-    isAnswered = false; // إعادة ضبط حالة الإجابة
 
-    // تحديث شريط التقدم والإحصائيات
-    currentQIndexDisplay.textContent = currentQuestionIndex + 1;
-    questionNumber.textContent = currentQuestionIndex + 1;
-    questionCounter.textContent = `السؤال ${currentQuestionIndex + 1} من ${currentQuizData.length}`;
+    const optionLetters = ['أ', 'ب', 'ج', 'د'];
+    currentQuestion.options.forEach((option, index) => {
+        const optionElement = document.createElement('div');
+        optionElement.className = 'option';
+        if (appState.userAnswers[appState.currentQuestionIndex] === index) {
+            optionElement.classList.add('selected');
+        }
+
+        optionElement.innerHTML = `
+            <div class="option-letter">${optionLetters[index]}</div>
+            <div class="option-text">${option}</div>
+        `;
+
+        optionElement.addEventListener('click', () => selectOption(index));
+        optionsContainer.appendChild(optionElement);
+    });
+
+    // تحديث أزرار التحكم
+    updateQuizControls();
     updateProgressBar();
-    
-    // تحديث مستوى صعوبة السؤال
-    updateQuestionDifficulty(question.difficulty);
-    
-    // إنشاء أزرار الخيارات
-    question.options.forEach((option, index) => {
-        const button = document.createElement('button');
-        button.textContent = option;
-        button.classList.add('option-btn');
-        
-        // إضافة تأثيرات للخيارات
-        if (userData.settings.animations) {
-            button.style.animationDelay = `${index * 0.1}s`;
-            button.style.animation = 'fadeInUp 0.5s ease-out forwards';
-        }
-        
-        button.onclick = () => handleAnswer(button, option, question.answer, false); // false للإشارة إلى أن الإجابة لم تتم عبر المؤقت
-        optionsContainer.appendChild(button);
-    });
-    
-    // إعداد التلميح إذا كان متوفراً
-    setupHint(question.hint);
-    
-    // بدء مؤقت السؤال
-    startQuestionTimer();
 }
 
-/**
- * تحديث عرض مستوى صعوبة السؤال
- * @param {string} difficulty - مستوى الصعوبة
- */
-function updateQuestionDifficulty(difficulty) {
-    const difficultyElement = document.getElementById('question-difficulty');
-    const displayDifficulty = difficulty || 'medium'; // افتراض متوسط إذا لم يحدد
-    
-    difficultyElement.innerHTML = `<i class="fas fa-signal"></i><span>${getDifficultyText(displayDifficulty)}</span>`;
-    difficultyElement.className = 'question-difficulty ' + displayDifficulty;
-    difficultyElement.style.display = 'flex';
-}
-
-/**
- * الحصول على النص المعروض لمستوى الصعوبة
- * @param {string} difficulty - مستوى الصعوبة
- * @returns {string} - النص المعروض
- */
-function getDifficultyText(difficulty) {
-    const difficultyMap = {
-        'easy': 'سهل',
-        'medium': 'متوسط',
-        'hard': 'صعب'
-    };
-    return difficultyMap[difficulty] || 'متوسط';
-}
-
-/**
- * إعداد التلميح للسؤال الحالي
- * @param {string} hint - نص التلميح
- */
-function setupHint(hint) {
-    if (hint) {
-        hintText.textContent = hint;
-        hintBtn.onclick = () => {
-            hintContainer.classList.add('show');
-            hintBtn.disabled = true;
-            playClickSound();
-        };
-    } else {
-        hintBtn.style.display = 'none';
-    }
-}
-
-// =================================================================
-// 8. دالة معالجة الإجابة - مُصلحة لضمان الألوان الصحيحة
-// =================================================================
-
-/**
- * معالجة الإجابة عند الضغط على زر الخيار أو انتهاء المؤقت
- * @param {HTMLElement | null} selectedButton - زر الخيار الذي تم الضغط عليه (أو null إذا انتهى المؤقت)
- * @param {string | null} selectedOption - نص الخيار الذي تم اختياره (أو null إذا انتهى المؤقت)
- * @param {string} correctAnswer - الإجابة الصحيحة
- * @param {boolean} isTimeout - هل تم استدعاء الدالة بسبب انتهاء المؤقت؟
- */
-function handleAnswer(selectedButton, selectedOption, correctAnswer, isTimeout) {
-    // لا تفعل شيئًا إذا تمت الإجابة بالفعل
-    if (isAnswered) return;
-    isAnswered = true;
-    
-    // إيقاف مؤقت السؤال
-    clearInterval(questionTimeInterval);
-    
-    const isCorrect = (selectedOption === correctAnswer);
-
-    // تعطيل جميع الأزرار بعد الإجابة لمنع التغيير
-    document.querySelectorAll('.option-btn').forEach(btn => {
-        btn.disabled = true;
-        btn.style.pointerEvents = 'none';
+// اختيار خيار
+function selectOption(optionIndex) {
+    // إزالة التحديد من جميع الخيارات
+    document.querySelectorAll('.option').forEach(option => {
+        option.classList.remove('selected');
     });
 
-    if (isTimeout) {
-        // حالة انتهاء المؤقت
-        score = Math.max(0, score - 10); // خصم 10 نقاط (أو لا شيء إذا كانت النتيجة صفر)
-        scoreDisplay.textContent = score;
-        
-        // إظهار الإجابة الصحيحة فقط
-        Array.from(optionsContainer.children).forEach(btn => {
-            if (btn.textContent === correctAnswer) {
-                btn.classList.add('correct');
-            }
-        });
-        
-        // إشعار بالخصم
-        timerDisplay.textContent = 'انتهى الوقت (-10 نقاط)';
-        timerDisplay.parentElement.classList.add('incorrect');
-        playSound(incorrectSound);
-        
-    } else {
-        // حالة اختيار الإجابة
-        if (isCorrect) {
-            score += 10;
-            scoreDisplay.textContent = score;
-            
-            // إضافة الكلاس الصحيح فقط للزر المحدد
-            selectedButton.classList.add('correct');
-            playSound(correctSound);
-            
-            // تأثير مرئي للإجابة الصحيحة
-            if (userData.settings.animations) {
-                selectedButton.style.animation = 'pulseCorrect 0.6s ease';
-            }
-        } else {
-            score = Math.max(0, score - 5); // خصم 5 نقاط على الإجابة الخاطئة
-            scoreDisplay.textContent = score;
-            
-            // إضافة الكلاس الخاطئ للزر المحدد
-            selectedButton.classList.add('incorrect');
-            playSound(incorrectSound);
-            
-            // تأثير مرئي للإجابة الخاطئة
-            if (userData.settings.animations) {
-                selectedButton.style.animation = 'shake 0.5s ease';
-            }
-            
-            // تمييز الإجابة الصحيحة باللون الأخضر
-            Array.from(optionsContainer.children).forEach(btn => {
-                if (btn.textContent === correctAnswer) {
-                    btn.classList.add('correct'); 
-                }
-            });
+    // تحديد الخيار المختار
+    const selectedOption = document.querySelectorAll('.option')[optionIndex];
+    selectedOption.classList.add('selected');
+
+    // حفظ الإجابة
+    appState.userAnswers[appState.currentQuestionIndex] = optionIndex;
+
+    // إظهار زر التأكيد
+    document.getElementById('submit-btn').classList.remove('hidden');
+}
+
+// تحديث أزرار التحكم
+function updateQuizControls() {
+    const questions = questionsData[appState.currentSubject];
+    
+    // زر السابق
+    const prevBtn = document.getElementById('prev-btn');
+    prevBtn.disabled = appState.currentQuestionIndex === 0;
+
+    // زر التالي
+    const nextBtn = document.getElementById('next-btn');
+    const submitBtn = document.getElementById('submit-btn');
+
+    if (appState.currentQuestionIndex === questions.length - 1) {
+        nextBtn.classList.add('hidden');
+        if (appState.userAnswers[appState.currentQuestionIndex] !== undefined) {
+            submitBtn.classList.remove('hidden');
+            submitBtn.innerHTML = '<i class="fas fa-flag-checkered"></i> إنهاء الاختبار';
         }
+    } else {
+        nextBtn.classList.remove('hidden');
+        submitBtn.classList.add('hidden');
     }
 
-    nextBtn.disabled = false; // تفعيل زر التالي
+    // إخفاء الشرح
+    document.getElementById('explanation-box').classList.add('hidden');
 }
 
-// =================================================================
-// 9. دالة المضي إلى السؤال التالي
-// =================================================================
-
-function nextQuestion() {
-    playClickSound();
-    
-    // إزالة كلاسات الحالة من المؤقت
-    timerDisplay.parentElement.classList.remove('incorrect');
-    timerDisplay.parentElement.classList.remove('warning');
-    
-    currentQuestionIndex++;
-    displayQuestion();
-}
-
-// =================================================================
-// 10. دوال الأدوات الإضافية (المؤقت، التقدم) - مُعدلة
-// =================================================================
-
-function startTotalTimer() {
-    timeElapsed = 0;
-    // تحديث المؤقت الكلي كل ثانية
-    timerInterval = setInterval(() => {
-        timeElapsed++;
-        // المؤقت الكلي غير معروض حاليًا لكنه يُستخدم في شاشة النتائج
-    }, 1000);
-}
-
-function startQuestionTimer() {
-    // إعادة ضبط المؤقت
-    clearInterval(questionTimeInterval);
-    timeLeft = QUESTION_DURATION;
-    timerDisplay.textContent = timeLeft;
-    timerDisplay.parentElement.classList.remove('incorrect');
-
-    // بدء عد تنازلي
-    questionTimeInterval = setInterval(() => {
-        timeLeft--;
-        timerDisplay.textContent = timeLeft;
-
-        if (timeLeft <= 10) {
-            timerDisplay.parentElement.classList.add('warning'); // لون تحذيري
-        }
-
-        if (timeLeft <= 0) {
-            // انتهاء الوقت
-            clearInterval(questionTimeInterval);
-            
-            // معالجة الإجابة كـ "انتهى الوقت"
-            const currentQuestion = currentQuizData[currentQuestionIndex];
-            handleAnswer(null, null, currentQuestion.answer, true);
-        }
-    }, 1000);
-}
-
+// تحديث شريط التقدم
 function updateProgressBar() {
-    const total = currentQuizData.length;
-    // التقدم يعتمد على الأسئلة التي تم الانتهاء منها
-    const progress = (currentQuestionIndex / total) * 100; 
-    progressBarFill.style.width = progress + '%';
-    progressPercentage.textContent = `${Math.round(progress)}%`;
+    const questions = questionsData[appState.currentSubject];
+    const progress = ((appState.currentQuestionIndex + 1) / questions.length) * 100;
+    
+    document.getElementById('quiz-progress').style.width = `${progress}%`;
+    document.getElementById('progress-percent').textContent = `${Math.round(progress)}%`;
 }
 
-// =================================================================
-// 11. شاشة النتائج - تم نقل وظيفة تحديث بيانات المستخدم
-// =================================================================
-
-function showResults() {
-    clearInterval(timerInterval); // إوقف المؤقت الكلي
-    clearInterval(questionTimeInterval); // إيقاف مؤقت السؤال
-    playSound(completeSound); // تشغيل صوت إكمال الاختبار
-
-    const totalQuestions = currentQuizData.length;
-    const percentage = Math.round((score / (totalQuestions * 10)) * 100); // حساب النسبة المئوية بناءً على مجموع النقاط المحتملة
-    
-    // تحديث دائرة النتيجة
-    circleFill.style.background = `conic-gradient(var(--primary-color) ${percentage}%, transparent ${percentage}%)`;
-    
-    // عرض النتائج
-    resultCategory.textContent = quizTitle.textContent;
-    // بما أن النتيجة تعتمد على النقاط، نستخدم النقاط فقط في عرض النتيجة
-    scoreCorrect.textContent = `${score}`; // عرض مجموع النقاط
-    scorePercentage.textContent = `${percentage}%`;
-    
-    // حساب الوقت المستغرق
-    const minutes = Math.floor(timeElapsed / 60);
-    const seconds = timeElapsed % 60;
-    const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-    resultTime.textContent = formattedTime;
-    
-    // النقاط المحصلة هي قيمة 'score' الحالية
-    const points = score;
-    resultPoints.textContent = points;
-    
-    // تحديث العناوين والرسائل بناءً على الأداء
-    updateResultMessages(percentage);
-    
-    // تحديث بيانات المستخدم
-    updateUserData(percentage, points);
-    
-    // إنشاء تأثيرات الكونفيتي
-    createConfetti();
-    
-    switchScreen('results-screen');
+// السؤال السابق
+function prevQuestion() {
+    if (appState.currentQuestionIndex > 0) {
+        appState.currentQuestionIndex--;
+        loadQuestion();
+    }
 }
 
-/**
- * تحديث الرسائل والعناوين بناءً على النتيجة
- * @param {number} percentage - النسبة المئوية للنتيجة
- */
-function updateResultMessages(percentage) {
-    if (percentage >= 90) {
-        resultTitle.textContent = 'مستوى استثنائي! 🏆';
-        resultMessage.textContent = 'أداء رائع! أنت خبير في هذا المجال الجيولوجي.';
-    } else if (percentage >= 75) {
-        resultTitle.textContent = 'مستوى ممتاز! 🌟';
-        resultMessage.textContent = 'أداء متميز! أنت جاهز للانطلاق في المجال الجيولوجي.';
-    } else if (percentage >= 60) {
-        resultTitle.textContent = 'مستوى جيد جداً! 👍';
-        resultMessage.textContent = 'معلوماتك قوية في هذا التخصص. استمر في التعلم!';
-    } else if (percentage >= 40) {
-        resultTitle.textContent = 'مستوى مقبول 💪';
-        resultMessage.textContent = 'أداء جيد، لكن تحتاج لمراجعة بعض النقاط لتعزيز معلوماتك.';
+// السؤال التالي
+function nextQuestion() {
+    const questions = questionsData[appState.currentSubject];
+    if (appState.currentQuestionIndex < questions.length - 1) {
+        appState.currentQuestionIndex++;
+        loadQuestion();
+    }
+}
+
+// تأكيد الإجابة
+function submitAnswer() {
+    const questions = questionsData[appState.currentSubject];
+    const currentQuestion = questions[appState.currentQuestionIndex];
+    const userAnswerIndex = appState.userAnswers[appState.currentQuestionIndex];
+
+    if (userAnswerIndex === undefined) return;
+
+    const userAnswer = currentQuestion.options[userAnswerIndex];
+    const isCorrect = userAnswer === currentQuestion.answer;
+
+    // تحديث النتيجة
+    if (isCorrect) {
+        appState.score++;
+        appState.currentStreak++;
+        appState.totalPoints += 10;
+        
+        if (appState.currentStreak > appState.bestStreak) {
+            appState.bestStreak = appState.currentStreak;
+        }
     } else {
-        resultTitle.textContent = 'يحتاج تحسين 🎯';
-        resultMessage.textContent = 'لا تستسلم! راجع المواد التعليمية وحاول مرة أخرى.';
+        appState.currentStreak = 0;
     }
+
+    // عرض التغذية الراجعة
+    showAnswerFeedback(isCorrect, currentQuestion.explanation);
+
+    // تحديث العداد
+    document.getElementById('streak-counter').textContent = `${appState.currentStreak} تتابع`;
+
+    // الانتقال التلقائي أو إنهاء الاختبار
+    setTimeout(() => {
+        if (appState.currentQuestionIndex < questions.length - 1) {
+            appState.currentQuestionIndex++;
+            loadQuestion();
+        } else {
+            finishQuiz();
+        }
+    }, 3000);
 }
 
-/**
- * تحديث بيانات المستخدم بعد الانتهاء من الاختبار
- * @param {number} percentage - النسبة المئوية للنتيجة
- * @param {number} points - النقاط المحصلة
- */
-function updateUserData(percentage, points) {
-    // تحديث الإحصائيات العامة
-    userData.totalQuizzes++;
-    userData.totalPoints += points;
+// عرض التغذية الراجعة
+function showAnswerFeedback(isCorrect, explanation) {
+    const options = document.querySelectorAll('.option');
+    const currentQuestion = questionsData[appState.currentSubject][appState.currentQuestionIndex];
     
-    // تحديث متوسط النتائج
-    const totalScore = (userData.averageScore * (userData.totalQuizzes - 1) + percentage) / userData.totalQuizzes;
-    userData.averageScore = Math.round(totalScore);
+    options.forEach((option, index) => {
+        const optionText = option.querySelector('.option-text').textContent;
+        
+        if (optionText === currentQuestion.answer) {
+            option.classList.add('correct');
+        } else if (index === appState.userAnswers[appState.currentQuestionIndex] && !isCorrect) {
+            option.classList.add('incorrect');
+        }
+        
+        option.style.pointerEvents = 'none';
+    });
+
+    // عرض الشرح
+    const explanationBox = document.getElementById('explanation-box');
+    const explanationText = document.getElementById('explanation-text');
     
-    // تحديث تقدم الفئة
-    if (!userData.categoryProgress[selectedCategory]) {
-        userData.categoryProgress[selectedCategory] = 0;
-    }
-    userData.categoryProgress[selectedCategory] = Math.max(
-        userData.categoryProgress[selectedCategory],
-        percentage
+    explanationText.textContent = explanation;
+    explanationBox.classList.remove('hidden');
+
+    // تعطيل الأزرار مؤقتًا
+    document.getElementById('prev-btn').disabled = true;
+    document.getElementById('next-btn').disabled = true;
+    document.getElementById('submit-btn').disabled = true;
+}
+
+// إنهاء الاختبار
+function finishQuiz() {
+    clearInterval(appState.timerInterval);
+    appState.quizCompleted = true;
+
+    // تحديث التقدم
+    const questions = questionsData[appState.currentSubject];
+    const scorePercentage = (appState.score / questions.length) * 100;
+    appState.progress[appState.currentSubject] = Math.max(
+        appState.progress[appState.currentSubject],
+        scorePercentage
     );
+
+    // تحديث مستوى المستخدم
+    updateUserLevel();
+
+    // حفظ التقدم
+    saveUserProgress();
+
+    // عرض النتائج
+    showResults();
+}
+
+// عرض النتائج
+function showResults() {
+    elements.quizSection.classList.add('hidden');
+    elements.resultsSection.classList.remove('hidden');
+
+    const questions = questionsData[appState.currentSubject];
+    const scorePercentage = Math.round((appState.score / questions.length) * 100);
+
+    // تحديث النتائج
+    document.getElementById('results-subject').textContent = 
+        document.getElementById('current-subject').textContent;
     
-    // حفظ البيانات
-    saveUserData();
+    document.getElementById('score-percentage').textContent = `${scorePercentage}%`;
+    document.getElementById('correct-answers').textContent = appState.score;
+    document.getElementById('total-questions').textContent = questions.length;
+    document.getElementById('best-streak').textContent = appState.bestStreak;
+    document.getElementById('time-taken').textContent = formatTime(appState.timeSpent);
+
+    // تحديث دائرة النتيجة
+    const scoreCircle = document.querySelector('.score-circle');
+    scoreCircle.style.setProperty('--p', `${scorePercentage}%`);
+
+    // تحديث الإنجازات
+    updateAchievements(scorePercentage);
+}
+
+// تحديث الإنجازات
+function updateAchievements(scorePercentage) {
+    const achievementsContainer = document.getElementById('achievements-container');
+    achievementsContainer.innerHTML = '';
+
+    const achievements = [];
+
+    if (scorePercentage >= 90) {
+        achievements.push({
+            icon: 'fas fa-crown',
+            title: 'خبير الجيولوجيا',
+            description: 'تفوق متميز!'
+        });
+    }
+
+    if (scorePercentage >= 80) {
+        achievements.push({
+            icon: 'fas fa-medal',
+            title: 'متفوق',
+            description: 'أداء رائع!'
+        });
+    }
+
+    if (scorePercentage >= 70) {
+        achievements.push({
+            icon: 'fas fa-award',
+            title: 'متميز',
+            description: 'أداء جيد جدًا'
+        });
+    }
+
+    if (appState.currentStreak >= 5) {
+        achievements.push({
+            icon: 'fas fa-bolt',
+            title: 'متسلسل',
+            description: `${appState.currentStreak} إجابات صحيحة متتالية`
+        });
+    }
+
+    if (appState.totalPoints >= 100) {
+        achievements.push({
+            icon: 'fas fa-star',
+            title: 'نقاط مئوية',
+            description: '100+ نقطة مكتسبة'
+        });
+    }
+
+    // إذا لم تكن هناك إنجازات، إضافة إنجاز تشجيعي
+    if (achievements.length === 0) {
+        achievements.push({
+            icon: 'fas fa-seedling',
+            title: 'مبتدئ واعد',
+            description: 'استمر في التعلم!'
+        });
+    }
+
+    achievements.forEach(achievement => {
+        const achievementElement = document.createElement('div');
+        achievementElement.className = 'achievement unlocked';
+        achievementElement.innerHTML = `
+            <i class="${achievement.icon}"></i>
+            <h4>${achievement.title}</h4>
+            <p>${achievement.description}</p>
+        `;
+        achievementsContainer.appendChild(achievementElement);
+    });
+}
+
+// تحديث مستوى المستخدم
+function updateUserLevel() {
+    const totalProgress = Object.values(appState.progress).reduce((a, b) => a + b, 0);
     
-    // تحديث واجهة المستخدم
+    if (totalProgress >= 240) { // 80% في كل مادة
+        appState.userLevel = 'خبير';
+    } else if (totalProgress >= 180) { // 60% في كل مادة
+        appState.userLevel = 'متقدم';
+    } else if (totalProgress >= 120) { // 40% في كل مادة
+        appState.userLevel = 'متوسط';
+    } else {
+        appState.userLevel = 'مبتدئ';
+    }
+
+    document.getElementById('user-level').textContent = appState.userLevel;
+}
+
+// المؤقت
+function startTimer() {
+    appState.timeSpent = 0;
+    updateTimerDisplay();
+    
+    appState.timerInterval = setInterval(() => {
+        appState.timeSpent++;
+        updateTimerDisplay();
+    }, 1000);
+}
+
+function updateTimerDisplay() {
+    const timerElement = document.getElementById('timer');
+    timerElement.textContent = formatTime(appState.timeSpent);
+}
+
+function formatTime(seconds) {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+}
+
+// النافذة المنبثقة للخروج
+function showExitConfirmation() {
+    elements.confirmationModal.classList.remove('hidden');
+}
+
+function hideModal() {
+    elements.confirmationModal.classList.add('hidden');
+}
+
+function exitQuiz() {
+    clearInterval(appState.timerInterval);
+    hideModal();
+    
+    elements.quizSection.classList.add('hidden');
+    elements.subjectSelection.classList.remove('hidden');
+    
+    appState.quizStarted = false;
     updateUI();
 }
 
-/**
- * إنشاء تأثير الكونفيتي
- */
-function createConfetti() {
-    const confettiContainer = document.querySelector('.results-background');
-    if (!confettiContainer) return;
+// وظائف النتائج
+function reviewAnswers() {
+    // العودة إلى السؤال الأول مع إظهار الإجابات
+    appState.currentQuestionIndex = 0;
+    elements.resultsSection.classList.add('hidden');
+    elements.quizSection.classList.remove('hidden');
+    loadQuestion();
     
-    // إزالة الكونفيتي القديم
-    confettiContainer.querySelectorAll('.confetti').forEach(c => c.remove());
+    // تعطيل الإجابة على الأسئلة في وضع المراجعة
+    document.querySelectorAll('.option').forEach(option => {
+        option.style.pointerEvents = 'none';
+    });
     
-    const colors = ['#2c7873', '#ffb74d', '#10b981', '#3b82f6', '#8b5cf6'];
-    
-    for (let i = 0; i < 50; i++) {
-        const confetti = document.createElement('div');
-        confetti.className = 'confetti';
-        confetti.style.left = Math.random() * 100 + 'vw';
-        confetti.style.animationDelay = Math.random() * 5 + 's';
-        confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
-        confetti.style.width = Math.random() * 10 + 5 + 'px';
-        confetti.style.height = Math.random() * 10 + 5 + 'px';
-        confettiContainer.appendChild(confetti);
-    }
+    document.getElementById('submit-btn').classList.add('hidden');
+    document.getElementById('next-btn').classList.remove('hidden');
 }
 
+function newQuiz() {
+    elements.resultsSection.classList.add('hidden');
+    elements.subjectSelection.classList.remove('hidden');
+    updateUI();
+}
 
-// =================================================================
-// 12. الاستماع للأحداث (EventListeners)
-// =================================================================
-
-// 1. اختيار الفئة
-categoryCards.forEach(card => {
-    card.addEventListener('click', () => {
-        playClickSound();
-        const filename = card.getAttribute('data-category');
-        const categoryName = card.querySelector('h3').textContent;
-        startQuiz(filename, categoryName);
-    });
-});
-
-// 2. زر السؤال التالي
-nextBtn.addEventListener('click', nextQuestion);
-
-// 3. زر العودة للرئيسية (تم إخفاؤه ولكنه يعمل)
-backBtn.addEventListener('click', () => {
-    playClickSound();
-    if (confirm('هل تريد العودة إلى الصفحة الرئيسية؟ سيتم فقدان تقدمك الحالي.')) {
-        clearInterval(timerInterval);
-        clearInterval(questionTimeInterval);
-        switchScreen('home-screen');
-    }
-});
-
-// 4. زر العودة للرئيسية من شاشة النتائج
-homeBtn.addEventListener('click', () => {
-    playClickSound();
-    switchScreen('home-screen');
-});
-
-// 5. زر إعادة الاختبار
-retryBtn.addEventListener('click', () => {
-    playClickSound();
-    const categoryName = quizTitle.textContent;
-    startQuiz(selectedCategory, categoryName);
-});
-
-// 6. زر مشاركة النتيجة
-shareBtn.addEventListener('click', () => {
-    playClickSound();
-    const percentage = scorePercentage.textContent;
-    const category = resultCategory.textContent;
-    const message = `🎯 حصلت على ${percentage} في اختبار ${category} على منصة الجيولوجي المحترف!`;
+function shareResults() {
+    const subject = document.getElementById('current-subject').textContent;
+    const score = document.getElementById('score-percentage').textContent;
+    
+    const shareText = `لقد حصلت على ${score} في اختبار ${subject} في نظام تدريب الجيولوجيا المتقدم!`;
     
     if (navigator.share) {
         navigator.share({
             title: 'نتيجة اختبار الجيولوجيا',
-            text: message,
+            text: shareText,
             url: window.location.href
-        }).catch(err => {
-            console.log('Error sharing:', err);
-            fallbackShare(message);
         });
     } else {
-        fallbackShare(message);
-    }
-});
-
-/**
- * طريقة بديلة للمشاركة إذا لم يكن Web Share API مدعوماً
- */
-function fallbackShare(message) {
-    navigator.clipboard.writeText(message).then(() => {
-        alert('✅ تم نسخ النتيجة إلى الحافظة! يمكنك مشاركتها الآن.');
-    }).catch(err => {
-        console.log('Failed to copy: ', err);
-        alert(`📋 يمكنك مشاركة نتيجتك يدوياً:\n\n${message}`);
-    });
-}
-
-// 7. إعدادات الصوت
-musicToggle.addEventListener('click', () => {
-    // لا تشغل صوت النقر هنا لتجنب التداخل مع الموسيقى
-    if (backgroundMusic.paused) {
-        playBackgroundMusic();
-        musicToggle.classList.remove('muted');
-        musicToggle.innerHTML = '<i class="fas fa-music"></i><span class="sound-tooltip">الموسيقى</span>';
-    } else {
-        pauseBackgroundMusic();
-        musicToggle.classList.add('muted');
-        musicToggle.innerHTML = '<i class="fas fa-music-slash"></i><span class="sound-tooltip">الموسيقى</span>';
-    }
-    // تحديث مستوى الصوت في حالة تشغيله/إيقافه عبر الزر الرئيسي
-    userData.settings.musicVolume = backgroundMusic.paused ? 0 : 50;
-    musicVolume.value = userData.settings.musicVolume;
-    musicVolumeValue.textContent = `${userData.settings.musicVolume}%`;
-    saveUserData();
-});
-
-soundToggle.addEventListener('click', () => {
-    playClickSound();
-    // تبديل حالة المؤثرات
-    if (userData.settings.soundVolume > 0) {
-        userData.settings.soundVolume = 0;
-        soundToggle.classList.add('muted');
-        soundToggle.innerHTML = '<i class="fas fa-volume-mute"></i><span class="sound-tooltip">المؤثرات</span>';
-    } else {
-        userData.settings.soundVolume = 70; // القيمة الافتراضية
-        soundToggle.classList.remove('muted');
-        soundToggle.innerHTML = '<i class="fas fa-volume-up"></i><span class="sound-tooltip">المؤثرات</span>';
-    }
-    
-    // تحديث مستوى الصوت في جميع الأصوات
-    initAudioSettings();
-    saveUserData();
-});
-
-// 8. شاشة الإعدادات
-settingsBtn.addEventListener('click', () => {
-    playClickSound();
-    switchScreen('settings-screen');
-});
-
-leaderboardBtn.addEventListener('click', () => {
-    playClickSound();
-    alert('🚧 هذه الميزة قيد التطوير!');
-});
-
-backFromSettings.addEventListener('click', () => {
-    playClickSound();
-    switchScreen('home-screen');
-});
-
-saveSettings.addEventListener('click', () => {
-    playClickSound();
-    
-    // حفظ الإعدادات
-    userData.settings.musicVolume = parseInt(musicVolume.value);
-    userData.settings.soundVolume = parseInt(soundVolume.value);
-    userData.settings.animations = animationToggle.checked;
-    userData.settings.difficulty = difficultySetting.value;
-    
-    // تطبيق الإعدادات
-    initAudioSettings();
-    saveUserData();
-    
-    // إظهار رسالة نجاح
-    showNotification('تم حفظ الإعدادات بنجاح!', 'success');
-    setTimeout(() => switchScreen('home-screen'), 1000);
-});
-
-/**
- * عرض إشعار
- */
-function showNotification(message, type = 'info') {
-    // يمكن تطوير هذه الدالة لعرض إشعارات جميلة
-    console.log(`[${type.toUpperCase()}] ${message}`);
-    // استخدام alert بسيط للآن
-    // alert(message);
-}
-
-// 9. تحديث قيم عناصر التحكم في الوقت الحقيقي
-musicVolume.addEventListener('input', () => {
-    musicVolumeValue.textContent = `${musicVolume.value}%`;
-    backgroundMusic.volume = musicVolume.value / 100;
-    userData.settings.musicVolume = parseInt(musicVolume.value);
-    // تحديث حالة زر الموسيقى
-    if (userData.settings.musicVolume > 0 && backgroundMusic.paused) {
-        playBackgroundMusic();
-    } else if (userData.settings.musicVolume === 0) {
-        pauseBackgroundMusic();
-    }
-    initAudioSettings(); // لتحديث حالة زر التبديل
-});
-
-soundVolume.addEventListener('input', () => {
-    soundVolumeValue.textContent = `${soundVolume.value}%`;
-    const volume = soundVolume.value / 100;
-    // تحديث صوت المؤثرات
-    [correctSound, incorrectSound, clickSound, pageSound, completeSound].forEach(audio => {
-        audio.volume = volume;
-    });
-    userData.settings.soundVolume = parseInt(soundVolume.value);
-    initAudioSettings(); // لتحديث حالة زر التبديل
-});
-
-// 10. منتقي السمات
-themeButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-        playClickSound();
-        const theme = btn.getAttribute('data-theme');
-        applyTheme(theme);
-        updateThemeButtons();
-        userData.settings.theme = theme;
-        saveUserData();
-    });
-});
-
-// 11. إضافة أصوات النقر لجميع الأزرار (عدا الموسيقى والمؤثرات)
-document.querySelectorAll('button').forEach(button => {
-    if (!button.id.includes('music-toggle') && !button.id.includes('sound-toggle')) {
-        button.addEventListener('click', (event) => {
-            // منع تكرار النقر إذا كان الزر معطلاً أو تمت الإجابة
-            if (button.disabled || (button.classList.contains('option-btn') && isAnswered)) {
-                event.preventDefault();
-                return;
-            }
-            playClickSound();
+        // نسخ إلى الحافظة
+        navigator.clipboard.writeText(shareText).then(() => {
+            alert('تم نسخ النتيجة إلى الحافظة!');
         });
     }
-});
+}
+
+// بدء التطبيق
+document.addEventListener('DOMContentLoaded', initApp);
