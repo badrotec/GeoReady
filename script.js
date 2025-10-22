@@ -37,9 +37,6 @@ const resultPoints = document.getElementById('result-points');
 const circleFill = document.getElementById('circle-fill');
 const homeBtn = document.getElementById('home-btn');
 const retryBtn = document.getElementById('retry-btn');
-const shareBtn = document.getElementById('share-btn');
-const achievementsEarned = document.getElementById('achievements-earned');
-const achievementsList = document.querySelector('.achievements-list');
 
 // الإحصائيات العامة
 const totalQuizzes = document.getElementById('total-quizzes');
@@ -102,8 +99,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // تحديث واجهة المستخدم
     updateUI();
     
-    // إضافة تأثيرات الظهور للبطاقات
-    animateCategoryCards();
+    // إخفاء شاشة التحميل بشكل صحيح
+    loadingScreen.style.display = 'none';
 });
 
 /**
@@ -167,19 +164,6 @@ function updateUI() {
         const progress = userData.categoryProgress[category] || 0;
         progressFill.style.width = `${progress}%`;
         progressText.textContent = `${progress}%`;
-    });
-}
-
-/**
- * إضافة تأثيرات الظهور لبطاقات الفئات
- */
-function animateCategoryCards() {
-    const cards = document.querySelectorAll('.category-card');
-    cards.forEach((card, index) => {
-        if (userData.settings.animations) {
-            card.style.animationDelay = `${index * 0.1}s`;
-            card.classList.add('fade-in-up');
-        }
     });
 }
 
@@ -351,6 +335,7 @@ function displayQuestion() {
     optionsContainer.innerHTML = '';
     nextBtn.disabled = true; // تعطيل زر التالي حتى تتم الإجابة
     hintContainer.classList.remove('show'); // إخفاء التلميح
+    hintBtn.style.display = 'block'; // إظهار زر التلميح
 
     // تحديث شريط التقدم والإحصائيات
     currentQIndexDisplay.textContent = currentQuestionIndex + 1;
@@ -413,6 +398,7 @@ function setupHint(hint) {
             hintBtn.disabled = true;
             playClickSound();
         };
+        hintBtn.disabled = false;
     } else {
         hintBtn.style.display = 'none';
     }
@@ -432,7 +418,9 @@ function handleAnswer(selectedButton, selectedOption, correctAnswer) {
     const isCorrect = (selectedOption === correctAnswer);
 
     // تعطيل جميع الأزرار بعد الإجابة لمنع التغيير
-    document.querySelectorAll('.option-btn').forEach(btn => btn.disabled = true);
+    document.querySelectorAll('.option-btn').forEach(btn => {
+        btn.disabled = true;
+    });
 
     if (isCorrect) {
         score++;
@@ -510,9 +498,6 @@ function showResults() {
     // تحديث بيانات المستخدم
     updateUserData(percentage, points);
     
-    // عرض الإنجازات المكتسبة
-    showEarnedAchievements(percentage);
-    
     switchScreen('results-screen');
 }
 
@@ -570,58 +555,6 @@ function updateUserData(percentage, points) {
     
     // تحديث واجهة المستخدم
     updateUI();
-}
-
-/**
- * عرض الإنجازات المكتسبة
- * @param {number} percentage - النسبة المئوية للنتيجة
- */
-function showEarnedAchievements(percentage) {
-    achievementsList.innerHTML = '';
-    const earnedAchievements = [];
-    
-    // فحص الإنجازات المكتسبة
-    if (percentage >= 90) {
-        earnedAchievements.push({
-            icon: 'fas fa-gem',
-            tooltip: 'خبير الجيولوجيا - تحقيق 90% أو أكثر'
-        });
-    }
-    
-    if (percentage === 100) {
-        earnedAchievements.push({
-            icon: 'fas fa-crown',
-            tooltip: 'الكمال - تحقيق 100% في الاختبار'
-        });
-    }
-    
-    if (timeElapsed < 60) {
-        earnedAchievements.push({
-            icon: 'fas fa-bolt',
-            tooltip: 'سريع - إنهاء الاختبار في أقل من دقيقة'
-        });
-    }
-    
-    if (userData.totalQuizzes === 1) {
-        earnedAchievements.push({
-            icon: 'fas fa-star',
-            tooltip: 'البداية - إكمال أول اختبار'
-        });
-    }
-    
-    // عرض الإنجازات المكتسبة
-    if (earnedAchievements.length > 0) {
-        achievementsEarned.style.display = 'block';
-        earnedAchievements.forEach(achievement => {
-            const badge = document.createElement('div');
-            badge.className = 'achievement-badge';
-            badge.innerHTML = `<i class="${achievement.icon}"></i>`;
-            badge.setAttribute('data-tooltip', achievement.tooltip);
-            achievementsList.appendChild(badge);
-        });
-    } else {
-        achievementsEarned.style.display = 'none';
-    }
 }
 
 // =================================================================
@@ -687,18 +620,89 @@ retryBtn.addEventListener('click', () => {
     startQuiz(selectedCategory, categoryName);
 });
 
-// 6. زر مشاركة النتيجة
-shareBtn.addEventListener('click', () => {
+// 6. إعدادات الصوت
+musicToggle.addEventListener('click', () => {
     playClickSound();
-    const percentage = scorePercentage.textContent;
-    const category = resultCategory.textContent;
-    const message = `لقد حصلت على ${percentage} في اختبار ${category} على منصة الجيولوجي المحترف!`;
+    if (backgroundMusic.paused) {
+        playBackgroundMusic();
+        musicToggle.classList.remove('muted');
+        musicToggle.innerHTML = '<i class="fas fa-music"></i>';
+    } else {
+        pauseBackgroundMusic();
+        musicToggle.classList.add('muted');
+        musicToggle.innerHTML = '<i class="fas fa-music-slash"></i>';
+    }
+});
+
+soundToggle.addEventListener('click', () => {
+    playClickSound();
+    if (userData.settings.soundVolume > 0) {
+        userData.settings.soundVolume = 0;
+        soundToggle.classList.add('muted');
+        soundToggle.innerHTML = '<i class="fas fa-volume-mute"></i>';
+    } else {
+        userData.settings.soundVolume = 70;
+        soundToggle.classList.remove('muted');
+        soundToggle.innerHTML = '<i class="fas fa-volume-up"></i>';
+    }
     
-    if (navigator.share) {
-        navigator.share({
-            title: 'نتيجة اختبار الجيولوجيا',
-            text: message,
-            url: window.location.href
-        }).catch(err => {
-            console.log('Error sharing:', err);
-            fall
+    // تحديث مستوى الصوت
+    initAudioSettings();
+    saveUserData();
+});
+
+// 7. شاشة الإعدادات
+settingsBtn.addEventListener('click', () => {
+    playClickSound();
+    switchScreen('settings-screen');
+});
+
+backFromSettings.addEventListener('click', () => {
+    playClickSound();
+    switchScreen('home-screen');
+});
+
+saveSettings.addEventListener('click', () => {
+    playClickSound();
+    
+    // حفظ الإعدادات
+    userData.settings.musicVolume = parseInt(musicVolume.value);
+    userData.settings.soundVolume = parseInt(soundVolume.value);
+    userData.settings.animations = animationToggle.checked;
+    userData.settings.difficulty = difficultySetting.value;
+    
+    // تطبيق الإعدادات
+    initAudioSettings();
+    saveUserData();
+    
+    // إظهار رسالة نجاح
+    alert('تم حفظ الإعدادات بنجاح!');
+    switchScreen('home-screen');
+});
+
+// 8. تحديث قيم عناصر التحكم في الوقت الحقيقي
+musicVolume.addEventListener('input', () => {
+    musicVolumeValue.textContent = `${musicVolume.value}%`;
+    backgroundMusic.volume = musicVolume.value / 100;
+    userData.settings.musicVolume = parseInt(musicVolume.value);
+});
+
+soundVolume.addEventListener('input', () => {
+    soundVolumeValue.textContent = `${soundVolume.value}%`;
+    const volume = soundVolume.value / 100;
+    correctSound.volume = volume;
+    incorrectSound.volume = volume;
+    clickSound.volume = volume;
+    pageSound.volume = volume;
+    completeSound.volume = volume;
+    userData.settings.soundVolume = parseInt(soundVolume.value);
+});
+
+// 9. إضافة أصوات النقر لجميع الأزرار
+document.querySelectorAll('button').forEach(button => {
+    if (!button.id.includes('music-toggle') && !button.id.includes('sound-toggle')) {
+        button.addEventListener('click', () => {
+            playClickSound();
+        });
+    }
+});
