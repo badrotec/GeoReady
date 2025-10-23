@@ -1,216 +1,137 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GeoReady - تحدّي الجيولوجيا</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>GeoReady — اختبار جيولوجيا تفاعلي</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <!-- شاشة البداية -->
-    <div id="start-screen" class="screen active">
-        <div class="hero-container">
-            <div class="hero-content">
-                <div class="logo-container">
-                    <i class="fas fa-mountain logo-icon"></i>
-                    <h1 class="logo-text">GeoReady</h1>
-                </div>
-                <h2 class="hero-title">هل أنت عالم الجيولوجيا القادم؟</h2>
-                <p class="hero-description">اختبر معرفتك الجيولوجية في تحدّي مثير يتضمن أسئلة من مختلف فروع علوم الأرض. تحدّى نفسك واكتشف مدى استعدادك!</p>
-                <button id="start-btn" class="cta-button">
-                    <span>ابدأ التحدي</span>
-                    <i class="fas fa-fire"></i>
-                </button>
-            </div>
-            <div class="hero-visual">
-                <div class="geology-elements">
-                    <div class="rock-layer layer-1"></div>
-                    <div class="rock-layer layer-2"></div>
-                    <div class="rock-layer layer-3"></div>
-                    <div class="crystal"></div>
-                </div>
-            </div>
+  <main id="app" class="app" role="application" aria-labelledby="app-title">
+    <header class="header">
+      <h1 id="app-title">GeoReady — اختبار جيولوجيا</h1>
+      <nav class="top-controls" aria-label="تحكم رئيسي">
+        <button id="homeBtn" class="btn icon-btn" aria-label="الصفحة الرئيسية">🏠 القائمة الرئيسية</button>
+        <button id="resultsBtn" class="btn" aria-label="عرض النتائج">النتائج</button>
+        <button id="muteBtn" class="btn icon-btn" aria-label="كتم الصوت">🔊</button>
+        <button id="devModeBtn" class="btn" aria-pressed="false" title="وضع المطور (اختبارات)">Dev</button>
+      </nav>
+    </header>
+
+    <section id="setup" class="card">
+      <h2>إعداد الاختبار</h2>
+      <div class="form-grid">
+        <label>
+          بنك الأسئلة:
+          <select id="bankSelect" aria-label="اختر بنك الأسئلة">
+            <option value="BasicGeology.json">BasicGeology</option>
+            <option value="Geochemistry.json">Geochemistry</option>
+            <option value="Geophysics.json">Geophysics</option>
+            <option value="Hydrogeology.json">Hydrogeology</option>
+            <option value="Petrology.json">Petrology</option>
+            <option value="Structuralgeology.json">Structuralgeology</option>
+            <option value="sedimentarygeology.json">sedimentarygeology</option>
+            <option value="ALL">كل الفئات</option>
+          </select>
+        </label>
+
+        <label>
+          عدد الأسئلة:
+          <select id="countSelect" aria-label="عدد الأسئلة">
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="25">25</option>
+            <option value="ALL">كلها</option>
+          </select>
+        </label>
+
+        <label>
+          وقت السؤال (بالثواني):
+          <input id="timePerQuestion" type="number" min="5" max="300" value="20" aria-label="وقت السؤال بالثواني" />
+        </label>
+
+        <label>
+          عند التخطي:
+          <select id="skipBehavior" aria-label="تصرف عند التخطي">
+            <option value="unanswered">يُحتسب غير مُجاب (لا صوت)</option>
+            <option value="timeout_sound">يُحتسب غير مُجاب وشغّل صوت انتهاء الوقت</option>
+          </select>
+        </label>
+
+        <label>
+          شَفِل عرض الخيارات:
+          <input id="shuffleOptions" type="checkbox" checked aria-label="تبديل ترتيب الخيارات" />
+        </label>
+
+        <label>
+          وضع Dev (اختبار الأصوات):
+          <input id="forcePlay" type="checkbox" aria-label="تشغيل الأصوات في وضع التطوير" />
+        </label>
+      </div>
+
+      <div class="actions">
+        <button id="startBtn" class="btn primary" aria-label="ابدأ الاختبار (S)">ابدأ (S)</button>
+        <button id="loadBanksBtn" class="btn" aria-label="تحميل بنوك الأسئلة">تحقّق/تحميل بنوك</button>
+      </div>
+
+      <div id="setupLog" class="log" aria-live="polite"></div>
+    </section>
+
+    <section id="quiz" class="card hidden" aria-live="polite">
+      <div class="quiz-header">
+        <div id="progressText">السؤال 0 من 0</div>
+        <div id="timerWrap">
+          <div id="timerText" aria-live="polite">00:00</div>
+          <progress id="timerBar" value="0" max="100"></progress>
         </div>
-    </div>
+      </div>
 
-    <!-- شاشة اختيار الفئة -->
-    <div id="category-screen" class="screen">
-        <div class="container">
-            <header class="screen-header">
-                <button id="back-to-start" class="back-btn">
-                    <i class="fas fa-arrow-right"></i>
-                </button>
-                <h2>اختر مجال التحدي</h2>
-            </header>
-
-            <div class="settings-panel">
-                <div class="setting-group">
-                    <label for="question-count">عدد الأسئلة:</label>
-                    <select id="question-count">
-                        <option value="10">10 أسئلة</option>
-                        <option value="20">20 سؤال</option>
-                        <option value="all">جميع الأسئلة</option>
-                    </select>
-                </div>
-                <div class="setting-group">
-                    <label for="difficulty">مستوى الصعوبة:</label>
-                    <select id="difficulty">
-                        <option value="all">جميع المستويات</option>
-                        <option value="easy">سهل</option>
-                        <option value="medium">متوسط</option>
-                        <option value="hard">صعب</option>
-                    </select>
-                </div>
-                <div class="setting-group">
-                    <label for="shuffle-options">خلط الخيارات:</label>
-                    <input type="checkbox" id="shuffle-options" checked>
-                </div>
-            </div>
-
-            <div class="categories-grid">
-                <!-- سيتم ملؤها ديناميكياً -->
-            </div>
+      <article id="questionArea" class="question" role="region" aria-labelledby="qText">
+        <h3 id="qText">نص السؤال سيظهر هنا</h3>
+        <div id="optionsList" class="options" role="list" aria-label="خيارات السؤال">
+          <!-- خيارات تُولد ديناميكيًا -->
         </div>
-    </div>
-
-    <!-- شاشة الاختبار -->
-    <div id="quiz-screen" class="screen">
-        <div class="container">
-            <header class="quiz-header">
-                <button id="back-to-categories" class="back-btn">
-                    <i class="fas fa-home"></i>
-                </button>
-                <div class="quiz-info">
-                    <div class="progress-info">
-                        <span id="current-question">1</span> / <span id="total-questions">25</span>
-                    </div>
-                    <div class="score-info">
-                        النقاط: <span id="current-score">0</span>
-                    </div>
-                </div>
-                <div class="timer-container">
-                    <div class="timer-circle">
-                        <svg class="timer-svg" viewBox="0 0 36 36">
-                            <path class="timer-circle-bg"
-                                d="M18 2.0845
-                                a 15.9155 15.9155 0 0 1 0 31.831
-                                a 15.9155 15.9155 0 0 1 0 -31.831"
-                            />
-                            <path id="timer-path" class="timer-circle-fg"
-                                d="M18 2.0845
-                                a 15.9155 15.9155 0 0 1 0 31.831
-                                a 15.9155 15.9155 0 0 1 0 -31.831"
-                            />
-                        </svg>
-                        <span id="timer">20</span>
-                    </div>
-                </div>
-            </header>
-
-            <div class="question-container">
-                <div class="question-card">
-                    <h2 id="question-text">نص السؤال سيظهر هنا</h2>
-                    <div class="options-container">
-                        <!-- سيتم ملؤها ديناميكياً -->
-                    </div>
-                </div>
-            </div>
-
-            <div class="quiz-controls">
-                <button id="skip-btn" class="skip-btn">
-                    تخطي <i class="fas fa-forward"></i>
-                </button>
-            </div>
+        <div class="controls">
+          <button id="prevBtn" class="btn" aria-label="السابق">السابق</button>
+          <button id="skipBtn" class="btn" aria-label="تخطي السؤال">تخطي</button>
+          <button id="toggleTimerBtn" class="btn" aria-pressed="false" aria-label="إيقاف/استئناف المؤقت">إيقاف/استئناف المؤقت</button>
+          <button id="nextBtn" class="btn" aria-label="التالي">التالي</button>
         </div>
-    </div>
+      </article>
+    </section>
 
-    <!-- شاشة النتائج -->
-    <div id="results-screen" class="screen">
-        <div class="container">
-            <div class="results-card">
-                <div class="results-header">
-                    <i class="fas fa-trophy results-icon"></i>
-                    <h2>تهانينا! لقد أكملت التحدي</h2>
-                </div>
+    <section id="results" class="card hidden" aria-live="polite">
+      <h2>النتائج</h2>
+      <div id="summary"></div>
+      <div id="topScores">
+        <h3>أفضل 5 نتائج</h3>
+        <ol id="scoresList"></ol>
+      </div>
+      <div class="actions">
+        <button id="exportBtn" class="btn" aria-label="تصدير الجلسة">تصدير الجلسة</button>
+        <button id="reviewMistakesBtn" class="btn" aria-label="التعلّم من أخطائي">تعلّم من أخطائي</button>
+        <button id="backToMenuBtn" class="btn" aria-label="العودة إلى القائمة الرئيسية">رجوع</button>
+      </div>
+      <div id="mistakesList" class="hidden"></div>
+    </section>
 
-                <div class="results-stats">
-                    <div class="stat">
-                        <span class="stat-value" id="final-score">0</span>
-                        <span class="stat-label">درجة</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-value" id="correct-answers">0</span>
-                        <span class="stat-label">إجابة صحيحة</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-value" id="percentage">0%</span>
-                        <span class="stat-label">نسبة النجاح</span>
-                    </div>
-                </div>
-
-                <div class="rank-badge">
-                    <span id="rank-title">مبتدئ في الميدان</span>
-                </div>
-
-                <div class="results-actions">
-                    <button id="review-mistakes" class="action-btn secondary">
-                        <i class="fas fa-book"></i>
-                        راجع أخطاءك
-                    </button>
-                    <button id="play-again" class="action-btn primary">
-                        <i class="fas fa-redo"></i>
-                        العب مرة أخرى
-                    </button>
-                    <button id="share-results" class="action-btn share">
-                        <i class="fas fa-share-alt"></i>
-                        شارك النتائج
-                    </button>
-                </div>
-
-                <div class="top-scores">
-                    <h3>أفضل النتائج</h3>
-                    <div id="scores-list" class="scores-list">
-                        <!-- سيتم ملؤها ديناميكياً -->
-                    </div>
-                </div>
-            </div>
+    <!-- Modals -->
+    <div id="modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-content">
+        <h3 id="modalTitle">تحذير</h3>
+        <div id="modalBody"></div>
+        <div class="modal-actions">
+          <button id="modalPrimary" class="btn primary">حسناً</button>
+          <button id="modalSecondary" class="btn">إلغاء</button>
         </div>
+      </div>
     </div>
 
-    <!-- شاشة مراجعة الأخطاء -->
-    <div id="review-screen" class="screen">
-        <div class="container">
-            <header class="screen-header">
-                <button id="back-to-results" class="back-btn">
-                    <i class="fas fa-arrow-right"></i>
-                </button>
-                <h2>مراجعة الأخطاء</h2>
-            </header>
+    <footer class="footer">
+      <small>GeoReady — واجهة تفاعلية لاختبارات الجيولوجيا • لا تعتمد على باكإند</small>
+    </footer>
+  </main>
 
-            <div id="review-questions" class="review-questions">
-                <!-- سيتم ملؤها ديناميكياً -->
-            </div>
-        </div>
-    </div>
-
-    <!-- عناصر التحكم العامة -->
-    <div class="global-controls">
-        <button id="language-toggle" class="control-btn" aria-label="تبديل اللغة">
-            <span class="lang-text">EN</span>
-            <i class="fas fa-globe"></i>
-        </button>
-        <button id="sound-toggle" class="control-btn" aria-label="تبديل الصوت">
-            <i class="fas fa-volume-up"></i>
-        </button>
-    </div>
-
-    <!-- رسائل النظام -->
-    <div id="notification" class="notification hidden">
-        <span id="notification-text"></span>
-    </div>
-
-    <script src="script.js"></script>
+  <script src="script.js" defer></script>
 </body>
 </html>
