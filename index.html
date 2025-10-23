@@ -3,41 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GeoReady - هل أنت عالم الجيولوجيا القادم؟</title>
+    <title>GeoReady - تحدّي الجيولوجيا</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=El+Messiri:wght@400;500;600;700&family=Tajawal:wght@300;400;500;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <!-- شاشة البداية -->
     <div id="start-screen" class="screen active">
-        <div class="particles-container" id="particles"></div>
-        <div class="hero-section">
+        <div class="hero-container">
             <div class="hero-content">
-                <div class="logo">
-                    <i class="fas fa-mountain"></i>
-                    <span>GeoReady</span>
+                <div class="logo-container">
+                    <i class="fas fa-mountain logo-icon"></i>
+                    <h1 class="logo-text">GeoReady</h1>
                 </div>
-                <h1 class="hero-title" data-ar="هل أنت عالم الجيولوجيا القادم؟" data-en="Are You The Next Geologist?">
-                    <span class="title-line">هل أنت عالم</span>
-                    <span class="title-line highlight">الجيولوجيا القادم؟</span>
-                </h1>
-                <p class="hero-subtitle" data-ar="اختبر معرفتك في علوم الأرض مع تحدياتنا التفاعلية الممتعة" data-en="Test your Earth sciences knowledge with our fun interactive challenges">
-                    اختبر معرفتك في علوم الأرض مع تحدياتنا التفاعلية الممتعة
-                </p>
-                <button id="start-btn" class="btn-primary hero-btn pulse">
-                    <span data-ar="ابدأ التحدي 🔥" data-en="Start Challenge 🔥">ابدأ التحدي 🔥</span>
-                    <i class="fas fa-chevron-left"></i>
+                <h2 class="hero-title">هل أنت عالم الجيولوجيا القادم؟</h2>
+                <p class="hero-description">اختبر معرفتك الجيولوجية في تحدّي مثير يتضمن أسئلة من مختلف فروع علوم الأرض. تحدّى نفسك واكتشف مدى استعدادك!</p>
+                <button id="start-btn" class="cta-button">
+                    <span>ابدأ التحدي</span>
+                    <i class="fas fa-fire"></i>
                 </button>
             </div>
             <div class="hero-visual">
-                <div class="geology-icon">
-                    <i class="fas fa-gem"></i>
-                </div>
-                <div class="floating-rocks">
-                    <div class="rock rock-1"><i class="fas fa-mountain"></i></div>
-                    <div class="rock rock-2"><i class="fas fa-hill-rockslide"></i></div>
-                    <div class="rock rock-3"><i class="fas fa-volcano"></i></div>
+                <div class="geology-elements">
+                    <div class="rock-layer layer-1"></div>
+                    <div class="rock-layer layer-2"></div>
+                    <div class="rock-layer layer-3"></div>
+                    <div class="crystal"></div>
                 </div>
             </div>
         </div>
@@ -47,39 +39,38 @@
     <div id="category-screen" class="screen">
         <div class="container">
             <header class="screen-header">
-                <button id="back-to-start" class="btn-back" aria-label="العودة">
-                    <i class="fas fa-home"></i>
+                <button id="back-to-start" class="back-btn">
+                    <i class="fas fa-arrow-right"></i>
                 </button>
-                <h2 data-ar="اختر مجال التحدي" data-en="Choose Challenge Category">اختر مجال التحدي</h2>
-                <div class="header-controls">
-                    <button id="sound-toggle" class="btn-icon" aria-label="تشغيل/كتم الصوت">
-                        <i class="fas fa-volume-up"></i>
-                    </button>
-                    <button id="language-toggle" class="btn-lang" data-ar="EN" data-en="AR">EN</button>
-                </div>
+                <h2>اختر مجال التحدي</h2>
             </header>
-            
+
             <div class="settings-panel">
                 <div class="setting-group">
-                    <label for="question-count" data-ar="عدد الأسئلة:" data-en="Number of Questions:">عدد الأسئلة:</label>
-                    <select id="question-count" class="styled-select">
-                        <option value="10">10</option>
-                        <option value="20">20</option>
-                        <option value="all" data-ar="الكل" data-en="All">الكل</option>
+                    <label for="question-count">عدد الأسئلة:</label>
+                    <select id="question-count">
+                        <option value="10">10 أسئلة</option>
+                        <option value="20">20 سؤال</option>
+                        <option value="all">جميع الأسئلة</option>
                     </select>
                 </div>
-                
                 <div class="setting-group">
-                    <label for="shuffle-options" class="checkbox-label">
-                        <input type="checkbox" id="shuffle-options" checked>
-                        <span class="checkmark"></span>
-                        <span data-ar="خلط الخيارات" data-en="Shuffle Options">خلط الخيارات</span>
-                    </label>
+                    <label for="difficulty">مستوى الصعوبة:</label>
+                    <select id="difficulty">
+                        <option value="all">جميع المستويات</option>
+                        <option value="easy">سهل</option>
+                        <option value="medium">متوسط</option>
+                        <option value="hard">صعب</option>
+                    </select>
+                </div>
+                <div class="setting-group">
+                    <label for="shuffle-options">خلط الخيارات:</label>
+                    <input type="checkbox" id="shuffle-options" checked>
                 </div>
             </div>
-            
-            <div class="category-grid" id="category-grid">
-                <!-- سيتم تعبئة الفئات ديناميكياً -->
+
+            <div class="categories-grid">
+                <!-- سيتم ملؤها ديناميكياً -->
             </div>
         </div>
     </div>
@@ -88,51 +79,49 @@
     <div id="quiz-screen" class="screen">
         <div class="container">
             <header class="quiz-header">
-                <button id="back-to-categories" class="btn-back" aria-label="العودة للفئات">
-                    <i class="fas fa-arrow-left"></i>
+                <button id="back-to-categories" class="back-btn">
+                    <i class="fas fa-home"></i>
                 </button>
-                
                 <div class="quiz-info">
-                    <span id="quiz-category" class="category-name">الجيولوجيا الأساسية</span>
-                    <div class="score-display-mini">
-                        <span data-ar="الدرجة:" data-en="Score:">الدرجة:</span>
-                        <span id="current-score">0</span>
+                    <div class="progress-info">
+                        <span id="current-question">1</span> / <span id="total-questions">25</span>
+                    </div>
+                    <div class="score-info">
+                        النقاط: <span id="current-score">0</span>
                     </div>
                 </div>
-                
                 <div class="timer-container">
                     <div class="timer-circle">
-                        <svg class="timer-svg" width="60" height="60">
-                            <circle class="timer-bg" cx="30" cy="30" r="27"></circle>
-                            <circle class="timer-fill" cx="30" cy="30" r="27"></circle>
+                        <svg class="timer-svg" viewBox="0 0 36 36">
+                            <path class="timer-circle-bg"
+                                d="M18 2.0845
+                                a 15.9155 15.9155 0 0 1 0 31.831
+                                a 15.9155 15.9155 0 0 1 0 -31.831"
+                            />
+                            <path id="timer-path" class="timer-circle-fg"
+                                d="M18 2.0845
+                                a 15.9155 15.9155 0 0 1 0 31.831
+                                a 15.9155 15.9155 0 0 1 0 -31.831"
+                            />
                         </svg>
-                        <div class="timer-text" id="timer">20</div>
+                        <span id="timer">20</span>
                     </div>
                 </div>
             </header>
-            
-            <div class="progress-container">
-                <div class="progress-bar">
-                    <div class="progress-fill" id="progress-fill"></div>
-                </div>
-                <span id="quiz-progress" class="progress-text" data-ar="السؤال 1 من 10" data-en="Question 1 of 10">السؤال 1 من 10</span>
-            </div>
-            
-            <div class="question-card">
-                <div class="question-header">
-                    <h3 id="question-text">نص السؤال سيظهر هنا</h3>
-                </div>
-                
-                <div class="options-grid" id="options-container">
-                    <!-- سيتم تعبئة الخيارات ديناميكياً -->
-                </div>
-                
-                <div class="quiz-footer">
-                    <div class="keyboard-hint" data-ar="استخدم الأرقام 1-4 للإجابة" data-en="Use numbers 1-4 to answer">
-                        <i class="fas fa-keyboard"></i>
-                        <span>استخدم الأرقام 1-4 للإجابة</span>
+
+            <div class="question-container">
+                <div class="question-card">
+                    <h2 id="question-text">نص السؤال سيظهر هنا</h2>
+                    <div class="options-container">
+                        <!-- سيتم ملؤها ديناميكياً -->
                     </div>
                 </div>
+            </div>
+
+            <div class="quiz-controls">
+                <button id="skip-btn" class="skip-btn">
+                    تخطي <i class="fas fa-forward"></i>
+                </button>
             </div>
         </div>
     </div>
@@ -140,70 +129,50 @@
     <!-- شاشة النتائج -->
     <div id="results-screen" class="screen">
         <div class="container">
-            <header class="screen-header">
-                <button id="back-to-categories-from-results" class="btn-back" aria-label="العودة">
-                    <i class="fas fa-home"></i>
-                </button>
-                <h2 data-ar="نتيجة التحدي" data-en="Challenge Results">نتيجة التحدي</h2>
-                <div class="header-controls">
-                    <button id="language-toggle-2" class="btn-lang" data-ar="EN" data-en="AR">EN</button>
-                </div>
-            </header>
-            
             <div class="results-card">
-                <div class="score-display">
-                    <div class="score-visual">
-                        <div class="score-circle">
-                            <div class="score-ring">
-                                <svg width="140" height="140">
-                                    <circle cx="70" cy="70" r="65" class="ring-bg"></circle>
-                                    <circle cx="70" cy="70" r="65" class="ring-fill" id="score-ring"></circle>
-                                </svg>
-                            </div>
-                            <div class="score-content">
-                                <span id="score-percentage" class="percentage">85%</span>
-                                <div id="score-title" class="score-rank" data-ar="جيولوجي ميداني محترف" data-en="Professional Field Geologist">جيولوجي ميداني محترف</div>
-                            </div>
-                        </div>
+                <div class="results-header">
+                    <i class="fas fa-trophy results-icon"></i>
+                    <h2>تهانينا! لقد أكملت التحدي</h2>
+                </div>
+
+                <div class="results-stats">
+                    <div class="stat">
+                        <span class="stat-value" id="final-score">0</span>
+                        <span class="stat-label">درجة</span>
                     </div>
-                    
-                    <div class="score-details">
-                        <div class="score-stats">
-                            <div class="stat">
-                                <span class="stat-value" id="correct-answers">17</span>
-                                <span class="stat-label" data-ar="إجابة صحيحة" data-en="Correct">إجابة صحيحة</span>
-                            </div>
-                            <div class="stat">
-                                <span class="stat-value" id="total-questions">20</span>
-                                <span class="stat-label" data-ar="إجمالي الأسئلة" data-en="Total Questions">إجمالي الأسئلة</span>
-                            </div>
-                            <div class="stat">
-                                <span class="stat-value" id="score-percentage-text">85%</span>
-                                <span class="stat-label" data-ar="النسبة المئوية" data-en="Percentage">النسبة المئوية</span>
-                            </div>
-                        </div>
+                    <div class="stat">
+                        <span class="stat-value" id="correct-answers">0</span>
+                        <span class="stat-label">إجابة صحيحة</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-value" id="percentage">0%</span>
+                        <span class="stat-label">نسبة النجاح</span>
                     </div>
                 </div>
-                
+
+                <div class="rank-badge">
+                    <span id="rank-title">مبتدئ في الميدان</span>
+                </div>
+
                 <div class="results-actions">
-                    <button id="review-mistakes" class="btn-secondary">
-                        <i class="fas fa-graduation-cap"></i>
-                        <span data-ar="تعلّم من أخطائك" data-en="Learn From Mistakes">تعلّم من أخطائك</span>
+                    <button id="review-mistakes" class="action-btn secondary">
+                        <i class="fas fa-book"></i>
+                        راجع أخطاءك
                     </button>
-                    <button id="share-results" class="btn-primary">
-                        <i class="fas fa-share-alt"></i>
-                        <span data-ar="مشاركة النتائج" data-en="Share Results">مشاركة النتائج</span>
-                    </button>
-                    <button id="new-quiz" class="btn-primary">
+                    <button id="play-again" class="action-btn primary">
                         <i class="fas fa-redo"></i>
-                        <span data-ar="بدء تحدٍ جديد" data-en="Start New Challenge">بدء تحدٍ جديد</span>
+                        العب مرة أخرى
+                    </button>
+                    <button id="share-results" class="action-btn share">
+                        <i class="fas fa-share-alt"></i>
+                        شارك النتائج
                     </button>
                 </div>
-                
-                <div class="top-scores-section">
-                    <h3 data-ar="أفضل النتائج" data-en="Top Scores">أفضل النتائج</h3>
-                    <div id="top-scores-list" class="scores-list">
-                        <!-- سيتم تعبئة أفضل النتائج ديناميكياً -->
+
+                <div class="top-scores">
+                    <h3>أفضل النتائج</h3>
+                    <div id="scores-list" class="scores-list">
+                        <!-- سيتم ملؤها ديناميكياً -->
                     </div>
                 </div>
             </div>
@@ -214,32 +183,33 @@
     <div id="review-screen" class="screen">
         <div class="container">
             <header class="screen-header">
-                <button id="back-to-results" class="btn-back" aria-label="العودة">
-                    <i class="fas fa-arrow-left"></i>
+                <button id="back-to-results" class="back-btn">
+                    <i class="fas fa-arrow-right"></i>
                 </button>
-                <h2 data-ar="مراجعة الأخطاء" data-en="Mistakes Review">مراجعة الأخطاء</h2>
-                <div class="header-controls">
-                    <button id="language-toggle-3" class="btn-lang" data-ar="EN" data-en="AR">EN</button>
-                </div>
+                <h2>مراجعة الأخطاء</h2>
             </header>
-            
-            <div id="mistakes-container" class="mistakes-list">
-                <!-- سيتم تعبئة الأسئلة الخاطئة ديناميكياً -->
-            </div>
-            
-            <div class="review-actions">
-                <button id="finish-review" class="btn-primary">
-                    <i class="fas fa-check"></i>
-                    <span data-ar="إنهاء المراجعة" data-en="Finish Review">إنهاء المراجعة</span>
-                </button>
+
+            <div id="review-questions" class="review-questions">
+                <!-- سيتم ملؤها ديناميكياً -->
             </div>
         </div>
     </div>
 
-    <!-- ملفات الصوت -->
-    <audio id="correct-sound" preload="none"></audio>
-    <audio id="wrong-sound" preload="none"></audio>
-    <audio id="timeout-sound" preload="none"></audio>
+    <!-- عناصر التحكم العامة -->
+    <div class="global-controls">
+        <button id="language-toggle" class="control-btn" aria-label="تبديل اللغة">
+            <span class="lang-text">EN</span>
+            <i class="fas fa-globe"></i>
+        </button>
+        <button id="sound-toggle" class="control-btn" aria-label="تبديل الصوت">
+            <i class="fas fa-volume-up"></i>
+        </button>
+    </div>
+
+    <!-- رسائل النظام -->
+    <div id="notification" class="notification hidden">
+        <span id="notification-text"></span>
+    </div>
 
     <script src="script.js"></script>
 </body>
