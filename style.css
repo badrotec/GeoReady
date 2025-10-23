@@ -1,399 +1,618 @@
-/* General Styles and Reset */
-:root {
-    --primary-color: #00796b; /* Dark Cyan - A strong, professional color */
-    --primary-light: #4db6ac;
-    --secondary-color: #607d8b; /* Blue Grey */
-    --correct-color: #4CAF50; /* Green */
-    --wrong-color: #F44336; /* Red */
-    --background-color: #f5f5f5;
-    --card-background: #ffffff;
-    --text-color: #333;
-    --border-radius: 8px;
-    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
+/* الأساسيات */
 * {
-    box-sizing: border-box;
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-color: #2E7D32;
+    --primary-dark: #1B5E20;
+    --primary-light: #4CAF50;
+    --secondary-color: #FF9800;
+    --error-color: #F44336;
+    --warning-color: #FFC107;
+    --background: #f5f5f5;
+    --surface: #ffffff;
+    --text-primary: #212121;
+    --text-secondary: #757575;
+    --border: #E0E0E0;
+    --shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
 body {
-    font-family: 'Arial', sans-serif;
-    background-color: var(--background-color);
-    color: var(--text-color);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--background);
+    color: var(--text-primary);
     line-height: 1.6;
-    direction: rtl; /* RTL Support */
-    text-align: right; /* Default text alignment */
-    padding: 20px;
+    direction: rtl;
 }
 
-/* Header */
-header {
-    background-color: var(--primary-color);
-    color: white;
-    padding: 15px 30px;
-    border-radius: var(--border-radius);
-    margin-bottom: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: var(--shadow);
-}
-
-header h1 {
-    font-size: 1.8em;
-}
-
-.header-controls {
-    display: flex;
-    gap: 10px;
-}
-
-.nav-btn {
-    background: rgba(255, 255, 255, 0.15);
-    color: white;
-    border: none;
-    padding: 8px 15px;
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    transition: background 0.3s, transform 0.1s;
-    font-size: 1em;
-}
-
-.nav-btn:hover {
-    background: rgba(255, 255, 255, 0.25);
-}
-
-.nav-btn:active {
-    transform: scale(0.98);
-}
-
-/* Main Container and Screens */
-#app-container {
-    background: var(--card-background);
-    padding: 30px;
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow);
-    max-width: 900px;
-    margin: 0 auto;
-}
-
+/* الشاشات */
 .screen {
     display: none;
+    min-height: 100vh;
+    padding: 20px;
 }
 
 .screen.active {
     display: block;
 }
 
-/* Buttons and Controls */
-.big-btn, .control-btn {
-    display: block;
-    width: 100%;
-    padding: 15px;
-    margin-top: 15px;
-    font-size: 1.1em;
-    font-weight: bold;
-    border: none;
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    transition: background-color 0.3s, opacity 0.3s;
+/* الهيدر */
+.header {
+    text-align: center;
+    margin-bottom: 40px;
 }
 
-.big-btn {
-    background-color: var(--primary-color);
-    color: white;
+.header h1 {
+    font-size: 3rem;
+    color: var(--primary-dark);
+    margin-bottom: 10px;
 }
 
-.big-btn:hover:not(:disabled) {
-    background-color: #004d40;
+.subtitle {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
 }
 
-.secondary-btn {
-    background-color: var(--secondary-color);
+/* القائمة الرئيسية */
+.main-menu {
+    max-width: 800px;
+    margin: 0 auto;
 }
 
-.secondary-btn:hover:not(:disabled) {
-    background-color: #455a64;
+.menu-section {
+    background: var(--surface);
+    padding: 25px;
+    margin-bottom: 25px;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
 }
 
-button:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
+.menu-section h2 {
+    margin-bottom: 20px;
+    color: var(--primary-dark);
+    font-size: 1.4rem;
 }
 
-/* Main Menu */
-h2 {
-    color: var(--primary-color);
-    margin-top: 25px;
-    margin-bottom: 15px;
-    border-bottom: 2px solid var(--primary-light);
-    padding-bottom: 5px;
-}
-
+/* شبكة الفئات */
 .category-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 15px;
-    margin-bottom: 20px;
 }
 
 .category-btn {
-    padding: 20px;
-    background-color: #e0f2f1; /* Very Light Cyan */
-    border: 2px solid var(--primary-light);
-    color: var(--text-color);
-    font-weight: bold;
-    text-align: center;
+    background: var(--surface);
+    border: 2px solid var(--border);
+    padding: 20px 15px;
+    border-radius: 8px;
     cursor: pointer;
-    border-radius: var(--border-radius);
-    transition: all 0.2s;
+    transition: all 0.3s ease;
+    font-size: 1.1rem;
+    font-weight: 500;
 }
 
 .category-btn:hover {
-    background-color: #b2dfdb;
+    border-color: var(--primary-light);
+    transform: translateY(-2px);
 }
 
-.category-btn.selected {
-    background-color: var(--primary-color);
+.category-btn.active {
+    border-color: var(--primary-color);
+    background: var(--primary-color);
     color: white;
-    border-color: white;
-    box-shadow: 0 0 10px rgba(0, 121, 107, 0.5);
 }
 
-.settings-group {
+/* أزرار الأعداد والوقت */
+.number-select,
+.time-select {
     display: flex;
-    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.number-btn,
+.time-btn {
+    flex: 1;
+    min-width: 80px;
+    padding: 15px;
+    background: var(--surface);
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1.1rem;
+}
+
+.number-btn:hover,
+.time-btn:hover {
+    border-color: var(--primary-light);
+}
+
+.number-btn.active,
+.time-btn.active {
+    border-color: var(--primary-color);
+    background: var(--primary-color);
+    color: white;
+}
+
+/* أزرار البدء */
+.start-btn {
+    width: 100%;
+    padding: 20px;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.3rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    margin-bottom: 20px;
+}
+
+.start-btn:hover {
+    background: var(--primary-dark);
+}
+
+.secondary-buttons {
+    display: flex;
     gap: 15px;
-    margin-bottom: 20px;
 }
 
-#num-questions-select {
-    padding: 10px;
-    border-radius: var(--border-radius);
-    border: 1px solid var(--secondary-color);
+.secondary-btn {
+    flex: 1;
+    padding: 15px;
+    background: var(--surface);
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1rem;
 }
 
-/* Quiz Screen */
-#quiz-header {
-    margin-bottom: 20px;
+.secondary-btn:hover {
+    border-color: var(--primary-light);
+    background: var(--primary-light);
+    color: white;
 }
 
-#progress-bar {
-    height: 10px;
-    background-color: #eee;
-    border-radius: 5px;
-    overflow: hidden;
-    margin-bottom: 10px;
-}
-
-#progress-fill {
-    height: 100%;
-    width: 0%;
-    background-color: var(--primary-color);
-    transition: width 0.3s;
-}
-
-#timer-display {
+/* شاشة الاختبار */
+.quiz-header {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    background: var(--surface);
+    padding: 15px 20px;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    margin-bottom: 30px;
+}
+
+.quiz-info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+#progress-text {
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.timer {
+    background: var(--primary-color);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
     font-weight: bold;
-    font-size: 1.1em;
-    color: var(--secondary-color);
+    font-size: 1.2rem;
+    min-width: 60px;
+    text-align: center;
+}
+
+.timer.warning {
+    background: var(--warning-color);
+    color: var(--text-primary);
+}
+
+.timer.danger {
+    background: var(--error-color);
+    color: white;
+}
+
+.quiz-controls {
+    display: flex;
+    gap: 10px;
+}
+
+.nav-btn {
+    background: var(--surface);
+    border: 2px solid var(--border);
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1.1rem;
+}
+
+.nav-btn:hover:not(:disabled) {
+    border-color: var(--primary-light);
+    background: var(--primary-light);
+    color: white;
+}
+
+.nav-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* محتوى الاختبار */
+.quiz-content {
+    background: var(--surface);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    margin-bottom: 20px;
 }
 
 #question-text {
-    font-size: 1.4em;
-    margin-bottom: 25px;
-    padding: 10px;
-    background: #fff8e1; /* Light yellow background */
-    border-radius: var(--border-radius);
+    font-size: 1.4rem;
+    margin-bottom: 30px;
+    line-height: 1.8;
+    color: var(--text-primary);
 }
 
 .options-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 10px;
-    margin-bottom: 20px;
+    gap: 15px;
 }
 
 .option-btn {
-    padding: 15px 20px;
-    background-color: #f5f5f5;
-    border: 1px solid #ddd;
-    border-radius: var(--border-radius);
-    text-align: right;
+    background: var(--surface);
+    border: 2px solid var(--border);
+    padding: 20px;
+    border-radius: 8px;
     cursor: pointer;
-    font-size: 1.1em;
-    transition: background-color 0.2s, border-color 0.2s;
+    transition: all 0.3s ease;
+    font-size: 1.1rem;
+    text-align: right;
     position: relative;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 10px;
 }
 
-.option-btn:hover:not(:disabled) {
-    background-color: #e0e0e0;
-    border-color: var(--primary-color);
+.option-btn:hover:not(.disabled) {
+    border-color: var(--primary-light);
+    transform: translateY(-1px);
 }
 
-.option-btn.selected {
-    border-color: var(--primary-color);
-    background-color: #e0f7fa;
-}
-
-.option-icon {
-    margin-left: 10px;
-    min-width: 20px;
-    text-align: center;
-}
-
-/* CRITICAL: TLOONING - Coloring */
 .option-btn.correct {
-    background-color: #e8f5e9; /* Light green background */
-    border-color: var(--correct-color);
-    color: var(--correct-color);
-    font-weight: bold;
-    box-shadow: 0 0 5px var(--correct-color);
-}
-
-.option-btn.wrong {
-    background-color: #ffebee; /* Light red background */
-    border-color: var(--wrong-color);
-    color: var(--wrong-color);
-    font-weight: bold;
-    box-shadow: 0 0 5px var(--wrong-color);
-}
-
-/* Option States: Disabled after selection */
-.options-grid:disabled .option-btn {
-    pointer-events: none;
-}
-
-/* Quiz Controls */
-#quiz-controls {
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-}
-
-.control-btn {
-    width: auto;
-    flex-grow: 1;
-    padding: 10px 15px;
-    background-color: var(--secondary-color);
+    border-color: var(--primary-color);
+    background: var(--primary-color);
     color: white;
 }
 
-.control-btn:hover:not(:disabled) {
-    background-color: #455a64;
+.option-btn.wrong {
+    border-color: var(--error-color);
+    background: var(--error-color);
+    color: white;
 }
 
-/* Results Screen */
-#results-screen p {
-    font-size: 1.2em;
-    margin: 10px 0;
+.option-btn.disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
 }
 
-#results-screen strong {
-    color: var(--primary-color);
+.option-label {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    background: var(--border);
+    border-radius: 50%;
+    text-align: center;
+    line-height: 30px;
+    margin-left: 10px;
+    font-weight: bold;
 }
 
-.result-actions {
-    margin-top: 30px;
+.option-btn.correct .option-label,
+.option-btn.wrong .option-label {
+    background: rgba(255,255,255,0.3);
 }
 
-.scores-list {
-    list-style: none;
-    padding: 0;
-}
-
-.scores-list li {
-    background-color: var(--card-background);
-    border: 1px solid #ddd;
-    border-radius: var(--border-radius);
-    padding: 15px;
-    margin-bottom: 10px;
+.quiz-footer {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    font-size: 1.1em;
+    padding: 0 20px;
 }
 
-/* Error Review Screen */
-.error-question-card {
-    background-color: #fff8e1;
-    border: 2px solid var(--wrong-color);
-    padding: 15px;
-    margin-bottom: 20px;
-    border-radius: var(--border-radius);
-}
-
-.error-question-card h4 {
-    color: var(--primary-color);
-    margin-bottom: 10px;
-}
-
-.error-options .option-btn {
-    pointer-events: none; /* Make them unclickable for review */
-}
-
-/* Modals */
-.modal-backdrop {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-}
-
-.modal {
-    background-color: var(--card-background);
-    padding: 30px;
-    border-radius: var(--border-radius);
-    max-width: 500px;
-    width: 90%;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+/* شاشة النتائج */
+.results-content {
+    max-width: 600px;
+    margin: 0 auto;
     text-align: center;
 }
 
-.modal h3 {
-    color: var(--wrong-color);
-    margin-bottom: 15px;
+.score-display {
+    background: var(--surface);
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    margin-bottom: 30px;
 }
 
-.modal p {
-    margin-bottom: 25px;
+.score-circle {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background: conic-gradient(var(--primary-color) 0%, var(--border) 0%);
+    margin: 20px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.score-circle::before {
+    content: '';
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    background: var(--surface);
+    border-radius: 50%;
+}
+
+#score-percent {
+    position: relative;
+    z-index: 1;
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+#score-details {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+}
+
+.results-actions {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 40px;
+}
+
+.action-btn {
+    flex: 1;
+    padding: 15px;
+    background: var(--surface);
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+}
+
+.action-btn:hover {
+    border-color: var(--primary-light);
+    background: var(--primary-light);
+    color: white;
+}
+
+.high-scores {
+    background: var(--surface);
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+}
+
+.score-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid var(--border);
+}
+
+.score-item:last-child {
+    border-bottom: none;
+}
+
+.score-info {
+    text-align: right;
+}
+
+.score-value {
+    font-weight: bold;
+    color: var(--primary-color);
+    font-size: 1.2rem;
+}
+
+/* المودالات */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal {
+    background: var(--surface);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    max-width: 500px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.modal.wide-modal {
+    max-width: 800px;
+}
+
+.modal h3 {
+    margin-bottom: 20px;
+    color: var(--primary-dark);
+    font-size: 1.4rem;
 }
 
 .modal-actions {
     display: flex;
-    justify-content: center;
     gap: 15px;
+    margin-top: 25px;
 }
 
-.modal-actions button {
-    width: auto;
-    padding: 10px 20px;
-    margin-top: 0;
+.btn-danger {
+    flex: 1;
+    padding: 12px;
+    background: var(--error-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
 }
 
-/* Validation Modal specific styles */
-#validation-modal h3 {
-    color: var(--wrong-color);
+.btn-secondary {
+    flex: 1;
+    padding: 12px;
+    background: var(--surface);
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
 }
 
-#validation-modal-actions button {
-    background-color: var(--secondary-color);
+/* قائمة الأخطاء */
+.mistake-item {
+    background: var(--surface);
+    padding: 20px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 2px solid var(--border);
+    text-align: right;
 }
 
-#validation-modal-actions button.confirm-btn {
-    background-color: var(--wrong-color);
+.mistake-question {
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: var(--text-primary);
+}
+
+.mistake-options {
+    margin-bottom: 15px;
+}
+
+.mistake-option {
+    padding: 8px 12px;
+    margin-bottom: 5px;
+    border-radius: 4px;
+}
+
+.mistake-option.correct {
+    background: var(--primary-light);
+    color: white;
+}
+
+.mistake-option.wrong {
+    background: var(--error-color);
+    color: white;
+}
+
+.mistake-answer {
+    color: var(--primary-dark);
+    font-weight: bold;
+    padding: 10px;
+    background: rgba(76, 175, 80, 0.1);
+    border-radius: 4px;
+    margin-top: 10px;
+}
+
+/* التجاوبية */
+@media (max-width: 768px) {
+    .screen {
+        padding: 15px;
+    }
+    
+    .header h1 {
+        font-size: 2.2rem;
+    }
+    
+    .category-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .quiz-header {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .quiz-info {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .results-actions {
+        flex-direction: column;
+    }
+    
+    .secondary-buttons {
+        flex-direction: column;
+    }
+    
+    .number-select,
+    .time-select {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 480px) {
+    .menu-section {
+        padding: 20px 15px;
+    }
+    
+    .quiz-content {
+        padding: 20px 15px;
+    }
+    
+    #question-text {
+        font-size: 1.2rem;
+    }
+    
+    .option-btn {
+        padding: 15px;
+        font-size: 1rem;
+    }
+}
+
+/* تأثيرات للتركيز وإمكانية الوصول */
+button:focus,
+.option-btn:focus {
+    outline: 3px solid var(--primary-light);
+    outline-offset: 2px;
+}
+
+/* إخفاء العناصر المرئية فقط للقارئ الشاشة */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
 }
