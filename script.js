@@ -10,8 +10,8 @@ class GeoReady {
         this.score = 0;
         this.userAnswers = [];
         this.timer = null;
-        this.timeLeft = 60;
-        this.totalTime = 60;
+        this.timeLeft = 20;
+        this.totalTime = 20;
         this.quizSession = null;
         this.soundEnabled = true;
         
@@ -40,22 +40,10 @@ class GeoReady {
         document.getElementById('language-toggle').addEventListener('click', () => this.toggleLanguage());
         document.getElementById('language-toggle-2').addEventListener('click', () => this.toggleLanguage());
         document.getElementById('language-toggle-3').addEventListener('click', () => this.toggleLanguage());
-        document.getElementById('language-toggle-4').addEventListener('click', () => this.toggleLanguage());
-        
-        // أحداث شاشة الإختبار
-        document.getElementById('pause-quiz').addEventListener('click', () => this.pauseQuiz());
-        document.getElementById('resume-quiz').addEventListener('click', () => this.resumeQuiz());
-        document.getElementById('quit-quiz').addEventListener('click', () => this.quitQuiz());
-        document.getElementById('next-question').addEventListener('click', () => this.nextQuestion());
         
         // أحداث النتائج
         document.getElementById('review-mistakes').addEventListener('click', () => this.showReviewScreen());
         document.getElementById('share-results').addEventListener('click', () => this.shareResults());
-        
-        // أحداث الإعدادات
-        document.getElementById('sound-enabled').addEventListener('change', (e) => {
-            this.soundEnabled = e.target.checked;
-        });
         
         // أحداث لوحة المفاتيح
         document.addEventListener('keydown', (e) => this.handleKeydown(e));
@@ -77,11 +65,7 @@ class GeoReady {
                 element.getAttribute('data-ar') : 
                 element.getAttribute('data-en');
             if (text) {
-                if (element.tagName === 'INPUT' && element.type === 'button') {
-                    element.value = text;
-                } else {
-                    element.textContent = text;
-                }
+                element.textContent = text;
             }
         });
     }
@@ -99,53 +83,110 @@ class GeoReady {
         ];
         
         const categoryGrid = document.getElementById('category-grid');
-        categoryGrid.innerHTML = '';
+        categoryGrid.innerHTML = '<div class="loading" data-ar="جاري تحميل الأسئلة..." data-en="Loading questions...">جاري تحميل الأسئلة...</div>';
+        
+        let loadedCount = 0;
         
         for (const file of bankFiles) {
             try {
                 const response = await fetch(file);
-                if (!response.ok) throw new Error(`Failed to load ${file}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
                 
                 const questions = await response.json();
+                
+                // التحقق من صحة هيكل JSON
+                if (!Array.isArray(questions)) {
+                    throw new Error('ملف JSON يجب أن يكون مصفوفة');
+                }
+                
                 this.questionBanks[file] = questions;
+                loadedCount++;
                 
-                // إنشاء بطاقة الفئة
-                const categoryCard = document.createElement('div');
-                categoryCard.className = 'category-card';
-                categoryCard.addEventListener('click', () => this.selectBank(file));
-                
-                const categoryName = file.replace('.json', '').replace(/([A-Z])/g, ' $1').trim();
-                const questionCount = questions.length;
-                
-                categoryCard.innerHTML = `
-                    <h3>${categoryName}</h3>
-                    <p>${questionCount} ${this.language === 'ar' ? 'سؤال' : 'questions'}</p>
-                `;
-                
-                categoryGrid.appendChild(categoryCard);
             } catch (error) {
-                console.error(`Error loading ${file}:`, error);
-                // عرض رسالة خطأ للمستخدم
-                const errorCard = document.createElement('div');
-                errorCard.className = 'category-card';
-                errorCard.style.borderColor = 'var(--error-color)';
-                errorCard.innerHTML = `
-                    <h3>${file.replace('.json', '')}</h3>
-                    <p>${this.language === 'ar' ? 'فشل في تحميل الأسئلة' : 'Failed to load questions'}</p>
-                `;
-                categoryGrid.appendChild(errorCard);
+                console.error(`خطأ في تحميل ${file}:`, error);
+                // إنشاء بيانات تجريبية إذا فشل التحميل
+                this.createSampleBank(file);
             }
         }
         
+        // بعد تحميل جميع الملفات، عرض الفئات
+        this.displayCategories();
+        console.log(`تم تحميل ${loadedCount} من ${bankFiles.length} ملف بنجاح`);
+    }
+    
+    // إنشاء بيانات تجريبية للفئة
+    createSampleBank(fileName) {
+        const sampleQuestions = [
+            {
+                id: 1,
+                question: this.language === 'ar' ? 'ما هي الصخور النارية؟' : 'What are igneous rocks?',
+                options: {
+                    "أ": this.language === 'ar' ? 'صخور تكونت من تصلب الصهارة' : 'Rocks formed from solidified magma',
+                    "ب": this.language === 'ar' ? 'صخور تكونت من ترسب الرواسب' : 'Rocks formed from sediment deposition',
+                    "ج": this.language === 'ar' ? 'صخور تغيرت بفعل الحرارة والضغط' : 'Rocks changed by heat and pressure',
+                    "د": this.language === 'ar' ? 'صخور تحتوي على معادن ثمينة' : 'Rocks containing precious minerals'
+                },
+                answer: "أ",
+                explain: this.language === 'ar' ? 'الصخور النارية تتشكل عندما تبرد الصهارة وتتصلب' : 'Igneous rocks form when magma cools and solidifies'
+            },
+            {
+                id: 2,
+                question: this.language === 'ar' ? 'ما هو المعدن الأكثر وفرة في القشرة الأرضية؟' : 'What is the most abundant mineral in Earth\'s crust?',
+                options: {
+                    "أ": this.language === 'ar' ? 'الكوارتز' : 'Quartz',
+                    "ب": this.language === 'ar' ? 'الفلسبار' : 'Feldspar',
+                    "ج": this.language === 'ar' ? 'المايكا' : 'Mica',
+                    "د": this.language === 'ar' ? 'الكالسيت' : 'Calcite'
+                },
+                answer: "ب",
+                explain: this.language === 'ar' ? 'الفلسبار يشكل حوالي 60% من القشرة الأرضية' : 'Feldspar makes up about 60% of Earth\'s crust'
+            }
+        ];
+        
+        this.questionBanks[fileName] = sampleQuestions;
+    }
+    
+    // عرض الفئات في الواجهة
+    displayCategories() {
+        const categoryGrid = document.getElementById('category-grid');
+        categoryGrid.innerHTML = '';
+        
+        Object.keys(this.questionBanks).forEach(file => {
+            const questions = this.questionBanks[file];
+            const categoryCard = document.createElement('div');
+            categoryCard.className = 'category-card';
+            categoryCard.addEventListener('click', () => this.selectBank(file));
+            
+            const categoryName = this.getCategoryName(file);
+            const questionCount = questions.length;
+            
+            categoryCard.innerHTML = `
+                <h3>${categoryName}</h3>
+                <p>${this.language === 'ar' ? 'مجال في علوم الأرض' : 'Field in Earth sciences'}</p>
+                <div class="question-count">${questionCount} ${this.language === 'ar' ? 'سؤال' : 'questions'}</div>
+            `;
+            
+            categoryGrid.appendChild(categoryCard);
+        });
+        
         // إضافة خيار عشوائي
         const randomCard = document.createElement('div');
-        randomCard.className = 'category-card';
+        randomCard.className = 'category-card random-card';
         randomCard.addEventListener('click', () => this.selectRandomBank());
         randomCard.innerHTML = `
             <h3>${this.language === 'ar' ? 'عشوائي' : 'Random'}</h3>
             <p>${this.language === 'ar' ? 'أسئلة من جميع الفئات' : 'Questions from all categories'}</p>
+            <div class="question-count">${this.language === 'ar' ? 'مختلط' : 'Mixed'}</div>
         `;
         categoryGrid.appendChild(randomCard);
+    }
+    
+    // الحصول على اسم الفئة من اسم الملف
+    getCategoryName(fileName) {
+        const name = fileName.replace('.json', '');
+        return name.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
     }
     
     // اختيار بنك أسئلة
@@ -154,7 +195,7 @@ class GeoReady {
         const questions = this.questionBanks[bankName];
         this.startSession({
             questions: questions,
-            category: bankName.replace('.json', '')
+            category: this.getCategoryName(bankName)
         });
     }
     
@@ -163,7 +204,7 @@ class GeoReady {
         const allQuestions = Object.values(this.questionBanks).flat();
         this.startSession({
             questions: this.shuffleQuestions([...allQuestions]),
-            category: 'Random'
+            category: this.language === 'ar' ? 'عشوائي' : 'Random'
         });
     }
     
@@ -174,34 +215,18 @@ class GeoReady {
             category: options.category,
             date: new Date().toISOString(),
             settings: {
-                questionCount: document.getElementById('question-count').value,
-                difficulty: document.getElementById('difficulty').value,
-                timePerQuestion: parseInt(document.getElementById('time-per-question').value),
-                shuffleOptions: document.getElementById('shuffle-options').checked
+                totalQuestions: options.questions.length
             }
         };
         
-        // تصفية الأسئلة حسب الصعوبة إذا تم تحديدها
-        let filteredQuestions = options.questions;
-        if (this.quizSession.settings.difficulty !== 'all') {
-            filteredQuestions = options.questions.filter(q => 
-                q.difficulty === this.quizSession.settings.difficulty
-            );
-        }
-        
-        // تحديد عدد الأسئلة
-        if (this.quizSession.settings.questionCount === 'all') {
-            this.questions = filteredQuestions;
-        } else {
-            const count = parseInt(this.quizSession.settings.questionCount);
-            this.questions = this.shuffleQuestions([...filteredQuestions]).slice(0, count);
-        }
+        // استخدام جميع الأسئلة المتاحة (بحد أقصى 25 سؤال)
+        this.questions = options.questions.slice(0, 25);
         
         // إعادة تعيين المتغيرات
         this.currentQuestionIndex = 0;
         this.score = 0;
         this.userAnswers = [];
-        this.totalTime = this.quizSession.settings.timePerQuestion;
+        this.totalTime = 20; // 20 ثانية ثابتة لكل سؤال
         this.timeLeft = this.totalTime;
         
         // عرض شاشة الاختبار
@@ -219,6 +244,16 @@ class GeoReady {
         return questions;
     }
     
+    // خلط الخيارات
+    shuffleOptions(options) {
+        const entries = Object.entries(options);
+        for (let i = entries.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [entries[i], entries[j]] = [entries[j], entries[i]];
+        }
+        return Object.fromEntries(entries);
+    }
+    
     // تحميل السؤال الحالي
     loadQuestion() {
         if (this.currentQuestionIndex >= this.questions.length) {
@@ -229,42 +264,28 @@ class GeoReady {
         const question = this.questions[this.currentQuestionIndex];
         const optionsContainer = document.getElementById('options-container');
         const questionText = document.getElementById('question-text');
-        const nextButton = document.getElementById('next-question');
-        
-        // تعطيل زر التالي
-        nextButton.disabled = true;
         
         // عرض السؤال
         questionText.textContent = question.question;
         
         // إعداد الخيارات
         optionsContainer.innerHTML = '';
-        const optionKeys = ['أ', 'ب', 'ج', 'د'];
-        let options = [];
         
-        // تحويل الخيارات إلى مصفوفة
-        for (const key of optionKeys) {
-            if (question.options[key]) {
-                options.push({ key, text: question.options[key] });
-            }
-        }
-        
-        // خلط الخيارات إذا كان مفعلاً
-        if (this.quizSession.settings.shuffleOptions) {
-            options = this.shuffleOptions(options);
-        }
+        // خلط الخيارات مع الحفاظ على المفاتيح العربية
+        const shuffledOptions = this.shuffleOptions(question.options);
+        const optionKeys = Object.keys(shuffledOptions);
         
         // إنشاء عناصر الخيارات
-        options.forEach(option => {
+        optionKeys.forEach(key => {
             const optionElement = document.createElement('div');
             optionElement.className = 'option';
-            optionElement.dataset.key = option.key;
+            optionElement.dataset.key = key;
             optionElement.innerHTML = `
-                <span class="option-text">${option.text}</span>
-                <span class="option-key">${option.key}</span>
+                <span class="option-text">${shuffledOptions[key]}</span>
+                <span class="option-key">${key}</span>
             `;
             
-            optionElement.addEventListener('click', () => this.selectAnswer(option.key));
+            optionElement.addEventListener('click', () => this.selectAnswer(key));
             optionsContainer.appendChild(optionElement);
         });
         
@@ -275,15 +296,6 @@ class GeoReady {
         this.startTimer();
     }
     
-    // خلط الخيارات
-    shuffleOptions(options) {
-        for (let i = options.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [options[i], options[j]] = [options[j], options[i]];
-        }
-        return options;
-    }
-    
     // اختيار الإجابة
     selectAnswer(selectedKey) {
         // إيقاف المؤقت
@@ -292,10 +304,6 @@ class GeoReady {
         const question = this.questions[this.currentQuestionIndex];
         const isCorrect = selectedKey === question.answer;
         const options = document.querySelectorAll('.option');
-        const nextButton = document.getElementById('next-question');
-        
-        // تمكين زر التالي
-        nextButton.disabled = false;
         
         // تسجيل إجابة المستخدم
         this.userAnswers.push({
@@ -328,8 +336,10 @@ class GeoReady {
             option.style.pointerEvents = 'none';
         });
         
-        // إضافة حدث للزر التالي
-        nextButton.onclick = () => this.nextQuestion();
+        // الانتقال للسؤال التالي بعد تأخير قصير
+        setTimeout(() => {
+            this.nextQuestion();
+        }, 2000);
     }
     
     // الانتقال للسؤال التالي
@@ -368,9 +378,9 @@ class GeoReady {
         
         // تغيير اللون حسب الوقت المتبقي
         timerElement.classList.remove('warning', 'danger');
-        if (this.timeLeft <= 10) {
+        if (this.timeLeft <= 5) {
             timerElement.classList.add('danger');
-        } else if (this.timeLeft <= 20) {
+        } else if (this.timeLeft <= 10) {
             timerElement.classList.add('warning');
         }
     }
@@ -381,12 +391,8 @@ class GeoReady {
         this.playSound('timeout');
         
         // اعتبار انتهاء الوقت إجابة خاطئة
-        const options = document.querySelectorAll('.option');
         const question = this.questions[this.currentQuestionIndex];
-        const nextButton = document.getElementById('next-question');
-        
-        // تمكين زر التالي
-        nextButton.disabled = false;
+        const options = document.querySelectorAll('.option');
         
         // تسجيل إجابة خاطئة
         this.userAnswers.push({
@@ -409,8 +415,10 @@ class GeoReady {
             option.style.pointerEvents = 'none';
         });
         
-        // إضافة حدث للزر التالي
-        nextButton.onclick = () => this.nextQuestion();
+        // الانتقال للسؤال التالي بعد تأخير قصير
+        setTimeout(() => {
+            this.nextQuestion();
+        }, 2000);
     }
     
     // تحديث شريط التقدم
@@ -428,30 +436,7 @@ class GeoReady {
     // تحديث رأس الاختبار
     updateQuizHeader() {
         const categoryElement = document.getElementById('quiz-category');
-        const categoryName = this.quizSession.category.replace(/([A-Z])/g, ' $1').trim();
-        categoryElement.textContent = categoryName;
-        
-        // تحديث بيانات اللغة
-        this.updateLanguageElements();
-    }
-    
-    // إيقاف الاختبار مؤقتاً
-    pauseQuiz() {
-        this.stopTimer();
-        document.getElementById('pause-modal').classList.add('active');
-    }
-    
-    // متابعة الاختبار
-    resumeQuiz() {
-        document.getElementById('pause-modal').classList.remove('active');
-        this.startTimer();
-    }
-    
-    // إنهاء الاختبار
-    quitQuiz() {
-        this.stopTimer();
-        document.getElementById('pause-modal').classList.remove('active');
-        this.showScreen('category-screen');
+        categoryElement.textContent = this.quizSession.category;
     }
     
     // عرض النتائج
@@ -480,13 +465,21 @@ class GeoReady {
         document.getElementById('score-percentage').textContent = `${percentage}%`;
         document.getElementById('score-text').textContent = scoreText;
         
+        // تحديث دائرة النتيجة
+        const scoreCircle = document.querySelector('.score-circle');
+        scoreCircle.style.background = `conic-gradient(var(--primary-color) 0% ${percentage}%, #e2e8f0 ${percentage}% 100%)`;
+        
         // تحديد اللقب بناءً على النسبة
         let title = '';
-        if (percentage >= 90) title = this.language === 'ar' ? 'خبير جيولوجيا متميز' : 'Distinguished Geology Expert';
-        else if (percentage >= 80) title = this.language === 'ar' ? 'خبير جيولوجيا' : 'Geology Expert';
-        else if (percentage >= 70) title = this.language === 'ar' ? 'عالم جيولوجيا واعد' : 'Promising Geologist';
-        else if (percentage >= 60) title = this.language === 'ar' ? 'متعلم جيولوجيا' : 'Geology Learner';
-        else title = this.language === 'ar' ? 'مبتدئ في الجيولوجيا' : 'Geology Beginner';
+        if (percentage >= 90) {
+            title = this.language === 'ar' ? 'جيولوجي فائق' : 'Super Geologist';
+        } else if (percentage >= 70) {
+            title = this.language === 'ar' ? 'جيولوجي ميداني محترف' : 'Professional Field Geologist';
+        } else if (percentage >= 50) {
+            title = this.language === 'ar' ? 'مستكشف الطبقات' : 'Layer Explorer';
+        } else {
+            title = this.language === 'ar' ? 'مبتدئ في الميدان' : 'Field Beginner';
+        }
         
         document.getElementById('score-title').textContent = title;
         
@@ -523,7 +516,7 @@ class GeoReady {
         scoresList.innerHTML = '';
         
         if (scores.length === 0) {
-            scoresList.innerHTML = `<p>${this.language === 'ar' ? 'لا توجد نتائج سابقة' : 'No previous scores'}</p>`;
+            scoresList.innerHTML = `<div class="score-item">${this.language === 'ar' ? 'لا توجد نتائج سابقة' : 'No previous scores'}</div>`;
             return;
         }
         
@@ -532,12 +525,14 @@ class GeoReady {
             scoreItem.className = 'score-item';
             
             const date = new Date(score.date).toLocaleDateString(this.language === 'ar' ? 'ar-SA' : 'en-US');
-            const category = score.category.replace(/([A-Z])/g, ' $1').trim();
+            const category = score.category;
             
             scoreItem.innerHTML = `
-                <span>${index + 1}. ${category}</span>
-                <span class="score-value">${score.percentage}%</span>
-                <span>${date}</span>
+                <div>
+                    <strong>${index + 1}. ${category}</strong>
+                    <div class="score-date">${date}</div>
+                </div>
+                <div class="score-value">${score.percentage}%</div>
             `;
             
             scoresList.appendChild(scoreItem);
@@ -573,7 +568,7 @@ class GeoReady {
             mistakeItem.className = 'mistake-item';
             
             let optionsHtml = '';
-            const optionKeys = ['أ', 'ب', 'ج', 'د'];
+            const optionKeys = Object.keys(question.options);
             
             for (const key of optionKeys) {
                 if (question.options[key]) {
@@ -595,9 +590,12 @@ class GeoReady {
             const explanation = question.explain || 
                 (this.language === 'ar' ? 'لا يوجد شرح متاح لهذا السؤال.' : 'No explanation available for this question.');
             
+            const timeoutText = answer.timeout ? 
+                (this.language === 'ar' ? ' (انتهى الوقت)' : ' (Time out)') : '';
+            
             mistakeItem.innerHTML = `
                 <div class="mistake-question">
-                    <strong>${index + 1}.</strong> ${question.question}
+                    <strong>${index + 1}.</strong> ${question.question}${timeoutText}
                 </div>
                 <div class="mistake-options">
                     ${optionsHtml}
@@ -635,6 +633,14 @@ class GeoReady {
                 })
                 .catch(err => {
                     console.log('Error copying to clipboard:', err);
+                    // طريقة بديلة
+                    const textArea = document.createElement('textarea');
+                    textArea.value = text;
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textArea);
+                    alert(this.language === 'ar' ? 'تم نسخ النتائج إلى الحافظة!' : 'Results copied to clipboard!');
                 });
         }
     }
@@ -653,54 +659,31 @@ class GeoReady {
     // التعامل مع أحداث لوحة المفاتيح
     handleKeydown(e) {
         // فقط في شاشة الاختبار
-        if (this.currentScreen !== 'quiz-screen') return;
+        if (this.currentScreen === 'quiz-screen') {
+            const options = document.querySelectorAll('.option');
+            
+            switch (e.key) {
+                case '1':
+                case '2':
+                case '3':
+                case '4':
+                    // اختيار الإجابة باستخدام الأرقام 1-4
+                    const index = parseInt(e.key) - 1;
+                    if (options[index]) {
+                        const selectedKey = options[index].dataset.key;
+                        this.selectAnswer(selectedKey);
+                    }
+                    break;
+                    
+                case 'Enter':
+                    // تأكيد الانتقال للسؤال التالي (لا حاجة له في هذا التصميم)
+                    break;
+            }
+        }
         
-        switch (e.key) {
-            case '1':
-            case '2':
-            case '3':
-            case '4':
-                // اختيار الإجابة باستخدام الأرقام 1-4
-                const optionKeys = ['أ', 'ب', 'ج', 'د'];
-                const selectedKey = optionKeys[parseInt(e.key) - 1];
-                this.selectAnswer(selectedKey);
-                break;
-                
-            case 'Enter':
-                // تأكيد الانتقال للسؤال التالي
-                const nextButton = document.getElementById('next-question');
-                if (!nextButton.disabled) {
-                    this.nextQuestion();
-                }
-                break;
-                
-            case 's':
-            case 'S':
-                // بدء الاختبار (من شاشة البداية)
-                if (this.currentScreen === 'start-screen') {
-                    this.showScreen('category-screen');
-                }
-                break;
-                
-            case 'ArrowLeft':
-                // السؤال السابق (غير مدعوم حالياً)
-                break;
-                
-            case 'ArrowRight':
-                // السؤال التالي
-                if (!document.getElementById('next-question').disabled) {
-                    this.nextQuestion();
-                }
-                break;
-                
-            case 'Escape':
-                // إغلاق النافذة المنبثقة أو إيقاف الاختبار
-                if (document.getElementById('pause-modal').classList.contains('active')) {
-                    this.resumeQuiz();
-                } else {
-                    this.pauseQuiz();
-                }
-                break;
+        // في شاشة البداية
+        if (this.currentScreen === 'start-screen' && (e.key === 's' || e.key === 'S')) {
+            this.showScreen('category-screen');
         }
     }
     
@@ -722,6 +705,11 @@ class GeoReady {
         
         // تحديث بيانات اللغة
         this.updateLanguageElements();
+        
+        // تحميل أفضل النتائج إذا كنا في شاشة النتائج
+        if (screenId === 'results-screen') {
+            this.loadTopScores();
+        }
     }
 }
 
