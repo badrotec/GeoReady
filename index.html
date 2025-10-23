@@ -3,133 +3,146 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GeoReady - اختبارات الجيولوجيا</title>
+    <title>GeoReady - اختبار الجيولوجيا</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <div id="app">
         <!-- الشاشة الرئيسية -->
         <div id="main-screen" class="screen active">
-            <header class="header">
-                <h1>🌍 GeoReady</h1>
-                <p class="subtitle">اختبارات احترافية في علوم الجيولوجيا</p>
-            </header>
+            <div class="header">
+                <h1>GeoReady</h1>
+                <p>اختبارات الجيولوجيا التفاعلية</p>
+            </div>
             
-            <div class="main-menu">
+            <div class="menu">
                 <div class="menu-section">
                     <h2>اختر فئة الأسئلة</h2>
-                    <div id="category-select" class="category-grid">
-                        <!-- سيتم ملؤها بالكود -->
+                    <div id="category-list" class="category-list">
+                        <!-- سيتم ملؤها ديناميكيًا -->
                     </div>
                 </div>
                 
                 <div class="menu-section">
-                    <h2>عدد الأسئلة</h2>
-                    <div class="number-select">
-                        <button class="number-btn active" data-count="10">10</button>
-                        <button class="number-btn" data-count="20">20</button>
-                        <button class="number-btn" data-count="all">الكل</button>
+                    <h2>الإحصائيات</h2>
+                    <div id="stats" class="stats">
+                        <div class="stat-item">
+                            <span class="stat-value">0</span>
+                            <span class="stat-label">النتائج المحفوظة</span>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="menu-section">
-                    <h2>الوقت لكل سؤال (ثانية)</h2>
-                    <div class="time-select">
-                        <button class="time-btn active" data-time="30">30</button>
-                        <button class="time-btn" data-time="60">60</button>
-                        <button class="time-btn" data-time="90">90</button>
-                    </div>
-                </div>
-                
-                <button id="start-btn" class="start-btn">ابدأ الاختبار</button>
-                
-                <div class="secondary-buttons">
-                    <button id="results-btn" class="secondary-btn">النتائج السابقة</button>
-                    <button id="mistakes-btn" class="secondary-btn">تعلم من الأخطاء</button>
+                <div class="menu-actions">
+                    <button id="start-all" class="btn btn-primary">جميع الفئات</button>
+                    <button id="view-results" class="btn btn-secondary">عرض النتائج</button>
+                    <button id="view-mistakes" class="btn btn-secondary">تعلّم من أخطائي</button>
                 </div>
             </div>
         </div>
 
         <!-- شاشة الاختبار -->
         <div id="quiz-screen" class="screen">
-            <header class="quiz-header">
-                <button id="home-btn" class="nav-btn" title="القائمة الرئيسية">🏠</button>
+            <div class="quiz-header">
+                <button id="back-to-main" class="icon-btn" title="القائمة الرئيسية">
+                    <i class="fas fa-home"></i>
+                </button>
+                
                 <div class="quiz-info">
-                    <span id="progress-text">السؤال 1 من 10</span>
-                    <div id="timer" class="timer">30</div>
+                    <span id="category-name">الفئة</span>
+                    <span id="progress">السؤال 1 من 25</span>
                 </div>
+                
                 <div class="quiz-controls">
-                    <button id="sound-btn" class="nav-btn" title="كتم/تشغيل الصوت">🔊</button>
-                    <button id="pause-btn" class="nav-btn" title="إيقاف/استئناف">⏸️</button>
-                    <button id="skip-btn" class="nav-btn" title="تخطي">⏭️</button>
+                    <button id="timer-toggle" class="icon-btn" title="إيقاف/استئناف المؤقت">
+                        <i class="fas fa-pause"></i>
+                    </button>
+                    <button id="mute-toggle" class="icon-btn" title="كتم/تشغيل الصوت">
+                        <i class="fas fa-volume-up"></i>
+                    </button>
+                    <div id="timer" class="timer">60</div>
                 </div>
-            </header>
-
-            <main class="quiz-content">
+            </div>
+            
+            <div class="quiz-content">
                 <div id="question-container">
-                    <h2 id="question-text"></h2>
-                    <div id="options-container" class="options-grid">
-                        <!-- سيتم ملؤها بالكود -->
+                    <h2 id="question-text">نص السؤال سيظهر هنا</h2>
+                    
+                    <div id="options-container" class="options">
+                        <!-- سيتم ملؤها ديناميكيًا -->
                     </div>
                 </div>
-            </main>
-
-            <footer class="quiz-footer">
-                <button id="prev-btn" class="nav-btn" disabled>السابق</button>
-                <button id="next-btn" class="nav-btn">التالي</button>
-            </footer>
+                
+                <div class="quiz-actions">
+                    <button id="prev-btn" class="btn btn-secondary">السابق</button>
+                    <button id="skip-btn" class="btn btn-secondary">تخطي</button>
+                    <button id="next-btn" class="btn btn-primary">التالي</button>
+                </div>
+            </div>
         </div>
 
         <!-- شاشة النتائج -->
         <div id="results-screen" class="screen">
-            <header class="header">
-                <h1>النتائج</h1>
-            </header>
+            <div class="header">
+                <h1>نتائج الاختبار</h1>
+                <button id="back-from-results" class="icon-btn" title="العودة">
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
             
-            <div class="results-content">
-                <div id="final-score" class="score-display">
-                    <h2>درجتك النهائية</h2>
-                    <div class="score-circle">
-                        <span id="score-percent">0%</span>
-                    </div>
-                    <p id="score-details">0 إجابة صحيحة من 0</p>
+            <div id="current-results" class="results-section">
+                <!-- سيتم ملؤها ديناميكيًا -->
+            </div>
+            
+            <div class="results-section">
+                <h2>أفضل 5 نتائج</h2>
+                <div id="top-results" class="top-results">
+                    <!-- سيتم ملؤها ديناميكيًا -->
                 </div>
-                
-                <div class="results-actions">
-                    <button id="restart-btn" class="action-btn">اختبار جديد</button>
-                    <button id="review-btn" class="action-btn">مراجعة الأخطاء</button>
-                    <button id="main-menu-btn" class="action-btn">القائمة الرئيسية</button>
-                </div>
-                
-                <div id="high-scores" class="high-scores">
-                    <h3>أعلى 5 نتائج</h3>
-                    <div id="scores-list"></div>
-                </div>
+            </div>
+            
+            <div class="results-actions">
+                <button id="restart-quiz" class="btn btn-primary">بدء اختبار جديد</button>
+                <button id="back-to-main-from-results" class="btn btn-secondary">القائمة الرئيسية</button>
+            </div>
+        </div>
+
+        <!-- شاشة الأخطاء -->
+        <div id="mistakes-screen" class="screen">
+            <div class="header">
+                <h1>تعلّم من أخطائي</h1>
+                <button id="back-from-mistakes" class="icon-btn" title="العودة">
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+            
+            <div id="mistakes-list" class="mistakes-list">
+                <!-- سيتم ملؤها ديناميكيًا -->
+            </div>
+            
+            <div class="results-actions">
+                <button id="back-to-main-from-mistakes" class="btn btn-primary">القائمة الرئيسية</button>
             </div>
         </div>
     </div>
 
-    <!-- المودالات -->
-    <div id="modal-overlay" class="modal-overlay">
-        <div id="exit-modal" class="modal">
-            <h3>تأكيد الخروج</h3>
-            <p>هل تريد الخروج من الاختبار الحالي؟ سيتم فقدان التقدم.</p>
-            <div class="modal-actions">
-                <button id="confirm-exit" class="btn-danger">نعم، اخروج</button>
-                <button id="cancel-exit" class="btn-secondary">إلغاء</button>
+    <!-- النوافذ المنبثقة -->
+    <div id="modal-overlay" class="modal-overlay hidden">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="modal-title">عنوان النافذة</h3>
+                <button id="close-modal" class="icon-btn">
+                    <i class="fas fa-times"></i>
+                </button>
             </div>
-        </div>
-        
-        <div id="results-modal" class="modal">
-            <h3>النتائج السابقة</h3>
-            <div id="past-results-list"></div>
-            <button id="close-results" class="btn-secondary">إغلاق</button>
-        </div>
-        
-        <div id="mistakes-modal" class="modal wide-modal">
-            <h3>تعلم من الأخطاء</h3>
-            <div id="mistakes-list"></div>
-            <button id="close-mistakes" class="btn-secondary">إغلاق</button>
+            <div class="modal-body">
+                <p id="modal-message">رسالة النافذة</p>
+            </div>
+            <div class="modal-actions">
+                <button id="modal-confirm" class="btn btn-primary">موافق</button>
+                <button id="modal-cancel" class="btn btn-secondary">إلغاء</button>
+            </div>
         </div>
     </div>
 
