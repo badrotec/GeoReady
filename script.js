@@ -624,16 +624,23 @@ class GeoReady {
     }
     
     /**
-     * تلوين الإجابة الصحيحة والخاطئة
+     * تلوين الإجابة الصحيحة والخاطئة - الإصدار المصحح
      */
     highlightAnswer(options, correctKey, selectedKey, isCorrect) {
         options.forEach(option => {
             const optionKey = option.dataset.key;
             option.style.pointerEvents = 'none';
             
+            // إزالة أي ألوان سابقة
+            option.classList.remove('correct', 'incorrect');
+            
+            // تلوين الإجابة الصحيحة دائماً بالأخضر
             if (optionKey === correctKey) {
                 option.classList.add('correct');
-            } else if (optionKey === selectedKey && !isCorrect) {
+            }
+            
+            // تلوين الإجابة المختارة الخاطئة بالأحمر
+            if (optionKey === selectedKey && !isCorrect) {
                 option.classList.add('incorrect');
             }
         });
@@ -725,11 +732,15 @@ class GeoReady {
             timestamp: new Date().toISOString()
         });
         
-        // عرض الإجابة الصحيحة
+        // عرض الإجابة الصحيحة فقط
         options.forEach(option => {
             const optionKey = option.dataset.key;
             option.style.pointerEvents = 'none';
             
+            // إزالة أي ألوان سابقة
+            option.classList.remove('correct', 'incorrect');
+            
+            // تلوين الإجابة الصحيحة بالأخضر
             if (optionKey === question.answer) {
                 option.classList.add('correct');
             }
