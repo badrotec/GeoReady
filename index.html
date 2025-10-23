@@ -1,237 +1,194 @@
-<!doctype html>
-
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>تحدي عالم الجيولوجيا — Quiz ميدان</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-  <style>
-    :root{--bg:#071022;--card:#0f1724;--accent:#ff7a18;--muted:#94a3b8;--glass:rgba(255,255,255,0.04)}
-    *{box-sizing:border-box;font-family:'Inter',system-ui,Segoe UI,Arial,sans-serif}
-    html,body{height:100%;margin:0;background:linear-gradient(180deg,#041025 0%, #071022 60%);color:#e6eef8}
-    .container{max-width:1100px;margin:28px auto;padding:20px}/* Hero */
-.hero{display:grid;grid-template-columns:1fr 420px;gap:28px;align-items:center}
-.hero-card{background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);border-radius:18px;padding:28px;border:1px solid rgba(255,255,255,0.04);box-shadow:0 8px 30px rgba(2,6,23,0.6)}
-h1{font-size:2rem;margin:0 0 10px}
-p.lead{margin:0 0 18px;color:var(--muted)}
-.cta{display:flex;gap:12px}
-.btn{background:var(--accent);border:none;padding:12px 18px;border-radius:12px;color:#091018;font-weight:700;cursor:pointer;box-shadow:0 6px 20px rgba(255,122,24,0.18);font-size:15px}
-.btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:#e6eef8}
-.hero-visual{position:relative;height:320px;border-radius:18px;overflow:hidden;background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800"><rect width="100%" height="100%" fill="%23040b16"/><g fill="none" stroke="%2322a6a0" opacity="0.06"><path d="M0 600c120-120 240-200 360-300 120-100 240-180 360-200 120-20 240 30 360 80"/></g></svg>');border:1px solid rgba(255,255,255,0.02)}
-.hero-visual .overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(7,16,34,0.2),rgba(2,6,23,0.7));display:flex;flex-direction:column;justify-content:flex-end;padding:18px}
-.stat{display:flex;gap:12px;align-items:center}
-.stat .num{font-weight:800;color:var(--accent);font-size:20px}
-
-/* Quiz card */
-.quiz{margin-top:22px;background:var(--card);padding:18px;border-radius:14px;border:1px solid var(--glass)}
-.progress{height:12px;background:rgba(255,255,255,0.04);border-radius:8px;overflow:hidden}
-.progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),#ffb56b);width:0%}
-.question{margin-top:18px;font-weight:600}
-.choices{display:grid;gap:10px;margin-top:12px}
-.choice{background:transparent;border:1px solid rgba(255,255,255,0.04);padding:12px;border-radius:10px;cursor:pointer}
-.choice.selected{outline:2px solid rgba(255,122,24,0.16);background:linear-gradient(180deg,rgba(255,122,24,0.06),transparent)}
-.footer{display:flex;justify-content:space-between;align-items:center;margin-top:16px}
-
-/* Result */
-.result{display:none;padding:20px;border-radius:12px;text-align:center}
-.badge{display:inline-block;padding:14px;border-radius:12px;background:linear-gradient(180deg,#0f1724,rgba(255,255,255,0.02));border:1px solid rgba(255,255,255,0.04);margin-bottom:12px}
-.share{display:flex;gap:8px;justify-content:center;margin-top:12px}
-.small{font-size:13px;color:var(--muted)}
-
-/* Responsive */
-@media (max-width:880px){.hero{grid-template-columns:1fr;}.hero-visual{height:200px}.container{padding:12px}}
-
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GeoReady - هل أنت عالم الجيولوجيا القادم؟</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div class="container">
-    <div class="hero">
-      <div class="hero-card">
-        <h1>هل أنت عالم الجيولوجيا القادم؟</h1>
-        <p class="lead">اختبر مهاراتك الميدانية — الصخور، الخرائط، الأدوات، والتراكيب. تحدّى زمنك واحصل على لقب علمي.</p>
-        <div class="cta">
-          <button class="btn" id="startBtn">ابدأ التحدي 🔥</button>
-          <button class="btn ghost" id="practiceBtn">سؤال تجريبي</button>
-        </div><div class="quiz" id="quizCard" style="display:none">
-      <div class="progress" aria-hidden><i id="progressBar"></i></div>
-      <div class="meta small" style="margin-top:8px">السؤال <span id="cur">0</span> من <span id="total">0</span></div>
-      <div class="question" id="questionText">...</div>
-      <div class="choices" id="choices"></div>
-      <div class="footer">
-        <div class="small" id="timer">الزمن المتبقي: <span id="timeLeft">--</span></div>
-        <div>
-          <button class="btn ghost" id="skipBtn">تخطى</button>
-          <button class="btn" id="nextBtn">التالي</button>
+    <!-- شاشة البداية -->
+    <div id="start-screen" class="screen active">
+        <header>
+            <button id="language-toggle" class="btn-secondary" aria-label="تبديل اللغة">EN</button>
+        </header>
+        
+        <main class="hero">
+            <div class="hero-content">
+                <h1 class="fade-in" data-ar="هل أنت عالم الجيولوجيا القادم؟" data-en="Are You The Next Geologist?">هل أنت عالم الجيولوجيا القادم؟</h1>
+                <p class="fade-in-delay" data-ar="اختبر معرفتك في علوم الأرض مع تحدياتنا التفاعلية" data-en="Test your knowledge in Earth sciences with our interactive challenges">اختبر معرفتك في علوم الأرض مع تحدياتنا التفاعلية</p>
+                <button id="start-btn" class="btn-primary fade-in-delay-2" data-ar="ابدأ التحدي" data-en="Start Challenge">ابدأ التحدي</button>
+            </div>
+        </main>
+    </div>
+
+    <!-- شاشة اختيار الفئة -->
+    <div id="category-screen" class="screen">
+        <header>
+            <button id="back-to-start" class="btn-secondary" aria-label="العودة للرئيسية">←</button>
+            <button id="language-toggle-2" class="btn-secondary" aria-label="تبديل اللغة">EN</button>
+        </header>
+        
+        <main class="container">
+            <h2 data-ar="اختر مجال التحدي" data-en="Choose Challenge Category">اختر مجال التحدي</h2>
+            
+            <div class="category-grid" id="category-grid">
+                <!-- سيتم تعبئة الفئات ديناميكياً -->
+            </div>
+            
+            <div class="settings">
+                <div class="setting-group">
+                    <label for="question-count" data-ar="عدد الأسئلة:" data-en="Number of Questions:">عدد الأسئلة:</label>
+                    <select id="question-count">
+                        <option value="10" data-ar="10 أسئلة" data-en="10 Questions">10 أسئلة</option>
+                        <option value="20" data-ar="20 سؤال" data-en="20 Questions">20 سؤال</option>
+                        <option value="all" data-ar="كل الأسئلة" data-en="All Questions">كل الأسئلة</option>
+                    </select>
+                </div>
+                
+                <div class="setting-group">
+                    <label for="difficulty" data-ar="مستوى الصعوبة:" data-en="Difficulty Level:">مستوى الصعوبة:</label>
+                    <select id="difficulty">
+                        <option value="all" data-ar="جميع المستويات" data-en="All Levels">جميع المستويات</option>
+                        <option value="easy" data-ar="سهل" data-en="Easy">سهل</option>
+                        <option value="medium" data-ar="متوسط" data-en="Medium">متوسط</option>
+                        <option value="hard" data-ar="صعب" data-en="Hard">صعب</option>
+                    </select>
+                </div>
+                
+                <div class="setting-group">
+                    <label for="time-per-question" data-ar="الوقت لكل سؤال (ثانية):" data-en="Time Per Question (seconds):">الوقت لكل سؤال (ثانية):</label>
+                    <input type="number" id="time-per-question" min="10" max="180" value="60">
+                </div>
+                
+                <div class="setting-group">
+                    <label>
+                        <input type="checkbox" id="shuffle-options" checked>
+                        <span data-ar="خلط الخيارات" data-en="Shuffle Options">خلط الخيارات</span>
+                    </label>
+                </div>
+                
+                <div class="setting-group">
+                    <label>
+                        <input type="checkbox" id="sound-enabled" checked>
+                        <span data-ar="تفعيل الأصوات" data-en="Enable Sounds">تفعيل الأصوات</span>
+                    </label>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- شاشة الاختبار -->
+    <div id="quiz-screen" class="screen">
+        <header>
+            <div class="quiz-header">
+                <div class="quiz-info">
+                    <span id="quiz-category" data-ar="الجيولوجيا الأساسية" data-en="Basic Geology">الجيولوجيا الأساسية</span>
+                    <span id="quiz-progress" data-ar="السؤال 1 من 10" data-en="Question 1 of 10">السؤال 1 من 10</span>
+                </div>
+                <div class="quiz-controls">
+                    <button id="pause-quiz" class="btn-secondary" data-ar="إيقاف" data-en="Pause">إيقاف</button>
+                </div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+        </header>
+        
+        <main class="container">
+            <div class="timer-container">
+                <div class="timer" id="timer">60</div>
+            </div>
+            
+            <div class="question-card">
+                <h3 id="question-text">نص السؤال سيظهر هنا</h3>
+                
+                <div class="options-grid" id="options-container">
+                    <!-- سيتم تعبئة الخيارات ديناميكياً -->
+                </div>
+                
+                <div class="quiz-controls-bottom">
+                    <button id="next-question" class="btn-primary" disabled data-ar="التالي" data-en="Next">التالي</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- شاشة النتائج -->
+    <div id="results-screen" class="screen">
+        <header>
+            <button id="back-to-categories" class="btn-secondary" aria-label="العودة للفئات">←</button>
+            <button id="language-toggle-3" class="btn-secondary" aria-label="تبديل اللغة">EN</button>
+        </header>
+        
+        <main class="container">
+            <div class="results-card">
+                <h2 data-ar="نتيجة التحدي" data-en="Challenge Results">نتيجة التحدي</h2>
+                
+                <div class="score-display">
+                    <div class="score-circle">
+                        <span id="score-percentage">85%</span>
+                    </div>
+                    <div class="score-details">
+                        <h3 id="score-title" data-ar="خبير جيولوجيا" data-en="Geology Expert">خبير جيولوجيا</h3>
+                        <p id="score-text" data-ar="لقد أجبت بشكل صحيح على 17 من 20 سؤالاً" data-en="You answered 17 out of 20 questions correctly">لقد أجبت بشكل صحيح على 17 من 20 سؤالاً</p>
+                    </div>
+                </div>
+                
+                <div class="results-actions">
+                    <button id="review-mistakes" class="btn-secondary" data-ar="تعلّم من أخطائك" data-en="Learn From Mistakes">تعلّم من أخطائك</button>
+                    <button id="share-results" class="btn-primary" data-ar="مشاركة النتائج" data-en="Share Results">مشاركة النتائج</button>
+                    <button id="new-quiz" class="btn-primary" data-ar="بدء تحدٍ جديد" data-en="Start New Challenge">بدء تحدٍ جديد</button>
+                </div>
+                
+                <div class="top-scores">
+                    <h3 data-ar="أفضل النتائج" data-en="Top Scores">أفضل النتائج</h3>
+                    <div id="top-scores-list">
+                        <!-- سيتم تعبئة أفضل النتائج ديناميكياً -->
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- شاشة مراجعة الأخطاء -->
+    <div id="review-screen" class="screen">
+        <header>
+            <button id="back-to-results" class="btn-secondary" aria-label="العودة للنتائج">←</button>
+            <button id="language-toggle-4" class="btn-secondary" aria-label="تبديل اللغة">EN</button>
+        </header>
+        
+        <main class="container">
+            <h2 data-ar="مراجعة الأخطاء" data-en="Mistakes Review">مراجعة الأخطاء</h2>
+            
+            <div id="mistakes-container">
+                <!-- سيتم تعبئة الأسئلة الخاطئة ديناميكياً -->
+            </div>
+            
+            <div class="review-actions">
+                <button id="finish-review" class="btn-primary" data-ar="إنهاء المراجعة" data-en="Finish Review">إنهاء المراجعة</button>
+            </div>
+        </main>
+    </div>
+
+    <!-- نافذة الإيقاف المؤقت -->
+    <div id="pause-modal" class="modal">
+        <div class="modal-content">
+            <h3 data-ar="الإختبار متوقف" data-en="Quiz Paused">الإختبار متوقف</h3>
+            <p data-ar="اضغط على زر المتابعة لمواصلة التحدي" data-en="Press the resume button to continue the challenge">اضغط على زر المتابعة لمواصلة التحدي</p>
+            <div class="modal-actions">
+                <button id="resume-quiz" class="btn-primary" data-ar="متابعة" data-en="Resume">متابعة</button>
+                <button id="quit-quiz" class="btn-secondary" data-ar="إنهاء التحدي" data-en="Quit Challenge">إنهاء التحدي</button>
+            </div>
         </div>
-      </div>
     </div>
 
-    <div class="result" id="resultCard">
-      <div class="badge" id="badgeArea">
-        <div style="font-size:22px;font-weight:800" id="scoreText">0 / 0</div>
-        <div class="small" id="titleText">لقبك العلمي</div>
-      </div>
-      <div id="explainArea" style="text-align:right"></div>
-      <div class="share">
-        <button class="btn ghost" id="retryBtn">أعد المحاولة</button>
-        <button class="btn" id="shareBtn">مشاركة النتيجة</button>
-      </div>
-    </div>
+    <!-- ملفات الصوت -->
+    <audio id="correct-sound" src="sounds/correct.mp3" preload="auto"></audio>
+    <audio id="wrong-sound" src="sounds/wrong.mp3" preload="auto"></audio>
+    <audio id="timeout-sound" src="sounds/timeout.mp3" preload="auto"></audio>
 
-  </div>
-
-  <div class="hero-visual">
-    <div style="padding:18px;color:#dff6f4">
-      <div class="stat"><div class="num">10</div><div class="small">أسئلة ميدانية</div></div>
-      <div style="height:10px"></div>
-      <div class="stat"><div class="num">60s</div><div class="small">حد أقصى لكل سؤال</div></div>
-    </div>
-    <div class="overlay">
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <div>
-          <div style="font-weight:700">تحدي مباشر</div>
-          <div class="small">نقاط، لقب، ومشاركة للمنافسة</div>
-        </div>
-        <div style="text-align:left;font-size:12px;color:var(--muted)">ميدان • جيولوجيا</div>
-      </div>
-    </div>
-  </div>
-</div>
-
-  </div>  <script>
-    // Sample questions (10) - suitable for field geology prep
-    const QUESTIONS = [
-      {q:'أي نوع من الصخور يتكوّن من تبريد الحمم داخل القشرة ببطء؟', choices:['نارية سطحية','نارية جوفية','رسوبية','متحولة'], a:1, explain:'التبريد البطيء داخل القشرة ينتج بلورات كبيرة — هذا نادر في الصخور النارية الجوفية مثل الجرانيت.'},
-      {q:'ما اسم الأداة المستخدمة لقياس زاوية التواجد (dip) واتجاه الطية؟', choices:['شاك', 'بوصلة جيولوجية (Brunton)', 'مطرقة الحقل', 'منظار'], a:1, explain:'البوصلة الجيولوجية (Brunton) تقيس الاتجاه والزاوية للتراكيب.'},
-      {q:'ما المصطلح لتراكم طبقات من الرواسب الأفقية؟', choices:['طباقية','تثلم','طيّة','صدع'], a:0, explain:'الطباقية هي ترتيب طبقات موازية ناتجة عن ترسيب متتابع.'},
-      {q:'أي تصوير يساعد في التعرف على معدلات الغطاء النباتي والتعديلات الطبوغرافية من الجو؟', choices:['مخبر', 'استشعار عن بعد (Remote Sensing)', 'رصد أرضي فقط', 'تحليل صخري'], a:1, explain:'الاستشعار عن بعد يستخدم صوراً فضائية/جوية لفحص السطح.'},
-      {q:'أي معجم يصف التحول من صخر الى صخر مُتحوّل بسبب الحرارة والضغط؟', choices:['التجوية','التحول الميتامورفي','الترسيب','التبلور'], a:1, explain:'التحول الميتامورفي نتيجة الحرارة والضغط دون انصهار كامل.'},
-      {q:'ما اسم السطح الذي يفصل طبقتين مختلفتين زمنياً؟', choices:['حد الطي','فاصل زمني (Unconformity)','صدع محيطي','مستوى مائي'], a:1, explain:'الفاصل الزمني يظهر فترة انقطاع أو تآكل قبل ترسيب الطبقة التالية.'},
-      {q:'أداة الحقل الأساسية لكسر العينات الصخرية تُعرف بـ؟', choices:['مطرقة جيولوجية','منخول','مقياس حرارة','مِسمار'], a:0, explain:'مطرقة الحقل تُستخدم لكسر العينات وكشف السطوح الطازجة.'},
-      {q:'أيهما يُعتبر مؤشرًا لصخور رسوبية؟', choices:['حبيبات متراصة وطباقية','بلورات كبيرة متداخلة','النسيج الزجاجي','نسيج مخروطي'], a:0, explain:'الرسوبية غالبًا ما تظهر طباقية وحبيبات مكدسة.'},
-      {q:'ما اسم المقياس الذي يقدّر صلابة المعادن؟', choices:['مقياس بومون', 'مقياس موس (Mohs)', 'مقياس ريختر', 'مقياس سيزل'], a:1, explain:'مقياس موس يقارن مقاومة الخدش بين المعادن.'},
-      {q:'في رسم الخرائط الجيولوجية، ما الذي تشير إليه خطوط الكنتور (contour)؟', choices:['أنواع الصخور','ارتفاع/انخفاض سطح الأرض','نوع المعدن','حركة الصفائح'], a:1, explain:'خطوط الكنتور تربط نقاطًا لها نفس الارتفاع.'}
-    ];
-
-    const total = QUESTIONS.length;
-    document.getElementById('total').textContent = total;
-
-    // State
-    let idx = 0, score = 0, timerInterval=null, timeLeft=60, selected=-1;
-
-    const startBtn = document.getElementById('startBtn');
-    const practiceBtn = document.getElementById('practiceBtn');
-    const quizCard = document.getElementById('quizCard');
-    const progressBar = document.getElementById('progressBar');
-    const curEl = document.getElementById('cur');
-    const questionText = document.getElementById('questionText');
-    const choicesEl = document.getElementById('choices');
-    const nextBtn = document.getElementById('nextBtn');
-    const skipBtn = document.getElementById('skipBtn');
-    const timeLeftEl = document.getElementById('timeLeft');
-    const resultCard = document.getElementById('resultCard');
-    const scoreText = document.getElementById('scoreText');
-    const titleText = document.getElementById('titleText');
-    const explainArea = document.getElementById('explainArea');
-    const retryBtn = document.getElementById('retryBtn');
-    const shareBtn = document.getElementById('shareBtn');
-    const startSample = document.getElementById('practiceBtn');
-
-    function startQuiz(){
-      idx=0;score=0;quizCard.style.display='block';resultCard.style.display='none';document.getElementById('cur').textContent=1;updateProgress();loadQuestion();
-    }
-
-    function loadQuestion(){
-      clearInterval(timerInterval);
-      selected=-1;timeLeft=60;timeLeftEl.textContent=timeLeft + 's';
-      const q = QUESTIONS[idx];
-      questionText.textContent = q.q;
-      choicesEl.innerHTML='';
-      q.choices.forEach((c,i)=>{
-        const btn = document.createElement('div');
-        btn.className='choice';btn.tabIndex=0;btn.role='button';btn.textContent=c;
-        btn.addEventListener('click',()=>selectChoice(i,btn));
-        btn.addEventListener('keydown',(e)=>{if(e.key==='Enter') selectChoice(i,btn)});
-        choicesEl.appendChild(btn);
-      });
-      curEl.textContent = idx+1;
-      updateProgress();
-      // timer
-      timerInterval = setInterval(()=>{
-        timeLeft--;timeLeftEl.textContent=timeLeft + 's';
-        if(timeLeft<=0){clearInterval(timerInterval);autoNext();}
-      },1000);
-    }
-
-    function selectChoice(i,btn){
-      selected=i;Array.from(choicesEl.children).forEach(c=>c.classList.remove('selected'));btn.classList.add('selected');
-    }
-
-    function autoNext(){
-      // treat as wrong if not selected
-      submitAnswer(false);
-    }
-
-    function submitAnswer(manual=true){
-      clearInterval(timerInterval);
-      const q=QUESTIONS[idx];
-      const correct = (selected===q.a);
-      if(correct) score++;
-      // reveal explanation briefly
-      explainArea.innerHTML = `<div style="text-align:right;margin-top:12px"><strong>التوضيح:</strong> ${q.explain}</div>`;
-      // highlight correct/incorrect
-      Array.from(choicesEl.children).forEach((el,i)=>{
-        el.style.opacity = '0.7';
-        if(i===q.a){el.style.outline='2px solid rgba(0,200,120,0.14)';el.style.opacity='1'}
-        if(i===selected && i!==q.a){el.style.outline='2px solid rgba(255,80,80,0.12)';}
-      });
-
-      // small delay then next
-      setTimeout(()=>{
-        idx++;
-        if(idx<total){loadQuestion();}else{showResult();}
-      },900);
-    }
-
-    function updateProgress(){
-      const pct = ((idx)/total)*100;
-      progressBar.style.width = pct + '%';
-    }
-
-    function next(){
-      if(selected===-1){ // treat as skip
-        submitAnswer(false);
-      } else submitAnswer(true);
-    }
-
-    function showResult(){
-      quizCard.style.display='none';resultCard.style.display='block';
-      scoreText.textContent = `${score} / ${total}`;
-      // assign title
-      let title='مستكشف الطبقات';
-      if(score===total) title='جيولوجي ميداني فائق';
-      else if(score>=Math.ceil(total*0.8)) title='جيولوجي ميداني محترف';
-      else if(score>=Math.ceil(total*0.5)) title='مستكشف الطبقات';
-      else title='مبتدئ في الميدان';
-      titleText.textContent = title;
-      explainArea.innerHTML += `<div class="small" style="margin-top:8px;color:var(--muted)">شارك نتيجتك وتحدى زملاءك!</div>`;
-    }
-
-    function retry(){startQuiz();}
-
-    // event bindings
-    startBtn.addEventListener('click',startQuiz);
-    practiceBtn.addEventListener('click',()=>{alert('سؤال تجريبي:\n\n' + QUESTIONS[0].q + '\n\nالإجابة الصحيحة: ' + QUESTIONS[0].choices[QUESTIONS[0].a])});
-    nextBtn.addEventListener('click',next);
-    skipBtn.addEventListener('click',()=>{selected=-1;next();});
-    retryBtn.addEventListener('click',retry);
-    shareBtn.addEventListener('click',()=>{
-      const text = `لقد حصلت على ${score}/${total} في تحدي عالم الجيولوجيا! هل تتحدى؟`;
-      if(navigator.share){navigator.share({title:'تحدي عالم الجيولوجيا',text})}else{prompt('انسخ وشارك هذا النص:',text)}
-    });
-
-    // keyboard: press S to start
-    document.addEventListener('keydown',e=>{if(e.key.toLowerCase()==='s') startQuiz();});
-  </script></body>
+    <script src="script.js"></script>
+</body>
 </html>
