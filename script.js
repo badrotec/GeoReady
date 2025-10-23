@@ -1,854 +1,335 @@
-// GeoReady - تطبيق اختبار الجيولوجيا
-class GeoReady {
-    constructor() {
-        this.initializeApp();
-        this.bindEvents();
-        this.loadCategories();
-        this.loadStats();
+// =========================
+// GeoReady Script.js
+// =========================
+
+const app = {
+  state: {
+    currentIndex: 0,
+    questions: [],
+    currentQuestion: null,
+    correctCount: 0,
+    timer: null,
+    timeLeft: 20,
+    sounds: {},
+    isMuted: false,
+    initializedAudio: false,
+  },
+
+  categories: [
+    { id: "BasicGeology", name: "الجيولوجيا الأساسية" },
+    { id: "Geochemistry", name: "الجيولوجيا الكيميائية" },
+    { id: "Geophysics", name: "الفيزياء الجيولوجية" },
+    { id: "Hydrogeology", name: "الهيدروجيولوجيا" },
+    { id: "Petrology", name: "علم الصخور" },
+    { id: "Structuralgeology", name: "الجيولوجيا التركيبية" },
+    { id: "sedimentarygeology", name: "الجيولوجيا الرسوبية" },
+  ],
+
+  // -------------------------
+  // INITIALIZATION
+  // -------------------------
+  init() {
+    this.bindUI();
+    console.log("GeoReady initialized");
+  },
+
+  bindUI() {
+    document.getElementById("startBtn")?.addEventListener("click", () => {
+      this.startQuiz("all");
+    });
+
+    document.getElementById("muteBtn")?.addEventListener("click", () => {
+      this.toggleMute();
+    });
+
+    document.addEventListener("keydown", (e) => this.handleKeyboard(e));
+  },
+
+  handleKeyboard(e) {
+    if (["1", "2", "3", "4"].includes(e.key)) {
+      const idx = parseInt(e.key) - 1;
+      const opts = document.querySelectorAll(".option");
+      if (opts[idx]) opts[idx].click();
+    }
+  },
+
+  // -------------------------
+  // QUIZ FLOW
+  // -------------------------
+  async startQuiz(categoryId) {
+    this.state.correctCount = 0;
+    this.state.currentIndex = 0;
+    this.state.questions = [];
+
+    await this.prepareAudio();
+
+    if (categoryId === "all") {
+      await this.loadAllQuestions();
+    } else {
+      await this.loadQuestions(categoryId);
     }
 
-    initializeApp() {
-        // حالة التطبيق
-        this.state = {
-            currentScreen: 'main-screen',
-            currentCategory: null,
-            questions: [],
-            currentQuestionIndex: 0,
-            userAnswers: [],
-            timer: null,
-            timeLeft: 60,
-            isTimerRunning: false,
-            isMuted: false,
-            sounds: {},
-            score: 0
-        };
+    this.renderQuestion();
+  },
 
-        // قائمة الفئات المتاحة
-        this.categories = [
-            { id: 'BasicGeology', name: 'الجيولوجيا الأساسية' },
-            { id: 'Geochemistry', name: 'الجيوكيمياء' },
-            { id: 'Geophysics', name: 'الجيوفيزياء' },
-            { id: 'Hydrogeology', name: 'الهيدروجيولوجيا' },
-            { id: 'Petrology', name: 'علم الصخور' },
-            { id: 'Structuralgeology', name: 'الجيولوجيا التركيبية' },
-            { id: 'sedimentarygeology', name: 'جيولوجيا الرواسب' }
-        ];
+  async loadQuestions(categoryId) {
+    try {
+      const response = await fetch(`${categoryId}.json`);
+      if (!response.ok) throw new Error("تعذر تحميل الملف");
 
-        // تهيئة الأصوات
-        this.initializeSounds();
+      const data = await response.json();
+      if (!Array.isArray(data)) throw new Error("صيغة غير صحيحة");
+
+      if (data.length !== 25) {
+        alert(`ملف ${categoryId}.json غير مكتمل — يجب أن يحتوي على 25 سؤالًا`);
+      }
+
+      // ✅ فقط أول 25 سؤالًا
+      this.state.questions = data.slice(0, 25);
+      console.log(`${categoryId}: Loaded ${this.state.questions.length} questions`);
+    } catch (err) {
+      console.error(`فشل تحميل ${categoryId}.json:`, err);
     }
+  },
 
-    bindEvents() {
-        // التنقل بين الشاشات
-        document.getElementById('start-all').addEventListener('click', () => this.startQuiz('all'));
-        document.getElementById('view-results').addEventListener('click', () => this.showResults());
-        document.getElementById('view-mistakes').addEventListener('click', () => this.showMistakes());
-        document.getElementById('back-to-main').addEventListener('click', () => this.showScreen('main-screen'));
-        document.getElementById('back-from-results').addEventListener('click', () => this.showScreen('main-screen'));
-        document.getElementById('back-from-mistakes').addEventListener('click', () => this.showScreen('main-screen'));
-        document.getElementById('back-to-main-from-results').addEventListener('click', () => this.showScreen('main-screen'));
-        document.getElementById('back-to-main-from-mistakes').addEventListener('click', () => this.showScreen('main-screen'));
-        document.getElementById('restart-quiz').addEventListener('click', () => this.showScreen('main-screen'));
+  // ✅ نسخة مصححة — تضمن أن كل ملف (خصوصًا Petrology و Structuralgeology) يتم تحميله بشكل صحيح بـ25 سؤال فقط
+  async loadAllQuestions() {
+    const allQuestions = [];
 
-        // عناصر التحكم في الاختبار
-        document.getElementById('timer-toggle').addEventListener('click', () => this.toggleTimer());
-        document.getElementById('mute-toggle').addEventListener('click', () => this.toggleMute());
-        document.getElementById('prev-btn').addEventListener('click', () => this.previousQuestion());
-        document.getElementById('next-btn').addEventListener('click', () => this.nextQuestion());
-        document.getElementById('skip-btn').addEventListener('click', () => this.skipQuestion());
+    for (const category of this.categories) {
+      try {
+        const response = await fetch(`${category.id}.json`);
+        if (response.ok) {
+          const questions = await response.json();
 
-        // النافذة المنبثقة
-        document.getElementById('close-modal').addEventListener('click', () => this.hideModal());
-        document.getElementById('modal-cancel').addEventListener('click', () => this.hideModal());
-        document.getElementById('modal-confirm').addEventListener('click', () => this.confirmModal());
-
-        // اختصارات لوحة المفاتيح
-        document.addEventListener('keydown', (e) => this.handleKeyboard(e));
-    }
-
-    initializeSounds() {
-        // إنشاء أصوات بديلة باستخدام Web Audio API
-        this.state.sounds = {
-            correct: this.createSound(523.25, 0.3),  // C5
-            wrong: this.createSound(349.23, 0.3),    // F4
-            timeout: this.createSound(220.00, 0.5)   // A3
-        };
-    }
-
-    createSound(frequency, duration) {
-        return () => {
-            try {
-                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                const oscillator = audioContext.createOscillator();
-                const gainNode = audioContext.createGain();
-                
-                oscillator.connect(gainNode);
-                gainNode.connect(audioContext.destination);
-                
-                oscillator.frequency.value = frequency;
-                oscillator.type = 'sine';
-                
-                gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
-                
-                oscillator.start(audioContext.currentTime);
-                oscillator.stop(audioContext.currentTime + duration);
-            } catch (error) {
-                console.error('خطأ في إنشاء الصوت:', error);
-            }
-        };
-    }
-
-    playSound(soundType) {
-        if (this.state.isMuted) return;
-        
-        if (this.state.sounds[soundType]) {
-            this.state.sounds[soundType]();
-        }
-    }
-
-    loadCategories() {
-        const container = document.getElementById('category-list');
-        container.innerHTML = '';
-        
-        this.categories.forEach(category => {
-            const button = document.createElement('button');
-            button.className = 'category-btn';
-            button.textContent = category.name;
-            button.addEventListener('click', () => this.startQuiz(category.id));
-            container.appendChild(button);
-        });
-    }
-
-    async startQuiz(categoryId) {
-        try {
-            this.state.currentCategory = categoryId;
-            this.state.questions = [];
-            this.state.currentQuestionIndex = 0;
-            this.state.userAnswers = [];
-            this.state.score = 0;
-
-            // تحميل الأسئلة
-            if (categoryId === 'all') {
-                await this.loadAllQuestions();
-            } else {
-                await this.loadCategoryQuestions(categoryId);
+          if (Array.isArray(questions)) {
+            if (questions.length !== 25) {
+              console.warn(`تحذير: ${category.id}.json لا يحتوي على 25 سؤال (فعليًا ${questions.length})`);
             }
 
-            // التحقق من عدد الأسئلة
-            if (this.state.questions.length === 0) {
-                this.showModal('خطأ', 'لا توجد أسئلة متاحة لهذه الفئة');
-                return;
-            }
+            const normalized = questions
+              .slice(0, 25)
+              .map(q => this.normalizeQuestion(q));
 
-            // بدء الاختبار
-            this.showScreen('quiz-screen');
-            this.displayQuestion();
-            this.startTimer();
-            
-            // تحديث اسم الفئة وشريط التقدم
-            const categoryName = categoryId === 'all' ? 'جميع الفئات' : 
-                this.categories.find(c => c.id === categoryId)?.name || categoryId;
-            document.getElementById('category-name').textContent = categoryName;
-            this.updateProgress();
-            
-        } catch (error) {
-            console.error('خطأ في تحميل الأسئلة:', error);
-            this.showModal('خطأ', `تعذر تحميل الأسئلة: ${error.message}`);
-        }
-    }
-
-    async loadCategoryQuestions(categoryId) {
-        try {
-            const response = await fetch(`${categoryId}.json`);
-            if (!response.ok) {
-                throw new Error(`ملف ${categoryId}.json غير موجود`);
-            }
-            
-            const questions = await response.json();
-            
-            // التحقق من صحة البيانات
-            if (!Array.isArray(questions) || questions.length === 0) {
-                throw new Error('ملف JSON غير صالح أو فارغ');
-            }
-            
-            // التحقق من عدد الأسئلة - إصلاح: علم الصخور يجب أن يكون 25 سؤال فقط
-            const expectedCount = 25;
-            if (questions.length !== expectedCount) {
-                console.warn(`ملف ${categoryId}.json يحتوي على ${questions.length} سؤال بدلاً من ${expectedCount}`);
-                
-                // استخدام الأسئلة المتاحة مع تحذير
-                this.showModal(
-                    'تحذير', 
-                    `ملف ${categoryId}.json غير مكتمل - يحتوي على ${questions.length} سؤال بدلاً من ${expectedCount} سؤال`,
-                    () => {
-                        // متابعة مع الأسئلة المتاحة
-                        this.processAndLoadQuestions(questions, categoryId);
-                    }
-                );
-                return;
-            }
-            
-            this.processAndLoadQuestions(questions, categoryId);
-            
-        } catch (error) {
-            console.error(`خطأ في تحميل ${categoryId}:`, error);
-            throw error;
-        }
-    }
-
-    processAndLoadQuestions(questions, categoryId) {
-        // تحويل الصيغة إذا لزم الأمر
-        this.state.questions = questions.map(q => this.normalizeQuestion(q));
-        
-        // التحقق النهائي من عدد الأسئلة
-        console.log(`تم تحميل ${this.state.questions.length} سؤال من ${categoryId}`);
-        
-        // خلط الأسئلة
-        this.shuffleQuestions();
-    }
-
-    async loadAllQuestions() {
-        const allQuestions = [];
-        let loadedCount = 0;
-        
-        for (const category of this.categories) {
-            try {
-                const response = await fetch(`${category.id}.json`);
-                if (response.ok) {
-                    const questions = await response.json();
-                    if (Array.isArray(questions)) {
-                        const normalizedQuestions = questions.map(q => this.normalizeQuestion(q));
-                        allQuestions.push(...normalizedQuestions);
-                        loadedCount += questions.length;
-                        console.log(`تم تحميل ${questions.length} سؤال من ${category.name}`);
-                    }
-                }
-            } catch (error) {
-                console.warn(`تعذر تحميل ${category.id}.json:`, error);
-            }
-        }
-        
-        if (allQuestions.length === 0) {
-            throw new Error('لا توجد أسئلة متاحة في أي فئة');
-        }
-        
-        console.log(`إجمالي الأسئلة المحملة: ${loadedCount} سؤال`);
-        this.state.questions = allQuestions;
-        this.shuffleQuestions();
-    }
-
-    normalizeQuestion(question) {
-        // التحقق من البيانات الأساسية
-        if (!question.question || !question.options) {
-            console.warn('سؤال غير مكتمل:', question);
-            // إنشاء سؤال بديل لتجنب الأخطاء
-            return {
-                id: question.id || Math.random(),
-                question: question.question || 'سؤال غير مكتمل',
-                options: question.options || { أ: 'خيار 1', ب: 'خيار 2', ج: 'خيار 3', د: 'خيار 4' },
-                answer: question.answer || 'أ',
-                topic: question.topic,
-                explanation: question.explanation
-            };
-        }
-
-        // تحويل السؤال إلى الصيغة الموحدة
-        if (Array.isArray(question.options)) {
-            // الصيغة B: تحويل إلى الصيغة A
-            const optionsMap = {};
-            const keys = ['أ', 'ب', 'ج', 'د'];
-            
-            question.options.forEach((option, index) => {
-                if (index < keys.length) {
-                    optionsMap[keys[index]] = option;
-                }
-            });
-            
-            // التأكد من وجود 4 خيارات
-            while (Object.keys(optionsMap).length < 4) {
-                const missingKey = keys[Object.keys(optionsMap).length];
-                optionsMap[missingKey] = 'خيار غير متوفر';
-            }
-            
-            // البحث عن الإجابة الصحيحة
-            let correctKey = 'أ';
-            keys.forEach(key => {
-                if (optionsMap[key] === question.answer) {
-                    correctKey = key;
-                }
-            });
-            
-            return {
-                id: question.id || Math.random(),
-                question: question.question,
-                options: optionsMap,
-                answer: correctKey,
-                topic: question.topic,
-                explanation: question.explanation
-            };
+            allQuestions.push(...normalized);
+          } else {
+            console.warn(`ملف ${category.id}.json غير صالح`);
+          }
         } else {
-            // الصيغة A: التأكد من أن الإجابة صحيحة وأن هناك 4 خيارات
-            const optionsMap = { ...question.options };
-            const keys = ['أ', 'ب', 'ج', 'د'];
-            
-            // التأكد من وجود جميع الخيارات الأربعة
-            keys.forEach(key => {
-                if (!optionsMap[key]) {
-                    optionsMap[key] = 'خيار غير متوفر';
-                }
-            });
-            
-            // التأكد من صحة الإجابة
-            const answer = keys.includes(question.answer) ? question.answer : 'أ';
-            
-            return {
-                id: question.id || Math.random(),
-                question: question.question,
-                options: optionsMap,
-                answer: answer,
-                topic: question.topic,
-                explanation: question.explanation
-            };
+          console.warn(`تعذر تحميل الملف: ${category.id}.json`);
         }
+      } catch (err) {
+        console.warn(`خطأ أثناء تحميل ${category.id}.json:`, err);
+      }
     }
 
-    shuffleQuestions() {
-        // خلط الأسئلة باستخدام خوارزمية Fisher-Yates
-        for (let i = this.state.questions.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [this.state.questions[i], this.state.questions[j]] = [this.state.questions[j], this.state.questions[i]];
-        }
+    if (allQuestions.length === 0) {
+      throw new Error("لا توجد أسئلة متاحة من أي ملف");
     }
 
-    displayQuestion() {
-        const question = this.state.questions[this.state.currentQuestionIndex];
-        const optionsContainer = document.getElementById('options-container');
-        
-        // عرض نص السؤال
-        document.getElementById('question-text').textContent = question.question;
-        
-        // إعداد الخيارات
-        optionsContainer.innerHTML = '';
-        
-        // تحويل الخيارات إلى مصفوفة وخلطها
-        const optionsArray = Object.entries(question.options)
-            .map(([key, text]) => ({ key, text }));
-        
-        this.shuffleOptions(optionsArray);
-        
-        // إنشاء أزرار الخيارات
-        optionsArray.forEach(option => {
-            const optionElement = document.createElement('div');
-            optionElement.className = 'option';
-            optionElement.setAttribute('data-key', option.key);
-            optionElement.setAttribute('tabindex', '0');
-            optionElement.setAttribute('role', 'button');
-            optionElement.setAttribute('aria-label', `الخيار ${option.key}: ${option.text}`);
-            
-            optionElement.innerHTML = `
-                <div class="option-key">${option.key}</div>
-                <div class="option-text">${option.text}</div>
-                <div class="option-icon"></div>
-            `;
-            
-            optionElement.addEventListener('click', () => this.selectOption(option.key));
-            optionElement.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    this.selectOption(option.key);
-                }
-            });
-            
-            optionsContainer.appendChild(optionElement);
-        });
-        
-        // تحديث حالة أزرار التنقل
-        this.updateNavigationButtons();
-        
-        // إعادة تمكين التفاعل مع الخيارات
-        optionsContainer.style.pointerEvents = 'auto';
+    // ✅ حفظ كل الأسئلة بشكل موحد
+    this.state.questions = allQuestions;
+    this.shuffle(this.state.questions);
+    console.log(`تم تحميل ${this.state.questions.length} سؤالًا من جميع الفئات.`);
+  },
+
+  normalizeQuestion(q) {
+    if (!q.id || !q.question || !q.options || !q.answer) {
+      console.warn("سؤال غير صالح:", q);
+    }
+    return q;
+  },
+
+  // -------------------------
+  // RENDERING
+  // -------------------------
+  renderQuestion() {
+    const q = this.state.questions[this.state.currentIndex];
+    if (!q) {
+      this.endQuiz();
+      return;
     }
 
-    shuffleOptions(optionsArray) {
-        // خلط الخيارات مع الحفاظ على المفاتيح الأصلية
-        for (let i = optionsArray.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [optionsArray[i], optionsArray[j]] = [optionsArray[j], optionsArray[i]];
-        }
+    this.state.currentQuestion = q;
+
+    const container = document.getElementById("quizContainer");
+    if (!container) return;
+
+    container.innerHTML = `
+      <div class="question-header">
+        السؤال ${this.state.currentIndex + 1} من ${this.state.questions.length}
+      </div>
+      <div class="question-text">${q.question}</div>
+      <div class="options"></div>
+      <div class="timer" id="timerBar"></div>
+    `;
+
+    const optsDiv = container.querySelector(".options");
+
+    // ✅ نحافظ على المفتاح الأصلي
+    const options = Object.entries(q.options).map(([key, text]) => ({ key, text }));
+    this.shuffle(options);
+
+    options.forEach((opt, i) => {
+      const btn = document.createElement("button");
+      btn.className = "option";
+      btn.dataset.key = opt.key;
+      btn.innerHTML = `${opt.key}) ${opt.text}`;
+      btn.addEventListener("click", (e) => this.selectOption(e));
+      optsDiv.appendChild(btn);
+    });
+
+    this.startTimer();
+  },
+
+  // -------------------------
+  // TIMER
+  // -------------------------
+  startTimer() {
+    clearInterval(this.state.timer);
+    this.state.timeLeft = 20;
+    const bar = document.getElementById("timerBar");
+
+    this.state.timer = setInterval(() => {
+      this.state.timeLeft -= 1;
+      if (bar) bar.style.width = `${(this.state.timeLeft / 20) * 100}%`;
+
+      if (this.state.timeLeft <= 0) {
+        clearInterval(this.state.timer);
+        this.playSound("timeout");
+        this.showAnswer(null);
+      }
+    }, 1000);
+  },
+
+  // -------------------------
+  // OPTION SELECTION
+  // -------------------------
+  selectOption(e) {
+    const selectedKey = e.target.dataset.key;
+    clearInterval(this.state.timer);
+    this.showAnswer(selectedKey);
+  },
+
+  showAnswer(selectedKey) {
+    const correctKey = this.state.currentQuestion.answer;
+    const options = document.querySelectorAll(".option");
+
+    options.forEach(opt => {
+      opt.classList.remove("correct", "wrong");
+      const key = opt.dataset.key;
+      if (key === correctKey) {
+        opt.classList.add("correct");
+        opt.setAttribute("aria-label", "صحيح");
+      } else if (selectedKey && key === selectedKey && key !== correctKey) {
+        opt.classList.add("wrong");
+      }
+      opt.disabled = true;
+    });
+
+    if (selectedKey === correctKey) {
+      this.state.correctCount++;
+      this.playSound("correct");
+    } else if (selectedKey !== null) {
+      this.playSound("wrong");
     }
 
-    selectOption(selectedKey) {
-        if (this.state.userAnswers[this.state.currentQuestionIndex] !== undefined) return;
-        
-        const question = this.state.questions[this.state.currentQuestionIndex];
-        const isCorrect = selectedKey === question.answer;
-        
-        // حفظ الإجابة
-        this.state.userAnswers[this.state.currentQuestionIndex] = {
-            selected: selectedKey,
-            correct: isCorrect,
-            timeSpent: 60 - this.state.timeLeft
-        };
-        
-        // تحديث النتيجة
-        if (isCorrect) {
-            this.state.score++;
-        }
-        
-        // إيقاف المؤقت
-        this.stopTimer();
-        
-        // تلوين الإجابات
-        this.colorAnswers(selectedKey, question.answer);
-        
-        // تشغيل الصوت المناسب
-        if (isCorrect) {
-            this.playSound('correct');
-        } else {
-            this.playSound('wrong');
-        }
-        
-        // تعطيل التفاعل مع الخيارات أثناء الانتقال
-        document.getElementById('options-container').style.pointerEvents = 'none';
-        
-        // الانتقال التلقائي بعد تأخير
-        setTimeout(() => {
-            if (this.state.currentQuestionIndex < this.state.questions.length - 1) {
-                this.nextQuestion();
-            } else {
-                this.finishQuiz();
-            }
-        }, 1000);
+    setTimeout(() => this.nextQuestion(), 2000);
+  },
+
+  nextQuestion() {
+    this.state.currentIndex++;
+    if (this.state.currentIndex < this.state.questions.length) {
+      this.renderQuestion();
+    } else {
+      this.endQuiz();
+    }
+  },
+
+  endQuiz() {
+    clearInterval(this.state.timer);
+    const score = this.state.correctCount;
+    const total = this.state.questions.length;
+    const percent = ((score / total) * 100).toFixed(1);
+
+    const container = document.getElementById("quizContainer");
+    if (container) {
+      container.innerHTML = `
+        <h2>انتهى الاختبار 🎉</h2>
+        <p>النتيجة: ${score} من ${total} (${percent}%)</p>
+        <button id="restartBtn">إعادة</button>
+      `;
+      document.getElementById("restartBtn").addEventListener("click", () => {
+        this.startQuiz("all");
+      });
     }
 
-    colorAnswers(selectedKey, correctKey) {
-        const options = document.querySelectorAll('.option');
-        
-        options.forEach(option => {
-            const optionKey = option.getAttribute('data-key');
-            option.classList.remove('correct', 'wrong');
-            
-            if (optionKey === correctKey) {
-                option.classList.add('correct');
-                const icon = option.querySelector('.option-icon');
-                icon.innerHTML = '<i class="fas fa-check"></i>';
-                option.setAttribute('aria-label', 'إجابة صحيحة');
-            } else if (optionKey === selectedKey && selectedKey !== correctKey) {
-                option.classList.add('wrong');
-                const icon = option.querySelector('.option-icon');
-                icon.innerHTML = '<i class="fas fa-times"></i>';
-                option.setAttribute('aria-label', 'إجابة خاطئة');
-            }
-        });
-    }
+    this.saveResult(percent);
+  },
 
-    skipQuestion() {
-        this.state.userAnswers[this.state.currentQuestionIndex] = {
-            selected: null,
-            correct: false,
-            timeSpent: 60 - this.state.timeLeft,
-            skipped: true
-        };
-        
-        if (this.state.currentQuestionIndex < this.state.questions.length - 1) {
-            this.nextQuestion();
-        } else {
-            this.finishQuiz();
-        }
-    }
+  // -------------------------
+  // SOUND HANDLING
+  // -------------------------
+  async prepareAudio() {
+    if (this.state.initializedAudio) return;
+    this.state.initializedAudio = true;
 
-    previousQuestion() {
-        if (this.state.currentQuestionIndex > 0) {
-            this.state.currentQuestionIndex--;
-            this.displayQuestion();
-            this.updateProgress();
-            this.resetTimer();
-        }
+    try {
+      this.state.sounds.correct = new Audio("sounds/correct.mp3");
+      this.state.sounds.wrong = new Audio("sounds/wrong.mp3");
+      this.state.sounds.timeout = new Audio("sounds/timeout.mp3");
+    } catch {
+      console.warn("لم يتم العثور على ملفات الصوت، سيتم استخدام Web Audio API كبديل.");
     }
+  },
 
-    nextQuestion() {
-        if (this.state.currentQuestionIndex < this.state.questions.length - 1) {
-            this.state.currentQuestionIndex++;
-            this.displayQuestion();
-            this.updateProgress();
-            this.resetTimer();
-        } else {
-            this.finishQuiz();
-        }
+  playSound(type) {
+    if (this.state.isMuted) return;
+    const snd = this.state.sounds[type];
+    if (snd) snd.play().catch(() => {});
+
+    // Web Audio API fallback
+    if (!snd) {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.type = "sine";
+
+      if (type === "correct") osc.frequency.value = 800;
+      else if (type === "wrong") osc.frequency.value = 200;
+      else osc.frequency.value = 400;
+
+      osc.start();
+      gain.gain.exponentialRampToValueAtTime(0.00001, ctx.currentTime + 0.5);
+      osc.stop(ctx.currentTime + 0.5);
     }
+  },
 
-    updateProgress() {
-        const progress = document.getElementById('progress');
-        progress.textContent = `السؤال ${this.state.currentQuestionIndex + 1} من ${this.state.questions.length}`;
+  toggleMute() {
+    this.state.isMuted = !this.state.isMuted;
+    document.getElementById("muteBtn").innerText = this.state.isMuted ? "🔇" : "🔊";
+  },
+
+  shuffle(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
     }
+  },
 
-    updateNavigationButtons() {
-        const prevBtn = document.getElementById('prev-btn');
-        const nextBtn = document.getElementById('next-btn');
-        
-        prevBtn.disabled = this.state.currentQuestionIndex === 0;
-        nextBtn.disabled = this.state.currentQuestionIndex === this.state.questions.length - 1;
-    }
+  saveResult(percent) {
+    const prev = JSON.parse(localStorage.getItem("GeoReady_scores") || "[]");
+    const newScore = {
+      date: new Date().toLocaleString(),
+      totalQuestions: this.state.questions.length,
+      correctCount: this.state.correctCount,
+      percent,
+    };
+    prev.unshift(newScore);
+    localStorage.setItem("GeoReady_scores", JSON.stringify(prev.slice(0, 5)));
+  },
+};
 
-    startTimer() {
-        this.state.isTimerRunning = true;
-        this.state.timeLeft = 60;
-        this.updateTimerDisplay();
-        
-        this.state.timer = setInterval(() => {
-            if (this.state.isTimerRunning) {
-                this.state.timeLeft--;
-                this.updateTimerDisplay();
-                
-                if (this.state.timeLeft <= 0) {
-                    this.handleTimeout();
-                }
-            }
-        }, 1000);
-    }
-
-    stopTimer() {
-        this.state.isTimerRunning = false;
-        if (this.state.timer) {
-            clearInterval(this.state.timer);
-            this.state.timer = null;
-        }
-    }
-
-    resetTimer() {
-        this.stopTimer();
-        this.startTimer();
-    }
-
-    toggleTimer() {
-        this.state.isTimerRunning = !this.state.isTimerRunning;
-        const icon = document.querySelector('#timer-toggle i');
-        icon.className = this.state.isTimerRunning ? 'fas fa-pause' : 'fas fa-play';
-    }
-
-    toggleMute() {
-        this.state.isMuted = !this.state.isMuted;
-        const icon = document.querySelector('#mute-toggle i');
-        icon.className = this.state.isMuted ? 'fas fa-volume-mute' : 'fas fa-volume-up';
-    }
-
-    updateTimerDisplay() {
-        document.getElementById('timer').textContent = this.state.timeLeft;
-        
-        // تغيير اللون عند انخفاض الوقت
-        const timerElement = document.getElementById('timer');
-        timerElement.classList.remove('warning', 'danger');
-        
-        if (this.state.timeLeft <= 10) {
-            timerElement.classList.add('danger');
-        } else if (this.state.timeLeft <= 30) {
-            timerElement.classList.add('warning');
-        }
-    }
-
-    handleTimeout() {
-        this.stopTimer();
-        this.playSound('timeout');
-        
-        // تعامل مع انتهاء الوقت كإجابة خاطئة
-        const question = this.state.questions[this.state.currentQuestionIndex];
-        this.state.userAnswers[this.state.currentQuestionIndex] = {
-            selected: null,
-            correct: false,
-            timeSpent: 60,
-            timeout: true
-        };
-        
-        // عرض الإجابة الصحيحة
-        this.colorAnswers(null, question.answer);
-        
-        // تعطيل التفاعل مع الخيارات
-        document.getElementById('options-container').style.pointerEvents = 'none';
-        
-        // الانتقال التلقائي بعد تأخير
-        setTimeout(() => {
-            if (this.state.currentQuestionIndex < this.state.questions.length - 1) {
-                this.nextQuestion();
-            } else {
-                this.finishQuiz();
-            }
-        }, 1000);
-    }
-
-    finishQuiz() {
-        this.stopTimer();
-        this.saveResults();
-        this.showResults();
-    }
-
-    saveResults() {
-        const results = {
-            date: new Date().toISOString(),
-            category: this.state.currentCategory,
-            totalQuestions: this.state.questions.length,
-            correctCount: this.state.score,
-            percent: Math.round((this.state.score / this.state.questions.length) * 100),
-            answers: this.state.userAnswers
-        };
-        
-        // تحميل النتائج السابقة
-        let savedResults = JSON.parse(localStorage.getItem('GeoReady_scores') || '[]');
-        savedResults.push(results);
-        
-        // حفظ فقط آخر 50 نتيجة
-        if (savedResults.length > 50) {
-            savedResults = savedResults.slice(-50);
-        }
-        
-        localStorage.setItem('GeoReady_scores', JSON.stringify(savedResults));
-        
-        // تحديث الإحصائيات
-        this.loadStats();
-    }
-
-    loadStats() {
-        const savedResults = JSON.parse(localStorage.getItem('GeoReady_scores') || '[]');
-        const statsElement = document.getElementById('stats');
-        
-        if (statsElement) {
-            statsElement.innerHTML = `
-                <div class="stat-item">
-                    <span class="stat-value">${savedResults.length}</span>
-                    <span class="stat-label">النتائج المحفوظة</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-value">${this.getAverageScore(savedResults)}%</span>
-                    <span class="stat-label">متوسط النتائج</span>
-                </div>
-            `;
-        }
-    }
-
-    getAverageScore(results) {
-        if (results.length === 0) return 0;
-        const total = results.reduce((sum, result) => sum + result.percent, 0);
-        return Math.round(total / results.length);
-    }
-
-    showResults() {
-        this.showScreen('results-screen');
-        this.displayCurrentResults();
-        this.displayTopResults();
-    }
-
-    displayCurrentResults() {
-        const container = document.getElementById('current-results');
-        const percent = Math.round((this.state.score / this.state.questions.length) * 100);
-        
-        container.innerHTML = `
-            <div class="results-header">
-                <h2>نتيجة الاختبار</h2>
-                <div class="score-circle" style="--p: ${percent}%">
-                    <div class="score-value">${percent}%</div>
-                </div>
-                <p>${this.getResultMessage(percent)}</p>
-            </div>
-            <div class="score-details">
-                <div class="score-detail">
-                    <span class="detail-value">${this.state.score}</span>
-                    <span class="detail-label">إجابة صحيحة</span>
-                </div>
-                <div class="score-detail">
-                    <span class="detail-value">${this.state.questions.length - this.state.score}</span>
-                    <span class="detail-label">إجابة خاطئة</span>
-                </div>
-                <div class="score-detail">
-                    <span class="detail-value">${this.state.questions.length}</span>
-                    <span class="detail-label">إجمالي الأسئلة</span>
-                </div>
-            </div>
-        `;
-    }
-
-    getResultMessage(percent) {
-        if (percent >= 90) return 'ممتاز! أداء رائع';
-        if (percent >= 80) return 'جيد جداً! أحسنت';
-        if (percent >= 70) return 'جيد! يمكنك التحسين';
-        if (percent >= 60) return 'مقبول! تحتاج للمزيد من المذاكرة';
-        return 'ضعيف! راجع المواد الدراسية';
-    }
-
-    displayTopResults() {
-        const container = document.getElementById('top-results');
-        const savedResults = JSON.parse(localStorage.getItem('GeoReady_scores') || '[]');
-        
-        // ترتيب النتائج تنازلياً
-        const topResults = savedResults
-            .sort((a, b) => b.percent - a.percent)
-            .slice(0, 5);
-        
-        if (topResults.length === 0) {
-            container.innerHTML = '<p>لا توجد نتائج سابقة</p>';
-            return;
-        }
-        
-        container.innerHTML = topResults.map((result, index) => `
-            <div class="top-result">
-                <div class="result-rank">${index + 1}</div>
-                <div class="result-info">
-                    <div>${new Date(result.date).toLocaleDateString('ar-EG')}</div>
-                    <div>${this.getCategoryName(result.category)}</div>
-                </div>
-                <div class="result-score">${result.percent}%</div>
-            </div>
-        `).join('');
-    }
-
-    getCategoryName(categoryId) {
-        if (categoryId === 'all') return 'جميع الفئات';
-        const category = this.categories.find(c => c.id === categoryId);
-        return category ? category.name : categoryId;
-    }
-
-    showMistakes() {
-        const savedResults = JSON.parse(localStorage.getItem('GeoReady_scores') || '[]');
-        if (savedResults.length === 0) {
-            this.showModal('معلومات', 'لا توجد نتائج سابقة لعرض الأخطاء');
-            return;
-        }
-        
-        this.showScreen('mistakes-screen');
-        this.displayMistakes();
-    }
-
-    displayMistakes() {
-        const container = document.getElementById('mistakes-list');
-        const savedResults = JSON.parse(localStorage.getItem('GeoReady_scores') || '[]');
-        
-        // جمع جميع الأخطاء من النتائج السابقة
-        const allMistakes = [];
-        savedResults.forEach(result => {
-            if (result.answers && result.answers.length > 0) {
-                result.answers.forEach((answer, index) => {
-                    if (!answer.correct && !answer.skipped && !answer.timeout) {
-                        allMistakes.push({
-                            question: `سؤال ${index + 1}`,
-                            userAnswer: answer.selected,
-                            correctAnswer: 'أ', // قيمة افتراضية
-                            options: { أ: 'خيار 1', ب: 'خيار 2', ج: 'خيار 3', د: 'خيار 4' },
-                            explanation: 'لا يوجد شرح متوفر'
-                        });
-                    }
-                });
-            }
-        });
-        
-        if (allMistakes.length === 0) {
-            container.innerHTML = '<p>لا توجد أخطاء في النتائج السابقة</p>';
-            return;
-        }
-        
-        container.innerHTML = allMistakes.map((mistake, index) => `
-            <div class="mistake-item">
-                <div class="mistake-question">${index + 1}. ${mistake.question}</div>
-                <div class="mistake-options">
-                    ${Object.entries(mistake.options).map(([key, text]) => `
-                        <div class="mistake-option ${key === mistake.correctAnswer ? 'correct' : key === mistake.userAnswer ? 'wrong' : ''}">
-                            <div class="option-key">${key}</div>
-                            <div class="option-text">${text}</div>
-                        </div>
-                    `).join('')}
-                </div>
-                ${mistake.explanation ? `
-                    <div class="mistake-explanation">
-                        <div class="explanation-title">شرح الإجابة:</div>
-                        <div>${mistake.explanation}</div>
-                    </div>
-                ` : ''}
-            </div>
-        `).join('');
-    }
-
-    showScreen(screenId) {
-        // إخفاء جميع الشاشات
-        document.querySelectorAll('.screen').forEach(screen => {
-            screen.classList.remove('active');
-        });
-        
-        // إظهار الشاشة المطلوبة
-        document.getElementById(screenId).classList.add('active');
-        this.state.currentScreen = screenId;
-        
-        // إيقاف المؤقت إذا لم نكن في شاشة الاختبار
-        if (screenId !== 'quiz-screen') {
-            this.stopTimer();
-        }
-    }
-
-    showModal(title, message, confirmCallback = null) {
-        document.getElementById('modal-title').textContent = title;
-        document.getElementById('modal-message').textContent = message;
-        document.getElementById('modal-overlay').classList.remove('hidden');
-        
-        if (confirmCallback) {
-            this.modalConfirmCallback = confirmCallback;
-            document.getElementById('modal-cancel').classList.remove('hidden');
-        } else {
-            document.getElementById('modal-cancel').classList.add('hidden');
-        }
-    }
-
-    hideModal() {
-        document.getElementById('modal-overlay').classList.add('hidden');
-        this.modalConfirmCallback = null;
-    }
-
-    confirmModal() {
-        if (this.modalConfirmCallback) {
-            this.modalConfirmCallback();
-        }
-        this.hideModal();
-    }
-
-    handleKeyboard(event) {
-        // منع اختصارات لوحة المفاتيح في النافذة المنبثقة
-        if (!document.getElementById('modal-overlay').classList.contains('hidden')) {
-            if (event.key === 'Escape') {
-                this.hideModal();
-            }
-            return;
-        }
-        
-        // اختصارات لوحة المفاتيح العامة
-        switch (event.key) {
-            case 'Escape':
-                if (this.state.currentScreen === 'quiz-screen') {
-                    this.showScreen('main-screen');
-                }
-                break;
-            case 's':
-            case 'S':
-                if (this.state.currentScreen === 'main-screen') {
-                    this.startQuiz('all');
-                }
-                break;
-            case 'Enter':
-                // يتم التعامل مع Enter في الخيارات بشكل منفصل
-                break;
-            case '1':
-            case '2':
-            case '3':
-            case '4':
-                if (this.state.currentScreen === 'quiz-screen') {
-                    const options = document.querySelectorAll('.option');
-                    const index = parseInt(event.key) - 1;
-                    if (options[index]) {
-                        const key = options[index].getAttribute('data-key');
-                        this.selectOption(key);
-                    }
-                }
-                break;
-        }
-    }
-}
-
-// تهيئة التطبيق عند تحميل الصفحة
-document.addEventListener('DOMContentLoaded', () => {
-    window.geoReadyApp = new GeoReady();
-});
+document.addEventListener("DOMContentLoaded", () => app.init());
