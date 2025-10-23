@@ -1,4 +1,4 @@
-// بيانات الأسئلة الكاملة (25 سؤال لكل مادة)
+// بيانات الأسئلة الكاملة
 const questionsData = {
     "basic-geology": [
         {
@@ -618,8 +618,9 @@ let appState = {
     score: 0,
     currentStreak: 0,
     bestStreak: 0,
-    timeLeft: 1200, // 20 دقيقة بالثواني
+    timeLeft: 20, // 20 ثانية لكل سؤال
     timerInterval: null,
+    currentQuestions: [], // الأسئلة العشوائية
     progress: {
         'basic-geology': 0,
         'hydrogeology': 0,
@@ -690,7 +691,6 @@ function setupEventListeners() {
     // أزرار النتائج
     document.getElementById('review-btn').addEventListener('click', reviewAnswers);
     document.getElementById('new-quiz-btn').addEventListener('click', newQuiz);
-    document.getElementById('share-btn').addEventListener('click', shareResults);
 
     // النافذة المنبثقة
     document.getElementById('cancel-exit').addEventListener('click', hideModal);
@@ -732,7 +732,10 @@ function startQuiz(subject) {
     appState.quizCompleted = false;
     appState.score = 0;
     appState.currentStreak = 0;
-    appState.timeLeft = 1200; // 20 دقيقة
+    appState.timeLeft = 20;
+
+    // توليد أسئلة عشوائية
+    generateRandomQuestions();
 
     // تبديل الأقسام
     elements.subjectSelection.classList.add('hidden');
@@ -745,6 +748,19 @@ function startQuiz(subject) {
 
     // تحميل السؤال الأول
     loadQuestion();
+}
+
+// توليد أسئلة عشوائية
+function generateRandomQuestions() {
+    const allQuestions = [...questionsData[appState.currentSubject]];
+    appState.currentQuestions = [];
+    
+    // اختيار 25 سؤال عشوائي
+    for (let i = 0; i < 25 && allQuestions.length > 0; i++) {
+        const randomIndex = Math.floor(Math.random() * allQuestions.length);
+        appState.currentQuestions.push(allQuestions[randomIndex]);
+        allQuestions.splice(randomIndex, 1);
+    }
 }
 
 // تحديث واجهة الاختبار
@@ -761,10 +777,13 @@ function updateQuizUI() {
 
 // تحميل السؤال
 function loadQuestion() {
-    const questions = questionsData[appState.currentSubject];
-    const currentQuestion = questions[appState.currentQuestionIndex];
+    const currentQuestion = appState.currentQuestions[appState.currentQuestionIndex];
 
     if (!currentQuestion) return;
+
+    // إعادة تعيين المؤقت
+    appState.timeLeft = 20;
+    updateTimerDisplay();
 
     // تحديث العداد
     document.getElementById('current-q-number').textContent = appState.currentQuestionIndex + 1;
@@ -796,6 +815,11 @@ function loadQuestion() {
     // تحديث أزرار التحكم
     updateQuizControls();
     updateProgressBar();
+
+    // إعادة تمكين الأزرار
+    document.getElementById('prev-btn').disabled = false;
+    document.getElementById('next-btn').disabled = false;
+    document.getElementById('submit-btn').disabled = false;
 }
 
 // اختيار خيار
@@ -818,8 +842,6 @@ function selectOption(optionIndex) {
 
 // تحديث أزرار التحكم
 function updateQuizControls() {
-    const questions = questionsData[appState.currentSubject];
-    
     // زر السابق
     const prevBtn = document.getElementById('prev-btn');
     prevBtn.disabled = appState.currentQuestionIndex === 0;
@@ -828,7 +850,7 @@ function updateQuizControls() {
     const nextBtn = document.getElementById('next-btn');
     const submitBtn = document.getElementById('submit-btn');
 
-    if (appState.currentQuestionIndex === questions.length - 1) {
+    if (appState.currentQuestionIndex === appState.currentQuestions.length - 1) {
         nextBtn.classList.add('hidden');
         if (appState.userAnswers[appState.currentQuestionIndex] !== undefined) {
             submitBtn.classList.remove('hidden');
@@ -845,8 +867,7 @@ function updateQuizControls() {
 
 // تحديث شريط التقدم
 function updateProgressBar() {
-    const questions = questionsData[appState.currentSubject];
-    const progress = ((appState.currentQuestionIndex + 1) / questions.length) * 100;
+    const progress = ((appState.currentQuestionIndex + 1) / appState.currentQuestions.length) * 100;
     
     document.getElementById('quiz-progress').style.width = `${progress}%`;
     document.getElementById('progress-percent').textContent = `${Math.round(progress)}%`;
@@ -862,8 +883,7 @@ function prevQuestion() {
 
 // السؤال التالي
 function nextQuestion() {
-    const questions = questionsData[appState.currentSubject];
-    if (appState.currentQuestionIndex < questions.length - 1) {
+    if (appState.currentQuestionIndex < appState.currentQuestions.length - 1) {
         appState.currentQuestionIndex++;
         loadQuestion();
     }
@@ -871,8 +891,7 @@ function nextQuestion() {
 
 // تأكيد الإجابة
 function submitAnswer() {
-    const questions = questionsData[appState.currentSubject];
-    const currentQuestion = questions[appState.currentQuestionIndex];
+    const currentQuestion = appState.currentQuestions[appState.currentQuestionIndex];
     const userAnswerIndex = appState.userAnswers[appState.currentQuestionIndex];
 
     if (userAnswerIndex === undefined) return;
@@ -900,7 +919,7 @@ function submitAnswer() {
 
     // الانتقال التلقائي أو إنهاء الاختبار
     setTimeout(() => {
-        if (appState.currentQuestionIndex < questions.length - 1) {
+        if (appState.currentQuestionIndex < appState.currentQuestions.length - 1) {
             appState.currentQuestionIndex++;
             loadQuestion();
         } else {
@@ -912,7 +931,7 @@ function submitAnswer() {
 // عرض التغذية الراجعة
 function showAnswerFeedback(isCorrect, explanation) {
     const options = document.querySelectorAll('.option');
-    const currentQuestion = questionsData[appState.currentSubject][appState.currentQuestionIndex];
+    const currentQuestion = appState.currentQuestions[appState.currentQuestionIndex];
     
     options.forEach((option, index) => {
         const optionText = option.querySelector('.option-text').textContent;
@@ -937,6 +956,9 @@ function showAnswerFeedback(isCorrect, explanation) {
     document.getElementById('prev-btn').disabled = true;
     document.getElementById('next-btn').disabled = true;
     document.getElementById('submit-btn').disabled = true;
+
+    // إيقاف المؤقت
+    clearInterval(appState.timerInterval);
 }
 
 // المؤقت
@@ -948,23 +970,29 @@ function startTimer() {
         updateTimerDisplay();
         
         if (appState.timeLeft <= 0) {
-            finishQuiz();
+            clearInterval(appState.timerInterval);
+            // الانتقال التلقائي للسؤال التالي
+            if (appState.currentQuestionIndex < appState.currentQuestions.length - 1) {
+                appState.currentQuestionIndex++;
+                loadQuestion();
+            } else {
+                finishQuiz();
+            }
         }
     }, 1000);
 }
 
 function updateTimerDisplay() {
     const timerElement = document.getElementById('timer');
-    const minutes = Math.floor(appState.timeLeft / 60);
-    const seconds = appState.timeLeft % 60;
-    timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    timerElement.textContent = appState.timeLeft;
     
     // تغيير اللون عند اقتراب انتهاء الوقت
-    if (appState.timeLeft <= 300) { // 5 دقائق
-        timerElement.classList.add('warning');
-    }
-    if (appState.timeLeft <= 60) { // دقيقة واحدة
+    if (appState.timeLeft <= 5) {
         timerElement.classList.add('danger');
+    } else if (appState.timeLeft <= 10) {
+        timerElement.classList.add('warning');
+    } else {
+        timerElement.classList.remove('warning', 'danger');
     }
 }
 
@@ -974,8 +1002,7 @@ function finishQuiz() {
     appState.quizCompleted = true;
 
     // تحديث التقدم
-    const questions = questionsData[appState.currentSubject];
-    const scorePercentage = (appState.score / questions.length) * 100;
+    const scorePercentage = (appState.score / appState.currentQuestions.length) * 100;
     appState.progress[appState.currentSubject] = Math.max(
         appState.progress[appState.currentSubject],
         scorePercentage
@@ -993,9 +1020,7 @@ function showResults() {
     elements.quizSection.classList.add('hidden');
     elements.resultsSection.classList.remove('hidden');
 
-    const questions = questionsData[appState.currentSubject];
-    const scorePercentage = Math.round((appState.score / questions.length) * 100);
-    const timeSpent = 1200 - appState.timeLeft; // الوقت المستغرق بالثواني
+    const scorePercentage = Math.round((appState.score / appState.currentQuestions.length) * 100);
 
     // تحديث النتائج
     document.getElementById('results-subject').textContent = 
@@ -1003,9 +1028,8 @@ function showResults() {
     
     document.getElementById('score-percentage').textContent = `${scorePercentage}%`;
     document.getElementById('correct-answers').textContent = appState.score;
-    document.getElementById('total-questions').textContent = questions.length;
+    document.getElementById('total-questions').textContent = appState.currentQuestions.length;
     document.getElementById('best-streak').textContent = appState.bestStreak;
-    document.getElementById('time-taken').textContent = formatTime(timeSpent);
 
     // تحديث دائرة النتيجة
     const scoreCircle = document.querySelector('.score-circle');
@@ -1083,12 +1107,6 @@ function updateAchievements(scorePercentage) {
     });
 }
 
-function formatTime(seconds) {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = seconds % 60;
-    return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
-}
-
 // النافذة المنبثقة للخروج
 function showExitConfirmation() {
     elements.confirmationModal.classList.remove('hidden');
@@ -1130,26 +1148,6 @@ function newQuiz() {
     elements.resultsSection.classList.add('hidden');
     elements.subjectSelection.classList.remove('hidden');
     updateUI();
-}
-
-function shareResults() {
-    const subject = document.getElementById('current-subject').textContent;
-    const score = document.getElementById('score-percentage').textContent;
-    
-    const shareText = `لقد حصلت على ${score} في اختبار ${subject} في نظام تدريب الجيولوجيا المتقدم!`;
-    
-    if (navigator.share) {
-        navigator.share({
-            title: 'نتيجة اختبار الجيولوجيا',
-            text: shareText,
-            url: window.location.href
-        });
-    } else {
-        // نسخ إلى الحافظة
-        navigator.clipboard.writeText(shareText).then(() => {
-            alert('تم نسخ النتيجة إلى الحافظة!');
-        });
-    }
 }
 
 // بدء التطبيق
