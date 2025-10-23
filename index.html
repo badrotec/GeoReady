@@ -3,338 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نظام تدريب الجيولوجيا المتقدم</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>اختبار الجيولوجيا التفاعلي</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="loading-screen" class="loading-screen">
-        <div class="loading-content">
-            <div class="loading-spinner"></div>
-            <h2>جاري تحميل نظام التدريب...</h2>
-            <p>نظام تدريب الجيولوجيا المتقدم</p>
+    <div class="container">
+        <!-- شاشة البداية -->
+        <div id="start-screen" class="screen active">
+            <h1>اختبار الجيولوجيا التفاعلي</h1>
+            <p>اختر مجال الاختبار:</p>
+            <div class="subject-buttons">
+                <button class="subject-btn" data-subject="BasicGeology">الجيولوجيا الأساسية</button>
+                <button class="subject-btn" data-subject="Geochemistry">الجيوكيمياء</button>
+                <button class="subject-btn" data-subject="Geophysics">الجيوفيزياء</button>
+                <button class="subject-btn" data-subject="Hydrogeology">الهيدروجيولوجيا</button>
+                <button class="subject-btn" data-subject="Petrology">علم الصخور</button>
+                <button class="subject-btn" data-subject="Structuralgeology">الجيولوجيا التركيبية</button>
+                <button class="subject-btn" data-subject="sedimentarygeology">جيولوجيا الرواسب</button>
+            </div>
+            <div class="instructions">
+                <h3>تعليمات الاختبار:</h3>
+                <ul>
+                    <li>يحتوي كل اختبار على 25 سؤالاً</li>
+                    <li>مدة الإجابة على كل سؤال 20 ثانية</li>
+                    <li>سيتم الانتقال تلقائياً للسؤال التالي عند انتهاء الوقت</li>
+                    <li>لا يمكن العودة للسؤال السابق</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- شاشة الاختبار -->
+        <div id="quiz-screen" class="screen">
+            <div class="quiz-header">
+                <div class="subject-title" id="subject-title">الجيولوجيا الأساسية</div>
+                <div class="progress">
+                    <span id="question-counter">سؤال 1 من 25</span>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill"></div>
+                    </div>
+                </div>
+                <div class="timer-container">
+                    <div class="timer" id="timer">20</div>
+                    <div class="timer-label">ثانية</div>
+                </div>
+            </div>
+
+            <div class="question-container">
+                <div class="question" id="question">جاري تحميل السؤال...</div>
+                <div class="options" id="options">
+                    <!-- سيتم ملء الخيارات ديناميكياً -->
+                </div>
+            </div>
+
+            <div class="quiz-footer">
+                <button id="next-btn" class="btn" disabled>التالي</button>
+            </div>
+        </div>
+
+        <!-- شاشة النتائج -->
+        <div id="results-screen" class="screen">
+            <h1>نتيجة الاختبار</h1>
+            <div class="score-container">
+                <div class="score-circle">
+                    <span id="score-percentage">0%</span>
+                </div>
+                <p>إجابات صحيحة: <span id="correct-answers">0</span> من 25</p>
+            </div>
+            <div class="results-details" id="results-details">
+                <!-- سيتم ملء تفاصيل النتائج ديناميكياً -->
+            </div>
+            <div class="results-buttons">
+                <button id="restart-btn" class="btn">إعادة الاختبار</button>
+                <button id="change-subject-btn" class="btn">اختيار مجال آخر</button>
+            </div>
         </div>
     </div>
 
-    <div id="main-app" class="main-app hidden">
-        <header class="app-header">
-            <div class="container">
-                <div class="header-content">
-                    <div class="logo">
-                        <i class="fas fa-mountain"></i>
-                        <div>
-                            <h1>نظام تدريب الجيولوجيا</h1>
-                            <p>الجيولوجيا الأساسية • الهيدروجيولوجيا • البترولوجيا • والمزيد...</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </header>
-
-        <main class="app-main">
-            <div class="container">
-                <section id="subject-selection" class="subject-selection">
-                    <div class="section-header">
-                        <h2><i class="fas fa-book-open"></i> اختر المادة التدريبية</h2>
-                        <p>اختر أحد المواد لبدء التدريب التفاعلي</p>
-                    </div>
-                    
-                    <div class="subjects-grid">
-                        
-                        <div class="subject-card" data-subject="basic-geology">
-                            <div class="subject-icon">
-                                <i class="fas fa-mountain"></i>
-                            </div>
-                            <h3>الجيولوجيا الأساسية</h3>
-                            <p>أسئلة في أساسيات الجيولوجيا والمعادن والصخور</p>
-                            <div class="subject-stats">
-                                <div class="stat">
-                                    <i class="fas fa-clock"></i>
-                                    <span>20 ثانية لكل سؤال</span>
-                                </div>
-                            </div>
-                            <div class="subject-progress">
-                                <div class="progress-bar">
-                                    <div class="progress-fill" id="basic-progress" style="width: 0%"></div>
-                                </div>
-                                <span class="progress-text">0% مكتمل</span>
-                            </div>
-                            <button class="btn btn-primary start-btn">بدء التدريب</button>
-                        </div>
-
-                        <div class="subject-card" data-subject="hydrogeology">
-                            <div class="subject-icon">
-                                <i class="fas fa-tint"></i>
-                            </div>
-                            <h3>الهيدروجيولوجيا</h3>
-                            <p>أسئلة في المياه الجوفية والطبقات الحاملة</p>
-                            <div class="subject-stats">
-                                <div class="stat">
-                                    <i class="fas fa-clock"></i>
-                                    <span>20 ثانية لكل سؤال</span>
-                                </div>
-                            </div>
-                            <div class="subject-progress">
-                                <div class="progress-bar">
-                                    <div class="progress-fill" id="hydro-progress" style="width: 0%"></div>
-                                </div>
-                                <span class="progress-text">0% مكتمل</span>
-                            </div>
-                            <button class="btn btn-primary start-btn">بدء التدريب</button>
-                        </div>
-
-                        <div class="subject-card" data-subject="petrology">
-                            <div class="subject-icon">
-                                <i class="fas fa-oil-can"></i> </div>
-                            <h3>الجيولوجيا البترولية</h3>
-                            <p>أسئلة في تكوين وهجرة وتجميع النفط والغاز</p>
-                            <div class="subject-stats">
-                                <div class="stat">
-                                    <i class="fas fa-clock"></i>
-                                    <span>20 ثانية لكل سؤال</span>
-                                </div>
-                            </div>
-                            <div class="subject-progress">
-                                <div class="progress-bar">
-                                    <div class="progress-fill" id="petro-progress" style="width: 0%"></div>
-                                </div>
-                                <span class="progress-text">0% مكتمل</span>
-                            </div>
-                            <button class="btn btn-primary start-btn">بدء التدريب</button>
-                        </div>
-
-                        <div class="subject-card" data-subject="sedimentary-geology">
-                            <div class="subject-icon">
-                                <i class="fas fa-layer-group"></i>
-                            </div>
-                            <h3>الجيولوجيا الرسوبية</h3>
-                            <p>أسئلة في الترسيب والطبقات الرسوبية والبيئات</p>
-                            <div class="subject-stats">
-                                <div class="stat">
-                                    <i class="fas fa-clock"></i>
-                                    <span>20 ثانية لكل سؤال</span>
-                                </div>
-                            </div>
-                            <div class="subject-progress">
-                                <div class="progress-bar">
-                                    <div class="progress-fill" id="sedimentary-progress" style="width: 0%"></div>
-                                </div>
-                                <span class="progress-text">0% مكتمل</span>
-                            </div>
-                            <button class="btn btn-primary start-btn">بدء التدريب</button>
-                        </div>
-                        
-                        <div class="subject-card" data-subject="geochemistry">
-                            <div class="subject-icon">
-                                <i class="fas fa-atom"></i>
-                            </div>
-                            <h3>الجيوكيمياء</h3>
-                            <p>أسئلة في التركيب الكيميائي للعناصر والصخور</p>
-                            <div class="subject-stats">
-                                <div class="stat">
-                                    <i class="fas fa-clock"></i>
-                                    <span>20 ثانية لكل سؤال</span>
-                                </div>
-                            </div>
-                            <div class="subject-progress">
-                                <div class="progress-bar">
-                                    <div class="progress-fill" id="geochemistry-progress" style="width: 0%"></div>
-                                </div>
-                                <span class="progress-text">0% مكتمل</span>
-                            </div>
-                            <button class="btn btn-primary start-btn">بدء التدريب</button>
-                        </div>
-                        
-                        <div class="subject-card" data-subject="structural-geology">
-                            <div class="subject-icon">
-                                <i class="fas fa-compress-alt"></i> </div>
-                            <h3>الجيولوجيا التركيبية</h3>
-                            <p>أسئلة في الفوالق والطيات والتشوهات الصخرية</p>
-                            <div class="subject-stats">
-                                <div class="stat">
-                                    <i class="fas fa-clock"></i>
-                                    <span>20 ثانية لكل سؤال</span>
-                                </div>
-                            </div>
-                            <div class="subject-progress">
-                                <div class="progress-bar">
-                                    <div class="progress-fill" id="structural-progress" style="width: 0%"></div>
-                                </div>
-                                <span class="progress-text">0% مكتمل</span>
-                            </div>
-                            <button class="btn btn-primary start-btn">بدء التدريب</button>
-                        </div>
-                        
-                        <div class="subject-card" data-subject="geophysics">
-                            <div class="subject-icon">
-                                <i class="fas fa-broadcast-tower"></i> </div>
-                            <h3>الجيوفيزياء</h3>
-                            <p>أسئلة في المسح الزلزالي والكهربائي والمغناطيسي</p>
-                            <div class="subject-stats">
-                                <div class="stat">
-                                    <i class="fas fa-clock"></i>
-                                    <span>20 ثانية لكل سؤال</span>
-                                </div>
-                            </div>
-                            <div class="subject-progress">
-                                <div class="progress-bar">
-                                    <div class="progress-fill" id="geophysics-progress" style="width: 0%"></div>
-                                </div>
-                                <span class="progress-text">0% مكتمل</span>
-                            </div>
-                            <button class="btn btn-primary start-btn">بدء التدريب</button>
-                        </div>
-                        
-                    </div>
-                </section>
-
-                <section id="quiz-section" class="quiz-section hidden">
-                    <div class="quiz-header">
-                        <button id="exit-quiz" class="btn btn-danger btn-sm">
-                            <i class="fas fa-sign-out-alt"></i> إنهاء الاختبار
-                        </button>
-                        <div class="quiz-info">
-                            <h2 id="current-subject">الجيولوجيا الأساسية</h2>
-                        </div>
-                        <div class="quiz-meta">
-                            <div class="question-counter">سؤال <span id="current-q-number">1</span></div>
-                        </div>
-                    </div>
-
-                    <div class="quiz-content">
-                        <div class="timer-container">
-                            <div class="timer">
-                                <i class="fas fa-clock"></i>
-                                <span id="timer">20</span>
-                                <span>ثانية</span>
-                            </div>
-                            <div class="streak-counter">
-                                <i class="fas fa-bolt"></i>
-                                <span id="streak-counter">0 تتابع</span>
-                            </div>
-                        </div>
-
-                        <div class="question-card">
-                            <div class="question-text" id="question-text">
-                                يرجى الانتظار، جاري تحميل السؤال...
-                            </div>
-
-                            <div class="options-grid" id="options-container">
-                                </div>
-
-                            <div class="question-footer">
-                                <div class="explanation-box hidden" id="explanation-box">
-                                    <h4><i class="fas fa-lightbulb"></i> الشرح:</h4>
-                                    <p id="explanation-text"></p>
-                                </div>
-                                
-                                <div class="quiz-controls">
-                                    <button id="prev-btn" class="btn btn-secondary" disabled>
-                                        <i class="fas fa-arrow-right"></i> السابق
-                                    </button>
-                                    <button id="submit-btn" class="btn btn-success">
-                                        <i class="fas fa-check"></i> تأكيد الإجابة
-                                    </button>
-                                    <button id="next-btn" class="btn btn-primary">
-                                        التالي <i class="fas fa-arrow-left"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="progress-container">
-                            <div class="progress-labels">
-                                <span>التقدم في الاختبار</span>
-                                <span id="progress-percent">0%</span>
-                            </div>
-                            <div class="progress-bar large">
-                                <div class="progress-fill" id="quiz-progress" style="width: 0%"></div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <section id="results-section" class="results-section hidden">
-                    <div class="results-card">
-                        <div class="results-header">
-                            <div class="success-animation">
-                                <i class="fas fa-trophy"></i>
-                            </div>
-                            <h2>تهانينا! لقد أكملت الاختبار</h2>
-                            <p id="results-subject">الجيولوجيا الأساسية</p>
-                        </div>
-
-                        <div class="results-content">
-                            <div class="score-display">
-                                <div class="score-circle">
-                                    <div class="score-text">
-                                        <span id="score-percentage">0%</span>
-                                        <small>النسبة المئوية</small>
-                                    </div>
-                                </div>
-                                <div class="score-details">
-                                    <div class="score-item">
-                                        <span class="score-label">الإجابات الصحيحة</span>
-                                        <span class="score-value" id="correct-answers">0</span>
-                                    </div>
-                                    <div class="score-item">
-                                        <span class="score-label">إجمالي الأسئلة</span>
-                                        <span class="score-value" id="total-questions">0</span>
-                                    </div>
-                                    <div class="score-item">
-                                        <span class="score-label">أفضل تتابع</span>
-                                        <span class="score-value" id="best-streak">0</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="achievements-section">
-                                <h3><i class="fas fa-medal"></i> الإنجازات</h3>
-                                <div class="achievements-grid" id="achievements-container">
-                                    </div>
-                            </div>
-
-                            <div class="results-actions">
-                                <button id="review-btn" class="btn btn-secondary">
-                                    <i class="fas fa-redo"></i> مراجعة الإجابات
-                                </button>
-                                <button id="new-quiz-btn" class="btn btn-primary">
-                                    <i class="fas fa-rocket"></i> اختبار جديد
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            </div>
-        </main>
-
-        <footer class="app-footer">
-            <div class="container">
-                <div class="footer-content">
-                    <div class="footer-info">
-                        <h3>نظام تدريب الجيولوجيا المتقدم</h3>
-                        <p>منصة تعليمية متكاملة لطلبة الجيولوجيا - جميع الحقوق محفوظة © 2024</p>
-                    </div>
-                </div>
-            </div>
-        </footer>
-    </div>
-
-    <div id="confirmation-modal" class="modal hidden">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>تأكيد الخروج</h3>
-                <button class="modal-close">&times;</button>
-            </div>
-            <div class="modal-body">
-                <p>هل أنت متأكد من أنك تريد إنهاء الاختبار؟ سيتم فقدان تقدمك الحالي.</p>
-            </div>
-            <div class="modal-actions">
-                <button id="cancel-exit" class="btn btn-secondary">إلغاء</button>
-                <button id="confirm-exit" class="btn btn-danger">نعم، أنهِ الاختبار</button>
-            </div>
-        </div>
-    </div>
+    <!-- عناصر الصوت -->
+    <audio id="correct-sound" src="sounds/correct.mp3" preload="auto"></audio>
+    <audio id="wrong-sound" src="sounds/wrong.mp3" preload="auto"></audio>
+    <audio id="timeout-sound" src="sounds/timeout.mp3" preload="auto"></audio>
 
     <script src="script.js"></script>
 </body>
