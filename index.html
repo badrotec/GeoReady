@@ -3,145 +3,219 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GeoReady - اختبار الجيولوجيا</title>
+    <title>GeoReady - اختبارات الجيولوجيا</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <div id="app">
-        <!-- الشاشة الرئيسية -->
-        <div id="main-screen" class="screen active">
-            <div class="header">
-                <h1>GeoReady</h1>
-                <p>اختبارات الجيولوجيا التفاعلية</p>
+    <!-- الشاشة الرئيسية -->
+    <div id="main-screen" class="screen active">
+        <header>
+            <h1><i class="fas fa-mountain"></i> GeoReady</h1>
+            <p>اختبارات تفاعلية في علوم الجيولوجيا</p>
+        </header>
+        
+        <div class="main-menu">
+            <div class="menu-card">
+                <h2>اختر مجال الاختبار</h2>
+                <div class="categories-grid">
+                    <button class="category-btn" data-category="BasicGeology">
+                        <i class="fas fa-gem"></i>
+                        <span>الجيولوجيا الأساسية</span>
+                    </button>
+                    <button class="category-btn" data-category="Geochemistry">
+                        <i class="fas fa-flask"></i>
+                        <span>الجيوكيمياء</span>
+                    </button>
+                    <button class="category-btn" data-category="Geophysics">
+                        <i class="fas fa-satellite"></i>
+                        <span>الجيوفيزياء</span>
+                    </button>
+                    <button class="category-btn" data-category="Hydrogeology">
+                        <i class="fas fa-tint"></i>
+                        <span>الهيدروجيولوجيا</span>
+                    </button>
+                    <button class="category-btn" data-category="Petrology">
+                        <i class="fas fa-mountain"></i>
+                        <span>علم الصخور</span>
+                    </button>
+                    <button class="category-btn" data-category="Structuralgeology">
+                        <i class="fas fa-layer-group"></i>
+                        <span>الجيولوجيا التركيبية</span>
+                    </button>
+                    <button class="category-btn" data-category="sedimentarygeology">
+                        <i class="fas fa-water"></i>
+                        <span>جيولوجيا الرواسب</span>
+                    </button>
+                </div>
             </div>
             
-            <div class="menu">
-                <div class="menu-section">
-                    <h2>اختر فئة الأسئلة</h2>
-                    <div id="category-list" class="category-list">
-                        <!-- سيتم ملؤها ديناميكيًا -->
-                    </div>
-                </div>
-                
-                <div class="menu-section">
-                    <h2>الإحصائيات</h2>
-                    <div id="stats" class="stats">
-                        <div class="stat-item">
-                            <span class="stat-value">0</span>
-                            <span class="stat-label">النتائج المحفوظة</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="menu-actions">
-                    <button id="start-all" class="btn btn-primary">جميع الفئات</button>
-                    <button id="view-results" class="btn btn-secondary">عرض النتائج</button>
-                    <button id="view-mistakes" class="btn btn-secondary">تعلّم من أخطائي</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- شاشة الاختبار -->
-        <div id="quiz-screen" class="screen">
-            <div class="quiz-header">
-                <button id="back-to-main" class="icon-btn" title="القائمة الرئيسية">
-                    <i class="fas fa-home"></i>
+            <div class="menu-actions">
+                <button id="view-results-btn" class="action-btn">
+                    <i class="fas fa-chart-bar"></i>
+                    عرض النتائج
                 </button>
-                
-                <div class="quiz-info">
-                    <span id="category-name">الفئة</span>
-                    <span id="progress">السؤال 1 من 25</span>
-                </div>
-                
-                <div class="quiz-controls">
-                    <button id="timer-toggle" class="icon-btn" title="إيقاف/استئناف المؤقت">
-                        <i class="fas fa-pause"></i>
-                    </button>
-                    <button id="mute-toggle" class="icon-btn" title="كتم/تشغيل الصوت">
-                        <i class="fas fa-volume-up"></i>
-                    </button>
-                    <div id="timer" class="timer">60</div>
-                </div>
-            </div>
-            
-            <div class="quiz-content">
-                <div id="question-container">
-                    <h2 id="question-text">نص السؤال سيظهر هنا</h2>
-                    
-                    <div id="options-container" class="options">
-                        <!-- سيتم ملؤها ديناميكيًا -->
-                    </div>
-                </div>
-                
-                <div class="quiz-actions">
-                    <button id="prev-btn" class="btn btn-secondary">السابق</button>
-                    <button id="skip-btn" class="btn btn-secondary">تخطي</button>
-                    <button id="next-btn" class="btn btn-primary">التالي</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- شاشة النتائج -->
-        <div id="results-screen" class="screen">
-            <div class="header">
-                <h1>نتائج الاختبار</h1>
-                <button id="back-from-results" class="icon-btn" title="العودة">
-                    <i class="fas fa-arrow-right"></i>
+                <button id="settings-btn" class="action-btn">
+                    <i class="fas fa-cog"></i>
+                    الإعدادات
                 </button>
             </div>
+        </div>
+    </div>
+
+    <!-- شاشة الاختبار -->
+    <div id="quiz-screen" class="screen">
+        <header class="quiz-header">
+            <button id="home-btn" class="nav-btn" aria-label="العودة للرئيسية">
+                <i class="fas fa-home"></i>
+            </button>
+            <div class="quiz-info">
+                <span id="category-name">الجيولوجيا الأساسية</span>
+                <span id="progress">السؤال 1 من 25</span>
+            </div>
+            <div class="quiz-controls">
+                <button id="timer-toggle" class="nav-btn" aria-label="إيقاف/تشغيل المؤقت">
+                    <i class="fas fa-pause"></i>
+                </button>
+                <button id="mute-btn" class="nav-btn" aria-label="كتم/تشغيل الصوت">
+                    <i class="fas fa-volume-up"></i>
+                </button>
+            </div>
+        </header>
+        
+        <div class="quiz-content">
+            <div class="timer-container">
+                <div id="timer" class="timer">20</div>
+                <div class="timer-label">ثانية</div>
+            </div>
             
-            <div id="current-results" class="results-section">
+            <div id="question-container">
+                <h2 id="question-text">جاري تحميل السؤال...</h2>
+            </div>
+            
+            <div id="options-container" class="options-grid">
                 <!-- سيتم ملؤها ديناميكيًا -->
             </div>
             
-            <div class="results-section">
-                <h2>أفضل 5 نتائج</h2>
-                <div id="top-results" class="top-results">
+            <div class="quiz-navigation">
+                <button id="prev-btn" class="nav-btn" disabled>
+                    <i class="fas fa-arrow-right"></i>
+                    السابق
+                </button>
+                <button id="skip-btn" class="nav-btn skip-btn">
+                    <i class="fas fa-forward"></i>
+                    تخطي
+                </button>
+                <button id="next-btn" class="nav-btn" disabled>
+                    التالي
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- شاشة النتائج -->
+    <div id="results-screen" class="screen">
+        <header>
+            <h1><i class="fas fa-chart-line"></i> النتائج</h1>
+        </header>
+        
+        <div class="results-content">
+            <div id="session-results" class="results-card">
+                <h2>نتيجة الجلسة الحالية</h2>
+                <div class="score-display">
+                    <div class="score-circle">
+                        <span id="score-percent">0%</span>
+                    </div>
+                    <div class="score-details">
+                        <p>الإجابات الصحيحة: <span id="correct-count">0</span></p>
+                        <p>إجمالي الأسئلة: <span id="total-questions">0</span></p>
+                        <p>الوقت المستغرق: <span id="time-taken">0 ثانية</span></p>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="high-scores" class="results-card">
+                <h2>أفضل النتائج</h2>
+                <div id="high-scores-list">
                     <!-- سيتم ملؤها ديناميكيًا -->
                 </div>
             </div>
             
             <div class="results-actions">
-                <button id="restart-quiz" class="btn btn-primary">بدء اختبار جديد</button>
-                <button id="back-to-main-from-results" class="btn btn-secondary">القائمة الرئيسية</button>
-            </div>
-        </div>
-
-        <!-- شاشة الأخطاء -->
-        <div id="mistakes-screen" class="screen">
-            <div class="header">
-                <h1>تعلّم من أخطائي</h1>
-                <button id="back-from-mistakes" class="icon-btn" title="العودة">
-                    <i class="fas fa-arrow-right"></i>
+                <button id="review-mistakes-btn" class="action-btn">
+                    <i class="fas fa-book"></i>
+                    تعلّم من أخطائي
                 </button>
-            </div>
-            
-            <div id="mistakes-list" class="mistakes-list">
-                <!-- سيتم ملؤها ديناميكيًا -->
-            </div>
-            
-            <div class="results-actions">
-                <button id="back-to-main-from-mistakes" class="btn btn-primary">القائمة الرئيسية</button>
+                <button id="new-quiz-btn" class="action-btn primary">
+                    <i class="fas fa-redo"></i>
+                    اختبار جديد
+                </button>
             </div>
         </div>
     </div>
 
-    <!-- النوافذ المنبثقة -->
-    <div id="modal-overlay" class="modal-overlay hidden">
-        <div class="modal">
+    <!-- شاشة مراجعة الأخطاء -->
+    <div id="review-screen" class="screen">
+        <header>
+            <h1><i class="fas fa-book-open"></i> مراجعة الأخطاء</h1>
+        </header>
+        
+        <div class="review-content">
+            <div id="mistakes-list">
+                <!-- سيتم ملؤها ديناميكيًا -->
+            </div>
+            
+            <div class="review-actions">
+                <button id="back-to-results-btn" class="action-btn">
+                    <i class="fas fa-arrow-right"></i>
+                    العودة للنتائج
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- الإعدادات -->
+    <div id="settings-modal" class="modal">
+        <div class="modal-content">
             <div class="modal-header">
-                <h3 id="modal-title">عنوان النافذة</h3>
-                <button id="close-modal" class="icon-btn">
+                <h2>الإعدادات</h2>
+                <button id="close-settings" class="close-btn" aria-label="إغلاق">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
             <div class="modal-body">
-                <p id="modal-message">رسالة النافذة</p>
+                <div class="setting-item">
+                    <label for="sound-toggle">تشغيل الأصوات</label>
+                    <input type="checkbox" id="sound-toggle" checked>
+                </div>
+                <div class="setting-item">
+                    <label for="timer-toggle-setting">المؤقت</label>
+                    <input type="checkbox" id="timer-toggle-setting" checked>
+                </div>
+                <div class="setting-item">
+                    <label for="shuffle-toggle">خلط الخيارات</label>
+                    <input type="checkbox" id="shuffle-toggle" checked>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- تأكيد الخروج -->
+    <div id="exit-confirm-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>تأكيد الخروج</h2>
+            </div>
+            <div class="modal-body">
+                <p>هل أنت متأكد من أنك تريد الخروج؟ سيتم فقدان تقدمك الحالي.</p>
             </div>
             <div class="modal-actions">
-                <button id="modal-confirm" class="btn btn-primary">موافق</button>
-                <button id="modal-cancel" class="btn btn-secondary">إلغاء</button>
+                <button id="confirm-exit" class="btn danger">نعم، اختر</button>
+                <button id="cancel-exit" class="btn secondary">إلغاء</button>
             </div>
         </div>
     </div>
