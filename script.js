@@ -1,6 +1,7 @@
-// بيانات الأسئلة الكاملة
+// بيانات الأسئلة الكاملة (تم إضافة الأقسام الأربعة الأخرى)
 const questionsData = {
     "basic-geology": [
+        // ... (الأسئلة السابقة هنا)
         {
             "id": 1,
             "question": "أي مما يلي يُعتبر من المعادن؟",
@@ -224,10 +225,11 @@ const questionsData = {
                 "تحليل المعادن فقط"
             ],
             "answer": "إعادة بناء تاريخ الأرض",
-            "explanation": "تهدف الجيولوجيا التاريخية إلى إعادة بناء تاريخ الأرض من خلال دراسة الطبقات الصخرية والأحافير والتراكيب الجيولوجية."
+            "explanation": "تهدف الجيولوجيا التاريخية إلى إعادة بناء تاريخ الأرض من خلال درسة الطبقات الصخرية والأحافير والتراكيب الجيولوجية."
         }
     ],
     "hydrogeology": [
+        // ... (الأسئلة السابقة هنا)
         {
             "id": 1,
             "question": "الهيدروجيولوجيا تدرس:",
@@ -405,6 +407,7 @@ const questionsData = {
         }
     ],
     "petrology": [
+        // ... (الأسئلة السابقة هنا)
         {
             "id": 1,
             "topic": "الجيولوجيا البترولية",
@@ -605,7 +608,12 @@ const questionsData = {
             "answer": "الشرق الأوسط",
             "explanation": "يتركز حوالي 50% من احتياطي النفط العالمي في منطقة الشرق الأوسط، خاصة في السعودية والعراق والإمارات والكويت."
         }
-    ]
+    ],
+    // الأقسام الجديدة التي ذكرتها
+    "sedimentary-geology": [], 
+    "geochemistry": [],
+    "structural-geology": [],
+    "geophysics": []
 };
 
 // حالة التطبيق
@@ -624,7 +632,11 @@ let appState = {
     progress: {
         'basic-geology': 0,
         'hydrogeology': 0,
-        'petrology': 0
+        'petrology': 0,
+        'sedimentary-geology': 0,
+        'geochemistry': 0,
+        'structural-geology': 0,
+        'geophysics': 0
     }
 };
 
@@ -637,6 +649,37 @@ const elements = {
     resultsSection: document.getElementById('results-section'),
     confirmationModal: document.getElementById('confirmation-modal')
 };
+
+// =======================================================
+// وظائف تشغيل الأصوات (الخطوة 3) 🎵
+// =======================================================
+const correctSound = new Audio('sounds/correct.mp3');
+const wrongSound = new Audio('sounds/wrong.mp3');
+const timeoutSound = new Audio('sounds/timeout.mp3');
+
+function playCorrect() { 
+    if (!correctSound.paused) {
+        correctSound.pause();
+        correctSound.currentTime = 0;
+    }
+    correctSound.play(); 
+}
+function playWrong() { 
+    if (!wrongSound.paused) {
+        wrongSound.pause();
+        wrongSound.currentTime = 0;
+    }
+    wrongSound.play(); 
+}
+function playTimeout() { 
+    if (!timeoutSound.paused) {
+        timeoutSound.pause();
+        timeoutSound.currentTime = 0;
+    }
+    timeoutSound.play(); 
+}
+// =======================================================
+
 
 // تهيئة التطبيق
 function initApp() {
@@ -678,7 +721,12 @@ function setupEventListeners() {
         btn.addEventListener('click', (e) => {
             const subjectCard = e.target.closest('.subject-card');
             const subject = subjectCard.dataset.subject;
-            startQuiz(subject);
+            // التحقق مما إذا كان هناك أسئلة للقسم
+            if (questionsData[subject] && questionsData[subject].length > 0) {
+                startQuiz(subject);
+            } else {
+                alert('عفواً، لا توجد أسئلة متوفرة لهذا القسم بعد.');
+            }
         });
     });
 
@@ -712,13 +760,16 @@ function updateUI() {
 
 // تحديث أشرطة التقدم
 function updateProgressBars() {
-    const subjects = ['basic-geology', 'hydrogeology', 'petrology'];
+    const subjects = Object.keys(appState.progress); // تحديث لقراءة جميع الأقسام
     subjects.forEach(subject => {
-        const progressFill = document.getElementById(`${subject.split('-')[0]}-progress`);
+        // نستخدم تقسيم الاسم ليتطابق مع ID البار في HTML
+        const progressId = subject.includes('-') ? subject.split('-')[0] : subject;
+        const progressFill = document.getElementById(`${progressId}-progress`);
+        
         if (progressFill) {
             progressFill.style.width = `${appState.progress[subject]}%`;
             progressFill.closest('.subject-progress').querySelector('.progress-text').textContent = 
-                `${appState.progress[subject]}% مكتمل`;
+                `${Math.round(appState.progress[subject])}% مكتمل`;
         }
     });
 }
@@ -744,10 +795,10 @@ function startQuiz(subject) {
 
     // تحديث واجهة الاختبار
     updateQuizUI();
-    startTimer();
-
-    // تحميل السؤال الأول
+    
+    // تحميل السؤال الأول وبدء المؤقت
     loadQuestion();
+    startTimer();
 }
 
 // توليد أسئلة عشوائية
@@ -768,7 +819,11 @@ function updateQuizUI() {
     const subjectNames = {
         'basic-geology': 'الجيولوجيا الأساسية',
         'hydrogeology': 'الهيدروجيولوجيا',
-        'petrology': 'البترولوجيا'
+        'petrology': 'الجيولوجيا البترولية',
+        'sedimentary-geology': 'الجيولوجيا الرسوبية',
+        'geochemistry': 'الجيوكيمياء',
+        'structural-geology': 'الجيولوجيا التركيبية',
+        'geophysics': 'الجيوفيزياء'
     };
 
     document.getElementById('current-subject').textContent = subjectNames[appState.currentSubject];
@@ -777,13 +832,17 @@ function updateQuizUI() {
 
 // تحميل السؤال
 function loadQuestion() {
+    // إيقاف أي مؤقت سابق لضمان عدم تداخل المؤقتات (تصحيح مشكلة المؤقت)
+    clearInterval(appState.timerInterval); 
+    
     const currentQuestion = appState.currentQuestions[appState.currentQuestionIndex];
 
     if (!currentQuestion) return;
 
-    // إعادة تعيين المؤقت
+    // إعادة تعيين المؤقت وبدء عد جديد
     appState.timeLeft = 20;
     updateTimerDisplay();
+    startTimer(); // إعادة بدء المؤقت لكل سؤال جديد
 
     // تحديث العداد
     document.getElementById('current-q-number').textContent = appState.currentQuestionIndex + 1;
@@ -799,6 +858,10 @@ function loadQuestion() {
     currentQuestion.options.forEach((option, index) => {
         const optionElement = document.createElement('div');
         optionElement.className = 'option';
+        
+        // إزالة الأصناف القديمة لضمان نظافة واجهة المستخدم
+        optionElement.classList.remove('selected', 'correct', 'incorrect');
+        
         if (appState.userAnswers[appState.currentQuestionIndex] === index) {
             optionElement.classList.add('selected');
         }
@@ -850,6 +913,10 @@ function updateQuizControls() {
     const nextBtn = document.getElementById('next-btn');
     const submitBtn = document.getElementById('submit-btn');
 
+    // إخفاء زر التأكيد ما لم يتم اختيار إجابة في السؤال الأخير
+    submitBtn.classList.add('hidden');
+    submitBtn.innerHTML = '<i class="fas fa-check"></i> تأكيد الإجابة';
+
     if (appState.currentQuestionIndex === appState.currentQuestions.length - 1) {
         nextBtn.classList.add('hidden');
         if (appState.userAnswers[appState.currentQuestionIndex] !== undefined) {
@@ -858,7 +925,9 @@ function updateQuizControls() {
         }
     } else {
         nextBtn.classList.remove('hidden');
-        submitBtn.classList.add('hidden');
+        if (appState.userAnswers[appState.currentQuestionIndex] !== undefined) {
+             submitBtn.classList.remove('hidden');
+        }
     }
 
     // إخفاء الشرح
@@ -889,8 +958,11 @@ function nextQuestion() {
     }
 }
 
-// تأكيد الإجابة
+// تأكيد الإجابة (الخطوة 4) ✅
 function submitAnswer() {
+    // إيقاف المؤقت عند تأكيد الإجابة
+    clearInterval(appState.timerInterval);
+    
     const currentQuestion = appState.currentQuestions[appState.currentQuestionIndex];
     const userAnswerIndex = appState.userAnswers[appState.currentQuestionIndex];
 
@@ -903,12 +975,14 @@ function submitAnswer() {
     if (isCorrect) {
         appState.score++;
         appState.currentStreak++;
+        playCorrect(); // تشغيل صوت النجاح
         
         if (appState.currentStreak > appState.bestStreak) {
             appState.bestStreak = appState.currentStreak;
         }
     } else {
         appState.currentStreak = 0;
+        playWrong(); // تشغيل صوت الخطأ
     }
 
     // عرض التغذية الراجعة
@@ -936,10 +1010,13 @@ function showAnswerFeedback(isCorrect, explanation) {
     options.forEach((option, index) => {
         const optionText = option.querySelector('.option-text').textContent;
         
+        // إزالة التحديد قبل إضافة الألوان
+        option.classList.remove('selected'); 
+        
         if (optionText === currentQuestion.answer) {
-            option.classList.add('correct');
+            option.classList.add('correct'); // الإجابة الصحيحة
         } else if (index === appState.userAnswers[appState.currentQuestionIndex] && !isCorrect) {
-            option.classList.add('incorrect');
+            option.classList.add('incorrect'); // الإجابة الخاطئة للمستخدم
         }
         
         option.style.pointerEvents = 'none';
@@ -956,9 +1033,6 @@ function showAnswerFeedback(isCorrect, explanation) {
     document.getElementById('prev-btn').disabled = true;
     document.getElementById('next-btn').disabled = true;
     document.getElementById('submit-btn').disabled = true;
-
-    // إيقاف المؤقت
-    clearInterval(appState.timerInterval);
 }
 
 // المؤقت
@@ -970,16 +1044,60 @@ function startTimer() {
         updateTimerDisplay();
         
         if (appState.timeLeft <= 0) {
+            // ===================================
+            // انتهاء الوقت (الخطوة 5) ⏰
+            // ===================================
             clearInterval(appState.timerInterval);
-            // الانتقال التلقائي للسؤال التالي
-            if (appState.currentQuestionIndex < appState.currentQuestions.length - 1) {
-                appState.currentQuestionIndex++;
-                loadQuestion();
-            } else {
-                finishQuiz();
-            }
+            playTimeout(); // تشغيل صوت انتهاء الوقت
+            // ===================================
+
+            // إذا انتهى الوقت ولم يجب المستخدم، تعتبر الإجابة خاطئة (للمسارعة)
+            appState.currentStreak = 0;
+            document.getElementById('streak-counter').textContent = `${appState.currentStreak} تتابع`;
+
+            // عرض التغذية الراجعة (كأن الإجابة خاطئة أو لم يُجب)
+            showTimeoutFeedback(appState.currentQuestions[appState.currentQuestionIndex].explanation);
+
+
+            // الانتقال التلقائي للسؤال التالي بعد مهلة
+            setTimeout(() => {
+                if (appState.currentQuestionIndex < appState.currentQuestions.length - 1) {
+                    appState.currentQuestionIndex++;
+                    loadQuestion();
+                } else {
+                    finishQuiz();
+                }
+            }, 3000);
         }
     }, 1000);
+}
+
+// وظيفة لإظهار تغذية راجعة لانتهاء الوقت
+function showTimeoutFeedback(explanation) {
+    const options = document.querySelectorAll('.option');
+    const currentQuestion = appState.currentQuestions[appState.currentQuestionIndex];
+    
+    options.forEach(option => {
+        option.classList.remove('selected'); 
+        option.style.pointerEvents = 'none';
+        
+        // تمييز الإجابة الصحيحة
+        const optionText = option.querySelector('.option-text').textContent;
+        if (optionText === currentQuestion.answer) {
+            option.classList.add('correct'); 
+        }
+    });
+
+    const explanationBox = document.getElementById('explanation-box');
+    const explanationText = document.getElementById('explanation-text');
+    
+    explanationText.textContent = `انتهى الوقت! الإجابة الصحيحة هي: ${currentQuestion.answer}. ${explanation}`;
+    explanationBox.classList.remove('hidden');
+    
+    // تعطيل الأزرار مؤقتًا
+    document.getElementById('prev-btn').disabled = true;
+    document.getElementById('next-btn').disabled = true;
+    document.getElementById('submit-btn').disabled = true;
 }
 
 function updateTimerDisplay() {
@@ -989,8 +1107,10 @@ function updateTimerDisplay() {
     // تغيير اللون عند اقتراب انتهاء الوقت
     if (appState.timeLeft <= 5) {
         timerElement.classList.add('danger');
+        timerElement.classList.remove('warning');
     } else if (appState.timeLeft <= 10) {
         timerElement.classList.add('warning');
+        timerElement.classList.remove('danger');
     } else {
         timerElement.classList.remove('warning', 'danger');
     }
@@ -1133,9 +1253,19 @@ function reviewAnswers() {
     appState.currentQuestionIndex = 0;
     elements.resultsSection.classList.add('hidden');
     elements.quizSection.classList.remove('hidden');
+    
+    // إيقاف أي مؤقت عند المراجعة
+    clearInterval(appState.timerInterval);
+    
+    // تحميل السؤال الأول
     loadQuestion();
     
-    // تعطيل الإجابة على الأسئلة في وضع المراجعة
+    // تعطيل الإجابة على الأسئلة في وضع المراجعة وإظهار التغذية الراجعة
+    showAnswerFeedback(
+        appState.userAnswers[0] !== undefined && appState.currentQuestions[0].options[appState.userAnswers[0]] === appState.currentQuestions[0].answer, 
+        appState.currentQuestions[0].explanation
+    );
+    
     document.querySelectorAll('.option').forEach(option => {
         option.style.pointerEvents = 'none';
     });
