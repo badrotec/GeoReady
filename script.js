@@ -1,4 +1,4 @@
-// بيانات الأسئلة الكاملة (تم إضافة الأقسام الأربعة الأخرى)
+// بيانات الأسئلة الكاملة (تم إضافة الأقسام الأربعة الأخرى بأسئلة)
 const questionsData = {
     "basic-geology": [
         // ... (الأسئلة السابقة هنا)
@@ -609,11 +609,157 @@ const questionsData = {
             "explanation": "يتركز حوالي 50% من احتياطي النفط العالمي في منطقة الشرق الأوسط، خاصة في السعودية والعراق والإمارات والكويت."
         }
     ],
-    // الأقسام الجديدة التي ذكرتها
-    "sedimentary-geology": [], 
-    "geochemistry": [],
-    "structural-geology": [],
-    "geophysics": []
+    // ===================================
+    // الأقسام الجديدة مع أسئلة اختبارية
+    // ===================================
+    "sedimentary-geology": [
+        {
+            "id": 1,
+            "question": "العامل الذي يؤدي إلى دمج وتصلب الرواسب لتصبح صخرًا رسوبيًا يُسمى:",
+            "options": ["التجوية", "التآكل", "التصخر (Lithification)", "الانصهار"],
+            "answer": "التصخر (Lithification)",
+            "explanation": "التصخر يشمل عمليتي التراص (Compaction) والتلاحم (Cementation)، ويحول الرواسب المفككة إلى صخور صلبة."
+        },
+        {
+            "id": 2,
+            "question": "الحجر الجيري هو صخر رسوبي يتكون أساسًا من معدن:",
+            "options": ["الكوارتز", "الكالسيت", "الجبس", "الهاليت"],
+            "answer": "الكالسيت",
+            "explanation": "يتكون الحجر الجيري بشكل رئيسي من كربونات الكالسيوم، والتي تشكل معدن الكالسيت."
+        },
+        {
+            "id": 3,
+            "question": "أصغر حجم حبيبات في الصخور الرسوبية الفتاتية هو:",
+            "options": ["الرمل", "الحصى", "الطين", "الطمي"],
+            "answer": "الطين",
+            "explanation": "حجم حبيبات الطين هو الأقل من 1/256 ملم، يليه الطمي ثم الرمل."
+        },
+        {
+            "id": 4,
+            "question": "وجود علامات التموج (Ripple Marks) في الصخر يدل على بيئة:",
+            "options": ["عميقة وساكنة", "وجود تيارات ماء أو رياح", "بركانية", "متحولة"],
+            "answer": "وجود تيارات ماء أو رياح",
+            "explanation": "تتشكل علامات التموج بفعل حركة الماء أو الرياح على سطح الرواسب."
+        },
+        {
+            "id": 5,
+            "question": "أي مما يلي يُعد بيئة ترسيب بحرية ضحلة (Shallow Marine)؟",
+            "options": ["الأنهار", "الكثبان الرملية", "الأرفف القارية", "المراوح الغرينية"],
+            "answer": "الأرفف القارية",
+            "explanation": "الأرفف القارية هي مناطق واسعة منخفضة العمق، وتُعد بيئة مثالية لترسيب الحجر الجيري."
+        }
+    ], 
+    "geochemistry": [
+        {
+            "id": 1,
+            "question": "العنصر الأكثر وفرة بالوزن في القشرة الأرضية هو:",
+            "options": ["السيليكون", "الأكسجين", "الألمنيوم", "الحديد"],
+            "answer": "الأكسجين",
+            "explanation": "يشكل الأكسجين حوالي 46.6% من وزن القشرة الأرضية، كونه المكون الرئيسي لمعادن السيليكات."
+        },
+        {
+            "id": 2,
+            "question": "ما هو الاسم الكيميائي للكوارتز؟",
+            "options": ["كربونات الكالسيوم", "ثاني أكسيد السيليكون", "أكسيد الحديد", "هيدروكسيد الألومنيوم"],
+            "answer": "ثاني أكسيد السيليكون",
+            "explanation": "الصيغة الكيميائية للكوارتز هي $SiO_2$ (ثاني أكسيد السيليكون)."
+        },
+        {
+            "id": 3,
+            "question": "اللون الأحمر في الصخور الرسوبية عادة ما يشير إلى بيئة غنية بـ:",
+            "options": ["الكربون العضوي", "الحديد المؤكسد (الهيماتيت)", "الكبريت", "الكالسيت"],
+            "answer": "الحديد المؤكسد (الهيماتيت)",
+            "explanation": "الأكاسيد الحديدية (خاصة الهيماتيت) تتشكل في بيئات مؤكسدة وتعطي الصخور لونًا أحمر أو بنيًا."
+        },
+        {
+            "id": 4,
+            "question": "المعادن التي تتشكل من عملية التجوية الكيميائية تُسمى معادن:",
+            "options": ["أولية", "ثانوية", "بركانية", "نادرة"],
+            "answer": "ثانوية",
+            "explanation": "تتشكل المعادن الثانوية (مثل معادن الطين) من تفاعلات كيميائية لمعادن أصلية (أولية) مع الماء والأحماض."
+        },
+        {
+            "id": 5,
+            "question": "ماذا تعني قيمة pH أقل من 7 في المياه الجوفية؟",
+            "options": ["وسط قلوي", "وسط حمضي", "وسط متعادل", "وسط مالح"],
+            "answer": "وسط حمضي",
+            "explanation": "قيمة pH أقل من 7 تدل على أن الوسط حمضي، مما يزيد من قدرة الماء على إذابة المعادن."
+        }
+    ],
+    "structural-geology": [
+        {
+            "id": 1,
+            "question": "الفالق العادي (Normal Fault) ينتج بشكل أساسي عن قوى:",
+            "options": ["ضغط (Compression)", "شد (Tension)", "قص (Shear)", "التواء"],
+            "answer": "شد (Tension)",
+            "explanation": "تحدث فوالق الشد (العادية) عندما تتعرض القشرة الأرضية لقوى شد تسحب الكتلتين بعيدًا عن بعضهما."
+        },
+        {
+            "id": 2,
+            "question": "في الطية المحدبة (Anticline)، تكون أقدم الطبقات موجودة في:",
+            "options": ["الحائط المعلق", "مركز الطية", "جناحي الطية", "مستوى التصدع"],
+            "answer": "مركز الطية",
+            "explanation": "تتميز الطية المحدبة بأن الطبقات الأقدم تقع في المركز وتحيط بها الطبقات الأحدث."
+        },
+        {
+            "id": 3,
+            "question": "زاوية ميل الطبقة عن المستوى الأفقي تسمى:",
+            "options": ["الاتجاه (Strike)", "الميل (Dip)", "القص", "التحول"],
+            "answer": "الميل (Dip)",
+            "explanation": "الميل هو الزاوية بين سطح الطبقة والمستوى الأفقي، ويُقاس عموديًا على الاتجاه."
+        },
+        {
+            "id": 4,
+            "question": "الهياكل الجيولوجية التي تتشكل نتيجة التشوه اللدن (Ductile Deformation) هي:",
+            "options": ["الفوالق", "الصدوع", "الطيات", "التصدعات"],
+            "answer": "الطيات",
+            "explanation": "تتكون الطيات (Folds) نتيجة التشوه اللدن الذي يحدث تحت درجات حرارة وضغوط عالية، على عكس الفوالق التي تحدث بالتشوه الهش."
+        },
+        {
+            "id": 5,
+            "question": "الفالق الذي ينخفض فيه الحائط المعلق بالنسبة للحائط السفلي يُسمى:",
+            "options": ["فالق عادي", "فالق عكسي", "فالق انزلاق جانبي", "طية مقعرة"],
+            "answer": "فالق عادي",
+            "explanation": "يحدث الفالق العادي نتيجة الشد، حيث يتحرك الحائط المعلق إلى الأسفل بالنسبة للحائط السفلي."
+        }
+    ],
+    "geophysics": [
+        {
+            "id": 1,
+            "question": "الجيوفيزياء تدرس الخصائص... للأرض والصخور.",
+            "options": ["الكيميائية", "الفيزيائية", "البيولوجية", "التاريخية"],
+            "answer": "الفيزيائية",
+            "explanation": "تهتم الجيوفيزياء بقياس الخصائص الفيزيائية مثل الكثافة، المغناطيسية، والسرعة الزلزالية لاستكشاف باطن الأرض."
+        },
+        {
+            "id": 2,
+            "question": "أهم طريقة جيوفيزيائية لتحديد التراكيب البترولية قبل الحفر هي:",
+            "options": ["المسح المغناطيسي", "الجاذبية", "القياسات الكهربائية", "المسح الزلزالي (Seismic)"],
+            "answer": "المسح الزلزالي (Seismic)",
+            "explanation": "يوفر المسح الزلزالي أدق صور لطبقات باطن الأرض والتراكيب الجيولوجية الضرورية لاكتشاف النفط والغاز."
+        },
+        {
+            "id": 3,
+            "question": "الموجة الزلزالية التي لا تنتقل عبر السوائل (الماء أو الماغما) هي موجة:",
+            "options": ["P-Wave", "S-Wave", "Surface Wave", "Sound Wave"],
+            "answer": "S-Wave",
+            "explanation": "موجات S (موجات القص) هي موجات ميكانيكية لا يمكنها الانتشار إلا في الأوساط الصلبة، على عكس موجات P التي تنتقل في جميع الأوساط."
+        },
+        {
+            "id": 4,
+            "question": "تقنية الجاذبية تُستخدم في الجيوفيزياء لكشف التغيرات في:",
+            "options": ["درجة الحرارة", "المقاومة الكهربائية", "الكثافة الصخرية", "النشاط الزلزالي"],
+            "answer": "الكثافة الصخرية",
+            "explanation": "تعتمد طريقة الجاذبية على قياس التغيرات في مجال جاذبية الأرض الناتجة عن تباين كثافات الصخور تحت السطح."
+        },
+        {
+            "id": 5,
+            "question": "يتم استخدام سجل الكثافة (Density Log) لتحديد خاصية الصخر التالية:",
+            "options": ["المقاومة الكهربائية", "المسامية", "المحتوى الطيني", "درجة الحرارة"],
+            "answer": "المسامية",
+            "explanation": "يُستخدم سجل الكثافة لتقدير مسامية الصخور الخازنة، حيث أن الكثافة المنخفضة تشير عادة إلى مسامية عالية."
+        }
+    ]
 };
 
 // حالة التطبيق
@@ -651,8 +797,9 @@ const elements = {
 };
 
 // =======================================================
-// وظائف تشغيل الأصوات (الخطوة 3) 🎵
+// وظائف تشغيل الأصوات 🎵
 // =======================================================
+// يجب التأكد من وجود هذه الملفات في مسار 'sounds/'
 const correctSound = new Audio('sounds/correct.mp3');
 const wrongSound = new Audio('sounds/wrong.mp3');
 const timeoutSound = new Audio('sounds/timeout.mp3');
@@ -693,592 +840,4 @@ function initApp() {
     }, 2000);
 }
 
-// تحميل تقدم المستخدم
-function loadUserProgress() {
-    const savedProgress = localStorage.getItem('geologyTrainingProgress');
-    if (savedProgress) {
-        const progress = JSON.parse(savedProgress);
-        appState.progress = progress.progress || appState.progress;
-        appState.bestStreak = progress.bestStreak || 0;
-    }
-    updateProgressBars();
-}
-
-// حفظ تقدم المستخدم
-function saveUserProgress() {
-    const progressData = {
-        progress: appState.progress,
-        bestStreak: appState.bestStreak,
-        lastUpdated: new Date().toISOString()
-    };
-    localStorage.setItem('geologyTrainingProgress', JSON.stringify(progressData));
-}
-
-// إعداد مستمعي الأحداث
-function setupEventListeners() {
-    // أزرار بدء التدريب
-    document.querySelectorAll('.start-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            const subjectCard = e.target.closest('.subject-card');
-            const subject = subjectCard.dataset.subject;
-            // التحقق مما إذا كان هناك أسئلة للقسم
-            if (questionsData[subject] && questionsData[subject].length > 0) {
-                startQuiz(subject);
-            } else {
-                alert('عفواً، لا توجد أسئلة متوفرة لهذا القسم بعد.');
-            }
-        });
-    });
-
-    // أزرار التحكم في الاختبار
-    document.getElementById('exit-quiz').addEventListener('click', showExitConfirmation);
-    document.getElementById('prev-btn').addEventListener('click', prevQuestion);
-    document.getElementById('next-btn').addEventListener('click', nextQuestion);
-    document.getElementById('submit-btn').addEventListener('click', submitAnswer);
-
-    // أزرار النتائج
-    document.getElementById('review-btn').addEventListener('click', reviewAnswers);
-    document.getElementById('new-quiz-btn').addEventListener('click', newQuiz);
-
-    // النافذة المنبثقة
-    document.getElementById('cancel-exit').addEventListener('click', hideModal);
-    document.getElementById('confirm-exit').addEventListener('click', exitQuiz);
-    document.querySelector('.modal-close').addEventListener('click', hideModal);
-
-    // إغلاق النافذة المنبثقة بالنقر خارجها
-    elements.confirmationModal.addEventListener('click', (e) => {
-        if (e.target === elements.confirmationModal) {
-            hideModal();
-        }
-    });
-}
-
-// تحديث واجهة المستخدم
-function updateUI() {
-    updateProgressBars();
-}
-
-// تحديث أشرطة التقدم
-function updateProgressBars() {
-    const subjects = Object.keys(appState.progress); // تحديث لقراءة جميع الأقسام
-    subjects.forEach(subject => {
-        // نستخدم تقسيم الاسم ليتطابق مع ID البار في HTML
-        const progressId = subject.includes('-') ? subject.split('-')[0] : subject;
-        const progressFill = document.getElementById(`${progressId}-progress`);
-        
-        if (progressFill) {
-            progressFill.style.width = `${appState.progress[subject]}%`;
-            progressFill.closest('.subject-progress').querySelector('.progress-text').textContent = 
-                `${Math.round(appState.progress[subject])}% مكتمل`;
-        }
-    });
-}
-
-// بدء الاختبار
-function startQuiz(subject) {
-    appState.currentSubject = subject;
-    appState.currentQuestionIndex = 0;
-    appState.userAnswers = {};
-    appState.quizStarted = true;
-    appState.quizCompleted = false;
-    appState.score = 0;
-    appState.currentStreak = 0;
-    appState.timeLeft = 20;
-
-    // توليد أسئلة عشوائية
-    generateRandomQuestions();
-
-    // تبديل الأقسام
-    elements.subjectSelection.classList.add('hidden');
-    elements.quizSection.classList.remove('hidden');
-    elements.resultsSection.classList.add('hidden');
-
-    // تحديث واجهة الاختبار
-    updateQuizUI();
-    
-    // تحميل السؤال الأول وبدء المؤقت
-    loadQuestion();
-    startTimer();
-}
-
-// توليد أسئلة عشوائية
-function generateRandomQuestions() {
-    const allQuestions = [...questionsData[appState.currentSubject]];
-    appState.currentQuestions = [];
-    
-    // اختيار 25 سؤال عشوائي
-    for (let i = 0; i < 25 && allQuestions.length > 0; i++) {
-        const randomIndex = Math.floor(Math.random() * allQuestions.length);
-        appState.currentQuestions.push(allQuestions[randomIndex]);
-        allQuestions.splice(randomIndex, 1);
-    }
-}
-
-// تحديث واجهة الاختبار
-function updateQuizUI() {
-    const subjectNames = {
-        'basic-geology': 'الجيولوجيا الأساسية',
-        'hydrogeology': 'الهيدروجيولوجيا',
-        'petrology': 'الجيولوجيا البترولية',
-        'sedimentary-geology': 'الجيولوجيا الرسوبية',
-        'geochemistry': 'الجيوكيمياء',
-        'structural-geology': 'الجيولوجيا التركيبية',
-        'geophysics': 'الجيوفيزياء'
-    };
-
-    document.getElementById('current-subject').textContent = subjectNames[appState.currentSubject];
-    document.getElementById('streak-counter').textContent = `${appState.currentStreak} تتابع`;
-}
-
-// تحميل السؤال
-function loadQuestion() {
-    // إيقاف أي مؤقت سابق لضمان عدم تداخل المؤقتات (تصحيح مشكلة المؤقت)
-    clearInterval(appState.timerInterval); 
-    
-    const currentQuestion = appState.currentQuestions[appState.currentQuestionIndex];
-
-    if (!currentQuestion) return;
-
-    // إعادة تعيين المؤقت وبدء عد جديد
-    appState.timeLeft = 20;
-    updateTimerDisplay();
-    startTimer(); // إعادة بدء المؤقت لكل سؤال جديد
-
-    // تحديث العداد
-    document.getElementById('current-q-number').textContent = appState.currentQuestionIndex + 1;
-
-    // تحديث نص السؤال
-    document.getElementById('question-text').textContent = currentQuestion.question;
-
-    // تحديث الخيارات
-    const optionsContainer = document.getElementById('options-container');
-    optionsContainer.innerHTML = '';
-
-    const optionLetters = ['أ', 'ب', 'ج', 'د'];
-    currentQuestion.options.forEach((option, index) => {
-        const optionElement = document.createElement('div');
-        optionElement.className = 'option';
-        
-        // إزالة الأصناف القديمة لضمان نظافة واجهة المستخدم
-        optionElement.classList.remove('selected', 'correct', 'incorrect');
-        
-        if (appState.userAnswers[appState.currentQuestionIndex] === index) {
-            optionElement.classList.add('selected');
-        }
-
-        optionElement.innerHTML = `
-            <div class="option-letter">${optionLetters[index]}</div>
-            <div class="option-text">${option}</div>
-        `;
-
-        optionElement.addEventListener('click', () => selectOption(index));
-        optionsContainer.appendChild(optionElement);
-    });
-
-    // تحديث أزرار التحكم
-    updateQuizControls();
-    updateProgressBar();
-
-    // إعادة تمكين الأزرار
-    document.getElementById('prev-btn').disabled = false;
-    document.getElementById('next-btn').disabled = false;
-    document.getElementById('submit-btn').disabled = false;
-}
-
-// اختيار خيار
-function selectOption(optionIndex) {
-    // إزالة التحديد من جميع الخيارات
-    document.querySelectorAll('.option').forEach(option => {
-        option.classList.remove('selected');
-    });
-
-    // تحديد الخيار المختار
-    const selectedOption = document.querySelectorAll('.option')[optionIndex];
-    selectedOption.classList.add('selected');
-
-    // حفظ الإجابة
-    appState.userAnswers[appState.currentQuestionIndex] = optionIndex;
-
-    // إظهار زر التأكيد
-    document.getElementById('submit-btn').classList.remove('hidden');
-}
-
-// تحديث أزرار التحكم
-function updateQuizControls() {
-    // زر السابق
-    const prevBtn = document.getElementById('prev-btn');
-    prevBtn.disabled = appState.currentQuestionIndex === 0;
-
-    // زر التالي
-    const nextBtn = document.getElementById('next-btn');
-    const submitBtn = document.getElementById('submit-btn');
-
-    // إخفاء زر التأكيد ما لم يتم اختيار إجابة في السؤال الأخير
-    submitBtn.classList.add('hidden');
-    submitBtn.innerHTML = '<i class="fas fa-check"></i> تأكيد الإجابة';
-
-    if (appState.currentQuestionIndex === appState.currentQuestions.length - 1) {
-        nextBtn.classList.add('hidden');
-        if (appState.userAnswers[appState.currentQuestionIndex] !== undefined) {
-            submitBtn.classList.remove('hidden');
-            submitBtn.innerHTML = '<i class="fas fa-flag-checkered"></i> إنهاء الاختبار';
-        }
-    } else {
-        nextBtn.classList.remove('hidden');
-        if (appState.userAnswers[appState.currentQuestionIndex] !== undefined) {
-             submitBtn.classList.remove('hidden');
-        }
-    }
-
-    // إخفاء الشرح
-    document.getElementById('explanation-box').classList.add('hidden');
-}
-
-// تحديث شريط التقدم
-function updateProgressBar() {
-    const progress = ((appState.currentQuestionIndex + 1) / appState.currentQuestions.length) * 100;
-    
-    document.getElementById('quiz-progress').style.width = `${progress}%`;
-    document.getElementById('progress-percent').textContent = `${Math.round(progress)}%`;
-}
-
-// السؤال السابق
-function prevQuestion() {
-    if (appState.currentQuestionIndex > 0) {
-        appState.currentQuestionIndex--;
-        loadQuestion();
-    }
-}
-
-// السؤال التالي
-function nextQuestion() {
-    if (appState.currentQuestionIndex < appState.currentQuestions.length - 1) {
-        appState.currentQuestionIndex++;
-        loadQuestion();
-    }
-}
-
-// تأكيد الإجابة (الخطوة 4) ✅
-function submitAnswer() {
-    // إيقاف المؤقت عند تأكيد الإجابة
-    clearInterval(appState.timerInterval);
-    
-    const currentQuestion = appState.currentQuestions[appState.currentQuestionIndex];
-    const userAnswerIndex = appState.userAnswers[appState.currentQuestionIndex];
-
-    if (userAnswerIndex === undefined) return;
-
-    const userAnswer = currentQuestion.options[userAnswerIndex];
-    const isCorrect = userAnswer === currentQuestion.answer;
-
-    // تحديث النتيجة
-    if (isCorrect) {
-        appState.score++;
-        appState.currentStreak++;
-        playCorrect(); // تشغيل صوت النجاح
-        
-        if (appState.currentStreak > appState.bestStreak) {
-            appState.bestStreak = appState.currentStreak;
-        }
-    } else {
-        appState.currentStreak = 0;
-        playWrong(); // تشغيل صوت الخطأ
-    }
-
-    // عرض التغذية الراجعة
-    showAnswerFeedback(isCorrect, currentQuestion.explanation);
-
-    // تحديث العداد
-    document.getElementById('streak-counter').textContent = `${appState.currentStreak} تتابع`;
-
-    // الانتقال التلقائي أو إنهاء الاختبار
-    setTimeout(() => {
-        if (appState.currentQuestionIndex < appState.currentQuestions.length - 1) {
-            appState.currentQuestionIndex++;
-            loadQuestion();
-        } else {
-            finishQuiz();
-        }
-    }, 3000);
-}
-
-// عرض التغذية الراجعة
-function showAnswerFeedback(isCorrect, explanation) {
-    const options = document.querySelectorAll('.option');
-    const currentQuestion = appState.currentQuestions[appState.currentQuestionIndex];
-    
-    options.forEach((option, index) => {
-        const optionText = option.querySelector('.option-text').textContent;
-        
-        // إزالة التحديد قبل إضافة الألوان
-        option.classList.remove('selected'); 
-        
-        if (optionText === currentQuestion.answer) {
-            option.classList.add('correct'); // الإجابة الصحيحة
-        } else if (index === appState.userAnswers[appState.currentQuestionIndex] && !isCorrect) {
-            option.classList.add('incorrect'); // الإجابة الخاطئة للمستخدم
-        }
-        
-        option.style.pointerEvents = 'none';
-    });
-
-    // عرض الشرح
-    const explanationBox = document.getElementById('explanation-box');
-    const explanationText = document.getElementById('explanation-text');
-    
-    explanationText.textContent = explanation;
-    explanationBox.classList.remove('hidden');
-
-    // تعطيل الأزرار مؤقتًا
-    document.getElementById('prev-btn').disabled = true;
-    document.getElementById('next-btn').disabled = true;
-    document.getElementById('submit-btn').disabled = true;
-}
-
-// المؤقت
-function startTimer() {
-    updateTimerDisplay();
-    
-    appState.timerInterval = setInterval(() => {
-        appState.timeLeft--;
-        updateTimerDisplay();
-        
-        if (appState.timeLeft <= 0) {
-            // ===================================
-            // انتهاء الوقت (الخطوة 5) ⏰
-            // ===================================
-            clearInterval(appState.timerInterval);
-            playTimeout(); // تشغيل صوت انتهاء الوقت
-            // ===================================
-
-            // إذا انتهى الوقت ولم يجب المستخدم، تعتبر الإجابة خاطئة (للمسارعة)
-            appState.currentStreak = 0;
-            document.getElementById('streak-counter').textContent = `${appState.currentStreak} تتابع`;
-
-            // عرض التغذية الراجعة (كأن الإجابة خاطئة أو لم يُجب)
-            showTimeoutFeedback(appState.currentQuestions[appState.currentQuestionIndex].explanation);
-
-
-            // الانتقال التلقائي للسؤال التالي بعد مهلة
-            setTimeout(() => {
-                if (appState.currentQuestionIndex < appState.currentQuestions.length - 1) {
-                    appState.currentQuestionIndex++;
-                    loadQuestion();
-                } else {
-                    finishQuiz();
-                }
-            }, 3000);
-        }
-    }, 1000);
-}
-
-// وظيفة لإظهار تغذية راجعة لانتهاء الوقت
-function showTimeoutFeedback(explanation) {
-    const options = document.querySelectorAll('.option');
-    const currentQuestion = appState.currentQuestions[appState.currentQuestionIndex];
-    
-    options.forEach(option => {
-        option.classList.remove('selected'); 
-        option.style.pointerEvents = 'none';
-        
-        // تمييز الإجابة الصحيحة
-        const optionText = option.querySelector('.option-text').textContent;
-        if (optionText === currentQuestion.answer) {
-            option.classList.add('correct'); 
-        }
-    });
-
-    const explanationBox = document.getElementById('explanation-box');
-    const explanationText = document.getElementById('explanation-text');
-    
-    explanationText.textContent = `انتهى الوقت! الإجابة الصحيحة هي: ${currentQuestion.answer}. ${explanation}`;
-    explanationBox.classList.remove('hidden');
-    
-    // تعطيل الأزرار مؤقتًا
-    document.getElementById('prev-btn').disabled = true;
-    document.getElementById('next-btn').disabled = true;
-    document.getElementById('submit-btn').disabled = true;
-}
-
-function updateTimerDisplay() {
-    const timerElement = document.getElementById('timer');
-    timerElement.textContent = appState.timeLeft;
-    
-    // تغيير اللون عند اقتراب انتهاء الوقت
-    if (appState.timeLeft <= 5) {
-        timerElement.classList.add('danger');
-        timerElement.classList.remove('warning');
-    } else if (appState.timeLeft <= 10) {
-        timerElement.classList.add('warning');
-        timerElement.classList.remove('danger');
-    } else {
-        timerElement.classList.remove('warning', 'danger');
-    }
-}
-
-// إنهاء الاختبار
-function finishQuiz() {
-    clearInterval(appState.timerInterval);
-    appState.quizCompleted = true;
-
-    // تحديث التقدم
-    const scorePercentage = (appState.score / appState.currentQuestions.length) * 100;
-    appState.progress[appState.currentSubject] = Math.max(
-        appState.progress[appState.currentSubject],
-        scorePercentage
-    );
-
-    // حفظ التقدم
-    saveUserProgress();
-
-    // عرض النتائج
-    showResults();
-}
-
-// عرض النتائج
-function showResults() {
-    elements.quizSection.classList.add('hidden');
-    elements.resultsSection.classList.remove('hidden');
-
-    const scorePercentage = Math.round((appState.score / appState.currentQuestions.length) * 100);
-
-    // تحديث النتائج
-    document.getElementById('results-subject').textContent = 
-        document.getElementById('current-subject').textContent;
-    
-    document.getElementById('score-percentage').textContent = `${scorePercentage}%`;
-    document.getElementById('correct-answers').textContent = appState.score;
-    document.getElementById('total-questions').textContent = appState.currentQuestions.length;
-    document.getElementById('best-streak').textContent = appState.bestStreak;
-
-    // تحديث دائرة النتيجة
-    const scoreCircle = document.querySelector('.score-circle');
-    scoreCircle.style.setProperty('--p', `${scorePercentage}%`);
-
-    // تحديث الإنجازات
-    updateAchievements(scorePercentage);
-}
-
-// تحديث الإنجازات
-function updateAchievements(scorePercentage) {
-    const achievementsContainer = document.getElementById('achievements-container');
-    achievementsContainer.innerHTML = '';
-
-    const achievements = [];
-
-    if (scorePercentage >= 90) {
-        achievements.push({
-            icon: 'fas fa-crown',
-            title: 'خبير الجيولوجيا',
-            description: 'تفوق متميز!'
-        });
-    }
-
-    if (scorePercentage >= 80) {
-        achievements.push({
-            icon: 'fas fa-medal',
-            title: 'متفوق',
-            description: 'أداء رائع!'
-        });
-    }
-
-    if (scorePercentage >= 70) {
-        achievements.push({
-            icon: 'fas fa-award',
-            title: 'متميز',
-            description: 'أداء جيد جدًا'
-        });
-    }
-
-    if (appState.currentStreak >= 5) {
-        achievements.push({
-            icon: 'fas fa-bolt',
-            title: 'متسلسل',
-            description: `${appState.currentStreak} إجابات صحيحة متتالية`
-        });
-    }
-
-    if (scorePercentage === 100) {
-        achievements.push({
-            icon: 'fas fa-star',
-            title: 'مثالي',
-            description: 'إجابات صحيحة كاملة!'
-        });
-    }
-
-    // إذا لم تكن هناك إنجازات، إضافة إنجاز تشجيعي
-    if (achievements.length === 0) {
-        achievements.push({
-            icon: 'fas fa-seedling',
-            title: 'مبتدئ واعد',
-            description: 'استمر في التعلم!'
-        });
-    }
-
-    achievements.forEach(achievement => {
-        const achievementElement = document.createElement('div');
-        achievementElement.className = 'achievement unlocked';
-        achievementElement.innerHTML = `
-            <i class="${achievement.icon}"></i>
-            <h4>${achievement.title}</h4>
-            <p>${achievement.description}</p>
-        `;
-        achievementsContainer.appendChild(achievementElement);
-    });
-}
-
-// النافذة المنبثقة للخروج
-function showExitConfirmation() {
-    elements.confirmationModal.classList.remove('hidden');
-}
-
-function hideModal() {
-    elements.confirmationModal.classList.add('hidden');
-}
-
-function exitQuiz() {
-    clearInterval(appState.timerInterval);
-    hideModal();
-    
-    elements.quizSection.classList.add('hidden');
-    elements.subjectSelection.classList.remove('hidden');
-    
-    appState.quizStarted = false;
-    updateUI();
-}
-
-// وظائف النتائج
-function reviewAnswers() {
-    // العودة إلى السؤال الأول مع إظهار الإجابات
-    appState.currentQuestionIndex = 0;
-    elements.resultsSection.classList.add('hidden');
-    elements.quizSection.classList.remove('hidden');
-    
-    // إيقاف أي مؤقت عند المراجعة
-    clearInterval(appState.timerInterval);
-    
-    // تحميل السؤال الأول
-    loadQuestion();
-    
-    // تعطيل الإجابة على الأسئلة في وضع المراجعة وإظهار التغذية الراجعة
-    showAnswerFeedback(
-        appState.userAnswers[0] !== undefined && appState.currentQuestions[0].options[appState.userAnswers[0]] === appState.currentQuestions[0].answer, 
-        appState.currentQuestions[0].explanation
-    );
-    
-    document.querySelectorAll('.option').forEach(option => {
-        option.style.pointerEvents = 'none';
-    });
-    
-    document.getElementById('submit-btn').classList.add('hidden');
-    document.getElementById('next-btn').classList.remove('hidden');
-}
-
-function newQuiz() {
-    elements.resultsSection.classList.add('hidden');
-    elements.subjectSelection.classList.remove('hidden');
-    updateUI();
-}
-
-// بدء التطبيق
-document.addEventListener('DOMContentLoaded', initApp);
+// تحميل تقدم
