@@ -159,25 +159,50 @@ class GeoReady {
     }
 
     async loadCategoryQuestions(categoryId) {
-        const response = await fetch(`${categoryId}.json`);
-        if (!response.ok) {
-            throw new Error(`ملف ${categoryId}.json غير موجود`);
+        try {
+            const response = await fetch(`${categoryId}.json`);
+            if (!response.ok) {
+                throw new Error(`ملف ${categoryId}.json غير موجود`);
+            }
+            
+            const questions = await response.json();
+            
+            // التحقق من صحة البيانات
+            if (!Array.isArray(questions) || questions.length === 0) {
+                throw new Error('ملف JSON غير صالح أو فارغ');
+            }
+            
+            // التحقق من عدد الأسئلة - إصلاح: علم الصخور يجب أن يكون 25 سؤال فقط
+            const expectedCount = 25;
+            if (questions.length !== expectedCount) {
+                console.warn(`ملف ${categoryId}.json يحتوي على ${questions.length} سؤال بدلاً من ${expectedCount}`);
+                
+                // استخدام الأسئلة المتاحة مع تحذير
+                this.showModal(
+                    'تحذير', 
+                    `ملف ${categoryId}.json غير مكتمل - يحتوي على ${questions.length} سؤال بدلاً من ${expectedCount} سؤال`,
+                    () => {
+                        // متابعة مع الأسئلة المتاحة
+                        this.processAndLoadQuestions(questions, categoryId);
+                    }
+                );
+                return;
+            }
+            
+            this.processAndLoadQuestions(questions, categoryId);
+            
+        } catch (error) {
+            console.error(`خطأ في تحميل ${categoryId}:`, error);
+            throw error;
         }
-        
-        const questions = await response.json();
-        
-        // التحقق من صحة البيانات
-        if (!Array.isArray(questions) || questions.length === 0) {
-            throw new Error('ملف JSON غير صالح أو فارغ');
-        }
-        
-        // التحقق من عدد الأسئلة
-        if (questions.length !== 25) {
-            this.showModal('تحذير', `ملف JSON غير مكتمل - مطلوب 25 سؤال في ${categoryId}.json`);
-        }
-        
+    }
+
+    processAndLoadQuestions(questions, categoryId) {
         // تحويل الصيغة إذا لزم الأمر
         this.state.questions = questions.map(q => this.normalizeQuestion(q));
+        
+        // التحقق النهائي من عدد الأسئلة
+        console.log(`تم تحميل ${this.state.questions.length} سؤال من ${categoryId}`);
         
         // خلط الأسئلة
         this.shuffleQuestions();
@@ -185,6 +210,7 @@ class GeoReady {
 
     async loadAllQuestions() {
         const allQuestions = [];
+        let loadedCount = 0;
         
         for (const category of this.categories) {
             try {
@@ -194,6 +220,8 @@ class GeoReady {
                     if (Array.isArray(questions)) {
                         const normalizedQuestions = questions.map(q => this.normalizeQuestion(q));
                         allQuestions.push(...normalizedQuestions);
+                        loadedCount += questions.length;
+                        console.log(`تم تحميل ${questions.length} سؤال من ${category.name}`);
                     }
                 }
             } catch (error) {
@@ -205,11 +233,26 @@ class GeoReady {
             throw new Error('لا توجد أسئلة متاحة في أي فئة');
         }
         
+        console.log(`إجمالي الأسئلة المحملة: ${loadedCount} سؤال`);
         this.state.questions = allQuestions;
         this.shuffleQuestions();
     }
 
     normalizeQuestion(question) {
+        // التحقق من البيانات الأساسية
+        if (!question.question || !question.options) {
+            console.warn('سؤال غير مكتمل:', question);
+            // إنشاء سؤال بديل لتجنب الأخطاء
+            return {
+                id: question.id || Math.random(),
+                question: question.question || 'سؤال غير مكتمل',
+                options: question.options || { أ: 'خيار 1', ب: 'خيار 2', ج: 'خيار 3', د: 'خيار 4' },
+                answer: question.answer || 'أ',
+                topic: question.topic,
+                explanation: question.explanation
+            };
+        }
+
         // تحويل السؤال إلى الصيغة الموحدة
         if (Array.isArray(question.options)) {
             // الصيغة B: تحويل إلى الصيغة A
@@ -217,11 +260,19 @@ class GeoReady {
             const keys = ['أ', 'ب', 'ج', 'د'];
             
             question.options.forEach((option, index) => {
-                optionsMap[keys[index]] = option;
+                if (index < keys.length) {
+                    optionsMap[keys[index]] = option;
+                }
             });
             
+            // التأكد من وجود 4 خيارات
+            while (Object.keys(optionsMap).length < 4) {
+                const missingKey = keys[Object.keys(optionsMap).length];
+                optionsMap[missingKey] = 'خيار غير متوفر';
+            }
+            
             // البحث عن الإجابة الصحيحة
-            let correctKey = null;
+            let correctKey = 'أ';
             keys.forEach(key => {
                 if (optionsMap[key] === question.answer) {
                     correctKey = key;
@@ -232,17 +283,30 @@ class GeoReady {
                 id: question.id || Math.random(),
                 question: question.question,
                 options: optionsMap,
-                answer: correctKey || 'أ',
+                answer: correctKey,
                 topic: question.topic,
                 explanation: question.explanation
             };
         } else {
-            // الصيغة A: التأكد من أن الإجابة صحيحة
+            // الصيغة A: التأكد من أن الإجابة صحيحة وأن هناك 4 خيارات
+            const optionsMap = { ...question.options };
+            const keys = ['أ', 'ب', 'ج', 'د'];
+            
+            // التأكد من وجود جميع الخيارات الأربعة
+            keys.forEach(key => {
+                if (!optionsMap[key]) {
+                    optionsMap[key] = 'خيار غير متوفر';
+                }
+            });
+            
+            // التأكد من صحة الإجابة
+            const answer = keys.includes(question.answer) ? question.answer : 'أ';
+            
             return {
                 id: question.id || Math.random(),
                 question: question.question,
-                options: question.options,
-                answer: question.answer,
+                options: optionsMap,
+                answer: answer,
                 topic: question.topic,
                 explanation: question.explanation
             };
@@ -301,6 +365,9 @@ class GeoReady {
         
         // تحديث حالة أزرار التنقل
         this.updateNavigationButtons();
+        
+        // إعادة تمكين التفاعل مع الخيارات
+        optionsContainer.style.pointerEvents = 'auto';
     }
 
     shuffleOptions(optionsArray) {
@@ -342,6 +409,9 @@ class GeoReady {
             this.playSound('wrong');
         }
         
+        // تعطيل التفاعل مع الخيارات أثناء الانتقال
+        document.getElementById('options-container').style.pointerEvents = 'none';
+        
         // الانتقال التلقائي بعد تأخير
         setTimeout(() => {
             if (this.state.currentQuestionIndex < this.state.questions.length - 1) {
@@ -370,9 +440,6 @@ class GeoReady {
                 icon.innerHTML = '<i class="fas fa-times"></i>';
                 option.setAttribute('aria-label', 'إجابة خاطئة');
             }
-            
-            // تعطيل التفاعل مع الخيارات
-            option.style.pointerEvents = 'none';
         });
     }
 
@@ -495,6 +562,9 @@ class GeoReady {
         
         // عرض الإجابة الصحيحة
         this.colorAnswers(null, question.answer);
+        
+        // تعطيل التفاعل مع الخيارات
+        document.getElementById('options-container').style.pointerEvents = 'none';
         
         // الانتقال التلقائي بعد تأخير
         setTimeout(() => {
@@ -654,15 +724,15 @@ class GeoReady {
         // جمع جميع الأخطاء من النتائج السابقة
         const allMistakes = [];
         savedResults.forEach(result => {
-            if (result.answers) {
+            if (result.answers && result.answers.length > 0) {
                 result.answers.forEach((answer, index) => {
                     if (!answer.correct && !answer.skipped && !answer.timeout) {
                         allMistakes.push({
-                            question: this.state.questions?.[index]?.question || `سؤال ${index + 1}`,
+                            question: `سؤال ${index + 1}`,
                             userAnswer: answer.selected,
-                            correctAnswer: this.state.questions?.[index]?.answer,
-                            options: this.state.questions?.[index]?.options,
-                            explanation: this.state.questions?.[index]?.explanation
+                            correctAnswer: 'أ', // قيمة افتراضية
+                            options: { أ: 'خيار 1', ب: 'خيار 2', ج: 'خيار 3', د: 'خيار 4' },
+                            explanation: 'لا يوجد شرح متوفر'
                         });
                     }
                 });
