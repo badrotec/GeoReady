@@ -3,80 +3,207 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>اختبار الجيولوجيا التفاعلي</title>
+    <title>الاختبار الشامل للجيولوجيا</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
         <!-- شاشة البداية -->
         <div id="start-screen" class="screen active">
-            <h1>اختبار الجيولوجيا التفاعلي</h1>
-            <p>اختر مجال الاختبار:</p>
-            <div class="subject-buttons">
-                <button class="subject-btn" data-subject="BasicGeology">الجيولوجيا الأساسية</button>
-                <button class="subject-btn" data-subject="Geochemistry">الجيوكيمياء</button>
-                <button class="subject-btn" data-subject="Geophysics">الجيوفيزياء</button>
-                <button class="subject-btn" data-subject="Hydrogeology">الهيدروجيولوجيا</button>
-                <button class="subject-btn" data-subject="Petrology">علم الصخور</button>
-                <button class="subject-btn" data-subject="Structuralgeology">الجيولوجيا التركيبية</button>
-                <button class="subject-btn" data-subject="sedimentarygeology">جيولوجيا الرواسب</button>
-                <button class="subject-btn" data-subject="PetroleumGeology">الجيولوجيا البترولية</button>
-                <button class="subject-btn" data-subject="AppliedGeology">الجيولوجيا التطبيقية</button>
+            <div class="header">
+                <h1>🌍 الاختبار الشامل للجيولوجيا</h1>
+                <p class="subtitle">اختبر معرفتك في جميع فروع الجيولوجيا</p>
             </div>
+            
+            <div class="subject-selection">
+                <h2>اختر مجال الاختبار:</h2>
+                <div class="subject-grid">
+                    <div class="subject-card" data-subject="basic">
+                        <div class="subject-icon">🪨</div>
+                        <h3>الجيولوجيا الأساسية</h3>
+                        <p>25 سؤال - 20 ثانية لكل سؤال</p>
+                    </div>
+                    <div class="subject-card" data-subject="geochemistry">
+                        <div class="subject-icon">🧪</div>
+                        <h3>الجيوكيمياء</h3>
+                        <p>25 سؤال - 20 ثانية لكل سؤال</p>
+                    </div>
+                    <div class="subject-card" data-subject="geophysics">
+                        <div class="subject-icon">📡</div>
+                        <h3>الجيوفيزياء</h3>
+                        <p>25 سؤال - 20 ثانية لكل سؤال</p>
+                    </div>
+                    <div class="subject-card" data-subject="hydrogeology">
+                        <div class="subject-icon">💧</div>
+                        <h3>الهيدروجيولوجيا</h3>
+                        <p>25 سؤال - 20 ثانية لكل سؤال</p>
+                    </div>
+                    <div class="subject-card" data-subject="petrology">
+                        <div class="subject-icon">🔥</div>
+                        <h3>علم الصخور</h3>
+                        <p>25 سؤال - 20 ثانية لكل سؤال</p>
+                    </div>
+                    <div class="subject-card" data-subject="structural">
+                        <div class="subject-icon">⛰️</div>
+                        <h3>الجيولوجيا التركيبية</h3>
+                        <p>25 سؤال - 20 ثانية لكل سؤال</p>
+                    </div>
+                    <div class="subject-card" data-subject="sedimentary">
+                        <div class="subject-icon">🏞️</div>
+                        <h3>جيولوجيا الرواسب</h3>
+                        <p>25 سؤال - 20 ثانية لكل سؤال</p>
+                    </div>
+                    <div class="subject-card" data-subject="petroleum">
+                        <div class="subject-icon">🛢️</div>
+                        <h3>الجيولوجيا البترولية</h3>
+                        <p>25 سؤال - 20 ثانية لكل سؤال</p>
+                    </div>
+                    <div class="subject-card" data-subject="applied">
+                        <div class="subject-icon">🏗️</div>
+                        <h3>الجيولوجيا التطبيقية</h3>
+                        <p>25 سؤال - 20 ثانية لكل سؤال</p>
+                    </div>
+                </div>
+            </div>
+
             <div class="instructions">
-                <h3>تعليمات الاختبار:</h3>
-                <ul>
-                    <li>يحتوي كل اختبار على 25 سؤالاً</li>
-                    <li>مدة الإجابة على كل سؤال 20 ثانية</li>
-                    <li>سيتم الانتقال تلقائياً للسؤال التالي عند انتهاء الوقت</li>
-                    <li>لا يمكن العودة للسؤال السابق</li>
-                </ul>
+                <h3>📋 تعليمات الاختبار:</h3>
+                <div class="instruction-list">
+                    <div class="instruction-item">
+                        <span class="icon">⏱️</span>
+                        <span>مدة الإجابة على كل سؤال: 20 ثانية</span>
+                    </div>
+                    <div class="instruction-item">
+                        <span class="icon">🔄</span>
+                        <span>الانتقال التلقائي للسؤال التالي عند انتهاء الوقت</span>
+                    </div>
+                    <div class="instruction-item">
+                        <span class="icon">📊</span>
+                        <span>25 سؤالاً في كل اختبار</span>
+                    </div>
+                    <div class="instruction-item">
+                        <span class="icon">🎯</span>
+                        <span>لا يمكن العودة للسؤال السابق</span>
+                    </div>
+                </div>
             </div>
         </div>
 
         <!-- شاشة الاختبار -->
         <div id="quiz-screen" class="screen">
             <div class="quiz-header">
-                <div class="subject-title" id="subject-title">الجيولوجيا الأساسية</div>
-                <div class="progress">
-                    <span id="question-counter">سؤال 1 من 25</span>
+                <div class="subject-info">
+                    <div class="subject-badge" id="subject-badge">🪨</div>
+                    <div class="subject-title" id="subject-title">الجيولوجيا الأساسية</div>
+                </div>
+                
+                <div class="progress-section">
+                    <div class="progress-text" id="question-counter">سؤال 1 من 25</div>
                     <div class="progress-bar">
                         <div class="progress-fill" id="progress-fill"></div>
                     </div>
                 </div>
-                <div class="timer-container">
-                    <div class="timer" id="timer">20</div>
+
+                <div class="timer-section">
+                    <div class="timer-circle">
+                        <svg class="timer-svg" width="80" height="80">
+                            <circle class="timer-bg" cx="40" cy="40" r="36"></circle>
+                            <circle class="timer-progress" cx="40" cy="40" r="36"></circle>
+                        </svg>
+                        <div class="timer-text" id="timer">20</div>
+                    </div>
                     <div class="timer-label">ثانية</div>
                 </div>
             </div>
 
-            <div class="question-container">
-                <div class="question" id="question">جاري تحميل السؤال...</div>
-                <div class="options" id="options">
+            <div class="question-section">
+                <div class="question-card">
+                    <div class="question-number">سؤال <span id="current-q-number">1</span></div>
+                    <div class="question-text" id="question">جاري تحميل السؤال...</div>
+                </div>
+                
+                <div class="options-grid" id="options">
                     <!-- سيتم ملء الخيارات ديناميكياً -->
                 </div>
             </div>
 
             <div class="quiz-footer">
-                <button id="next-btn" class="btn" disabled>التالي</button>
+                <button id="next-btn" class="next-btn" disabled>
+                    <span>التالي</span>
+                    <span class="arrow">→</span>
+                </button>
             </div>
         </div>
 
         <!-- شاشة النتائج -->
         <div id="results-screen" class="screen">
-            <h1>نتيجة الاختبار</h1>
-            <div class="score-container">
-                <div class="score-circle">
-                    <span id="score-percentage">0%</span>
+            <div class="results-header">
+                <h1>🎉 نتائج الاختبار</h1>
+                <div class="subject-results">
+                    <div class="subject-badge large" id="result-subject-badge">🪨</div>
+                    <div>
+                        <div class="subject-name" id="result-subject-name">الجيولوجيا الأساسية</div>
+                        <div class="test-date" id="test-date"></div>
+                    </div>
                 </div>
-                <p>إجابات صحيحة: <span id="correct-answers">0</span> من 25</p>
             </div>
-            <div class="results-details" id="results-details">
-                <!-- سيتم ملء تفاصيل النتائج ديناميكياً -->
+
+            <div class="score-section">
+                <div class="score-circle">
+                    <div class="score-ring">
+                        <svg width="180" height="180">
+                            <circle class="score-bg" cx="90" cy="90" r="80"></circle>
+                            <circle class="score-progress" cx="90" cy="90" r="80"></circle>
+                        </svg>
+                        <div class="score-content">
+                            <div class="score-percentage" id="score-percentage">0%</div>
+                            <div class="score-text">النسبة المئوية</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="score-stats">
+                    <div class="stat-item correct">
+                        <div class="stat-number" id="correct-count">0</div>
+                        <div class="stat-label">إجابات صحيحة</div>
+                    </div>
+                    <div class="stat-item wrong">
+                        <div class="stat-number" id="wrong-count">0</div>
+                        <div class="stat-label">إجابات خاطئة</div>
+                    </div>
+                    <div class="stat-item total">
+                        <div class="stat-number">25</div>
+                        <div class="stat-label">إجمالي الأسئلة</div>
+                    </div>
+                </div>
             </div>
-            <div class="results-buttons">
-                <button id="restart-btn" class="btn">إعادة الاختبار</button>
-                <button id="change-subject-btn" class="btn">اختيار مجال آخر</button>
+
+            <div class="results-actions">
+                <button id="review-btn" class="action-btn secondary">
+                    <span>📖 مراجعة الإجابات</span>
+                </button>
+                <button id="restart-btn" class="action-btn primary">
+                    <span>🔄 إعادة الاختبار</span>
+                </button>
+                <button id="new-subject-btn" class="action-btn primary">
+                    <span>🌍 اختبار جديد</span>
+                </button>
+            </div>
+
+            <div class="performance-message" id="performance-message">
+                <!-- سيتم ملء رسالة الأداء ديناميكياً -->
+            </div>
+        </div>
+
+        <!-- شاشة مراجعة الإجابات -->
+        <div id="review-screen" class="screen">
+            <div class="review-header">
+                <h1>📖 مراجعة الإجابات</h1>
+                <button id="back-to-results" class="back-btn">← العودة للنتائج</button>
+            </div>
+            
+            <div class="review-list" id="review-list">
+                <!-- سيتم ملء مراجعة الإجابات ديناميكياً -->
             </div>
         </div>
     </div>
@@ -85,6 +212,7 @@
     <audio id="correct-sound" src="sounds/correct.mp3" preload="auto"></audio>
     <audio id="wrong-sound" src="sounds/wrong.mp3" preload="auto"></audio>
     <audio id="timeout-sound" src="sounds/timeout.mp3" preload="auto"></audio>
+    <audio id="click-sound" src="sounds/click.mp3" preload="auto"></audio>
 
     <script src="script.js"></script>
 </body>
