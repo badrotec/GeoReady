@@ -1,345 +1,237 @@
-<!DOCTYPE html>
+<!doctype html>
+
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>جيولاب - مختبر الجيولوجيا التفاعلي</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>تحدي عالم الجيولوجيا — Quiz ميدان</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#071022;--card:#0f1724;--accent:#ff7a18;--muted:#94a3b8;--glass:rgba(255,255,255,0.04)}
+    *{box-sizing:border-box;font-family:'Inter',system-ui,Segoe UI,Arial,sans-serif}
+    html,body{height:100%;margin:0;background:linear-gradient(180deg,#041025 0%, #071022 60%);color:#e6eef8}
+    .container{max-width:1100px;margin:28px auto;padding:20px}/* Hero */
+.hero{display:grid;grid-template-columns:1fr 420px;gap:28px;align-items:center}
+.hero-card{background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);border-radius:18px;padding:28px;border:1px solid rgba(255,255,255,0.04);box-shadow:0 8px 30px rgba(2,6,23,0.6)}
+h1{font-size:2rem;margin:0 0 10px}
+p.lead{margin:0 0 18px;color:var(--muted)}
+.cta{display:flex;gap:12px}
+.btn{background:var(--accent);border:none;padding:12px 18px;border-radius:12px;color:#091018;font-weight:700;cursor:pointer;box-shadow:0 6px 20px rgba(255,122,24,0.18);font-size:15px}
+.btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:#e6eef8}
+.hero-visual{position:relative;height:320px;border-radius:18px;overflow:hidden;background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800"><rect width="100%" height="100%" fill="%23040b16"/><g fill="none" stroke="%2322a6a0" opacity="0.06"><path d="M0 600c120-120 240-200 360-300 120-100 240-180 360-200 120-20 240 30 360 80"/></g></svg>');border:1px solid rgba(255,255,255,0.02)}
+.hero-visual .overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(7,16,34,0.2),rgba(2,6,23,0.7));display:flex;flex-direction:column;justify-content:flex-end;padding:18px}
+.stat{display:flex;gap:12px;align-items:center}
+.stat .num{font-weight:800;color:var(--accent);font-size:20px}
+
+/* Quiz card */
+.quiz{margin-top:22px;background:var(--card);padding:18px;border-radius:14px;border:1px solid var(--glass)}
+.progress{height:12px;background:rgba(255,255,255,0.04);border-radius:8px;overflow:hidden}
+.progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),#ffb56b);width:0%}
+.question{margin-top:18px;font-weight:600}
+.choices{display:grid;gap:10px;margin-top:12px}
+.choice{background:transparent;border:1px solid rgba(255,255,255,0.04);padding:12px;border-radius:10px;cursor:pointer}
+.choice.selected{outline:2px solid rgba(255,122,24,0.16);background:linear-gradient(180deg,rgba(255,122,24,0.06),transparent)}
+.footer{display:flex;justify-content:space-between;align-items:center;margin-top:16px}
+
+/* Result */
+.result{display:none;padding:20px;border-radius:12px;text-align:center}
+.badge{display:inline-block;padding:14px;border-radius:12px;background:linear-gradient(180deg,#0f1724,rgba(255,255,255,0.02));border:1px solid rgba(255,255,255,0.04);margin-bottom:12px}
+.share{display:flex;gap:8px;justify-content:center;margin-top:12px}
+.small{font-size:13px;color:var(--muted)}
+
+/* Responsive */
+@media (max-width:880px){.hero{grid-template-columns:1fr;}.hero-visual{height:200px}.container{padding:12px}}
+
+  </style>
 </head>
 <body>
-    <!-- شاشة التحميل -->
-    <div id="loading-screen" class="screen active">
-        <div class="loading-container">
-            <div class="loading-geology">
-                <div class="rock-shape"></div>
-                <div class="crystal-shape"></div>
-                <div class="mineral-shape"></div>
-            </div>
-            <h1>جيولاب</h1>
-            <p>مختبر الجيولوجيا التفاعلي</p>
-            <div class="loading-bar">
-                <div class="loading-progress"></div>
-            </div>
+  <div class="container">
+    <div class="hero">
+      <div class="hero-card">
+        <h1>هل أنت عالم الجيولوجيا القادم؟</h1>
+        <p class="lead">اختبر مهاراتك الميدانية — الصخور، الخرائط، الأدوات، والتراكيب. تحدّى زمنك واحصل على لقب علمي.</p>
+        <div class="cta">
+          <button class="btn" id="startBtn">ابدأ التحدي 🔥</button>
+          <button class="btn ghost" id="practiceBtn">سؤال تجريبي</button>
+        </div><div class="quiz" id="quizCard" style="display:none">
+      <div class="progress" aria-hidden><i id="progressBar"></i></div>
+      <div class="meta small" style="margin-top:8px">السؤال <span id="cur">0</span> من <span id="total">0</span></div>
+      <div class="question" id="questionText">...</div>
+      <div class="choices" id="choices"></div>
+      <div class="footer">
+        <div class="small" id="timer">الزمن المتبقي: <span id="timeLeft">--</span></div>
+        <div>
+          <button class="btn ghost" id="skipBtn">تخطى</button>
+          <button class="btn" id="nextBtn">التالي</button>
         </div>
+      </div>
     </div>
 
-    <!-- شاشة الرئيسية -->
-    <div id="main-screen" class="screen">
-        <!-- شريط التنقل -->
-        <nav class="navbar">
-            <div class="nav-brand">
-                <i class="fas fa-mountain"></i>
-                <span>جيولاب</span>
-            </div>
-            <div class="nav-stats">
-                <div class="stat">
-                    <i class="fas fa-trophy"></i>
-                    <span id="total-score">0</span>
-                </div>
-                <div class="stat">
-                    <i class="fas fa-star"></i>
-                    <span id="total-tests">0</span>
-                </div>
-            </div>
-        </nav>
-
-        <!-- الهيرو -->
-        <section class="hero">
-            <div class="hero-content">
-                <h1>اكتشف عالم <span class="highlight">الجيولوجيا</span></h1>
-                <p>اختبر معرفتك في مختلف فروع الجيولوجيا مع نظام تفاعلي متكامل</p>
-                <div class="hero-stats">
-                    <div class="hero-stat">
-                        <span class="number">9</span>
-                        <span class="label">تخصصات</span>
-                    </div>
-                    <div class="hero-stat">
-                        <span class="number">225</span>
-                        <span class="label">سؤال</span>
-                    </div>
-                    <div class="hero-stat">
-                        <span class="number">20</span>
-                        <span class="label">ثانية/سؤال</span>
-                    </div>
-                </div>
-            </div>
-            <div class="hero-visual">
-                <div class="floating-rocks">
-                    <div class="rock r1"><i class="fas fa-gem"></i></div>
-                    <div class="rock r2"><i class="fas fa-mountain"></i></div>
-                    <div class="rock r3"><i class="fas fa-fire"></i></div>
-                    <div class="rock r4"><i class="fas fa-water"></i></div>
-                </div>
-            </div>
-        </section>
-
-        <!-- قسم التخصصات -->
-        <section class="subjects-section">
-            <div class="section-header">
-                <h2>التخصصات الجيولوجية</h2>
-                <p>اختر مجال الاختبار الذي تريد تحدي نفسك فيه</p>
-            </div>
-
-            <div class="subjects-grid">
-                <div class="subject-card" data-subject="basic">
-                    <div class="card-icon">
-                        <i class="fas fa-mountain"></i>
-                    </div>
-                    <div class="card-content">
-                        <h3>الجيولوجيا الأساسية</h3>
-                        <p>أساسيات علم الأرض والصخور والمعادن</p>
-                        <div class="card-stats">
-                            <span><i class="fas fa-question"></i> 25 سؤال</span>
-                            <span><i class="fas fa-clock"></i> 20 ثانية</span>
-                        </div>
-                    </div>
-                    <div class="card-badge beginner">مبتدئ</div>
-                </div>
-
-                <div class="subject-card" data-subject="geochemistry">
-                    <div class="card-icon">
-                        <i class="fas fa-flask"></i>
-                    </div>
-                    <div class="card-content">
-                        <h3>الجيوكيمياء</h3>
-                        <p>التركيب الكيميائي للصخور والمعادن</p>
-                        <div class="card-stats">
-                            <span><i class="fas fa-question"></i> 25 سؤال</span>
-                            <span><i class="fas fa-clock"></i> 20 ثانية</span>
-                        </div>
-                    </div>
-                    <div class="card-badge intermediate">متوسط</div>
-                </div>
-
-                <div class="subject-card" data-subject="geophysics">
-                    <div class="card-icon">
-                        <i class="fas fa-satellite-dish"></i>
-                    </div>
-                    <div class="card-content">
-                        <h3>الجيوفيزياء</h3>
-                        <p>دراسة باطن الأرض بالطرق الفيزيائية</p>
-                        <div class="card-stats">
-                            <span><i class="fas fa-question"></i> 25 سؤال</span>
-                            <span><i class="fas fa-clock"></i> 20 ثانية</span>
-                        </div>
-                    </div>
-                    <div class="card-badge advanced">متقدم</div>
-                </div>
-
-                <div class="subject-card" data-subject="hydrogeology">
-                    <div class="card-icon">
-                        <i class="fas fa-water"></i>
-                    </div>
-                    <div class="card-content">
-                        <h3>الهيدروجيولوجيا</h3>
-                        <p>علم المياه الجوفية وحركتها</p>
-                        <div class="card-stats">
-                            <span><i class="fas fa-question"></i> 25 سؤال</span>
-                            <span><i class="fas fa-clock"></i> 20 ثانية</span>
-                        </div>
-                    </div>
-                    <div class="card-badge intermediate">متوسط</div>
-                </div>
-
-                <div class="subject-card" data-subject="petrology">
-                    <div class="card-icon">
-                        <i class="fas fa-gem"></i>
-                    </div>
-                    <div class="card-content">
-                        <h3>علم الصخور</h3>
-                        <p>دراسة أنواع الصخور وتكوينها</p>
-                        <div class="card-stats">
-                            <span><i class="fas fa-question"></i> 25 سؤال</span>
-                            <span><i class="fas fa-clock"></i> 20 ثانية</span>
-                        </div>
-                    </div>
-                    <div class="card-badge beginner">مبتدئ</div>
-                </div>
-
-                <div class="subject-card" data-subject="structural">
-                    <div class="card-icon">
-                        <i class="fas fa-layer-group"></i>
-                    </div>
-                    <div class="card-content">
-                        <h3>الجيولوجيا التركيبية</h3>
-                        <p>الطيات والصدوع والتراكيب الأرضية</p>
-                        <div class="card-stats">
-                            <span><i class="fas fa-question"></i> 25 سؤال</span>
-                            <span><i class="fas fa-clock"></i> 20 ثانية</span>
-                        </div>
-                    </div>
-                    <div class="card-badge advanced">متقدم</div>
-                </div>
-
-                <div class="subject-card" data-subject="sedimentary">
-                    <div class="card-icon">
-                        <i class="fas fa-hill-rockslide"></i>
-                    </div>
-                    <div class="card-content">
-                        <h3>جيولوجيا الرواسب</h3>
-                        <p>الصخور الرسوبية وعمليات الترسيب</p>
-                        <div class="card-stats">
-                            <span><i class="fas fa-question"></i> 25 سؤال</span>
-                            <span><i class="fas fa-clock"></i> 20 ثانية</span>
-                        </div>
-                    </div>
-                    <div class="card-badge intermediate">متوسط</div>
-                </div>
-
-                <div class="subject-card" data-subject="petroleum">
-                    <div class="card-icon">
-                        <i class="fas fa-oil-well"></i>
-                    </div>
-                    <div class="card-content">
-                        <h3>الجيولوجيا البترولية</h3>
-                        <p>استكشاف وتكوين النفط والغاز</p>
-                        <div class="card-stats">
-                            <span><i class="fas fa-question"></i> 25 سؤال</span>
-                            <span><i class="fas fa-clock"></i> 20 ثانية</span>
-                        </div>
-                    </div>
-                    <div class="card-badge advanced">متقدم</div>
-                </div>
-
-                <div class="subject-card" data-subject="applied">
-                    <div class="card-icon">
-                        <i class="fas fa-hammer"></i>
-                    </div>
-                    <div class="card-content">
-                        <h3>الجيولوجيا التطبيقية</h3>
-                        <p>التطبيقات العملية للجيولوجيا</p>
-                        <div class="card-stats">
-                            <span><i class="fas fa-question"></i> 25 سؤال</span>
-                            <span><i class="fas fa-clock"></i> 20 ثانية</span>
-                        </div>
-                    </div>
-                    <div class="card-badge intermediate">متوسط</div>
-                </div>
-            </div>
-        </section>
-
-        <!-- قسم الإحصائيات -->
-        <section class="stats-section">
-            <div class="section-header">
-                <h2>إحصائياتك</h2>
-                <p>تتبع تقدمك في رحلة التعلم</p>
-            </div>
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3>المستوى العام</h3>
-                        <div class="progress-ring">
-                            <svg width="80" height="80">
-                                <circle class="progress-bg" cx="40" cy="40" r="35"></circle>
-                                <circle class="progress-fill" cx="40" cy="40" r="35"></circle>
-                            </svg>
-                            <span class="progress-text">65%</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-trophy"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3>الاختبارات المكتملة</h3>
-                        <div class="stat-number">3/9</div>
-                        <div class="stat-subtitle">تخصصات</div>
-                    </div>
-                </div>
-
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-bolt"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3>أفضل تخصص</h3>
-                        <div class="best-subject">
-                            <i class="fas fa-mountain"></i>
-                            <span>الجيولوجيا الأساسية</span>
-                        </div>
-                        <div class="stat-subtitle">نسبة 85%</div>
-                    </div>
-                </div>
-            </div>
-        </section>
+    <div class="result" id="resultCard">
+      <div class="badge" id="badgeArea">
+        <div style="font-size:22px;font-weight:800" id="scoreText">0 / 0</div>
+        <div class="small" id="titleText">لقبك العلمي</div>
+      </div>
+      <div id="explainArea" style="text-align:right"></div>
+      <div class="share">
+        <button class="btn ghost" id="retryBtn">أعد المحاولة</button>
+        <button class="btn" id="shareBtn">مشاركة النتيجة</button>
+      </div>
     </div>
 
-    <!-- شاشة التحضير للاختبار -->
-    <div id="pre-quiz-screen" class="screen">
-        <div class="quiz-prep">
-            <div class="prep-header">
-                <button class="back-btn" id="back-to-main">
-                    <i class="fas fa-arrow-right"></i>
-                    العودة
-                </button>
-                <h1>استعداد للاختبار</h1>
-            </div>
+  </div>
 
-            <div class="prep-content">
-                <div class="subject-preview">
-                    <div class="preview-icon" id="prep-subject-icon">
-                        <i class="fas fa-mountain"></i>
-                    </div>
-                    <h2 id="prep-subject-name">الجيولوجيا الأساسية</h2>
-                    <p id="prep-subject-desc">أساسيات علم الأرض والصخور والمعادن</p>
-                </div>
-
-                <div class="prep-info">
-                    <div class="info-card">
-                        <i class="fas fa-list-ol"></i>
-                        <div>
-                            <h4>25 سؤال</h4>
-                            <p>مجموعة متنوعة من الأسئلة</p>
-                        </div>
-                    </div>
-                    <div class="info-card">
-                        <i class="fas fa-clock"></i>
-                        <div>
-                            <h4>20 ثانية</h4>
-                            <p>مدة لكل سؤال</p>
-                        </div>
-                    </div>
-                    <div class="info-card">
-                        <i class="fas fa-bullseye"></i>
-                        <div>
-                            <h4>70% للنجاح</h4>
-                            <p>نسبة النجاح المطلوبة</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="prep-actions">
-                    <button class="btn secondary" id="prep-cancel">إلغاء</button>
-                    <button class="btn primary" id="prep-start">
-                        <i class="fas fa-play"></i>
-                        بدء الاختبار
-                    </button>
-                </div>
-            </div>
+  <div class="hero-visual">
+    <div style="padding:18px;color:#dff6f4">
+      <div class="stat"><div class="num">10</div><div class="small">أسئلة ميدانية</div></div>
+      <div style="height:10px"></div>
+      <div class="stat"><div class="num">60s</div><div class="small">حد أقصى لكل سؤال</div></div>
+    </div>
+    <div class="overlay">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div style="font-weight:700">تحدي مباشر</div>
+          <div class="small">نقاط، لقب، ومشاركة للمنافسة</div>
         </div>
+        <div style="text-align:left;font-size:12px;color:var(--muted)">ميدان • جيولوجيا</div>
+      </div>
     </div>
+  </div>
+</div>
 
-    <!-- شاشة الاختبار -->
-    <div id="quiz-screen" class="screen">
-        <!-- سيتم إضافة محتوى شاشة الاختبار هنا -->
-    </div>
+  </div>  <script>
+    // Sample questions (10) - suitable for field geology prep
+    const QUESTIONS = [
+      {q:'أي نوع من الصخور يتكوّن من تبريد الحمم داخل القشرة ببطء؟', choices:['نارية سطحية','نارية جوفية','رسوبية','متحولة'], a:1, explain:'التبريد البطيء داخل القشرة ينتج بلورات كبيرة — هذا نادر في الصخور النارية الجوفية مثل الجرانيت.'},
+      {q:'ما اسم الأداة المستخدمة لقياس زاوية التواجد (dip) واتجاه الطية؟', choices:['شاك', 'بوصلة جيولوجية (Brunton)', 'مطرقة الحقل', 'منظار'], a:1, explain:'البوصلة الجيولوجية (Brunton) تقيس الاتجاه والزاوية للتراكيب.'},
+      {q:'ما المصطلح لتراكم طبقات من الرواسب الأفقية؟', choices:['طباقية','تثلم','طيّة','صدع'], a:0, explain:'الطباقية هي ترتيب طبقات موازية ناتجة عن ترسيب متتابع.'},
+      {q:'أي تصوير يساعد في التعرف على معدلات الغطاء النباتي والتعديلات الطبوغرافية من الجو؟', choices:['مخبر', 'استشعار عن بعد (Remote Sensing)', 'رصد أرضي فقط', 'تحليل صخري'], a:1, explain:'الاستشعار عن بعد يستخدم صوراً فضائية/جوية لفحص السطح.'},
+      {q:'أي معجم يصف التحول من صخر الى صخر مُتحوّل بسبب الحرارة والضغط؟', choices:['التجوية','التحول الميتامورفي','الترسيب','التبلور'], a:1, explain:'التحول الميتامورفي نتيجة الحرارة والضغط دون انصهار كامل.'},
+      {q:'ما اسم السطح الذي يفصل طبقتين مختلفتين زمنياً؟', choices:['حد الطي','فاصل زمني (Unconformity)','صدع محيطي','مستوى مائي'], a:1, explain:'الفاصل الزمني يظهر فترة انقطاع أو تآكل قبل ترسيب الطبقة التالية.'},
+      {q:'أداة الحقل الأساسية لكسر العينات الصخرية تُعرف بـ؟', choices:['مطرقة جيولوجية','منخول','مقياس حرارة','مِسمار'], a:0, explain:'مطرقة الحقل تُستخدم لكسر العينات وكشف السطوح الطازجة.'},
+      {q:'أيهما يُعتبر مؤشرًا لصخور رسوبية؟', choices:['حبيبات متراصة وطباقية','بلورات كبيرة متداخلة','النسيج الزجاجي','نسيج مخروطي'], a:0, explain:'الرسوبية غالبًا ما تظهر طباقية وحبيبات مكدسة.'},
+      {q:'ما اسم المقياس الذي يقدّر صلابة المعادن؟', choices:['مقياس بومون', 'مقياس موس (Mohs)', 'مقياس ريختر', 'مقياس سيزل'], a:1, explain:'مقياس موس يقارن مقاومة الخدش بين المعادن.'},
+      {q:'في رسم الخرائط الجيولوجية، ما الذي تشير إليه خطوط الكنتور (contour)؟', choices:['أنواع الصخور','ارتفاع/انخفاض سطح الأرض','نوع المعدن','حركة الصفائح'], a:1, explain:'خطوط الكنتور تربط نقاطًا لها نفس الارتفاع.'}
+    ];
 
-    <!-- شاشة النتائج -->
-    <div id="results-screen" class="screen">
-        <!-- سيتم إضافة محتوى شاشة النتائج هنا -->
-    </div>
+    const total = QUESTIONS.length;
+    document.getElementById('total').textContent = total;
 
-    <!-- الأصوات -->
-    <audio id="click-sound" src="sounds/click.mp3" preload="auto"></audio>
-    <audio id="hover-sound" src="sounds/hover.mp3" preload="auto"></audio>
-    <audio id="success-sound" src="sounds/success.mp3" preload="auto"></audio>
+    // State
+    let idx = 0, score = 0, timerInterval=null, timeLeft=60, selected=-1;
 
-    <script src="script.js"></script>
-</body>
+    const startBtn = document.getElementById('startBtn');
+    const practiceBtn = document.getElementById('practiceBtn');
+    const quizCard = document.getElementById('quizCard');
+    const progressBar = document.getElementById('progressBar');
+    const curEl = document.getElementById('cur');
+    const questionText = document.getElementById('questionText');
+    const choicesEl = document.getElementById('choices');
+    const nextBtn = document.getElementById('nextBtn');
+    const skipBtn = document.getElementById('skipBtn');
+    const timeLeftEl = document.getElementById('timeLeft');
+    const resultCard = document.getElementById('resultCard');
+    const scoreText = document.getElementById('scoreText');
+    const titleText = document.getElementById('titleText');
+    const explainArea = document.getElementById('explainArea');
+    const retryBtn = document.getElementById('retryBtn');
+    const shareBtn = document.getElementById('shareBtn');
+    const startSample = document.getElementById('practiceBtn');
+
+    function startQuiz(){
+      idx=0;score=0;quizCard.style.display='block';resultCard.style.display='none';document.getElementById('cur').textContent=1;updateProgress();loadQuestion();
+    }
+
+    function loadQuestion(){
+      clearInterval(timerInterval);
+      selected=-1;timeLeft=60;timeLeftEl.textContent=timeLeft + 's';
+      const q = QUESTIONS[idx];
+      questionText.textContent = q.q;
+      choicesEl.innerHTML='';
+      q.choices.forEach((c,i)=>{
+        const btn = document.createElement('div');
+        btn.className='choice';btn.tabIndex=0;btn.role='button';btn.textContent=c;
+        btn.addEventListener('click',()=>selectChoice(i,btn));
+        btn.addEventListener('keydown',(e)=>{if(e.key==='Enter') selectChoice(i,btn)});
+        choicesEl.appendChild(btn);
+      });
+      curEl.textContent = idx+1;
+      updateProgress();
+      // timer
+      timerInterval = setInterval(()=>{
+        timeLeft--;timeLeftEl.textContent=timeLeft + 's';
+        if(timeLeft<=0){clearInterval(timerInterval);autoNext();}
+      },1000);
+    }
+
+    function selectChoice(i,btn){
+      selected=i;Array.from(choicesEl.children).forEach(c=>c.classList.remove('selected'));btn.classList.add('selected');
+    }
+
+    function autoNext(){
+      // treat as wrong if not selected
+      submitAnswer(false);
+    }
+
+    function submitAnswer(manual=true){
+      clearInterval(timerInterval);
+      const q=QUESTIONS[idx];
+      const correct = (selected===q.a);
+      if(correct) score++;
+      // reveal explanation briefly
+      explainArea.innerHTML = `<div style="text-align:right;margin-top:12px"><strong>التوضيح:</strong> ${q.explain}</div>`;
+      // highlight correct/incorrect
+      Array.from(choicesEl.children).forEach((el,i)=>{
+        el.style.opacity = '0.7';
+        if(i===q.a){el.style.outline='2px solid rgba(0,200,120,0.14)';el.style.opacity='1'}
+        if(i===selected && i!==q.a){el.style.outline='2px solid rgba(255,80,80,0.12)';}
+      });
+
+      // small delay then next
+      setTimeout(()=>{
+        idx++;
+        if(idx<total){loadQuestion();}else{showResult();}
+      },900);
+    }
+
+    function updateProgress(){
+      const pct = ((idx)/total)*100;
+      progressBar.style.width = pct + '%';
+    }
+
+    function next(){
+      if(selected===-1){ // treat as skip
+        submitAnswer(false);
+      } else submitAnswer(true);
+    }
+
+    function showResult(){
+      quizCard.style.display='none';resultCard.style.display='block';
+      scoreText.textContent = `${score} / ${total}`;
+      // assign title
+      let title='مستكشف الطبقات';
+      if(score===total) title='جيولوجي ميداني فائق';
+      else if(score>=Math.ceil(total*0.8)) title='جيولوجي ميداني محترف';
+      else if(score>=Math.ceil(total*0.5)) title='مستكشف الطبقات';
+      else title='مبتدئ في الميدان';
+      titleText.textContent = title;
+      explainArea.innerHTML += `<div class="small" style="margin-top:8px;color:var(--muted)">شارك نتيجتك وتحدى زملاءك!</div>`;
+    }
+
+    function retry(){startQuiz();}
+
+    // event bindings
+    startBtn.addEventListener('click',startQuiz);
+    practiceBtn.addEventListener('click',()=>{alert('سؤال تجريبي:\n\n' + QUESTIONS[0].q + '\n\nالإجابة الصحيحة: ' + QUESTIONS[0].choices[QUESTIONS[0].a])});
+    nextBtn.addEventListener('click',next);
+    skipBtn.addEventListener('click',()=>{selected=-1;next();});
+    retryBtn.addEventListener('click',retry);
+    shareBtn.addEventListener('click',()=>{
+      const text = `لقد حصلت على ${score}/${total} في تحدي عالم الجيولوجيا! هل تتحدى؟`;
+      if(navigator.share){navigator.share({title:'تحدي عالم الجيولوجيا',text})}else{prompt('انسخ وشارك هذا النص:',text)}
+    });
+
+    // keyboard: press S to start
+    document.addEventListener('keydown',e=>{if(e.key.toLowerCase()==='s') startQuiz();});
+  </script></body>
 </html>
