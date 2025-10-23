@@ -10,95 +10,45 @@
 <body>
     <!-- شاشة البداية -->
     <div id="start-screen" class="screen active">
-        <header>
-            <button id="language-toggle" class="btn-secondary" aria-label="تبديل اللغة">EN</button>
-        </header>
-        
-        <main class="hero">
+        <div class="hero-section">
             <div class="hero-content">
-                <h1 class="fade-in" data-ar="هل أنت عالم الجيولوجيا القادم؟" data-en="Are You The Next Geologist?">هل أنت عالم الجيولوجيا القادم؟</h1>
-                <p class="fade-in-delay" data-ar="اختبر معرفتك في علوم الأرض مع تحدياتنا التفاعلية" data-en="Test your knowledge in Earth sciences with our interactive challenges">اختبر معرفتك في علوم الأرض مع تحدياتنا التفاعلية</p>
-                <button id="start-btn" class="btn-primary fade-in-delay-2" data-ar="ابدأ التحدي" data-en="Start Challenge">ابدأ التحدي</button>
+                <h1 class="hero-title" data-ar="هل أنت عالم الجيولوجيا القادم؟" data-en="Are You The Next Geologist?">هل أنت عالم الجيولوجيا القادم؟</h1>
+                <p class="hero-subtitle" data-ar="اختبر معرفتك في علوم الأرض مع تحدياتنا التفاعلية" data-en="Test your knowledge in Earth sciences with our interactive challenges">اختبر معرفتك في علوم الأرض مع تحدياتنا التفاعلية</p>
+                <button id="start-btn" class="btn-primary hero-btn" data-ar="ابدأ التحدي 🔥" data-en="Start Challenge 🔥">ابدأ التحدي 🔥</button>
             </div>
-        </main>
+        </div>
     </div>
 
     <!-- شاشة اختيار الفئة -->
     <div id="category-screen" class="screen">
-        <header>
-            <button id="back-to-start" class="btn-secondary" aria-label="العودة للرئيسية">←</button>
-            <button id="language-toggle-2" class="btn-secondary" aria-label="تبديل اللغة">EN</button>
-        </header>
-        
-        <main class="container">
-            <h2 data-ar="اختر مجال التحدي" data-en="Choose Challenge Category">اختر مجال التحدي</h2>
+        <div class="container">
+            <header class="screen-header">
+                <button id="back-to-start" class="btn-back" aria-label="العودة">←</button>
+                <h2 data-ar="اختر مجال التحدي" data-en="Choose Challenge Category">اختر مجال التحدي</h2>
+                <button id="language-toggle" class="btn-lang" data-ar="EN" data-en="AR">EN</button>
+            </header>
             
             <div class="category-grid" id="category-grid">
                 <!-- سيتم تعبئة الفئات ديناميكياً -->
             </div>
-            
-            <div class="settings">
-                <div class="setting-group">
-                    <label for="question-count" data-ar="عدد الأسئلة:" data-en="Number of Questions:">عدد الأسئلة:</label>
-                    <select id="question-count">
-                        <option value="10" data-ar="10 أسئلة" data-en="10 Questions">10 أسئلة</option>
-                        <option value="20" data-ar="20 سؤال" data-en="20 Questions">20 سؤال</option>
-                        <option value="all" data-ar="كل الأسئلة" data-en="All Questions">كل الأسئلة</option>
-                    </select>
-                </div>
-                
-                <div class="setting-group">
-                    <label for="difficulty" data-ar="مستوى الصعوبة:" data-en="Difficulty Level:">مستوى الصعوبة:</label>
-                    <select id="difficulty">
-                        <option value="all" data-ar="جميع المستويات" data-en="All Levels">جميع المستويات</option>
-                        <option value="easy" data-ar="سهل" data-en="Easy">سهل</option>
-                        <option value="medium" data-ar="متوسط" data-en="Medium">متوسط</option>
-                        <option value="hard" data-ar="صعب" data-en="Hard">صعب</option>
-                    </select>
-                </div>
-                
-                <div class="setting-group">
-                    <label for="time-per-question" data-ar="الوقت لكل سؤال (ثانية):" data-en="Time Per Question (seconds):">الوقت لكل سؤال (ثانية):</label>
-                    <input type="number" id="time-per-question" min="10" max="180" value="60">
-                </div>
-                
-                <div class="setting-group">
-                    <label>
-                        <input type="checkbox" id="shuffle-options" checked>
-                        <span data-ar="خلط الخيارات" data-en="Shuffle Options">خلط الخيارات</span>
-                    </label>
-                </div>
-                
-                <div class="setting-group">
-                    <label>
-                        <input type="checkbox" id="sound-enabled" checked>
-                        <span data-ar="تفعيل الأصوات" data-en="Enable Sounds">تفعيل الأصوات</span>
-                    </label>
-                </div>
-            </div>
-        </main>
+        </div>
     </div>
 
     <!-- شاشة الاختبار -->
     <div id="quiz-screen" class="screen">
-        <header>
-            <div class="quiz-header">
+        <div class="container">
+            <header class="quiz-header">
                 <div class="quiz-info">
-                    <span id="quiz-category" data-ar="الجيولوجيا الأساسية" data-en="Basic Geology">الجيولوجيا الأساسية</span>
+                    <span id="quiz-category">الجيولوجيا الأساسية</span>
                     <span id="quiz-progress" data-ar="السؤال 1 من 10" data-en="Question 1 of 10">السؤال 1 من 10</span>
                 </div>
-                <div class="quiz-controls">
-                    <button id="pause-quiz" class="btn-secondary" data-ar="إيقاف" data-en="Pause">إيقاف</button>
+                <div class="timer-container">
+                    <div class="timer" id="timer">20</div>
                 </div>
-            </div>
+            </header>
+            
             <div class="progress-bar">
                 <div class="progress-fill" id="progress-fill"></div>
-            </div>
-        </header>
-        
-        <main class="container">
-            <div class="timer-container">
-                <div class="timer" id="timer">60</div>
             </div>
             
             <div class="question-card">
@@ -107,31 +57,26 @@
                 <div class="options-grid" id="options-container">
                     <!-- سيتم تعبئة الخيارات ديناميكياً -->
                 </div>
-                
-                <div class="quiz-controls-bottom">
-                    <button id="next-question" class="btn-primary" disabled data-ar="التالي" data-en="Next">التالي</button>
-                </div>
             </div>
-        </main>
+        </div>
     </div>
 
     <!-- شاشة النتائج -->
     <div id="results-screen" class="screen">
-        <header>
-            <button id="back-to-categories" class="btn-secondary" aria-label="العودة للفئات">←</button>
-            <button id="language-toggle-3" class="btn-secondary" aria-label="تبديل اللغة">EN</button>
-        </header>
-        
-        <main class="container">
-            <div class="results-card">
+        <div class="container">
+            <header class="screen-header">
+                <button id="back-to-categories" class="btn-back" aria-label="العودة">←</button>
                 <h2 data-ar="نتيجة التحدي" data-en="Challenge Results">نتيجة التحدي</h2>
-                
+                <button id="language-toggle-2" class="btn-lang" data-ar="EN" data-en="AR">EN</button>
+            </header>
+            
+            <div class="results-card">
                 <div class="score-display">
                     <div class="score-circle">
                         <span id="score-percentage">85%</span>
                     </div>
                     <div class="score-details">
-                        <h3 id="score-title" data-ar="خبير جيولوجيا" data-en="Geology Expert">خبير جيولوجيا</h3>
+                        <h3 id="score-title" data-ar="جيولوجي ميداني محترف" data-en="Professional Field Geologist">جيولوجي ميداني محترف</h3>
                         <p id="score-text" data-ar="لقد أجبت بشكل صحيح على 17 من 20 سؤالاً" data-en="You answered 17 out of 20 questions correctly">لقد أجبت بشكل صحيح على 17 من 20 سؤالاً</p>
                     </div>
                 </div>
@@ -149,18 +94,17 @@
                     </div>
                 </div>
             </div>
-        </main>
+        </div>
     </div>
 
     <!-- شاشة مراجعة الأخطاء -->
     <div id="review-screen" class="screen">
-        <header>
-            <button id="back-to-results" class="btn-secondary" aria-label="العودة للنتائج">←</button>
-            <button id="language-toggle-4" class="btn-secondary" aria-label="تبديل اللغة">EN</button>
-        </header>
-        
-        <main class="container">
-            <h2 data-ar="مراجعة الأخطاء" data-en="Mistakes Review">مراجعة الأخطاء</h2>
+        <div class="container">
+            <header class="screen-header">
+                <button id="back-to-results" class="btn-back" aria-label="العودة">←</button>
+                <h2 data-ar="مراجعة الأخطاء" data-en="Mistakes Review">مراجعة الأخطاء</h2>
+                <button id="language-toggle-3" class="btn-lang" data-ar="EN" data-en="AR">EN</button>
+            </header>
             
             <div id="mistakes-container">
                 <!-- سيتم تعبئة الأسئلة الخاطئة ديناميكياً -->
@@ -168,18 +112,6 @@
             
             <div class="review-actions">
                 <button id="finish-review" class="btn-primary" data-ar="إنهاء المراجعة" data-en="Finish Review">إنهاء المراجعة</button>
-            </div>
-        </main>
-    </div>
-
-    <!-- نافذة الإيقاف المؤقت -->
-    <div id="pause-modal" class="modal">
-        <div class="modal-content">
-            <h3 data-ar="الإختبار متوقف" data-en="Quiz Paused">الإختبار متوقف</h3>
-            <p data-ar="اضغط على زر المتابعة لمواصلة التحدي" data-en="Press the resume button to continue the challenge">اضغط على زر المتابعة لمواصلة التحدي</p>
-            <div class="modal-actions">
-                <button id="resume-quiz" class="btn-primary" data-ar="متابعة" data-en="Resume">متابعة</button>
-                <button id="quit-quiz" class="btn-secondary" data-ar="إنهاء التحدي" data-en="Quit Challenge">إنهاء التحدي</button>
             </div>
         </div>
     </div>
