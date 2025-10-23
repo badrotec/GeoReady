@@ -1,67 +1,399 @@
-:root{
-  --bg:#f5f7fa;
-  --card:#ffffff;
-  --muted:#666;
-  --accent:#1976d2;
-  --correct-bg:#4CAF50; /* كما طُلِب */
-  --wrong-bg:#F44336;   /* كما طُلِب */
-  --transition:200ms ease;
+/* General Styles and Reset */
+:root {
+    --primary-color: #00796b; /* Dark Cyan - A strong, professional color */
+    --primary-light: #4db6ac;
+    --secondary-color: #607d8b; /* Blue Grey */
+    --correct-color: #4CAF50; /* Green */
+    --wrong-color: #F44336; /* Red */
+    --background-color: #f5f5f5;
+    --card-background: #ffffff;
+    --text-color: #333;
+    --border-radius: 8px;
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-*{box-sizing:border-box;font-family: "Segoe UI", Tahoma, Arial, sans-serif}
-html,body{height:100%;margin:0;background:var(--bg);color:#111}
-.app{max-width:1000px;margin:24px auto;padding:16px}
-.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-.header h1{margin:0;font-size:1.4rem}
-.card{background:var(--card);padding:16px;border-radius:10px;box-shadow:0 6px 18px rgba(20,20,20,0.06);margin-bottom:12px}
-.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;align-items:center}
-.btn{padding:8px 12px;border-radius:8px;border:1px solid rgba(0,0,0,0.08);background:#fff;cursor:pointer}
-.btn.primary{background:linear-gradient(180deg,var(--accent),#0f5fb6);color:#fff;border:none}
-.icon-btn{min-width:48px}
-.actions{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap}
-.log{margin-top:10px;color:var(--muted);font-size:0.95rem}
-
-.hidden{display:none}
-
-/* Quiz */
-.quiz-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
-#timerWrap{display:flex;gap:12px;align-items:center}
-#timerText{min-width:64px;text-align:center;font-weight:600}
-progress{width:200px;height:10px;border-radius:6px;overflow:hidden}
-.question h3{margin-top:0}
-.options{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
-.option-btn{padding:12px;border-radius:10px;border:1px solid rgba(0,0,0,0.08);background:#fff;text-align:right;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:10px;transition:background var(--transition),transform 120ms}
-.option-btn[aria-disabled="true"]{opacity:0.85;pointer-events:none}
-.option-key{font-weight:700;margin-left:8px;color:var(--muted)}
-.option-icon{min-width:26px;text-align:center;font-size:18px}
-
-/* Coloring rules per spec: add/remove classes 'correct' and 'wrong' only */
-.option-btn.correct{
-  background:var(--correct-bg);
-  color:#fff;
-  border-color:rgba(0,0,0,0.06);
-  box-shadow:0 4px 12px rgba(76,175,80,0.18);
-}
-.option-btn.wrong{
-  background:var(--wrong-bg);
-  color:#fff;
-  border-color:rgba(0,0,0,0.06);
-  box-shadow:0 4px 12px rgba(244,67,54,0.18);
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
-/* small icons inside options when marked */
-.option-btn .option-icon.correct-icon::after{content:"✔";display:inline-block}
-.option-btn .option-icon.wrong-icon::after{content:"✖";display:inline-block}
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    direction: rtl; /* RTL Support */
+    text-align: right; /* Default text alignment */
+    padding: 20px;
+}
 
-.controls{display:flex;gap:8px;margin-top:12px}
+/* Header */
+header {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 15px 30px;
+    border-radius: var(--border-radius);
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: var(--shadow);
+}
 
-/* Modal */
-.modal{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.45);z-index:50}
-.modal-content{background:#fff;padding:16px;border-radius:10px;min-width:320px}
-.modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:12px}
+header h1 {
+    font-size: 1.8em;
+}
 
-/* Results and mistakes */
-#mistakesList{margin-top:12px}
-.mistake-item{padding:10px;border-radius:8px;border:1px dashed rgba(0,0,0,0.06);margin-bottom:8px;background:#fff}
+.header-controls {
+    display: flex;
+    gap: 10px;
+}
 
-.footer{text-align:center;margin-top:8px;color:var(--muted);font-size:0.85rem}
+.nav-btn {
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background 0.3s, transform 0.1s;
+    font-size: 1em;
+}
+
+.nav-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.nav-btn:active {
+    transform: scale(0.98);
+}
+
+/* Main Container and Screens */
+#app-container {
+    background: var(--card-background);
+    padding: 30px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.screen {
+    display: none;
+}
+
+.screen.active {
+    display: block;
+}
+
+/* Buttons and Controls */
+.big-btn, .control-btn {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    margin-top: 15px;
+    font-size: 1.1em;
+    font-weight: bold;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background-color 0.3s, opacity 0.3s;
+}
+
+.big-btn {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.big-btn:hover:not(:disabled) {
+    background-color: #004d40;
+}
+
+.secondary-btn {
+    background-color: var(--secondary-color);
+}
+
+.secondary-btn:hover:not(:disabled) {
+    background-color: #455a64;
+}
+
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Main Menu */
+h2 {
+    color: var(--primary-color);
+    margin-top: 25px;
+    margin-bottom: 15px;
+    border-bottom: 2px solid var(--primary-light);
+    padding-bottom: 5px;
+}
+
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.category-btn {
+    padding: 20px;
+    background-color: #e0f2f1; /* Very Light Cyan */
+    border: 2px solid var(--primary-light);
+    color: var(--text-color);
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+    border-radius: var(--border-radius);
+    transition: all 0.2s;
+}
+
+.category-btn:hover {
+    background-color: #b2dfdb;
+}
+
+.category-btn.selected {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: white;
+    box-shadow: 0 0 10px rgba(0, 121, 107, 0.5);
+}
+
+.settings-group {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+#num-questions-select {
+    padding: 10px;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--secondary-color);
+}
+
+/* Quiz Screen */
+#quiz-header {
+    margin-bottom: 20px;
+}
+
+#progress-bar {
+    height: 10px;
+    background-color: #eee;
+    border-radius: 5px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+#progress-fill {
+    height: 100%;
+    width: 0%;
+    background-color: var(--primary-color);
+    transition: width 0.3s;
+}
+
+#timer-display {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    font-size: 1.1em;
+    color: var(--secondary-color);
+}
+
+#question-text {
+    font-size: 1.4em;
+    margin-bottom: 25px;
+    padding: 10px;
+    background: #fff8e1; /* Light yellow background */
+    border-radius: var(--border-radius);
+}
+
+.options-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.option-btn {
+    padding: 15px 20px;
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: var(--border-radius);
+    text-align: right;
+    cursor: pointer;
+    font-size: 1.1em;
+    transition: background-color 0.2s, border-color 0.2s;
+    position: relative;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+}
+
+.option-btn:hover:not(:disabled) {
+    background-color: #e0e0e0;
+    border-color: var(--primary-color);
+}
+
+.option-btn.selected {
+    border-color: var(--primary-color);
+    background-color: #e0f7fa;
+}
+
+.option-icon {
+    margin-left: 10px;
+    min-width: 20px;
+    text-align: center;
+}
+
+/* CRITICAL: TLOONING - Coloring */
+.option-btn.correct {
+    background-color: #e8f5e9; /* Light green background */
+    border-color: var(--correct-color);
+    color: var(--correct-color);
+    font-weight: bold;
+    box-shadow: 0 0 5px var(--correct-color);
+}
+
+.option-btn.wrong {
+    background-color: #ffebee; /* Light red background */
+    border-color: var(--wrong-color);
+    color: var(--wrong-color);
+    font-weight: bold;
+    box-shadow: 0 0 5px var(--wrong-color);
+}
+
+/* Option States: Disabled after selection */
+.options-grid:disabled .option-btn {
+    pointer-events: none;
+}
+
+/* Quiz Controls */
+#quiz-controls {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.control-btn {
+    width: auto;
+    flex-grow: 1;
+    padding: 10px 15px;
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.control-btn:hover:not(:disabled) {
+    background-color: #455a64;
+}
+
+/* Results Screen */
+#results-screen p {
+    font-size: 1.2em;
+    margin: 10px 0;
+}
+
+#results-screen strong {
+    color: var(--primary-color);
+}
+
+.result-actions {
+    margin-top: 30px;
+}
+
+.scores-list {
+    list-style: none;
+    padding: 0;
+}
+
+.scores-list li {
+    background-color: var(--card-background);
+    border: 1px solid #ddd;
+    border-radius: var(--border-radius);
+    padding: 15px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.1em;
+}
+
+/* Error Review Screen */
+.error-question-card {
+    background-color: #fff8e1;
+    border: 2px solid var(--wrong-color);
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: var(--border-radius);
+}
+
+.error-question-card h4 {
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+.error-options .option-btn {
+    pointer-events: none; /* Make them unclickable for review */
+}
+
+/* Modals */
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal {
+    background-color: var(--card-background);
+    padding: 30px;
+    border-radius: var(--border-radius);
+    max-width: 500px;
+    width: 90%;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    text-align: center;
+}
+
+.modal h3 {
+    color: var(--wrong-color);
+    margin-bottom: 15px;
+}
+
+.modal p {
+    margin-bottom: 25px;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.modal-actions button {
+    width: auto;
+    padding: 10px 20px;
+    margin-top: 0;
+}
+
+/* Validation Modal specific styles */
+#validation-modal h3 {
+    color: var(--wrong-color);
+}
+
+#validation-modal-actions button {
+    background-color: var(--secondary-color);
+}
+
+#validation-modal-actions button.confirm-btn {
+    background-color: var(--wrong-color);
+}
