@@ -1,137 +1,112 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>GeoReady — اختبار جيولوجيا تفاعلي</title>
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GeoReady - اختبارات الجيولوجيا</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-  <main id="app" class="app" role="application" aria-labelledby="app-title">
-    <header class="header">
-      <h1 id="app-title">GeoReady — اختبار جيولوجيا</h1>
-      <nav class="top-controls" aria-label="تحكم رئيسي">
-        <button id="homeBtn" class="btn icon-btn" aria-label="الصفحة الرئيسية">🏠 القائمة الرئيسية</button>
-        <button id="resultsBtn" class="btn" aria-label="عرض النتائج">النتائج</button>
-        <button id="muteBtn" class="btn icon-btn" aria-label="كتم الصوت">🔊</button>
-        <button id="devModeBtn" class="btn" aria-pressed="false" title="وضع المطور (اختبارات)">Dev</button>
-      </nav>
+    <header>
+        <h1>GeoReady: اختبارات الجيولوجيا</h1>
+        <div class="header-controls">
+            <button id="main-menu-btn" aria-label="القائمة الرئيسية" title="القائمة الرئيسية" class="nav-btn" style="display: none;"><i class="fas fa-home"></i> القائمة</button>
+            <button id="toggle-sound-btn" aria-label="كتم/تشغيل الصوت" title="كتم/تشغيل الصوت" class="nav-btn"><i class="fas fa-volume-up"></i> الصوت</button>
+            <button id="toggle-timer-btn" aria-label="إيقاف/استئناف المؤقت" title="إيقاف/استئناف المؤقت" class="nav-btn" style="display: none;"><i class="fas fa-pause"></i> المؤقت</button>
+        </div>
     </header>
 
-    <section id="setup" class="card">
-      <h2>إعداد الاختبار</h2>
-      <div class="form-grid">
-        <label>
-          بنك الأسئلة:
-          <select id="bankSelect" aria-label="اختر بنك الأسئلة">
-            <option value="BasicGeology.json">BasicGeology</option>
-            <option value="Geochemistry.json">Geochemistry</option>
-            <option value="Geophysics.json">Geophysics</option>
-            <option value="Hydrogeology.json">Hydrogeology</option>
-            <option value="Petrology.json">Petrology</option>
-            <option value="Structuralgeology.json">Structuralgeology</option>
-            <option value="sedimentarygeology.json">sedimentarygeology</option>
-            <option value="ALL">كل الفئات</option>
-          </select>
-        </label>
+    <main id="app-container">
+        <section id="main-menu" class="screen active">
+            <h2>اختر فئة الاختبار</h2>
+            <div id="category-list" class="category-grid">
+                </div>
+            <h2>إعدادات الجلسة</h2>
+            <div class="settings-group">
+                <label for="num-questions-select">عدد الأسئلة:</label>
+                <select id="num-questions-select">
+                    <option value="10">10 أسئلة</option>
+                    <option value="20">20 سؤال</option>
+                    <option value="all" selected>كل الأسئلة</option>
+                </select>
+            </div>
+            <button id="start-quiz-btn" class="big-btn" disabled>ابدأ الاختبار 🚀</button>
+            <button id="view-scores-btn" class="big-btn secondary-btn">نتائج سابقة 📊</button>
+        </section>
 
-        <label>
-          عدد الأسئلة:
-          <select id="countSelect" aria-label="عدد الأسئلة">
-            <option value="10">10</option>
-            <option value="20">20</option>
-            <option value="25">25</option>
-            <option value="ALL">كلها</option>
-          </select>
-        </label>
+        <section id="quiz-screen" class="screen" style="display: none;">
+            <div id="quiz-header">
+                <div id="progress-bar">
+                    <div id="progress-fill"></div>
+                </div>
+                <div id="timer-display">
+                    <span id="time-left">00:00</span>
+                    <span id="question-count">السؤال 0 من 0</span>
+                </div>
+            </div>
 
-        <label>
-          وقت السؤال (بالثواني):
-          <input id="timePerQuestion" type="number" min="5" max="300" value="20" aria-label="وقت السؤال بالثواني" />
-        </label>
+            <h3 id="question-text">نص السؤال سيظهر هنا...</h3>
+            
+            <div id="options-container" class="options-grid">
+                </div>
+            
+            <div id="quiz-controls">
+                <button id="prev-question-btn" class="nav-btn control-btn" disabled><i class="fas fa-arrow-right"></i> السابق</button>
+                <button id="skip-question-btn" class="nav-btn control-btn"><i class="fas fa-forward"></i> تخطي</button>
+                <button id="next-question-btn" class="nav-btn control-btn" disabled>التالي <i class="fas fa-arrow-left"></i></button>
+            </div>
+        </section>
 
-        <label>
-          عند التخطي:
-          <select id="skipBehavior" aria-label="تصرف عند التخطي">
-            <option value="unanswered">يُحتسب غير مُجاب (لا صوت)</option>
-            <option value="timeout_sound">يُحتسب غير مُجاب وشغّل صوت انتهاء الوقت</option>
-          </select>
-        </label>
+        <section id="results-screen" class="screen" style="display: none;">
+            <h2>نتائج الاختبار ✅</h2>
+            <p><strong>الفئة:</strong> <span id="result-category"></span></p>
+            <p><strong>الأسئلة الكلية:</strong> <span id="result-total"></span></p>
+            <p><strong>الإجابات الصحيحة:</strong> <span id="result-correct"></span></p>
+            <p><strong>النسبة المئوية:</strong> <span id="result-percent"></span></p>
+            <div class="result-actions">
+                <button id="review-errors-btn" class="big-btn secondary-btn" disabled>تعلّم من أخطائي 📚</button>
+                <button id="export-session-btn" class="big-btn secondary-btn">تصدير الجلسة</button>
+                <button id="back-to-menu-from-results-btn" class="big-btn">العودة للقائمة</button>
+            </div>
+        </section>
+        
+        <section id="scores-screen" class="screen" style="display: none;">
+            <h2>أفضل 5 نتائج سابقة 📊</h2>
+            <ul id="high-scores-list" class="scores-list">
+                </ul>
+            <button id="back-to-menu-from-scores-btn" class="big-btn">العودة للقائمة</button>
+        </section>
 
-        <label>
-          شَفِل عرض الخيارات:
-          <input id="shuffleOptions" type="checkbox" checked aria-label="تبديل ترتيب الخيارات" />
-        </label>
+        <section id="error-review-screen" class="screen" style="display: none;">
+            <h2>مراجعة الأخطاء ❌</h2>
+            <div id="error-questions-container">
+                </div>
+            <button id="back-to-results-btn" class="big-btn">العودة للنتائج</button>
+        </section>
+    </main>
 
-        <label>
-          وضع Dev (اختبار الأصوات):
-          <input id="forcePlay" type="checkbox" aria-label="تشغيل الأصوات في وضع التطوير" />
-        </label>
-      </div>
-
-      <div class="actions">
-        <button id="startBtn" class="btn primary" aria-label="ابدأ الاختبار (S)">ابدأ (S)</button>
-        <button id="loadBanksBtn" class="btn" aria-label="تحميل بنوك الأسئلة">تحقّق/تحميل بنوك</button>
-      </div>
-
-      <div id="setupLog" class="log" aria-live="polite"></div>
-    </section>
-
-    <section id="quiz" class="card hidden" aria-live="polite">
-      <div class="quiz-header">
-        <div id="progressText">السؤال 0 من 0</div>
-        <div id="timerWrap">
-          <div id="timerText" aria-live="polite">00:00</div>
-          <progress id="timerBar" value="0" max="100"></progress>
+    <div id="modal-backdrop" class="modal-backdrop" style="display: none;">
+        <div id="main-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+            <h3 id="modal-title">عنوان النافذة</h3>
+            <p id="modal-message">رسالة النافذة.</p>
+            <div id="modal-actions" class="modal-actions">
+                <button id="confirm-action-btn" class="big-btn confirm-btn">تأكيد</button>
+                <button id="cancel-action-btn" class="big-btn secondary-btn">إلغاء</button>
+            </div>
         </div>
-      </div>
-
-      <article id="questionArea" class="question" role="region" aria-labelledby="qText">
-        <h3 id="qText">نص السؤال سيظهر هنا</h3>
-        <div id="optionsList" class="options" role="list" aria-label="خيارات السؤال">
-          <!-- خيارات تُولد ديناميكيًا -->
-        </div>
-        <div class="controls">
-          <button id="prevBtn" class="btn" aria-label="السابق">السابق</button>
-          <button id="skipBtn" class="btn" aria-label="تخطي السؤال">تخطي</button>
-          <button id="toggleTimerBtn" class="btn" aria-pressed="false" aria-label="إيقاف/استئناف المؤقت">إيقاف/استئناف المؤقت</button>
-          <button id="nextBtn" class="btn" aria-label="التالي">التالي</button>
-        </div>
-      </article>
-    </section>
-
-    <section id="results" class="card hidden" aria-live="polite">
-      <h2>النتائج</h2>
-      <div id="summary"></div>
-      <div id="topScores">
-        <h3>أفضل 5 نتائج</h3>
-        <ol id="scoresList"></ol>
-      </div>
-      <div class="actions">
-        <button id="exportBtn" class="btn" aria-label="تصدير الجلسة">تصدير الجلسة</button>
-        <button id="reviewMistakesBtn" class="btn" aria-label="التعلّم من أخطائي">تعلّم من أخطائي</button>
-        <button id="backToMenuBtn" class="btn" aria-label="العودة إلى القائمة الرئيسية">رجوع</button>
-      </div>
-      <div id="mistakesList" class="hidden"></div>
-    </section>
-
-    <!-- Modals -->
-    <div id="modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-      <div class="modal-content">
-        <h3 id="modalTitle">تحذير</h3>
-        <div id="modalBody"></div>
-        <div class="modal-actions">
-          <button id="modalPrimary" class="btn primary">حسناً</button>
-          <button id="modalSecondary" class="btn">إلغاء</button>
-        </div>
-      </div>
     </div>
 
-    <footer class="footer">
-      <small>GeoReady — واجهة تفاعلية لاختبارات الجيولوجيا • لا تعتمد على باكإند</small>
-    </footer>
-  </main>
+    <div id="validation-modal-backdrop" class="modal-backdrop" style="display: none;">
+        <div id="validation-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="validation-modal-title">
+            <h3 id="validation-modal-title">خطأ في تحميل البيانات</h3>
+            <p id="validation-modal-message">رسالة الخطأ</p>
+            <div id="validation-modal-actions" class="modal-actions">
+                </div>
+        </div>
+    </div>
 
-  <script src="script.js" defer></script>
+
+    <script src="script.js"></script>
 </body>
 </html>
