@@ -1,108 +1,83 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GeoReady | تدريب الجيولوجيين الميداني</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصة الجيولوجي المتقدمة</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
+    
+    <aside id="sidebar">
+        <div class="sidebar-header">
+            <h3><i class="fas fa-layer-group"></i> مجالات الاختبار</h3>
+            <button id="close-sidebar-btn" class="sidebar-close-btn" title="إغلاق"><i class="fas fa-times"></i></button>
+        </div>
+        
+        <div class="language-selector">
+            <label for="lang-select"><i class="fas fa-globe"></i> اللغة:</label>
+            <select id="lang-select" onchange="changeLanguage(this.value)">
+                <option value="ar" selected>العربية (AR)</option>
+                <option value="en">English (EN)</option>
+                <option option value="fr">Français (FR)</option>
+            </select>
+        </div>
+        
+        <div class="sidebar-topics-list" id="sidebar-topics-list">
+            </div>
+    </aside>
 
-  <!-- ====== رأس الصفحة ====== -->
-  <header>
-    <h1>🌍 GeoReady</h1>
-    <nav>
-      <ul>
-        <li><a href="#hero">الرئيسية</a></li>
-        <li><a href="#about">عن المنصة</a></li>
-        <li><a href="#missions">المهمات</a></li>
-        <li><a href="#tools">الأدوات</a></li>
-        <li><a href="#learn">التعلم</a></li>
-        <li><a href="#join">انضم إلينا</a></li>
-      </ul>
-    </nav>
-  </header>
+    <div id="main-content-wrapper">
+        <header class="main-header">
+            <button id="open-sidebar-btn" class="sidebar-toggle-btn" title="القائمة"><i class="fas fa-bars"></i></button>
+            <h1 class="app-title"><i class="fas fa-gem"></i> GEOLOGY QUIZ HUB</h1>
+            <div class="header-info">
+                <span class="user-status"><i class="fas fa-user-circle"></i> الزائر</span>
+            </div>
+        </header>
 
-  <!-- ====== القسم الرئيسي (الترحيب) ====== -->
-  <section id="hero">
-    <h2>من الخريج إلى جيولوجي ميداني جاهز</h2>
-    <p>منصة تدريب ذكية تحاكي بيئة العمل الجيولوجي الواقعي — تعلم، احفر، احلل، وابدأ رحلتك نحو الاحتراف.</p>
-    <a href="#missions">ابدأ التدريب الآن ⛏️</a>
-  </section>
+        <main id="app-container">
+            <section id="topic-selection" class="screen active">
+                <h2 class="section-title animated-fade">اختر مسارك الجيولوجي:</h2>
+                <div id="topics-grid" class="grid-container">
+                    <p id="loading-message">... جارٍ تحميل بيانات النواة والصهارة</p> 
+                </div>
+            </section>
 
-  <!-- ====== عن المنصة ====== -->
-  <section id="about">
-    <h2>عن GeoReady</h2>
-    <p>
-      GeoReady ليست مجرد موقع تعليمي، بل تجربة ميدانية رقمية.
-      صُممت خصيصًا لتأهيل خريجي الجيولوجيا والهايدروجيولوجيا عبر تدريب عملي، اختبارات ذكية،
-      ومهام تحاكي الواقع الميداني بدقة.
-    </p>
-  </section>
+            <section id="quiz-screen" class="screen hidden">
+                <div class="quiz-header-status">
+                    <h2 id="quiz-title" class="section-title"></h2>
+                    <span id="question-counter" class="counter-badge">السؤال 1 / 10</span>
+                </div>
 
-  <!-- ====== المهمات التدريبية ====== -->
-  <section id="missions">
-    <h2>المهمات الميدانية</h2>
-    <article>
-      <h3>🪨 مهمة 1: توصيف العينات الصخرية</h3>
-      <p>تعلم كيفية وصف العينات من حيث اللون، النسيج، والمكونات المعدنية.</p>
-    </article>
-    <article>
-      <h3>💧 مهمة 2: تحليل جودة المياه الجوفية</h3>
-      <p>قم بقياس العوامل الكيميائية واحسب مؤشرات جودة المياه (WQI).</p>
-    </article>
-    <article>
-      <h3>🧭 مهمة 3: إعداد خريطة جيولوجية ميدانية</h3>
-      <p>استخدم البيانات الطبوغرافية لتحديد الطبقات والبنى الصخرية.</p>
-    </article>
-  </section>
+                <div id="question-container" class="glass-card quiz-card"></div>
+                
+                <div id="controls" class="controls-bar">
+                    <button id="submit-btn" class="control-btn primary" disabled>تأكيد الإجابة <i class="fas fa-check"></i></button>
+                    <button id="next-btn" class="control-btn secondary hidden">التالي <i class="fas fa-arrow-left"></i></button>
+                </div>
+            </section>
 
-  <!-- ====== أدوات الجيولوجي ====== -->
-  <section id="tools">
-    <h2>الأدوات المساعدة</h2>
-    <ul>
-      <li>📏 أداة حساب المسامية (Porosity)</li>
-      <li>🧮 أداة سرعة الحفر (ROP Calculator)</li>
-      <li>💦 مؤشر جودة المياه (WQI)</li>
-      <li>🧲 محاكاة قياس الاتجاه والميل (Strike & Dip)</li>
-    </ul>
-  </section>
+            <section id="results-screen" class="screen hidden">
+                <h2 class="section-title result-title animated-fade"><i class="fas fa-chart-bar"></i> تحليل نتائجك</h2>
+                
+                <div class="glass-card summary-card">
+                    <h3>أداء الاختبار</h3>
+                    <div class="score-display">
+                        <span id="final-score" class="score-number">0</span> / <span id="total-questions-count">0</span>
+                    </div>
+                    <div id="grade-message" class="grade-message-text"></div>
+                </div>
 
-  <!-- ====== قسم التعلم ====== -->
-  <section id="learn">
-    <h2>تعلم واختبر</h2>
-    <p>دروس سريعة ومكثفة تساعدك على فهم المفاهيم الجيولوجية الأساسية.</p>
-
-    <article>
-      <h3>📘 الدرس 1: تصنيف الصخور</h3>
-      <p>كيف تميّز بين الصخور النارية والرسوبية والمتحولة؟</p>
-    </article>
-    <article>
-      <h3>🧪 الدرس 2: المياه الجوفية في المناطق شبه الجافة</h3>
-      <p>مقدمة عملية حول الحركية المائية والتحليل الكيميائي.</p>
-    </article>
-    <article>
-      <h3>🗺️ الدرس 3: قراءة الخرائط الجيولوجية</h3>
-      <p>خطوط التماس، الطيات، والفوالق — كيف تفسرها بدقة.</p>
-    </article>
-  </section>
-
-  <!-- ====== قسم الانضمام ====== -->
-  <section id="join">
-    <h2>ابدأ رحلتك الميدانية الآن</h2>
-    <p>انضم إلى مئات الجيولوجيين الذين بدأوا تطوير مهاراتهم عبر GeoReady.</p>
-    <form>
-      <label for="email">📩 بريدك الإلكتروني:</label>
-      <input type="email" id="email" name="email" placeholder="example@email.com">
-      <button type="submit">سجل وابدأ التدريب</button>
-    </form>
-  </section>
-
-  <!-- ====== تذييل الصفحة ====== -->
-  <footer>
-    <p>© 2025 GeoReady | منصة تدريب الجيولوجيين</p>
-    <p>صُممت بعناية بواسطة Medjahed Badreddine 🪨</p>
-  </footer>
-
+                <div id="review-area" class="review-log glass-card">
+                    <h3>مراجعة الأخطاء:</h3>
+                </div>
+                <button onclick="window.location.reload()" class="control-btn primary large-btn"><i class="fas fa-redo-alt"></i> اختبار جديد</button>
+            </section>
+        </main>
+    </div>
+    
+    <script src="script.js"></script>
 </body>
 </html>
