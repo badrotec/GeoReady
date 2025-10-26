@@ -1,225 +1,389 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GeoReady - اختبارات الجيولوجيا</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>GeoReady Lab — واجهة التدريب الميداني</title>
+  <meta name="description" content="GeoReady Lab - منصة تدريب جيولوجيين ميدانية. ابدأ مهمة، اختبر مهارتك، أنشئ تقارير ميدانية." />
+  <!-- لا تضيف CSS/JS هنا — هذا ملف HTML فقط كما طلبت -->
 </head>
 <body>
-    <!-- الشاشة الرئيسية -->
-    <div id="main-screen" class="screen active">
-        <header>
-            <h1><i class="fas fa-mountain"></i> GeoReady</h1>
-            <p>اختبارات تفاعلية في علوم الجيولوجيا</p>
-        </header>
-        
-        <div class="main-menu">
-            <div class="menu-card">
-                <h2>اختر مجال الاختبار</h2>
-                <div class="categories-grid">
-                    <button class="category-btn" data-category="BasicGeology">
-                        <i class="fas fa-gem"></i>
-                        <span>الجيولوجيا الأساسية</span>
-                    </button>
-                    <button class="category-btn" data-category="Geochemistry">
-                        <i class="fas fa-flask"></i>
-                        <span>الجيوكيمياء</span>
-                    </button>
-                    <button class="category-btn" data-category="Geophysics">
-                        <i class="fas fa-satellite"></i>
-                        <span>الجيوفيزياء</span>
-                    </button>
-                    <button class="category-btn" data-category="Hydrogeology">
-                        <i class="fas fa-tint"></i>
-                        <span>الهيدروجيولوجيا</span>
-                    </button>
-                    <button class="category-btn" data-category="Petrology">
-                        <i class="fas fa-mountain"></i>
-                        <span>علم الصخور</span>
-                    </button>
-                    <button class="category-btn" data-category="Structuralgeology">
-                        <i class="fas fa-layer-group"></i>
-                        <span>الجيولوجيا التركيبية</span>
-                    </button>
-                    <button class="category-btn" data-category="sedimentarygeology">
-                        <i class="fas fa-water"></i>
-                        <span>جيولوجيا الرواسب</span>
-                    </button>
-                </div>
-            </div>
-            
-            <div class="menu-actions">
-                <button id="view-results-btn" class="action-btn">
-                    <i class="fas fa-chart-bar"></i>
-                    عرض النتائج
-                </button>
-                <button id="settings-btn" class="action-btn">
-                    <i class="fas fa-cog"></i>
-                    الإعدادات
-                </button>
-            </div>
-        </div>
-    </div>
+  <!-- ==========================
+       NAVBAR (ثابت / Sticky)
+       ========================== -->
+  <header id="site-header" role="banner" aria-label="شريط التنقل الرئيسي">
+    <nav role="navigation" aria-label="قائمة الموقع">
+      <div id="nav-inner">
+        <!-- Logo -->
+        <a id="logo" href="#home" aria-label="GeoReady Home">
+          <!-- مكان لصورة الشعار -->
+          <strong>GeoReady</strong>
+          <span class="logo-sub">Lab</span>
+        </a>
 
-    <!-- شاشة الاختبار -->
-    <div id="quiz-screen" class="screen">
-        <header class="quiz-header">
-            <button id="home-btn" class="nav-btn" aria-label="العودة للرئيسية">
-                <i class="fas fa-home"></i>
-            </button>
-            <div class="quiz-info">
-                <span id="category-name">الجيولوجيا الأساسية</span>
-                <span id="progress">السؤال 1 من 25</span>
-            </div>
-            <div class="quiz-controls">
-                <button id="timer-toggle" class="nav-btn" aria-label="إيقاف/تشغيل المؤقت">
-                    <i class="fas fa-pause"></i>
-                </button>
-                <button id="mute-btn" class="nav-btn" aria-label="كتم/تشغيل الصوت">
-                    <i class="fas fa-volume-up"></i>
-                </button>
-            </div>
-        </header>
-        
-        <div class="quiz-content">
-            <div class="timer-container">
-                <div id="timer" class="timer">20</div>
-                <div class="timer-label">ثانية</div>
-            </div>
-            
-            <div id="question-container">
-                <h2 id="question-text">جاري تحميل السؤال...</h2>
-            </div>
-            
-            <div id="options-container" class="options-grid">
-                <!-- سيتم ملؤها ديناميكيًا -->
-            </div>
-            
-            <div class="quiz-navigation">
-                <button id="prev-btn" class="nav-btn" disabled>
-                    <i class="fas fa-arrow-right"></i>
-                    السابق
-                </button>
-                <button id="skip-btn" class="nav-btn skip-btn">
-                    <i class="fas fa-forward"></i>
-                    تخطي
-                </button>
-                <button id="next-btn" class="nav-btn" disabled>
-                    التالي
-                    <i class="fas fa-arrow-left"></i>
-                </button>
-            </div>
-        </div>
-    </div>
+        <!-- Main Navigation -->
+        <ul id="main-nav" role="menubar" aria-label="القائمة الرئيسية">
+          <li role="none"><a role="menuitem" href="#home">الرئيسية</a></li>
+          <li role="none"><a role="menuitem" href="#missions">المهام</a></li>
+          <li role="none"><a role="menuitem" href="#tools">الأدوات</a></li>
+          <li role="none"><a role="menuitem" href="#learn">التعلّم</a></li>
+          <li role="none"><a role="menuitem" href="#reports">التقارير</a></li>
+          <li role="none"><a role="menuitem" href="#profile">الملف</a></li>
+        </ul>
 
-    <!-- شاشة النتائج -->
-    <div id="results-screen" class="screen">
-        <header>
-            <h1><i class="fas fa-chart-line"></i> النتائج</h1>
-        </header>
-        
-        <div class="results-content">
-            <div id="session-results" class="results-card">
-                <h2>نتيجة الجلسة الحالية</h2>
-                <div class="score-display">
-                    <div class="score-circle">
-                        <span id="score-percent">0%</span>
-                    </div>
-                    <div class="score-details">
-                        <p>الإجابات الصحيحة: <span id="correct-count">0</span></p>
-                        <p>إجمالي الأسئلة: <span id="total-questions">0</span></p>
-                        <p>الوقت المستغرق: <span id="time-taken">0 ثانية</span></p>
-                    </div>
-                </div>
-            </div>
-            
-            <div id="high-scores" class="results-card">
-                <h2>أفضل النتائج</h2>
-                <div id="high-scores-list">
-                    <!-- سيتم ملؤها ديناميكيًا -->
-                </div>
-            </div>
-            
-            <div class="results-actions">
-                <button id="review-mistakes-btn" class="action-btn">
-                    <i class="fas fa-book"></i>
-                    تعلّم من أخطائي
-                </button>
-                <button id="new-quiz-btn" class="action-btn primary">
-                    <i class="fas fa-redo"></i>
-                    اختبار جديد
-                </button>
-            </div>
+        <!-- Actions -->
+        <div id="nav-actions" aria-hidden="false">
+          <button id="start-mission-cta" aria-controls="mission-modal">ابدأ مهمة</button>
+          <button id="theme-toggle" aria-pressed="false" title="تبديل الوضع">وضع</button>
         </div>
-    </div>
+      </div>
+    </nav>
+  </header>
 
-    <!-- شاشة مراجعة الأخطاء -->
-    <div id="review-screen" class="screen">
-        <header>
-            <h1><i class="fas fa-book-open"></i> مراجعة الأخطاء</h1>
-        </header>
-        
-        <div class="review-content">
-            <div id="mistakes-list">
-                <!-- سيتم ملؤها ديناميكيًا -->
-            </div>
-            
-            <div class="review-actions">
-                <button id="back-to-results-btn" class="action-btn">
-                    <i class="fas fa-arrow-right"></i>
-                    العودة للنتائج
-                </button>
-            </div>
+  <!-- ==========================
+       HERO / INTRO
+       ========================== -->
+  <main id="main" role="main">
+    <section id="home" class="hero" aria-label="الواجهة الرئيسية">
+      <!-- خلفية بانورامية (ستتم عبر CSS لاحقًا) -->
+      <div class="hero-inner">
+        <h1>GeoReady — من خريج إلى جيولوجي ميداني جاهز</h1>
+        <p class="hero-sub">اختبر مهارتك • أنجز مهمة • قدّم تقريرًا واقعيًا — كل ذلك عمليًا ومباشرًا.</p>
+        <div class="hero-ctas">
+          <a href="#missions" class="btn-primary">ابدأ مهمة الآن</a>
+          <a href="#quick-test" class="btn-secondary">اختبار سريع (3 دقائق)</a>
         </div>
-    </div>
 
-    <!-- الإعدادات -->
-    <div id="settings-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>الإعدادات</h2>
-                <button id="close-settings" class="close-btn" aria-label="إغلاق">
-                    <i class="fas fa-times"></i>
-                </button>
+        <!-- Quick progress & profile preview -->
+        <aside class="hero-side" aria-label="معلومات المستخدم المختصرة">
+          <div class="profile-mini">
+            <div class="avatar-placeholder" aria-hidden="true">صورة</div>
+            <div class="profile-meta">
+              <div class="name">زائر</div>
+              <div class="level">Trainee I</div>
+              <div class="xp-bar" aria-hidden="true" data-xp="42">جاهزية: 42%</div>
             </div>
-            <div class="modal-body">
-                <div class="setting-item">
-                    <label for="sound-toggle">تشغيل الأصوات</label>
-                    <input type="checkbox" id="sound-toggle" checked>
-                </div>
-                <div class="setting-item">
-                    <label for="timer-toggle-setting">المؤقت</label>
-                    <input type="checkbox" id="timer-toggle-setting" checked>
-                </div>
-                <div class="setting-item">
-                    <label for="shuffle-toggle">خلط الخيارات</label>
-                    <input type="checkbox" id="shuffle-toggle" checked>
-                </div>
+          </div>
+          <div class="mission-of-week">
+            <h4>مهمة الأسبوع</h4>
+            <p id="mission-week-title">حفر بئر شرب - قرية جبلية</p>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ==========================
+         MISSIONS (Cards Grid)
+         ========================== -->
+    <section id="missions" aria-label="المهام التدريبية">
+      <div class="section-header">
+        <h2>المهام التدريبية</h2>
+        <p>اختر مهمة عشوائية أو متخصصة وابدأ تنفيذها الآن — كل مهمة تقدم سيناريو ميداني واقعيًا.</p>
+      </div>
+
+      <!-- Filters / Sort (placeholders) -->
+      <div class="missions-controls" role="region" aria-label="عناصر تحكم العرض">
+        <label for="mission-filter">الفرع:</label>
+        <select id="mission-filter" name="mission-filter" aria-label="فلتر الفرع">
+          <option value="all">الكل</option>
+          <option value="petrology">Petrology</option>
+          <option value="hydro">Hydrogeology</option>
+          <option value="structural">Structural</option>
+          <option value="sediment">Sedimentology</option>
+        </select>
+
+        <label for="mission-difficulty">المستوى:</label>
+        <select id="mission-difficulty" name="mission-difficulty">
+          <option value="all">الكل</option>
+          <option value="beginner">مبتدئ</option>
+          <option value="intermediate">متوسط</option>
+          <option value="advanced">متقدم</option>
+        </select>
+      </div>
+
+      <!-- Missions Grid -->
+      <div id="missions-grid" class="cards-grid" aria-live="polite">
+        <!-- قالب بطاقة مهمة (استنسخ) -->
+        <article class="mission-card" data-mission-id="M001" aria-labelledby="m1-title">
+          <div class="card-media" aria-hidden="true">صورة مصغرة</div>
+          <div class="card-body">
+            <h3 id="m1-title">حفر بئر شرب - قرية جبلية</h3>
+            <p class="muted">مستوى: مبتدئ • مجالات: Hydrogeology</p>
+            <p class="card-excerpt">هدف: الوصول لمستوى ماء ثابت وتقييم جودة المياه.</p>
+            <div class="card-actions">
+              <button class="btn-start" data-open-mission="M001">ابدأ</button>
+              <button class="btn-info" data-preview-mission="M001">معاينة</button>
             </div>
+          </div>
+        </article>
+
+        <!-- مهمة إضافية كمثال -->
+        <article class="mission-card" data-mission-id="M002" aria-labelledby="m2-title">
+          <div class="card-media" aria-hidden="true">صورة مصغرة</div>
+          <div class="card-body">
+            <h3 id="m2-title">وصف نواة - موقع منجم مهجور</h3>
+            <p class="muted">مستوى: متوسط • مجالات: Petrology / Mineralogy</p>
+            <p class="card-excerpt">المطلوب: وصف نواة 1m وتسجيل المسامية والكثافة.</p>
+            <div class="card-actions">
+              <button class="btn-start" data-open-mission="M002">ابدأ</button>
+              <button class="btn-info" data-preview-mission="M002">معاينة</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- أكثر بطاقات يمكن إضافتها هنا -->
+      </div>
+    </section>
+
+    <!-- ==========================
+         TOOLS (Calculators)
+         ========================== -->
+    <section id="tools" aria-label="الأدوات والحاسبات">
+      <div class="section-header">
+        <h2>الأدوات الميدانية</h2>
+        <p>حاسبات تُجري العمليات رقماً برقم وتشرح الخطوات — جاهزة للاستخدام الفوري.</p>
+      </div>
+
+      <div class="tools-grid">
+        <!-- ROP Calculator (HTML form placeholder) -->
+        <div class="tool-card" id="tool-rop" aria-labelledby="tool-rop-title">
+          <h3 id="tool-rop-title">حاسبة سرعة الحفر (ROP)</h3>
+          <form class="tool-form" aria-live="polite" data-tool="rop">
+            <label for="rop-depth">العمق المكتسب (م)</label>
+            <input id="rop-depth" name="depth" type="number" step="0.01" placeholder="مثال: 12.00" />
+
+            <label for="rop-time">الزمن (ساعات)</label>
+            <input id="rop-time" name="time" type="number" step="0.01" placeholder="مثال: 8.00" />
+
+            <div class="tool-result" aria-hidden="true">النتيجة ستظهر هنا بعد البرمجة</div>
+            <div class="tool-hint">الناتج: ROP = depth ÷ time (m/hr) — سيتم شرح كل خطوة.</div>
+
+            <!-- زر مُعطل الآن (JS سيفعّله لاحقًا) -->
+            <button type="button" class="btn-disabled" disabled>احسب الآن</button>
+          </form>
         </div>
-    </div>
 
-    <!-- تأكيد الخروج -->
-    <div id="exit-confirm-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>تأكيد الخروج</h2>
-            </div>
-            <div class="modal-body">
-                <p>هل أنت متأكد من أنك تريد الخروج؟ سيتم فقدان تقدمك الحالي.</p>
-            </div>
-            <div class="modal-actions">
-                <button id="confirm-exit" class="btn danger">نعم، اختر</button>
-                <button id="cancel-exit" class="btn secondary">إلغاء</button>
-            </div>
+        <!-- Porosity Calculator -->
+        <div class="tool-card" id="tool-porosity" aria-labelledby="tool-porosity-title">
+          <h3 id="tool-porosity-title">حاسبة المسامية (Porosity)</h3>
+          <form class="tool-form" data-tool="porosity">
+            <label for="vt">الحجم الكلّي Vt (m³)</label>
+            <input id="vt" name="vt" type="number" step="0.00001" placeholder="مثال: 0.00500" />
+            <label for="vv">حجم الفراغات Vv (m³)</label>
+            <input id="vv" name="vv" type="number" step="0.00001" placeholder="مثال: 0.000600" />
+
+            <div class="tool-result" aria-hidden="true">النتيجة ستظهر هنا</div>
+            <button type="button" class="btn-disabled" disabled>احسب الآن</button>
+          </form>
         </div>
-    </div>
 
-    <script src="script.js"></script>
+        <!-- Core Recovery Calculator (قالب) -->
+        <div class="tool-card" id="tool-core" aria-labelledby="tool-core-title">
+          <h3 id="tool-core-title">نسبة استعادة النواة (Core Recovery)</h3>
+          <form class="tool-form" data-tool="core">
+            <label for="core-length">طول النواة المستردة (م)</label>
+            <input id="core-length" name="core-length" type="number" step="0.01" />
+            <label for="drilled-length">طول الحفر (م)</label>
+            <input id="drilled-length" name="drilled-length" type="number" step="0.01" />
+
+            <div class="tool-result" aria-hidden="true">النتيجة ستظهر هنا</div>
+            <button type="button" class="btn-disabled" disabled>احسب الآن</button>
+          </form>
+        </div>
+
+        <!-- المزيد من الأدوات يمكن إضافتها هنا -->
+      </div>
+    </section>
+
+    <!-- ==========================
+         LEARN (Micro-lessons + Quizzes)
+         ========================== -->
+    <section id="learn" aria-label="التعلّم المصغر والدروس">
+      <div class="section-header">
+        <h2>مكتبة التعلم المصغر</h2>
+        <p>دروس قصيرة (2–5 دقائق) مع اختبارات سريعة مباشرة بعد كل درس.</p>
+      </div>
+
+      <div class="learn-grid">
+        <article class="lesson-card" data-lesson="rocks">
+          <h3>الصخور والمعادن — مراجعة سريعة</h3>
+          <p class="muted">دقيقة: 3 • مستوى: أساسي</p>
+          <p>محتوى موجز: تفريق الصخور النارية، الرسوبية، والمتحولة — مع صور وصفية.</p>
+          <div class="lesson-actions">
+            <button class="btn-open-lesson" data-open-lesson="rocks">اقرأ / ابدأ الاختبار</button>
+          </div>
+        </article>
+
+        <article class="lesson-card" data-lesson="structural">
+          <h3>الجيولوجيا البنيوية — أساسيات</h3>
+          <p class="muted">دقيقة: 4 • مستوى: متوسط</p>
+          <p>تعلم قياس strike/dip وكيفية تفسير الطيات والفوالق بسرعة.</p>
+          <div class="lesson-actions">
+            <button class="btn-open-lesson" data-open-lesson="structural">اقرأ / ابدأ الاختبار</button>
+          </div>
+        </article>
+
+        <!-- المزيد من الدروس -->
+      </div>
+    </section>
+
+    <!-- ==========================
+         REPORTS (Report Builder Placeholder)
+         ========================== -->
+    <section id="reports" aria-label="بناء التقارير">
+      <div class="section-header">
+        <h2>منشئ التقارير الميدانية</h2>
+        <p>املأ قالب التقرير بسرعة واحصل على ملف PDF جاهز للطباعة (سيُفعّل لاحقًا).</p>
+      </div>
+
+      <form id="report-form" aria-label="نموذج التقرير">
+        <div class="form-row">
+          <label for="report-project">اسم المشروع / الموقع</label>
+          <input id="report-project" name="project" type="text" placeholder="مثال: بئر 12 - قرية الريد" />
+        </div>
+
+        <div class="form-row">
+          <label for="report-depth">عمق البئر المستهدف (م)</label>
+          <input id="report-depth" name="depth" type="number" step="0.01" />
+        </div>
+
+        <div class="form-row">
+          <label for="report-logs">سجل الطبقات (From–To)</label>
+          <textarea id="report-logs" name="logs" rows="4" placeholder="مثال: 0-2m: طين رمادي..."></textarea>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn-disabled" disabled>تصدير PDF</button>
+          <button type="button" class="btn-disabled" disabled>حفظ كمسودة</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- ==========================
+         PROFILE (User Dashboard)
+         ========================== -->
+    <section id="profile" aria-label="الملف الشخصي">
+      <div class="section-header">
+        <h2>الملف الشخصي</h2>
+        <p>عرض التقدّم، الشارات، والحافظة (Portfolio)</p>
+      </div>
+
+      <div class="profile-grid">
+        <div class="profile-card">
+          <div class="avatar-big" aria-hidden="true">صورة</div>
+          <div class="profile-info">
+            <h3 id="profile-name">بدردين</h3>
+            <p id="profile-level">المستوى: Trainee II</p>
+            <div class="xp-details" aria-hidden="true">XP: <span id="profile-xp">320</span></div>
+          </div>
+        </div>
+
+        <div class="badges-card">
+          <h4>الشارات المكتسبة</h4>
+          <ul id="badges-list">
+            <li class="badge">Rock Rookie</li>
+            <li class="badge">Core Sniper</li>
+            <!-- Badges dynamic -->
+          </ul>
+        </div>
+
+        <div class="readiness-card" aria-labelledby="readiness-title">
+          <h4 id="readiness-title">مؤشر الجاهزية</h4>
+          <meter id="readiness-meter" value="72" min="0" max="100">72%</meter>
+          <p class="readiness-note">جاهز ميدانيًا: 72%</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================
+         QUICK TEST (3 min sample)
+         ========================== -->
+    <section id="quick-test" aria-label="اختبار سريع">
+      <div class="section-header">
+        <h2>اختبار سريع — 3 دقائق</h2>
+        <p>10 أسئلة سريعة لتحديد مسارك التدريبي.</p>
+      </div>
+
+      <div class="quiz-card" role="region" aria-live="polite">
+        <ol>
+          <li>الصخور النارية تتشكل من: <em>أ</em> التبريد <em>ب</em> الترسيب</li>
+          <li>أداة قياس الاتجاه والميل هي: <em>أ</em> Brunton Compass <em>ب</em> GPS</li>
+          <!-- باقي الأسئلة ستُفعّل لاحقًا -->
+        </ol>
+        <div class="quiz-actions">
+          <button class="btn-disabled" disabled>ابدأ الاختبار</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================
+         FOOTER
+         ========================== -->
+    <footer id="site-footer" role="contentinfo">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <strong>GeoReady</strong> — منصة التدريب الجيولوجي الميداني
+        </div>
+        <nav class="footer-links" aria-label="روابط سريعة">
+          <a href="#home">الرئيسية</a>
+          <a href="#missions">المهام</a>
+          <a href="#tools">الأدوات</a>
+          <a href="#learn">التعلّم</a>
+        </nav>
+        <div class="footer-meta">
+          <small>© 2025 GeoReady — كل الحقوق محفوظة.</small>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <!-- ==========================
+       MODALS & TEMPLATES (Hidden placeholders)
+       ========================== -->
+  <!-- Mission Detail Modal (سيتم ملؤه بالـ JS) -->
+  <div id="mission-modal" role="dialog" aria-modal="true" aria-hidden="true" style="display:none;">
+    <div class="modal-inner" role="document">
+      <header class="modal-header">
+        <h3 id="mission-modal-title">مهمة: عنوان المهمة</h3>
+        <button class="modal-close" aria-label="إغلاق">×</button>
+      </header>
+      <section class="modal-body">
+        <div class="mission-meta">
+          <p><strong>المستوى:</strong> مبتدئ</p>
+          <p><strong>الفرع:</strong> Hydrogeology</p>
+          <p><strong>الهدف:</strong> وصف المقطع وحساب ROP</p>
+        </div>
+
+        <div class="mission-data">
+          <h4>بيانات مهمة البداية</h4>
+          <ul>
+            <li>هدف العمق: <span data-key="target-depth">40 m</span></li>
+            <li>موقع (GPS): <span data-key="gps">35.1234, 1.2345</span></li>
+            <li>ملاحظات: <span data-key="notes">تدفق مائي متقطع عند 12–15 m</span></li>
+          </ul>
+        </div>
+
+        <div class="mission-tasks">
+          <h4>المهام</h4>
+          <ol>
+            <li>تسجيل سجل الحفر (From–To).</li>
+            <li>وصف 3 طبقات رئيسية.</li>
+            <li>حساب ROP وCore Recovery.</li>
+            <li>تقديم توصيات ميدانية.</li>
+          </ol>
+        </div>
+
+        <div class="mission-actions">
+          <button class="btn-primary" aria-controls="mission-modal">ابدأ هذه المهمة</button>
+          <button class="btn-secondary" aria-controls="mission-modal">تحميل قالب التقرير</button>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- Accessible skip link (for keyboard users) -->
+  <a class="skip-link" href="#main">تخطي إلى المحتوى</a>
+
+  <!-- نهاية ملف HTML — لا تضف CSS/JS هنا كما طلبت -->
 </body>
 </html>
