@@ -29,7 +29,7 @@
         <div class="sidebar-topics-list" id="sidebar-topics-list">
             </div>
     </aside>
-    <div id="overlay" onclick="document.getElementById('sidebar').classList.remove('open'); document.getElementById('overlay').style.display = 'none';"></div>
+    <div id="overlay" onclick="closeSidebar()"></div>
 
     <div id="main-content-wrapper">
         <header class="main-header">
@@ -43,12 +43,12 @@
             <section id="topic-selection" class="screen active">
                 <h2 class="section-title animated-fade"><i class="fas fa-tachometer-alt"></i> لوحة تحكم الجيولوجيا</h2>
                 
-                <button id="start-quiz-btn" class="control-btn primary large-btn animated-fade"><i class="fas fa-satellite-dish"></i> بدء التحدي</button>
+                <button id="start-quiz-btn" class="control-btn primary large-btn animated-fade"><span class="btn-text">بدء التحدي</span> <i class="fas fa-satellite-dish"></i></button>
 
                 <div id="topics-list-container" class="hidden">
-                    <h3>اختر مجال الاختبار:</h3>
+                    <h3 class="topics-header">اختر مجال الاختبار:</h3>
                     <div id="topics-list" class="list-container">
-                        <p id="loading-message">... تحليل بيانات النظام</p> 
+                        <p id="loading-message"><i class="fas fa-spinner fa-spin"></i> <span class="loading-text">... تحليل بيانات النظام</span></p> 
                     </div>
                 </div>
             </section>
@@ -56,45 +56,76 @@
             <section id="quiz-screen" class="screen hidden">
                 <div class="quiz-header-status">
                     
+                    <h2 id="quiz-title" class="section-title"></h2>
+                    
+                    <div class="timer-container">
+                        <span id="timer-display" class="timer-display animated-slidein"><span class="timer-value">20</span><span class="timer-unit">ث</span></span>
+                    </div> 
+                    
+                    <span id="question-counter" class="counter-badge animated-slidein">الوحدة 1 / 25</span>
+                    
                     <div id="progress-bar-container">
                         <div id="progress-bar-fill"></div>
                     </div>
-                    
-                    <h2 id="quiz-title" class="section-title"></h2>
-                    
-                    <span id="timer-display" class="timer-display animated-slidein">20s</span> 
-                    
-                    <span id="question-counter" class="counter-badge animated-slidein">الوحدة 1 / 10</span>
-
                 </div>
 
-                <div id="question-container" class="data-module quiz-card"></div>
+                <div id="question-area">
+                    <div id="question-container" class="data-module quiz-card">
+                        </div>
+                    
+                    <div id="feedback-container" class="hidden"></div>
+                </div>
                 
                 <div id="controls" class="controls-bar">
-                    <button id="submit-btn" class="control-btn primary" disabled>تأكيد الإجابة <i class="fas fa-terminal"></i></button>
-                    <button id="next-btn" class="control-btn secondary hidden"><i class="fas fa-arrow-right"></i> تجاوز</button>
+                    <button id="submit-btn" class="control-btn primary" disabled><span class="btn-text">تأكيد الإجابة</span> <i class="fas fa-terminal"></i></button>
+                    <button id="next-btn" class="control-btn secondary hidden"><i class="fas fa-arrow-right"></i> <span class="btn-text">التالي</span></button>
+                    <button id="skip-btn" class="control-btn tertiary"><i class="fas fa-forward"></i> <span class="btn-text">تخطي</span></button>
                 </div>
             </section>
 
             <section id="results-screen" class="screen hidden">
                 <h2 class="section-title result-title animated-fade"><i class="fas fa-chart-line"></i> تقرير تحليل الأداء</h2>
                 
-                <div class="data-module summary-card">
-                    <h3>ملخص البروتوكول</h3>
-                    <div class="score-display">
-                        <span id="final-score" class="score-number">0</span> / <span id="total-questions-count">0</span>
+                <div class="results-grid">
+                    <div class="data-module summary-card">
+                        <h3>ملخص النقاط</h3>
+                        <div class="score-visualization">
+                            <svg class="progress-ring" width="120" height="120">
+                                <circle class="progress-ring-bg" stroke="#e0e0e0" stroke-width="8" fill="transparent" r="50" cx="60" cy="60"/>
+                                <circle class="progress-ring-fill" stroke="url(#scoreGradient)" stroke-width="8" fill="transparent" r="50" cx="60" cy="60" transform="rotate(-90 60 60)"/>
+                            </svg>
+                            <span id="final-score" class="score-number">0</span>
+                        </div>
+                        <div class="grade-text">
+                            <p id="grade-message" class="grade-message-text"></p>
+                        </div>
                     </div>
-                    <div id="grade-message" class="grade-message-text"></div>
+
+                    <div class="data-module stats-card">
+                        <h3>إحصائيات التفوق</h3>
+                        <div class="stat-item"><i class="fas fa-check-circle correct-icon"></i> <span class="stat-label">صحيحة:</span> <span id="correct-count">0</span></div>
+                        <div class="stat-item"><i class="fas fa-times-circle incorrect-icon"></i> <span class="stat-label">خاطئة:</span> <span id="wrong-count">0</span></div>
+                        <div class="stat-item"><i class="fas fa-hourglass-half"></i> <span class="stat-label">الوقت:</span> <span id="total-time">0:00ث</span></div>
+                        <div class="stat-item"><i class="fas fa-list-ol"></i> <span class="stat-label">الأسئلة:</span> <span id="total-questions-count">0</span></div>
+                    </div>
                 </div>
 
-                <div id="review-area" class="review-log data-module">
-                    <h3>فحص الأخطاء:</h3>
+                <div id="review-content" class="review-log data-module">
+                    <h3 class="review-log-header"><i class="fas fa-bug"></i> فحص الأخطاء:</h3>
+                    </div>
+                
+                <div class="action-buttons">
+                    <button onclick="window.location.reload()" class="control-btn primary large-btn"><span class="btn-text">إعادة تشغيل النظام</span> <i class="fas fa-redo-alt"></i></button>
+                    <button id="share-results-btn" class="control-btn secondary large-btn"><span class="btn-text">مشاركة النتائج</span> <i class="fas fa-share-alt"></i></button>
                 </div>
-                <button onclick="window.location.reload()" class="control-btn primary large-btn"><i class="fas fa-redo-alt"></i> إعادة تشغيل النظام</button>
             </section>
         </main>
     </div>
     
+    <div id="notification-toast" class="notification-toast hidden" dir="rtl">
+        <span id="notification-message"></span>
+    </div>
+
     <footer class="main-footer">
         <p>Geo-Master Hub | © 2025. جميع الحقوق محفوظة. <span class="footer-separator">|</span> تصميم نظام</p>
     </footer>
