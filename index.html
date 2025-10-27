@@ -1,85 +1,117 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GeoReady | نظام الاختبارات الجيولوجية</title>
-  <link rel="stylesheet" href="style.css" />
-  <script src="https://kit.fontawesome.com/5b6d5f5b10.js" crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نظام اختبار الجيولوجيا التفاعلي</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- الشريط العلوي -->
-  <header class="topbar">
-    <div class="logo">
-      <i class="fas fa-globe-africa"></i>
-      <span>GeoReady Hub</span>
+    <div class="overlay" id="overlay"></div>
+    
+    <!-- القائمة الجانبية -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2>مواضيع الجيولوجيا</h2>
+            <button class="close-btn" id="close-sidebar-btn">✕</button>
+        </div>
+        <div class="sidebar-topics" id="sidebar-topics-list">
+            <!-- سيتم تعبئتها بالجافاسكريبت -->
+        </div>
     </div>
-    <div class="actions">
-      <button id="open-sidebar-btn" title="القائمة"><i class="fas fa-bars"></i></button>
+    
+    <div class="container">
+        <!-- رأس الصفحة -->
+        <header>
+            <div class="logo">
+                <div class="logo-icon">🌋</div>
+                <h1>نظام اختبار الجيولوجيا</h1>
+            </div>
+            <div class="language-selector">
+                <button class="lang-btn active" onclick="changeLanguage('ar')">العربية</button>
+                <button class="lang-btn" onclick="changeLanguage('en')">English</button>
+                <button class="lang-btn" onclick="changeLanguage('fr')">Français</button>
+                <button class="menu-btn" id="open-sidebar-btn">
+                    <span>☰</span> القائمة
+                </button>
+            </div>
+        </header>
+        
+        <!-- شاشة البداية -->
+        <div class="screen welcome-screen" id="welcome-screen">
+            <div class="welcome-icon">🌍</div>
+            <h2>مرحباً بك في نظام اختبار الجيولوجيا</h2>
+            <p>اختبر معرفتك في علوم الأرض والجيولوجيا من خلال مجموعة متنوعة من الأسئلة التفاعلية. اختر مجال الاختبار المناسب وابدأ رحلة التعلم!</p>
+            <button class="large-btn" id="start-quiz-btn">ابدأ الاختبار</button>
+        </div>
+        
+        <!-- شاشة اختيار الموضوعات -->
+        <div class="screen hidden" id="topic-selection">
+            <h2>اختر مجال الاختبار</h2>
+            <p>اختر من بين المواضيع الجيولوجية المتاحة لبدء الاختبار</p>
+            
+            <div class="loading-message" id="loading-message">
+                <div class="spinner"></div>
+                جاري تحميل بيانات النظام...
+            </div>
+            
+            <div class="topics-list-container hidden" id="topics-list-container">
+                <h3>مجالات الاختبار المتاحة:</h3>
+                <div class="topics-grid" id="topics-list">
+                    <!-- سيتم تعبئتها بالجافاسكريبت -->
+                </div>
+            </div>
+        </div>
+        
+        <!-- شاشة الاختبار -->
+        <div class="screen hidden" id="quiz-screen">
+            <div class="quiz-header">
+                <div class="quiz-title" id="quiz-title">اختبار الجيولوجيا</div>
+                <div class="quiz-info">
+                    <div class="question-counter" id="question-counter">السؤال 1/10</div>
+                    <div class="timer-container">
+                        <div class="timer-icon">⏱️</div>
+                        <div class="timer-display" id="timer-display">20ث</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="progress-container">
+                <div class="progress-bar" id="progress-bar-fill"></div>
+            </div>
+            
+            <div class="question-container" id="question-container">
+                <!-- سيتم تعبئتها بالجافاسكريبت -->
+            </div>
+            
+            <div class="quiz-controls">
+                <button class="control-btn submit-btn" id="submit-btn" disabled>تأكيد الإجابة</button>
+                <button class="control-btn next-btn hidden" id="next-btn">السؤال التالي</button>
+            </div>
+        </div>
+        
+        <!-- شاشة النتائج -->
+        <div class="screen hidden" id="results-screen">
+            <div class="results-header">
+                <div class="results-icon">🏆</div>
+                <h2>نتيجة الاختبار</h2>
+                <div class="score-display" id="final-score">0</div>
+                <div class="grade-message" id="grade-message">أداء استثنائي! معرفة جيولوجية قوية.</div>
+            </div>
+            
+            <div class="review-log">
+                <h3>مراجعة الأخطاء المفاهيمية:</h3>
+                <div class="review-area" id="review-area">
+                    <!-- سيتم تعبئتها بالجافاسكريبت -->
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 30px;">
+                <button class="large-btn" id="new-quiz-btn">إعادة تشغيل النظام</button>
+            </div>
+        </div>
     </div>
-  </header>
 
-  <!-- القائمة الجانبية -->
-  <aside id="sidebar" class="sidebar">
-    <div class="sidebar-header">
-      <h3>🌍 Geo-Master</h3>
-      <button id="close-sidebar-btn"><i class="fas fa-times"></i></button>
-    </div>
-    <ul id="sidebar-topics-list"></ul>
-    <div class="lang-switch">
-      <button onclick="changeLanguage('ar')" class="active">AR</button>
-      <button onclick="changeLanguage('en')">EN</button>
-      <button onclick="changeLanguage('fr')">FR</button>
-    </div>
-  </aside>
-  <div id="overlay"></div>
-
-  <!-- الشاشة الرئيسية -->
-  <main>
-    <section id="loading-section">
-      <p id="loading-message">⏳ جاري تحميل البيانات...</p>
-    </section>
-
-    <section id="topic-selection" class="hidden">
-      <div id="topics-list-container">
-        <h3>اختر مجال الاختبار:</h3>
-        <div id="topics-list" class="topics-grid"></div>
-      </div>
-    </section>
-
-    <!-- شاشة الاختبار -->
-    <section id="quiz-screen" class="hidden">
-      <h2 id="quiz-title">اختبار: </h2>
-      <div id="question-counter" class="counter"></div>
-      <div id="timer-container">
-        <div id="progress-bar"><div id="progress-bar-fill"></div></div>
-        <span id="timer-display">20ث</span>
-      </div>
-      <div id="question-container" class="question-box"></div>
-
-      <div class="quiz-buttons">
-        <button id="submit-btn" class="btn neon-btn"><i class="fas fa-terminal"></i> تأكيد الإجابة</button>
-        <button id="next-btn" class="btn hidden"><i class="fas fa-arrow-right"></i> التالي</button>
-      </div>
-    </section>
-
-    <!-- شاشة النتائج -->
-    <section id="results-screen" class="hidden">
-      <h2>النتيجة النهائية 🎯</h2>
-      <div class="result-summary">
-        <p>النقاط: <span id="final-score">0</span></p>
-        <p>عدد الأسئلة: <span id="total-questions-count">0</span></p>
-      </div>
-      <p id="grade-message" class="grade-message"></p>
-      <div id="review-area" class="review-log"></div>
-      <button class="large-btn neon-btn" onclick="location.reload()">🔁 إعادة التشغيل</button>
-    </section>
-  </main>
-
-  <footer>
-    <p>© 2025 GeoReady Project — تصميم بدر الدين 🌐</p>
-  </footer>
-
-  <script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
