@@ -2,6 +2,7 @@
 // ** ملف: script.js (المنطق النهائي) - يحتاج Question.json **
 // **=================================================**
 
+// [1] المتغيرات العالمية والتحكم
 let geologicalData = {}; 
 let currentQuestions = [];
 let currentQuestionIndex = 0;
@@ -26,7 +27,7 @@ const translations = {
         'great_job': '🌟 أداء استثنائي! معرفة جيولوجية قوية.',
         'good_job': '✨ جيد جداً! أساس متين، لكن هناك مجال للمراجعة.',
         'needs_review': '⚠️ تحتاج إلى مراجعة مكثفة لهذه المفاهيم.',
-        'new_quiz': 'ابدأ اختباراً جديداً',
+        'new_quiz': 'إعادة تشغيل النظام',
         'timer_text': 'ث'
     },
     'en': {
@@ -41,7 +42,7 @@ const translations = {
         'great_job': '🌟 Exceptional performance! Strong geological knowledge.',
         'good_job': '✨ Very good! Solid foundation, but room for review.',
         'needs_review': '⚠️ Requires intensive review of these concepts.',
-        'new_quiz': 'Start New Quiz',
+        'new_quiz': 'Restart System',
         'timer_text': 's'
     },
     'fr': {
@@ -56,18 +57,17 @@ const translations = {
         'great_job': '🌟 Performance exceptionnelle! Solides connaissances géologiques.',
         'good_job': '✨ Très bien! Base solide, mais il y a place à l\'amélioration.',
         'needs_review': '⚠️ Nécessite une révision intensive de ces concepts.',
-        'new_quiz': 'Démarrer un nouveau quiz',
+        'new_quiz': 'Redémarrer le Système',
         'timer_text': 's'
     }
 };
 
-// ---------------------- الدوال المساعدة ----------------------
+// ---------------------- 2. دالة تحميل البيانات (الجديدة) ----------------------
 
-// دالة تحميل البيانات
 async function loadGeologyData() {
     const loadingMessage = document.getElementById('loading-message');
     try {
-        loadingMessage.textContent = '... جاري تحميل البيانات من Question.json';
+        loadingMessage.textContent = '... جاري تحميل بيانات النظام';
         
         const response = await fetch('./Question.json'); 
         
@@ -81,34 +81,12 @@ async function loadGeologyData() {
 
     } catch (error) {
         console.error("فشل في تحميل بيانات الجيولوجيا:", error);
-        loadingMessage.textContent = `عذراً، حدث خطأ في تحميل البيانات. تأكد من وجود ملف Question.json.`;
+        loadingMessage.textContent = `[خطأ الاتصال] عذراً، لا يمكن تحميل البيانات.`;
         document.getElementById('start-quiz-btn').disabled = true;
     }
 }
 
-// دالة الترجمة وتحديث الواجهة
-function translateUI(langCode) {
-    currentLanguage = langCode;
-    const t = translations[langCode] || translations['ar'];
-
-    document.getElementById('start-quiz-btn').innerHTML = `${t.start_quiz} <i class="fas fa-play"></i>`;
-    document.getElementById('submit-btn').innerHTML = `${t.submit} <i class="fas fa-check"></i>`;
-    document.getElementById('next-btn').innerHTML = `${t.next} <i class="fas fa-arrow-left"></i>`;
-    document.querySelector('#topics-list-container h3').textContent = t.choose_domain;
-    document.querySelector('#results-screen .large-btn').innerHTML = `${t.new_quiz} <i class="fas fa-redo-alt"></i>`;
-    
-    if (!document.getElementById('quiz-screen').classList.contains('hidden')) {
-        document.getElementById('timer-display').textContent = `${TIME_LIMIT}${t.timer_text}`;
-        document.getElementById('question-counter').textContent = `${t.question} ${currentQuestionIndex + 1} / ${currentQuestions.length}`;
-        document.querySelector('.review-log h3').textContent = t.review_errors;
-    }
-}
-
-function changeLanguage(langCode) {
-    translateUI(langCode);
-}
-
-// ---------------------- 4. منطق المؤقت ----------------------
+// ---------------------- 3. منطق المؤقت والتحكم ----------------------
 
 function startTimer() {
     clearInterval(timerInterval);
@@ -131,7 +109,7 @@ function startTimer() {
         if (timeRemaining <= 5) {
             timerDisplay.style.color = 'var(--incorrect-color)';
         } else {
-            timerDisplay.style.color = 'var(--text-main)';
+            timerDisplay.style.color = 'var(--neon-blue)';
         }
 
         if (timeRemaining <= 0) {
@@ -149,7 +127,7 @@ function handleTimeout() {
     
     userAnswers[currentQ.id || currentQuestionIndex] = {
         question: currentQ.question,
-        userAnswer: `(لم يتم الإجابة - ${t.correct_answer}: ${currentQ.answer})`,
+        userAnswer: `(Timeout - ${t.correct_answer}: ${currentQ.answer})`,
         correctAnswer: currentQ.answer,
         isCorrect: false,
     };
@@ -169,7 +147,29 @@ function handleTimeout() {
     }, 1000);
 }
 
-// ---------------------- 5. التهيئة وبدء التشغيل ----------------------
+// دالة الترجمة وتحديث الواجهة
+function translateUI(langCode) {
+    currentLanguage = langCode;
+    const t = translations[langCode] || translations['ar'];
+
+    document.getElementById('start-quiz-btn').innerHTML = `${t.start_quiz} <i class="fas fa-satellite-dish"></i>`;
+    document.getElementById('submit-btn').innerHTML = `${t.submit} <i class="fas fa-terminal"></i>`;
+    document.getElementById('next-btn').innerHTML = `<i class="fas fa-arrow-right"></i> ${t.next}`;
+    document.querySelector('#topics-list-container h3').textContent = t.choose_domain;
+    document.querySelector('#results-screen .large-btn').innerHTML = `${t.new_quiz} <i class="fas fa-redo-alt"></i>`;
+    
+    if (!document.getElementById('quiz-screen').classList.contains('hidden')) {
+        document.getElementById('timer-display').textContent = `${TIME_LIMIT}${t.timer_text}`;
+        document.getElementById('question-counter').textContent = `${t.question} ${currentQuestionIndex + 1} / ${currentQuestions.length}`;
+        document.querySelector('.review-log h3').textContent = t.review_errors;
+    }
+}
+
+function changeLanguage(langCode) {
+    translateUI(langCode);
+}
+
+// ---------------------- 4. التهيئة ومنطق بدء التشغيل ----------------------
 
 // التحكم في القائمة الجانبية
 document.getElementById('open-sidebar-btn').addEventListener('click', () => {
@@ -224,7 +224,7 @@ function initializeTopicSelection(data) {
     translateUI(currentLanguage);
 }
 
-// ---------------------- 6. منطق الاختبار ----------------------
+// ---------------------- 5. منطق الاختبار ----------------------
 
 function startQuiz(topicTitle, questions) {
     clearInterval(timerInterval);
@@ -282,7 +282,7 @@ function displayQuestion() {
     });
 }
 
-// ---------------------- 7. معالجة الإجابة ----------------------
+// ---------------------- 6. معالجة الإجابة ----------------------
 
 document.getElementById('submit-btn').addEventListener('click', () => {
     clearInterval(timerInterval); 
@@ -327,7 +327,7 @@ document.getElementById('next-btn').addEventListener('click', () => {
     displayQuestion();
 });
 
-// ---------------------- 8. عرض النتائج ----------------------
+// ---------------------- 7. عرض النتائج ----------------------
 
 function showResults() {
     clearInterval(timerInterval); 
@@ -346,7 +346,7 @@ function showResults() {
         gradeMessage.style.color = 'var(--correct-color)';
     } else if (percentage >= 70) {
         gradeMessage.innerHTML = t.good_job;
-        gradeMessage.style.color = 'var(--accent-primary)';
+        gradeMessage.style.color = 'var(--neon-blue)';
     } else {
         gradeMessage.innerHTML = t.needs_review;
         gradeMessage.style.color = 'var(--incorrect-color)';
