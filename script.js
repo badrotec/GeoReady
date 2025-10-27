@@ -38,7 +38,7 @@ const translations = {
     },
     'en': {
         'start_quiz': 'Start System Connection', 'choose_domain': 'Select Training Unit:', 'question': 'Question',
-        'submit': 'Confirm Answer', 'next': 'Next Question', 'skip': 'Skip', 'review_errors': 'Error Trace:',
+        'submit': 'Confirm Answer', 'next': 'Next Question', 'skip': 'Skip', 'review_errors': 'Review Errors:',
         'your_answer': 'Your Answer:', 'correct_answer': 'Correct:', 'great_job': '🌟 Exceptional performance! Strong geological knowledge.',
         'good_job': '✨ Very good! Solid foundation, but room for review.', 'needs_review': '⚠️ Requires intensive review of these concepts.',
         'new_quiz': 'Restart System', 'share_results': 'Share Results', 'timer_text': 's', 'points': 'Points:',
@@ -260,6 +260,8 @@ function handleTimeout() {
     
     document.getElementById('submit-btn').classList.add('hidden');
     document.getElementById('next-btn').classList.remove('hidden');
+    document.getElementById('skip-btn').classList.add('hidden'); // إخفاء زر التخطي
+
     
     setTimeout(() => {
         currentQuestionIndex++;
@@ -312,19 +314,21 @@ function applyTranslation() {
 function updateSidebarStats() {
     const t = translations[currentLanguage];
     
-    document.getElementById('total-quizzes').textContent = totalQuizzesCompleted;
+    const totalQuizzes = parseInt(localStorage.getItem('totalQuizzes')) || 0;
+    const totalScores = parseInt(localStorage.getItem('totalScores')) || 0;
+
+    document.getElementById('total-quizzes').textContent = totalQuizzes;
     
-    const avgScore = totalQuizzesCompleted > 0 
-        ? Math.round((totalScoresSum / totalQuizzesCompleted) * 100) / 100 
+    const avgScore = totalQuizzes > 0 
+        ? Math.round((totalScores / totalQuizzes))
         : 0;
     document.getElementById('avg-score').textContent = `${avgScore}%`;
     
     // تحديث العناوين
-    const statItems = document.querySelectorAll('.stat-item p');
-    if (statItems.length >= 2) {
-        statItems[0].textContent = t.completed_quizzes;
-        statItems[1].textContent = t.avg_success;
-    }
+    const completedQuizzesEl = document.querySelector('.stats-container .stat-item:nth-child(1) p');
+    const avgSuccessEl = document.querySelector('.stats-container .stat-item:nth-child(2) p');
+    if (completedQuizzesEl) completedQuizzesEl.textContent = t.completed_quizzes;
+    if (avgSuccessEl) avgSuccessEl.textContent = t.avg_success;
 }
 
 // =======================================================
@@ -333,7 +337,7 @@ function updateSidebarStats() {
 document.getElementById('open-sidebar-btn').addEventListener('click', () => {
     document.getElementById('sidebar').classList.add('open');
     document.getElementById('overlay').style.display = 'block';
-    clearInterval(timerInterval); // **إيقاف المؤقت عند فتح القائمة**
+    clearInterval(timerInterval); // **إيقاف المؤقت**
 });
 
 document.getElementById('close-sidebar-btn').addEventListener('click', closeSidebar);
@@ -428,7 +432,9 @@ function initializeTopicSelection(data) {
 function startQuiz(topicTitle, questions) {
     clearInterval(timerInterval);
     
-    currentQuestions = shuffleArray([...questions]).slice(0, 10); // 10 أسئلة عشوائية
+    // **التعديل هنا:** إزالة .slice(0, 10) للاحتفاظ بجميع الأسئلة (25 سؤالاً)
+    currentQuestions = shuffleArray([...questions]);
+    
     currentQuestionIndex = 0;
     score = 0;
     correctAnswersCount = 0;
@@ -440,6 +446,8 @@ function startQuiz(topicTitle, questions) {
     document.getElementById('quiz-screen').classList.remove('hidden');
     document.getElementById('quiz-title').innerHTML = `<i class="fas fa-vials"></i> اختبار: ${topicTitle}`;
     
+    document.body.dataset.quizStart = quizStartTime; // حفظ وقت بداية الاختبار
+
     updateScoreDisplay();
     displayQuestion();
     
@@ -535,7 +543,7 @@ function showFeedback(isCorrect, message) {
 // 16. معالجة الإجابة
 // =======================================================
 document.getElementById('submit-btn').addEventListener('click', () => {
-    clearInterval(timerInterval);
+    clearInterval(timerInterval); // إيقاف المؤقت عند الإجابة
     
     const selectedOption = document.querySelector('input[name="option"]:checked');
     if (!selectedOption) return;
@@ -578,7 +586,7 @@ document.getElementById('submit-btn').addEventListener('click', () => {
     
     document.getElementById('submit-btn').classList.add('hidden');
     document.getElementById('next-btn').classList.remove('hidden');
-    document.getElementById('skip-btn').classList.add('hidden');
+    document.getElementById('skip-btn').classList.add('hidden'); // إخفاء زر التخطي بعد الإجابة
 });
 
 // =======================================================
@@ -635,7 +643,7 @@ function showResults() {
     document.getElementById('total-questions-count').textContent = currentQuestions.length;
     document.getElementById('correct-count').textContent = correctAnswersCount;
     document.getElementById('wrong-count').textContent = wrongAnswersCount;
-    document.getElementById('total-time').textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+    document.getElementById('total-time').textContent = `${minutes}:${seconds.toString().padStart(2, '0')}${t.timer_text}`;
 
     // حساب النسبة المئوية
     const maxPossibleScore = currentQuestions.length * POINTS_CORRECT;
@@ -682,7 +690,7 @@ function showResults() {
         reviewContent.innerHTML = `<p class="all-correct">${t.all_correct}</p>`;
     }
     
-    // حفظ الإحصائيات
+    // حفظ الإحصائيات (Local Storage)
     totalQuizzesCompleted++;
     totalScoresSum += percentage;
     localStorage.setItem('totalQuizzes', totalQuizzesCompleted);
@@ -696,16 +704,16 @@ function showResults() {
 // 20. رسم الدائرة المتحركة للنقاط
 // =======================================================
 function animateScoreCircle(percentage) {
-    const svg = document.querySelector('.progress-ring');
     const circle = document.querySelector('.progress-ring-fill');
+    if (!circle) return;
     const radius = circle.r.baseVal.value;
     const circumference = radius * 2 * Math.PI;
     
     circle.style.strokeDasharray = `${circumference} ${circumference}`;
     circle.style.strokeDashoffset = circumference;
     
-    // إضافة Gradient SVG
     if (!document.querySelector('#scoreGradient')) {
+        const svg = document.querySelector('.progress-ring');
         const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
         const gradient = document.createElementNS('http://www.w3.org/2000/svg', 'linearGradient');
         gradient.setAttribute('id', 'scoreGradient');
@@ -728,12 +736,12 @@ function animateScoreCircle(percentage) {
 // =======================================================
 document.getElementById('share-results-btn').addEventListener('click', () => {
     const t = translations[currentLanguage];
-    const score = document.getElementById('final-score').textContent;
-    const total = document.getElementById('total-questions-count').textContent;
-    const correct = document.getElementById('correct-count').textContent;
-    const wrong = document.getElementById('wrong-count').textContent;
+    const scoreValue = document.getElementById('final-score').textContent;
+    const totalValue = document.getElementById('total-questions-count').textContent;
+    const correctValue = document.getElementById('correct-count').textContent;
+    const wrongValue = document.getElementById('wrong-count').textContent;
     
-    const shareText = `🎯 GEO-MASTER Results:\nScore: ${score} Points\nTotal Questions: ${total}\nCorrect: ${correct}\nWrong: ${wrong}\n\n🌍 Test your geology knowledge with Geo-Master!`;
+    const shareText = `🎯 GEO-MASTER Results:\nScore: ${scoreValue} Points\nTotal Questions: ${totalValue}\nCorrect: ${correctValue}\nWrong: ${wrongValue}\n\n🌍 Test your geology knowledge with Geo-Master!`;
     
     if (navigator.share) {
         navigator.share({
@@ -777,11 +785,6 @@ window.addEventListener('DOMContentLoaded', () => {
                 e.preventDefault();
                 document.getElementById('next-btn').click();
             }
-            // Tab to prevent scrolling
-            if (e.key === 'Tab') {
-                e.preventDefault();
-                document.getElementById('next-btn').focus();
-            }
         }
     });
     
@@ -792,6 +795,4 @@ window.addEventListener('DOMContentLoaded', () => {
             e.target.closest('.option-label').classList.add('selected');
         }
     });
-
-    console.log('%c🚀 GEO-MASTER V2.0 Initialized', 'background: #00d9ff; color: #13171e; font-size: 16px; padding: 5px 10px; border-radius: 5px;');
 });
