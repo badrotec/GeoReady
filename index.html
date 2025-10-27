@@ -1,59 +1,173 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Geo-Master Quiz Hub V2.0</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-  <header>
-    <div class="logo">
-      <span class="icon">🌍</span>
-      <h1>Geo-Master Quiz Hub</h1>
-    </div>
-    <div class="score-container">
-      <span id="score">0</span>
-      <span class="star">⭐</span>
-    </div>
-  </header>
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@500;700&display=swap');
 
-  <main id="main-content">
-    <section id="home" class="active">
-      <h2>جاهز ✅ اختر المجال الذي تريد اختباره</h2>
-      <div id="categories" class="category-list"></div>
-      <button id="start-btn" disabled>ابدأ الاختبار 🚀</button>
-      <p class="note">تأكّد من وجود ملف <b>Question.json</b> في نفس المجلد.</p>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Cairo', sans-serif;
+}
 
-      <div class="lang-switch">
-        <button data-lang="ar" class="active">العربية</button>
-        <button data-lang="en">English</button>
-        <button data-lang="fr">Français</button>
-      </div>
-    </section>
+body {
+  background: linear-gradient(135deg, #0d1117, #1c1f26);
+  color: #fff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
 
-    <section id="quiz" class="hidden">
-      <div class="question-box">
-        <h3 id="question-text"></h3>
-        <div id="options"></div>
-        <div class="timer">
-          <div id="timer-bar"></div>
-          <span id="time-remaining">20s</span>
-        </div>
-      </div>
-    </section>
+header {
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 25px;
+  border-bottom: 1px solid #2f3542;
+}
 
-    <section id="result" class="hidden">
-      <h2>النتيجة النهائية 🎯</h2>
-      <p id="final-score"></p>
-      <button id="retry-btn">🔄 إعادة المحاولة</button>
-    </section>
-  </main>
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.2em;
+  color: #4dd0e1;
+}
 
-  <footer>
-    <p>تم التصميم لواجهة تعليمية تفاعلية · Geo-Master 2025</p>
-  </footer>
+.score-container {
+  background: #0ac;
+  border-radius: 20px;
+  padding: 6px 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: bold;
+}
 
-  <script src="script.js"></script>
-</body>
-</html>
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+}
+
+section {
+  width: 100%;
+  max-width: 500px;
+}
+
+.hidden {
+  display: none;
+}
+
+.category-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 25px 0;
+}
+
+.category-list button {
+  background: #1e272e;
+  color: #fff;
+  border: 1px solid #2f3640;
+  padding: 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.category-list button:hover,
+.category-list button.active {
+  background: #00b894;
+}
+
+button#start-btn {
+  background: #00cec9;
+  color: #000;
+  padding: 12px 20px;
+  border-radius: 10px;
+  border: none;
+  font-size: 1.1em;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button#start-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.lang-switch {
+  margin-top: 25px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.lang-switch button {
+  background: #2f3640;
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.lang-switch button.active {
+  background: #00cec9;
+  color: #000;
+}
+
+.question-box {
+  background: #1e272e;
+  padding: 20px;
+  border-radius: 12px;
+}
+
+#options button {
+  display: block;
+  width: 100%;
+  background: #2f3640;
+  border: none;
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+#options button:hover {
+  background: #0984e3;
+}
+
+.timer {
+  position: relative;
+  height: 10px;
+  background: #333;
+  border-radius: 10px;
+  margin-top: 15px;
+}
+
+#timer-bar {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  background: #00b894;
+  border-radius: 10px;
+  transition: width 1s linear;
+}
+
+footer {
+  text-align: center;
+  padding: 10px;
+  color: #aaa;
+  font-size: 0.9em;
+  background: rgba(0,0,0,0.2);
+}
