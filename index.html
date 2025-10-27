@@ -1,173 +1,85 @@
-@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@500;700&display=swap');
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GeoReady | نظام الاختبارات الجيولوجية</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://kit.fontawesome.com/5b6d5f5b10.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  <!-- الشريط العلوي -->
+  <header class="topbar">
+    <div class="logo">
+      <i class="fas fa-globe-africa"></i>
+      <span>GeoReady Hub</span>
+    </div>
+    <div class="actions">
+      <button id="open-sidebar-btn" title="القائمة"><i class="fas fa-bars"></i></button>
+    </div>
+  </header>
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Cairo', sans-serif;
-}
+  <!-- القائمة الجانبية -->
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-header">
+      <h3>🌍 Geo-Master</h3>
+      <button id="close-sidebar-btn"><i class="fas fa-times"></i></button>
+    </div>
+    <ul id="sidebar-topics-list"></ul>
+    <div class="lang-switch">
+      <button onclick="changeLanguage('ar')" class="active">AR</button>
+      <button onclick="changeLanguage('en')">EN</button>
+      <button onclick="changeLanguage('fr')">FR</button>
+    </div>
+  </aside>
+  <div id="overlay"></div>
 
-body {
-  background: linear-gradient(135deg, #0d1117, #1c1f26);
-  color: #fff;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
+  <!-- الشاشة الرئيسية -->
+  <main>
+    <section id="loading-section">
+      <p id="loading-message">⏳ جاري تحميل البيانات...</p>
+    </section>
 
-header {
-  background: rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(10px);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 25px;
-  border-bottom: 1px solid #2f3542;
-}
+    <section id="topic-selection" class="hidden">
+      <div id="topics-list-container">
+        <h3>اختر مجال الاختبار:</h3>
+        <div id="topics-list" class="topics-grid"></div>
+      </div>
+    </section>
 
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 1.2em;
-  color: #4dd0e1;
-}
+    <!-- شاشة الاختبار -->
+    <section id="quiz-screen" class="hidden">
+      <h2 id="quiz-title">اختبار: </h2>
+      <div id="question-counter" class="counter"></div>
+      <div id="timer-container">
+        <div id="progress-bar"><div id="progress-bar-fill"></div></div>
+        <span id="timer-display">20ث</span>
+      </div>
+      <div id="question-container" class="question-box"></div>
 
-.score-container {
-  background: #0ac;
-  border-radius: 20px;
-  padding: 6px 14px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-weight: bold;
-}
+      <div class="quiz-buttons">
+        <button id="submit-btn" class="btn neon-btn"><i class="fas fa-terminal"></i> تأكيد الإجابة</button>
+        <button id="next-btn" class="btn hidden"><i class="fas fa-arrow-right"></i> التالي</button>
+      </div>
+    </section>
 
-main {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 20px;
-}
+    <!-- شاشة النتائج -->
+    <section id="results-screen" class="hidden">
+      <h2>النتيجة النهائية 🎯</h2>
+      <div class="result-summary">
+        <p>النقاط: <span id="final-score">0</span></p>
+        <p>عدد الأسئلة: <span id="total-questions-count">0</span></p>
+      </div>
+      <p id="grade-message" class="grade-message"></p>
+      <div id="review-area" class="review-log"></div>
+      <button class="large-btn neon-btn" onclick="location.reload()">🔁 إعادة التشغيل</button>
+    </section>
+  </main>
 
-section {
-  width: 100%;
-  max-width: 500px;
-}
+  <footer>
+    <p>© 2025 GeoReady Project — تصميم بدر الدين 🌐</p>
+  </footer>
 
-.hidden {
-  display: none;
-}
-
-.category-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin: 25px 0;
-}
-
-.category-list button {
-  background: #1e272e;
-  color: #fff;
-  border: 1px solid #2f3640;
-  padding: 12px;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.category-list button:hover,
-.category-list button.active {
-  background: #00b894;
-}
-
-button#start-btn {
-  background: #00cec9;
-  color: #000;
-  padding: 12px 20px;
-  border-radius: 10px;
-  border: none;
-  font-size: 1.1em;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-button#start-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.lang-switch {
-  margin-top: 25px;
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-}
-
-.lang-switch button {
-  background: #2f3640;
-  color: #fff;
-  border: none;
-  padding: 8px 14px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.lang-switch button.active {
-  background: #00cec9;
-  color: #000;
-}
-
-.question-box {
-  background: #1e272e;
-  padding: 20px;
-  border-radius: 12px;
-}
-
-#options button {
-  display: block;
-  width: 100%;
-  background: #2f3640;
-  border: none;
-  margin: 10px 0;
-  padding: 10px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-#options button:hover {
-  background: #0984e3;
-}
-
-.timer {
-  position: relative;
-  height: 10px;
-  background: #333;
-  border-radius: 10px;
-  margin-top: 15px;
-}
-
-#timer-bar {
-  position: absolute;
-  top: 0;
-  right: 0;
-  height: 100%;
-  width: 100%;
-  background: #00b894;
-  border-radius: 10px;
-  transition: width 1s linear;
-}
-
-footer {
-  text-align: center;
-  padding: 10px;
-  color: #aaa;
-  font-size: 0.9em;
-  background: rgba(0,0,0,0.2);
-}
+  <script src="script.js"></script>
+</body>
+</html>
