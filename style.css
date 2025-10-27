@@ -1,223 +1,134 @@
-/* =======================================================
-   1. المتغيرات والألوان (Cyberpunk/Sci-Fi Dark Mode)
-   ======================================================= */
-:root {
-    --bg-main: #0a0e14;          /* أسود عميق للخلفية */
-    --bg-module: #13171e;        /* لون الوحدات/البطاقات */
-    --text-main: #e0e6f0;        /* نص أبيض مائل للأزرق */
-    
-    --neon-blue: #00c4ff;        /* لون النيون الرئيسي (سماوي) */
-    --neon-accent: #ff4500;      /* لون نيون ثانوي (أحمر/برتقالي) */
-    --correct-color: #39ff14;    /* نيون أخضر */
-    --incorrect-color: #ff3300;  /* نيون أحمر */
-    
-    --shadow-deep: 0 4px 15px rgba(0, 0, 0, 0.7);
-    --shadow-neon-blue: 0 0 10px var(--neon-blue), 0 0 20px var(--neon-blue);
-    
-    --sidebar-width: 80%; 
+:root{
+  --bg:#0f1724;
+  --card:#0b1220;
+  --muted:#9aa4b2;
+  --accent1:#3ddc97;
+  --accent2:#4f6fff;
+  --glass: rgba(255,255,255,0.04);
+  --danger:#ff6b6b;
+  --success:#27c46b;
+  --radius:14px;
+  --text:#e6eef8;
+  --shadow: 0 6px 18px rgba(2,6,23,0.6);
+  --glass-2: rgba(255,255,255,0.02);
+  font-family: "Segoe UI", Roboto, "Noto Naskh Arabic", system-ui, sans-serif;
 }
 
-/* =======================================================
-   2. التنسيق العام والتحريك (MOBILE-FIRST)
-   ======================================================= */
-* {
-    box-sizing: border-box; /* **الأهم: يحل مشكلة التجاوز على الهواتف** */
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  background: linear-gradient(180deg,#071023 0%, #071829 60%);
+  color:var(--text);
+  display:flex;
+  min-height:100vh;
+  gap:20px;
+  direction:rtl;
 }
 
-body {
-    font-family: 'Consolas', 'Courier New', monospace; 
-    background-color: var(--bg-main);
-    color: var(--text-main);
-    direction: rtl;
-    line-height: 1.5;
-    margin: 0;
-    min-height: 100vh;
-    overflow-x: hidden; 
-    position: relative;
+/* Sidebar */
+.sidebar{
+  width:280px;
+  background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  padding:20px;
+  border-radius:18px;
+  box-shadow:var(--shadow);
+  display:flex;
+  flex-direction:column;
+  min-height:calc(100vh - 40px);
+  margin:20px;
+  position:sticky;
+  top:20px;
 }
-
-@keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-.animated-fade { animation: fadeIn 0.8s ease-out both; }
-.hidden { display: none !important; }
-
-#main-content-wrapper { transition: margin-right 0.3s ease; }
-
-/* شريط الرأس */
-.main-header {
-    background-color: var(--bg-module);
-    padding: 10px 15px; 
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: var(--shadow-deep);
-    position: sticky;
-    top: 0;
-    z-index: 100;
+.brand h1{
+  margin:0;
+  font-size:22px;
+  letter-spacing:0.6px;
 }
-.app-title { font-size: 1.3em; margin: 0; color: var(--neon-blue); text-shadow: 0 0 3px var(--neon-blue); }
-.header-info { display: none; }
-.sidebar-toggle-btn { color: var(--neon-blue); font-size: 1.5em; text-shadow: 0 0 3px var(--neon-blue); }
-
-
-/* =======================================================
-   3. القائمة الجانبية (Sidebar)
-   ======================================================= */
-#sidebar {
-    height: 100%;
-    width: var(--sidebar-width);
-    position: fixed;
-    top: 0;
-    right: calc(-1 * var(--sidebar-width));
-    background-color: var(--bg-module); 
-    box-shadow: var(--shadow-deep);
-    z-index: 2000;
-    transition: right 0.3s ease;
-    overflow-y: auto;
-    padding: 20px 0;
-    border-left: 1px solid var(--neon-accent);
+.subtitle{color:var(--muted);margin-top:6px;font-size:12px}
+.menu{display:flex;flex-direction:column;gap:14px;margin-top:18px}
+.section h4{margin:0;font-size:13px;color:var(--muted);margin-bottom:6px}
+.select{width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:var(--text)}
+.lang-switch{display:flex;gap:8px}
+.lang-btn{
+  flex:1;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);
+  background:transparent;color:var(--text);cursor:pointer;font-size:13px
 }
-#sidebar.open { right: 0; }
-#overlay {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    z-index: 1999;
-    display: none;
+.lang-btn.active{background:linear-gradient(90deg,var(--accent1),var(--accent2));box-shadow:0 6px 18px rgba(79,111,255,0.12);color:#04212c}
+
+/* Buttons */
+.btn-primary{
+  background:linear-gradient(90deg,var(--accent2),var(--accent1));
+  color:#fff;padding:10px 14px;border-radius:12px;border:0;cursor:pointer;font-weight:600;
+  transition:transform .12s ease;
 }
-.sidebar-topics-list a { color: var(--text-main); border-right: 3px solid transparent; }
-.sidebar-topics-list a:hover { background-color: #1a222c; border-right-color: var(--neon-blue); }
-
-
-/* =======================================================
-   4. شاشات المحتوى الرئيسية (Mobile Focus)
-   ======================================================= */
-#app-container { padding: 20px; width: 100%; max-width: 100%; }
-.section-title { font-size: 1.5em; margin: 25px 0; color: var(--neon-blue); text-shadow: 0 0 3px var(--neon-blue); }
-
-/* زر ابدأ */
-#start-quiz-btn { margin: 20px auto 40px; display: block; width: 80%; } 
-
-/* قائمة المواضيع */
-.list-container { display: flex; flex-direction: column; gap: 15px; }
-.topic-card {
-    background-color: var(--bg-module);
-    padding: 25px 20px;
-    border-radius: 10px;
-    font-size: 1.2em;
-    font-weight: 600;
-    cursor: pointer;
-    box-shadow: var(--shadow-deep);
-    transition: all 0.2s;
-    text-align: right;
-    border-right: 4px solid var(--neon-blue);
-    border: 1px solid #2a3440;
+.btn-primary:hover{transform:translateY(-2px)}
+.btn-ghost{
+  background:transparent;border:1px solid rgba(255,255,255,0.06);padding:8px 12px;border-radius:10px;color:var(--muted);cursor:pointer;
 }
-.topic-card:hover { transform: translateY(-3px); background-color: #1a222c; border-right-color: var(--neon-accent); }
+.wide{width:100%}
 
-/* ----------------- شاشة الاختبار ------------------ */
-.data-module {
-    background-color: var(--bg-module);
-    border: 1px solid #2a3440;
-    box-shadow: var(--shadow-deep);
-    padding: 30px 20px;
-    border-radius: 10px;
+/* Main */
+.main{flex:1;margin:20px;display:flex;flex-direction:column;gap:18px}
+.topbar{
+  display:flex;justify-content:space-between;align-items:center;padding:12px 18px;border-radius:12px;background:var(--glass-2);
+  box-shadow:0 4px 16px rgba(2,6,23,0.5)
 }
-.quiz-header-status {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 20px;
-    grid-template-areas: 
-        "title title"
-        "timer counter"
-        "progress progress"; 
+.topbar h2{margin:0;font-size:18px}
+.icon-btn{background:transparent;border:1px solid rgba(255,255,255,0.03);padding:8px;border-radius:10px;cursor:pointer;color:var(--text)}
+.meta{display:flex;align-items:center;gap:16px}
+
+/* timer/progress ring */
+.progress-ring{width:56px;height:56px}
+.progress-ring .bg{fill:none;stroke:rgba(255,255,255,0.04);stroke-width:2}
+.progress-ring .fg{fill:none;stroke:var(--accent2);stroke-width:2;stroke-linecap:round;stroke-dasharray:1000;transform-origin:center;transform:rotate(-90deg)}
+.timer{display:flex;flex-direction:column;align-items:center;font-size:12px;color:var(--muted)}
+
+/* Score */
+.score-display{display:flex;flex-direction:column;align-items:flex-end}
+.score-display span{font-weight:700;font-size:16px}
+.score-display small{font-size:11px;color:var(--muted)}
+
+/* Content */
+.content{display:flex;flex-direction:column;gap:16px}
+.card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:18px;border-radius:var(--radius);box-shadow:var(--shadow)}
+.center{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:40px}
+
+/* question card */
+.question-card{max-width:900px;width:100%}
+.q-header{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.q-info h3{margin:0;font-size:20px}
+.tag{display:inline-block;padding:6px 10px;border-radius:10px;background:rgba(255,255,255,0.03);font-size:12px;color:var(--muted)}
+.options{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:14px}
+.option{
+  padding:14px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);cursor:pointer;
+  background:transparent;min-height:58px;display:flex;align-items:center;gap:12px;font-weight:600
 }
-.quiz-header-status h2 { grid-area: title; margin: 0; font-size: 1.3em;}
-#question-counter { 
-    grid-area: counter;
-    font-size: 0.8em;
-    padding: 4px 8px;
-    background-color: var(--neon-accent);
-    color: var(--bg-main);
-    border-radius: 5px;
+.option:hover{transform:translateY(-3px);transition:all .12s ease}
+.option.correct{border-color:var(--success);box-shadow:0 8px 20px rgba(39,196,107,0.06)}
+.option.wrong{border-color:var(--danger);opacity:0.9}
+.controls{display:flex;justify-content:space-between;align-items:center;margin-top:16px}
+.controls .disabled{opacity:0.5;pointer-events:none}
+
+/* progress timebar */
+.progressbar-wrap{margin-top:12px;height:10px;background:rgba(255,255,255,0.02);border-radius:10px;overflow:hidden}
+.timebar{height:100%;width:100%;background:linear-gradient(90deg,var(--accent1),var(--accent2));transform-origin:left;transition:width 0.2s linear}
+
+/* result */
+.result-card{max-width:560px}
+.result-stats{display:flex;gap:18px;justify-content:center;margin:8px 0}
+.result-actions{display:flex;gap:12px;justify-content:center;margin-top:12px}
+
+/* misc */
+.small{font-size:13px;color:var(--muted)}
+.info-block p{margin:6px 0;color:var(--muted)}
+.footer-note{margin-top:auto;color:var(--muted);font-size:12px;text-align:center}
+
+/* responsive */
+@media (max-width:900px){
+  .sidebar{display:none}
+  body{padding:12px}
+  .options{grid-template-columns:1fr}
+  .topbar{padding:10px}
 }
-.timer-display { 
-    grid-area: timer;
-    font-size: 1.4em;
-    font-weight: bold;
-    color: var(--neon-blue);
-    text-shadow: 0 0 3px var(--neon-blue);
-}
-/* شريط التقدم الزمني */
-#progress-bar-container { grid-area: progress; width: 100%; height: 5px; background-color: #1f2730; border-radius: 3px; overflow: hidden; margin-top: 10px; }
-#progress-bar-fill { height: 100%; width: 100%; background-color: var(--neon-blue); box-shadow: 0 0 5px var(--neon-blue); transition: width 0.1s linear; }
-
-.question-text { font-size: 1.4em; padding-bottom: 15px; margin-bottom: 20px; border-bottom: 1px dashed var(--neon-accent); color: var(--text-main); }
-
-/* خيارات الإجابة */
-.options-container { display: flex; flex-direction: column; gap: 10px; }
-.option-label {
-    background-color: #1a222c; 
-    border: 1px solid #2a3440;
-    border-radius: 8px;
-    padding: 15px;
-    font-size: 1.1em;
-    width: 100%; 
-    cursor: pointer;
-}
-.option-label:hover { border-color: var(--neon-blue); }
-
-/* التغذية الراجعة */
-.option-label.correct { background-color: var(--correct-color); border-color: var(--correct-color); color: var(--bg-main); }
-.option-label.incorrect { background-color: var(--incorrect-color); border-color: var(--incorrect-color); color: white; }
-
-/* الأزرار النيونية */
-.controls-bar { display: flex; flex-direction: column-reverse; gap: 10px; margin-top: 25px; }
-.control-btn {
-    width: 100%;
-    padding: 14px 20px;
-    border-radius: 8px; 
-    font-weight: 700;
-    font-size: 1.1em;
-    border: none;
-    cursor: pointer;
-    transition: all 0.2s;
-}
-.primary { background-color: var(--neon-blue); color: var(--bg-main); box-shadow: 0 0 10px rgba(0, 196, 255, 0.5); }
-.secondary { background-color: var(--neon-accent); color: var(--bg-main); }
-.primary:hover:not(:disabled) { transform: scale(1.02); }
-
-
-/* =======================================================
-   6. قواعد الشاشة الكبيرة (Desktop Overrides)
-   ======================================================= */
-@media (min-width: 768px) {
-    #app-container { max-width: 1100px; padding: 30px; }
-    .app-title { font-size: 2em; }
-    .header-info { display: block; }
-    #sidebar { width: 300px; }
-
-    /* استبدال القائمة العمودية Grid لعرضها كبطاقات */
-    .list-container {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 30px;
-    }
-    .topic-card { border-right: none; border-bottom: 4px solid var(--neon-blue); text-align: center; }
-
-    .controls-bar { flex-direction: row; justify-content: flex-end; }
-    .control-btn { width: auto; padding: 16px 35px; border-radius: 30px; }
-    
-    .quiz-header-status {
-        /* ترتيب العناصر في سطر واحد على الشاشات الكبيرة */
-        grid-template-areas: 
-            "title timer counter"
-            "progress progress progress";
-        grid-template-columns: 1fr auto auto;
-    }
-    .quiz-header-status h2 { grid-area: title; }
-    .timer-display { grid-area: timer; }
-    #question-counter { grid-area: counter; }
-}
+.hidden{display:none}
