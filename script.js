@@ -1,5 +1,6 @@
 // **=================================================**
 // ** ملف: script.js (المنطق النهائي) - يحتاج Question.json **
+// ** الكود المصحح والكامل **
 // **=================================================**
 
 // [1] المتغيرات العالمية والتحكم
@@ -62,12 +63,15 @@ const translations = {
     }
 };
 
-// ---------------------- 2. دالة تحميل البيانات (الجديدة) ----------------------
+// ---------------------- 2. دالة تحميل البيانات ----------------------
 
 async function loadGeologyData() {
     const loadingMessage = document.getElementById('loading-message');
     try {
-        loadingMessage.textContent = '... جاري تحميل بيانات النظام';
+        if (loadingMessage) {
+            loadingMessage.textContent = '... جاري تحميل بيانات النظام';
+            loadingMessage.classList.remove('hidden'); 
+        }
         
         const response = await fetch('./Question.json'); 
         
@@ -81,10 +85,13 @@ async function loadGeologyData() {
 
     } catch (error) {
         console.error("فشل في تحميل بيانات الجيولوجيا:", error);
-        loadingMessage.textContent = `[خطأ الاتصال] عذراً، لا يمكن تحميل البيانات.`;
-        // لضمان عرض رسالة الخطأ في حالة فشل التحميل
-        if (loadingMessage) loadingMessage.classList.remove('hidden'); 
-        document.getElementById('start-quiz-btn').disabled = true;
+        // عند الفشل: عرض رسالة خطأ، وتعطيل زر البداية
+        const startBtn = document.getElementById('start-quiz-btn');
+        if (loadingMessage) {
+            loadingMessage.textContent = `[خطأ الاتصال] عذراً، لا يمكن تحميل البيانات. يرجى مراجعة Console.`;
+            loadingMessage.classList.remove('hidden'); 
+        }
+        if (startBtn) startBtn.disabled = true;
     }
 }
 
@@ -96,8 +103,7 @@ function startTimer() {
     const timerDisplay = document.getElementById('timer-display');
     const progressBar = document.getElementById('progress-bar-fill');
     const t = translations[currentLanguage];
-    
-    // إعادة تعيين لون المؤقت
+
     timerDisplay.style.color = 'var(--neon-blue)';
     progressBar.style.width = '100%';
     timerDisplay.textContent = `${timeRemaining}${t.timer_text}`;
@@ -109,7 +115,6 @@ function startTimer() {
         const progressPercentage = (timeRemaining / TIME_LIMIT) * 100;
         progressBar.style.width = `${progressPercentage}%`;
 
-        // تغيير لون المؤقت كإنذار
         if (timeRemaining <= 5) {
             timerDisplay.style.color = 'var(--incorrect-color)';
         } else {
@@ -124,30 +129,26 @@ function startTimer() {
 }
 
 function handleTimeout() {
-    clearInterval(timerInterval); // التأكد من الإيقاف الفوري
+    clearInterval(timerInterval); 
     
     const t = translations[currentLanguage];
     const currentQ = currentQuestions[currentQuestionIndex];
-    
-    // العقوبة
+
     score += POINTS_WRONG; 
     
-    // تسجيل الإجابة
     userAnswers[currentQ.id || currentQuestionIndex] = {
         question: currentQ.question,
-        // تعديل لعرض حالة "Timeout" بشكل أوضح في المراجعة
         userAnswer: `(Timeout - لم يتم الإجابة)`,
         correctAnswer: currentQ.answer,
         isCorrect: false,
     };
     
-    // عرض الإجابة الصحيحة للمستخدم
     document.querySelectorAll('.option-label').forEach(label => {
         label.querySelector('input').disabled = true;
-        // إضافة الفئة incorrect للكل لإظهار عدم الإجابة
-        label.classList.add('incorrect'); 
+        label.classList.add('incorrect'); // إظهار الكل كغير مجاب
+        
         if (label.querySelector('input').value === currentQ.answer) {
-            label.classList.remove('incorrect'); // إزالة السمة الخاطئة
+            label.classList.remove('incorrect');
             label.classList.add('correct'); 
         }
     });
@@ -155,7 +156,6 @@ function handleTimeout() {
     document.getElementById('submit-btn').classList.add('hidden');
     document.getElementById('next-btn').classList.remove('hidden');
     
-    // الانتقال بعد مهلة بصرية
     setTimeout(() => {
         currentQuestionIndex++;
         displayQuestion();
@@ -167,7 +167,7 @@ function translateUI(langCode) {
     currentLanguage = langCode;
     const t = translations[langCode] || translations['ar'];
 
-    // التحقق من وجود العناصر قبل محاولة الوصول إليها
+    // تم إضافة التحقق من وجود العناصر لتجنب الأخطاء
     const startBtn = document.getElementById('start-quiz-btn');
     if (startBtn) startBtn.innerHTML = `${t.start_quiz} <i class="fas fa-satellite-dish"></i>`;
     
@@ -215,23 +215,27 @@ document.getElementById('close-sidebar-btn').addEventListener('click', () => {
 document.getElementById('start-quiz-btn').addEventListener('click', () => {
     document.getElementById('start-quiz-btn').classList.add('hidden');
     document.getElementById('topics-list-container').classList.remove('hidden');
-    // لضمان إخفاء رسالة التحميل بعد النقر
-    const loadingMessage = document.getElementById('loading-message');
-    if (loadingMessage) loadingMessage.classList.add('hidden');
 });
 
-// **إضافة معالج حدث زر "إعادة تشغيل النظام"**
-document.querySelector('#results-screen .large-btn').addEventListener('click', () => {
-    window.location.reload(); 
-});
+// **ربط زر إعادة تشغيل النظام**
+const restartBtn = document.querySelector('#results-screen .large-btn');
+if (restartBtn) {
+    restartBtn.addEventListener('click', () => {
+        window.location.reload(); 
+    });
+}
 
 
 function initializeTopicSelection(data) {
     const topicsList = document.getElementById('topics-list'); 
     const sidebarList = document.getElementById('sidebar-topics-list');
     const loadingMessage = document.getElementById('loading-message');
+    const startBtn = document.getElementById('start-quiz-btn');
 
+    // **إصلاح: إخفاء رسالة التحميل وإظهار زر البداية**
     if (loadingMessage) loadingMessage.classList.add('hidden');
+    if (startBtn) startBtn.classList.remove('hidden'); 
+    
     topicsList.innerHTML = '';
     sidebarList.innerHTML = '';
 
@@ -254,7 +258,6 @@ function initializeTopicSelection(data) {
         
         gridCard.addEventListener('click', startQuizHandler);
         
-        // تعديل: يجب إنشاء عنصر قائمة (li) ليتناسب مع تصميم القائمة الجانبية
         const listItem = document.createElement('li');
         sidebarLink.addEventListener('click', startQuizHandler);
         listItem.appendChild(sidebarLink);
@@ -276,8 +279,9 @@ function startQuiz(topicTitle, questions) {
     score = 0;
     userAnswers = {};
 
-    // **التعديل:** إخفاء الشاشات السابقة بشكل صحيح
-    document.getElementById('topics-list-container').classList.add('hidden'); 
+    // إخفاء الشاشات السابقة
+    document.getElementById('topics-list-container').classList.add('hidden');
+    document.getElementById('start-quiz-btn').classList.add('hidden');
     document.getElementById('results-screen').classList.add('hidden');
     document.getElementById('quiz-screen').classList.remove('hidden');
     
@@ -305,7 +309,6 @@ function displayQuestion() {
     htmlContent += '<div class="options-container">';
 
     currentQ.options.forEach((option, index) => {
-        // إضافة id فريد للـ input والـ label لتحسين سهولة الوصول
         const optionId = `q${currentQuestionIndex}-opt${index}`;
         htmlContent += `
             <label class="option-label" for="${optionId}">
@@ -391,19 +394,19 @@ function showResults() {
 
     document.getElementById('final-score').textContent = score;
     const totalQuestions = currentQuestions.length;
-    // يجب أن يكون لديك عنصر في HTML بهذا ID: total-questions-count
+    
     const totalQuestionsCountElement = document.getElementById('total-questions-count');
     if (totalQuestionsCountElement) {
         totalQuestionsCountElement.textContent = totalQuestions;
     }
     
-    const divisor = totalQuestions || 1; // تجنب القسمة على صفر
-    const percentage = (correctCount / divisor) * 100;
+    const divisor = totalQuestions || 1; 
+    const percentage = (correctCount / divisor) * 100; // نسبة الإجابات الصحيحة
     
     const gradeMessage = document.getElementById('grade-message');
     const t = translations[currentLanguage];
     
-    // التقييم بناءً على النسبة المئوية للإجابات الصحيحة
+    // التقييم بناءً على نسبة الأداء
     if (percentage >= 90) {
         gradeMessage.innerHTML = t.great_job;
         gradeMessage.style.color = 'var(--correct-color)';
