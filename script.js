@@ -30,12 +30,54 @@ const reviewAnswersButton = document.getElementById('reviewAnswers');
 const newQuizButton = document.getElementById('newQuiz');
 const startTrainingButton = document.getElementById('startTraining');
 const langButtons = document.querySelectorAll('.lang-btn');
+const suggestionsSection = document.getElementById('suggestionsSection');
+const suggestionsContent = document.getElementById('suggestionsContent');
+const performanceChart = document.getElementById('performanceChart');
 
 // أصوات التفاعل
 const correctSound = document.getElementById('correctSound');
 const wrongSound = document.getElementById('wrongSound');
 const clickSound = document.getElementById('clickSound');
 const completeSound = document.getElementById('completeSound');
+
+// قاعدة بيانات الاقتراحات الذكية
+const suggestionsDatabase = {
+    "الجيولوجيا_الأساسية": {
+        1: [
+            {
+                title: "تعريف المعدن",
+                content: "المعدن هو مادة صلبة طبيعية متجانسة لها تركيب كيميائي محدد وترتيب ذري منتظم. الكوارتز يمتلك هذه الخصائص بينما البازلت والجرانيت صخور والحجر الجيري صخر رسوبي.",
+                type: "تعريف"
+            },
+            {
+                title: "خصائص المعادن",
+                content: "المعادن تتميز بتركيب كيميائي ثابت وبناء بلوري منتظم. الكوارتز (SiO₂) هو معدن بينما البازلت والجرانيت صخور نارية مكونة من عدة معادن.",
+                type: "معلومة"
+            }
+        ],
+        2: [
+            {
+                title: "تركيب الكوارتز",
+                content: "الكوارتز يتكون أساساً من ثاني أكسيد السيليكون (SiO₂) حيث يشكل السيليكون والأكسجين المكونات الأساسية لهذا المعدن.",
+                type: "تركيب كيميائي"
+            },
+            {
+                title: "مجموعة السيليكات",
+                content: "الكوارتز ينتمي إلى مجموعة معادن السيليكات التي تشكل حوالي 90% من القشرة الأرضية، حيث يعتبر السيليكون العنصر الأساسي في تركيبها.",
+                type: "تصنيف"
+            }
+        ]
+    },
+    "الجيوكيمياء": {
+        1: [
+            {
+                title: "مجال الجيوكيمياء",
+                content: "الجيوكيمياء تدرس التوزيع والسلوك الكيميائي للعناصر في الأرض، بما في ذلك الصخور والمعادن والمياه والتربة.",
+                type: "تعريف"
+            }
+        ]
+    }
+};
 
 // تهيئة التطبيق
 document.addEventListener('DOMContentLoaded', function() {
@@ -64,8 +106,7 @@ async function loadDefaultQuestions() {
             { "id": 2, "question": "العنصر الأساسي في تركيب الكوارتز هو:", "options": ["الحديد", "السيليكون", "الكالسيوم", "الألومنيوم"], "answer": "السيليكون" }
         ],
         "الجيوكيمياء": [
-            { "id": 1, "topic": "الجيوكيمياء", "question": "الجيوكيمياء تدرس؟", "options": ["شكل الصخور", "التركيب الكيميائي للعناصر والمعادن", "الكثافة والسرعة", "درجة الحرارة فقط"], "answer": "التركيب الكيميائي للعناصر والمعادن" },
-            { "id": 2, "topic": "جيوكيمياء العناصر", "question": "العنصر الأكثر وفرة في القشرة الأرضية؟", "options": ["الحديد", "السيليكون", "الأكسجين", "الألمنيوم"], "answer": "الأكسجين" }
+            { "id": 1, "topic": "الجيوكيمياء", "question": "الجيوكيمياء تدرس؟", "options": ["شكل الصخور", "التركيب الكيميائي للعناصر والمعادن", "الكثافة والسرعة", "درجة الحرارة فقط"], "answer": "التركيب الكيميائي للعناصر والمعادن" }
         ]
     };
 }
@@ -227,13 +268,61 @@ function loadQuestion() {
         optionsContainer.appendChild(optionElement);
     });
     
+    // تحميل الاقتراحات الذكية
+    loadSuggestions(question.id);
+    
     // تحديث حالة الأزرار
     prevQuestionButton.disabled = currentQuestionIndex === 0;
     nextQuestionButton.style.display = currentQuestionIndex < currentQuestions.length - 1 ? 'inline-flex' : 'none';
     submitQuizButton.style.display = currentQuestionIndex === currentQuestions.length - 1 ? 'inline-flex' : 'none';
     
     // تشغيل صوت النقر
-    clickSound.play().catch(e => console.log('لا يمكن تشغيل الصوت:', e));
+    playSound(clickSound);
+}
+
+function loadSuggestions(questionId) {
+    const categorySuggestions = suggestionsDatabase[currentCategory];
+    
+    if (categorySuggestions && categorySuggestions[questionId]) {
+        suggestionsSection.style.display = 'block';
+        suggestionsContent.innerHTML = '';
+        
+        categorySuggestions[questionId].forEach((suggestion, index) => {
+            const suggestionItem = document.createElement('div');
+            suggestionItem.className = 'suggestion-item';
+            suggestionItem.style.animationDelay = `${index * 0.1}s`;
+            
+            const icon = getSuggestionIcon(suggestion.type);
+            
+            suggestionItem.innerHTML = `
+                <h4><i class="${icon}"></i> ${suggestion.title}</h4>
+                <p>${suggestion.content}</p>
+            `;
+            
+            suggestionsContent.appendChild(suggestionItem);
+        });
+    } else {
+        // اقتراحات عامة إذا لم توجد اقتراحات محددة
+        suggestionsSection.style.display = 'block';
+        suggestionsContent.innerHTML = `
+            <div class="suggestion-item">
+                <h4><i class="fas fa-lightbulb"></i> نصيحة عامة</h4>
+                <p>اقرأ السؤال بعناية وتأكد من فهمك للمطلوب قبل اختيار الإجابة. استخدم المعرفة الأساسية في الجيولوجيا للتمييز بين الخيارات.</p>
+            </div>
+        `;
+    }
+}
+
+function getSuggestionIcon(type) {
+    const icons = {
+        'تعريف': 'fas fa-book',
+        'معلومة': 'fas fa-info-circle',
+        'تركيب كيميائي': 'fas fa-flask',
+        'تصنيف': 'fas fa-layer-group',
+        'نصيحة': 'fas fa-tips'
+    };
+    
+    return icons[type] || 'fas fa-lightbulb';
 }
 
 function selectOption(selectedOption, optionElement) {
@@ -247,7 +336,7 @@ function selectOption(selectedOption, optionElement) {
     userAnswers[currentQuestionIndex] = selectedOption;
     
     // تشغيل صوت النقر
-    clickSound.play().catch(e => console.log('لا يمكن تشغيل الصوت:', e));
+    playSound(clickSound);
 }
 
 function goToPreviousQuestion() {
@@ -300,13 +389,35 @@ function showResults() {
     resultsMessageElement.textContent = message;
     resultsCard.className = `results-card ${resultClass}`;
     
+    // إنشاء مخطط الأداء
+    createPerformanceChart(percentage);
+    
     // إظهار قسم النتائج وإخفاء الأقسام الأخرى
     categoriesSection.style.display = 'none';
     quizSection.style.display = 'none';
     resultsSection.style.display = 'block';
     
     // تشغيل صوت الانتهاء
-    completeSound.play().catch(e => console.log('لا يمكن تشغيل الصوت:', e));
+    playSound(completeSound);
+}
+
+function createPerformanceChart(percentage) {
+    performanceChart.innerHTML = `
+        <h4>مستوى أدائك</h4>
+        <div class="chart-bar">
+            <div class="chart-fill" style="width: ${percentage}%"></div>
+        </div>
+        <p>${percentage.toFixed(1)}% - ${getPerformanceLevel(percentage)}</p>
+    `;
+}
+
+function getPerformanceLevel(percentage) {
+    if (percentage >= 90) return 'متميز';
+    if (percentage >= 80) return 'ممتاز';
+    if (percentage >= 70) return 'جيد جداً';
+    if (percentage >= 60) return 'جيد';
+    if (percentage >= 50) return 'مقبول';
+    return 'بحاجة للتحسين';
 }
 
 function reviewAnswers() {
@@ -350,19 +461,22 @@ function changeLanguage(lang) {
             title: 'جيولوجي - منصة تدريب الجيولوجيين',
             startTraining: 'ابدأ التدريب الآن',
             categoriesTitle: 'التخصصات الجيولوجية',
-            resultsTitle: 'تهانينا! لقد أكملت الاختبار'
+            resultsTitle: 'تهانينا! لقد أكملت الاختبار',
+            suggestionsTitle: 'اقتراحات ذكية'
         },
         en: {
             title: 'Geology - Geology Training Platform',
             startTraining: 'Start Training Now',
             categoriesTitle: 'Geological Specializations',
-            resultsTitle: 'Congratulations! You have completed the test'
+            resultsTitle: 'Congratulations! You have completed the test',
+            suggestionsTitle: 'Smart Suggestions'
         },
         fr: {
             title: 'Géologie - Plateforme de Formation en Géologie',
             startTraining: 'Commencer la Formation',
             categoriesTitle: 'Spécialisations Géologiques',
-            resultsTitle: 'Félicitations! Vous avez terminé le test'
+            resultsTitle: 'Félicitations! Vous avez terminé le test',
+            suggestionsTitle: 'Suggestions Intelligentes'
         }
     };
     
@@ -376,4 +490,10 @@ function changeLanguage(lang) {
     startTrainingButton.innerHTML = `<i class="fas fa-play-circle"></i> ${translation.startTraining}`;
     document.querySelector('.section-title').textContent = translation.categoriesTitle;
     document.querySelector('#resultsCard h2').textContent = translation.resultsTitle;
+    document.querySelector('.suggestions-header h3').textContent = translation.suggestionsTitle;
+}
+
+function playSound(sound) {
+    sound.currentTime = 0;
+    sound.play().catch(e => console.log('لا يمكن تشغيل الصوت:', e));
 }
