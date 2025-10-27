@@ -1,19 +1,37 @@
 /* =======================================================
-   1. المتغيرات والألوان (Modern Minimalist Dashboard)
+   1. المتغيرات والألوان
    ======================================================= */
 :root {
+    --bg-main: #1e1e2d; /* خلفية داكنة رئيسية */
+    --bg-module: #27293d; /* خلفية لوحات البيانات */
+    --bg-header: #151624; /* خلفية الرأس والقدم */
+    --text-main: #e0e0e0; /* لون النص الرئيسي فاتح */
+    --text-secondary: #999999; 
+    --neon-blue: #00d9ff;
+    --neon-purple: #9c27b0;
+    --neon-cyan: #00bcd4;
+    --accent-primary: var(--neon-blue);
+    --correct-color: #4caf50; /* أخضر */
+    --incorrect-color: #f44336; /* أحمر */
+    --shadow-deep: 0 8px 25px rgba(0, 0, 0, 0.4);
+    --border-radius: 10px;
+    --sidebar-width: 300px;
+}
+
+/* سمة الإضاءة (Light Theme) */
+body[data-theme="light"] {
     --bg-main: #f4f6f9;
     --bg-module: #ffffff;
     --bg-header: #34495e;
     --text-main: #333333;
-    --accent-primary: #007bff;
-    --accent-secondary: #6c757d;
-    --correct-color: #28a745;
-    --incorrect-color: #dc3545;
+    --text-secondary: #6c757d;
+    --neon-blue: #007bff;
+    --neon-purple: #6610f2;
+    --neon-cyan: #17a2b8;
+    --accent-primary: var(--neon-blue);
     --shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.08);
-    --border-radius: 10px;
-    --sidebar-width: 300px;
 }
+
 
 /* =======================================================
    2. التنسيق العام والخطوط
@@ -24,7 +42,7 @@
 }
 
 body {
-    font-family: 'Arial', sans-serif; 
+    font-family: 'Roboto', sans-serif; 
     background-color: var(--bg-main);
     color: var(--text-main);
     direction: rtl;
@@ -34,28 +52,43 @@ body {
     overflow-x: hidden; 
 }
 
+a { color: var(--accent-primary); text-decoration: none; }
 .hidden { display: none !important; }
+button { cursor: pointer; border: none; }
 
-/* شريط الرأس */
+/* تأثير الاهتزاز (للتحذير الزمني) */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-5px); }
+    40%, 80% { transform: translateX(5px); }
+}
+
+/* =======================================================
+   3. الرأس (Header)
+   ======================================================= */
 .main-header {
     background-color: var(--bg-header);
     padding: 15px 25px; 
-    box-shadow: var(--shadow-soft);
+    box-shadow: var(--shadow-deep);
     color: white;
     position: sticky;
     top: 0;
     z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
-.app-title { font-size: 1.8em; color: white; font-weight: bold; }
-.sidebar-toggle-btn { color: white; font-size: 1.6em; }
+.app-title { font-size: 1.8em; color: var(--neon-cyan); font-weight: bold; }
+.sidebar-toggle-btn { color: var(--neon-cyan); font-size: 1.6em; background: none; }
+.user-status { font-size: 0.9em; color: var(--text-secondary); }
 
 /* =======================================================
-   3. القائمة الجانبية (Sidebar)
+   4. القائمة الجانبية (Sidebar)
    ======================================================= */
 #sidebar {
     background-color: var(--bg-module); 
-    border-right: 5px solid var(--accent-primary);
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    border-right: 5px solid var(--neon-purple);
+    box-shadow: var(--shadow-deep);
     width: var(--sidebar-width);
     position: fixed;
     top: 0;
@@ -64,45 +97,68 @@ body {
     z-index: 2000;
     transition: right 0.4s ease-in-out;
     overflow-y: auto;
+    padding: 20px;
 }
 #sidebar.open { right: 0; }
+#overlay {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 1999; display: none;
+}
+.sidebar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.sidebar-header h3 { color: var(--neon-blue); font-size: 1.4em; }
+.sidebar-close-btn { background: none; color: var(--text-secondary); font-size: 1.5em; }
 
-.sidebar-header h3 { color: var(--accent-primary); font-size: 1.4em; }
 .sidebar-topics-list a { 
+    display: block;
     color: var(--text-main); 
     border-right: 4px solid transparent;
-    padding: 15px 25px;
+    padding: 12px 0;
     font-weight: 500;
+    transition: background-color 0.2s, border-right-color 0.2s;
 }
 .sidebar-topics-list a:hover { 
-    background-color: rgba(0, 123, 255, 0.1); 
-    border-right-color: var(--accent-primary); 
-    color: var(--accent-primary);
+    background-color: rgba(0, 217, 255, 0.1); 
+    border-right-color: var(--neon-purple); 
+    color: var(--neon-blue);
 }
-.language-selector { border-bottom: 1px solid #ddd; padding: 15px 25px; }
+
+.language-selector { border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 20px; margin-bottom: 20px; }
+.language-selector label { color: var(--neon-cyan); }
+.language-selector select { 
+    background-color: var(--bg-header); 
+    color: var(--text-main); 
+    border: 1px solid var(--neon-blue); 
+    padding: 5px; 
+    border-radius: 5px; 
+    margin-right: 10px;
+}
 
 /* =======================================================
-   4. شاشات المحتوى الرئيسية (Dashboard Layout)
+   5. شاشات المحتوى الرئيسية (Dashboard Layout)
    ======================================================= */
-#app-container { padding: 40px 20px; }
-.section-title { font-size: 1.8em; color: var(--accent-primary); border-bottom: 2px solid #ccc; padding-bottom: 10px; margin-bottom: 30px; }
+#app-container { padding: 40px 20px; max-width: 1200px; margin: 0 auto; }
+.section-title { font-size: 1.8em; color: var(--neon-blue); border-bottom: 2px solid rgba(255, 255, 255, 0.1); padding-bottom: 10px; margin-bottom: 30px; }
+.topics-header { color: var(--neon-cyan); }
 
-/* زر ابدأ */
+/* زر ابدأ (بدء التحدي) */
 #start-quiz-btn { 
-    background-color: var(--correct-color);
+    background: linear-gradient(90deg, var(--correct-color), #388e3c);
     color: white;
-    box-shadow: 0 4px 10px rgba(40, 167, 69, 0.4);
+    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.6);
     border-radius: 30px;
-    padding: 15px 40px;
-    font-size: 1.3em;
+    padding: 18px 45px;
+    font-size: 1.4em;
     font-weight: bold;
     width: 350px;
     max-width: 90%;
-    margin: 50px auto;
+    margin: 60px auto;
     display: block;
     border: none;
     cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
 } 
+#start-quiz-btn:hover { transform: scale(1.05); box-shadow: 0 6px 20px rgba(76, 175, 80, 0.8); }
 
 /* قائمة المواضيع */
 .list-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
@@ -110,8 +166,8 @@ body {
     background-color: var(--bg-module);
     padding: 25px;
     border-radius: var(--border-radius);
-    box-shadow: var(--shadow-soft);
-    border-left: 5px solid var(--accent-primary);
+    box-shadow: var(--shadow-deep);
+    border-right: 5px solid var(--neon-blue);
     color: var(--text-main);
     font-size: 1.1em;
     font-weight: 600;
@@ -119,59 +175,188 @@ body {
     transition: transform 0.2s, box-shadow 0.2s;
     cursor: pointer;
 }
-.topic-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); border-left-color: var(--correct-color); }
+.topic-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); border-right-color: var(--correct-color); }
 
 /* ----------------- شاشة الاختبار ------------------ */
 .data-module {
     background-color: var(--bg-module);
     border-radius: var(--border-radius);
-    box-shadow: var(--shadow-soft);
-    padding: 40px 30px;
+    box-shadow: var(--shadow-deep);
+    padding: 30px 25px; /* تقليل الحشو لزيادة المساحة الرأسية */
+    margin-bottom: 20px;
 }
-.question-text { font-size: 1.5em; border-bottom: 1px solid #eee; padding-bottom: 15px; color: var(--text-main); }
+.question-text { font-size: 1.5em; border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 15px; color: var(--neon-cyan); }
 
-/* المؤقت وشريط التقدم */
-.timer-display { color: var(--accent-primary); font-weight: bold; }
+/* تخطيط رأس الاختبار (لضمان ظهور كل شيء دون تمرير) */
+.quiz-header-status {
+    display: grid;
+    grid-template-areas: 
+        "title title"
+        "timer counter"
+        "progress progress";
+    grid-template-columns: 1fr auto;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+.quiz-header-status h2 { grid-area: title; font-size: 1.3em; margin: 0; }
+.timer-container { grid-area: timer; text-align: right; }
+#question-counter { grid-area: counter; text-align: left; }
+#progress-bar-container { grid-area: progress; margin-top: 10px; }
+
+/* المؤقت */
+.timer-display { 
+    color: var(--neon-blue); 
+    font-weight: bold; 
+    font-size: 1.5em;
+    background-color: var(--bg-header);
+    padding: 5px 10px;
+    border-radius: 5px;
+    display: inline-block;
+}
+#question-counter { background-color: var(--neon-purple); color: white; padding: 5px 10px; border-radius: 5px; font-size: 1em; }
+
+/* شريط التقدم */
+#progress-bar-container { 
+    background-color: var(--bg-header); 
+    border-radius: 10px; 
+    height: 8px; 
+    overflow: hidden; 
+}
+#progress-bar-fill { 
+    height: 100%; 
+    width: 100%; 
+    background: linear-gradient(90deg, var(--neon-blue), var(--neon-cyan)); 
+    transition: width 1s linear; 
+}
 
 /* خيارات الإجابة */
-.options-container { gap: 10px; }
+.options-container { 
+    display: flex;
+    flex-direction: column;
+    gap: 10px; 
+    margin-top: 20px;
+}
 .option-label {
-    background-color: #f8f9fa; 
-    border: 1px solid #e9ecef;
+    background-color: var(--bg-header); 
+    border: 1px solid var(--text-secondary);
     border-radius: 8px;
     padding: 15px;
     color: var(--text-main);
     transition: all 0.2s;
     cursor: pointer;
+    display: block;
+    position: relative;
+    font-weight: 500;
 }
-.option-label:hover { border-color: var(--accent-primary); background-color: #e9ecef; }
+.option-label:hover { border-color: var(--neon-blue); background-color: rgba(0, 217, 255, 0.1); }
 .option-label.correct { background-color: var(--correct-color); border-color: var(--correct-color); color: white; }
 .option-label.incorrect { background-color: var(--incorrect-color); border-color: var(--incorrect-color); color: white; }
+.option-label input[type="radio"] { display: none; }
+.option-label.selected { background-color: var(--neon-purple); border-color: var(--neon-purple); }
+
+/* رسالة التغذية الراجعة */
+#feedback-container {
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 10px;
+    font-size: 1.1em;
+    font-weight: bold;
+    text-align: center;
+}
+.correct-feedback { background-color: rgba(76, 175, 80, 0.2); color: var(--correct-color); border: 1px solid var(--correct-color); }
+.incorrect-feedback { background-color: rgba(244, 67, 54, 0.2); color: var(--incorrect-color); border: 1px solid var(--incorrect-color); }
+
 
 /* الأزرار النهائية */
-.controls-bar { margin-top: 30px; }
+.controls-bar { 
+    margin-top: 30px; 
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
 .control-btn {
     padding: 12px 25px;
     border-radius: 30px; 
     font-weight: 600;
-    border: none;
-    cursor: pointer;
+    transition: transform 0.2s;
+    white-space: nowrap;
 }
-.primary { background-color: var(--accent-primary); color: white; }
-.secondary { background-color: var(--accent-secondary); color: white; }
+.control-btn:hover { transform: translateY(-2px); }
+.primary { background-color: var(--neon-blue); color: var(--bg-header); }
+.secondary { background-color: var(--neon-purple); color: white; }
+.tertiary { background-color: var(--text-secondary); color: white; }
 
-/* Footer */
-.main-footer {
-    background-color: var(--bg-header);
-    color: var(--accent-secondary);
-    text-align: center;
-    padding: 15px;
-    font-size: 0.8em;
-    width: 100%;
+/* ----------------- شاشة النتائج ------------------ */
+.results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+.summary-card { text-align: center; border-right: 5px solid var(--neon-blue); }
+.summary-card h3 { color: var(--neon-cyan); }
+.score-visualization { position: relative; width: 120px; height: 120px; margin: 20px auto; }
+.score-number { 
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
+    font-size: 2.5em; font-weight: bold; color: var(--neon-blue);
+}
+.progress-ring-fill { transition: stroke-dashoffset 1s ease-out; }
+
+.stats-card { border-right: 5px solid var(--neon-purple); }
+.stat-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px dashed rgba(255, 255, 255, 0.1); }
+.stat-label { color: var(--text-secondary); }
+.correct-icon { color: var(--correct-color); }
+.incorrect-icon { color: var(--incorrect-color); }
+.grade-message-text { font-size: 1.2em; font-weight: bold; margin-top: 15px; }
+
+.review-log { border-right: 5px solid var(--incorrect-color); }
+.review-log-header { color: var(--incorrect-color); }
+.review-item { 
+    background-color: rgba(244, 67, 54, 0.05); 
+    padding: 15px; 
+    border-radius: 8px; 
+    margin-bottom: 10px;
+    border-left: 3px solid var(--incorrect-color);
+}
+.error-q { font-weight: bold; color: var(--neon-cyan); }
+.error-a { font-size: 0.9em; margin-top: 5px; }
+.wrong { color: var(--incorrect-color); font-weight: bold; }
+.right { color: var(--correct-color); font-weight: bold; }
+.all-correct { color: var(--correct-color); font-weight: bold; text-align: center; padding: 20px; }
+
+.action-buttons { 
+    display: flex; 
+    justify-content: center; 
+    gap: 15px; 
+    margin-top: 30px;
+}
+.large-btn { font-size: 1.2em; }
+
+
+/* =======================================================
+   6. الإشعارات (Toast)
+   ======================================================= */
+.notification-toast {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 12px 20px;
+    background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+    color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    z-index: 5000;
+    opacity: 0;
+    transform: translateX(100%);
+    transition: opacity 0.4s, transform 0.4s;
+}
+.notification-toast.show {
+    opacity: 1;
+    transform: translateX(0);
 }
 
 /* =======================================================
-   5. قواعد الشاشة الصغيرة (Mobile-UX Fixes)
+   7. قواعد الشاشة الصغيرة (Mobile-UX Fixes)
    ======================================================= */
 @media (max-width: 767px) {
     /* تقليص مساحة الرأس والقدم */
@@ -179,27 +364,25 @@ body {
     .main-footer { padding: 10px; }
     
     /* تقليص الحشو في الشاشة الرئيسية (لزيادة المساحة الرأسية) */
-    #app-container { padding: 20px 10px; }
+    #app-container { padding: 15px 10px; }
     
     /* تقليص حشو بطاقة الاختبار لزيادة مساحة الخيارات */
-    .data-module { padding: 20px 15px; }
+    .data-module { padding: 15px 10px; }
 
     .question-text { font-size: 1.2em; margin-bottom: 15px; }
     
-    /* تعديل تخطيط الرأس ليكون أكثر إحكاماً */
+    /* تخطيط رأس الاختبار أكثر إحكاماً */
     .quiz-header-status {
-        display: grid;
         grid-template-areas: 
             "title title"
             "timer counter"
             "progress progress";
-        grid-template-columns: 1fr auto;
-        gap: 8px;
+        gap: 5px;
         margin-bottom: 10px;
     }
-    .quiz-header-status h2 { grid-area: title; font-size: 1.1em; }
-    .timer-display { grid-area: timer; font-size: 1.1em; padding: 5px 10px; }
-    #question-counter { grid-area: counter; font-size: 0.8em; padding: 5px 10px; }
+    .quiz-header-status h2 { font-size: 1.1em; }
+    .timer-display { font-size: 1.3em; padding: 5px 8px; }
+    #question-counter { font-size: 0.8em; padding: 5px 8px; }
 
     /* زيادة حجم الخيارات لسهولة النقر */
     .option-label {
@@ -208,10 +391,14 @@ body {
     }
     
     /* الأزرار تأخذ العرض الكامل */
-    .controls-bar { flex-direction: column-reverse; gap: 8px; margin-top: 20px; }
+    .controls-bar { 
+        flex-direction: column; 
+        gap: 8px; 
+        margin-top: 15px;
+    }
     .control-btn { width: 100%; padding: 14px; }
-    
-    /* إخفاء النبذة الطويلة في الهاتف */
-    .intro-summary p { display: none; }
-    .intro-summary h3 { font-size: 1.1em; }
+    .action-buttons { flex-direction: column; gap: 10px; }
+
+    /* تعديل شبكة النتائج */
+    .results-grid { grid-template-columns: 1fr; }
 }
