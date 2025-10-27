@@ -81,7 +81,7 @@ async function loadGeologyData() {
 
     } catch (error) {
         console.error("فشل في تحميل بيانات الجيولوجيا:", error);
-        loadingMessage.textContent = `[خطأ الاتصال] عذراً، لا يمكن تحميل البيانات.`;
+        loadingMessage.textContent = `[خطأ الاتصال] عذراً، لا يمكن تحميل البيانات. يرجى التحقق من ملف Question.json.`;
         document.getElementById('start-quiz-btn').disabled = true;
     }
 }
@@ -97,6 +97,7 @@ function startTimer() {
 
     progressBar.style.width = '100%';
     timerDisplay.textContent = `${timeRemaining}${t.timer_text}`;
+    timerDisplay.style.color = 'var(--neon-blue)'; // إعادة اللون في كل مرة
 
     timerInterval = setInterval(() => {
         timeRemaining--;
@@ -120,27 +121,34 @@ function startTimer() {
 }
 
 function handleTimeout() {
+    clearInterval(timerInterval); // التأكد من إيقافه
     const t = translations[currentLanguage];
     const currentQ = currentQuestions[currentQuestionIndex];
-
-    score += POINTS_WRONG; 
     
+    // تسجيل الإجابة كـ "Timeout"
     userAnswers[currentQ.id || currentQuestionIndex] = {
         question: currentQ.question,
-        userAnswer: `(Timeout - ${t.correct_answer}: ${currentQ.answer})`,
+        userAnswer: `(Timeout)`, // تعديل ليصبح (Timeout) فقط
         correctAnswer: currentQ.answer,
         isCorrect: false,
     };
+    
+    // إضافة العقوبة في score
+    score += POINTS_WRONG; 
     
     document.querySelectorAll('.option-label').forEach(label => {
         label.querySelector('input').disabled = true;
         if (label.querySelector('input').value === currentQ.answer) {
             label.classList.add('correct'); 
         }
+        // إضافة الفئة incorrect للخيارات لكي تظهر النتيجة فوراً
+        label.classList.add('incorrect'); 
     });
 
     document.getElementById('submit-btn').classList.add('hidden');
     document.getElementById('next-btn').classList.remove('hidden');
+    
+    // الانتقال بعد مهلة بسيطة
     setTimeout(() => {
         currentQuestionIndex++;
         displayQuestion();
@@ -155,8 +163,13 @@ function translateUI(langCode) {
     document.getElementById('start-quiz-btn').innerHTML = `${t.start_quiz} <i class="fas fa-satellite-dish"></i>`;
     document.getElementById('submit-btn').innerHTML = `${t.submit} <i class="fas fa-terminal"></i>`;
     document.getElementById('next-btn').innerHTML = `<i class="fas fa-arrow-right"></i> ${t.next}`;
-    document.querySelector('#topics-list-container h3').textContent = t.choose_domain;
-    document.querySelector('#results-screen .large-btn').innerHTML = `${t.new_quiz} <i class="fas fa-redo-alt"></i>`;
+    
+    // التحقق من وجود العناصر قبل محاولة الوصول إليها
+    const topicsTitle = document.querySelector('#topics-list-container h3');
+    if (topicsTitle) topicsTitle.textContent = t.choose_domain;
+    
+    const resultsRestartBtn = document.querySelector('#results-screen .large-btn');
+    if (resultsRestartBtn) resultsRestartBtn.innerHTML = `${t.new_quiz} <i class="fas fa-redo-alt"></i>`;
     
     if (!document.getElementById('quiz-screen').classList.contains('hidden')) {
         document.getElementById('timer-display').textContent = `${TIME_LIMIT}${t.timer_text}`;
@@ -185,6 +198,11 @@ document.getElementById('close-sidebar-btn').addEventListener('click', () => {
 document.getElementById('start-quiz-btn').addEventListener('click', () => {
     document.getElementById('start-quiz-btn').classList.add('hidden');
     document.getElementById('topics-list-container').classList.remove('hidden');
+});
+
+// إضافة حدث زر "إعادة تشغيل النظام" (إصلاح النقطة 2)
+document.getElementById('restart-system-btn').addEventListener('click', () => {
+    window.location.reload(); // الطريقة الأبسط والأكثر فعالية
 });
 
 
@@ -218,7 +236,10 @@ function initializeTopicSelection(data) {
         sidebarLink.addEventListener('click', startQuizHandler);
         
         topicsList.appendChild(gridCard);
-        sidebarList.appendChild(sidebarLink); 
+        
+        const listItem = document.createElement('li'); // إضافة عنصر قائمة لجعله أفضل
+        listItem.appendChild(sidebarLink);
+        sidebarList.appendChild(listItem); 
     });
     
     translateUI(currentLanguage);
@@ -234,8 +255,11 @@ function startQuiz(topicTitle, questions) {
     score = 0;
     userAnswers = {};
 
-    document.getElementById('topic-selection').classList.add('hidden');
+    document.getElementById('topics-list-container').classList.add('hidden'); // إخفاء قائمة المواضيع
+    document.getElementById('topic-selection').classList.add('hidden'); // يجب التأكد من ID هذا العنصر
+    document.getElementById('results-screen').classList.add('hidden'); // لإخفاء شاشة النتائج عند الإعادة
     document.getElementById('quiz-screen').classList.remove('hidden');
+    
     document.getElementById('quiz-title').textContent = `اختبار: ${topicTitle}`;
 
     displayQuestion();
@@ -259,10 +283,12 @@ function displayQuestion() {
     let htmlContent = `<p class="question-text">${currentQ.question}</p>`;
     htmlContent += '<div class="options-container">';
 
-    currentQ.options.forEach((option) => {
+    currentQ.options.forEach((option, index) => {
+        // إضافة id فريد لكل خيار لتسهيل الوصول والتصميم
+        const optionId = `q${currentQuestionIndex}-opt${index}`; 
         htmlContent += `
-            <label class="option-label">
-                <input type="radio" name="option" value="${option}">
+            <label class="option-label" for="${optionId}">
+                <input type="radio" name="option" id="${optionId}" value="${option}">
                 <span class="option-text">${option}</span>
             </label>
         `;
@@ -334,10 +360,23 @@ function showResults() {
     document.getElementById('quiz-screen').classList.add('hidden');
     document.getElementById('results-screen').classList.remove('hidden');
 
+    // 🌟 الإصلاح الحاسم (النقطة 1): حساب النسبة المئوية بناءً على الإجابات الصحيحة
+    let correctCount = 0;
+    Object.values(userAnswers).forEach(answer => {
+        if (answer.isCorrect) {
+            correctCount++;
+        }
+    });
+    
     document.getElementById('final-score').textContent = score;
     document.getElementById('total-questions-count').textContent = currentQuestions.length;
+    
+    const totalQuestions = currentQuestions.length || 1; // تجنب القسمة على صفر
+    const percentage = (correctCount / totalQuestions) * 100;
+    
+    // يمكنك عرض عدد الإجابات الصحيحة كإضافة
+    document.getElementById('correct-answers-count').textContent = correctCount; 
 
-    const percentage = (score / currentQuestions.length) * 100;
     const gradeMessage = document.getElementById('grade-message');
     const t = translations[currentLanguage];
     
