@@ -1,5 +1,5 @@
 /* =======================================================
-   1. المتغيرات والألوان (Mobile-Optimized Dark Mode)
+   1. المتغيرات والألوان (Professional Dark Mode)
    ======================================================= */
 :root {
     --bg-main: #0d1117;          
@@ -10,16 +10,16 @@
     --correct-color: #3fb950;    
     --incorrect-color: #f85149;  
     
-    --shadow-deep: 0 5px 15px rgba(0, 0, 0, 0.5); /* ظلال أخف للهاتف */
+    --shadow-deep: 0 5px 15px rgba(0, 0, 0, 0.5);
     
-    --sidebar-width: 80%; /* تغطي 80% من الشاشة */
+    --sidebar-width: 80%; 
 }
 
 /* =======================================================
    2. التنسيق العام (MOBILE-FIRST)
    ======================================================= */
 * {
-    box-sizing: border-box; /* **الأهم:** لضمان أن الحدود والحشو لا تزيد العرض الكلي */
+    box-sizing: border-box; /* **الأهم** */
 }
 
 body {
@@ -30,17 +30,21 @@ body {
     line-height: 1.5;
     margin: 0;
     min-height: 100vh;
-    /* **تصحيح قاطع:** إجبار المتصفح على عدم تجاوز عرض viewport */
     overflow-x: hidden; 
 }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes slideInRight { from { opacity: 0; transform: translateX(50px); } to { opacity: 1; transform: translateX(0); } }
+.animated-fade { animation: fadeIn 0.8s ease-out both; }
+.animated-slidein { animation: slideInRight 0.6s ease-out both; }
 
 #main-content-wrapper { transition: margin-right 0.3s ease; }
 .hidden { display: none !important; }
 
-/* شريط الرأس (Header) */
+/* شريط الرأس */
 .main-header {
     background-color: var(--bg-card);
-    padding: 10px 15px; /* حشو داخلي أقل */
+    padding: 10px 15px; 
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -50,7 +54,10 @@ body {
     z-index: 100;
 }
 .app-title { font-size: 1.3em; margin: 0; color: var(--accent-primary); }
-.header-info { display: none; } /* إخفاء معلومات الزائر على الهاتف */
+.version-tag { display: none; }
+.header-info { display: none; }
+.sidebar-toggle-btn { background: none; border: none; color: var(--accent-primary); font-size: 1.5em; cursor: pointer; }
+
 
 /* =======================================================
    3. القائمة الجانبية (Sidebar)
@@ -60,7 +67,7 @@ body {
     width: var(--sidebar-width);
     position: fixed;
     top: 0;
-    right: calc(-1 * var(--sidebar-width)); /* مخفية */
+    right: calc(-1 * var(--sidebar-width));
     background-color: var(--bg-main); 
     box-shadow: var(--shadow-deep);
     z-index: 2000;
@@ -77,34 +84,22 @@ body {
     z-index: 1999;
     display: none;
 }
-.sidebar-toggle-btn { background: none; border: none; color: var(--accent-primary); font-size: 1.5em; cursor: pointer; }
-
-.sidebar-topics-list a {
-    display: block;
-    padding: 15px 25px;
-    text-decoration: none;
-    color: var(--text-main);
-    border-right: 5px solid transparent;
-    transition: all 0.2s;
-}
+.sidebar-topics-list a { display: block; padding: 15px 25px; text-decoration: none; color: var(--text-main); border-right: 5px solid transparent; transition: all 0.2s; }
 .sidebar-topics-list a:hover { background-color: #161b22; border-right-color: var(--accent-primary); }
+.language-selector { padding: 15px 25px; border-bottom: 1px solid var(--accent-secondary); }
+#lang-select { background-color: #1f2730; color: var(--text-main); border: 1px solid #30363d; padding: 8px; border-radius: 6px; width: 100%; }
 
 /* =======================================================
-   4. شاشات المحتوى الرئيسية (Mobile Cards)
+   4. شاشات المحتوى الرئيسية (Mobile Focus)
    ======================================================= */
-#app-container { 
-    padding: 15px; 
-    width: 100%;
-    max-width: 100%;
-}
+#app-container { padding: 15px; width: 100%; max-width: 100%; }
 .section-title { font-size: 1.4em; margin: 20px 0; color: var(--accent-primary); }
 
-/* بطاقات المواضيع وقائمة المواضيع (Mobile List) */
-.list-container {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
+/* زر ابدأ */
+#start-quiz-btn { margin: 20px auto 40px; display: block; width: 80%; } 
+
+/* قائمة المواضيع */
+.list-container { display: flex; flex-direction: column; gap: 15px; }
 .topic-card {
     background-color: var(--bg-card);
     padding: 25px 20px;
@@ -115,101 +110,66 @@ body {
     box-shadow: var(--shadow-deep);
     transition: all 0.2s;
     text-align: right;
-    border-right: 4px solid var(--accent-primary); /* شريط جانبي للتأكيد */
+    border-right: 4px solid var(--accent-primary);
 }
-.topic-card:hover {
-    transform: translateY(-3px);
-    background-color: #1f2730;
-}
+.topic-card:hover { transform: translateY(-3px); background-color: #1f2730; }
 
-/* =======================================================
-   5. شاشة الاختبار (Quiz Screen)
-   ======================================================= */
+/* ----------------- شاشة الاختبار ------------------ */
+.mobile-card { background-color: var(--bg-card); padding: 25px 15px; border-radius: 12px; box-shadow: var(--shadow-deep); }
 .quiz-header-status {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr auto;
     align-items: center;
+    gap: 10px;
     margin-bottom: 15px;
+    grid-template-areas: 
+        "title counter"
+        "progress progress";
 }
-.counter-badge {
-    background-color: var(--accent-secondary);
-    color: var(--bg-main);
-    padding: 5px 10px;
-    border-radius: 15px;
-    font-size: 0.8em;
-}
+.quiz-header-status h2 { grid-area: title; margin: 0; }
+#question-counter { grid-area: counter; }
+#timer-display { margin-left: 10px; }
 
-/* بطاقة السؤال الرئيسية */
-.mobile-card {
-    background-color: var(--bg-card);
-    padding: 25px 15px;
-    border-radius: 12px;
-    box-shadow: var(--shadow-deep);
-}
+/* شريط التقدم الزمني */
+#progress-bar-container { grid-area: progress; width: 100%; height: 6px; background-color: #1f2730; border-radius: 3px; overflow: hidden; margin-top: 10px; }
+#progress-bar-fill { height: 100%; width: 100%; background-color: var(--accent-secondary); transition: width 0.1s linear; }
+
 .question-text { font-size: 1.5em; padding-bottom: 15px; margin-bottom: 20px; border-bottom: 1px dashed var(--accent-secondary); }
 
-/* خيارات الإجابة - يتم عرضها ككتلة (BLOCK) لمنع التداخل */
-.options-container {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
+/* خيارات الإجابة (تجنب التداخل) */
+.options-container { display: flex; flex-direction: column; gap: 10px; }
 .option-label {
     background-color: #1f2730; 
     border: 2px solid #30363d;
     border-radius: 10px;
     padding: 15px;
     font-size: 1.1em;
-    transition: all 0.2s;
-    width: 100%; /* ضمان العرض الكامل */
-}
-.option-label:hover { border-color: var(--accent-primary); }
-
-/* الأزرار في وضع الهاتف */
-.controls-bar {
-    display: flex;
-    flex-direction: column-reverse; /* وضع زر التأكيد في الأسفل (أكثر راحة) */
-    gap: 10px;
-    margin-top: 25px;
-}
-.control-btn {
     width: 100%;
-    padding: 14px 20px;
-    border-radius: 8px; 
-    font-weight: 700;
-    font-size: 1.1em;
 }
-
-/* =======================================================
-   6. التغذية الراجعة والنتائج
-   ======================================================= */
-.primary { background-color: var(--accent-primary); color: var(--bg-main); box-shadow: 0 3px 10px rgba(88, 166, 255, 0.5); }
-.secondary { background-color: var(--accent-secondary); color: var(--bg-main); }
 .option-label.correct { background-color: var(--correct-color); border-color: var(--correct-color); color: var(--bg-main); }
 .option-label.incorrect { background-color: var(--incorrect-color); border-color: var(--incorrect-color); color: white; }
 
-.score-display {
-    border: 3px solid var(--accent-primary);
-    border-radius: 15px;
-    padding: 20px;
-    font-size: 1.5em;
-}
+/* الأزرار في وضع الهاتف */
+.controls-bar { display: flex; flex-direction: column-reverse; gap: 10px; margin-top: 25px; }
+.control-btn { width: 100%; padding: 14px 20px; border-radius: 8px; font-weight: 700; font-size: 1.1em; border: none; cursor: pointer; }
+.primary { background-color: var(--accent-primary); color: var(--bg-main); box-shadow: 0 3px 10px rgba(88, 166, 255, 0.5); }
+.secondary { background-color: var(--accent-secondary); color: var(--bg-main); }
+
+/* ----------------- شاشة النتائج ------------------ */
 .score-number { font-size: 3em; color: var(--accent-primary); }
 
-.review-log { padding: 15px; }
-.review-item { border-right: 4px solid var(--accent-secondary); padding: 10px; margin-bottom: 10px; }
 
 /* =======================================================
    7. قواعد الشاشة الكبيرة (Desktop Overrides)
    ======================================================= */
 @media (min-width: 768px) {
-    #app-container {
-        max-width: 1100px;
-        padding: 30px;
-    }
+    #app-container { max-width: 1100px; padding: 30px; }
+    .app-title { font-size: 1.8em; }
+    .version-tag { display: inline; } /* إظهار Tag الإصدار */
     .header-info { display: block; }
-    
-    /* استبدال القائمة العمودية Grid لعرضها كبطاقات في وضع الشاشة الكبيرة */
+    #sidebar { width: 300px; }
+
+    /* استبدال القائمة العمودية Grid لعرضها كبطاقات */
     .list-container {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -219,18 +179,10 @@ body {
         border-radius: 18px;
         text-align: center;
         border-right: none;
-        border-bottom: 4px solid var(--accent-primary); /* إظهار الشريط في الأسفل */
+        border-bottom: 4px solid var(--accent-primary);
     }
 
     /* الأزرار تعود للعرض الأفقي */
-    .controls-bar {
-        flex-direction: row;
-        justify-content: flex-end;
-    }
-    .control-btn {
-        width: auto;
-    }
-    
-    /* القائمة الجانبية تُصبح أعرض */
-    #sidebar { width: 300px; }
+    .controls-bar { flex-direction: row; justify-content: flex-end; }
+    .control-btn { width: auto; padding: 16px 35px; }
 }
