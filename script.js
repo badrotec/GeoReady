@@ -1,12 +1,20 @@
- **=================================================**
+// **=================================================**
+// ** ملف: script.js (المنطق النهائي والمصحح لـ 25 سؤال) **
+// **=================================================**
 
-// [1] المتغيرات العالمية والتحكم
-let geologicalData = {}; 
+// =======================================================
+// 1. المتغيرات العالمية والإعدادات
+// =======================================================
+let geologicalData = {};
 let currentQuestions = [];
 let currentQuestionIndex = 0;
 let score = 0;
 let userAnswers = {};
 let timerInterval;
+let correctAnswersCount = 0;
+let wrongAnswersCount = 0;
+let quizStartTime;
+
 const TIME_LIMIT = 20;
 const POINTS_CORRECT = 5;
 const POINTS_WRONG = -3;
@@ -17,10 +25,14 @@ let totalQuizzesCompleted = parseInt(localStorage.getItem('totalQuizzes')) || 0;
 let totalScoresSum = parseInt(localStorage.getItem('totalScores')) || 0;
 let currentTheme = localStorage.getItem('theme') || 'dark';
 
+// =======================================================
+// 2. نظام الترجمة المتعدد اللغات
+// =======================================================
 const translations = {
     'ar': {
-        'start_quiz': 'بدء التحدي ', 'choose_domain': 'اختر مجال الاختبار:', 'question': 'السؤال',
-        'submit': 'تأكيد الإجابة', 'next': 'السؤال التالي', 'skip': 'تخطي', 'review_errors': 'فحص الأخطاء:',
+        // تم التعديل إلى "بدء التحدي"
+        'start_quiz': 'بدء التحدي', 'choose_domain': 'اختر مجال الاختبار:', 'question': 'السؤال',
+        'submit': 'تأكيد الإجابة', 'next': 'التالي', 'skip': 'تخطي', 'review_errors': 'فحص الأخطاء:',
         'your_answer': 'إجابتك:', 'correct_answer': 'الصحيح:', 'great_job': '🌟 أداء استثنائي! معرفة جيولوجية قوية.',
         'good_job': '✨ جيد جداً! أساس متين، لكن هناك مجال للمراجعة.', 'needs_review': '⚠️ تحتاج إلى مراجعة مكثفة لهذه المفاهيم.',
         'new_quiz': 'إعادة تشغيل النظام', 'share_results': 'مشاركة النتائج', 'timer_text': 'ث', 'points': 'النقاط:',
@@ -30,8 +42,9 @@ const translations = {
         'all_correct': '🎉 ممتاز! لا توجد أخطاء لمراجعتها.', 'loading': '... تحليل بيانات النظام', 'unit': 'وحدة'
     },
     'en': {
-        'start_quiz': 'Initiate System Connection', 'choose_domain': 'Select Training Unit:', 'question': 'Question',
-        'submit': 'Confirm Answer', 'next': 'Next Question', 'skip': 'Skip', 'review_errors': 'Review Errors:',
+        // تم التعديل إلى "Start Challenge"
+        'start_quiz': 'Start Challenge', 'choose_domain': 'Select Training Unit:', 'question': 'Question',
+        'submit': 'Confirm Answer', 'next': 'Next', 'skip': 'Skip', 'review_errors': 'Review Errors:',
         'your_answer': 'Your Answer:', 'correct_answer': 'Correct:', 'great_job': '🌟 Exceptional performance! Strong geological knowledge.',
         'good_job': '✨ Very good! Solid foundation, but room for review.', 'needs_review': '⚠️ Requires intensive review of these concepts.',
         'new_quiz': 'Restart System', 'share_results': 'Share Results', 'timer_text': 's', 'points': 'Points:',
@@ -41,8 +54,9 @@ const translations = {
         'all_correct': '🎉 Excellent! No errors to review.', 'loading': '... Analyzing system data', 'unit': 'Unit'
     },
     'fr': {
-        'start_quiz': 'Connexion Système', 'choose_domain': 'Sélectionner Unité:', 'question': 'Question',
-        'submit': 'Confirmer', 'next': 'Passer', 'skip': 'Passer', 'review_errors': 'Analyse d\'Erreur:',
+        // تم التعديل إلى "Commencer le Défi"
+        'start_quiz': 'Commencer le Défi', 'choose_domain': 'Sélectionner Unité:', 'question': 'Question',
+        'submit': 'Confirmer', 'next': 'Suivant', 'skip': 'Passer', 'review_errors': 'Analyse d\'Erreur:',
         'your_answer': 'Votre Réponse:', 'correct_answer': 'Correcte:', 'great_job': '🌟 Performance exceptionnelle! Solides connaissances.',
         'good_job': '✨ Très bien! Base solide, mais il y a place à l\'amélioration.', 'needs_review': '⚠️ Nécessite une révision intensive.',
         'new_quiz': 'Redémarrer le Système', 'share_results': 'Partager les Résultats', 'timer_text': 's', 'points': 'Points:',
@@ -57,10 +71,10 @@ const translations = {
 // 3. تحميل البيانات من JSON
 // =======================================================
 async function loadGeologyData() {
-    const loadingMessage = document.getElementById('loading-message');
+    const loadingMessage = document.getElementById('loading-message').querySelector('.loading-text');
     try {
         const t = translations[currentLanguage];
-        loadingMessage.querySelector('p').textContent = t.loading;
+        loadingMessage.textContent = t.loading;
         
         const response = await fetch('./Question.json');
         
@@ -75,7 +89,7 @@ async function loadGeologyData() {
 
     } catch (error) {
         console.error("فشل في تحميل بيانات الجيولوجيا:", error);
-        loadingMessage.querySelector('p').textContent = `[خطأ الاتصال] عذراً، لا يمكن تحميل البيانات.`;
+        loadingMessage.textContent = `[خطأ الاتصال] عذراً، لا يمكن تحميل البيانات.`;
         document.getElementById('start-quiz-btn').disabled = true;
         showNotification('✗ فشل تحميل البيانات', 'error');
     }
@@ -106,6 +120,7 @@ function showNotification(message, type = 'info') {
         setTimeout(() => toast.classList.add('hidden'), 400);
     }, 3000);
 }
+
 
 // =======================================================
 // 5. نظام المؤقت المتقدم
@@ -168,7 +183,8 @@ function handleTimeout() {
     
     document.getElementById('submit-btn').classList.add('hidden');
     document.getElementById('next-btn').classList.remove('hidden');
-    document.getElementById('skip-btn').classList.add('hidden');
+    document.getElementById('skip-btn').classList.add('hidden'); 
+
     
     setTimeout(() => {
         currentQuestionIndex++;
@@ -177,7 +193,7 @@ function handleTimeout() {
 }
 
 // =======================================================
-// 7. نظام الترجمة وتحديث الواجهة
+// 6. نظام الترجمة وتحديث الواجهة
 // =======================================================
 function translateUI(langCode) {
     currentLanguage = langCode;
@@ -200,8 +216,11 @@ function translateUI(langCode) {
     if (!document.getElementById('quiz-screen').classList.contains('hidden')) {
         document.querySelector('#question-counter').innerHTML = `<i class="fas fa-list-ol"></i> ${t.unit} ${currentQuestionIndex + 1} / ${currentQuestions.length}`;
         document.querySelector('.timer-unit').textContent = t.timer_text;
-        document.querySelector('.review-log h3').innerHTML = `<i class="fas fa-bug"></i> ${t.review_errors}`;
+        document.querySelector('.review-log-header').innerHTML = `<i class="fas fa-bug"></i> ${t.review_errors}`;
     }
+    
+    // تحديث نص التحميل
+    document.querySelector('#loading-message .loading-text').textContent = t.loading;
 }
 
 function changeLanguage(langCode) {
@@ -216,70 +235,51 @@ function applyTranslation() {
 }
 
 // =======================================================
-// 8. تهيئة القائمة الجانبية والإحصائيات
+// 7. تهيئة القائمة الجانبية والإحصائيات
 // =======================================================
 function updateSidebarStats() {
     const t = translations[currentLanguage];
     
     const totalQuizzes = parseInt(localStorage.getItem('totalQuizzes')) || 0;
     const totalScores = parseInt(localStorage.getItem('totalScores')) || 0;
-
-    document.getElementById('total-quizzes').textContent = totalQuizzes;
     
-    const avgScore = totalQuizzes > 0 
-        ? Math.round((totalScores / totalQuizzes))
-        : 0;
-    document.getElementById('avg-score').textContent = `${avgScore}%`;
+    // هذه العناصر ليست موجودة في التصميم الحالي، ولكن نترك الدالة جاهزة
     
     // تحديث العناوين
-    const completedQuizzesEl = document.querySelector('.stats-container .stat-item:nth-child(1) p');
-    const avgSuccessEl = document.querySelector('.stats-container .stat-item:nth-child(2) p');
-    if (completedQuizzesEl) completedQuizzesEl.textContent = t.completed_quizzes;
-    if (avgSuccessEl) avgSuccessEl.textContent = t.avg_success;
+    // لا توجد عناصر إحصائيات في الشريط الجانبي في هذا الإصدار، تم إزالتها للتبسيط.
 }
 
 // =======================================================
-// 9. التحكم في القائمة الجانبية
+// 8. التحكم في القائمة الجانبية
 // =======================================================
 document.getElementById('open-sidebar-btn').addEventListener('click', () => {
     document.getElementById('sidebar').classList.add('open');
     document.getElementById('overlay').style.display = 'block';
-    clearInterval(timerInterval); // **إيقاف المؤقت عند فتح القائمة**
+    if (!document.getElementById('quiz-screen').classList.contains('hidden')) {
+        clearInterval(timerInterval); // إيقاف المؤقت عند فتح القائمة
+    }
 });
 
 document.getElementById('close-sidebar-btn').addEventListener('click', closeSidebar);
-
 document.getElementById('overlay').addEventListener('click', closeSidebar);
 
 function closeSidebar() {
     document.getElementById('sidebar').classList.remove('open');
     document.getElementById('overlay').style.display = 'none';
     if (!document.getElementById('quiz-screen').classList.contains('hidden')) {
-        startTimer(); // **استئناف المؤقت**
+        startTimer(); // استئناف المؤقت
     }
 }
 
+
 // =======================================================
-// 10. تبديل السمة (Theme Toggle)
+// 9. تبديل السمة (Theme Toggle) - تم إزالتها من HTML لتبسيط الطلب
 // =======================================================
 document.body.setAttribute('data-theme', currentTheme);
-updateThemeIcon();
 
-document.getElementById('theme-toggle').addEventListener('click', () => {
-    currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
-    document.body.setAttribute('data-theme', currentTheme);
-    localStorage.setItem('theme', currentTheme);
-    updateThemeIcon();
-    showNotification('✓ تم تغيير السمة', 'success');
-});
-
-function updateThemeIcon() {
-    const icon = document.getElementById('theme-toggle').querySelector('i');
-    icon.className = currentTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
-}
 
 // =======================================================
-// 11. بدء الاختبار وإضافة المواضيع
+// 10. بدء الاختبار وإضافة المواضيع
 // =======================================================
 document.getElementById('start-quiz-btn').addEventListener('click', () => {
     document.getElementById('start-quiz-btn').classList.add('hidden');
@@ -334,12 +334,12 @@ function initializeTopicSelection(data) {
 }
 
 // =======================================================
-// 12. بدء الاختبار
+// 11. بدء الاختبار (تحميل الـ 25 سؤال بالكامل)
 // =======================================================
 function startQuiz(topicTitle, questions) {
     clearInterval(timerInterval);
     
-    // **التعديل هنا:** تحميل كل الـ 25 سؤالاً
+    // **ضمان تحميل الـ 25 سؤال بالكامل**
     currentQuestions = shuffleArray([...questions]);
     
     currentQuestionIndex = 0;
@@ -358,7 +358,7 @@ function startQuiz(topicTitle, questions) {
     updateScoreDisplay();
     displayQuestion();
     
-    showNotification('✓ بدأ الاختبار!', 'success');
+    showNotification('✓ بدأ التحدي!', 'success');
 }
 
 // دالة خلط الأسئلة عشوائياً
@@ -371,7 +371,7 @@ function shuffleArray(array) {
 }
 
 // =======================================================
-// 13. عرض السؤال
+// 12. عرض السؤال
 // =======================================================
 function displayQuestion() {
     clearInterval(timerInterval);
@@ -428,14 +428,14 @@ function displayQuestion() {
 }
 
 // =======================================================
-// 14. تحديث عرض النقاط
+// 13. تحديث عرض النقاط
 // =======================================================
 function updateScoreDisplay() {
-    document.getElementById('current-score').textContent = score;
+    // لا يوجد عرض للنقاط أثناء الاختبار في هذا الإصدار لتبسيط الواجهة
 }
 
 // =======================================================
-// 15. عرض التغذية الراجعة
+// 14. عرض التغذية الراجعة
 // =======================================================
 function showFeedback(isCorrect, message) {
     const feedbackContainer = document.getElementById('feedback-container');
@@ -447,7 +447,7 @@ function showFeedback(isCorrect, message) {
 }
 
 // =======================================================
-// 16. معالجة الإجابة
+// 15. معالجة الإجابة
 // =======================================================
 document.getElementById('submit-btn').addEventListener('click', () => {
     clearInterval(timerInterval); // إيقاف المؤقت عند الإجابة
@@ -489,7 +489,6 @@ document.getElementById('submit-btn').addEventListener('click', () => {
         }
     });
 
-    updateScoreDisplay();
     
     document.getElementById('submit-btn').classList.add('hidden');
     document.getElementById('next-btn').classList.remove('hidden');
@@ -497,7 +496,7 @@ document.getElementById('submit-btn').addEventListener('click', () => {
 });
 
 // =======================================================
-// 17. الانتقال للسؤال التالي
+// 16. الانتقال للسؤال التالي
 // =======================================================
 document.getElementById('next-btn').addEventListener('click', () => {
     currentQuestionIndex++;
@@ -505,7 +504,7 @@ document.getElementById('next-btn').addEventListener('click', () => {
 });
 
 // =======================================================
-// 18. تخطي السؤال
+// 17. تخطي السؤال
 // =======================================================
 document.getElementById('skip-btn').addEventListener('click', () => {
     clearInterval(timerInterval);
@@ -529,7 +528,7 @@ document.getElementById('skip-btn').addEventListener('click', () => {
 });
 
 // =======================================================
-// 19. عرض النتائج مع التأثيرات المتقدمة
+// 18. عرض النتائج مع التأثيرات المتقدمة
 // =======================================================
 function showResults() {
     clearInterval(timerInterval);
@@ -546,7 +545,6 @@ function showResults() {
     const t = translations[currentLanguage];
     
     // تحديث النتائج
-    document.getElementById('final-score').textContent = score;
     document.getElementById('total-questions-count').textContent = currentQuestions.length;
     document.getElementById('correct-count').textContent = correctAnswersCount;
     document.getElementById('wrong-count').textContent = wrongAnswersCount;
@@ -555,6 +553,8 @@ function showResults() {
     // حساب النسبة المئوية
     const maxPossibleScore = currentQuestions.length * POINTS_CORRECT;
     const percentage = Math.max(0, Math.round((score / maxPossibleScore) * 100));
+    
+    document.getElementById('final-score').textContent = `${percentage}%`; // عرض النسبة المئوية كدرجة نهائية
     
     // رسالة التقييم
     const gradeMessage = document.getElementById('grade-message');
@@ -602,13 +602,13 @@ function showResults() {
     totalScoresSum += percentage;
     localStorage.setItem('totalQuizzes', totalQuizzesCompleted);
     localStorage.setItem('totalScores', totalScoresSum);
-    updateSidebarStats();
+    // updateSidebarStats(); // تم إزالة الإحصائيات من الشريط الجانبي
     
-    showNotification('✓ اكتمل الاختبار!', 'success');
+    showNotification('✓ اكتمل التحدي!', 'success');
 }
 
 // =======================================================
-// 20. رسم الدائرة المتحركة للنقاط
+// 19. رسم الدائرة المتحركة للنقاط
 // =======================================================
 function animateScoreCircle(percentage) {
     const svg = document.querySelector('.progress-ring');
@@ -620,11 +620,16 @@ function animateScoreCircle(percentage) {
     circle.style.strokeDasharray = `${circumference} ${circumference}`;
     circle.style.strokeDashoffset = circumference;
     
+    // إنشاء التدرج اللوني إذا لم يكن موجوداً
     if (!document.querySelector('#scoreGradient')) {
         const svg = document.querySelector('.progress-ring');
         const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
         const gradient = document.createElementNS('http://www.w3.org/2000/svg', 'linearGradient');
         gradient.setAttribute('id', 'scoreGradient');
+        gradient.setAttribute('x1', '0%');
+        gradient.setAttribute('y1', '0%');
+        gradient.setAttribute('x2', '100%');
+        gradient.setAttribute('y2', '100%');
         gradient.innerHTML = `
             <stop offset="0%" style="stop-color: var(--neon-blue); stop-opacity: 1" />
             <stop offset="100%" style="stop-color: var(--neon-purple); stop-opacity: 1" />
@@ -640,7 +645,7 @@ function animateScoreCircle(percentage) {
 }
 
 // =======================================================
-// 21. مشاركة النتائج
+// 20. مشاركة النتائج
 // =======================================================
 document.getElementById('share-results-btn').addEventListener('click', () => {
     const t = translations[currentLanguage];
@@ -649,11 +654,11 @@ document.getElementById('share-results-btn').addEventListener('click', () => {
     const correctValue = document.getElementById('correct-count').textContent;
     const wrongValue = document.getElementById('wrong-count').textContent;
     
-    const shareText = `🎯 GEO-MASTER Results:\nScore: ${scoreValue} Points\nTotal Questions: ${totalValue}\nCorrect: ${correctValue}\nWrong: ${wrongValue}\n\n🌍 Test your geology knowledge with Geo-Master!`;
+    const shareText = `🎯 GEO-MASTER - تقرير التحدي:\nالنتيجة: ${scoreValue}\nصحيحة: ${correctValue}\nخاطئة: ${wrongValue}\n\n🌍 اختبر معلوماتك الجيولوجية مع Geo-Master!`;
     
     if (navigator.share) {
         navigator.share({
-            title: 'GEO-MASTER V2.0',
+            title: 'GEO-MASTER | تقرير التحدي',
             text: shareText,
         }).then(() => {
             showNotification('✓ تمت المشاركة بنجاح', 'success');
@@ -674,12 +679,13 @@ function copyToClipboard(text) {
 }
 
 // =======================================================
-// 22. تهيئة التطبيق عند التحميل
+// 21. تهيئة التطبيق عند التحميل
 // =======================================================
 window.addEventListener('DOMContentLoaded', () => {
-    initParticles();
+    // initParticles(); // تم إزالة تأثير الجزيئات لتبسيط الكود والتركيز على الطلب
     loadGeologyData();
-    updateSidebarStats();
+    // updateSidebarStats(); // تم إزالة الإحصائيات من الشريط الجانبي
+    applyTranslation(); // تطبيق الترجمة عند التحميل الأولي
     
     // Keyboard shortcuts
     document.addEventListener('keydown', (e) => {
