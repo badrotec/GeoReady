@@ -1,16 +1,14 @@
- **=================================================**
+// **=================================================**
+// ** ملف: script.js (المنطق النهائي والمصحح)         **
+// **=================================================**
 
-// [1] المتغيرات العالمية والإعدادات
+// [1] المتغيرات العالمية والتحكم
 let geologicalData = {}; 
 let currentQuestions = [];
 let currentQuestionIndex = 0;
 let score = 0;
 let userAnswers = {};
 let timerInterval;
-let correctAnswersCount = 0;
-let wrongAnswersCount = 0;
-let quizStartTime;
-
 const TIME_LIMIT = 20;
 const POINTS_CORRECT = 5;
 const POINTS_WRONG = -3;
@@ -19,10 +17,10 @@ let currentLanguage = 'ar';
 // إحصائيات محلية
 let totalQuizzesCompleted = parseInt(localStorage.getItem('totalQuizzes')) || 0;
 let totalScoresSum = parseInt(localStorage.getItem('totalScores')) || 0;
-let currentTheme = localStorage.getItem('theme') || 'dark';
 
 const translations = {
     'ar': {
+        // تم التعديل إلى "بدء التحدي" وحذف V2.0
         'start_quiz': 'بدء التحدي', 'choose_domain': 'اختر مجال الاختبار:', 'question': 'السؤال',
         'submit': 'تأكيد الإجابة', 'next': 'التالي', 'skip': 'تخطي', 'review_errors': 'فحص الأخطاء:',
         'your_answer': 'إجابتك:', 'correct_answer': 'الصحيح:', 'great_job': '🌟 أداء استثنائي! معرفة جيولوجية قوية.',
@@ -34,6 +32,7 @@ const translations = {
         'all_correct': '🎉 ممتاز! لا توجد أخطاء لمراجعتها.', 'loading': '... تحليل بيانات النظام', 'unit': 'وحدة'
     },
     'en': {
+        // تم التعديل إلى "Start Challenge"
         'start_quiz': 'Start Challenge', 'choose_domain': 'Select Training Unit:', 'question': 'Question',
         'submit': 'Confirm Answer', 'next': 'Next', 'skip': 'Skip', 'review_errors': 'Review Errors:',
         'your_answer': 'Your Answer:', 'correct_answer': 'Correct:', 'great_job': '🌟 Exceptional performance! Strong geological knowledge.',
@@ -61,10 +60,10 @@ const translations = {
 // 3. تحميل البيانات من JSON
 // =======================================================
 async function loadGeologyData() {
-    const loadingMessage = document.getElementById('loading-message').querySelector('.loading-text');
+    const loadingMessage = document.getElementById('loading-message');
     try {
         const t = translations[currentLanguage];
-        loadingMessage.textContent = t.loading;
+        loadingMessage.querySelector('span').textContent = t.loading; // تم التعديل لاستهداف الـ span
         
         const response = await fetch('./Question.json');
         
@@ -79,7 +78,7 @@ async function loadGeologyData() {
 
     } catch (error) {
         console.error("فشل في تحميل بيانات الجيولوجيا:", error);
-        loadingMessage.textContent = `[خطأ الاتصال] عذراً، لا يمكن تحميل البيانات.`;
+        document.querySelector('#loading-message span').textContent = `[خطأ الاتصال] عذراً، لا يمكن تحميل البيانات.`;
         document.getElementById('start-quiz-btn').disabled = true;
         showNotification('✗ فشل تحميل البيانات', 'error');
     }
@@ -95,7 +94,8 @@ function showNotification(message, type = 'info') {
     const messageEl = document.getElementById('notification-message');
     
     messageEl.textContent = message;
-    toast.className = 'notification-toast show';
+    toast.classList.remove('hidden');
+    toast.classList.add('show');
     
     if (type === 'success') {
         toast.style.background = 'linear-gradient(135deg, var(--correct-color), #4CAF50)';
@@ -168,8 +168,7 @@ function handleTimeout() {
     });
 
     showFeedback(false, t.timeout_msg);
-    // تحديث النقاط بعد انتهاء المؤقت
-    document.querySelector('.score-live-display span').textContent = score; 
+    document.getElementById('current-score').textContent = score; // تحديث النقاط
     
     document.getElementById('submit-btn').classList.add('hidden');
     document.getElementById('next-btn').classList.remove('hidden');
@@ -183,7 +182,7 @@ function handleTimeout() {
 }
 
 // =======================================================
-// 6. نظام الترجمة وتحديث الواجهة
+// 7. نظام الترجمة وتحديث الواجهة
 // =======================================================
 function translateUI(langCode) {
     currentLanguage = langCode;
@@ -219,7 +218,7 @@ function applyTranslation() {
 }
 
 // =======================================================
-// 7. تهيئة القائمة الجانبية
+// 8. التحكم في القائمة الجانبية
 // =======================================================
 document.getElementById('open-sidebar-btn').addEventListener('click', () => {
     document.getElementById('sidebar').classList.add('open');
@@ -241,7 +240,7 @@ function closeSidebar() {
 }
 
 // =======================================================
-// 8. بدء الاختبار وإضافة المواضيع
+// 9. بدء الاختبار وإضافة المواضيع
 // =======================================================
 document.getElementById('start-quiz-btn').addEventListener('click', () => {
     document.getElementById('start-quiz-btn').classList.add('hidden');
@@ -291,13 +290,12 @@ function initializeTopicSelection(data) {
 }
 
 // =======================================================
-// 9. بدء الاختبار (تحميل الـ 25 سؤال بالكامل)
+// 10. بدء الاختبار (تحميل الـ 25 سؤال بالكامل)
 // =======================================================
 function startQuiz(topicTitle, questions) {
     clearInterval(timerInterval);
     
-    // **ضمان تحميل الـ 25 سؤال بالكامل**
-    currentQuestions = shuffleArray([...questions]);
+    currentQuestions = shuffleArray([...questions]); // تحميل كل الـ 25 سؤالاً
     
     currentQuestionIndex = 0;
     score = 0;
@@ -328,7 +326,7 @@ function shuffleArray(array) {
 }
 
 // =======================================================
-// 10. عرض السؤال
+// 11. عرض السؤال
 // =======================================================
 function displayQuestion() {
     clearInterval(timerInterval);
@@ -385,14 +383,14 @@ function displayQuestion() {
 }
 
 // =======================================================
-// 11. تحديث عرض النقاط
+// 12. تحديث عرض النقاط
 // =======================================================
 function updateScoreDisplay() {
-    // لم يتم تضمين عنصر النقاط في واجهة الاختبار لضمان عدم التمرير
+    document.querySelector('.score-live-display span').textContent = score;
 }
 
 // =======================================================
-// 12. عرض التغذية الراجعة
+// 13. عرض التغذية الراجعة
 // =======================================================
 function showFeedback(isCorrect, message) {
     const feedbackContainer = document.getElementById('feedback-container');
@@ -404,10 +402,10 @@ function showFeedback(isCorrect, message) {
 }
 
 // =======================================================
-// 13. معالجة الإجابة
+// 14. معالجة الإجابة
 // =======================================================
 document.getElementById('submit-btn').addEventListener('click', () => {
-    clearInterval(timerInterval); 
+    clearInterval(timerInterval); // إيقاف المؤقت عند الإجابة
     
     const selectedOption = document.querySelector('input[name="option"]:checked');
     if (!selectedOption) return;
@@ -446,6 +444,7 @@ document.getElementById('submit-btn').addEventListener('click', () => {
         }
     });
 
+    updateScoreDisplay();
     
     document.getElementById('submit-btn').classList.add('hidden');
     document.getElementById('next-btn').classList.remove('hidden');
@@ -453,16 +452,13 @@ document.getElementById('submit-btn').addEventListener('click', () => {
 });
 
 // =======================================================
-// 14. الانتقال للسؤال التالي
+// 15. الانتقال والتخطي
 // =======================================================
 document.getElementById('next-btn').addEventListener('click', () => {
     currentQuestionIndex++;
     displayQuestion();
 });
 
-// =======================================================
-// 15. تخطي السؤال
-// =======================================================
 document.getElementById('skip-btn').addEventListener('click', () => {
     clearInterval(timerInterval);
     const t = translations[currentLanguage];
@@ -555,7 +551,10 @@ function showResults() {
     }
     
     // حفظ الإحصائيات (Local Storage)
-    // تم إزالة المنطق المتعلق بـ Local Storage لتبسيط الكود وحل المشاكل
+    totalQuizzesCompleted++;
+    totalScoresSum += percentage;
+    localStorage.setItem('totalQuizzes', totalQuizzesCompleted);
+    localStorage.setItem('totalScores', totalScoresSum);
     
     showNotification('✓ اكتمل التحدي!', 'success');
 }
@@ -600,7 +599,9 @@ function animateScoreCircle(percentage) {
 // 21. تهيئة التطبيق عند التحميل
 // =======================================================
 window.addEventListener('DOMContentLoaded', () => {
+    // initParticles(); // تم إزالة تأثير الجزيئات لتبسيط الكود والتركيز على الطلب
     loadGeologyData();
+    // updateSidebarStats(); // تم إزالة الإحصائيات من الشريط الجانبي
     applyTranslation(); 
     
     // Keyboard shortcuts
