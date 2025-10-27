@@ -1,132 +1,542 @@
-/* إضافة هذه الأنماط إلى ملف style.css */
+/* =======================================================
+   1. المتغيرات والألوان (Cyberpunk/Sci-Fi Enhanced)
+   ======================================================= */
+:root {
+    --bg-main: #0a0e14;
+    --bg-module: #13171e;
+    --bg-card: #1a1f2e;
+    --text-main: #e0e6f0;
+    --text-secondary: #8b95a8;
+    
+    --neon-blue: #00d9ff;
+    --neon-cyan: #00fff5;
+    --neon-purple: #b026ff;
+    --neon-pink: #ff006e;
+    --neon-accent: #ff4500;
+    --correct-color: #00ff88;
+    --incorrect-color: #ff3366;
+    
+    --shadow-deep: 0 8px 32px rgba(0, 0, 0, 0.9);
+    --shadow-neon-blue: 0 0 20px rgba(0, 217, 255, 0.5), 0 0 40px rgba(0, 217, 255, 0.3);
+    --shadow-neon-purple: 0 0 20px rgba(176, 38, 255, 0.5);
+    
+    --sidebar-width: 85%;
+    --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
 
-/* زر اللغة */
-.language-switcher {
+/* Dark Theme Variables */
+body[data-theme="dark"] {
+    --bg-main: #0a0e14;
+    --bg-module: #13171e;
+    --bg-card: #1a1f2e;
+    --text-main: #e0e6f0;
+    --text-secondary: #8b95a8;
+}
+
+/* Light Theme (Optional) */
+body[data-theme="light"] {
+    --bg-main: #f0f4f8;
+    --bg-module: #ffffff;
+    --bg-card: #f8f8fa;
+    --text-main: #1a1f2e;
+    --text-secondary: #5a6b7d;
+    --shadow-deep: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+/* =======================================================
+   2. التنسيق العام والخلفيات المتحركة
+   ======================================================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', 'Cairo', 'Tajawal', sans-serif;
+    background: var(--bg-main);
+    color: var(--text-main);
+    direction: rtl;
+    line-height: 1.6;
+    min-height: 100vh;
+    overflow-x: hidden;
     position: relative;
 }
 
-.lang-btn {
-    background: var(--card-bg);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: var(--text-color);
-    padding: 10px 15px;
-    border-radius: 20px;
-    cursor: pointer;
-    transition: var(--transition);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.lang-btn:hover {
-    /* إضافة هذه الأنماط إلى ملف style.css */
-
-/* زر اللغة */
-.language-switcher {
-    position: relative;
-}
-
-.lang-btn {
-    background: var(--card-bg);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: var(--text-color);
-    padding: 10px 15px;
-    border-radius: 20px;
-    cursor: pointer;
-    transition: var(--transition);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.lang-btn:hover {
-    background: var(--neon-blue);
-    color: var(--primary-color);
-}
-
-/* قائمة اللغات */
-.language-dropdown {
-    position: absolute;
-    top: 100%;
+/* Canvas للجزيئات المتحركة */
+#particles-canvas {
+    position: fixed;
+    top: 0;
     left: 0;
-    background: var(--secondary-color);
-    border-radius: var(--border-radius);
-    box-shadow: var(--box-shadow);
-    padding: 10px;
-    z-index: 1000;
-    min-width: 150px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.lang-option {
-    background: none;
-    border: none;
-    color: var(--text-color);
-    padding: 10px 15px;
     width: 100%;
-    text-align: right;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.3;
+}
+
+/* الشبكة السيبرانية */
+.cyber-grid {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        linear-gradient(rgba(0, 217, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 217, 255, 0.03) 1px, transparent 1px);
+    background-size: 50px 50px;
+    z-index: 1;
+    pointer-events: none;
+    animation: gridMove 20s linear infinite;
+}
+
+@keyframes gridMove {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(50px, 50px); }
+}
+
+/* =======================================================
+   3. Animations المتقدمة
+   ======================================================= */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes glitch {
+    0% { text-shadow: 0.05em 0 0 rgba(255, 0, 0, 0.75), -0.05em -0.025em 0 rgba(0, 255, 0, 0.75); }
+    14% { text-shadow: 0.05em 0 0 rgba(255, 0, 0, 0.75), -0.05em -0.025em 0 rgba(0, 255, 0, 0.75); }
+    15% { text-shadow: -0.05em -0.025em 0 rgba(255, 0, 0, 0.75), 0.025em 0.025em 0 rgba(0, 255, 0, 0.75); }
+    49% { text-shadow: -0.05em -0.025em 0 rgba(255, 0, 0, 0.75), 0.025em 0.025em 0 rgba(0, 255, 0, 0.75); }
+    50% { text-shadow: 0.025em 0.05em 0 rgba(0, 255, 0, 0.75), 0.05em 0 0 rgba(255, 0, 0, 0.75); }
+    99% { text-shadow: 0.025em 0.05em 0 rgba(0, 255, 0, 0.75), 0.05em 0 0 rgba(255, 0, 0, 0.75); }
+    100% { text-shadow: -0.025em 0 0 rgba(255, 0, 0, 0.75), -0.025em -0.025em 0 rgba(0, 255, 0, 0.75); }
+}
+
+@keyframes pulseGlow {
+    0%, 100% { box-shadow: 0 0 10px rgba(0, 217, 255, 0.4); }
+    50% { box-shadow: 0 0 20px rgba(0, 217, 255, 0.8); }
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+.animated-fade { animation: fadeInUp 0.8s ease-out both; }
+.pulse-btn { animation: pulseGlow 2s ease-in-out infinite; }
+.hidden { display: none !important; }
+
+/* =======================================================
+   4. الهيدر المحسّن
+   ======================================================= */
+#main-content-wrapper { position: relative; z-index: 10; transition: var(--transition-smooth); }
+
+.main-header {
+    background: linear-gradient(135deg, var(--bg-module) 0%, rgba(19, 23, 30, 0.95) 100%);
+    backdrop-filter: blur(10px);
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: var(--shadow-deep);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 2px solid var(--neon-blue);
+}
+
+.sidebar-toggle-btn, .theme-btn {
+    background: transparent;
+    border: 2px solid var(--neon-blue);
+    color: var(--neon-blue);
+    font-size: 1.5em;
+    padding: 8px 12px;
+    border-radius: 8px;
     cursor: pointer;
-    border-radius: 5px;
-    transition: var(--transition);
+    transition: var(--transition-smooth);
 }
 
-.lang-option:hover {
+.sidebar-toggle-btn:hover, .theme-btn:hover {
     background: var(--neon-blue);
-    color: var(--primary-color);
+    color: var(--bg-main);
+    transform: scale(1.1);
+    box-shadow: var(--shadow-neon-blue);
 }
 
-.header-controls {
+.app-title {
+    font-size: 1.8em;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.title-glitch {
+    color: var(--neon-blue);
+    font-weight: 900;
+    position: relative;
+    animation: glitch 5s infinite;
+}
+
+.version {
+    font-size: 0.5em;
+    color: var(--neon-accent);
+    background: var(--bg-card);
+    padding: 4px 8px;
+    border-radius: 4px;
+    border: 1px solid var(--neon-accent);
+}
+
+.header-info {
     display: flex;
     align-items: center;
     gap: 15px;
 }
 
-/* تحسينات للعرض على الجوال */
-@media (max-width: 768px) {
-    .header-controls {
-        flex-direction: column;
-        gap: 10px;
-    }
-    
-    .lang-btn {
-        font-size: 0.9rem;
-        padding: 8px 12px;
-    }
-}
+.user-status {
+    display: none;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-secondary);
+    font-size: 0.9em;
 }
 
-.lang-option {
-    background: none;
-    border: none;
-    color: var(--text-color);
-    padding: 10px 15px;
+/* =======================================================
+   5. القائمة الجانبية المحسّنة
+   ======================================================= */
+#sidebar {
+    height: 100vh;
+    width: var(--sidebar-width);
+    position: fixed;
+    top: 0;
+    right: calc(-1 * var(--sidebar-width));
+    background: linear-gradient(180deg, var(--bg-module) 0%, rgba(13, 17, 24, 0.98) 100%);
+    backdrop-filter: blur(15px);
+    box-shadow: -10px 0 50px rgba(0, 0, 0, 0.8);
+    z-index: 2000;
+    transition: right 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    overflow-y: auto;
+    border-left: 3px solid var(--neon-blue);
+}
+
+#sidebar.open { right: 0; }
+#sidebar::-webkit-scrollbar { width: 8px; }
+#sidebar::-webkit-scrollbar-track { background: var(--bg-main); }
+#sidebar::-webkit-scrollbar-thumb { background: var(--neon-blue); border-radius: 4px; }
+
+.sidebar-header {
+    padding: 20px;
+    background: linear-gradient(135deg, var(--neon-blue) 0%, var(--neon-purple) 100%);
+    border-bottom: 3px solid var(--neon-cyan);
+}
+
+.sidebar-header h3 { color: var(--bg-main); font-size: 1.3em; display: flex; align-items: center; gap: 10px; }
+.sidebar-close-btn { background: rgba(255, 255, 255, 0.2); border: none; color: var(--bg-main); font-size: 1.5em; padding: 5px 10px; border-radius: 50%; cursor: pointer; transition: var(--transition-smooth); }
+.sidebar-close-btn:hover { background: rgba(255, 255, 255, 0.4); transform: rotate(90deg); }
+
+.language-selector { padding: 20px; background: var(--bg-card); margin: 20px; border-radius: 12px; border: 2px solid var(--neon-purple); }
+.language-selector label { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; color: var(--neon-cyan); font-weight: 600; }
+#lang-select { width: 100%; padding: 10px; background: var(--bg-main); color: var(--text-main); border: 2px solid var(--neon-blue); border-radius: 8px; font-size: 1em; cursor: pointer; transition: var(--transition-smooth); }
+#lang-select:focus { outline: none; border-color: var(--neon-cyan); box-shadow: 0 0 15px rgba(0, 255, 245, 0.3); }
+
+/* إحصائيات القائمة الجانبية */
+.stats-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    padding: 20px;
+}
+
+.stat-item {
+    background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-module) 100%);
+    padding: 15px;
+    border-radius: 12px;
+    text-align: center;
+    border: 2px solid var(--neon-blue);
+    transition: var(--transition-smooth);
+}
+.stat-item i { font-size: 2em; color: var(--neon-cyan); margin-bottom: 10px; display: block; }
+.stat-item span { display: block; font-size: 1.8em; font-weight: 900; color: var(--neon-blue); margin-bottom: 5px; }
+.stat-item p { font-size: 0.85em; color: var(--text-secondary); margin: 0; }
+
+.sidebar-topics-list { padding: 20px; }
+.sidebar-topics-list a {
+    display: block;
+    padding: 15px 20px;
+    color: var(--text-main);
+    text-decoration: none;
+    border-right: 4px solid transparent;
+    transition: var(--transition-smooth);
+    margin-bottom: 10px;
+    border-radius: 8px;
+    background: var(--bg-card);
+}
+
+.sidebar-topics-list a:hover {
+    background: linear-gradient(90deg, var(--bg-card) 0%, rgba(0, 217, 255, 0.1) 100%);
+    border-right-color: var(--neon-cyan);
+    transform: translateX(-10px);
+}
+
+#overlay {
+    position: fixed;
     width: 100%;
-    text-align: right;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: var(--transition);
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(5px);
+    z-index: 1999;
+    display: none;
+    transition: var(--transition-smooth);
 }
 
-.lang-option:hover {
-    background: var(--neon-blue);
-    color: var(--primary-color);
+/* =======================================================
+   6. المحتوى الرئيسي
+   ======================================================= */
+#app-container { padding: 30px 20px; max-width: 100%; position: relative; z-index: 10; }
+
+/* Hero Section */
+.hero-section {
+    text-align: center;
+    padding: 40px 20px;
+    background: linear-gradient(135deg, rgba(0, 217, 255, 0.05) 0%, rgba(176, 38, 255, 0.05) 100%);
+    border-radius: 20px;
+    border: 2px solid var(--neon-blue);
+    margin-bottom: 40px;
+    position: relative;
+    overflow: hidden;
+    animation: fadeInUp 0.8s ease-out both;
 }
 
-.header-controls {
+.section-title {
+    font-size: 2em;
+    margin: 20px 0;
+    color: var(--neon-blue);
+    text-shadow: 0 0 10px var(--neon-blue);
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 15px;
+    flex-wrap: wrap;
 }
 
-/* تحسينات للعرض على الجوال */
-@media (max-width: 768px) {
-    .header-controls {
-        flex-direction: column;
-        gap: 10px;
-    }
+.hero-description { font-size: 1.2em; color: var(--text-secondary); margin: 20px 0; line-height: 1.8; }
+
+/* زر البدء المحسّن */
+.large-btn {
+    padding: 20px 40px;
+    font-size: 1.3em;
+    border-radius: 50px;
+    position: relative;
+    overflow: hidden;
+    border: none;
+}
+
+.large-btn .btn-icon { margin-left: 10px; font-size: 1.2em; }
+
+.primary { background: linear-gradient(135deg, var(--neon-blue), var(--neon-cyan)); color: var(--bg-main); box-shadow: 0 8px 25px rgba(0, 217, 255, 0.5); }
+.primary:hover:not(:disabled) { transform: translateY(-3px) scale(1.05); box-shadow: 0 12px 35px rgba(0, 217, 255, 0.7); }
+
+/* قائمة المواضيع */
+#topics-list-container { margin-top: 40px; }
+
+.topics-header {
+    font-size: 1.5em;
+    color: var(--neon-cyan);
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid var(--neon-purple);
+}
+
+.list-container { display: grid; grid-template-columns: 1fr; gap: 20px; }
+
+.topic-card {
+    background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-module) 100%);
+    padding: 30px 25px;
+    border-radius: 15px;
+    font-size: 1.3em;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: var(--shadow-deep);
+    transition: var(--transition-bounce);
+    text-align: center;
+    border: 2px solid transparent;
+    position: relative;
+    overflow: hidden;
+    color: var(--text-main);
+}
+
+.topic-card:hover { transform: translateY(-10px) scale(1.02); border-color: var(--neon-blue); box-shadow: var(--shadow-neon-blue); }
+
+/* Loading Spinner */
+.loading-spinner { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 60px 20px; }
+.spinner-ring { width: 80px; height: 80px; border: 6px solid var(--bg-card); border-top: 6px solid var(--neon-blue); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 20px; }
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+.loading-spinner p { color: var(--neon-cyan); font-size: 1.1em; }
+
+/* =======================================================
+   7. شاشة الاختبار المحسّنة
+   ======================================================= */
+.data-module {
+    background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-module) 100%);
+    border: 2px solid var(--neon-blue);
+    box-shadow: var(--shadow-deep);
+    padding: 35px 25px;
+    border-radius: 20px;
+    position: relative;
+}
+
+.quiz-header-status { margin-bottom: 30px; }
+.quiz-header-status h2 { margin: 0 0 20px 0; font-size: 1.5em; }
+
+.quiz-meta { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; margin-bottom: 20px; }
+
+.timer-display { display: flex; align-items: center; gap: 8px; font-size: 1.6em; font-weight: 900; color: var(--neon-blue); background: var(--bg-card); padding: 10px 20px; border-radius: 50px; border: 2px solid var(--neon-blue); box-shadow: var(--shadow-neon-blue); animation: pulseGlow 2s ease-in-out infinite; }
+.timer-display i { font-size: 0.9em; }
+.timer-value { font-size: 1.2em; min-width: 40px; text-align: center; }
+
+.counter-badge, .score-badge { display: flex; align-items: center; gap: 8px; font-size: 1em; padding: 8px 16px; background: var(--neon-accent); color: var(--bg-main); border-radius: 50px; font-weight: 700; box-shadow: 0 4px 15px rgba(255, 69, 0, 0.4); }
+.score-badge { background: linear-gradient(135deg, var(--neon-purple), var(--neon-pink)); }
+
+/* Progress Bar */
+#progress-bar-container { width: 100%; height: 8px; background: var(--bg-main); border-radius: 10px; overflow: hidden; position: relative; box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.5); }
+#progress-bar-fill { height: 100%; width: 100%; background: linear-gradient(90deg, var(--neon-blue), var(--neon-cyan)); border-radius: 10px; transition: width 0.1s linear; position: relative; box-shadow: 0 0 15px var(--neon-blue); }
+
+.question-text { font-size: 1.5em; padding: 25px; margin-bottom: 30px; background: linear-gradient(135deg, rgba(0, 217, 255, 0.05), rgba(176, 38, 255, 0.05)); border-radius: 15px; border-right: 5px solid var(--neon-cyan); color: var(--text-main); line-height: 1.8; box-shadow: inset 0 0 20px rgba(0, 217, 255, 0.1); }
+
+/* الخيارات المحسّنة */
+.options-container { display: flex; flex-direction: column; gap: 15px; }
+
+.option-label { background: var(--bg-card); border: 2px solid var(--neon-blue); border-radius: 15px; padding: 20px; font-size: 1.2em; cursor: pointer; transition: var(--transition-smooth); display: flex; align-items: center; gap: 15px; position: relative; overflow: hidden; }
+.option-label:hover { border-color: var(--neon-cyan); transform: translateX(-5px); box-shadow: var(--shadow-neon-blue); }
+
+.option-label input[type="radio"] { width: 24px; height: 24px; cursor: pointer; accent-color: var(--neon-blue); }
+
+/* التغذية الراجعة */
+.option-label.correct { background: linear-gradient(135deg, var(--correct-color), rgba(0, 255, 136, 0.8)); border-color: var(--correct-color); color: var(--bg-main); animation: correctPulse 0.6s ease-out; }
+.option-label.incorrect { background: linear-gradient(135deg, var(--incorrect-color), rgba(255, 51, 102, 0.8)); border-color: var(--incorrect-color); color: white; animation: incorrectShake 0.5s ease-out; }
+
+/* Feedback Message */
+.feedback-message { margin-top: 25px; padding: 20px; border-radius: 15px; font-size: 1.1em; font-weight: 600; text-align: center; animation: fadeInUp 0.5s ease-out; }
+.feedback-message.correct-feedback { background: linear-gradient(135deg, rgba(0, 255, 136, 0.2), rgba(0, 255, 136, 0.1)); border: 2px solid var(--correct-color); color: var(--correct-color); }
+.feedback-message.incorrect-feedback { background: linear-gradient(135deg, rgba(255, 51, 102, 0.2), rgba(255, 51, 102, 0.1)); border: 2px solid var(--incorrect-color); color: var(--incorrect-color); }
+
+/* الأزرار المحسّنة */
+.controls-bar { display: flex; flex-direction: column-reverse; gap: 15px; margin-top: 30px; }
+
+.control-btn { padding: 16px 30px; border-radius: 50px; font-weight: 700; font-size: 1.1em; border: none; cursor: pointer; transition: var(--transition-bounce); display: flex; align-items: center; justify-content: center; gap: 10px; position: relative; overflow: hidden; }
+
+.primary { background: linear-gradient(135deg, var(--neon-blue), var(--neon-cyan)); color: var(--bg-main); box-shadow: 0 8px 25px rgba(0, 217, 255, 0.5); }
+.secondary { background: linear-gradient(135deg, var(--neon-accent), var(--neon-pink)); color: white; box-shadow: 0 8px 25px rgba(255, 69, 0, 0.5); }
+.tertiary { background: transparent; color: var(--text-secondary); border: 2px solid var(--text-secondary); }
+
+.primary:hover:not(:disabled) { transform: translateY(-3px) scale(1.05); box-shadow: 0 12px 35px rgba(0, 217, 255, 0.7); }
+.secondary:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 12px 35px rgba(255, 69, 0, 0.7); }
+.tertiary:hover { background: var(--bg-card); border-color: var(--neon-blue); color: var(--neon-blue); }
+
+.control-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+/* =======================================================
+   8. شاشة النتائج المحسّنة
+   ======================================================= */
+.results-grid { display: grid; grid-template-columns: 1fr; gap: 30px; }
+.summary-card { text-align: center; }
+
+.summary-card h3 { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 30px; font-size: 1.5em; color: var(--neon-cyan); }
+
+.score-display { display: flex; justify-content: center; margin: 40px 0; }
+
+.score-circle { position: relative; width: 200px; height: 200px; }
+
+.progress-ring-bg { fill: none; stroke: var(--bg-card); stroke-width: 15; }
+.progress-ring-fill { fill: none; stroke: url(#scoreGradient); stroke-width: 15; stroke-linecap: round; stroke-dasharray: 565; stroke-dashoffset: 565; transition: stroke-dashoffset 2s ease-out; }
+
+.score-content { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display: flex; align-items: baseline; gap: 5px; }
+
+.score-number { font-size: 3em; font-weight: 900; color: var(--neon-blue); text-shadow: 0 0 20px var(--neon-blue); }
+.score-separator { font-size: 2em; color: var(--text-secondary); }
+.total-score { font-size: 2em; color: var(--text-secondary); }
+
+.grade-message-text { font-size: 1.3em; padding: 20px; border-radius: 15px; margin: 20px 0; font-weight: 600; background: linear-gradient(135deg, rgba(0, 217, 255, 0.1), rgba(176, 38, 255, 0.1)); border: 2px solid var(--neon-purple); }
+
+.stats-breakdown { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 30px; }
+.stat-box { background: var(--bg-card); padding: 20px; border-radius: 15px; border: 2px solid var(--neon-blue); text-align: center; }
+.stat-box i { font-size: 2.5em; margin-bottom: 10px; display: block; }
+.stat-box span { display: block; font-size: 2em; font-weight: 900; margin: 10px 0; }
+
+.correct-stat { border-color: var(--correct-color); }
+.correct-stat i { color: var(--correct-color); }
+.correct-stat span { color: var(--correct-color); }
+
+.wrong-stat { border-color: var(--incorrect-color); }
+.wrong-stat i { color: var(--incorrect-color); }
+.wrong-stat span { color: var(--incorrect-color); }
+
+.time-stat { border-color: var(--neon-purple); }
+.time-stat i { color: var(--neon-purple); }
+.time-stat span { color: var(--neon-purple); }
+
+.review-log { max-height: 600px; overflow-y: auto; }
+.review-log h3 { display: flex; align-items: center; gap: 10px; margin-bottom: 25px; font-size: 1.5em; color: var(--neon-accent); }
+
+.review-item { background: var(--bg-card); padding: 20px; border-radius: 15px; margin-bottom: 20px; border-right: 5px solid var(--incorrect-color); animation: slideInRight 0.5s ease-out; }
+.error-q { font-size: 1.2em; font-weight: 600; margin-bottom: 15px; color: var(--neon-cyan); padding-bottom: 10px; border-bottom: 1px dashed var(--neon-purple); }
+.error-a { margin: 10px 0; font-size: 1.05em; }
+.wrong { color: var(--incorrect-color); font-weight: 700; padding: 5px 10px; background: rgba(255, 51, 102, 0.2); border-radius: 8px; }
+.right { color: var(--correct-color); font-weight: 700; padding: 5px 10px; background: rgba(0, 255, 136, 0.2); border-radius: 8px; }
+.all-correct { text-align: center; font-size: 1.5em; color: var(--correct-color); padding: 40px 20px; }
+
+.action-buttons { display: flex; flex-direction: column; gap: 15px; margin-top: 40px; }
+
+/* =======================================================
+   9. Footer
+   ======================================================= */
+.app-footer { text-align: center; padding: 30px 20px; background: var(--bg-module); border-top: 2px solid var(--neon-blue); margin-top: 60px; color: var(--text-secondary); }
+.app-footer i { color: var(--neon-pink); animation: heartbeat 1.5s ease-in-out infinite; }
+@keyframes heartbeat { 0%, 100% { transform: scale(1); } 25% { transform: scale(1.2); } 50% { transform: scale(1); } }
+
+/* =======================================================
+   10. Notification Toast
+   ======================================================= */
+.notification-toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px); background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple)); color: white; padding: 15px 30px; border-radius: 50px; box-shadow: 0 10px 40px rgba(0, 217, 255, 0.6); display: flex; align-items: center; gap: 10px; font-weight: 600; z-index: 3000; transition: var(--transition-smooth); }
+.notification-toast.show { transform: translateX(-50%) translateY(0); }
+.notification-toast i { font-size: 1.5em; }
+
+/* =======================================================
+   11. Responsive Design (Desktop)
+   ======================================================= */
+@media (min-width: 768px) {
+    :root { --sidebar-width: 350px; }
+    #app-container { max-width: 1200px; margin: 0 auto; padding: 40px 30px; }
+    .app-title { font-size: 2.2em; }
+    .user-status { display: flex; }
     
-    .lang-btn {
-        font-size: 0.9rem;
-        padding: 8px 12px;
-    }
+    .list-container { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+    .topic-card { padding: 40px 30px; }
+    
+    .controls-bar { flex-direction: row; justify-content: flex-end; }
+    .control-btn { width: auto; padding: 18px 40px; }
+    
+    .results-grid { grid-template-columns: 1fr 1.5fr; }
+    .stats-breakdown { grid-template-columns: repeat(3, 1fr); }
+    .action-buttons { flex-direction: row; justify-content: center; }
+    .section-title { font-size: 2.5em; }
+    .question-text { font-size: 1.7em; }
+}
+
+@media (min-width: 1200px) {
+    #app-container { max-width: 1400px; }
+    .list-container { grid-template-columns: repeat(3, 1fr); }
 }
