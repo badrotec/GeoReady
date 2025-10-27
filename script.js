@@ -1,23 +1,27 @@
 // **=================================================**
-// ** ملف: script.js (المنطق النهائي والمصحح)         **
+// ** ملف: script.js (المنطق النهائي والمصحح لـ 25 سؤال) **
 // **=================================================**
 
-// [1] المتغيرات العالمية والتحكم
+// [1] المتغيرات العالمية والإعدادات
 let geologicalData = {}; 
 let currentQuestions = [];
 let currentQuestionIndex = 0;
 let score = 0;
 let userAnswers = {};
 let timerInterval;
+let correctAnswersCount = 0;
+let wrongAnswersCount = 0;
+let quizStartTime;
+
 const TIME_LIMIT = 20;
 const POINTS_CORRECT = 5;
 const POINTS_WRONG = -3;
 let currentLanguage = 'ar';
 
-// إحصائيات وعدادات
-let correctAnswersCount = 0;
-let wrongAnswersCount = 0;
-let quizStartTime;
+// إحصائيات محلية
+let totalQuizzesCompleted = parseInt(localStorage.getItem('totalQuizzes')) || 0;
+let totalScoresSum = parseInt(localStorage.getItem('totalScores')) || 0;
+let currentTheme = localStorage.getItem('theme') || 'dark';
 
 const translations = {
     'ar': {
@@ -181,7 +185,7 @@ function handleTimeout() {
 }
 
 // =======================================================
-// 7. نظام الترجمة وتحديث الواجهة
+// 6. نظام الترجمة وتحديث الواجهة
 // =======================================================
 function translateUI(langCode) {
     currentLanguage = langCode;
@@ -217,13 +221,13 @@ function applyTranslation() {
 }
 
 // =======================================================
-// 8. التحكم في القائمة الجانبية
+// 7. تهيئة القائمة الجانبية
 // =======================================================
 document.getElementById('open-sidebar-btn').addEventListener('click', () => {
     document.getElementById('sidebar').classList.add('open');
     document.getElementById('overlay').style.display = 'block';
     if (!document.getElementById('quiz-screen').classList.contains('hidden')) {
-        clearInterval(timerInterval); // **إيقاف المؤقت عند فتح القائمة**
+        clearInterval(timerInterval); // إيقاف المؤقت عند فتح القائمة
     }
 });
 
@@ -234,21 +238,16 @@ function closeSidebar() {
     document.getElementById('sidebar').classList.remove('open');
     document.getElementById('overlay').style.display = 'none';
     if (!document.getElementById('quiz-screen').classList.contains('hidden')) {
-        startTimer(); // **استئناف المؤقت**
+        startTimer(); // استئناف المؤقت
     }
 }
 
 // =======================================================
-// 9. بدء الاختبار وإضافة المواضيع
+// 8. بدء الاختبار وإضافة المواضيع
 // =======================================================
 document.getElementById('start-quiz-btn').addEventListener('click', () => {
     document.getElementById('start-quiz-btn').classList.add('hidden');
     document.getElementById('topics-list-container').classList.remove('hidden');
-    
-    const topicCards = document.querySelectorAll('.topic-card');
-    topicCards.forEach((card, index) => {
-        card.style.animationDelay = `${index * 0.1}s`;
-    });
 });
 
 function initializeTopicSelection(data) {
@@ -294,7 +293,7 @@ function initializeTopicSelection(data) {
 }
 
 // =======================================================
-// 12. بدء الاختبار (تحميل الـ 25 سؤال بالكامل)
+// 9. بدء الاختبار (تحميل الـ 25 سؤال بالكامل)
 // =======================================================
 function startQuiz(topicTitle, questions) {
     clearInterval(timerInterval);
@@ -331,7 +330,7 @@ function shuffleArray(array) {
 }
 
 // =======================================================
-// 13. عرض السؤال
+// 10. عرض السؤال
 // =======================================================
 function displayQuestion() {
     clearInterval(timerInterval);
@@ -346,7 +345,7 @@ function displayQuestion() {
     startTimer();
     
     // تحديث عداد الأسئلة
-    document.getElementById('question-counter').innerHTML = 
+    document.querySelector('#question-counter').innerHTML = 
         `<i class="fas fa-list-ol"></i> ${t.unit} ${currentQuestionIndex + 1} / ${currentQuestions.length}`;
 
     // إخفاء رسالة التغذية الراجعة
@@ -388,14 +387,14 @@ function displayQuestion() {
 }
 
 // =======================================================
-// 14. تحديث عرض النقاط
+// 11. تحديث عرض النقاط
 // =======================================================
 function updateScoreDisplay() {
-    document.querySelector('.score-live-display span').textContent = score;
+    // لم يتم تضمين عنصر النقاط في واجهة الاختبار لضمان عدم التمرير
 }
 
 // =======================================================
-// 15. عرض التغذية الراجعة
+// 12. عرض التغذية الراجعة
 // =======================================================
 function showFeedback(isCorrect, message) {
     const feedbackContainer = document.getElementById('feedback-container');
@@ -407,10 +406,10 @@ function showFeedback(isCorrect, message) {
 }
 
 // =======================================================
-// 16. معالجة الإجابة
+// 13. معالجة الإجابة
 // =======================================================
 document.getElementById('submit-btn').addEventListener('click', () => {
-    clearInterval(timerInterval); // إيقاف المؤقت عند الإجابة
+    clearInterval(timerInterval); 
     
     const selectedOption = document.querySelector('input[name="option"]:checked');
     if (!selectedOption) return;
@@ -449,7 +448,6 @@ document.getElementById('submit-btn').addEventListener('click', () => {
         }
     });
 
-    updateScoreDisplay();
     
     document.getElementById('submit-btn').classList.add('hidden');
     document.getElementById('next-btn').classList.remove('hidden');
@@ -457,7 +455,7 @@ document.getElementById('submit-btn').addEventListener('click', () => {
 });
 
 // =======================================================
-// 17. الانتقال للسؤال التالي
+// 14. الانتقال للسؤال التالي
 // =======================================================
 document.getElementById('next-btn').addEventListener('click', () => {
     currentQuestionIndex++;
@@ -465,7 +463,7 @@ document.getElementById('next-btn').addEventListener('click', () => {
 });
 
 // =======================================================
-// 18. تخطي السؤال
+// 15. تخطي السؤال
 // =======================================================
 document.getElementById('skip-btn').addEventListener('click', () => {
     clearInterval(timerInterval);
@@ -489,10 +487,10 @@ document.getElementById('skip-btn').addEventListener('click', () => {
 });
 
 // =======================================================
-// 19. عرض النتائج مع التأثيرات المتقدمة
+// 16. عرض النتائج مع التأثيرات المتقدمة
 // =======================================================
 function showResults() {
-    clearInterval(timerInterval);
+    clearInterval(timerInterval); 
     
     const quizEndTime = Date.now();
     const quizStartTime = parseFloat(document.body.dataset.quizStart) || Date.now();
@@ -547,7 +545,7 @@ function showResults() {
             reviewItem.style.animationDelay = `${index * 0.1}s`;
             reviewItem.innerHTML = `
                 <p class="error-q"><i class="fas fa-question-circle"></i> ${answer.question}</p>
-                <p class="error-a">${t.your_answer} <span class="wrong">${answer.user}</span></p>
+                <p class="error-a">${t.your_answer} <span class="wrong">${answer.userAnswer}</span></p>
                 <p class="error-a">${t.correct_answer} <span class="right">${answer.correctAnswer}</span></p>
             `;
             reviewContent.appendChild(reviewItem);
@@ -559,10 +557,7 @@ function showResults() {
     }
     
     // حفظ الإحصائيات (Local Storage)
-    totalQuizzesCompleted++;
-    totalScoresSum += percentage;
-    localStorage.setItem('totalQuizzes', totalQuizzesCompleted);
-    localStorage.setItem('totalScores', totalScoresSum);
+    // تم إزالة المنطق المتعلق بـ Local Storage لتبسيط الكود وحل المشاكل
     
     showNotification('✓ اكتمل التحدي!', 'success');
 }
@@ -604,46 +599,10 @@ function animateScoreCircle(percentage) {
 }
 
 // =======================================================
-// 21. مشاركة النتائج
-// =======================================================
-document.getElementById('share-results-btn').addEventListener('click', () => {
-    const t = translations[currentLanguage];
-    const scoreValue = document.getElementById('final-score').textContent;
-    const totalValue = document.getElementById('total-questions-count').textContent;
-    const correctValue = document.getElementById('correct-count').textContent;
-    const wrongValue = document.getElementById('wrong-count').textContent;
-    
-    const shareText = `🎯 GEO-MASTER - تقرير التحدي:\nالنتيجة: ${scoreValue}\nصحيحة: ${correctValue}\nخاطئة: ${wrongValue}\n\n🌍 اختبر معلوماتك الجيولوجية مع Geo-Master!`;
-    
-    if (navigator.share) {
-        navigator.share({
-            title: 'GEO-MASTER | تقرير التحدي',
-            text: shareText,
-        }).then(() => {
-            showNotification('✓ تمت المشاركة بنجاح', 'success');
-        }).catch(() => {
-            copyToClipboard(shareText);
-        });
-    } else {
-        copyToClipboard(shareText);
-    }
-});
-
-function copyToClipboard(text) {
-    navigator.clipboard.writeText(text).then(() => {
-        showNotification('✓ تم نسخ النتائج', 'success');
-    }).catch(() => {
-        showNotification('✗ فشل النسخ', 'error');
-    });
-}
-
-// =======================================================
-// 22. تهيئة التطبيق عند التحميل
+// 21. تهيئة التطبيق عند التحميل
 // =======================================================
 window.addEventListener('DOMContentLoaded', () => {
     loadGeologyData();
-    // initParticles(); // تم إزالة تأثير الجزيئات لتبسيط الكود والتركيز على الطلب
-    // updateSidebarStats(); // تم إزالة الإحصائيات من الشريط الجانبي
     applyTranslation(); 
     
     // Keyboard shortcuts
