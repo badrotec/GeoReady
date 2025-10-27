@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GEO-MASTER | منصة اختبارات الجيولوجيا</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
     <link rel="stylesheet" href="style.css">
@@ -57,14 +58,14 @@
                     
                     <h2 id="quiz-title" class="section-title"></h2>
                     
+                    <div class="timer-container">
+                        <span id="timer-display" class="timer-display animated-slidein"><span class="timer-value">20</span><span class="timer-unit">ث</span></span>
+                    </div> 
+                    
+                    <span id="question-counter" class="counter-badge animated-slidein">الوحدة 1 / 25</span>
+                    
                     <div id="progress-bar-container">
                         <div id="progress-bar-fill"></div>
-                    </div>
-                    
-                    <div class="quiz-meta">
-                        <span id="timer-display" class="timer-display"><span class="timer-value">20</span><span class="timer-unit">ث</span></span>
-                        
-                        <span id="question-counter" class="counter-badge">الوحدة 1 / 25</span>
                     </div>
                 </div>
 
@@ -95,7 +96,9 @@
                             </svg>
                             <span id="final-score" class="score-number">0</span>
                         </div>
-                        <p id="grade-message" class="grade-message-text"></p>
+                        <div class="grade-text">
+                            <p id="grade-message" class="grade-message-text"></p>
+                        </div>
                     </div>
 
                     <div class="data-module stats-card">
