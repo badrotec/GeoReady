@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Geo-Mastery | منصة احترافية لاختبارات الجيولوجيا</title>
+    <title>GEO-MASTER V2.0 | منصة اختبارات الجيولوجيا</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
@@ -11,12 +11,12 @@
     
     <aside id="sidebar">
         <div class="sidebar-header">
-            <h3><i class="fas fa-layer-group"></i> مكتبة المجالات</h3>
-            <button id="close-sidebar-btn" class="sidebar-close-btn" title="إغلاق القائمة"><i class="fas fa-times"></i></button>
+            <h3><i class="fas fa-layer-group"></i> وحدات التدريب</h3>
+            <button id="close-sidebar-btn" class="sidebar-close-btn" title="إغلاق"><i class="fas fa-times"></i></button>
         </div>
         
         <div class="language-selector">
-            <label for="lang-select"><i class="fas fa-globe"></i> اختيار اللغة:</label>
+            <label for="lang-select"><i class="fas fa-globe"></i> نظام اللغة:</label>
             <select id="lang-select" onchange="changeLanguage(this.value)">
                 <option value="ar" selected>العربية (AR)</option>
                 <option value="en">English (EN)</option>
@@ -32,7 +32,7 @@
     <div id="main-content-wrapper">
         <header class="main-header">
             <button id="open-sidebar-btn" class="sidebar-toggle-btn" title="فتح القائمة"><i class="fas fa-bars"></i></button>
-            <h1 class="app-title"><i class="fas fa-gem"></i> GEOLOGY QUIZ HUB <span class="version-tag">PRO V1.0</span></h1>
+            <h1 class="app-title">GEO-MASTER V2.0</h1>
             <div class="header-info">
                 <span class="user-status"><i class="fas fa-user-circle"></i> وضع الزائر</span>
             </div>
@@ -40,54 +40,55 @@
 
         <main id="app-container">
             <section id="topic-selection" class="screen active">
-                <h2 class="section-title animated-fade">انطلق في مسارك الجيولوجي:</h2>
+                <h2 class="section-title animated-fade">تحديد وحدة التدريب:</h2>
                 
-                <button id="start-quiz-btn" class="control-btn primary large-btn animated-fade"><i class="fas fa-play"></i> ابدأ الاختبار</button>
+                <button id="start-quiz-btn" class="control-btn primary large-btn animated-fade neon-edge"><i class="fas fa-satellite-dish"></i> بدء الاتصال بالنظام</button>
 
                 <div id="topics-list-container" class="hidden">
                     <h3>اختر مجال الاختبار:</h3>
                     <div id="topics-list" class="list-container">
-                        <p id="loading-message">... جارٍ استدعاء البيانات</p> 
+                        <p id="loading-message">... تحليل بيانات النظام</p> 
                     </div>
                 </div>
             </section>
 
             <section id="quiz-screen" class="screen hidden">
                 <div class="quiz-header-status">
-                    <div id="progress-bar-container">
-                        <div id="progress-bar-fill"></div>
-                    </div>
                     
                     <h2 id="quiz-title" class="section-title"></h2>
                     
-                    <span id="timer-display" class="counter-badge animated-slidein">20s</span> 
+                    <span id="question-counter" class="counter-badge animated-slidein">الوحدة 1 / 10</span>
+
+                    <span id="timer-display" class="timer-display animated-slidein">20s</span> 
                     
-                    <span id="question-counter" class="counter-badge animated-slidein">السؤال 1 / 10</span>
+                    <div id="progress-bar-container">
+                        <div id="progress-bar-fill"></div>
+                    </div>
                 </div>
 
-                <div id="question-container" class="mobile-card quiz-card"></div>
+                <div id="question-container" class="data-module quiz-card"></div>
                 
                 <div id="controls" class="controls-bar">
-                    <button id="submit-btn" class="control-btn primary" disabled>تأكيد الإجابة <i class="fas fa-check"></i></button>
-                    <button id="next-btn" class="control-btn secondary hidden">السؤال التالي <i class="fas fa-arrow-left"></i></button>
+                    <button id="submit-btn" class="control-btn primary neon-edge" disabled>تأكيد الإجابة <i class="fas fa-terminal"></i></button>
+                    <button id="next-btn" class="control-btn secondary hidden"><i class="fas fa-arrow-right"></i> تجاوز</button>
                 </div>
             </section>
 
             <section id="results-screen" class="screen hidden">
-                <h2 class="section-title result-title animated-fade"><i class="fas fa-chart-bar"></i> تحليل الأداء الجيولوجي</h2>
+                <h2 class="section-title result-title animated-fade"><i class="fas fa-chart-line"></i> تقرير تحليل الأداء</h2>
                 
-                <div class="mobile-card summary-card">
-                    <h3>ملخص النتائج</h3>
+                <div class="data-module summary-card">
+                    <h3>ملخص البروتوكول</h3>
                     <div class="score-display">
                         <span id="final-score" class="score-number">0</span> / <span id="total-questions-count">0</span>
                     </div>
                     <div id="grade-message" class="grade-message-text"></div>
                 </div>
 
-                <div id="review-area" class="review-log mobile-card">
-                    <h3>مراجعة الأخطاء المفاهيمية:</h3>
+                <div id="review-area" class="review-log data-module">
+                    <h3>فحص الأخطاء:</h3>
                 </div>
-                <button onclick="window.location.reload()" class="control-btn primary large-btn"><i class="fas fa-redo-alt"></i> ابدأ اختباراً جديداً</button>
+                <button onclick="window.location.reload()" class="control-btn primary large-btn neon-edge"><i class="fas fa-redo-alt"></i> إعادة تشغيل النظام</button>
             </section>
         </main>
     </div>
