@@ -21,7 +21,7 @@
    2. التنسيق العام والتحريك (MOBILE-FIRST)
    ======================================================= */
 * {
-    box-sizing: border-box; /* **الأهم** */
+    box-sizing: border-box; /* **الأهم: يحل مشكلة التجاوز على الهواتف** */
 }
 
 body {
@@ -85,7 +85,6 @@ body {
     z-index: 1999;
     display: none;
 }
-.sidebar-header h3 { color: var(--neon-accent); }
 .sidebar-topics-list a { color: var(--text-main); border-right: 3px solid transparent; }
 .sidebar-topics-list a:hover { background-color: #1a222c; border-right-color: var(--neon-blue); }
 
@@ -95,6 +94,9 @@ body {
    ======================================================= */
 #app-container { padding: 20px; width: 100%; max-width: 100%; }
 .section-title { font-size: 1.5em; margin: 25px 0; color: var(--neon-blue); text-shadow: 0 0 3px var(--neon-blue); }
+
+/* زر ابدأ */
+#start-quiz-btn { margin: 20px auto 40px; display: block; width: 80%; } 
 
 /* قائمة المواضيع */
 .list-container { display: flex; flex-direction: column; gap: 15px; }
@@ -192,16 +194,16 @@ body {
    6. قواعد الشاشة الكبيرة (Desktop Overrides)
    ======================================================= */
 @media (min-width: 768px) {
-    /* تصحيح Header */
+    #app-container { max-width: 1100px; padding: 30px; }
     .app-title { font-size: 2em; }
     .header-info { display: block; }
     #sidebar { width: 300px; }
 
-    /* إعادة ترتيب Grid و Controls في الشاشات الكبيرة */
+    /* استبدال القائمة العمودية Grid لعرضها كبطاقات */
     .list-container {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 25px;
+        gap: 30px;
     }
     .topic-card { border-right: none; border-bottom: 4px solid var(--neon-blue); text-align: center; }
 
