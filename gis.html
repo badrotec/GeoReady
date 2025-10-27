@@ -214,3 +214,104 @@
                     
                     <img src="images/gis-concept.jpg" alt="مفهوم GIS" class="gis-image">
                 </div>
+<div class="gis-section">
+                    <h2><i class="fas fa-mountain"></i> GIS في الجيولوجيا</h2>
+                    <p>يعد GIS أداة لا غنى عنها في مجال الجيولوجيا. يمكّن الجيولوجيين من دمج وتحليل البيانات الجيولوجية المتنوعة مثل الخرائط الطبوغرافية، خرائط الصدوع، البيانات الزلزالية، نتائج الحفر، وتحليلات التربة، كل ذلك في بيئة مكانية واحدة.</p>
+                    <p>بعض التطبيقات الرئيسية لـ GIS في الجيولوجيا تشمل:</p>
+                    <ul class="gis-list">
+                        <li><i class="fas fa-map-marked-alt"></i> <strong>رسم الخرائط الجيولوجية:</strong> إنشاء خرائط تفصيلية للتكوينات الصخرية والصدوع والطيات.</li>
+                        <li><i class="fas fa-water"></i> <strong>تحليل الهيدروجيولوجيا:</strong> تتبع حركة المياه الجوفية وتحديد مناطق التلوث.</li>
+                        <li><i class="fas fa-oil-can"></i> <strong>استكشاف الموارد:</strong> تحديد المواقع المحتملة للمعادن والنفط والغاز.</li>
+                        <li><i class="fas fa-earth-americas"></i> <strong>تقييم المخاطر الجيولوجية:</strong> نمذجة الانهيارات الأرضية والزلازل والبراكين.</li>
+                        <li><i class="fas fa-chart-area"></i> <strong>نمذجة التضاريس ثلاثية الأبعاد:</strong> فهم التراكيب الجيولوجية تحت السطح.</li>
+                    </ul>
+                    
+                    <img src="images/geo-map.jpg" alt="خريطة GIS جيولوجية" class="gis-image">
+                </div>
+
+                <div class="gis-section">
+                    <h2><i class="fas fa-layer-group"></i> مكونات نظام GIS</h2>
+                    <p>يتكون نظام GIS عادةً من خمسة مكونات رئيسية:</p>
+                    <ul class="gis-list">
+                        <li><i class="fas fa-desktop"></i> <strong>الأجهزة (Hardware):</strong> أجهزة الكمبيوتر والخوادم التي تقوم بتشغيل النظام.</li>
+                        <li><i class="fas fa-database"></i> <strong>البرمجيات (Software):</strong> برامج مثل ArcGIS, QGIS, Google Earth Pro.</li>
+                        <li><i class="fas fa-pencil-ruler"></i> <strong>البيانات (Data):</strong> أهم مكون، يشمل البيانات المكانية والوصفية.</li>
+                        <li><i class="fas fa-user-tie"></i> <strong>الأشخاص (People):</strong> المستخدمون الذين يقومون بإدارة وتخطيط واستخدام النظام.</li>
+                        <li><i class="fas fa-cogs"></i> <strong>الأساليب (Methods):</strong> الإجراءات والتقنيات المتبعة لتطبيق GIS.</li>
+                    </ul>
+                    <h3><i class="fas fa-images"></i> صور لمكونات GIS الجيولوجي</h3>
+                    <div class="image-gallery">
+                        
+                        <img src="images/gis-software.jpg" alt="واجهة برنامج GIS">
+                        
+                        <img src="images/data-layers.jpg" alt="طبقات البيانات الجيولوجية">
+                        
+                        <img src="images/field-geologist.jpg" alt="جيولوجي في الميدان">
+                    </div>
+                </div>
+
+                <div class="gis-section interactive-example">
+                    <h3><i class="fas fa-globe-africa"></i> مثال تفاعلي (محاكاة)</h3>
+                    <p>تخيل كيف يمكن لـ GIS أن يدمج بيانات متعددة لتكوين رؤى جديدة:</p>
+                    <div class="map-placeholder"></div>
+                    <p>هذه المحاكاة البسيطة توضح كيف يمكن لطبقات مختلفة من البيانات الجيولوجية (مثل التضاريس والصدوع) أن تُعرض معًا لتحليل العلاقات المكانية.</p>
+                </div>
+                
+                <a href="index.html" class="gis-home-btn">
+                    <i class="fas fa-home"></i> العودة للصفحة الرئيسية
+                </a>
+            </div>
+        </main>
+        
+        <footer class="app-footer">
+            <p>&copy; 2025 GEO-MASTER | Developed with <i class="fas fa-heart"></i></p>
+        </footer>
+    </div>
+    
+    <div id="notification-toast" class="notification-toast hidden">
+        <i class="fas fa-info-circle"></i>
+        <span id="notification-message"></span>
+    </div>
+    
+    <script src="script.js"></script>
+    <script>
+        // لتبديل السمة (الوضع الليلي/النهاري)
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            const body = document.body;
+
+            // Load saved theme or set default to dark
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            body.setAttribute('data-theme', savedTheme);
+            themeToggleBtn.innerHTML = savedTheme === 'dark' ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+
+            themeToggleBtn.addEventListener('click', () => {
+                let currentTheme = body.getAttribute('data-theme');
+                if (currentTheme === 'dark') {
+                    body.setAttribute('data-theme', 'light');
+                    localStorage.setItem('theme', 'light');
+                    themeToggleBtn.innerHTML = '<i class="fas fa-moon"></i>';
+                } else {
+                    body.setAttribute('data-theme', 'dark');
+                    localStorage.setItem('theme', 'dark');
+                    themeToggleBtn.innerHTML = '<i class="fas fa-sun"></i>';
+                }
+            });
+
+            //Particles.js (إذا كنت تستخدمه في الصفحة الرئيسية وتحتاج هنا أيضاً)
+            // إذا كان لديك ملف particles.js منفصل، يجب تضمينه
+            // وإلا، يمكنك تضمين الكود مباشرة هنا
+             if (typeof Particles !== 'undefined') {
+                Particles.init({
+                    selector: '#particles-canvas',
+                    color: '#00d9ff',
+                    connectParticles: true,
+                    minDistance: 150,
+                    sizeVariations: 5,
+                    maxParticles: 80
+                });
+            }
+        });
+    </script>
+</body>
+</html>
