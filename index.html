@@ -3,198 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>جيولوجي - منصة تدريب الجيولوجيين</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="styles.css">
+    <title>GEO-MASTER V2.0 | منصة اختبارات الجيولوجيا</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <div class="container">
-            <div class="header-content">
-                <div class="logo">
-                    <i class="fas fa-mountain"></i>
-                    <span>جيولوجي</span>
-                </div>
-                <div class="nav-links">
-                    <a href="#" class="active">الرئيسية</a>
-                    <a href="#">التدريب</a>
-                    <a href="#">المحتوى</a>
-                    <a href="#">المسابقات</a>
-                    <a href="#">تواصل معنا</a>
-                </div>
-                <div class="language-selector">
-                    <button class="lang-btn active" data-lang="ar">العربية</button>
-                    <button class="lang-btn" data-lang="en">English</button>
-                    <button class="lang-btn" data-lang="fr">Français</button>
-                </div>
-            </div>
+    
+    <aside id="sidebar">
+        <div class="sidebar-header">
+            <h3><i class="fas fa-layer-group"></i> وحدات التدريب</h3>
+            <button id="close-sidebar-btn" class="sidebar-close-btn" title="إغلاق"><i class="fas fa-times"></i></button>
         </div>
-    </header>
-
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <div class="hero-text">
-                    <h1>منصة تدريب الجيولوجيين المتكاملة</h1>
-                    <p>طور مهاراتك في الجيولوجيا من خلال اختبارات تفاعلية تغطي جميع التخصصات الجيولوجية مع نظام متعدد اللغات</p>
-                    <a href="#" class="cta-button" id="startTraining">
-                        <i class="fas fa-play-circle"></i> ابدأ التدريب الآن
-                    </a>
-                </div>
-                <div class="hero-animation">
-                    <div class="floating-rocks">
-                        <div class="rock rock-1"><i class="fas fa-gem"></i></div>
-                        <div class="rock rock-2"><i class="fas fa-mountain"></i></div>
-                        <div class="rock rock-3"><i class="fas fa-tint"></i></div>
-                    </div>
-                </div>
-            </div>
+        
+        <div class="language-selector">
+            <label for="lang-select"><i class="fas fa-globe"></i> نظام اللغة:</label>
+            <select id="lang-select" onchange="changeLanguage(this.value)">
+                <option value="ar" selected>العربية (AR)</option>
+                <option value="en">English (EN)</option>
+                <option value="fr">Français (FR)</option>
+            </select>
         </div>
-    </section>
-
-    <!-- Categories Section -->
-    <section class="categories" id="categoriesSection">
-        <div class="container">
-            <h2 class="section-title">التخصصات الجيولوجية</h2>
-            <div class="categories-grid" id="categoriesGrid">
-                <!-- سيتم ملؤها ديناميكياً من JavaScript -->
+        
+        <div class="sidebar-topics-list" id="sidebar-topics-list">
             </div>
-        </div>
-    </section>
+    </aside>
+    <div id="overlay" onclick="document.getElementById('sidebar').classList.remove('open'); document.getElementById('overlay').style.display = 'none';"></div>
 
-    <!-- Quiz Section -->
-    <section class="quiz-section" id="quizSection">
-        <div class="container">
-            <div class="quiz-header">
-                <h2 class="quiz-title" id="quizCategoryTitle">الجيولوجيا الأساسية</h2>
-                <div class="quiz-progress">
-                    <span id="currentQuestion">1</span> / <span id="totalQuestions">25</span>
-                    <div class="progress-bar">
-                        <div class="progress" id="quizProgress"></div>
-                    </div>
-                </div>
+    <div id="main-content-wrapper">
+        <header class="main-header">
+            <button id="open-sidebar-btn" class="sidebar-toggle-btn" title="فتح القائمة"><i class="fas fa-bars"></i></button>
+            <h1 class="app-title">GEO-MASTER V2.0</h1>
+            <div class="header-info">
+                <span class="user-status"><i class="fas fa-user-circle"></i> وضع الزائر</span>
             </div>
-            
-            <div class="question-card">
-                <div class="question-text" id="questionText">
-                    أي مما يلي يُعتبر من المعادن؟
-                </div>
-                <div class="options-container" id="optionsContainer">
-                    <!-- سيتم ملؤها ديناميكياً من JavaScript -->
-                </div>
+        </header>
+
+        <main id="app-container">
+            <section id="topic-selection" class="screen active">
+                <h2 class="section-title animated-fade">تحديد وحدة التدريب:</h2>
                 
-                <!-- قسم الاقتراحات الذكية -->
-                <div class="suggestions-section" id="suggestionsSection">
-                    <div class="suggestions-header">
-                        <i class="fas fa-lightbulb"></i>
-                        <h3>اقتراحات ذكية</h3>
-                    </div>
-                    <div class="suggestions-content" id="suggestionsContent">
-                        <!-- سيتم ملؤها ديناميكياً من JavaScript -->
+                <button id="start-quiz-btn" class="control-btn primary large-btn animated-fade neon-edge"><i class="fas fa-satellite-dish"></i> بدء الاتصال بالنظام</button>
+
+                <div id="topics-list-container" class="hidden">
+                    <h3>اختر مجال الاختبار:</h3>
+                    <div id="topics-list" class="list-container">
+                        <p id="loading-message">... تحليل بيانات النظام</p> 
                     </div>
                 </div>
-            </div>
-            
-            <div class="quiz-actions">
-                <button class="btn btn-secondary" id="prevQuestion">
-                    <i class="fas fa-arrow-right"></i> السؤال السابق
-                </button>
-                <button class="btn btn-primary" id="nextQuestion">
-                    السؤال التالي <i class="fas fa-arrow-left"></i>
-                </button>
-                <button class="btn btn-accent" id="submitQuiz" style="display: none;">
-                    <i class="fas fa-check-circle"></i> إنهاء الاختبار
-                </button>
-            </div>
-        </div>
-    </section>
+            </section>
 
-    <!-- Results Section -->
-    <section class="results-section" id="resultsSection">
-        <div class="container">
-            <div class="results-card" id="resultsCard">
-                <div class="results-icon">
-                    <i class="fas fa-trophy"></i>
-                </div>
-                <h2>تهانينا! لقد أكملت الاختبار</h2>
-                <div class="score" id="finalScore">18/25</div>
-                <div class="results-message" id="resultsMessage">
-                    أداء جيد! لديك معرفة قوية في هذا المجال، لكن لا تزال هناك بعض النقاط التي تحتاج إلى تحسين.
-                </div>
-                <div class="performance-chart" id="performanceChart">
-                    <!-- سيتم ملؤها ديناميكياً من JavaScript -->
-                </div>
-                <div class="quiz-actions">
-                    <button class="btn btn-secondary" id="reviewAnswers">
-                        <i class="fas fa-redo"></i> مراجعة الإجابات
-                    </button>
-                    <button class="btn btn-primary" id="newQuiz">
-                        <i class="fas fa-play"></i> اختبار جديد
-                    </button>
-                </div>
-            </div>
-        </div>
-    </section>
+            <section id="quiz-screen" class="screen hidden">
+                <div class="quiz-header-status">
+                    
+                    <div id="progress-bar-container">
+                        <div id="progress-bar-fill"></div>
+                    </div>
+                    
+                    <h2 id="quiz-title" class="section-title"></h2>
+                    
+                    <span id="timer-display" class="timer-display animated-slidein">20s</span> 
+                    
+                    <span id="question-counter" class="counter-badge animated-slidein">الوحدة 1 / 10</span>
 
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-column">
-                    <h3>عن المنصة</h3>
-                    <p>منصة تدريب متكاملة للجيولوجيين تهدف إلى تطوير المهارات والمعرفة في مختلف تخصصات الجيولوجيا من خلال اختبارات تفاعلية ومحتوى تعليمي متميز.</p>
                 </div>
-                <div class="footer-column">
-                    <h3>روابط سريعة</h3>
-                    <ul class="footer-links">
-                        <li><a href="#">الرئيسية</a></li>
-                        <li><a href="#">التدريب</a></li>
-                        <li><a href="#">المسابقات</a></li>
-                        <li><a href="#">المحتوى التعليمي</a></li>
-                        <li><a href="#">تواصل معنا</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h3>التخصصات</h3>
-                    <ul class="footer-links">
-                        <li><a href="#">الجيولوجيا الأساسية</a></li>
-                        <li><a href="#">الجيوكيمياء</a></li>
-                        <li><a href="#">الجيوفيزياء</a></li>
-                        <li><a href="#">الهيدروجيولوجيا</a></li>
-                        <li><a href="#">الجيولوجيا البترولية</a></li>
-                    </ul>
-                </div>
-                <div class="footer-column">
-                    <h3>اتصل بنا</h3>
-                    <ul class="footer-links">
-                        <li><i class="fas fa-envelope"></i> info@geologytrainer.com</li>
-                        <li><i class="fas fa-phone"></i> +966 123 456 789</li>
-                        <li><i class="fas fa-map-marker-alt"></i> الرياض، المملكة العربية السعودية</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="copyright">
-                <p>جميع الحقوق محفوظة &copy; 2023 منصة جيولوجي للتدريب</p>
-            </div>
-        </div>
-    </footer>
 
-    <!-- Audio Elements for Sound Effects -->
-    <audio id="correctSound" preload="auto">
-        <source src="https://assets.mixkit.co/sfx/preview/mixkit-correct-answer-tone-2870.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="wrongSound" preload="auto">
-        <source src="https://assets.mixkit.co/sfx/preview/mixkit-wrong-answer-fail-notification-946.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="clickSound" preload="auto">
-        <source src="https://assets.mixkit.co/sfx/preview/mixkit-select-click-1109.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="completeSound" preload="auto">
-        <source src="https://assets.mixkit.co/sfx/preview/mixkit-achievement-bell-600.mp3" type="audio/mpeg">
-    </audio>
+                <div id="question-container" class="data-module quiz-card"></div>
+                
+                <div id="controls" class="controls-bar">
+                    <button id="submit-btn" class="control-btn primary neon-edge" disabled>تأكيد الإجابة <i class="fas fa-terminal"></i></button>
+                    <button id="next-btn" class="control-btn secondary hidden"><i class="fas fa-arrow-right"></i> تجاوز</button>
+                </div>
+            </section>
 
+            <section id="results-screen" class="screen hidden">
+                <h2 class="section-title result-title animated-fade"><i class="fas fa-chart-line"></i> تقرير تحليل الأداء</h2>
+                
+                <div class="data-module summary-card">
+                    <h3>ملخص البروتوكول</h3>
+                    <div class="score-display">
+                        <span id="final-score" class="score-number">0</span> / <span id="total-questions-count">0</span>
+                    </div>
+                    <div id="grade-message" class="grade-message-text"></div>
+                </div>
+
+                <div id="review-area" class="review-log data-module">
+                    <h3>فحص الأخطاء:</h3>
+                </div>
+                <button onclick="window.location.reload()" class="control-btn primary large-btn neon-edge"><i class="fas fa-redo-alt"></i> إعادة تشغيل النظام</button>
+            </section>
+        </main>
+    </div>
+    
     <script src="script.js"></script>
 </body>
 </html>
