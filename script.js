@@ -1,16 +1,14 @@
-// =======================================================
-// 1. المتغيرات العالمية والإعدادات
-// =======================================================
-let geologicalData = {};
+// **=================================================**
+// ** ملف: script.js (المنطق النهائي والمصحح لـ 25 سؤال) **
+// **=================================================**
+
+// [1] المتغيرات العالمية والتحكم
+let geologicalData = {}; 
 let currentQuestions = [];
 let currentQuestionIndex = 0;
 let score = 0;
 let userAnswers = {};
 let timerInterval;
-let correctAnswersCount = 0;
-let wrongAnswersCount = 0;
-let quizStartTime;
-
 const TIME_LIMIT = 20;
 const POINTS_CORRECT = 5;
 const POINTS_WRONG = -3;
@@ -21,9 +19,6 @@ let totalQuizzesCompleted = parseInt(localStorage.getItem('totalQuizzes')) || 0;
 let totalScoresSum = parseInt(localStorage.getItem('totalScores')) || 0;
 let currentTheme = localStorage.getItem('theme') || 'dark';
 
-// =======================================================
-// 2. نظام الترجمة المتعدد اللغات
-// =======================================================
 const translations = {
     'ar': {
         'start_quiz': 'بدء الاتصال بالنظام', 'choose_domain': 'اختر مجال الاختبار:', 'question': 'السؤال',
@@ -37,7 +32,7 @@ const translations = {
         'all_correct': '🎉 ممتاز! لا توجد أخطاء لمراجعتها.', 'loading': '... تحليل بيانات النظام', 'unit': 'وحدة'
     },
     'en': {
-        'start_quiz': 'Start System Connection', 'choose_domain': 'Select Training Unit:', 'question': 'Question',
+        'start_quiz': 'Initiate System Connection', 'choose_domain': 'Select Training Unit:', 'question': 'Question',
         'submit': 'Confirm Answer', 'next': 'Next Question', 'skip': 'Skip', 'review_errors': 'Review Errors:',
         'your_answer': 'Your Answer:', 'correct_answer': 'Correct:', 'great_job': '🌟 Exceptional performance! Strong geological knowledge.',
         'good_job': '✨ Very good! Solid foundation, but room for review.', 'needs_review': '⚠️ Requires intensive review of these concepts.',
@@ -49,7 +44,7 @@ const translations = {
     },
     'fr': {
         'start_quiz': 'Connexion Système', 'choose_domain': 'Sélectionner Unité:', 'question': 'Question',
-        'submit': 'Confirmer', 'next': 'Question Suivante', 'skip': 'Passer', 'review_errors': 'Analyse d\'Erreur:',
+        'submit': 'Confirmer', 'next': 'Passer', 'skip': 'Passer', 'review_errors': 'Analyse d\'Erreur:',
         'your_answer': 'Votre Réponse:', 'correct_answer': 'Correcte:', 'great_job': '🌟 Performance exceptionnelle! Solides connaissances.',
         'good_job': '✨ Très bien! Base solide, mais il y a place à l\'amélioration.', 'needs_review': '⚠️ Nécessite une révision intensive.',
         'new_quiz': 'Redémarrer le Système', 'share_results': 'Partager les Résultats', 'timer_text': 's', 'points': 'Points:',
@@ -115,92 +110,7 @@ function showNotification(message, type = 'info') {
 }
 
 // =======================================================
-// 5. خلفية الجزيئات المتحركة (Particles Canvas)
-// =======================================================
-function initParticles() {
-    const canvas = document.getElementById('particles-canvas');
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    
-    const particles = [];
-    const particleCount = 80;
-    
-    class Particle {
-        constructor() {
-            this.x = Math.random() * canvas.width;
-            this.y = Math.random() * canvas.height;
-            this.size = Math.random() * 2 + 1;
-            this.speedX = Math.random() * 0.5 - 0.25;
-            this.speedY = Math.random() * 0.5 - 0.25;
-            this.opacity = Math.random() * 0.5 + 0.2;
-        }
-        
-        update() {
-            this.x += this.speedX;
-            this.y += this.speedY;
-            
-            if (this.x > canvas.width) this.x = 0;
-            if (this.x < 0) this.x = canvas.width;
-            if (this.y > canvas.height) this.y = 0;
-            if (this.y < 0) this.y = canvas.height;
-        }
-        
-        draw() {
-            ctx.fillStyle = `rgba(0, 217, 255, ${this.opacity})`;
-            ctx.beginPath();
-            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-            ctx.fill();
-        }
-    }
-    
-    for (let i = 0; i < particleCount; i++) {
-        particles.push(new Particle());
-    }
-    
-    function connectParticles() {
-        for (let i = 0; i < particles.length; i++) {
-            for (let j = i + 1; j < particles.length; j++) {
-                const dx = particles[i].x - particles[j].x;
-                const dy = particles[i].y - particles[j].y;
-                const distance = Math.sqrt(dx * dx + dy * dy);
-                
-                if (distance < 150) {
-                    ctx.strokeStyle = `rgba(0, 217, 255, ${0.2 * (1 - distance / 150)})`;
-                    ctx.lineWidth = 0.5;
-                    ctx.beginPath();
-                    ctx.moveTo(particles[i].x, particles[i].y);
-                    ctx.lineTo(particles[j].x, particles[j].y);
-                    ctx.stroke();
-                }
-            }
-        }
-    }
-    
-    function animate() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        
-        particles.forEach(particle => {
-            particle.update();
-            particle.draw();
-        });
-        
-        connectParticles();
-        requestAnimationFrame(animate);
-    }
-    
-    animate();
-    
-    window.addEventListener('resize', () => {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-    });
-}
-
-// =======================================================
-// 6. نظام المؤقت المتقدم
+// 5. نظام المؤقت المتقدم
 // =======================================================
 function startTimer() {
     clearInterval(timerInterval);
@@ -260,8 +170,7 @@ function handleTimeout() {
     
     document.getElementById('submit-btn').classList.add('hidden');
     document.getElementById('next-btn').classList.remove('hidden');
-    document.getElementById('skip-btn').classList.add('hidden'); // إخفاء زر التخطي
-
+    document.getElementById('skip-btn').classList.add('hidden');
     
     setTimeout(() => {
         currentQuestionIndex++;
@@ -291,7 +200,7 @@ function translateUI(langCode) {
     
     // تحديث شاشة الاختبار إذا كانت مفتوحة
     if (!document.getElementById('quiz-screen').classList.contains('hidden')) {
-        document.querySelector('#question-counter').innerHTML = `<i class="fas fa-list-ol"></i> ${t.question} ${currentQuestionIndex + 1} / ${currentQuestions.length}`;
+        document.querySelector('#question-counter').innerHTML = `<i class="fas fa-list-ol"></i> ${t.unit} ${currentQuestionIndex + 1} / ${currentQuestions.length}`;
         document.querySelector('.timer-unit').textContent = t.timer_text;
         document.querySelector('.review-log h3').innerHTML = `<i class="fas fa-bug"></i> ${t.review_errors}`;
     }
@@ -337,7 +246,7 @@ function updateSidebarStats() {
 document.getElementById('open-sidebar-btn').addEventListener('click', () => {
     document.getElementById('sidebar').classList.add('open');
     document.getElementById('overlay').style.display = 'block';
-    clearInterval(timerInterval); // **إيقاف المؤقت**
+    clearInterval(timerInterval); // **إيقاف المؤقت عند فتح القائمة**
 });
 
 document.getElementById('close-sidebar-btn').addEventListener('click', closeSidebar);
@@ -432,7 +341,7 @@ function initializeTopicSelection(data) {
 function startQuiz(topicTitle, questions) {
     clearInterval(timerInterval);
     
-    // **التعديل هنا:** إزالة .slice(0, 10) للاحتفاظ بجميع الأسئلة (25 سؤالاً)
+    // **التعديل هنا:** تحميل كل الـ 25 سؤالاً
     currentQuestions = shuffleArray([...questions]);
     
     currentQuestionIndex = 0;
@@ -704,6 +613,7 @@ function showResults() {
 // 20. رسم الدائرة المتحركة للنقاط
 // =======================================================
 function animateScoreCircle(percentage) {
+    const svg = document.querySelector('.progress-ring');
     const circle = document.querySelector('.progress-ring-fill');
     if (!circle) return;
     const radius = circle.r.baseVal.value;
