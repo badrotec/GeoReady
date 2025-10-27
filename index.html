@@ -35,11 +35,22 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="container">
-            <h1>منصة تدريب الجيولوجيين المتكاملة</h1>
-            <p>طور مهاراتك في الجيولوجيا من خلال اختبارات تفاعلية تغطي جميع التخصصات الجيولوجية مع نظام متعدد اللغات</p>
-            <a href="#" class="cta-button" id="startTraining">
-                <i class="fas fa-play-circle"></i> ابدأ التدريب الآن
-            </a>
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>منصة تدريب الجيولوجيين المتكاملة</h1>
+                    <p>طور مهاراتك في الجيولوجيا من خلال اختبارات تفاعلية تغطي جميع التخصصات الجيولوجية مع نظام متعدد اللغات</p>
+                    <a href="#" class="cta-button" id="startTraining">
+                        <i class="fas fa-play-circle"></i> ابدأ التدريب الآن
+                    </a>
+                </div>
+                <div class="hero-animation">
+                    <div class="floating-rocks">
+                        <div class="rock rock-1"><i class="fas fa-gem"></i></div>
+                        <div class="rock rock-2"><i class="fas fa-mountain"></i></div>
+                        <div class="rock rock-3"><i class="fas fa-tint"></i></div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -73,6 +84,17 @@
                 <div class="options-container" id="optionsContainer">
                     <!-- سيتم ملؤها ديناميكياً من JavaScript -->
                 </div>
+                
+                <!-- قسم الاقتراحات الذكية -->
+                <div class="suggestions-section" id="suggestionsSection">
+                    <div class="suggestions-header">
+                        <i class="fas fa-lightbulb"></i>
+                        <h3>اقتراحات ذكية</h3>
+                    </div>
+                    <div class="suggestions-content" id="suggestionsContent">
+                        <!-- سيتم ملؤها ديناميكياً من JavaScript -->
+                    </div>
+                </div>
             </div>
             
             <div class="quiz-actions">
@@ -100,6 +122,9 @@
                 <div class="score" id="finalScore">18/25</div>
                 <div class="results-message" id="resultsMessage">
                     أداء جيد! لديك معرفة قوية في هذا المجال، لكن لا تزال هناك بعض النقاط التي تحتاج إلى تحسين.
+                </div>
+                <div class="performance-chart" id="performanceChart">
+                    <!-- سيتم ملؤها ديناميكياً من JavaScript -->
                 </div>
                 <div class="quiz-actions">
                     <button class="btn btn-secondary" id="reviewAnswers">
