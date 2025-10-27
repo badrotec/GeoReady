@@ -1,127 +1,58 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Geo-Master Quiz Hub (V2.0)</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Geo-Master Quiz Hub V2.0</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
-  <!-- SIDEBAR -->
-  <aside id="sidebar" class="sidebar" aria-hidden="true">
-    <button id="close-sidebar-btn" class="icon-btn" aria-label="Close sidebar"><i class="fas fa-times"></i></button>
-    <div class="brand">
-      <div class="logo">🌍</div>
-      <h1>Geo-Master</h1>
-      <p class="muted">Quiz Hub · V2.0</p>
+  <header>
+    <div class="logo">
+      <span class="icon">🌍</span>
+      <h1>Geo-Master Quiz Hub</h1>
     </div>
-
-    <nav class="sidebar-section">
-      <h4>المجالات</h4>
-      <div id="sidebar-topics-list" class="sidebar-list"></div>
-    </nav>
-
-    <nav class="sidebar-section">
-      <h4>اللغة</h4>
-      <div class="lang-row">
-        <button class="lang-btn active" data-lang="ar">العربية</button>
-        <button class="lang-btn" data-lang="en">English</button>
-        <button class="lang-btn" data-lang="fr">Français</button>
-      </div>
-    </nav>
-
-    <div class="sidebar-foot">
-      <small class="muted">تم التصميم لواجهة تعليمية تفاعلية</small>
-    </div>
-  </aside>
-
-  <div id="overlay" class="overlay" hidden></div>
-
-  <!-- HEADER -->
-  <header class="topbar">
-    <div class="left">
-      <button id="open-sidebar-btn" class="icon-btn" aria-label="Open menu"><i class="fas fa-bars"></i></button>
-      <h2 id="appTitle">Geo-Master Quiz Hub</h2>
-    </div>
-    <div class="right meta">
-      <div class="score-pill"><i class="fas fa-star"></i> <span id="mini-score">0</span></div>
-      <div class="progress-ring" aria-hidden="true">
-        <svg viewBox="0 0 36 36"><path class="bg" d="M18 2a16 16 0 1 0 0 32a16 16 0 1 0 0-32"></path><path id="ring" class="fg" d=""></path></svg>
-      </div>
+    <div class="score-container">
+      <span id="score">0</span>
+      <span class="star">⭐</span>
     </div>
   </header>
 
-  <!-- MAIN: screens -->
-  <main class="main">
+  <main id="main-content">
+    <section id="home" class="active">
+      <h2>جاهز ✅ اختر المجال الذي تريد اختباره</h2>
+      <div id="categories" class="category-list"></div>
+      <button id="start-btn" disabled>ابدأ الاختبار 🚀</button>
+      <p class="note">تأكّد من وجود ملف <b>Question.json</b> في نفس المجلد.</p>
 
-    <!-- START / TOPIC SELECTION -->
-    <section id="topic-selection" class="screen active">
-      <div class="panel center">
-        <h1 id="loading-message">... جاري تحميل بيانات النظام</h1>
-        <p class="muted small">الأسئلة تُحمّل من ملف Question.json — تأكد من وجوده في نفس المجلد</p>
+      <div class="lang-switch">
+        <button data-lang="ar" class="active">العربية</button>
+        <button data-lang="en">English</button>
+        <button data-lang="fr">Français</button>
+      </div>
+    </section>
 
-        <div class="actions">
-          <button id="start-quiz-btn" class="btn primary">ابدأ الاختبار <i class="fas fa-rocket"></i></button>
-        </div>
-
-        <div id="topics-list-container" class="topics-wrap hidden">
-          <h3 id="topics-title">اختر مجال الاختبار</h3>
-          <div id="topics-list" class="topics-grid"></div>
+    <section id="quiz" class="hidden">
+      <div class="question-box">
+        <h3 id="question-text"></h3>
+        <div id="options"></div>
+        <div class="timer">
+          <div id="timer-bar"></div>
+          <span id="time-remaining">20s</span>
         </div>
       </div>
     </section>
 
-    <!-- QUIZ SCREEN -->
-    <section id="quiz-screen" class="screen hidden">
-      <div class="quiz-panel">
-        <div class="quiz-header">
-          <div>
-            <h3 id="quiz-title">اختبار: —</h3>
-            <div id="question-counter" class="muted">السؤال 0 / 0</div>
-          </div>
-          <div class="timer-compact">
-            <div id="timer-display" class="timer-text">20ث</div>
-            <div id="progress-bar" class="progress-bar"><div id="progress-bar-fill"></div></div>
-          </div>
-        </div>
-
-        <div id="question-container" class="question-area"></div>
-
-        <div class="controls-row">
-          <button id="submit-btn" class="btn primary" disabled>تأكيد الإجابة <i class="fas fa-check"></i></button>
-          <button id="next-btn" class="btn ghost hidden"><i class="fas fa-arrow-right"></i> السؤال التالي</button>
-        </div>
-      </div>
+    <section id="result" class="hidden">
+      <h2>النتيجة النهائية 🎯</h2>
+      <p id="final-score"></p>
+      <button id="retry-btn">🔄 إعادة المحاولة</button>
     </section>
-
-    <!-- RESULTS -->
-    <section id="results-screen" class="screen hidden">
-      <div class="panel center results-panel">
-        <h2 id="results-title">نتيجة الاختبار</h2>
-        <div class="final-stats">
-          <div class="stat">
-            <div class="stat-value" id="final-score">0</div>
-            <div class="muted">النقاط</div>
-          </div>
-          <div class="stat">
-            <div class="stat-value" id="total-questions-count">0</div>
-            <div class="muted">عدد الأسئلة</div>
-          </div>
-        </div>
-        <div id="grade-message" class="grade-message muted"></div>
-
-        <div id="review-area" class="review-area"></div>
-
-        <div class="actions">
-          <button id="restart-btn" class="btn primary large"><i class="fas fa-redo"></i> إعادة التشغيل</button>
-          <button id="home-btn" class="btn ghost large"><i class="fas fa-home"></i> العودة للصفحة الرئيسية</button>
-        </div>
-      </div>
-    </section>
-
   </main>
+
+  <footer>
+    <p>تم التصميم لواجهة تعليمية تفاعلية · Geo-Master 2025</p>
+  </footer>
 
   <script src="script.js"></script>
 </body>
