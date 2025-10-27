@@ -2,21 +2,18 @@
    1. المتغيرات والألوان (Professional Dark Mode)
    ======================================================= */
 :root {
-    --bg-main: #0d1117;          /* خلفية عميقة جداً (GitHub Dark) */
-    --bg-card: #161b22;          /* خلفية البطاقات (أغمق) */
-    --text-main: #c9d1d9;        /* لون نص مريح */
+    --bg-main: #0d1117;          
+    --bg-card: #161b22;          
+    --text-main: #c9d1d9;        
+    --accent-primary: #58a6ff;   
+    --accent-secondary: #8b949e; 
+    --correct-color: #3fb950;    
+    --incorrect-color: #f85149;  
     
-    --accent-primary: #58a6ff;   /* أزرق ساطع للتركيز والتفاعل */
-    --accent-secondary: #8b949e; /* رمادي هادئ للعناصر الثانوية */
-    --correct-color: #3fb950;    /* أخضر عميق */
-    --incorrect-color: #f85149;  /* أحمر إنذار */
-    
-    /* خصائص Glassmorphism المتقدمة */
     --glass-blur: blur(15px);
-    --glass-bg: rgba(30, 41, 59, 0.3); /* خلفية زجاجية معتمة قليلاً */
+    --glass-bg: rgba(30, 41, 59, 0.3); 
     --glass-border: 1px solid rgba(139, 148, 158, 0.1);
     
-    /* الظلال العميقة */
     --shadow-deep: 0 10px 40px rgba(0, 0, 0, 0.7);
     --shadow-light: 0 4px 10px rgba(0, 0, 0, 0.5);
     
@@ -34,7 +31,7 @@ body {
     line-height: 1.6;
     margin: 0;
     min-height: 100vh;
-    overflow-x: hidden;
+    overflow-x: hidden; /* **تأكد من وجود هذا لمنع التمرير الأفقي غير المرغوب فيه** */
     position: relative;
 }
 
@@ -70,7 +67,8 @@ body {
     width: var(--sidebar-width);
     position: fixed;
     top: 0;
-    right: calc(-1 * var(--sidebar-width));
+    /* **تصحيح: استخدام right: -300px لضمان الإخفاء السليم في RTL** */
+    right: calc(-1 * var(--sidebar-width)); 
     background-color: var(--bg-main); 
     box-shadow: var(--shadow-deep);
     z-index: 2000;
@@ -109,11 +107,17 @@ body {
 #lang-select { background-color: #1f2a38; color: var(--text-main); border: 1px solid #30363d; padding: 8px; border-radius: 6px; width: 100%; }
 
 /* =======================================================
-   4. بطاقات اختيار المواضيع (Glass Grid)
+   4. بطاقات اختيار المواضيع (Grid)
    ======================================================= */
-#app-container { max-width: 1100px; margin: 0 auto; padding: 30px 20px; }
+#app-container { 
+    max-width: 1100px; 
+    margin: 0 auto; 
+    padding: 30px 20px; 
+}
+
 .grid-container {
     display: grid;
+    /* **تصحيح Grid:** نستخدم عرضاً مرناً بدلاً من عمودين ثابتين في الوضع الافتراضي */
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 35px;
     margin-top: 40px;
@@ -132,6 +136,7 @@ body {
     position: relative;
     overflow: hidden;
     color: var(--accent-primary);
+    text-align: center; /* **إضافة: لضمان توسيط النص داخل البطاقة** */
 }
 .topic-card:hover { transform: translateY(-10px) scale(1.02); border-color: var(--accent-primary); }
 
@@ -172,7 +177,6 @@ body {
 .primary { background-color: var(--accent-primary); color: var(--bg-main); box-shadow: 0 5px 20px rgba(88, 166, 255, 0.5); }
 .primary:hover:not(:disabled) { transform: scale(1.05); }
 
-
 /* =======================================================
    6. شاشة النتائج المتقدمة
    ======================================================= */
@@ -189,33 +193,47 @@ body {
 
 @media (max-width: 650px) {
     
-    /* 1. تقليل حجم الخطوط والحشو */
+    /* 1. تقليل الحشو وعرض البطاقات (العرض الصافي) */
     .main-header { padding: 10px 15px; }
-    .app-title { font-size: 1.5em; }
+    .app-title { font-size: 1.4em; }
     .version-tag, .header-info { display: none; }
-    #app-container { padding: 10px; }
-    .section-title { font-size: 1.3em; }
-
-    /* 2. تصحيح تداخل خيارات الاختبار (الحل للصورة المرفقة) */
-    .glass-card { padding: 25px 15px; }
-
-    .question-text { font-size: 1.4em; }
-
-    /* **حل مشكلة تداخل الخيارات: إجبارها على العرض ككتلة واحدة** */
-    .options-container {
-        display: block; 
-    }
-    .option-label {
-        width: 100%; /* تأكد من العرض الكامل */
-        margin-bottom: 12px; 
-        font-size: 1em; 
-        padding: 15px;
+    #app-container { 
+        padding: 10px; 
+        /* **تصحيح: هذا يضمن أن الحاوية الداخلية لا تتجاوز عرض الشاشة** */
+        width: 100%; 
+        box-sizing: border-box; 
     }
     
-    /* 3. تصحيح الأزرار */
+    .section-title { font-size: 1.3em; }
+
+    /* 2. تصحيح مشكلة Grid لبطاقات المواضيع */
+    .grid-container {
+        /* إجبار Grid على عرض عمود واحد فقط على الهاتف */
+        grid-template-columns: 1fr; 
+        gap: 20px;
+    }
+    .topic-card {
+        width: 100%;
+        padding: 30px 20px;
+        box-sizing: border-box; /* **تصحيح: لضمان أن الحشو لا يزيد العرض الكلي** */
+    }
+
+    /* 3. تصحيح خيارات الاختبار (حل مشكلة التداخل) */
+    .glass-card { padding: 25px 15px; }
+    .question-text { font-size: 1.4em; }
+
+    .options-container { display: block; } /* إجبار الخيارات على العرض العمودي */
+    .option-label {
+        width: 100%; 
+        font-size: 1em; 
+        padding: 15px;
+        box-sizing: border-box;
+    }
+    
+    /* 4. تصحيح الأزرار */
     .controls-bar {
         justify-content: center;
-        flex-direction: column; /* الأزرار تحت بعضها البعض */
+        flex-direction: column;
         gap: 15px;
     }
     .control-btn {
@@ -223,10 +241,7 @@ body {
         padding: 12px 10px;
     }
 
-    /* 4. القائمة الجانبية (تغطية كامل الشاشة) */
+    /* 5. القائمة الجانبية (للتغطية الكاملة) */
     #sidebar { width: 100%; }
     #sidebar.open { width: 100%; right: 0; }
-    
-    .grid-container { gap: 20px; }
-    .topic-card { padding: 30px 20px; }
 }
