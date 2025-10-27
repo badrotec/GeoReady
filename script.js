@@ -1,3 +1,8 @@
+// **=================================================**
+// ** ملف: script.js (الكود النهائي)          **
+// **=================================================**
+
+// **البيانات الجيولوجية الكاملة المدمجة (7 مواضيع × 25 سؤال = 175 سؤال)**
 const geologicalData = {
   "الجيولوجيا_الأساسية": [
     { "id": 1, "question": "أي مما يلي يُعتبر من المعادن؟", "options": ["الكوارتز", "البازلت", "الجرانيت", "الحجر الجيري"], "answer": "الكوارتز" },
@@ -171,7 +176,7 @@ const geologicalData = {
     { "id": 7, "question": "الحجر الرملي يتكون أساسًا من؟", "options": ["الكوارتز", "الكالسيت", "الفلسبار", "الميكا"], "answer": "الكوارتز" },
     { "id": 8, "question": "الطين يتكون من معادن؟", "options": ["سيلكاتية دقيقة", "كربوناتية", "أكاسيد الحديد", "كبريتات"], "answer": "سيلكاتية دقيقة" },
     { "id": 9, "question": "الطبقات المائلة (Cross Bedding) تدل على؟", "options": ["بيئة ترسيب بحرية عميقة", "تيارات قوية", "تبخر عالٍ", "ضغط مرتفع"], "answer": "تيارات قوية" },
-    { "id": 10, "question": "أي من التالي ليس من الصخور الرسوبية؟", "options": ["الحجر الرملي", "البريشيا", "الجرانيت", "الطفل"], "answer": "الجرانيت" },
+    { "id": 10, "question": "أي من التالي ليس من أنواع الصخور الرسوبية؟", "options": ["الحجر الرملي", "البريشيا", "الجرانيت", "الطفل"], "answer": "الجرانيت" },
     { "id": 11, "question": "علامات التموج (Ripple Marks) تدل على؟", "options": ["تيارات ماء أو رياح", "ضغط عالي", "حرارة عالية", "فالق نشط"], "answer": "تيارات ماء أو رياح" },
     { "id": 12, "question": "وجود حفريات في الصخور يعني أنها؟", "options": ["نارية", "متحولة", "رسوبية", "غنية بالفلزات"], "answer": "رسوبية" },
     { "id": 13, "question": "ما الذي يحدد حجم الحبيبات في الرواسب؟", "options": ["نوع الصخر الأم", "سرعة الوسط الناقل", "درجة الحرارة", "الضغط"], "answer": "سرعة الوسط الناقل" },
@@ -191,13 +196,16 @@ const geologicalData = {
 };
 
 
-// المتغيرات العامة لإدارة حالة الاختبار
+// **=================================================**
+// ** المتغيرات العامة ومنطق التحكم               **
+// **=================================================**
+
 let currentQuestions = [];
 let currentQuestionIndex = 0;
 let score = 0;
 let userAnswers = {};
 
-// ---------------------- الدوال الأساسية للواجهة ----------------------
+// ---------------------- 1. دوال التحكم في الواجهة ----------------------
 
 // التحكم في القائمة الجانبية
 document.getElementById('open-sidebar-btn').addEventListener('click', () => {
@@ -210,35 +218,39 @@ document.getElementById('close-sidebar-btn').addEventListener('click', () => {
     document.getElementById('overlay').style.display = 'none';
 });
 
+// دالة وهمية لتغيير اللغة (للتطوير المستقبلي)
 function changeLanguage(langCode) {
     console.log(`Language changed to: ${langCode}`);
     alert(`تغيير اللغة إلى ${langCode} يتطلب تفعيل ملفات الترجمة.`);
 }
 
-// ---------------------- 1. إنشاء واجهة اختيار المواضيع ----------------------
+// ---------------------- 2. تهيئة واجهة المواضيع ----------------------
 
 function initializeTopicSelection(data) {
-    const topicsGrid = document.getElementById('topics-grid');
+    // تم التعديل إلى topics-list ليتوافق مع الـ Mobile-First CSS
+    const topicsList = document.getElementById('topics-list'); 
     const sidebarList = document.getElementById('sidebar-topics-list');
     const loadingMessage = document.getElementById('loading-message');
 
     if (loadingMessage) loadingMessage.classList.add('hidden');
-    topicsGrid.innerHTML = '';
+    topicsList.innerHTML = '';
     sidebarList.innerHTML = '';
 
     Object.keys(data).forEach(topic => {
-        // إنشاء بطاقة Grid (الواجهة الرئيسية)
+        const topicDisplayName = topic.replace(/_/g, ' '); // تحويل المفتاح إلى نص للقراءة
+
+        // إنشاء بطاقة الواجهة الرئيسية (Mobile List)
         const gridCard = document.createElement('div');
         gridCard.className = 'topic-card';
-        gridCard.textContent = topic.replace(/_/g, ' '); // تحويل "الجيولوجيا_الأساسية" إلى "الجيولوجيا الأساسية"
+        gridCard.textContent = topicDisplayName;
         
-        // إنشاء رابط Sidebar
+        // إنشاء رابط القائمة الجانبية
         const sidebarLink = document.createElement('a');
         sidebarLink.href = "#";
-        sidebarLink.textContent = topic.replace(/_/g, ' ');
+        sidebarLink.textContent = topicDisplayName;
         
         const startQuizHandler = () => {
-            startQuiz(topic.replace(/_/g, ' '), data[topic]);
+            startQuiz(topicDisplayName, data[topic]);
             document.getElementById('sidebar').classList.remove('open'); 
             document.getElementById('overlay').style.display = 'none';
         };
@@ -246,12 +258,12 @@ function initializeTopicSelection(data) {
         gridCard.addEventListener('click', startQuizHandler);
         sidebarLink.addEventListener('click', startQuizHandler);
         
-        topicsGrid.appendChild(gridCard);
+        topicsList.appendChild(gridCard);
         sidebarList.appendChild(sidebarLink); 
     });
 }
 
-// ---------------------- 2. بدء الاختبار وعزل الأسئلة ----------------------
+// ---------------------- 3. منطق الاختبار ----------------------
 
 function startQuiz(topicTitle, questions) {
     currentQuestions = questions;
@@ -265,8 +277,6 @@ function startQuiz(topicTitle, questions) {
 
     displayQuestion();
 }
-
-// ---------------------- 3. عرض السؤال الحالي ----------------------
 
 function displayQuestion() {
     const qContainer = document.getElementById('question-container');
@@ -307,7 +317,7 @@ function displayQuestion() {
     });
 }
 
-// ---------------------- 4. معالجة الإجابة والتغذية الراجعة ----------------------
+// ---------------------- 4. معالجة الإجابة ----------------------
 
 document.getElementById('submit-btn').addEventListener('click', () => {
     const selectedOption = document.querySelector('input[name="option"]:checked');
@@ -348,7 +358,7 @@ document.getElementById('next-btn').addEventListener('click', () => {
     displayQuestion();
 });
 
-// ---------------------- 5. عرض النتائج النهائية ----------------------
+// ---------------------- 5. عرض النتائج ----------------------
 
 function showResults() {
     document.getElementById('quiz-screen').classList.add('hidden');
@@ -360,6 +370,7 @@ function showResults() {
     const percentage = (score / currentQuestions.length) * 100;
     const gradeMessage = document.getElementById('grade-message');
     
+    // تحديد رسالة التقييم بناءً على النسبة
     if (percentage >= 90) {
         gradeMessage.innerHTML = '🌟 أداء استثنائي! معرفة جيولوجية قوية.';
         gradeMessage.style.color = 'var(--correct-color)';
