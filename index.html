@@ -1,133 +1,85 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Geo-Master Quiz Hub (V2.0)</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Geo-Master Quiz Hub (V2.0)</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
-  <aside id="sidebar" class="sidebar">
-    <div class="brand">
-      <h1>Geo-Master</h1>
-      <p class="subtitle">Quiz Hub V2.0</p>
+
+<!-- ===================== الشريط الجانبي ===================== -->
+<div id="sidebar" class="sidebar">
+  <button id="close-sidebar-btn" class="close-btn"><i class="fas fa-times"></i></button>
+  <h2>🌍 Geo-Master</h2>
+  <h3>المجالات</h3>
+  <div id="sidebar-topics-list"></div>
+
+  <h3>اللغات</h3>
+  <div class="lang-switch">
+    <button onclick="changeLanguage('ar')">العربية</button>
+    <button onclick="changeLanguage('en')">English</button>
+    <button onclick="changeLanguage('fr')">Français</button>
+  </div>
+</div>
+<div id="overlay" class="overlay"></div>
+
+<!-- ===================== رأس الصفحة ===================== -->
+<header>
+  <button id="open-sidebar-btn" class="menu-btn"><i class="fas fa-bars"></i></button>
+  <h1>Geo-Master Quiz Hub</h1>
+</header>
+
+<!-- ===================== واجهة البداية ===================== -->
+<main id="topic-selection" class="screen active">
+  <div class="center">
+    <h2 id="loading-message">جاري تحميل البيانات ...</h2>
+    <button id="start-quiz-btn" class="primary-btn">
+      ابدأ الاختبار <i class="fas fa-satellite-dish"></i>
+    </button>
+
+    <div id="topics-list-container" class="hidden">
+      <h3>اختر مجال الاختبار:</h3>
+      <div id="topics-list" class="topics-grid"></div>
     </div>
+  </div>
+</main>
 
-    <nav class="menu">
-      <button data-action="start" class="btn-primary wide">ابدأ الاختبار</button>
-      <div class="section">
-        <h4>المجالات</h4>
-        <select id="domainSelect" class="select">
-          <option value="all">كل المجالات</option>
-        </select>
-      </div>
+<!-- ===================== شاشة الاختبار ===================== -->
+<section id="quiz-screen" class="screen hidden">
+  <div class="quiz-header">
+    <h2 id="quiz-title">اختبار:</h2>
+    <div class="timer-box">
+      <span id="timer-display">20ث</span>
+      <div id="progress-bar"><div id="progress-bar-fill"></div></div>
+    </div>
+    <div id="question-counter"></div>
+  </div>
 
-      <div class="section">
-        <h4>اللغة</h4>
-        <div class="lang-switch">
-          <button class="lang-btn active" data-lang="ar">العربية</button>
-          <button class="lang-btn" data-lang="en">English</button>
-          <button class="lang-btn" data-lang="fr">Français</button>
-        </div>
-      </div>
+  <div id="question-container" class="question-container"></div>
 
-      <div class="section small info-block">
-        <p id="scoreMini">النقاط: 0</p>
-        <p id="qIndexMini">السؤال: 0 / 0</p>
-      </div>
+  <div class="quiz-controls">
+    <button id="submit-btn" class="primary-btn">تأكيد الإجابة <i class="fas fa-terminal"></i></button>
+    <button id="next-btn" class="secondary-btn hidden"><i class="fas fa-arrow-right"></i> السؤال التالي</button>
+  </div>
+</section>
 
-      <div style="flex:1"></div>
+<!-- ===================== شاشة النتائج ===================== -->
+<section id="results-screen" class="screen hidden">
+  <div class="results-box">
+    <h2>نتائجك النهائية</h2>
+    <div class="score-panel">
+      <span>النقاط: <strong id="final-score">0</strong></span>
+      <span>عدد الأسئلة: <strong id="total-questions-count">0</strong></span>
+    </div>
+    <p id="grade-message" class="grade-message"></p>
+    <div id="review-area" class="review-log"></div>
 
-      <div class="footer-note">
-        <small>Geo-Master • تصميم عصري وتفاعلي</small>
-      </div>
-    </nav>
-  </aside>
+    <button class="large-btn"><i class="fas fa-redo-alt"></i> إعادة تشغيل النظام</button>
+  </div>
+</section>
 
-  <main class="main">
-    <header class="topbar">
-      <div class="left">
-        <button id="menuToggle" class="icon-btn">≡</button>
-        <h2 id="pageTitle">Geo-Master Quiz</h2>
-      </div>
-      <div class="right meta">
-        <div class="timer" title="Countdown">
-          <svg viewBox="0 0 36 36" class="progress-ring" id="progressRing">
-            <path class="bg" d="M18 2a16 16 0 1 0 0 32a16 16 0 1 0 0-32" />
-            <path class="fg" id="progressPath" d="" />
-          </svg>
-          <span id="timerTxt">20s</span>
-        </div>
-        <div class="score-display">
-          <span id="score">0</span>
-          <small id="scoreLabel">نقطة</small>
-        </div>
-      </div>
-    </header>
-
-    <section class="content">
-      <div id="startPanel" class="card center">
-        <h3 id="welcomeTitle">مرحبًا في Geo-Master Quiz Hub</h3>
-        <p id="welcomeDesc">اختبر معارفك في الجيولوجيا — 175 سؤالاً موزعة على 7 مجالات. كل سؤال: 20 ثانية.</p>
-        <div class="start-controls">
-          <label class="opt inline">عدد الأسئلة:
-            <select id="numQuestions">
-              <option value="10">10</option>
-              <option value="20" selected>20</option>
-              <option value="30">30</option>
-              <option value="all">كل الأسئلة</option>
-            </select>
-          </label>
-          <button id="beginBtn" class="btn-primary">ابدأ الآن</button>
-        </div>
-      </div>
-
-      <div id="quizPanel" class="hidden">
-        <div class="card question-card">
-          <div class="q-header">
-            <div class="q-info">
-              <div id="domainTag" class="tag">General</div>
-              <h3 id="questionText">سؤال تجريبي: ما هو اسم الصخور؟</h3>
-            </div>
-            <div class="q-meta">
-              <div id="qIndex">1 / 20</div>
-            </div>
-          </div>
-
-          <div id="options" class="options">
-            <!-- خيارات تُضاف هنا ديناميكياً -->
-          </div>
-
-          <div class="controls">
-            <button id="skipBtn" class="btn-ghost">تخطي</button>
-            <button id="nextBtn" class="btn-primary disabled">التالي</button>
-          </div>
-
-          <div class="progressbar-wrap">
-            <div id="timeBar" class="timebar"></div>
-          </div>
-        </div>
-      </div>
-
-      <div id="resultPanel" class="hidden center">
-        <div class="card result-card">
-          <h2 id="resultTitle">نتيجتك</h2>
-          <p id="resultSummary">—</p>
-          <div class="result-stats">
-            <p><strong id="finalScore">0</strong> <span id="finalScoreLabel">نقطة</span></p>
-            <p><span id="correctCount">0</span> إجابات صحيحة / <span id="wrongCount">0</span> خاطئة</p>
-          </div>
-          <div class="result-actions">
-            <button id="retryBtn" class="btn-primary">إعادة الاختبار</button>
-            <button id="backHomeBtn" class="btn-ghost">العودة للصفحة الرئيسية</button>
-          </div>
-        </div>
-      </div>
-
-    </section>
-  </main>
-
-  <script src="script.js" defer></script>
+<script src="script.js"></script>
 </body>
 </html>
