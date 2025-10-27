@@ -81,7 +81,9 @@ async function loadGeologyData() {
 
     } catch (error) {
         console.error("فشل في تحميل بيانات الجيولوجيا:", error);
-        loadingMessage.textContent = `[خطأ الاتصال] عذراً، لا يمكن تحميل البيانات. يرجى التحقق من ملف Question.json.`;
+        loadingMessage.textContent = `[خطأ الاتصال] عذراً، لا يمكن تحميل البيانات.`;
+        // لضمان عرض رسالة الخطأ في حالة فشل التحميل
+        if (loadingMessage) loadingMessage.classList.remove('hidden'); 
         document.getElementById('start-quiz-btn').disabled = true;
     }
 }
@@ -94,10 +96,11 @@ function startTimer() {
     const timerDisplay = document.getElementById('timer-display');
     const progressBar = document.getElementById('progress-bar-fill');
     const t = translations[currentLanguage];
-
+    
+    // إعادة تعيين لون المؤقت
+    timerDisplay.style.color = 'var(--neon-blue)';
     progressBar.style.width = '100%';
     timerDisplay.textContent = `${timeRemaining}${t.timer_text}`;
-    timerDisplay.style.color = 'var(--neon-blue)'; // إعادة اللون في كل مرة
 
     timerInterval = setInterval(() => {
         timeRemaining--;
@@ -121,34 +124,38 @@ function startTimer() {
 }
 
 function handleTimeout() {
-    clearInterval(timerInterval); // التأكد من إيقافه
+    clearInterval(timerInterval); // التأكد من الإيقاف الفوري
+    
     const t = translations[currentLanguage];
     const currentQ = currentQuestions[currentQuestionIndex];
     
-    // تسجيل الإجابة كـ "Timeout"
+    // العقوبة
+    score += POINTS_WRONG; 
+    
+    // تسجيل الإجابة
     userAnswers[currentQ.id || currentQuestionIndex] = {
         question: currentQ.question,
-        userAnswer: `(Timeout)`, // تعديل ليصبح (Timeout) فقط
+        // تعديل لعرض حالة "Timeout" بشكل أوضح في المراجعة
+        userAnswer: `(Timeout - لم يتم الإجابة)`,
         correctAnswer: currentQ.answer,
         isCorrect: false,
     };
     
-    // إضافة العقوبة في score
-    score += POINTS_WRONG; 
-    
+    // عرض الإجابة الصحيحة للمستخدم
     document.querySelectorAll('.option-label').forEach(label => {
         label.querySelector('input').disabled = true;
+        // إضافة الفئة incorrect للكل لإظهار عدم الإجابة
+        label.classList.add('incorrect'); 
         if (label.querySelector('input').value === currentQ.answer) {
+            label.classList.remove('incorrect'); // إزالة السمة الخاطئة
             label.classList.add('correct'); 
         }
-        // إضافة الفئة incorrect للخيارات لكي تظهر النتيجة فوراً
-        label.classList.add('incorrect'); 
     });
 
     document.getElementById('submit-btn').classList.add('hidden');
     document.getElementById('next-btn').classList.remove('hidden');
     
-    // الانتقال بعد مهلة بسيطة
+    // الانتقال بعد مهلة بصرية
     setTimeout(() => {
         currentQuestionIndex++;
         displayQuestion();
@@ -160,11 +167,16 @@ function translateUI(langCode) {
     currentLanguage = langCode;
     const t = translations[langCode] || translations['ar'];
 
-    document.getElementById('start-quiz-btn').innerHTML = `${t.start_quiz} <i class="fas fa-satellite-dish"></i>`;
-    document.getElementById('submit-btn').innerHTML = `${t.submit} <i class="fas fa-terminal"></i>`;
-    document.getElementById('next-btn').innerHTML = `<i class="fas fa-arrow-right"></i> ${t.next}`;
-    
     // التحقق من وجود العناصر قبل محاولة الوصول إليها
+    const startBtn = document.getElementById('start-quiz-btn');
+    if (startBtn) startBtn.innerHTML = `${t.start_quiz} <i class="fas fa-satellite-dish"></i>`;
+    
+    const submitBtn = document.getElementById('submit-btn');
+    if (submitBtn) submitBtn.innerHTML = `${t.submit} <i class="fas fa-terminal"></i>`;
+    
+    const nextBtn = document.getElementById('next-btn');
+    if (nextBtn) nextBtn.innerHTML = `<i class="fas fa-arrow-right"></i> ${t.next}`;
+    
     const topicsTitle = document.querySelector('#topics-list-container h3');
     if (topicsTitle) topicsTitle.textContent = t.choose_domain;
     
@@ -172,9 +184,14 @@ function translateUI(langCode) {
     if (resultsRestartBtn) resultsRestartBtn.innerHTML = `${t.new_quiz} <i class="fas fa-redo-alt"></i>`;
     
     if (!document.getElementById('quiz-screen').classList.contains('hidden')) {
-        document.getElementById('timer-display').textContent = `${TIME_LIMIT}${t.timer_text}`;
-        document.getElementById('question-counter').textContent = `${t.question} ${currentQuestionIndex + 1} / ${currentQuestions.length}`;
-        document.querySelector('.review-log h3').textContent = t.review_errors;
+        const timerDisplay = document.getElementById('timer-display');
+        if (timerDisplay) timerDisplay.textContent = `${TIME_LIMIT}${t.timer_text}`;
+        
+        const counter = document.getElementById('question-counter');
+        if (counter) counter.textContent = `${t.question} ${currentQuestionIndex + 1} / ${currentQuestions.length}`;
+        
+        const reviewTitle = document.querySelector('.review-log h3');
+        if (reviewTitle) reviewTitle.textContent = t.review_errors;
     }
 }
 
@@ -198,11 +215,14 @@ document.getElementById('close-sidebar-btn').addEventListener('click', () => {
 document.getElementById('start-quiz-btn').addEventListener('click', () => {
     document.getElementById('start-quiz-btn').classList.add('hidden');
     document.getElementById('topics-list-container').classList.remove('hidden');
+    // لضمان إخفاء رسالة التحميل بعد النقر
+    const loadingMessage = document.getElementById('loading-message');
+    if (loadingMessage) loadingMessage.classList.add('hidden');
 });
 
-// إضافة حدث زر "إعادة تشغيل النظام" (إصلاح النقطة 2)
-document.getElementById('restart-system-btn').addEventListener('click', () => {
-    window.location.reload(); // الطريقة الأبسط والأكثر فعالية
+// **إضافة معالج حدث زر "إعادة تشغيل النظام"**
+document.querySelector('#results-screen .large-btn').addEventListener('click', () => {
+    window.location.reload(); 
 });
 
 
@@ -233,12 +253,13 @@ function initializeTopicSelection(data) {
         };
         
         gridCard.addEventListener('click', startQuizHandler);
+        
+        // تعديل: يجب إنشاء عنصر قائمة (li) ليتناسب مع تصميم القائمة الجانبية
+        const listItem = document.createElement('li');
         sidebarLink.addEventListener('click', startQuizHandler);
+        listItem.appendChild(sidebarLink);
         
         topicsList.appendChild(gridCard);
-        
-        const listItem = document.createElement('li'); // إضافة عنصر قائمة لجعله أفضل
-        listItem.appendChild(sidebarLink);
         sidebarList.appendChild(listItem); 
     });
     
@@ -255,9 +276,9 @@ function startQuiz(topicTitle, questions) {
     score = 0;
     userAnswers = {};
 
-    document.getElementById('topics-list-container').classList.add('hidden'); // إخفاء قائمة المواضيع
-    document.getElementById('topic-selection').classList.add('hidden'); // يجب التأكد من ID هذا العنصر
-    document.getElementById('results-screen').classList.add('hidden'); // لإخفاء شاشة النتائج عند الإعادة
+    // **التعديل:** إخفاء الشاشات السابقة بشكل صحيح
+    document.getElementById('topics-list-container').classList.add('hidden'); 
+    document.getElementById('results-screen').classList.add('hidden');
     document.getElementById('quiz-screen').classList.remove('hidden');
     
     document.getElementById('quiz-title').textContent = `اختبار: ${topicTitle}`;
@@ -284,8 +305,8 @@ function displayQuestion() {
     htmlContent += '<div class="options-container">';
 
     currentQ.options.forEach((option, index) => {
-        // إضافة id فريد لكل خيار لتسهيل الوصول والتصميم
-        const optionId = `q${currentQuestionIndex}-opt${index}`; 
+        // إضافة id فريد للـ input والـ label لتحسين سهولة الوصول
+        const optionId = `q${currentQuestionIndex}-opt${index}`;
         htmlContent += `
             <label class="option-label" for="${optionId}">
                 <input type="radio" name="option" id="${optionId}" value="${option}">
@@ -360,26 +381,29 @@ function showResults() {
     document.getElementById('quiz-screen').classList.add('hidden');
     document.getElementById('results-screen').classList.remove('hidden');
 
-    // 🌟 الإصلاح الحاسم (النقطة 1): حساب النسبة المئوية بناءً على الإجابات الصحيحة
+    // **الإصلاح الحاسم:** حساب النسبة المئوية بناءً على الإجابات الصحيحة
     let correctCount = 0;
     Object.values(userAnswers).forEach(answer => {
         if (answer.isCorrect) {
             correctCount++;
         }
     });
-    
-    document.getElementById('final-score').textContent = score;
-    document.getElementById('total-questions-count').textContent = currentQuestions.length;
-    
-    const totalQuestions = currentQuestions.length || 1; // تجنب القسمة على صفر
-    const percentage = (correctCount / totalQuestions) * 100;
-    
-    // يمكنك عرض عدد الإجابات الصحيحة كإضافة
-    document.getElementById('correct-answers-count').textContent = correctCount; 
 
+    document.getElementById('final-score').textContent = score;
+    const totalQuestions = currentQuestions.length;
+    // يجب أن يكون لديك عنصر في HTML بهذا ID: total-questions-count
+    const totalQuestionsCountElement = document.getElementById('total-questions-count');
+    if (totalQuestionsCountElement) {
+        totalQuestionsCountElement.textContent = totalQuestions;
+    }
+    
+    const divisor = totalQuestions || 1; // تجنب القسمة على صفر
+    const percentage = (correctCount / divisor) * 100;
+    
     const gradeMessage = document.getElementById('grade-message');
     const t = translations[currentLanguage];
     
+    // التقييم بناءً على النسبة المئوية للإجابات الصحيحة
     if (percentage >= 90) {
         gradeMessage.innerHTML = t.great_job;
         gradeMessage.style.color = 'var(--correct-color)';
