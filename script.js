@@ -1,499 +1,378 @@
-// بيانات الاختبارات (سيتم تحميلها من ملف JSON)
-let quizData = {};
+// **=================================================**
+// ** ملف: script.js (المنطق النهائي) - يحتاج Question.json **
+// **=================================================**
 
-// متغيرات التطبيق
-let currentCategory = '';
+// [1] المتغيرات العالمية والتحكم
+let geologicalData = {}; 
 let currentQuestions = [];
 let currentQuestionIndex = 0;
-let userAnswers = [];
 let score = 0;
-let language = 'ar';
+let userAnswers = {};
+let timerInterval;
+const TIME_LIMIT = 20;
+const POINTS_CORRECT = 5;
+const POINTS_WRONG = -3;
+let currentLanguage = 'ar';
 
-// عناصر DOM
-const categoriesSection = document.getElementById('categoriesSection');
-const quizSection = document.getElementById('quizSection');
-const resultsSection = document.getElementById('resultsSection');
-const categoriesGrid = document.getElementById('categoriesGrid');
-const quizCategoryTitle = document.getElementById('quizCategoryTitle');
-const questionText = document.getElementById('questionText');
-const optionsContainer = document.getElementById('optionsContainer');
-const currentQuestionElement = document.getElementById('currentQuestion');
-const totalQuestionsElement = document.getElementById('totalQuestions');
-const quizProgress = document.getElementById('quizProgress');
-const prevQuestionButton = document.getElementById('prevQuestion');
-const nextQuestionButton = document.getElementById('nextQuestion');
-const submitQuizButton = document.getElementById('submitQuiz');
-const finalScoreElement = document.getElementById('finalScore');
-const resultsMessageElement = document.getElementById('resultsMessage');
-const resultsCard = document.getElementById('resultsCard');
-const reviewAnswersButton = document.getElementById('reviewAnswers');
-const newQuizButton = document.getElementById('newQuiz');
-const startTrainingButton = document.getElementById('startTraining');
-const langButtons = document.querySelectorAll('.lang-btn');
-const suggestionsSection = document.getElementById('suggestionsSection');
-const suggestionsContent = document.getElementById('suggestionsContent');
-const performanceChart = document.getElementById('performanceChart');
-
-// أصوات التفاعل
-const correctSound = document.getElementById('correctSound');
-const wrongSound = document.getElementById('wrongSound');
-const clickSound = document.getElementById('clickSound');
-const completeSound = document.getElementById('completeSound');
-
-// قاعدة بيانات الاقتراحات الذكية
-const suggestionsDatabase = {
-    "الجيولوجيا_الأساسية": {
-        1: [
-            {
-                title: "تعريف المعدن",
-                content: "المعدن هو مادة صلبة طبيعية متجانسة لها تركيب كيميائي محدد وترتيب ذري منتظم. الكوارتز يمتلك هذه الخصائص بينما البازلت والجرانيت صخور والحجر الجيري صخر رسوبي.",
-                type: "تعريف"
-            },
-            {
-                title: "خصائص المعادن",
-                content: "المعادن تتميز بتركيب كيميائي ثابت وبناء بلوري منتظم. الكوارتز (SiO₂) هو معدن بينما البازلت والجرانيت صخور نارية مكونة من عدة معادن.",
-                type: "معلومة"
-            }
-        ],
-        2: [
-            {
-                title: "تركيب الكوارتز",
-                content: "الكوارتز يتكون أساساً من ثاني أكسيد السيليكون (SiO₂) حيث يشكل السيليكون والأكسجين المكونات الأساسية لهذا المعدن.",
-                type: "تركيب كيميائي"
-            },
-            {
-                title: "مجموعة السيليكات",
-                content: "الكوارتز ينتمي إلى مجموعة معادن السيليكات التي تشكل حوالي 90% من القشرة الأرضية، حيث يعتبر السيليكون العنصر الأساسي في تركيبها.",
-                type: "تصنيف"
-            }
-        ]
+const translations = {
+    'ar': {
+        'start_quiz': 'ابدأ الاختبار',
+        'choose_domain': 'اختر مجال الاختبار:',
+        'question': 'السؤال',
+        'submit': 'تأكيد الإجابة',
+        'next': 'السؤال التالي',
+        'review_errors': 'مراجعة الأخطاء المفاهيمية:',
+        'your_answer': 'إجابتك:',
+        'correct_answer': 'الصحيح:',
+        'great_job': '🌟 أداء استثنائي! معرفة جيولوجية قوية.',
+        'good_job': '✨ جيد جداً! أساس متين، لكن هناك مجال للمراجعة.',
+        'needs_review': '⚠️ تحتاج إلى مراجعة مكثفة لهذه المفاهيم.',
+        'new_quiz': 'إعادة تشغيل النظام',
+        'timer_text': 'ث'
     },
-    "الجيوكيمياء": {
-        1: [
-            {
-                title: "مجال الجيوكيمياء",
-                content: "الجيوكيمياء تدرس التوزيع والسلوك الكيميائي للعناصر في الأرض، بما في ذلك الصخور والمعادن والمياه والتربة.",
-                type: "تعريف"
-            }
-        ]
+    'en': {
+        'start_quiz': 'Start Quiz',
+        'choose_domain': 'Choose Quiz Domain:',
+        'question': 'Question',
+        'submit': 'Submit Answer',
+        'next': 'Next Question',
+        'review_errors': 'Review Conceptual Errors:',
+        'your_answer': 'Your Answer:',
+        'correct_answer': 'Correct:',
+        'great_job': '🌟 Exceptional performance! Strong geological knowledge.',
+        'good_job': '✨ Very good! Solid foundation, but room for review.',
+        'needs_review': '⚠️ Requires intensive review of these concepts.',
+        'new_quiz': 'Restart System',
+        'timer_text': 's'
+    },
+    'fr': {
+        'start_quiz': 'Commencer le Quiz',
+        'choose_domain': 'Choisissez un domaine de Quiz:',
+        'question': 'Question',
+        'submit': 'Soumettre la Réponse',
+        'next': 'Question Suivante',
+        'review_errors': 'Revue des Erreurs Conceptuelles:',
+        'your_answer': 'Votre Réponse:',
+        'correct_answer': 'La Bonne:',
+        'great_job': '🌟 Performance exceptionnelle! Solides connaissances géologiques.',
+        'good_job': '✨ Très bien! Base solide, mais il y a place à l\'amélioration.',
+        'needs_review': '⚠️ Nécessite une révision intensive de ces concepts.',
+        'new_quiz': 'Redémarrer le Système',
+        'timer_text': 's'
     }
 };
 
-// تهيئة التطبيق
-document.addEventListener('DOMContentLoaded', function() {
-    loadQuizData();
-    initializeApp();
+// ---------------------- 2. دالة تحميل البيانات (الجديدة) ----------------------
+
+async function loadGeologyData() {
+    const loadingMessage = document.getElementById('loading-message');
+    try {
+        loadingMessage.textContent = '... جاري تحميل بيانات النظام';
+        
+        const response = await fetch('./Question.json'); 
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        geologicalData = await response.json();
+        
+        initializeTopicSelection(geologicalData); 
+
+    } catch (error) {
+        console.error("فشل في تحميل بيانات الجيولوجيا:", error);
+        loadingMessage.textContent = `[خطأ الاتصال] عذراً، لا يمكن تحميل البيانات.`;
+        document.getElementById('start-quiz-btn').disabled = true;
+    }
+}
+
+// ---------------------- 3. منطق المؤقت والتحكم ----------------------
+
+function startTimer() {
+    clearInterval(timerInterval);
+    let timeRemaining = TIME_LIMIT;
+    const timerDisplay = document.getElementById('timer-display');
+    const progressBar = document.getElementById('progress-bar-fill');
+    const t = translations[currentLanguage];
+
+    progressBar.style.width = '100%';
+    timerDisplay.textContent = `${timeRemaining}${t.timer_text}`;
+
+    timerInterval = setInterval(() => {
+        timeRemaining--;
+        timerDisplay.textContent = `${timeRemaining}${t.timer_text}`;
+        
+        const progressPercentage = (timeRemaining / TIME_LIMIT) * 100;
+        progressBar.style.width = `${progressPercentage}%`;
+
+        // تغيير لون المؤقت كإنذار
+        if (timeRemaining <= 5) {
+            timerDisplay.style.color = 'var(--incorrect-color)';
+        } else {
+            timerDisplay.style.color = 'var(--neon-blue)';
+        }
+
+        if (timeRemaining <= 0) {
+            clearInterval(timerInterval);
+            handleTimeout();
+        }
+    }, 1000);
+}
+
+function handleTimeout() {
+    const t = translations[currentLanguage];
+    const currentQ = currentQuestions[currentQuestionIndex];
+
+    score += POINTS_WRONG; 
+    
+    userAnswers[currentQ.id || currentQuestionIndex] = {
+        question: currentQ.question,
+        userAnswer: `(Timeout - ${t.correct_answer}: ${currentQ.answer})`,
+        correctAnswer: currentQ.answer,
+        isCorrect: false,
+    };
+    
+    document.querySelectorAll('.option-label').forEach(label => {
+        label.querySelector('input').disabled = true;
+        if (label.querySelector('input').value === currentQ.answer) {
+            label.classList.add('correct'); 
+        }
+    });
+
+    document.getElementById('submit-btn').classList.add('hidden');
+    document.getElementById('next-btn').classList.remove('hidden');
+    setTimeout(() => {
+        currentQuestionIndex++;
+        displayQuestion();
+    }, 1000);
+}
+
+// دالة الترجمة وتحديث الواجهة
+function translateUI(langCode) {
+    currentLanguage = langCode;
+    const t = translations[langCode] || translations['ar'];
+
+    document.getElementById('start-quiz-btn').innerHTML = `${t.start_quiz} <i class="fas fa-satellite-dish"></i>`;
+    document.getElementById('submit-btn').innerHTML = `${t.submit} <i class="fas fa-terminal"></i>`;
+    document.getElementById('next-btn').innerHTML = `<i class="fas fa-arrow-right"></i> ${t.next}`;
+    document.querySelector('#topics-list-container h3').textContent = t.choose_domain;
+    document.querySelector('#results-screen .large-btn').innerHTML = `${t.new_quiz} <i class="fas fa-redo-alt"></i>`;
+    
+    if (!document.getElementById('quiz-screen').classList.contains('hidden')) {
+        document.getElementById('timer-display').textContent = `${TIME_LIMIT}${t.timer_text}`;
+        document.getElementById('question-counter').textContent = `${t.question} ${currentQuestionIndex + 1} / ${currentQuestions.length}`;
+        document.querySelector('.review-log h3').textContent = t.review_errors;
+    }
+}
+
+function changeLanguage(langCode) {
+    translateUI(langCode);
+}
+
+// ---------------------- 4. التهيئة ومنطق بدء التشغيل ----------------------
+
+// التحكم في القائمة الجانبية
+document.getElementById('open-sidebar-btn').addEventListener('click', () => {
+    document.getElementById('sidebar').classList.add('open');
+    document.getElementById('overlay').style.display = 'block';
+});
+document.getElementById('close-sidebar-btn').addEventListener('click', () => {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('overlay').style.display = 'none';
 });
 
-// تحميل بيانات الأسئلة من ملف JSON
-async function loadQuizData() {
-    try {
-        const response = await fetch('questions.json');
-        quizData = await response.json();
-        console.log('تم تحميل بيانات الأسئلة بنجاح');
-    } catch (error) {
-        console.error('خطأ في تحميل بيانات الأسئلة:', error);
-        // استخدام بيانات افتراضية في حالة الخطأ
-        quizData = await loadDefaultQuestions();
-    }
-}
+// إضافة حدث زر "ابدأ"
+document.getElementById('start-quiz-btn').addEventListener('click', () => {
+    document.getElementById('start-quiz-btn').classList.add('hidden');
+    document.getElementById('topics-list-container').classList.remove('hidden');
+});
 
-// بيانات افتراضية للأسئلة
-async function loadDefaultQuestions() {
-    return {
-        "الجيولوجيا_الأساسية": [
-            { "id": 1, "question": "أي مما يلي يُعتبر من المعادن؟", "options": ["الكوارتز", "البازلت", "الجرانيت", "الحجر الجيري"], "answer": "الكوارتز" },
-            { "id": 2, "question": "العنصر الأساسي في تركيب الكوارتز هو:", "options": ["الحديد", "السيليكون", "الكالسيوم", "الألومنيوم"], "answer": "السيليكون" }
-        ],
-        "الجيوكيمياء": [
-            { "id": 1, "topic": "الجيوكيمياء", "question": "الجيوكيمياء تدرس؟", "options": ["شكل الصخور", "التركيب الكيميائي للعناصر والمعادن", "الكثافة والسرعة", "درجة الحرارة فقط"], "answer": "التركيب الكيميائي للعناصر والمعادن" }
-        ]
-    };
-}
 
-function initializeApp() {
-    renderCategories();
-    setupEventListeners();
-}
+function initializeTopicSelection(data) {
+    const topicsList = document.getElementById('topics-list'); 
+    const sidebarList = document.getElementById('sidebar-topics-list');
+    const loadingMessage = document.getElementById('loading-message');
 
-function renderCategories() {
-    categoriesGrid.innerHTML = '';
-    
-    const categories = [
-        {
-            id: 'الجيولوجيا_الأساسية',
-            name: 'الجيولوجيا الأساسية',
-            icon: 'fas fa-gem',
-            description: 'أساسيات علم الجيولوجيا والصخور والمعادن',
-            count: quizData['الجيولوجيا_الأساسية'] ? quizData['الجيولوجيا_الأساسية'].length : 25
-        },
-        {
-            id: 'الجيوكيمياء',
-            name: 'الجيوكيمياء',
-            icon: 'fas fa-flask',
-            description: 'التركيب الكيميائي للصخور والمعادن',
-            count: quizData['الجيوكيمياء'] ? quizData['الجيوكيمياء'].length : 25
-        },
-        {
-            id: 'الجيوفيزياء',
-            name: 'الجيوفيزياء',
-            icon: 'fas fa-satellite-dish',
-            description: 'الخصائص الفيزيائية للصخور والطبقات الأرضية',
-            count: quizData['الجيوفيزياء'] ? quizData['الجيوفيزياء'].length : 25
-        },
-        {
-            id: 'الهيدروجيولوجيا',
-            name: 'الهيدروجيولوجيا',
-            icon: 'fas fa-tint',
-            description: 'علم المياه الجوفية وحركتها وتوزيعها',
-            count: quizData['الهيدروجيولوجيا'] ? quizData['الهيدروجيولوجيا'].length : 25
-        },
-        {
-            id: 'الجيولوجيا_البترولية_والتطبيقية',
-            name: 'الجيولوجيا البترولية',
-            icon: 'fas fa-oil-well',
-            description: 'جيولوجيا النفط والغاز والتطبيقات العملية',
-            count: quizData['الجيولوجيا_البترولية_والتطبيقية'] ? quizData['الجيولوجيا_البترولية_والتطبيقية'].length : 25
-        },
-        {
-            id: 'الجيولوجيا_التركيبية',
-            name: 'الجيولوجيا التركيبية',
-            icon: 'fas fa-mountain',
-            description: 'التراكيب الجيولوجية والتصدعات والطيات',
-            count: quizData['الجيولوجيا_التركيبية'] ? quizData['الجيولوجيا_التركيبية'].length : 25
-        },
-        {
-            id: 'جيولوجيا_الترسيب',
-            name: 'جيولوجيا الترسيب',
-            icon: 'fas fa-layer-group',
-            description: 'عمليات الترسيب والطبقات والصخور الرسوبية',
-            count: quizData['جيولوجيا_الترسيب'] ? quizData['جيولوجيا_الترسيب'].length : 25
-        }
-    ];
+    if (loadingMessage) loadingMessage.classList.add('hidden');
+    topicsList.innerHTML = '';
+    sidebarList.innerHTML = '';
 
-    categories.forEach(category => {
-        const categoryCard = document.createElement('div');
-        categoryCard.className = 'category-card';
-        categoryCard.innerHTML = `
-            <div class="category-icon">
-                <i class="${category.icon}"></i>
-            </div>
-            <h3>${category.name}</h3>
-            <p>${category.description}</p>
-            <div class="questions-count">${category.count} سؤال</div>
-        `;
-        categoryCard.addEventListener('click', () => startQuiz(category.id));
-        categoriesGrid.appendChild(categoryCard);
-    });
-}
+    Object.keys(data).forEach(topic => {
+        const topicDisplayName = topic.replace(/_/g, ' ');
 
-function setupEventListeners() {
-    // أزرار التنقل بين الأسئلة
-    prevQuestionButton.addEventListener('click', goToPreviousQuestion);
-    nextQuestionButton.addEventListener('click', goToNextQuestion);
-    submitQuizButton.addEventListener('click', submitQuiz);
-    
-    // أزرار النتائج
-    reviewAnswersButton.addEventListener('click', reviewAnswers);
-    newQuizButton.addEventListener('click', startNewQuiz);
-    
-    // زر البدء
-    startTrainingButton.addEventListener('click', () => {
-        categoriesSection.scrollIntoView({ behavior: 'smooth' });
+        const gridCard = document.createElement('div');
+        gridCard.className = 'topic-card';
+        gridCard.textContent = topicDisplayName;
+        
+        const sidebarLink = document.createElement('a');
+        sidebarLink.href = "#";
+        sidebarLink.textContent = topicDisplayName;
+        
+        const startQuizHandler = () => {
+            startQuiz(topicDisplayName, data[topic]);
+            document.getElementById('sidebar').classList.remove('open'); 
+            document.getElementById('overlay').style.display = 'none';
+        };
+        
+        gridCard.addEventListener('click', startQuizHandler);
+        sidebarLink.addEventListener('click', startQuizHandler);
+        
+        topicsList.appendChild(gridCard);
+        sidebarList.appendChild(sidebarLink); 
     });
     
-    // أزرار تغيير اللغة
-    langButtons.forEach(btn => {
-        btn.addEventListener('click', function() {
-            langButtons.forEach(b => b.classList.remove('active'));
-            this.classList.add('active');
-            language = this.getAttribute('data-lang');
-            changeLanguage(language);
-        });
-    });
+    translateUI(currentLanguage);
 }
 
-function startQuiz(categoryId) {
-    if (!quizData[categoryId] || quizData[categoryId].length === 0) {
-        alert('لا توجد أسئلة متاحة لهذا التصنيف حالياً');
-        return;
-    }
+// ---------------------- 5. منطق الاختبار ----------------------
 
-    currentCategory = categoryId;
-    currentQuestions = [...quizData[categoryId]];
+function startQuiz(topicTitle, questions) {
+    clearInterval(timerInterval);
+    
+    currentQuestions = questions;
     currentQuestionIndex = 0;
-    userAnswers = new Array(currentQuestions.length).fill(null);
     score = 0;
-    
-    // تحديث واجهة الاختبار
-    quizCategoryTitle.textContent = getCategoryName(categoryId);
-    totalQuestionsElement.textContent = currentQuestions.length;
-    
-    // إظهار قسم الاختبار وإخفاء الأقسام الأخرى
-    categoriesSection.style.display = 'none';
-    quizSection.style.display = 'block';
-    resultsSection.style.display = 'none';
-    
-    // تحميل السؤال الأول
-    loadQuestion();
+    userAnswers = {};
+
+    document.getElementById('topic-selection').classList.add('hidden');
+    document.getElementById('quiz-screen').classList.remove('hidden');
+    document.getElementById('quiz-title').textContent = `اختبار: ${topicTitle}`;
+
+    displayQuestion();
 }
 
-function loadQuestion() {
-    const question = currentQuestions[currentQuestionIndex];
+function displayQuestion() {
+    clearInterval(timerInterval); 
+    const qContainer = document.getElementById('question-container');
+    const currentQ = currentQuestions[currentQuestionIndex];
+    const t = translations[currentLanguage];
+
+    if (!currentQ) {
+        return showResults();
+    }
     
-    // تحديث نص السؤال
-    questionText.textContent = question.question;
+    startTimer();
     
-    // تحديث شريط التقدم
-    currentQuestionElement.textContent = currentQuestionIndex + 1;
-    quizProgress.style.width = `${((currentQuestionIndex + 1) / currentQuestions.length) * 100}%`;
-    
-    // إعداد الخيارات
-    optionsContainer.innerHTML = '';
-    const optionLetters = ['أ', 'ب', 'ج', 'د'];
-    
-    question.options.forEach((option, index) => {
-        const optionElement = document.createElement('div');
-        optionElement.className = 'option';
-        if (userAnswers[currentQuestionIndex] === option) {
-            optionElement.classList.add('selected');
-        }
-        
-        optionElement.innerHTML = `
-            <div class="option-letter">${optionLetters[index]}</div>
-            <div class="option-text">${option}</div>
+    document.getElementById('question-counter').textContent = 
+        `${t.question} ${currentQuestionIndex + 1} / ${currentQuestions.length}`;
+
+    let htmlContent = `<p class="question-text">${currentQ.question}</p>`;
+    htmlContent += '<div class="options-container">';
+
+    currentQ.options.forEach((option) => {
+        htmlContent += `
+            <label class="option-label">
+                <input type="radio" name="option" value="${option}">
+                <span class="option-text">${option}</span>
+            </label>
         `;
-        
-        optionElement.addEventListener('click', () => selectOption(option, optionElement));
-        optionsContainer.appendChild(optionElement);
     });
+    htmlContent += '</div>';
+    qContainer.innerHTML = htmlContent;
     
-    // تحميل الاقتراحات الذكية
-    loadSuggestions(question.id);
-    
-    // تحديث حالة الأزرار
-    prevQuestionButton.disabled = currentQuestionIndex === 0;
-    nextQuestionButton.style.display = currentQuestionIndex < currentQuestions.length - 1 ? 'inline-flex' : 'none';
-    submitQuizButton.style.display = currentQuestionIndex === currentQuestions.length - 1 ? 'inline-flex' : 'none';
-    
-    // تشغيل صوت النقر
-    playSound(clickSound);
-}
+    document.getElementById('submit-btn').classList.remove('hidden');
+    document.getElementById('next-btn').classList.add('hidden');
+    document.getElementById('submit-btn').disabled = true;
 
-function loadSuggestions(questionId) {
-    const categorySuggestions = suggestionsDatabase[currentCategory];
-    
-    if (categorySuggestions && categorySuggestions[questionId]) {
-        suggestionsSection.style.display = 'block';
-        suggestionsContent.innerHTML = '';
-        
-        categorySuggestions[questionId].forEach((suggestion, index) => {
-            const suggestionItem = document.createElement('div');
-            suggestionItem.className = 'suggestion-item';
-            suggestionItem.style.animationDelay = `${index * 0.1}s`;
-            
-            const icon = getSuggestionIcon(suggestion.type);
-            
-            suggestionItem.innerHTML = `
-                <h4><i class="${icon}"></i> ${suggestion.title}</h4>
-                <p>${suggestion.content}</p>
-            `;
-            
-            suggestionsContent.appendChild(suggestionItem);
+    // تمكين زر الإرسال عند اختيار خيار
+    document.querySelectorAll('input[name="option"]').forEach(input => {
+        input.addEventListener('change', () => {
+            document.getElementById('submit-btn').disabled = false;
         });
-    } else {
-        // اقتراحات عامة إذا لم توجد اقتراحات محددة
-        suggestionsSection.style.display = 'block';
-        suggestionsContent.innerHTML = `
-            <div class="suggestion-item">
-                <h4><i class="fas fa-lightbulb"></i> نصيحة عامة</h4>
-                <p>اقرأ السؤال بعناية وتأكد من فهمك للمطلوب قبل اختيار الإجابة. استخدم المعرفة الأساسية في الجيولوجيا للتمييز بين الخيارات.</p>
-            </div>
-        `;
-    }
-}
-
-function getSuggestionIcon(type) {
-    const icons = {
-        'تعريف': 'fas fa-book',
-        'معلومة': 'fas fa-info-circle',
-        'تركيب كيميائي': 'fas fa-flask',
-        'تصنيف': 'fas fa-layer-group',
-        'نصيحة': 'fas fa-tips'
-    };
-    
-    return icons[type] || 'fas fa-lightbulb';
-}
-
-function selectOption(selectedOption, optionElement) {
-    // إزالة التحديد من جميع الخيارات
-    document.querySelectorAll('.option').forEach(opt => {
-        opt.classList.remove('selected');
     });
+}
+
+// ---------------------- 6. معالجة الإجابة ----------------------
+
+document.getElementById('submit-btn').addEventListener('click', () => {
+    clearInterval(timerInterval); 
     
-    // تحديد الخيار المختار
-    optionElement.classList.add('selected');
-    userAnswers[currentQuestionIndex] = selectedOption;
+    const selectedOption = document.querySelector('input[name="option"]:checked');
+    if (!selectedOption) return;
+
+    const currentQ = currentQuestions[currentQuestionIndex];
+    const userAnswer = selectedOption.value;
+    const isCorrect = (userAnswer === currentQ.answer);
     
-    // تشغيل صوت النقر
-    playSound(clickSound);
-}
-
-function goToPreviousQuestion() {
-    if (currentQuestionIndex > 0) {
-        currentQuestionIndex--;
-        loadQuestion();
+    if (isCorrect) {
+        score += POINTS_CORRECT;
+    } else {
+        score += POINTS_WRONG;
     }
-}
 
-function goToNextQuestion() {
-    if (currentQuestionIndex < currentQuestions.length - 1) {
-        currentQuestionIndex++;
-        loadQuestion();
-    }
-}
+    userAnswers[currentQ.id || currentQuestionIndex] = {
+        question: currentQ.question,
+        userAnswer: userAnswer,
+        correctAnswer: currentQ.answer,
+        isCorrect: isCorrect,
+    };
 
-function submitQuiz() {
-    // حساب النتيجة
-    score = 0;
-    currentQuestions.forEach((question, index) => {
-        if (userAnswers[index] === question.answer) {
-            score++;
+    document.querySelectorAll('.option-label').forEach(label => {
+        const input = label.querySelector('input');
+        input.disabled = true; 
+
+        if (input.value === currentQ.answer) {
+            label.classList.add('correct'); 
+        } else if (input.value === userAnswer && !isCorrect) {
+            label.classList.add('incorrect'); 
         }
     });
-    
-    // عرض النتائج
-    showResults();
-}
+
+    document.getElementById('submit-btn').classList.add('hidden');
+    document.getElementById('next-btn').classList.remove('hidden');
+});
+
+document.getElementById('next-btn').addEventListener('click', () => {
+    currentQuestionIndex++;
+    displayQuestion();
+});
+
+// ---------------------- 7. عرض النتائج ----------------------
 
 function showResults() {
-    // تحديث النتيجة والرسالة
-    finalScoreElement.textContent = `${score}/${currentQuestions.length}`;
-    
-    // تحديد مستوى الأداء
+    clearInterval(timerInterval); 
+    document.getElementById('quiz-screen').classList.add('hidden');
+    document.getElementById('results-screen').classList.remove('hidden');
+
+    document.getElementById('final-score').textContent = score;
+    document.getElementById('total-questions-count').textContent = currentQuestions.length;
+
     const percentage = (score / currentQuestions.length) * 100;
-    let message = '';
-    let resultClass = '';
+    const gradeMessage = document.getElementById('grade-message');
+    const t = translations[currentLanguage];
     
-    if (percentage >= 80) {
-        message = 'ممتاز! لديك معرفة شاملة في هذا المجال.';
-        resultClass = 'success';
-    } else if (percentage >= 60) {
-        message = 'جيد جداً! لديك فهم قوي للموضوع مع بعض النقاط التي تحتاج إلى تحسين.';
-        resultClass = 'average';
+    if (percentage >= 90) {
+        gradeMessage.innerHTML = t.great_job;
+        gradeMessage.style.color = 'var(--correct-color)';
+    } else if (percentage >= 70) {
+        gradeMessage.innerHTML = t.good_job;
+        gradeMessage.style.color = 'var(--neon-blue)';
     } else {
-        message = 'حاول مرة أخرى! ننصحك بمراجعة المواد التعليمية قبل إعادة الاختبار.';
-        resultClass = 'poor';
+        gradeMessage.innerHTML = t.needs_review;
+        gradeMessage.style.color = 'var(--incorrect-color)';
     }
-    
-    resultsMessageElement.textContent = message;
-    resultsCard.className = `results-card ${resultClass}`;
-    
-    // إنشاء مخطط الأداء
-    createPerformanceChart(percentage);
-    
-    // إظهار قسم النتائج وإخفاء الأقسام الأخرى
-    categoriesSection.style.display = 'none';
-    quizSection.style.display = 'none';
-    resultsSection.style.display = 'block';
-    
-    // تشغيل صوت الانتهاء
-    playSound(completeSound);
-}
 
-function createPerformanceChart(percentage) {
-    performanceChart.innerHTML = `
-        <h4>مستوى أدائك</h4>
-        <div class="chart-bar">
-            <div class="chart-fill" style="width: ${percentage}%"></div>
-        </div>
-        <p>${percentage.toFixed(1)}% - ${getPerformanceLevel(percentage)}</p>
-    `;
-}
-
-function getPerformanceLevel(percentage) {
-    if (percentage >= 90) return 'متميز';
-    if (percentage >= 80) return 'ممتاز';
-    if (percentage >= 70) return 'جيد جداً';
-    if (percentage >= 60) return 'جيد';
-    if (percentage >= 50) return 'مقبول';
-    return 'بحاجة للتحسين';
-}
-
-function reviewAnswers() {
-    currentQuestionIndex = 0;
-    loadQuestion();
+    const reviewArea = document.getElementById('review-area');
+    reviewArea.innerHTML = `<h3>${t.review_errors}</h3>`;
+    let errorsFound = false;
     
-    // إظهار قسم الاختبار وإخفاء الأقسام الأخرى
-    categoriesSection.style.display = 'none';
-    quizSection.style.display = 'block';
-    resultsSection.style.display = 'none';
-}
-
-function startNewQuiz() {
-    // العودة إلى قسم التصنيفات
-    categoriesSection.style.display = 'block';
-    quizSection.style.display = 'none';
-    resultsSection.style.display = 'none';
-    
-    // التمرير إلى قسم التصنيفات
-    categoriesSection.scrollIntoView({ behavior: 'smooth' });
-}
-
-function getCategoryName(categoryId) {
-    const categoryNames = {
-        'الجيولوجيا_الأساسية': 'الجيولوجيا الأساسية',
-        'الجيوكيمياء': 'الجيوكيمياء',
-        'الجيوفيزياء': 'الجيوفيزياء',
-        'الهيدروجيولوجيا': 'الهيدروجيولوجيا',
-        'الجيولوجيا_البترولية_والتطبيقية': 'الجيولوجيا البترولية والتطبيقية',
-        'الجيولوجيا_التركيبية': 'الجيولوجيا التركيبية',
-        'جيولوجيا_الترسيب': 'جيولوجيا الترسيب'
-    };
-    
-    return categoryNames[categoryId] || categoryId;
-}
-
-function changeLanguage(lang) {
-    // في التطبيق الحقيقي، سيتم تحميل النصوص من ملفات اللغة
-    const translations = {
-        ar: {
-            title: 'جيولوجي - منصة تدريب الجيولوجيين',
-            startTraining: 'ابدأ التدريب الآن',
-            categoriesTitle: 'التخصصات الجيولوجية',
-            resultsTitle: 'تهانينا! لقد أكملت الاختبار',
-            suggestionsTitle: 'اقتراحات ذكية'
-        },
-        en: {
-            title: 'Geology - Geology Training Platform',
-            startTraining: 'Start Training Now',
-            categoriesTitle: 'Geological Specializations',
-            resultsTitle: 'Congratulations! You have completed the test',
-            suggestionsTitle: 'Smart Suggestions'
-        },
-        fr: {
-            title: 'Géologie - Plateforme de Formation en Géologie',
-            startTraining: 'Commencer la Formation',
-            categoriesTitle: 'Spécialisations Géologiques',
-            resultsTitle: 'Félicitations! Vous avez terminé le test',
-            suggestionsTitle: 'Suggestions Intelligentes'
+    Object.values(userAnswers).forEach(answer => {
+        if (!answer.isCorrect) {
+            errorsFound = true;
+            reviewArea.innerHTML += `
+                <div class="review-item">
+                    <p class="error-q">${answer.question}</p>
+                    <p class="error-a">${t.your_answer} <span class="wrong">${answer.userAnswer}</span></p>
+                    <p class="error-a">${t.correct_answer} <span class="right">${answer.correctAnswer}</span></p>
+                </div>
+            `;
         }
-    };
+    });
     
-    const translation = translations[lang] || translations.ar;
-    document.title = translation.title;
-    document.querySelector('h1').textContent = translation.title;
-    document.querySelector('.hero p').textContent = lang === 'ar' 
-        ? 'طور مهاراتك في الجيولوجيا من خلال اختبارات تفاعلية تغطي جميع التخصصات الجيولوجية مع نظام متعدد اللغات'
-        : 'Develop your geology skills through interactive tests covering all geological specializations with a multilingual system';
-    
-    startTrainingButton.innerHTML = `<i class="fas fa-play-circle"></i> ${translation.startTraining}`;
-    document.querySelector('.section-title').textContent = translation.categoriesTitle;
-    document.querySelector('#resultsCard h2').textContent = translation.resultsTitle;
-    document.querySelector('.suggestions-header h3').textContent = translation.suggestionsTitle;
+    if (!errorsFound) {
+        reviewArea.innerHTML += '<p class="all-correct">🎉 ممتاز! لا توجد أخطاء لمراجعتها.</p>';
+    }
 }
 
-function playSound(sound) {
-    sound.currentTime = 0;
-    sound.play().catch(e => console.log('لا يمكن تشغيل الصوت:', e));
-}
+// تشغيل التهيئة: يبدأ بتحميل البيانات من Question.json
+loadGeologyData();
