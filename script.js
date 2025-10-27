@@ -63,10 +63,12 @@ const translations = {
     }
 };
 
-// ---------------------- 2. دالة تحميل البيانات ----------------------
+// ---------------------- 2. دالة تحميل البيانات (الجديدة) ----------------------
 
 async function loadGeologyData() {
     const loadingMessage = document.getElementById('loading-message');
+    const startBtn = document.getElementById('start-quiz-btn');
+
     try {
         if (loadingMessage) {
             loadingMessage.textContent = '... جاري تحميل بيانات النظام';
@@ -86,9 +88,8 @@ async function loadGeologyData() {
     } catch (error) {
         console.error("فشل في تحميل بيانات الجيولوجيا:", error);
         // عند الفشل: عرض رسالة خطأ، وتعطيل زر البداية
-        const startBtn = document.getElementById('start-quiz-btn');
         if (loadingMessage) {
-            loadingMessage.textContent = `[خطأ الاتصال] عذراً، لا يمكن تحميل البيانات. يرجى مراجعة Console.`;
+            loadingMessage.textContent = `[خطأ الاتصال] عذراً، لا يمكن تحميل البيانات. يرجى مراجعة ملف Question.json.`;
             loadingMessage.classList.remove('hidden'); 
         }
         if (startBtn) startBtn.disabled = true;
@@ -104,7 +105,7 @@ function startTimer() {
     const progressBar = document.getElementById('progress-bar-fill');
     const t = translations[currentLanguage];
 
-    timerDisplay.style.color = 'var(--neon-blue)';
+    timerDisplay.style.color = 'var(--neon-blue)'; // إعادة تعيين اللون
     progressBar.style.width = '100%';
     timerDisplay.textContent = `${timeRemaining}${t.timer_text}`;
 
@@ -115,6 +116,7 @@ function startTimer() {
         const progressPercentage = (timeRemaining / TIME_LIMIT) * 100;
         progressBar.style.width = `${progressPercentage}%`;
 
+        // تغيير لون المؤقت كإنذار
         if (timeRemaining <= 5) {
             timerDisplay.style.color = 'var(--incorrect-color)';
         } else {
@@ -129,13 +131,12 @@ function startTimer() {
 }
 
 function handleTimeout() {
-    clearInterval(timerInterval); 
-    
-    const t = translations[currentLanguage];
+    clearInterval(timerInterval); // التأكد من الإيقاف
     const currentQ = currentQuestions[currentQuestionIndex];
 
     score += POINTS_WRONG; 
     
+    // تعديل الرسالة لتعكس عدم الإجابة
     userAnswers[currentQ.id || currentQuestionIndex] = {
         question: currentQ.question,
         userAnswer: `(Timeout - لم يتم الإجابة)`,
@@ -145,8 +146,8 @@ function handleTimeout() {
     
     document.querySelectorAll('.option-label').forEach(label => {
         label.querySelector('input').disabled = true;
-        label.classList.add('incorrect'); // إظهار الكل كغير مجاب
-        
+        label.classList.add('incorrect'); 
+
         if (label.querySelector('input').value === currentQ.answer) {
             label.classList.remove('incorrect');
             label.classList.add('correct'); 
@@ -155,7 +156,6 @@ function handleTimeout() {
 
     document.getElementById('submit-btn').classList.add('hidden');
     document.getElementById('next-btn').classList.remove('hidden');
-    
     setTimeout(() => {
         currentQuestionIndex++;
         displayQuestion();
@@ -217,7 +217,7 @@ document.getElementById('start-quiz-btn').addEventListener('click', () => {
     document.getElementById('topics-list-container').classList.remove('hidden');
 });
 
-// **ربط زر إعادة تشغيل النظام**
+// ربط زر إعادة تشغيل النظام
 const restartBtn = document.querySelector('#results-screen .large-btn');
 if (restartBtn) {
     restartBtn.addEventListener('click', () => {
@@ -232,9 +232,10 @@ function initializeTopicSelection(data) {
     const loadingMessage = document.getElementById('loading-message');
     const startBtn = document.getElementById('start-quiz-btn');
 
-    // **إصلاح: إخفاء رسالة التحميل وإظهار زر البداية**
+
+    // **الإصلاح:** إخفاء رسالة التحميل وإظهار زر البداية عند نجاح التحميل
     if (loadingMessage) loadingMessage.classList.add('hidden');
-    if (startBtn) startBtn.classList.remove('hidden'); 
+    if (startBtn) startBtn.classList.remove('hidden'); // إظهار زر "ابدأ الاختبار"
     
     topicsList.innerHTML = '';
     sidebarList.innerHTML = '';
@@ -281,7 +282,9 @@ function startQuiz(topicTitle, questions) {
 
     // إخفاء الشاشات السابقة
     document.getElementById('topics-list-container').classList.add('hidden');
-    document.getElementById('start-quiz-btn').classList.add('hidden');
+    document.getElementById('start-quiz-btn').classList.add('hidden'); // إخفاء زر البداية
+    const topicSelection = document.getElementById('topic-selection');
+    if (topicSelection) topicSelection.classList.add('hidden'); // احتياطي
     document.getElementById('results-screen').classList.add('hidden');
     document.getElementById('quiz-screen').classList.remove('hidden');
     
