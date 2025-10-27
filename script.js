@@ -1,14 +1,16 @@
-// **=================================================**
-// ** ملف: script.js (المنطق النهائي والمصحح لـ 25 سؤال) **
-// **=================================================**
-
-// [1] المتغيرات العالمية والتحكم
-let geologicalData = {}; 
+// =======================================================
+// 1. المتغيرات العالمية والإعدادات
+// =======================================================
+let geologicalData = {};
 let currentQuestions = [];
 let currentQuestionIndex = 0;
 let score = 0;
 let userAnswers = {};
 let timerInterval;
+let quizStartTime;
+let correctAnswersCount = 0;
+let wrongAnswersCount = 0;
+
 const TIME_LIMIT = 20;
 const POINTS_CORRECT = 5;
 const POINTS_WRONG = -3;
@@ -17,41 +19,94 @@ let currentLanguage = 'ar';
 // إحصائيات محلية
 let totalQuizzesCompleted = parseInt(localStorage.getItem('totalQuizzes')) || 0;
 let totalScoresSum = parseInt(localStorage.getItem('totalScores')) || 0;
-let currentTheme = localStorage.getItem('theme') || 'dark';
 
+// =======================================================
+// 2. نظام الترجمة المتعدد اللغات
+// =======================================================
 const translations = {
     'ar': {
-        'start_quiz': 'بدء الاتصال بالنظام', 'choose_domain': 'اختر مجال الاختبار:', 'question': 'السؤال',
-        'submit': 'تأكيد الإجابة', 'next': 'السؤال التالي', 'skip': 'تخطي', 'review_errors': 'فحص الأخطاء:',
-        'your_answer': 'إجابتك:', 'correct_answer': 'الصحيح:', 'great_job': '🌟 أداء استثنائي! معرفة جيولوجية قوية.',
-        'good_job': '✨ جيد جداً! أساس متين، لكن هناك مجال للمراجعة.', 'needs_review': '⚠️ تحتاج إلى مراجعة مكثفة لهذه المفاهيم.',
-        'new_quiz': 'إعادة تشغيل النظام', 'share_results': 'مشاركة النتائج', 'timer_text': 'ث', 'points': 'النقاط:',
-        'correct_answers': 'إجابات صحيحة', 'wrong_answers': 'إجابات خاطئة', 'time_spent': 'الوقت المستغرق',
-        'completed_quizzes': 'اختبارات مكتملة', 'avg_success': 'متوسط النجاح', 'timeout_msg': '⏰ انتهى الوقت!',
-        'correct_feedback': '✓ إجابة صحيحة! ممتاز', 'incorrect_feedback': '✗ إجابة خاطئة. حاول مرة أخرى',
-        'all_correct': '🎉 ممتاز! لا توجد أخطاء لمراجعتها.', 'loading': '... تحليل بيانات النظام', 'unit': 'وحدة'
+        'start_quiz': 'بدء الاتصال بالنظام',
+        'choose_domain': 'اختر مجال الاختبار:',
+        'question': 'السؤال',
+        'submit': 'تأكيد الإجابة',
+        'next': 'السؤال التالي',
+        'skip': 'تخطي',
+        'review_errors': 'فحص الأخطاء:',
+        'your_answer': 'إجابتك:',
+        'correct_answer': 'الصحيح:',
+        'great_job': '🌟 أداء استثنائي! معرفة جيولوجية قوية.',
+        'good_job': '✨ جيد جداً! أساس متين، لكن هناك مجال للمراجعة.',
+        'needs_review': '⚠️ تحتاج إلى مراجعة مكثفة لهذه المفاهيم.',
+        'new_quiz': 'إعادة تشغيل النظام',
+        'share_results': 'مشاركة النتائج',
+        'timer_text': 'ث',
+        'points': 'النقاط:',
+        'correct_answers': 'إجابات صحيحة',
+        'wrong_answers': 'إجابات خاطئة',
+        'time_spent': 'الوقت المستغرق',
+        'completed_quizzes': 'اختبارات مكتملة',
+        'avg_success': 'متوسط النجاح',
+        'timeout_msg': '⏰ انتهى الوقت!',
+        'correct_feedback': '✓ إجابة صحيحة! ممتاز',
+        'incorrect_feedback': '✗ إجابة خاطئة. حاول مرة أخرى',
+        'all_correct': '🎉 ممتاز! لا توجد أخطاء لمراجعتها.',
+        'loading': '... تحليل بيانات النظام'
     },
     'en': {
-        'start_quiz': 'Initiate System Connection', 'choose_domain': 'Select Training Unit:', 'question': 'Question',
-        'submit': 'Confirm Answer', 'next': 'Next Question', 'skip': 'Skip', 'review_errors': 'Review Errors:',
-        'your_answer': 'Your Answer:', 'correct_answer': 'Correct:', 'great_job': '🌟 Exceptional performance! Strong geological knowledge.',
-        'good_job': '✨ Very good! Solid foundation, but room for review.', 'needs_review': '⚠️ Requires intensive review of these concepts.',
-        'new_quiz': 'Restart System', 'share_results': 'Share Results', 'timer_text': 's', 'points': 'Points:',
-        'correct_answers': 'Correct Answers', 'wrong_answers': 'Wrong Answers', 'time_spent': 'Time Spent',
-        'completed_quizzes': 'Completed Quizzes', 'avg_success': 'Average Success', 'timeout_msg': '⏰ Time is up!',
-        'correct_feedback': '✓ Correct answer! Excellent', 'incorrect_feedback': '✗ Wrong answer. Try again',
-        'all_correct': '🎉 Excellent! No errors to review.', 'loading': '... Analyzing system data', 'unit': 'Unit'
+        'start_quiz': 'Start System Connection',
+        'choose_domain': 'Choose Quiz Domain:',
+        'question': 'Question',
+        'submit': 'Submit Answer',
+        'next': 'Next Question',
+        'skip': 'Skip',
+        'review_errors': 'Review Errors:',
+        'your_answer': 'Your Answer:',
+        'correct_answer': 'Correct:',
+        'great_job': '🌟 Exceptional performance! Strong geological knowledge.',
+        'good_job': '✨ Very good! Solid foundation, but room for review.',
+        'needs_review': '⚠️ Requires intensive review of these concepts.',
+        'new_quiz': 'Restart System',
+        'share_results': 'Share Results',
+        'timer_text': 's',
+        'points': 'Points:',
+        'correct_answers': 'Correct Answers',
+        'wrong_answers': 'Wrong Answers',
+        'time_spent': 'Time Spent',
+        'completed_quizzes': 'Completed Quizzes',
+        'avg_success': 'Average Success',
+        'timeout_msg': '⏰ Time is up!',
+        'correct_feedback': '✓ Correct answer! Excellent',
+        'incorrect_feedback': '✗ Wrong answer. Try again',
+        'all_correct': '🎉 Excellent! No errors to review.',
+        'loading': '... Analyzing system data'
     },
     'fr': {
-        'start_quiz': 'Connexion Système', 'choose_domain': 'Sélectionner Unité:', 'question': 'Question',
-        'submit': 'Confirmer', 'next': 'Passer', 'skip': 'Passer', 'review_errors': 'Analyse d\'Erreur:',
-        'your_answer': 'Votre Réponse:', 'correct_answer': 'Correcte:', 'great_job': '🌟 Performance exceptionnelle! Solides connaissances.',
-        'good_job': '✨ Très bien! Base solide, mais il y a place à l\'amélioration.', 'needs_review': '⚠️ Nécessite une révision intensive.',
-        'new_quiz': 'Redémarrer le Système', 'share_results': 'Partager les Résultats', 'timer_text': 's', 'points': 'Points:',
-        'correct_answers': 'Bonnes Réponses', 'wrong_answers': 'Mauvaises Réponses', 'time_spent': 'Temps Passé',
-        'completed_quizzes': 'Quiz Complétés', 'avg_success': 'Succès Moyen', 'timeout_msg': '⏰ Temps écoulé!',
-        'correct_feedback': '✓ Bonne réponse! Excellent', 'incorrect_feedback': '✗ Mauvaise réponse. Réessayez',
-        'all_correct': '🎉 Excellent! Aucune erreur à réviser.', 'loading': '... Analyse des données', 'unit': 'Unité'
+        'start_quiz': 'Démarrer la Connexion',
+        'choose_domain': 'Choisissez un domaine:',
+        'question': 'Question',
+        'submit': 'Soumettre',
+        'next': 'Question Suivante',
+        'skip': 'Passer',
+        'review_errors': 'Révision des Erreurs:',
+        'your_answer': 'Votre Réponse:',
+        'correct_answer': 'Correcte:',
+        'great_job': '🌟 Performance exceptionnelle! Solides connaissances.',
+        'good_job': '✨ Très bien! Base solide, mais place à l\'amélioration.',
+        'needs_review': '⚠️ Nécessite une révision intensive.',
+        'new_quiz': 'Redémarrer',
+        'share_results': 'Partager les Résultats',
+        'timer_text': 's',
+        'points': 'Points:',
+        'correct_answers': 'Bonnes Réponses',
+        'wrong_answers': 'Mauvaises Réponses',
+        'time_spent': 'Temps Passé',
+        'completed_quizzes': 'Quiz Complétés',
+        'avg_success': 'Succès Moyen',
+        'timeout_msg': '⏰ Temps écoulé!',
+        'correct_feedback': '✓ Bonne réponse! Excellent',
+        'incorrect_feedback': '✗ Mauvaise réponse. Réessayez',
+        'all_correct': '🎉 Excellent! Aucune erreur à réviser.',
+        'loading': '... Analyse des données'
     }
 };
 
@@ -64,7 +119,8 @@ async function loadGeologyData() {
         const t = translations[currentLanguage];
         loadingMessage.querySelector('p').textContent = t.loading;
         
-        const response = await fetch('./Question.json');
+        // يجب أن يكون لديك ملف باسم Question.json في نفس المجلد
+        const response = await fetch('./Question.json'); 
         
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -88,21 +144,19 @@ async function loadGeologyData() {
 // =======================================================
 function showNotification(message, type = 'info') {
     const toast = document.getElementById('notification-toast');
-    if (!toast) return;
-
     const messageEl = document.getElementById('notification-message');
     
     messageEl.textContent = message;
-    toast.className = 'notification-toast show';
+    toast.classList.remove('hidden');
+    toast.classList.add('show');
     
-    if (type === 'success') {
-        toast.style.background = 'linear-gradient(135deg, var(--correct-color), #4CAF50)';
-    } else if (type === 'error') {
-        toast.style.background = 'linear-gradient(135deg, var(--incorrect-color), #dc3545)';
-    } else {
-        toast.style.background = 'linear-gradient(135deg, var(--neon-blue), var(--neon-purple))';
-    }
-
+    // إضافة لون للتنبيه
+    toast.style.background = (type === 'success') 
+        ? 'linear-gradient(135deg, var(--correct-color), #00b371)' 
+        : (type === 'error') 
+        ? 'linear-gradient(135deg, var(--incorrect-color), #cc003d)' 
+        : 'linear-gradient(135deg, var(--neon-blue), var(--neon-purple))';
+        
     setTimeout(() => {
         toast.classList.remove('show');
         setTimeout(() => toast.classList.add('hidden'), 400);
@@ -110,7 +164,91 @@ function showNotification(message, type = 'info') {
 }
 
 // =======================================================
-// 5. نظام المؤقت المتقدم
+// 5. خلفية الجزيئات المتحركة (Particles Canvas)
+// =======================================================
+function initParticles() {
+    const canvas = document.getElementById('particles-canvas');
+    const ctx = canvas.getContext('2d');
+    
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    
+    const particles = [];
+    const particleCount = 80;
+    
+    class Particle {
+        constructor() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+            this.size = Math.random() * 2 + 1;
+            this.speedX = Math.random() * 0.5 - 0.25;
+            this.speedY = Math.random() * 0.5 - 0.25;
+            this.opacity = Math.random() * 0.5 + 0.2;
+        }
+        
+        update() {
+            this.x += this.speedX;
+            this.y += this.speedY;
+            
+            if (this.x > canvas.width) this.x = 0;
+            if (this.x < 0) this.x = canvas.width;
+            if (this.y > canvas.height) this.y = 0;
+            if (this.y < 0) this.y = canvas.height;
+        }
+        
+        draw() {
+            ctx.fillStyle = `rgba(0, 217, 255, ${this.opacity})`;
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fill();
+        }
+    }
+    
+    for (let i = 0; i < particleCount; i++) {
+        particles.push(new Particle());
+    }
+    
+    function connectParticles() {
+        for (let i = 0; i < particles.length; i++) {
+            for (let j = i + 1; j < particles.length; j++) {
+                const dx = particles[i].x - particles[j].x;
+                const dy = particles[i].y - particles[j].y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                
+                if (distance < 150) {
+                    ctx.strokeStyle = `rgba(0, 217, 255, ${0.2 * (1 - distance / 150)})`;
+                    ctx.lineWidth = 0.5;
+                    ctx.beginPath();
+                    ctx.moveTo(particles[i].x, particles[i].y);
+                    ctx.lineTo(particles[j].x, particles[j].y);
+                    ctx.stroke();
+                }
+            }
+        }
+    }
+    
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        particles.forEach(particle => {
+            particle.update();
+            particle.draw();
+        });
+        
+        connectParticles();
+        requestAnimationFrame(animate);
+    }
+    
+    animate();
+    
+    window.addEventListener('resize', () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    });
+}
+
+// =======================================================
+// 6. نظام المؤقت المتقدم
 // =======================================================
 function startTimer() {
     clearInterval(timerInterval);
@@ -122,6 +260,11 @@ function startTimer() {
     progressBar.style.width = '100%';
     timerDisplay.textContent = timeRemaining;
 
+    // Reset timer animation/color
+    const timerElement = document.querySelector('.timer-display');
+    timerElement.style.color = 'var(--neon-blue)';
+    timerElement.style.animation = 'pulseGlow 2s ease-in-out infinite';
+
     timerInterval = setInterval(() => {
         timeRemaining--;
         timerDisplay.textContent = timeRemaining;
@@ -130,11 +273,11 @@ function startTimer() {
         progressBar.style.width = `${progressPercentage}%`;
 
         if (timeRemaining <= 5) {
-            document.querySelector('.timer-display').style.color = 'var(--incorrect-color)';
-            document.querySelector('.timer-display').style.animation = 'shake 0.5s infinite';
+            timerElement.style.color = 'var(--incorrect-color)';
+            timerElement.style.animation = 'shake 0.5s infinite';
         } else {
-            document.querySelector('.timer-display').style.color = 'var(--neon-blue)';
-            document.querySelector('.timer-display').style.animation = 'none';
+            timerElement.style.color = 'var(--neon-blue)';
+            timerElement.style.animation = 'pulseGlow 2s ease-in-out infinite';
         }
 
         if (timeRemaining <= 0) {
@@ -147,8 +290,14 @@ function startTimer() {
 function handleTimeout() {
     const t = translations[currentLanguage];
     const currentQ = currentQuestions[currentQuestionIndex];
+    
+    // تأكد من وجود سؤال
+    if (!currentQ) {
+        currentQuestionIndex++;
+        return displayQuestion(); 
+    }
 
-    score = Math.max(0, score + POINTS_WRONG);
+    score += POINTS_WRONG;
     wrongAnswersCount++;
     
     userAnswers[currentQ.id || currentQuestionIndex] = {
@@ -170,7 +319,6 @@ function handleTimeout() {
     
     document.getElementById('submit-btn').classList.add('hidden');
     document.getElementById('next-btn').classList.remove('hidden');
-    document.getElementById('skip-btn').classList.add('hidden');
     
     setTimeout(() => {
         currentQuestionIndex++;
@@ -186,35 +334,68 @@ function translateUI(langCode) {
     const t = translations[langCode] || translations['ar'];
 
     // تحديث النصوص الرئيسية
-    document.getElementById('start-quiz-btn').querySelector('.btn-text').textContent = t.start_quiz;
-    document.getElementById('submit-btn').querySelector('.btn-text').textContent = t.submit;
-    document.getElementById('next-btn').querySelector('.btn-text').textContent = t.next;
-    document.getElementById('skip-btn').querySelector('.btn-text').textContent = t.skip;
+    document.querySelector('.app-title .title-glitch').setAttribute('data-text', 'GEO-MASTER'); // تحديث للغليتش
+
+    const startBtn = document.getElementById('start-quiz-btn');
+    if (startBtn) {
+        startBtn.querySelector('.btn-text').textContent = t.start_quiz;
+    }
     
-    document.querySelector('.topics-header').innerHTML = `<i class="fas fa-folder-open"></i> ${t.choose_domain}`;
-    document.querySelector('.action-buttons .primary .btn-text').textContent = t.new_quiz;
-    document.getElementById('share-results-btn').querySelector('.btn-text').textContent = t.share_results;
+    const submitBtn = document.getElementById('submit-btn');
+    if (submitBtn) {
+        submitBtn.querySelector('.btn-text').textContent = t.submit;
+    }
+    
+    const nextBtn = document.getElementById('next-btn');
+    if (nextBtn) {
+        nextBtn.querySelector('.btn-text').textContent = t.next;
+    }
+    
+    const skipBtn = document.getElementById('skip-btn');
+    if (skipBtn) {
+        skipBtn.querySelector('.btn-text').textContent = t.skip;
+    }
+    
+    const topicsHeader = document.querySelector('.topics-header');
+    if (topicsHeader) {
+        topicsHeader.innerHTML = `<i class="fas fa-folder-open"></i> ${t.choose_domain}`;
+    }
+    
+    const restartBtn = document.querySelector('.action-buttons .primary .btn-text');
+    if (restartBtn) {
+        restartBtn.textContent = t.new_quiz;
+    }
+    
+    const shareBtn = document.getElementById('share-results-btn');
+    if (shareBtn) {
+        shareBtn.querySelector('.btn-text').textContent = t.share_results;
+    }
     
     // تحديث الإحصائيات في الشريط الجانبي
     updateSidebarStats();
     
     // تحديث شاشة الاختبار إذا كانت مفتوحة
     if (!document.getElementById('quiz-screen').classList.contains('hidden')) {
-        document.querySelector('#question-counter').innerHTML = `<i class="fas fa-list-ol"></i> ${t.unit} ${currentQuestionIndex + 1} / ${currentQuestions.length}`;
-        document.querySelector('.timer-unit').textContent = t.timer_text;
-        document.querySelector('.review-log h3').innerHTML = `<i class="fas fa-bug"></i> ${t.review_errors}`;
+        const questionCounter = document.getElementById('question-counter');
+        if (questionCounter) {
+            questionCounter.innerHTML = `<i class="fas fa-list-ol"></i> ${t.question} ${currentQuestionIndex + 1} / ${currentQuestions.length}`;
+        }
+        
+        const scoreDisplay = document.getElementById('score-display');
+        if (scoreDisplay) {
+             scoreDisplay.innerHTML = `<i class="fas fa-star"></i> ${t.points} <span id="current-score">${score}</span>`;
+        }
+        
+        const timerUnit = document.querySelector('.timer-unit');
+        if (timerUnit) {
+            timerUnit.textContent = t.timer_text;
+        }
     }
 }
 
 function changeLanguage(langCode) {
-    currentLanguage = langCode;
-    document.documentElement.dir = (langCode === 'ar' ? 'rtl' : 'ltr');
-    applyTranslation();
-    showNotification('✓ تم تغيير اللغة', 'success');
-}
-
-function applyTranslation() {
-    translateUI(currentLanguage);
+    translateUI(langCode);
+    showNotification('✓ تم تغيير اللغة بنجاح', 'success');
 }
 
 // =======================================================
@@ -223,21 +404,20 @@ function applyTranslation() {
 function updateSidebarStats() {
     const t = translations[currentLanguage];
     
-    const totalQuizzes = parseInt(localStorage.getItem('totalQuizzes')) || 0;
-    const totalScores = parseInt(localStorage.getItem('totalScores')) || 0;
-
-    document.getElementById('total-quizzes').textContent = totalQuizzes;
+    document.getElementById('total-quizzes').textContent = totalQuizzesCompleted;
     
-    const avgScore = totalQuizzes > 0 
-        ? Math.round((totalScores / totalQuizzes))
+    // Calculate average score percentage for display
+    const avgScore = totalQuizzesCompleted > 0 
+        ? Math.round((totalScoresSum / totalQuizzesCompleted)) 
         : 0;
     document.getElementById('avg-score').textContent = `${avgScore}%`;
     
     // تحديث العناوين
-    const completedQuizzesEl = document.querySelector('.stats-container .stat-item:nth-child(1) p');
-    const avgSuccessEl = document.querySelector('.stats-container .stat-item:nth-child(2) p');
-    if (completedQuizzesEl) completedQuizzesEl.textContent = t.completed_quizzes;
-    if (avgSuccessEl) avgSuccessEl.textContent = t.avg_success;
+    const statItems = document.querySelectorAll('.stat-item p');
+    if (statItems.length >= 2) {
+        statItems[0].textContent = t.completed_quizzes;
+        statItems[1].textContent = t.avg_success;
+    }
 }
 
 // =======================================================
@@ -246,7 +426,6 @@ function updateSidebarStats() {
 document.getElementById('open-sidebar-btn').addEventListener('click', () => {
     document.getElementById('sidebar').classList.add('open');
     document.getElementById('overlay').style.display = 'block';
-    clearInterval(timerInterval); // **إيقاف المؤقت عند فتح القائمة**
 });
 
 document.getElementById('close-sidebar-btn').addEventListener('click', closeSidebar);
@@ -256,27 +435,27 @@ document.getElementById('overlay').addEventListener('click', closeSidebar);
 function closeSidebar() {
     document.getElementById('sidebar').classList.remove('open');
     document.getElementById('overlay').style.display = 'none';
-    if (!document.getElementById('quiz-screen').classList.contains('hidden')) {
-        startTimer(); // **استئناف المؤقت**
-    }
 }
 
 // =======================================================
 // 10. تبديل السمة (Theme Toggle)
 // =======================================================
+const themeToggle = document.getElementById('theme-toggle');
+let currentTheme = localStorage.getItem('theme') || 'dark';
+
 document.body.setAttribute('data-theme', currentTheme);
 updateThemeIcon();
 
-document.getElementById('theme-toggle').addEventListener('click', () => {
+themeToggle.addEventListener('click', () => {
     currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
     document.body.setAttribute('data-theme', currentTheme);
     localStorage.setItem('theme', currentTheme);
     updateThemeIcon();
-    showNotification('✓ تم تغيير السمة', 'success');
+    showNotification('✓ تم تغيير السمة', 'info');
 });
 
 function updateThemeIcon() {
-    const icon = document.getElementById('theme-toggle').querySelector('i');
+    const icon = themeToggle.querySelector('i');
     icon.className = currentTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
 }
 
@@ -287,6 +466,7 @@ document.getElementById('start-quiz-btn').addEventListener('click', () => {
     document.getElementById('start-quiz-btn').classList.add('hidden');
     document.getElementById('topics-list-container').classList.remove('hidden');
     
+    // تأثير الظهور التدريجي
     const topicCards = document.querySelectorAll('.topic-card');
     topicCards.forEach((card, index) => {
         card.style.animationDelay = `${index * 0.1}s`;
@@ -332,7 +512,7 @@ function initializeTopicSelection(data) {
         sidebarList.appendChild(sidebarLink);
     });
     
-    applyTranslation();
+    translateUI(currentLanguage);
 }
 
 // =======================================================
@@ -341,9 +521,7 @@ function initializeTopicSelection(data) {
 function startQuiz(topicTitle, questions) {
     clearInterval(timerInterval);
     
-    // **التعديل هنا:** تحميل كل الـ 25 سؤالاً
-    currentQuestions = shuffleArray([...questions]);
-    
+    currentQuestions = shuffleArray([...questions]).slice(0, 10); // 10 أسئلة عشوائية
     currentQuestionIndex = 0;
     score = 0;
     correctAnswersCount = 0;
@@ -355,8 +533,6 @@ function startQuiz(topicTitle, questions) {
     document.getElementById('quiz-screen').classList.remove('hidden');
     document.getElementById('quiz-title').innerHTML = `<i class="fas fa-vials"></i> اختبار: ${topicTitle}`;
     
-    document.body.dataset.quizStart = quizStartTime; // حفظ وقت بداية الاختبار
-
     updateScoreDisplay();
     displayQuestion();
     
@@ -389,7 +565,7 @@ function displayQuestion() {
     
     // تحديث عداد الأسئلة
     document.getElementById('question-counter').innerHTML = 
-        `<i class="fas fa-list-ol"></i> ${t.unit} ${currentQuestionIndex + 1} / ${currentQuestions.length}`;
+        `<i class="fas fa-list-ol"></i> ${t.question} ${currentQuestionIndex + 1} / ${currentQuestions.length}`;
 
     // إخفاء رسالة التغذية الراجعة
     document.getElementById('feedback-container').classList.add('hidden');
@@ -412,13 +588,10 @@ function displayQuestion() {
     qContainer.innerHTML = htmlContent;
     
     // تطبيق تأثير الظهور
-    qContainer.style.animation = 'none'; // Reset animation
-    void qContainer.offsetWidth; // Trigger reflow
     qContainer.style.animation = 'fadeInUp 0.6s ease-out';
     
     document.getElementById('submit-btn').classList.remove('hidden');
     document.getElementById('next-btn').classList.add('hidden');
-    document.getElementById('skip-btn').classList.remove('hidden');
     document.getElementById('submit-btn').disabled = true;
 
     // تمكين زر الإرسال عند اختيار خيار
@@ -445,14 +618,13 @@ function showFeedback(isCorrect, message) {
     feedbackContainer.classList.add(isCorrect ? 'correct-feedback' : 'incorrect-feedback');
     feedbackContainer.innerHTML = `<i class="fas fa-${isCorrect ? 'check-circle' : 'times-circle'}"></i> ${message}`;
     feedbackContainer.classList.remove('hidden');
-    feedbackContainer.style.animation = 'fadeInUp 0.5s ease-out';
 }
 
 // =======================================================
 // 16. معالجة الإجابة
 // =======================================================
 document.getElementById('submit-btn').addEventListener('click', () => {
-    clearInterval(timerInterval); // إيقاف المؤقت عند الإجابة
+    clearInterval(timerInterval);
     
     const selectedOption = document.querySelector('input[name="option"]:checked');
     if (!selectedOption) return;
@@ -467,7 +639,7 @@ document.getElementById('submit-btn').addEventListener('click', () => {
         correctAnswersCount++;
         showFeedback(true, t.correct_feedback);
     } else {
-        score = Math.max(0, score + POINTS_WRONG);
+        score += POINTS_WRONG;
         wrongAnswersCount++;
         showFeedback(false, t.incorrect_feedback);
     }
@@ -480,13 +652,13 @@ document.getElementById('submit-btn').addEventListener('click', () => {
     };
 
     // تعطيل جميع الخيارات وإظهار الإجابة الصحيحة
-    document.querySelectorAll('input[name="option"]').forEach(input => {
+    document.querySelectorAll('.option-label').forEach(label => {
+        const input = label.querySelector('input');
         input.disabled = true;
-        const label = input.closest('.option-label');
 
         if (input.value === currentQ.answer) {
             label.classList.add('correct');
-        } else if (input.value === userAnswer) {
+        } else if (input.value === userAnswer && !isCorrect) {
             label.classList.add('incorrect');
         }
     });
@@ -495,7 +667,6 @@ document.getElementById('submit-btn').addEventListener('click', () => {
     
     document.getElementById('submit-btn').classList.add('hidden');
     document.getElementById('next-btn').classList.remove('hidden');
-    document.getElementById('skip-btn').classList.add('hidden'); // إخفاء زر التخطي بعد الإجابة
 });
 
 // =======================================================
@@ -514,7 +685,14 @@ document.getElementById('skip-btn').addEventListener('click', () => {
     const t = translations[currentLanguage];
     
     const currentQ = currentQuestions[currentQuestionIndex];
-    score = Math.max(0, score + POINTS_WRONG);
+    
+    // تأكد من وجود سؤال
+    if (!currentQ) {
+        currentQuestionIndex++;
+        return displayQuestion(); 
+    }
+    
+    score += POINTS_WRONG;
     wrongAnswersCount++;
     
     userAnswers[currentQ.id || currentQuestionIndex] = {
@@ -537,7 +715,6 @@ function showResults() {
     clearInterval(timerInterval);
     
     const quizEndTime = Date.now();
-    const quizStartTime = parseFloat(document.body.dataset.quizStart) || Date.now();
     const totalTimeSeconds = Math.floor((quizEndTime - quizStartTime) / 1000);
     const minutes = Math.floor(totalTimeSeconds / 60);
     const seconds = totalTimeSeconds % 60;
@@ -548,15 +725,14 @@ function showResults() {
     const t = translations[currentLanguage];
     
     // تحديث النتائج
-    document.getElementById('final-score').textContent = score;
+    document.getElementById('final-score').textContent = correctAnswersCount;
     document.getElementById('total-questions-count').textContent = currentQuestions.length;
     document.getElementById('correct-count').textContent = correctAnswersCount;
     document.getElementById('wrong-count').textContent = wrongAnswersCount;
-    document.getElementById('total-time').textContent = `${minutes}:${seconds.toString().padStart(2, '0')}${t.timer_text}`;
+    document.getElementById('total-time').textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
 
-    // حساب النسبة المئوية
-    const maxPossibleScore = currentQuestions.length * POINTS_CORRECT;
-    const percentage = Math.max(0, Math.round((score / maxPossibleScore) * 100));
+    // حساب النسبة المئوية للأسئلة الصحيحة
+    const percentage = Math.round((correctAnswersCount / currentQuestions.length) * 100) || 0;
     
     // رسالة التقييم
     const gradeMessage = document.getElementById('grade-message');
@@ -564,12 +740,15 @@ function showResults() {
     if (percentage >= 90) {
         gradeMessage.innerHTML = t.great_job;
         gradeMessage.style.color = 'var(--correct-color)';
+        gradeMessage.style.borderColor = 'var(--correct-color)';
     } else if (percentage >= 70) {
         gradeMessage.innerHTML = t.good_job;
         gradeMessage.style.color = 'var(--neon-blue)';
+        gradeMessage.style.borderColor = 'var(--neon-blue)';
     } else {
         gradeMessage.innerHTML = t.needs_review;
         gradeMessage.style.color = 'var(--incorrect-color)';
+        gradeMessage.style.borderColor = 'var(--incorrect-color)';
     }
 
     // رسم الدائرة المتقدمة
@@ -599,7 +778,7 @@ function showResults() {
         reviewContent.innerHTML = `<p class="all-correct">${t.all_correct}</p>`;
     }
     
-    // حفظ الإحصائيات (Local Storage)
+    // حفظ الإحصائيات (نحفظ متوسط النسبة المئوية)
     totalQuizzesCompleted++;
     totalScoresSum += percentage;
     localStorage.setItem('totalQuizzes', totalQuizzesCompleted);
@@ -613,27 +792,16 @@ function showResults() {
 // 20. رسم الدائرة المتحركة للنقاط
 // =======================================================
 function animateScoreCircle(percentage) {
-    const svg = document.querySelector('.progress-ring');
     const circle = document.querySelector('.progress-ring-fill');
-    if (!circle) return;
     const radius = circle.r.baseVal.value;
     const circumference = radius * 2 * Math.PI;
     
     circle.style.strokeDasharray = `${circumference} ${circumference}`;
+    
+    // تعيين Offset البدئي (مخفي)
     circle.style.strokeDashoffset = circumference;
     
-    if (!document.querySelector('#scoreGradient')) {
-        const svg = document.querySelector('.progress-ring');
-        const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
-        const gradient = document.createElementNS('http://www.w3.org/2000/svg', 'linearGradient');
-        gradient.setAttribute('id', 'scoreGradient');
-        gradient.innerHTML = `
-            <stop offset="0%" style="stop-color: var(--neon-blue); stop-opacity: 1" />
-            <stop offset="100%" style="stop-color: var(--neon-purple); stop-opacity: 1" />
-        `;
-        defs.appendChild(gradient);
-        svg.insertBefore(defs, svg.firstChild);
-    }
+    // إضافة Gradient SVG (تم إضافته في HTML مسبقاً)
     
     setTimeout(() => {
         const offset = circumference - (percentage / 100) * circumference;
@@ -646,16 +814,12 @@ function animateScoreCircle(percentage) {
 // =======================================================
 document.getElementById('share-results-btn').addEventListener('click', () => {
     const t = translations[currentLanguage];
-    const scoreValue = document.getElementById('final-score').textContent;
-    const totalValue = document.getElementById('total-questions-count').textContent;
-    const correctValue = document.getElementById('correct-count').textContent;
-    const wrongValue = document.getElementById('wrong-count').textContent;
-    
-    const shareText = `🎯 GEO-MASTER Results:\nScore: ${scoreValue} Points\nTotal Questions: ${totalValue}\nCorrect: ${correctValue}\nWrong: ${wrongValue}\n\n🌍 Test your geology knowledge with Geo-Master!`;
+    const totalQuestions = currentQuestions.length;
+    const shareText = `🎯 GEO-MASTER Results:\nScore: ${correctAnswersCount}/${totalQuestions}\n✓ Correct: ${correctAnswersCount}\n✗ Wrong: ${wrongAnswersCount}\n\n🌍 Test your geology knowledge!`;
     
     if (navigator.share) {
         navigator.share({
-            title: 'GEO-MASTER V2.0',
+            title: 'GEO-MASTER', // تم حذف V2.0
             text: shareText,
         }).then(() => {
             showNotification('✓ تمت المشاركة بنجاح', 'success');
@@ -681,28 +845,66 @@ function copyToClipboard(text) {
 window.addEventListener('DOMContentLoaded', () => {
     initParticles();
     loadGeologyData();
+    // Language and Stats will be updated inside loadGeologyData after topics are loaded,
+    // but we can call it here for initial sidebar text rendering
+    translateUI(currentLanguage);
     updateSidebarStats();
     
-    // Keyboard shortcuts
-    document.addEventListener('keydown', (e) => {
-        if (!document.getElementById('quiz-screen').classList.contains('hidden')) {
-            // Enter للتأكيد
-            if (e.key === 'Enter' && !document.getElementById('submit-btn').disabled) {
-                document.getElementById('submit-btn').click();
-            }
-            // Space للتالي
-            if (e.key === ' ' && !document.getElementById('next-btn').classList.contains('hidden')) {
-                e.preventDefault();
-                document.getElementById('next-btn').click();
-            }
-        }
-    });
+    // Scroll animations
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
     
-    // Add event listeners for options (for keyboard selection display)
-    document.addEventListener('change', (e) => {
-        if (e.target.name === 'option') {
-            document.querySelectorAll('.option-label').forEach(label => label.classList.remove('selected'));
-            e.target.closest('.option-label').classList.add('selected');
-        }
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.animation = 'fadeInUp 0.8s ease-out both';
+            }
+        });
+    }, observerOptions);
+    
+    document.querySelectorAll('.data-module, .topic-card').forEach(el => {
+        observer.observe(el);
     });
 });
+
+// =======================================================
+// 23. منع التمرير الأفقي
+// =======================================================
+document.addEventListener('touchmove', (e) => {
+    // Only prevents multi-touch scrolling (pinch-zoom), safe to keep.
+    if (e.touches.length > 1) {
+        e.preventDefault();
+    }
+}, { passive: false });
+
+// =======================================================
+// 24. Keyboard Shortcuts
+// =======================================================
+document.addEventListener('keydown', (e) => {
+    if (!document.getElementById('quiz-screen').classList.contains('hidden')) {
+        // Enter للتأكيد
+        if (e.key === 'Enter' && !document.getElementById('submit-btn').disabled && !document.getElementById('submit-btn').classList.contains('hidden')) {
+            document.getElementById('submit-btn').click();
+        } 
+        // Space للتالي
+        else if (e.key === ' ' && !document.getElementById('next-btn').classList.contains('hidden')) {
+            e.preventDefault();
+            document.getElementById('next-btn').click();
+        }
+        // أرقام 1-4 لاختيار الخيارات
+        else if (['1', '2', '3', '4'].includes(e.key)) {
+            const options = document.querySelectorAll('input[name="option"]');
+            const index = parseInt(e.key) - 1;
+            if (options[index] && !options[index].disabled) {
+                options[index].checked = true;
+                // قم بتشغيل حدث 'change' لتمكين زر الإرسال
+                const changeEvent = new Event('change');
+                options[index].dispatchEvent(changeEvent);
+            }
+        }
+    }
+});
+
+console.log('%c🌍 GEO-MASTER Loaded Successfully! ', 'background: linear-gradient(135deg, #00d9ff, #b026ff); color: white; font-size: 20px; font-weight: bold; padding: 10px 20px; border-radius: 10px;');
