@@ -1407,3 +1407,59 @@ body {
         color: black;
     }
 }
+
+/*
+=============================
+ تنسيقات قسم الموارد التعليمية
+ (هذا هو الكود المضاف)
+=============================
+*/
+.sidebar-links-section {
+    padding: 0 15px;
+    margin: 20px 0;
+    border-top: 1px solid var(--border-color, #444); /* خط فاصل */
+    padding-top: 20px;
+}
+
+.sidebar-section-title {
+    font-size: 0.9rem;
+    color: var(--text-muted, #aaa);
+    text-transform: uppercase;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px; /* مسافة بين الأيقونة والنص */
+}
+
+.sidebar-link-item {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    color: var(--text-primary, #eee);
+    text-decoration: none;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    gap: 10px; /* مسافة بين الأيقونة والنص */
+    border: 1px solid transparent;
+}
+
+.sidebar-link-item i {
+    /* اجعله متناسقاً مع لون الأيقونات لديك */
+    color: var(--neon-blue, #00c6ff); 
+    transition: all 0.3s ease;
+}
+
+.sidebar-link-item:hover {
+    background-color: var(--primary-hover-bg, #2a2a3a);
+    color: var(--neon-glow, #fff);
+    border-color: var(--neon-blue, #00c6ff);
+    transform: translateX(5px);
+    box-shadow: 0 0 10px var(--neon-blue-shadow, #00c6ff4d);
+}
+
+.sidebar-link-item:hover i {
+    color: var(--neon-glow, #fff);
+}
