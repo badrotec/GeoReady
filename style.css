@@ -1,239 +1,116 @@
-:root {
-  --bg-dark: #0e1117;
-  --bg-panel: #161b22;
-  --text-color: #e6edf3;
-  --neon-blue: #00b4ff;
-  --correct-color: #24d16c;
-  --incorrect-color: #ff5573;
-  --transition: 0.3s ease;
-  --radius: 12px;
-  font-family: 'Cairo', sans-serif;
+/* Geo-Master — Modern Neon Dark UI */
+:root{
+  --bg:#071023;
+  --panel:#0f1724;
+  --glass: rgba(255,255,255,0.03);
+  --muted:#9fb3c8;
+  --text:#e6f4ff;
+  --accent1:#00b4ff;
+  --accent2:#2af598;
+  --correct:#27d07b;
+  --wrong:#ff6b81;
+  --radius:14px;
+  --shadow: 0 10px 30px rgba(2,8,18,0.6);
+  font-family: 'Cairo', system-ui, -apple-system, "Segoe UI", Roboto, "Noto Naskh Arabic", sans-serif;
 }
 
-body {
-  background: var(--bg-dark);
-  color: var(--text-color);
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden;
+/* Reset */
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;background:linear-gradient(180deg,#041127 0%, #071023 60%);
+  color:var(--text);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
 }
 
-/* =============== الشريط الجانبي =============== */
-.sidebar {
-  position: fixed;
-  top: 0;
-  right: -300px;
-  width: 260px;
-  height: 100vh;
-  background: rgba(20, 25, 30, 0.96);
-  backdrop-filter: blur(8px);
-  color: white;
-  padding: 20px;
-  transition: right var(--transition);
-  z-index: 100;
-  box-shadow: -4px 0 10px rgba(0,0,0,0.5);
+/* Sidebar */
+.sidebar{
+  position:fixed; right:0; top:0; height:100vh; width:290px;
+  background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  padding:18px; border-left:1px solid rgba(255,255,255,0.03);
+  display:flex;flex-direction:column; gap:12px; z-index:60; transform:translateX(0);
 }
-.sidebar.open { right: 0; }
-.sidebar h2 { text-align: center; color: var(--neon-blue); }
-.sidebar h3 { margin-top: 20px; border-bottom: 1px solid #333; padding-bottom: 5px; }
-.sidebar a {
-  display: block;
-  color: #ccc;
-  padding: 8px;
-  text-decoration: none;
-  transition: color var(--transition);
-}
-.sidebar a:hover { color: var(--neon-blue); }
+.brand{display:flex;justify-content:space-between;align-items:center}
+.brand-left{display:flex;gap:10px;align-items:center}
+.logo{font-size:28px}
+.brand h1{margin:0;font-size:18px;color:var(--accent1)}
+.muted{color:var(--muted);font-size:13px}
+.icon-btn{background:transparent;border:0;color:var(--muted);cursor:pointer;padding:8px;border-radius:10px}
+.sidebar-section{margin-top:6px}
+.topics-list{display:flex;flex-direction:column;gap:8px;max-height:36vh;overflow:auto;padding-right:6px}
+.topics-list a, .topics-list button{background:transparent;border:1px solid rgba(255,255,255,0.02);color:var(--text);padding:8px;border-radius:12px;text-align:right;cursor:pointer}
+.topics-list button:hover{background:rgba(255,255,255,0.02);border-color:rgba(0,180,255,0.12)}
+.lang-grid{display:flex;gap:8px}
+.lang-btn{background:#0b1320;border:1px solid rgba(255,255,255,0.02);padding:8px 10px;border-radius:10px;color:var(--muted);cursor:pointer}
+.lang-btn.active{background:linear-gradient(90deg,var(--accent2),var(--accent1));color:#021a1a;box-shadow:0 8px 26px rgba(0,180,255,0.08)}
+.sidebar-bottom{margin-top:auto;display:flex;flex-direction:column;gap:8px;align-items:center}
 
-.close-btn {
-  background: none;
-  border: none;
-  color: white;
-  font-size: 20px;
-  float: left;
-}
+/* Overlay */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);display:none;z-index:50}
 
-.lang-switch button {
-  background: #1c222c;
-  border: none;
-  color: var(--neon-blue);
-  margin: 5px;
-  padding: 6px 10px;
-  border-radius: var(--radius);
-  cursor: pointer;
-}
-.lang-switch button:hover { background: var(--neon-blue); color: #000; }
+/* Header */
+.topbar{position:sticky;top:0;display:flex;justify-content:space-between;align-items:center;padding:12px 20px;background:transparent;z-index:40}
+.topbar .left{display:flex;align-items:center;gap:14px}
+.topbar .icon-btn{font-size:20px}
+.score-mini{display:flex;flex-direction:column;align-items:flex-end;padding-right:8px}
+.timer-compact{display:flex;align-items:center;gap:8px}
+.progress-ring{width:42px;height:42px}
+.progress-ring .bg{fill:none;stroke:rgba(255,255,255,0.03);stroke-width:2}
+.progress-ring .fg{fill:none;stroke:var(--accent1);stroke-width:2;stroke-linecap:round;transform-origin:center;transform:rotate(-90deg)}
 
-.overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.6);
-  z-index: 99;
-}
+/* Main layout */
+.main{max-width:1200px;margin:22px auto;padding:0 18px;display:grid;grid-template-columns:1fr;gap:18px}
+.card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:18px;border-radius:var(--radius);box-shadow:var(--shadow)}
+.hero{display:grid;grid-template-columns:1fr 420px;gap:16px;align-items:center}
+.hero-left h1{margin:0;font-size:28px}
+.controls-row{display:flex;gap:12px;align-items:center;margin-top:14px}
+.select-wrap span{display:block;font-size:13px;margin-bottom:6px;color:var(--muted)}
+.select-wrap select{padding:10px;border-radius:10px;background:transparent;border:1px solid rgba(255,255,255,0.03);color:var(--text)}
+.primary-btn{background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#021a1a;border:0;padding:12px 16px;border-radius:12px;font-weight:700;cursor:pointer}
+.ghost-btn{background:transparent;border:1px solid rgba(255,255,255,0.04);padding:10px 12px;border-radius:12px;color:var(--muted);cursor:pointer}
+.small{font-size:13px}
 
-/* =============== الرأس =============== */
-header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--bg-panel);
-  padding: 12px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
-}
-header h1 { margin: 0; color: var(--neon-blue); font-weight: 700; }
-.menu-btn {
-  position: absolute;
-  left: 15px;
-  background: none;
-  border: none;
-  color: var(--neon-blue);
-  font-size: 22px;
-  cursor: pointer;
-}
+/* Topics grid */
+.topics-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.topic-card{padding:12px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.02);cursor:pointer;transition:transform .18s}
+.topic-card:hover{transform:translateY(-6px)}
 
-/* =============== الشاشات =============== */
-.screen {
-  display: none;
-  padding: 20px;
-  animation: fadeIn 0.6s ease;
-}
-.screen.active,
-.screen:not(.hidden) {
-  display: block;
-}
+/* Quiz */
+.quiz-card .quiz-top{display:flex;justify-content:space-between;align-items:center}
+.q-meta{display:flex;flex-direction:column;gap:6px}
+.tag{background:rgba(255,255,255,0.02);padding:6px 10px;border-radius:10px;font-weight:700;color:var(--muted)}
+.timer-large{display:flex;flex-direction:column;align-items:center}
+#timer-display{font-weight:800;font-size:20px;padding:6px 10px;background:rgba(255,255,255,0.02);border-radius:10px}
+#progress-bar{width:220px;height:8px;background:rgba(255,255,255,0.02);border-radius:10px;margin-top:8px}
+#progress-bar-fill{width:100%;height:100%;background:linear-gradient(90deg,var(--accent2),var(--accent1));border-radius:10px;transition:width 1s linear}
 
-.center { text-align: center; margin-top: 60px; }
-.hidden { display: none !important; }
+.question-area{margin-top:18px}
+.question-text{font-size:20px;margin-bottom:8px}
+.options-container{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.option-label{display:flex;gap:8px;align-items:center;padding:12px;border-radius:12px;background:rgba(255,255,255,0.01);cursor:pointer;border:1px solid transparent}
+.option-label input{accent-color:var(--accent1)}
+.option-label.correct{border-color:var(--correct);background:linear-gradient(90deg, rgba(39,208,123,0.06), rgba(255,255,255,0.01))}
+.option-label.incorrect{border-color:var(--wrong);background:linear-gradient(90deg, rgba(255,86,115,0.06), rgba(255,255,255,0.01))}
+.quiz-actions{display:flex;gap:12px;justify-content:center;margin-top:18px}
 
-/* =============== الأزرار =============== */
-.primary-btn, .secondary-btn, .large-btn {
-  background: var(--neon-blue);
-  color: black;
-  border: none;
-  padding: 12px 22px;
-  font-weight: bold;
-  border-radius: var(--radius);
-  cursor: pointer;
-  transition: transform 0.2s, background var(--transition);
-}
-.primary-btn:hover, .secondary-btn:hover, .large-btn:hover {
-  transform: scale(1.05);
-}
-.secondary-btn {
-  background: transparent;
-  color: var(--neon-blue);
-  border: 2px solid var(--neon-blue);
-}
-.large-btn {
-  margin-top: 30px;
-  background: var(--correct-color);
-  font-size: 18px;
+/* Results */
+.results-summary{display:flex;gap:18px;justify-content:space-around;margin:12px 0}
+.grade-message{font-weight:700}
+.review-area{margin-top:10px}
+.review-item{padding:12px;border-radius:10px;background:rgba(255,255,255,0.01);margin-bottom:8px}
+.error-q{font-weight:700;color:var(--accent1)}
+
+/* Responsive */
+@media (max-width:900px){
+  .sidebar{display:none}
+  .overlay{display:none}
+  .hero{grid-template-columns:1fr;gap:12px}
+  .topics-grid{grid-template-columns:repeat(1,1fr)}
+  .options-container{grid-template-columns:1fr}
+  .main{padding:12px}
 }
 
-/* =============== قائمة المجالات =============== */
-.topics-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 15px;
-  margin-top: 20px;
-}
-.topic-card {
-  background: var(--bg-panel);
-  border: 1px solid #222;
-  padding: 15px;
-  border-radius: var(--radius);
-  text-align: center;
-  font-weight: 600;
-  color: var(--neon-blue);
-  cursor: pointer;
-  transition: background var(--transition);
-}
-.topic-card:hover {
-  background: #1c222c;
-}
-
-/* =============== شاشة الأسئلة =============== */
-.quiz-header {
-  text-align: center;
-  margin-bottom: 20px;
-}
-.timer-box {
-  background: var(--bg-panel);
-  border-radius: var(--radius);
-  padding: 10px;
-  margin: 10px auto;
-  width: fit-content;
-}
-#progress-bar {
-  background: #333;
-  border-radius: var(--radius);
-  height: 6px;
-  margin-top: 6px;
-  width: 160px;
-}
-#progress-bar-fill {
-  height: 6px;
-  width: 100%;
-  border-radius: var(--radius);
-  background: var(--neon-blue);
-  transition: width 1s linear;
-}
-.question-text {
-  font-size: 20px;
-  margin-bottom: 15px;
-}
-.options-container {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-.option-label {
-  background: var(--bg-panel);
-  padding: 10px;
-  border-radius: var(--radius);
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  border: 1px solid transparent;
-  transition: background var(--transition);
-}
-.option-label:hover { background: #1c222c; }
-.option-label.correct { border-color: var(--correct-color); background: rgba(36,209,108,0.1); }
-.option-label.incorrect { border-color: var(--incorrect-color); background: rgba(255,85,115,0.1); }
-
-.quiz-controls { text-align: center; margin-top: 20px; }
-
-/* =============== النتائج =============== */
-.results-box {
-  background: var(--bg-panel);
-  padding: 20px;
-  border-radius: var(--radius);
-  box-shadow: 0 0 12px rgba(0,0,0,0.6);
-  text-align: center;
-}
-.score-panel {
-  display: flex;
-  justify-content: space-around;
-  margin: 15px 0;
-  font-size: 18px;
-}
-.review-log {
-  text-align: left;
-  margin-top: 20px;
-}
-.review-item {
-  background: #1c222c;
-  padding: 10px;
-  border-radius: var(--radius);
-  margin-bottom: 10px;
-}
-.error-q { color: var(--neon-blue); font-weight: bold; }
-.wrong { color: var(--incorrect-color); }
-.right { color: var(--correct-color); }
-.all-correct { text-align: center; color: var(--correct-color); }
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+/* Small transitions */
+button, select { transition: all .18s ease }
+.hidden{display:none !important}
