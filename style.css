@@ -187,6 +187,11 @@ body {
     position: relative;
     z-index: 10;
     transition: var(--transition-smooth);
+    /* --- إضافات لتخطيط الفليكس (لمنع تمرير الصفحة) --- */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; 
+    /* --- نهاية الإضافات --- */
 }
 
 .main-header {
@@ -473,7 +478,25 @@ body {
     max-width: 100%;
     position: relative;
     z-index: 10;
+    /* --- إضافات لتخطيط الفليكس --- */
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    /* --- نهاية الإضافات --- */
 }
+
+/* --- إضافة لضمان ملء الشاشة النشطة --- */
+.screen.active {
+    flex-grow: 1; /* الشاشة النشطة تملأ المساحة */
+    width: 100%;
+    /* إذا كانت الشاشات تستخدم display: block، يجب أن تكون هذه 
+       flex-grow: 1 فقط. إذا كانت الشاشة نفسها flex (مثل شاشة الاختبار)،
+       فهذا يضمن أن الحاوية (main#app-container) تسمح لها بالنمو.
+    */
+}
+/* --- نهاية الإضافة --- */
+
 
 /* Hero Section */
 .hero-section {
@@ -690,9 +713,25 @@ body {
     position: relative;
 }
 
+/* --- إضافة لتخصيص حاوية السؤال (للتمرير الداخلي) --- */
+/* هذه القاعدة تخصص حاوية السؤال لتنمو وتمرر داخلياً */
+#question-container.data-module {
+    flex-grow: 1; /* أهم خاصية: تملأ المساحة */
+    overflow-y: auto; /* تفعيل التمرير الداخلي عند الحاجة */
+    margin-bottom: 15px; /* مسافة قبل أزرار التحكم */
+    padding: 25px; /* تعديل الحشو الداخلي إذا لزم الأمر */
+}
+/* --- نهاية الإضافة --- */
+
+
 #quiz-screen {
     display: flex;
     flex-direction: column;
+    /* --- إضافات لضمان عدم التمرير --- */
+    padding-bottom: 20px; 
+    box-sizing: border-box; 
+    /* الارتفاع والنمو يتم التحكم بهما الآن عبر .screen.active */
+    /* --- نهاية الإضافات --- */
 }
 
 .data-module::after {
@@ -716,6 +755,9 @@ body {
 
 .quiz-header-status {
     margin-bottom: 30px;
+    /* --- إضافة لضمان عدم الانكماش --- */
+    flex-shrink: 0;
+    /* --- نهاية الإضافة --- */
 }
 
 .quiz-header-status h2 {
@@ -931,6 +973,9 @@ body {
     flex-direction: column-reverse;
     gap: 15px;
     margin-top: 30px;
+    /* --- إضافة لضمان عدم الانكماش --- */
+    flex-shrink: 0;
+    /* --- نهاية الإضافة --- */
 }
 
 .control-btn {
@@ -1439,6 +1484,12 @@ body {
     .hero-image {
         max-width: 60%; /* Adjust image size on larger screens */
     }
+
+    /* --- إضافة: تعديل حاوية السؤال على شاشة الحاسوب --- */
+    #question-container.data-module {
+        padding: 35px 25px; /* إرجاع الحشو الأصلي للشاشات الكبيرة */
+    }
+    /* --- نهاية الإضافة --- */
 }
 
 @media (min-width: 1200px) {
@@ -1573,6 +1624,11 @@ body {
     margin-top: 0; /* Remove top margin as total trainees section provides space */
     border-top: none; /* Remove top border as total trainees section has bottom border */
     padding-top: 20px; /* Adjust padding if needed */
+}
+
+/* --- إضافة: تصغير أيقونة زر التحدي اليومي --- */
+#daily-challenge-btn .btn-icon {
+    font-size: 0.9em; 
 }
 
 /* تعديل تنسيق زر التحدي اليومي */
