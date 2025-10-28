@@ -784,7 +784,7 @@ document.addEventListener('DOMContentLoaded', () => {
              activeUsersCountElement.textContent = randomCount;
          }
      }
-     setInterval(updateActiveUsers, 5000); // Update every 5 seconds
+     setInterval(updateActiveUsers, 50000); // Update every 50 seconds
      updateActiveUsers(); // Initial update
 
 
