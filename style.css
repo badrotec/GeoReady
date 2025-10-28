@@ -1,87 +1,63 @@
 /* =======================================================
-   13. [إضافة] تعديلات لضغط شاشة الاختبار على الهواتف
-   (لمنع أي تمرير عمودي)
+   13. [تعديل جذري] حل مشكلة التمرير في شاشة الاختبار
+   (جعل رأس الاختبار لاصقاً "sticky" بدلاً من تقسيم الشاشة)
    ======================================================= */
-@media (max-width: 767px) {
+
+/* 1. إلغاء تقسيم الشاشة وتخطيط الفليكس (للسماح بالتمرير) */
+#main-content-wrapper {
+    display: block; /* إلغاء flex */
+    min-height: auto; /* إلغاء 100vh */
+}
+
+main#app-container {
+    flex-grow: 0; /* إلغاء النمو */
+    display: block; /* إلغاء flex */
+}
+
+.screen.active {
+    flex-grow: 0; /* إلغاء النمو */
+}
+
+/* 2. إرجاع شاشة الاختبار لوضع التمرير العادي */
+#quiz-screen.screen {
+    display: block; /* إلغاء flex */
+    padding-bottom: 0; /* إرجاع للوضع الافتراضي */
+}
+
+/* 3. جعل رأس الاختبار (الوقت/النقاط) لاصقاً "sticky" */
+.quiz-header-status {
+    position: sticky;
+    /* الهيدر الرئيسي (GEO-MASTER) هو أيضاً sticky top: 0 */
+    /* هذا سيلتصق بأعلى حاوية التمرير (#app-container) */
+    top: 0; 
+    z-index: 90; /* (أقل من الهيدر الرئيسي z-index: 100) */
     
-    /* 1. إزالة التمرير الداخلي من حاوية السؤال 
-       والسماح لها بالانكماش
-    */
-    #question-container.data-module {
-        flex-grow: 0; /* السماح بالانكماش (إلغاء flex-grow: 1) */
-        overflow-y: visible; /* إلغاء التمرير الداخلي */
-        padding: 15px; /* تقليل الحشو */
-        margin-bottom: 10px; /* تقليل الهامش */
-    }
-
-    /* 2. تقليل هوامش رأس الاختبار */
-    .quiz-header-status {
-        margin-bottom: 15px; /* تقليل الهامش السفلي */
-        padding-bottom: 10px;
-    }
-
-    .quiz-header-status h2 {
-        margin-bottom: 15px;
-        font-size: 1.3em; /* تصغير الخط */
-    }
+    /* !! مهم جداً: إضافة خلفية لإخفاء المحتوى الذي يمر تحته */
+    background: var(--bg-main); 
     
-    .quiz-meta {
-        margin-bottom: 15px;
-        gap: 10px; /* تقليل الفجوة */
-    }
-
-    /* 3. تصغير عناصر الـ meta (الوقت، النقاط) */
-    .timer-display {
-        font-size: 1.2em; /* تصغير */
-        padding: 6px 12px;
-    }
-    .timer-value {
-        font-size: 1em;
-    }
-    .counter-badge,
-    .score-badge {
-        font-size: 0.85em;
-        padding: 5px 10px;
-    }
+    padding-bottom: 15px; /* إعادة الحشو السفلي */
     
-    /* 4. تصغير خط السؤال والحشو */
-    .question-text {
-        font-size: 1.15em; /* تصغير خط السؤال */
-        padding: 12px; /* تقليل الحشو */
-        margin-bottom: 15px; /* تقليل الهامش */
-        line-height: 1.6;
-    }
+    /* إضافة ظل لتمييزه عند التمرير وفصله عن المحتوى */
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4); 
+    border-bottom: 1px solid var(--neon-blue); /* إضافة خط فاصل */
+}
 
-    /* 5. تصغير الخيارات */
-    .options-container {
-        gap: 8px; /* تقليل المسافة بين الخيارات */
-    }
-
-    .option-label {
-        font-size: 1em; /* تصغير خط الخيار */
-        padding: 10px 12px; /* تقليل الحشو */
-    }
-     .option-label input[type="radio"] {
-        width: 20px;
-        height: 20px;
-    }
-
-    /* 6. تقليل هوامش الأزرار */
-    .controls-bar {
-        margin-top: 15px; /* تقليل الهامش العلوي */
-        gap: 10px;
-        padding-top: 10px;
-    }
-
-    .control-btn {
-        font-size: 1em; /* تصغير خط الأزرار */
-        padding: 12px 25px;
-    }
+/* 4. إرجاع حاوية السؤال لوضعها الطبيعي (بدون تمرير داخلي) */
+#question-container.data-module {
+    flex-grow: 0; /* إلغاء النمو */
+    overflow-y: visible; /* إلغاء التمرير الداخلي */
+    margin-bottom: 30px; /* إرجاع الهامش الطبيعي */
     
-    /* 7. تصغير رسالة الإجابة (feedback) */
-    #feedback-container {
-        margin-top: 10px;
-        padding: 10px;
-        font-size: 1em;
-    }
+    /* إلغاء التعديلات السابقة إذا وجدت */
+    padding: 35px 25px; 
+    border-radius: 20px;
+    background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-module) 100%);
+}
+
+/* 5. إرجاع أزرار التحكم لوضعها الطبيعي */
+#controls.controls-bar {
+     flex-shrink: 0;
+     padding-top: 0; /* إلغاء الحشو العلوي */
+     border-top: none; /* إلغاء الخط العلوي */
+     margin-top: 30px; /* إرجاع الهامش الطبيعي */
 }
