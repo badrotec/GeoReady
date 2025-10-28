@@ -212,6 +212,7 @@ function startDailyChallenge() {
     const t = translations[currentLanguage];
     if (!geologicalData || Object.keys(geologicalData).length === 0) {
         console.error("Geological data not loaded yet.");
+        // Maybe show a notification toast here
         showNotification("Data not ready, please wait."); // Example notification
         return;
     }
@@ -228,6 +229,7 @@ function startDailyChallenge() {
 
     if (dailyQuestions.length < DAILY_CHALLENGE_QUESTIONS) {
         console.warn(`Not enough questions for daily challenge. Found ${dailyQuestions.length}`);
+        // Optionally show a message or proceed with fewer questions
     }
 
     // Start the quiz with the selected questions and specific title
@@ -459,6 +461,12 @@ function handleTimeout() {
     if (submitBtn) submitBtn.classList.add('hidden');
     const nextBtn = document.getElementById('next-btn');
     if (nextBtn) nextBtn.classList.remove('hidden');
+
+    // Optional: Auto-advance after a short delay
+    // setTimeout(() => {
+    //     currentQuestionIndex++;
+    //     displayQuestion();
+    // }, 2000); // Wait 2 seconds before moving on
 }
 
 
@@ -473,6 +481,7 @@ function showResults() {
     const reviewArea = document.getElementById('review-area');
     const correctCountElement = document.getElementById('correct-count');
     const wrongCountElement = document.getElementById('wrong-count');
+    // const totalTimeElement = document.getElementById('total-time'); // Need to track time if required
 
     if (quizScreen) quizScreen.classList.add('hidden');
     if (resultsScreen) resultsScreen.classList.remove('hidden');
@@ -492,6 +501,7 @@ function showResults() {
     if (totalQuestionsCountElement) totalQuestionsCountElement.textContent = totalQuestions;
     if (correctCountElement) correctCountElement.textContent = correctCount;
     if (wrongCountElement) wrongCountElement.textContent = wrongCount;
+    // Update total time if tracked
 
     // Calculate percentage and display grade message
     const divisor = totalQuestions || 1; // Avoid division by zero
@@ -625,10 +635,7 @@ function translateUI(langCode) {
 
     // Update elements within the quiz screen only if it's active
     if (!document.getElementById('quiz-screen').classList.contains('hidden')) {
-        // Update quiz title based on currentQuestions (assuming it's set appropriately)
-        // This is tricky as we don't know if it's daily or topic here easily
-        // Best to let startQuiz handle the title text fully
-
+        updateText('#quiz-title', 'quiz_title_prefix'); // Update prefix, actual title set in startQuiz
         updateHTML('#submit-btn .btn-text', 'submit');
         updateHTML('#next-btn .btn-text', 'next');
         const timerUnitElement = document.querySelector('#timer-display .timer-unit');
@@ -643,21 +650,13 @@ function translateUI(langCode) {
      // Update elements within the results screen only if it's active
      if (!document.getElementById('results-screen').classList.contains('hidden')) {
         updateHTML('#results-screen button[onclick*="reload"] .btn-text', 'new_quiz');
-        
+        // Re-evaluate grade message based on current percentage/score if needed
          const gradeMessageElement = document.getElementById('grade-message');
-         if (gradeMessageElement && Object.keys(userAnswers).length > 0) { // Check if results are actually displayed
-             // Re-apply grade logic based on current counts
-             const correctCountElement = document.getElementById('correct-count');
-             const totalQuestionsCountElement = document.getElementById('total-questions-count');
-             if(correctCountElement && totalQuestionsCountElement) {
-                 const correctCount = parseInt(correctCountElement.textContent || '0');
-                 const totalQuestions = parseInt(totalQuestionsCountElement.textContent || '1');
-                 const divisor = totalQuestions || 1;
-                 const percentage = Math.round((correctCount / divisor) * 100);
-                 if (percentage >= 90) gradeMessageElement.innerHTML = t.great_job;
-                 else if (percentage >= 70) gradeMessageElement.innerHTML = t.good_job;
-                 else gradeMessageElement.innerHTML = t.needs_review;
-             }
+         if (gradeMessageElement) {
+             // Re-apply logic based on score or recalculate percentage if necessary
+             // This might require storing the percentage or score globally accessible here
+             // For now, just re-fetching based on existing content might be tricky.
+             // It's better to update it fully when showResults is called after language change.
          }
          const reviewTitle = document.querySelector('#review-area h3');
          if (reviewTitle) reviewTitle.innerHTML = `<i class="fas fa-bug"></i> ${t.review_errors}`;
@@ -681,15 +680,12 @@ function translateUI(langCode) {
     }
 
 
-    // Update sidebar topic links if they exist
-     const sidebarLinks = document.querySelectorAll('#sidebar-topics-list a');
-     // Topic names currently don't use translation keys, keep as is unless data structure changes
-
+    // Update sidebar topic links if needed (textContent usually sufficient)
     // Update active user title attribute
      const activeUsersIndicator = document.querySelector('.active-users-indicator');
      if (activeUsersIndicator) activeUsersIndicator.title = t.active_users_title;
 
-    // Update language selector visually
+    // Update language selector visually (optional)
     const langSelect = document.getElementById('lang-select');
     if (langSelect) langSelect.value = langCode;
 }
@@ -697,6 +693,8 @@ function translateUI(langCode) {
 
 function changeLanguage(langCode) {
     translateUI(langCode);
+    // Optionally: re-render dynamic content like topic list names if they need translation
+    // initializeTopicSelection(geologicalData); // This might re-add listeners, be careful
 }
 
 // ------ تبديل السمة ------
@@ -729,9 +727,10 @@ function showNotification(message, duration = 3000) {
 
     setTimeout(() => {
         toast.classList.remove('show');
+        // Add a delay before hiding completely for fade-out effect if desired
         setTimeout(() => {
              toast.classList.add('hidden');
-        }, 500); // Match CSS transition
+        }, 500); // Match this duration to CSS transition if any
     }, duration);
 }
 
@@ -760,12 +759,22 @@ document.addEventListener('DOMContentLoaded', () => {
             overlay.style.display = 'none';
         });
     }
+     // Close sidebar if clicking overlay
      if (overlay && sidebar) {
           overlay.addEventListener('click', () => {
                sidebar.classList.remove('open');
                overlay.style.display = 'none';
           });
      }
+
+
+    // --- زر إعادة تشغيل النظام ---
+    // Moved event listener addition inside DOMContentLoaded for safety
+    const restartBtn = document.querySelector('#results-screen button[onclick*="reload"]');
+    if (restartBtn) {
+         // The onclick attribute handles the reload, but we could add more complex logic here if needed.
+         // Example: restartBtn.addEventListener('click', () => { /* custom logic */ window.location.reload(); });
+    }
 
      // --- Active users count update ---
      const activeUsersCountElement = document.getElementById('active-users-count');
@@ -775,9 +784,7 @@ document.addEventListener('DOMContentLoaded', () => {
              activeUsersCountElement.textContent = randomCount;
          }
      }
-     // === تم تغيير الرقم هنا ===
-     setInterval(updateActiveUsers, 30000); // تحديث كل 30 ثانية
-     // =========================
+     setInterval(updateActiveUsers, 5000); // Update every 5 seconds
      updateActiveUsers(); // Initial update
 
 
