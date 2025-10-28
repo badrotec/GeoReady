@@ -12,13 +12,16 @@
     --neon-cyan: #00fff5;
     --neon-purple: #b026ff;
     --neon-pink: #ff006e;
-    --neon-accent: #ff4500;
+    --neon-accent: #ff4500; /* Orange */
+    --neon-green: #39ff14; /* Neon Green for active status */
     --correct-color: #00ff88;
     --incorrect-color: #ff3366;
     
     --shadow-deep: 0 8px 32px rgba(0, 0, 0, 0.9);
     --shadow-neon-blue: 0 0 20px rgba(0, 217, 255, 0.5), 0 0 40px rgba(0, 217, 255, 0.3);
     --shadow-neon-purple: 0 0 20px rgba(176, 38, 255, 0.5);
+    --shadow-neon-accent: 0 0 20px rgba(255, 69, 0, 0.5); /* Orange shadow */
+    --shadow-neon-green: 0 0 15px rgba(57, 255, 20, 0.6); /* Green shadow */
     
     --sidebar-width: 85%;
     --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -117,12 +120,21 @@ body {
     }
 }
 
-@keyframes pulseGlow {
+@keyframes pulseGlow { /* Primary button pulse */
     0%, 100% {
         box-shadow: 0 0 20px rgba(0, 217, 255, 0.4);
     }
     50% {
         box-shadow: 0 0 40px rgba(0, 217, 255, 0.8);
+    }
+}
+
+@keyframes pulseGlowSecondary { /* Secondary button pulse */
+    0%, 100% {
+        box-shadow: 0 0 20px rgba(255, 69, 0, 0.5); /* Orange shadow */
+    }
+    50% {
+        box-shadow: 0 0 40px rgba(255, 0, 110, 0.7); /* Pinkish-orange shadow */
     }
 }
 
@@ -150,8 +162,18 @@ body {
     animation: fadeInUp 0.8s ease-out both;
 }
 
-.pulse-btn {
+.pulse-btn { /* Primary pulse */
     animation: pulseGlow 2s ease-in-out infinite;
+}
+
+.pulse-secondary-btn { /* Secondary pulse */
+    animation: pulseGlowSecondary 2.2s ease-in-out infinite; /* Slightly different timing */
+}
+
+@keyframes dotPulse { /* Green dot pulse */
+    0% { box-shadow: 0 0 0 0 rgba(57, 255, 20, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(57, 255, 20, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(57, 255, 20, 0); }
 }
 
 .hidden {
@@ -227,12 +249,41 @@ body {
 }
 
 .user-status {
-    display: none;
+    display: none; /* Hidden by default, shown on larger screens */
     align-items: center;
     gap: 8px;
     color: var(--text-secondary);
     font-size: 0.9em;
 }
+
+/* Active Users Indicator - NEW */
+.active-users-indicator {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background-color: var(--bg-card);
+    padding: 5px 10px;
+    border-radius: 20px;
+    border: 1px solid var(--neon-green);
+    color: var(--neon-green);
+    font-size: 0.9em;
+    font-weight: 600;
+    box-shadow: var(--shadow-neon-green);
+}
+
+.active-dot {
+    width: 10px;
+    height: 10px;
+    background-color: var(--neon-green);
+    border-radius: 50%;
+    animation: dotPulse 1.5s infinite cubic-bezier(0.66, 0, 0, 1);
+}
+
+#active-users-count {
+    min-width: 15px; /* Ensure space for two digits */
+    text-align: center;
+}
+
 
 /* =======================================================
    5. القائمة الجانبية المحسّنة
@@ -445,6 +496,7 @@ body {
     height: 200%;
     background: radial-gradient(circle, rgba(0, 217, 255, 0.1) 0%, transparent 70%);
     animation: rotate3d 20s linear infinite;
+    z-index: 0; /* Behind hero content */
 }
 
 .hero-content {
@@ -476,6 +528,35 @@ body {
     line-height: 1.8;
 }
 
+/* Hero Image - NEW/EXISTING */
+.hero-image-container {
+    margin-top: 30px; 
+    text-align: center; 
+    position: relative; /* Needed for z-index */
+    z-index: 2; /* Ensure image is above pseudo-element */
+}
+
+.hero-image {
+    max-width: 80%; 
+    height: auto; 
+    border-radius: 15px; 
+    border: 3px solid var(--neon-cyan); 
+    box-shadow: 0 0 25px rgba(0, 255, 245, 0.4); 
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hero-image:hover {
+    transform: scale(1.03); 
+    box-shadow: 0 0 40px rgba(0, 255, 245, 0.6); 
+}
+
+/* Daily Challenge Button - NEW */
+.daily-challenge-section {
+    margin-top: 35px; /* Space between image and button */
+    position: relative; /* Needed for z-index */
+    z-index: 2; /* Ensure button is above pseudo-element */
+}
+
 /* زر البدء المحسّن */
 .large-btn {
     padding: 20px 40px;
@@ -483,6 +564,7 @@ body {
     border-radius: 50px;
     position: relative;
     overflow: hidden;
+    z-index: 2; /* Ensure button is above pseudo-element */
 }
 
 .large-btn .btn-icon {
@@ -606,18 +688,12 @@ body {
     padding: 35px 25px;
     border-radius: 20px;
     position: relative;
-    /* إزالة الارتفاع الثابت للسماح بالتوسع */
-    /* max-height: 80vh;  هذا قد يسبب التمرير */
-    /* overflow-y: auto;  هذا قد يسبب التمرير */
 }
 
-/* إزالة التمرير الداخلي المحتمل في شاشة الاختبار */
 #quiz-screen {
     display: flex;
     flex-direction: column;
-    /* min-height: calc(100vh - 100px); */ /* قد يكون مفيداً في بعض الحالات */
 }
-
 
 .data-module::after {
     content: '';
@@ -703,7 +779,6 @@ body {
     background: linear-gradient(135deg, var(--neon-purple), var(--neon-pink));
 }
 
-/* Progress Bar */
 #progress-bar-container {
     width: 100%;
     height: 8px;
@@ -739,7 +814,6 @@ body {
     100% { transform: translateX(100%); }
 }
 
-/* السؤال */
 .question-text {
     font-size: 1.5em;
     padding: 25px;
@@ -752,7 +826,6 @@ body {
     box-shadow: inset 0 0 20px rgba(0, 217, 255, 0.1);
 }
 
-/* الخيارات المحسّنة */
 .options-container {
     display: flex;
     flex-direction: column;
@@ -806,7 +879,6 @@ body {
     flex: 1;
 }
 
-/* التغذية الراجعة */
 .option-label.correct {
     background: linear-gradient(135deg, var(--correct-color), rgba(0, 255, 136, 0.8));
     border-color: var(--correct-color);
@@ -832,7 +904,6 @@ body {
     75% { transform: translateX(10px); }
 }
 
-/* Feedback Message */
 .feedback-message {
     margin-top: 25px;
     padding: 20px;
@@ -855,7 +926,6 @@ body {
     color: var(--incorrect-color);
 }
 
-/* الأزرار المحسّنة */
 .controls-bar {
     display: flex;
     flex-direction: column-reverse;
@@ -1090,7 +1160,6 @@ body {
     border: 2px solid var(--neon-purple);
 }
 
-/* إحصائيات التفصيلية */
 .stats-breakdown {
     display: grid;
     grid-template-columns: 1fr;
@@ -1166,7 +1235,6 @@ body {
     color: var(--neon-purple);
 }
 
-/* مراجعة الأخطاء */
 .review-log {
     max-height: 600px;
     overflow-y: auto;
@@ -1241,7 +1309,6 @@ body {
     padding: 40px 20px;
 }
 
-/* أزرار الإجراءات */
 .action-buttons {
     display: flex;
     flex-direction: column;
@@ -1257,8 +1324,10 @@ body {
     padding: 30px 20px;
     background: var(--bg-module);
     border-top: 2px solid var(--neon-blue);
-    margin-top: 60px;
+    /* margin-top: 60px; Removed margin-top to place total trainees above */
     color: var(--text-secondary);
+    position: relative; /* Ensure it stays below */
+    z-index: 5; /* Lower z-index */
 }
 
 .app-footer i {
@@ -1320,7 +1389,7 @@ body {
     }
     
     .user-status {
-        display: flex;
+        display: flex; /* Show user status on larger screens */
     }
     
     .list-container {
@@ -1366,6 +1435,10 @@ body {
     .question-text {
         font-size: 1.7em;
     }
+
+    .hero-image {
+        max-width: 60%; /* Adjust image size on larger screens */
+    }
 }
 
 @media (min-width: 1200px) {
@@ -1398,7 +1471,8 @@ body {
     #overlay,
     .main-header,
     .controls-bar,
-    .app-footer {
+    .app-footer,
+    .total-trainees-section { /* Hide new section in print */
         display: none !important;
     }
     
@@ -1411,7 +1485,6 @@ body {
 /*
 =============================
  تنسيقات قسم الموارد التعليمية
- (هذا هو الكود المضاف)
 =============================
 */
 .sidebar-links-section {
@@ -1447,7 +1520,6 @@ body {
 }
 
 .sidebar-link-item i {
-    /* اجعله متناسقاً مع لون الأيقونات لديك */
     color: var(--neon-blue, #00c6ff); 
     transition: all 0.3s ease;
 }
@@ -1462,4 +1534,73 @@ body {
 
 .sidebar-link-item:hover i {
     color: var(--neon-glow, #fff);
+}
+
+/*
+=============================
+ تنسيقات العناصر الجديدة 
+=============================
+*/
+
+/* تنسيق قسم إجمالي المتدربين */
+.total-trainees-section {
+    text-align: center;
+    padding: 25px 20px;
+    background: var(--bg-module);
+    border-top: 2px solid var(--neon-purple);
+    border-bottom: 2px solid var(--neon-purple); /* Added bottom border */
+    margin: 40px 0 0 0; /* Space above, remove bottom margin */
+    color: var(--neon-cyan);
+    font-size: 1.2em;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    position: relative; /* Needed for z-index */
+    z-index: 10; /* Ensure it's above grid/particles */
+}
+
+.total-trainees-section .trainee-count {
+    font-size: 1.5em;
+    font-weight: 900;
+    color: var(--neon-pink);
+    text-shadow: 0 0 10px var(--neon-pink);
+}
+
+/* تعديل تنسيق الفوتر ليكون أسفل القسم الجديد */
+.app-footer {
+    margin-top: 0; /* Remove top margin as total trainees section provides space */
+    border-top: none; /* Remove top border as total trainees section has bottom border */
+    padding-top: 20px; /* Adjust padding if needed */
+}
+
+/* تعديل تنسيق زر التحدي اليومي */
+#daily-challenge-btn.secondary {
+    /* Uses existing .secondary styles */
+    /* Add specific overrides if needed */
+    font-size: 1.2em; /* Slightly smaller than main button */
+    padding: 18px 35px; /* Adjust padding */
+}
+
+/* إضافة استجابة للصورة والهامش على الشاشات الأصغر */
+@media (max-width: 767px) {
+    .hero-image {
+        max-width: 90%; 
+    }
+    .daily-challenge-section {
+        margin-top: 25px; /* Adjust margin on smaller screens */
+    }
+    #start-quiz-btn {
+        margin-top: 15px; /* Adjust margin on smaller screens */
+    }
+     .active-users-indicator {
+        font-size: 0.8em; /* Smaller font on mobile */
+        padding: 4px 8px;
+        gap: 4px;
+    }
+    .active-dot {
+        width: 8px;
+        height: 8px;
+    }
 }
