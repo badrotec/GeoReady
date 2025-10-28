@@ -1,6 +1,6 @@
 // **=================================================**
-
 // [1] المتغيرات العالمية والتحكم
+// **=================================================**
 let geologicalData = {};
 let currentQuestions = [];
 let currentQuestionIndex = 0;
@@ -18,7 +18,7 @@ const translations = {
     'ar': {
         'start_custom_quiz': 'بدء اختبار مخصص',
         'daily_challenge': 'التحدي اليومي',
-        'daily_challenge_button': `التحدي اليومي (${DAILY_CHALLENGE_QUESTIONS} أسئلة)`,
+        'daily_challenge_button': 'التحدي اليومي', // *** تم التعديل: إزالة عدد الأسئلة ***
         'choose_domain': 'اختر مجال الاختبار المخصص:',
         'quiz_title_prefix': 'اختبار:',
         'question': 'السؤال',
@@ -41,7 +41,7 @@ const translations = {
     'en': {
         'start_custom_quiz': 'Start Custom Quiz',
         'daily_challenge': 'Daily Challenge',
-        'daily_challenge_button': `Daily Challenge (${DAILY_CHALLENGE_QUESTIONS} Questions)`,
+        'daily_challenge_button': 'Daily Challenge', // *** تم التعديل: إزالة عدد الأسئلة ***
         'choose_domain': 'Choose Custom Quiz Domain:',
         'quiz_title_prefix': 'Quiz:',
         'question': 'Question',
@@ -65,7 +65,7 @@ const translations = {
     'fr': {
         'start_custom_quiz': 'Commencer Quiz Personnalisé',
         'daily_challenge': 'Défi Quotidien',
-        'daily_challenge_button': `Défi Quotidien (${DAILY_CHALLENGE_QUESTIONS} Questions)`,
+        'daily_challenge_button': 'Défi Quotidien', // *** تم التعديل: إزالة عدد الأسئلة ***
         'choose_domain': 'Choisissez un domaine de Quiz Personnalisé:',
         'quiz_title_prefix': 'Quiz:',
         'question': 'Question',
@@ -777,15 +777,28 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
      // --- Active users count update ---
+     // *** بداية التعديل: منطق تحديث المستخدمين النشطين ***
      const activeUsersCountElement = document.getElementById('active-users-count');
+     let currentActiveUsers = Math.floor(Math.random() * (8 - 3 + 1)) + 3; // قيمة أولية عشوائية بين 3 و 8
+
      function updateActiveUsers() {
-         const randomCount = Math.floor(Math.random() * (35 - 7 + 1)) + 7; // Random between 7 and 35
+         // تذبذب بمقدار -1, 0, أو +1
+         const change = Math.floor(Math.random() * 3) - 1; // -1, 0, or 1
+         let newCount = currentActiveUsers + change;
+
+         // التأكد من بقاء العدد ضمن النطاق 3-8 وجعله "يرتد"
+         if (newCount < 3) newCount = 4;
+         if (newCount > 8) newCount = 7;
+         
+         currentActiveUsers = newCount; // حفظ القيمة الجديدة
+
          if (activeUsersCountElement) {
-             activeUsersCountElement.textContent = randomCount;
+             activeUsersCountElement.textContent = currentActiveUsers;
          }
      }
-     setInterval(updateActiveUsers, 5000); // Update every 5 seconds
-     updateActiveUsers(); // Initial update
+     setInterval(updateActiveUsers, 5000); // تحديث كل 5 ثواني
+     updateActiveUsers(); // تحديث فوري
+     // *** نهاية التعديل ***
 
 
     // --- تحميل بيانات الاختبار ---
