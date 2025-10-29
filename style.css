@@ -1,3 +1,288 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GEO-MASTER | منصة اختبارات الجيولوجيا</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+    <canvas id="particles-canvas"></canvas>
+    
+    <div class="cyber-grid"></div>
+    
+    <aside id="sidebar">
+        <div class="sidebar-header">
+            <h3><i class="fas fa-layer-group"></i> وحدات التدريب</h3>
+            <button id="close-sidebar-btn" class="sidebar-close-btn" title="إغلاق">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="language-selector">
+            <label for="lang-select"><i class="fas fa-globe"></i> نظام اللغة:</label>
+            <select id="lang-select" onchange="changeLanguage(this.value)">
+                <option value="ar" selected>العربية (AR)</option>
+                <option value="en">English (EN)</option>
+                <option value="fr">Français (FR)</option>
+            </select>
+        </div>
+        
+        <div class="stats-container">
+            <div class="stat-item">
+                <i class="fas fa-brain"></i>
+                <span id="total-quizzes">0</span>
+                <p>اختبارات مكتملة</p>
+            </div>
+            <div class="stat-item">
+                <i class="fas fa-trophy"></i>
+                <span id="avg-score">0%</span>
+                <p>متوسط النجاح</p>
+            </div>
+        </div>
+
+        <div class="sidebar-links-section">
+            <h4 class="sidebar-section-title"><i class="fas fa-book-open"></i> موارد تعليمية</h4>
+            <a href="gis.html" class="sidebar-link-item">
+                <i class="fas fa-globe-americas"></i>
+                <span>مدخل إلى GIS الجيولوجي</span>
+            </a>
+            </div>
+        <div class="sidebar-topics-list" id="sidebar-topics-list">
+            </div>
+    </aside>
+    
+    <div id="overlay"></div>
+
+    <div id="main-content-wrapper">
+        <header class="main-header">
+            <button id="open-sidebar-btn" class="sidebar-toggle-btn" title="فتح القائمة">
+                <i class="fas fa-bars"></i>
+            </button>
+            <h1 class="app-title">
+                <span class="title-glitch" data-text="GEO-MASTER">GEO-MASTER</span>
+            </h1>
+            <div class="header-info">
+                <span class="active-users-indicator" title="المتدربون النشطون الآن">
+                    <span class="active-dot"></span>
+                    <span id="active-users-count">12</span> </span>
+                <span class="user-status">
+                    <i class="fas fa-user-circle"></i> وضع الزائر
+                </span>
+                <button id="theme-toggle" class="theme-btn" title="تبديل السمة">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </header>
+
+        <main id="app-container">
+            <section id="topic-selection" class="screen active">
+                <div class="hero-section">
+                    <div class="hero-content">
+                        <h2 class="section-title animated-fade">
+                            <span class="title-icon"><i class="fas fa-satellite-dish"></i></span>
+                            مرحباً بك في نظام GEO-MASTER
+                        </h2>
+                        <p class="hero-description">
+                            منصة تدريب متقدمة لاختبار معرفتك في علوم الأرض والجيولوجيا
+                        </p>
+                        <div class="hero-image-container">
+                            <img src="images/field-geologist.jpg" alt="جيولوجي في الميدان يستخدم أدوات المسح" class="hero-image">
+                        </div>
+                        </div>
+                    
+                    <div class="daily-challenge-section">
+                        <button id="daily-challenge-btn" class="control-btn secondary large-btn neon-edge pulse-secondary-btn">
+                             <span class="btn-icon"><i class="fas fa-calendar-day"></i></span>
+                             <span class="btn-text">التحدي اليومي (7 أسئلة)</span>
+                             <span class="btn-glow"></span>
+                        </button>
+                    </div>
+                    <button id="start-quiz-btn" class="control-btn primary large-btn animated-fade neon-edge pulse-btn" style="margin-top: 20px;"> <span class="btn-icon"><i class="fas fa-rocket"></i></span>
+                        <span class="btn-text">بدء اختبار مخصص</span>
+                        <span class="btn-glow"></span>
+                    </button>
+                    
+                </div>
+
+                <div id="topics-list-container" class="hidden">
+                    <h3 class="topics-header">
+                        <i class="fas fa-folder-open"></i> اختر مجال الاختبار المخصص:
+                    </h3>
+                    <div id="topics-list" class="list-container">
+                        <div id="loading-message" class="loading-spinner">
+                            <div class="spinner-ring"></div>
+                            <p>... تحليل بيانات النظام</p>
+                        </div> 
+                    </div>
+                </div>
+            </section>
+
+            <section id="quiz-screen" class="screen hidden">
+                <div class="quiz-header-status">
+                    <h2 id="quiz-title" class="section-title"></h2>
+                    
+                    <div class="quiz-meta">
+                        <span id="timer-display" class="timer-display">
+                            <i class="fas fa-clock"></i>
+                            <span class="timer-value">20</span>
+                            <span class="timer-unit">ث</span>
+                        </span>
+                        
+                        <span id="question-counter" class="counter-badge">
+                            <i class="fas fa-list-ol"></i> السؤال 1 / 10
+                        </span>
+                        
+                        <span id="score-display" class="score-badge">
+                            <i class="fas fa-star"></i> النقاط: <span id="current-score">0</span>
+                        </span>
+                    </div>
+                    
+                    <div id="progress-bar-container">
+                        <div id="progress-bar-fill"></div>
+                        <div class="progress-glow"></div>
+                    </div>
+                </div>
+
+                <div id="question-container" class="data-module quiz-card"></div>
+                
+                <div id="controls" class="controls-bar">
+                    <button id="submit-btn" class="control-btn primary neon-edge" disabled>
+                        <span class="btn-icon"><i class="fas fa-check"></i></span>
+                        <span class="btn-text">تأكيد الإجابة</span>
+                    </button>
+                    <button id="next-btn" class="control-btn secondary hidden">
+                        <span class="btn-text">السؤال التالي</span>
+                        <span class="btn-icon"><i class="fas fa-arrow-left"></i></span>
+                    </button>
+                    <button id="skip-btn" class="control-btn tertiary">
+                        <span class="btn-icon"><i class="fas fa-forward"></i></span>
+                        <span class="btn-text">تخطي</span>
+                    </button>
+                </div>
+                
+                <div id="feedback-container" class="feedback-message hidden"></div>
+            </section>
+
+            <section id="results-screen" class="screen hidden">
+                <div class="results-hero">
+                    <div class="results-animation">
+                        <div class="trophy-container">
+                            <i class="fas fa-trophy trophy-icon"></i>
+                            <div class="trophy-rays"></div>
+                        </div>
+                    </div>
+                    
+                    <h2 class="section-title result-title animated-fade">
+                        <i class="fas fa-chart-line"></i> تقرير تحليل الأداء
+                    </h2>
+                </div>
+                
+                <div class="results-grid">
+                    <div class="data-module summary-card">
+                        <h3>
+                            <i class="fas fa-file-alt"></i> ملخص البروتوكول
+                        </h3>
+                        <div class="score-display">
+                            <div class="score-circle">
+                                <svg class="progress-ring" width="200" height="200">
+                                    <defs>
+                                        <linearGradient id="scoreGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                            <stop offset="0%" style="stop-color: var(--neon-blue); stop-opacity: 1" />
+                                            <stop offset="100%" style="stop-color: var(--neon-purple); stop-opacity: 1" />
+                                        </linearGradient>
+                                    </defs>
+                                    <circle class="progress-ring-bg" cx="100" cy="100" r="90"></circle>
+                                    <circle class="progress-ring-fill" cx="100" cy="100" r="90"></circle>
+                                </svg>
+                                <div class="score-content">
+                                    <span id="final-score" class="score-number">0</span>
+                                    <span class="score-separator">/</span>
+                                    <span id="total-questions-count" class="total-score">0</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="grade-message" class="grade-message-text"></div>
+                        
+                        <div class="stats-breakdown">
+                            <div class="stat-box correct-stat">
+                                <i class="fas fa-check-circle"></i>
+                                <span id="correct-count">0</span>
+                                <p>إجابات صحيحة</p>
+                            </div>
+                            <div class="stat-box wrong-stat">
+                                <i class="fas fa-times-circle"></i>
+                                <span id="wrong-count">0</span>
+                                <p>إجابات خاطئة</p>
+                            </div>
+                            <div class="stat-box time-stat">
+                                <i class="fas fa-hourglass-half"></i>
+                                <span id="total-time">0</span>
+                                <p>الوقت المستغرق</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="review-area" class="review-log data-module">
+                        <h3>
+                            <i class="fas fa-bug"></i> فحص الأخطاء:
+                        </h3>
+                        <div id="review-content"></div>
+                    </div>
+                </div>
+                
+                <div class="action-buttons">
+                    <button onclick="window.location.reload()" class="control-btn primary large-btn neon-edge">
+                        <span class="btn-icon"><i class="fas fa-redo-alt"></i></span>
+                        <span class="btn-text">إعادة تشغيل النظام</span>
+                    </button>
+                    <button id="share-results-btn" class="control-btn secondary large-btn">
+                        <span class="btn-icon"><i class="fas fa-share-alt"></i></span>
+                        <span class="btn-text">مشاركة النتائج</span>
+                    </button>
+                </div>
+            </section>
+        </main>
+        
+        <div class="total-trainees-section">
+             <i class="fas fa-users"></i> إجمالي المتدربين المسجلين: 
+             <span class="trainee-count">177</span>
+        </div>
+        <footer class="app-footer">
+            <p>&copy; 2025 GEO-MASTER | Developed with <i class="fas fa-heart"></i></p>
+        </footer>
+    </div>
+    
+    <div id="notification-toast" class="notification-toast hidden">
+        <i class="fas fa-info-circle"></i>
+        <span id="notification-message"></span>
+    </div>
+    
+    <script src="script.js"></script>
+    <script>
+        // كود JavaScript لتحديث عدد المستخدمين النشطين بشكل عشوائي (كمثال)
+        document.addEventListener('DOMContentLoaded', () => {
+            const activeUsersCountElement = document.getElementById('active-users-count');
+            
+            function updateActiveUsers() {
+                const randomCount = Math.floor(Math.random() * (35 - 7 + 1)) + 7; // رقم عشوائي بين 7 و 35
+                if (activeUsersCountElement) {
+                    activeUsersCountElement.textContent = randomCount;
+                }
+            }
+            
+            // تحديث العدد كل 5 ثواني كمثال
+            setInterval(updateActiveUsers, 5000); 
+            updateActiveUsers(); // تحديث فوري عند تحميل الصفحة
+        });
+    </script>
+</body>
+</html>
+
+
+
 /* =======================================================
    1. المتغيرات والألوان (Cyberpunk/Sci-Fi Enhanced)
    ======================================================= */
@@ -81,7 +366,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background-image:
+    background-image: 
         linear-gradient(rgba(0, 217, 255, 0.03) 1px, transparent 1px),
         linear-gradient(90deg, rgba(0, 217, 255, 0.03) 1px, transparent 1px);
     background-size: 50px 50px;
@@ -187,11 +472,6 @@ body {
     position: relative;
     z-index: 10;
     transition: var(--transition-smooth);
-
-    /* [الحل 1] تعديل لمنع تمرير الصفحة بالكامل */
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
 }
 
 .main-header {
@@ -244,7 +524,7 @@ body {
 }
 
 .version { /* تم إخفاء رقم الإصدار V2.0 */
-    display: none;
+    display: none; 
 }
 
 .header-info {
@@ -478,20 +758,6 @@ body {
     max-width: 100%;
     position: relative;
     z-index: 10;
-
-    /* [الحل 1] تعديل لمنع تمرير الصفحة بالكامل */
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-}
-
-/* [الحل 1] تعديل لمنع تمرير الصفحة بالكامل */
-.screen.active {
-    flex-grow: 1; /* الشاشة النشطة تملأ المساحة المتاحة */
-    width: 100%;
-    display: flex; /* !! جعل الشاشات النشطة flex أيضاً */
-    flex-direction: column;
 }
 
 /* Hero Section */
@@ -549,24 +815,24 @@ body {
 
 /* Hero Image - NEW/EXISTING */
 .hero-image-container {
-    margin-top: 30px;
-    text-align: center;
+    margin-top: 30px; 
+    text-align: center; 
     position: relative; /* Needed for z-index */
     z-index: 2; /* Ensure image is above pseudo-element */
 }
 
 .hero-image {
-    max-width: 80%;
-    height: auto;
-    border-radius: 15px;
-    border: 3px solid var(--neon-cyan);
-    box-shadow: 0 0 25px rgba(0, 255, 245, 0.4);
+    max-width: 80%; 
+    height: auto; 
+    border-radius: 15px; 
+    border: 3px solid var(--neon-cyan); 
+    box-shadow: 0 0 25px rgba(0, 255, 245, 0.4); 
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .hero-image:hover {
-    transform: scale(1.03);
-    box-shadow: 0 0 40px rgba(0, 255, 245, 0.6);
+    transform: scale(1.03); 
+    box-shadow: 0 0 40px rgba(0, 255, 245, 0.6); 
 }
 
 /* Daily Challenge Button - NEW */
@@ -698,7 +964,7 @@ body {
 }
 
 /* =======================================================
-   7. شاشة الاختبار المحسّنة (تعديلات التخطيط الجديدة)
+   7. شاشة الاختبار المحسّنة (تم تحسين تخطيطها لمنع التمرير الداخلي)
    ======================================================= */
 .data-module {
     background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-module) 100%);
@@ -710,11 +976,8 @@ body {
 }
 
 #quiz-screen {
-    /* [الحل 1] */
     display: flex;
     flex-direction: column;
-    padding-bottom: 20px;
-    box-sizing: border-box;
 }
 
 .data-module::after {
@@ -736,47 +999,52 @@ body {
     filter: blur(20px);
 }
 
-/* --- تعديل 5: جعل شريط المعلومات ملتصقاً بحاوية السؤال --- */
 .quiz-header-status {
-    /* [الحل 1] */
-    flex-shrink: 0;
-
-    /* إزالة المسافات والفواصل */
-    margin-bottom: 0;
-    padding-bottom: 10px;
-    border-bottom: none;
-    box-shadow: none;
-    position: static;
+    margin-bottom: 30px;
 }
 
 .quiz-header-status h2 {
-    margin: 0 0 15px 0;
+    margin: 0 0 20px 0;
     font-size: 1.5em;
-    text-align: center; /* توسيط العنوان */
 }
 
-/* --- تعديل 5: تعديل تخطيط شريط المعلومات --- */
 .quiz-meta {
     display: flex;
-    justify-content: space-around; /* توزيع المسافة */
+    justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
     gap: 15px;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 
-/* --- تعديل 2: إعادة المؤقت لمكانه الأصلي ضمن quiz-meta --- */
-#timer-display {
-    position: static; /* إرجاع للوضع الطبيعي */
-    font-size: 1.6em; /* إرجاع الحجم الأصلي */
+.timer-display {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1.6em;
+    font-weight: 900;
+    color: var(--neon-blue);
+    background: var(--bg-card);
     padding: 10px 20px;
+    border-radius: 50px;
+    border: 2px solid var(--neon-blue);
     box-shadow: var(--shadow-neon-blue);
     animation: pulseGlow 2s ease-in-out infinite;
-    border-width: 2px;
 }
-#timer-display .timer-value { font-size: 1.2em; }
-#timer-display .timer-unit { font-size: 0.8em; }
 
+.timer-display i {
+    font-size: 0.9em;
+}
+
+.timer-value {
+    font-size: 1.2em;
+    min-width: 40px;
+    text-align: center;
+}
+
+.timer-unit {
+    font-size: 0.8em;
+}
 
 .counter-badge,
 .score-badge {
@@ -796,59 +1064,70 @@ body {
     background: linear-gradient(135deg, var(--neon-purple), var(--neon-pink));
 }
 
-/* --- إخفاء شريط التقدم --- */
 #progress-bar-container {
-    display: none;
+    width: 100%;
+    height: 8px;
+    background: var(--bg-main);
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.5);
 }
 
-/* --- تعديل 1 و 5: تعديل حاوية السؤال --- */
-#question-container.data-module {
-    /* [الحل 1] */
-    flex-grow: 1;
-    overflow-y: auto;
-    margin-bottom: 15px;
-
-    /* تعديل 5: للالتصاق البصري */
-    border-top: 2px solid var(--neon-blue);
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-    padding: 25px; /* تعديل الحشو */
-    position: static; /* التأكد من عدم وجود position: relative */
+#progress-bar-fill {
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(90deg, var(--neon-blue), var(--neon-cyan));
+    border-radius: 10px;
+    transition: width 0.1s linear;
+    position: relative;
+    box-shadow: 0 0 15px var(--neon-blue);
 }
 
-/* --- تعديل 3: إزالة الحشو الإضافي من نص السؤال --- */
+.progress-glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    animation: progressShine 2s infinite;
+}
+
+@keyframes progressShine {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
 .question-text {
     font-size: 1.5em;
     padding: 25px;
-    margin-bottom: 20px; /* تقليل الهامش قليلاً */
+    margin-bottom: 30px;
     background: linear-gradient(135deg, rgba(0, 217, 255, 0.05), rgba(176, 38, 255, 0.05));
     border-radius: 15px;
     border-right: 5px solid var(--neon-cyan);
     color: var(--text-main);
-    line-height: 1.7; /* تعديل طفيف */
+    line-height: 1.8;
     box-shadow: inset 0 0 20px rgba(0, 217, 255, 0.1);
-    padding-left: 25px; /* إرجاع الحشو الأصلي */
 }
 
-/* --- تعديل 4: تغيير تخطيط الخيارات إلى شبكة 2x2 --- */
 .options-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr; /* عمودان متساويان */
-    gap: 10px; /* تقليل المسافة بين الخيارات */
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
-/* تعديل حشو الخيارات في الشبكة */
 .option-label {
     background: var(--bg-card);
     border: 2px solid var(--neon-blue);
     border-radius: 15px;
-    padding: 15px; /* تقليل الحشو قليلاً */
-    font-size: 1.1em; /* يمكن تصغير الخط قليلاً إذا لزم الأمر */
+    padding: 20px;
+    font-size: 1.2em;
     cursor: pointer;
     transition: var(--transition-smooth);
     display: flex;
     align-items: center;
-    gap: 10px; /* تقليل المسافة الداخلية */
+    gap: 15px;
     position: relative;
     overflow: hidden;
 }
@@ -875,11 +1154,10 @@ body {
 }
 
 .option-label input[type="radio"] {
-    width: 20px; /* تصغير حجم الراديو */
-    height: 20px;
+    width: 24px;
+    height: 24px;
     cursor: pointer;
     accent-color: var(--neon-blue);
-    flex-shrink: 0; /* منع زر الراديو من الانكماش */
 }
 
 .option-label .option-text {
@@ -911,39 +1189,34 @@ body {
     75% { transform: translateX(10px); }
 }
 
-/* --- إخفاء رسالة الإجابة --- */
 .feedback-message {
-    display: none;
+    margin-top: 25px;
+    padding: 20px;
+    border-radius: 15px;
+    font-size: 1.1em;
+    font-weight: 600;
+    text-align: center;
+    animation: fadeInUp 0.5s ease-out;
 }
 
-/* --- تعديل 4: جعل الأزرار بجانب بعض --- */
+.feedback-message.correct-feedback {
+    background: linear-gradient(135deg, rgba(0, 255, 136, 0.2), rgba(0, 255, 136, 0.1));
+    border: 2px solid var(--correct-color);
+    color: var(--correct-color);
+}
+
+.feedback-message.incorrect-feedback {
+    background: linear-gradient(135deg, rgba(255, 51, 102, 0.2), rgba(255, 51, 102, 0.1));
+    border: 2px solid var(--incorrect-color);
+    color: var(--incorrect-color);
+}
+
 .controls-bar {
-    /* [الحل 1] */
-    flex-shrink: 0;
-
-    /* جعل الأزرار أفقية */
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column-reverse;
     gap: 15px;
-
-    /* إزالة التنسيقات العمودية السابقة */
-    margin-top: 0;
-    padding-top: 15px;
-    border-top: 1px solid var(--text-secondary);
+    margin-top: 30px;
 }
-
-/* تعديل حجم الأزرار في الوضع الأفقي */
-.controls-bar .control-btn {
-     width: auto;
-     flex-grow: 1;
-     max-width: 48%;
-}
-.controls-bar #skip-btn {
-    flex-grow: 0.5;
-}
-
 
 .control-btn {
     padding: 16px 30px;
@@ -1389,110 +1662,75 @@ body {
     :root {
         --sidebar-width: 350px;
     }
-
+    
     #app-container {
         max-width: 1200px;
         margin: 0 auto;
         padding: 40px 30px;
     }
-
+    
     .app-title {
         font-size: 2.2em;
     }
-
+    
     .user-status {
         display: flex; /* Show user status on larger screens */
     }
-
+    
     .list-container {
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
         gap: 30px;
     }
-
+    
     .topic-card {
         padding: 40px 30px;
     }
-
+    
     .controls-bar {
         flex-direction: row;
-        justify-content: flex-end; /* إرجاع الأزرار لليمين على الشاشات الكبيرة */
+        justify-content: flex-end;
     }
-
+    
     .control-btn {
         width: auto;
         padding: 18px 40px;
-        flex-grow: 0; /* إلغاء التمدد على الشاشات الكبيرة */
-        max-width: none;
     }
-     .controls-bar #skip-btn {
-        flex-grow: 0; /* إلغاء التمدد على الشاشات الكبيرة */
-    }
-
+    
     .quiz-meta {
         justify-content: space-around;
     }
-
+    
     .results-grid {
         grid-template-columns: 1fr 1.5fr;
     }
-
+    
     .stats-breakdown {
         grid-template-columns: repeat(3, 1fr);
     }
-
+    
     .action-buttons {
         flex-direction: row;
         justify-content: center;
     }
-
+    
     .section-title {
         font-size: 2.5em;
     }
-
+    
     .question-text {
         font-size: 1.7em;
-        padding-left: 25px; /* إرجاع الحشو الأصلي على الشاشات الكبيرة */
     }
 
     .hero-image {
         max-width: 60%; /* Adjust image size on larger screens */
     }
-
-    /* إرجاع الحشو العلوي لحاوية السؤال */
-     #question-container.data-module {
-         padding-top: 35px;
-         border-top: 2px solid var(--neon-blue); /* إرجاع الحدود الأصلية */
-         border-top-left-radius: 20px;
-         border-top-right-radius: 20px;
-         padding: 35px 25px; /* إرجاع الحشو الأصلي */
-     }
-     /* إرجاع الهامش الأصلي */
-     .quiz-header-status {
-         margin-bottom: 0; /* الإبقاء على الالتصاق */
-         padding-bottom: 15px;
-     }
-     /* إعادة الخيارات لعمود واحد على الشاشات الكبيرة */
-    .options-container {
-        grid-template-columns: 1fr;
-        gap: 15px;
-    }
-    .option-label {
-        padding: 20px;
-        font-size: 1.2em;
-    }
-     .option-label input[type="radio"] {
-        width: 24px;
-        height: 24px;
-    }
-
-
 }
 
 @media (min-width: 1200px) {
     #app-container {
         max-width: 1400px;
     }
-
+    
     .list-container {
         grid-template-columns: repeat(3, 1fr);
     }
@@ -1522,7 +1760,7 @@ body {
     .total-trainees-section { /* Hide new section in print */
         display: none !important;
     }
-
+    
     body {
         background: white;
         color: black;
@@ -1567,7 +1805,7 @@ body {
 }
 
 .sidebar-link-item i {
-    color: var(--neon-blue, #00c6ff);
+    color: var(--neon-blue, #00c6ff); 
     transition: all 0.3s ease;
 }
 
@@ -1585,7 +1823,7 @@ body {
 
 /*
 =============================
- تنسيقات العناصر الجديدة
+ تنسيقات العناصر الجديدة 
 =============================
 */
 
@@ -1630,99 +1868,19 @@ body {
     padding: 18px 35px; /* Adjust padding */
 }
 
-/* --- [الحл 2 + تعديلات جديدة] كود "الضغط" للشاشات القصيرة جداً --- */
-/* (مع تعديلات التخطيط الجديدة) */
+/* إضافة استجابة للصورة والهامش على الشاشات الأصغر */
 @media (max-width: 767px) {
-
-    /* 1. إزالة التمرير الداخلي من حاوية السؤال والسماح لها بالانكماش */
-    #question-container.data-module {
-        flex-grow: 0;
-        overflow-y: visible;
-        padding: 15px;
-        padding-top: 15px; /* إرجاع الحشو العلوي العادي */
-        margin-bottom: 10px;
-        position: static; /* إلغاء relative هنا */
-        border-top-left-radius: 15px; /* إرجاع الزوايا الدائرية */
-        border-top-right-radius: 15px;
+    .hero-image {
+        max-width: 90%; 
     }
-
-    /* 2. تقليل هوامش رأس الاختبار */
-    .quiz-header-status {
-        margin-bottom: 15px; /* إرجاع الهامش للفصل */
-        padding-bottom: 10px;
+    .daily-challenge-section {
+        margin-top: 25px; /* Adjust margin on smaller screens */
     }
-
-    .quiz-header-status h2 {
-        margin-bottom: 10px;
-        font-size: 1.2em;
+    #start-quiz-btn {
+        margin-top: 15px; /* Adjust margin on smaller screens */
     }
-
-    .quiz-meta {
-        margin-bottom: 10px;
-        gap: 8px;
-        justify-content: space-between; /* تعديل التوزيع */
-    }
-
-    /* 3. تصغير عناصر الـ meta */
-    .counter-badge, .score-badge, #timer-display {
-        font-size: 0.8em;
-        padding: 4px 8px;
-    }
-    /* إرجاع المؤقت لمكانه الأصلي وتصغيره */
-    #timer-display {
-        position: static;
-        box-shadow: none;
-        animation: none;
-        border-width: 1px;
-    }
-     #timer-display .timer-value { font-size: 0.9em; }
-     #timer-display .timer-unit { font-size: 0.6em; }
-
-    /* 4. تصغير خط السؤال وإلغاء الحشو الإضافي */
-    .question-text {
-        font-size: 1.1em;
-        padding: 10px;
-        margin-bottom: 10px;
-        line-height: 1.5;
-        padding-left: 10px; /* إلغاء الحشو الإضافي */
-    }
-
-    /* 5. تصغير الخيارات (تبقى 2x2) */
-    .options-container { gap: 6px; }
-    .option-label {
-        font-size: 0.85em;
-        padding: 8px 10px;
-    }
-     .option-label input[type="radio"] {
-        width: 16px;
-        height: 16px;
-    }
-
-    /* 6. تعديل الأزرار لتناسب الوضع الأفقي المصغر */
-    .controls-bar {
-        margin-top: 10px;
-        gap: 8px;
-        padding-top: 10px;
-        border-top: 1px solid var(--text-secondary);
-    }
-
-    .control-btn {
-        font-size: 0.85em; /* تصغير أكثر */
-        padding: 8px 10px; /* تقليل الحشو أكثر */
-         max-width: 49%;
-    }
-
-    /* 7. إخفاء رسالة الإجابة (تأكيد) */
-    #feedback-container {
-        display: none;
-    }
-
-    /* 8. تعديل استجابة الصورة الأصلية */
-    .hero-image { max-width: 90%; }
-    .daily-challenge-section { margin-top: 25px; }
-    #start-quiz-btn { margin-top: 15px; }
-    .active-users-indicator {
-        font-size: 0.8em;
+     .active-users-indicator {
+        font-size: 0.8em; /* Smaller font on mobile */
         padding: 4px 8px;
         gap: 4px;
     }
