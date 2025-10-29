@@ -187,6 +187,11 @@ body {
     position: relative;
     z-index: 10;
     transition: var(--transition-smooth);
+    
+    /* [الحل 1] تعديل لمنع تمرير الصفحة بالكامل */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 .main-header {
@@ -473,6 +478,18 @@ body {
     max-width: 100%;
     position: relative;
     z-index: 10;
+    
+    /* [الحل 1] تعديل لمنع تمرير الصفحة بالكامل */
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+/* [الحل 1] تعديل لمنع تمرير الصفحة بالكامل */
+.screen.active {
+    flex-grow: 1; /* الشاشة النشطة تملأ المساحة المتاحة */
+    width: 100%;
 }
 
 /* Hero Section */
@@ -691,8 +708,11 @@ body {
 }
 
 #quiz-screen {
-    display: flex;
+    /* [الحل 1] تعديل لمنع تمرير الصفحة بالكامل */
+    display: flex; 
     flex-direction: column;
+    padding-bottom: 20px; 
+    box-sizing: border-box; 
 }
 
 .data-module::after {
@@ -716,7 +736,16 @@ body {
 
 .quiz-header-status {
     margin-bottom: 30px;
+    /* [الحل 1] تعديل لمنع تمرير الصفحة بالكامل */
+    flex-shrink: 0; 
+    padding-bottom: 15px;
+    
+    /* إلغاء الحلول السابقة الخاطئة */
+    position: static; 
+    box-shadow: none;
+    border-bottom: none;
 }
+
 
 .quiz-header-status h2 {
     margin: 0 0 20px 0;
@@ -812,6 +841,16 @@ body {
 @keyframes progressShine {
     0% { transform: translateX(-100%); }
     100% { transform: translateX(100%); }
+}
+
+/* [الحل 1] تعديل لمنع تمرير الصفحة بالكامل */
+#question-container {
+    flex-grow: 1; /* أهم خاصية: تملأ المساحة بين الرأس والأزرار */
+    overflow-y: auto; /* إضافة تمرير داخلي *فقط* لهذه الحاوية إذا كان السؤال طويلاً */
+    padding: 15px;
+    margin-bottom: 15px; /* فصلها عن أزرار التحكم */
+    border-radius: 15px; 
+    background: var(--bg-card); /* إضافة خلفية لتمييز منطقة التمرير */
 }
 
 .question-text {
@@ -931,6 +970,12 @@ body {
     flex-direction: column-reverse;
     gap: 15px;
     margin-top: 30px;
+    
+    /* [الحل 1] تعديل لمنع تمرير الصفحة بالكامل */
+    flex-shrink: 0; 
+    padding-top: 15px;
+    border-top: 1px solid var(--text-secondary); /* تعديل بسيط للون الخط */
+    margin-top: 0; /* إلغاء الهامش العلوي الافتراضي */
 }
 
 .control-btn {
@@ -1439,6 +1484,12 @@ body {
     .hero-image {
         max-width: 60%; /* Adjust image size on larger screens */
     }
+    
+    /* [الحل 1] تعديل لمنع تمرير الصفحة بالكامل */
+    /* إلغاء الحشو الزائد على الحاسوب */
+    #question-container {
+        padding: 35px 25px; 
+    }
 }
 
 @media (min-width: 1200px) {
@@ -1583,8 +1634,87 @@ body {
     padding: 18px 35px; /* Adjust padding */
 }
 
-/* إضافة استجابة للصورة والهامش على الشاشات الأصغر */
+/* --- [الحل 2] إضافة كود "الضغط" للشاشات القصيرة جداً --- */
+/* هذا الكود هو الحل الوحيد لتحقيق طلبك "رؤية كل شيء دفعة واحدة" */
 @media (max-width: 767px) {
+    
+    /* 1. إزالة التمرير الداخلي من حاوية السؤال 
+       والسماح لها بالانكماش (لإفساح المجال)
+    */
+    #question-container.data-module {
+        flex-grow: 0; /* السماح بالانكماش (إلغاء flex-grow: 1) */
+        overflow-y: visible; /* إلغاء التمرير الداخلي */
+        padding: 15px; /* تقليل الحشو */
+        margin-bottom: 10px; /* تقليل الهامش */
+    }
+
+    /* 2. تقليل هوامش رأس الاختبار */
+    .quiz-header-status {
+        margin-bottom: 15px; /* تقليل الهامش السفلي */
+        padding-bottom: 10px;
+    }
+
+    .quiz-header-status h2 {
+        margin-bottom: 15px;
+        font-size: 1.3em; /* تصغير الخط */
+    }
+    
+    .quiz-meta {
+        margin-bottom: 15px;
+        gap: 10px; /* تقليل الفجوة */
+    }
+
+    /* 3. تصغير عناصر الـ meta (الوقت، النقاط) */
+    .timer-display {
+        font-size: 1.2em; /* تصغير */
+        padding: 6px 12px;
+    }
+    .timer-value { font-size: 1em; }
+    .counter-badge, .score-badge {
+        font-size: 0.85em;
+        padding: 5px 10px;
+    }
+    
+    /* 4. تصغير خط السؤال */
+    .question-text {
+        font-size: 1.15em; /* تصغير خط السؤال */
+        padding: 12px; /* تقليل الحشو */
+        margin-bottom: 15px; /* تقليل الهامش */
+        line-height: 1.6;
+    }
+
+    /* 5. تصغير الخيارات */
+    .options-container { gap: 8px; }
+    .option-label {
+        font-size: 1em; /* تصغير خط الخيار */
+        padding: 10px 12px; /* تقليل الحشو */
+    }
+     .option-label input[type="radio"] {
+        width: 20px;
+        height: 20px;
+    }
+
+    /* 6. تقليل هوامش الأزرار */
+    .controls-bar {
+        margin-top: 15px; /* تقليل الهامش العلوي */
+        gap: 10px;
+        padding-top: 10px;
+        border-top: none; 
+    }
+
+    .control-btn {
+        font-size: 1em; /* تصغير خط الأزرار */
+        padding: 12px 25px;
+    }
+    
+    /* 7. تصغير رسالة الإجابة */
+    #feedback-container {
+        margin-top: 10px;
+        padding: 10px;
+        font-size: 1em;
+    }
+    
+    /* 8. تعديل استجابة الصورة الأصلية */
     .hero-image {
         max-width: 90%; 
     }
@@ -1604,3 +1734,4 @@ body {
         height: 8px;
     }
 }
+اجل طبق ذلك على هذا كود وهل هو نفسه الكود الاخير الذي ارسلته لي
