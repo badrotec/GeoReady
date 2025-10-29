@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,10 +8,6 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    
-    <canvas id="particles-canvas"></canvas>
-    
-    <div class="cyber-grid"></div>
     
     <aside id="sidebar">
         <div class="sidebar-header">
@@ -31,24 +27,10 @@
         </div>
         
         <div class="stats-container">
-            <div class="stat-item">
-                <i class="fas fa-brain"></i>
-                <span id="total-quizzes">0</span>
-                <p>اختبارات مكتملة</p>
-            </div>
-            <div class="stat-item">
-                <i class="fas fa-trophy"></i>
-                <span id="avg-score">0%</span>
-                <p>متوسط النجاح</p>
-            </div>
-        </div>
+             </div>
 
         <div class="sidebar-links-section">
             <h4 class="sidebar-section-title"><i class="fas fa-book-open"></i> موارد تعليمية</h4>
-            <a href="gis.html" class="sidebar-link-item">
-                <i class="fas fa-globe-americas"></i>
-                <span>مدخل إلى GIS الجيولوجي</span>
-            </a>
             </div>
         <div class="sidebar-topics-list" id="sidebar-topics-list">
             </div>
@@ -88,10 +70,7 @@
                         <p class="hero-description">
                             منصة تدريب متقدمة لاختبار معرفتك في علوم الأرض والجيولوجيا
                         </p>
-                        <div class="hero-image-container">
-                            <img src="images/field-geologist.jpg" alt="جيولوجي في الميدان يستخدم أدوات المسح" class="hero-image">
-                        </div>
-                        </div>
+                         </div>
                     
                     <div class="daily-challenge-section">
                         <button id="daily-challenge-btn" class="control-btn secondary large-btn neon-edge pulse-secondary-btn">
@@ -157,17 +136,13 @@
                         <span class="btn-text">السؤال التالي</span>
                         <span class="btn-icon"><i class="fas fa-arrow-left"></i></span>
                     </button>
-                    <button id="skip-btn" class="control-btn tertiary">
-                        <span class="btn-icon"><i class="fas fa-forward"></i></span>
-                        <span class="btn-text">تخطي</span>
-                    </button>
                 </div>
                 
                 <div id="feedback-container" class="feedback-message hidden"></div>
             </section>
 
             <section id="results-screen" class="screen hidden">
-                <div class="results-hero">
+                 <div class="results-hero">
                     <div class="results-animation">
                         <div class="trophy-container">
                             <i class="fas fa-trophy trophy-icon"></i>
@@ -261,22 +236,5 @@
     </div>
     
     <script src="script.js"></script>
-    <script>
-        // كود JavaScript لتحديث عدد المستخدمين النشطين بشكل عشوائي (كمثال)
-        document.addEventListener('DOMContentLoaded', () => {
-            const activeUsersCountElement = document.getElementById('active-users-count');
-            
-            function updateActiveUsers() {
-                const randomCount = Math.floor(Math.random() * (35 - 7 + 1)) + 7; // رقم عشوائي بين 7 و 35
-                if (activeUsersCountElement) {
-                    activeUsersCountElement.textContent = randomCount;
-                }
-            }
-            
-            // تحديث العدد كل 5 ثواني كمثال
-            setInterval(updateActiveUsers, 5000); 
-            updateActiveUsers(); // تحديث فوري عند تحميل الصفحة
-        });
-    </script>
-</body>
+    </body>
 </html>
