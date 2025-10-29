@@ -266,6 +266,18 @@ body {
     flex-direction: column;
 }
 
+/* 💡 تنسيقات صور الصخور */
+.rock-image-quiz {
+    max-width: 100%;
+    max-height: 40%; /* لضمان عدم أخذ مساحة كبيرة جداً عمودياً */
+    height: auto;
+    object-fit: contain;
+    margin: 0 auto 15px;
+    border-radius: 10px;
+    border: 2px solid var(--neon-purple);
+    box-shadow: 0 0 10px rgba(176, 38, 255, 0.3);
+}
+
 .question-text {
     flex-shrink: 0; 
     font-size: 1.3em; 
@@ -281,7 +293,40 @@ body {
     overflow-y: auto; 
 }
 
-/* 🔄 التعديل المطلوب: شبكة 2x2 للخيارات */
+/* 💡 تنسيقات شاشة معلومات الصخرة (Rock Info) */
+.rock-info-box {
+    background: linear-gradient(135deg, rgba(176, 38, 255, 0.1) 0%, rgba(0, 217, 255, 0.1) 100%);
+    border: 2px solid var(--neon-purple);
+    padding: 15px;
+    border-radius: 10px;
+    margin-top: 10px; /* تفصلها عن الصورة/السؤال */
+    flex-shrink: 0;
+    max-height: 50%; /* تحديد ارتفاع أقصى لضمان بقاء الأزرار مرئية */
+    overflow-y: auto;
+}
+.rock-info-title {
+    color: var(--neon-cyan);
+    font-size: 1.2em;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-bottom: 1px dashed var(--neon-purple);
+}
+.rock-info-item {
+    color: var(--text-main);
+    font-size: 0.95em;
+    margin-bottom: 5px;
+}
+.rock-info-item strong {
+    color: var(--neon-accent);
+    font-weight: 600;
+}
+/* إخفاء الخيارات عند ظهور شاشة المعلومات */
+#rock-info-display + .options-container {
+    display: none !important;
+}
+
+
+/* 🔄 شبكة 2x2 للخيارات */
 .options-container {
     flex-grow: 1; 
     display: grid;
@@ -311,21 +356,20 @@ body {
 
 /* ❌ الإخفاء الفعال لزر الراديو */
 .option-label input[type="radio"] {
-    /* يتم إخفاء العنصر المرئي بالكامل */
     appearance: none; 
     -webkit-appearance: none;
     -moz-appearance: none;
     width: 0; 
     height: 0;
-    margin: 0; /* إزالة أي مسافة متبقية */
+    margin: 0; 
     padding: 0;
     border: none;
     outline: none;
     opacity: 0;
-    position: absolute; /* نقله بعيداً عن التخطيط العادي */
+    position: absolute; 
 }
 
-/* ➡️ تعويض التأثير المرئي للاختيار باستخدام كلاس على الـ <label> */
+/* ➡️ تعويض التأثير المرئي للاختيار باستخدام كلاس .selected */
 .option-label.selected,
 .option-label:has(input[type="radio"]:checked) {
      border-color: var(--neon-cyan);
@@ -519,6 +563,8 @@ body {
      #timer-display { font-size: 1.4em; padding: 8px 16px; }
      .counter-badge, .score-badge { font-size: 1em; padding: 8px 16px; }
      .small-btn { font-size: 1em !important; padding: 8px 12px !important;}
+     
+     .rock-image-quiz { max-height: 50%; } /* زيادة الارتفاع على الديسكتوب */
 }
 
 @media (min-width: 1200px) {
