@@ -11,7 +11,7 @@ const POINTS_CORRECT = 5;
 const POINTS_WRONG = -3;
 const DAILY_CHALLENGE_QUESTIONS = 7; // عدد أسئلة التحدي اليومي
 let currentLanguage = 'ar';
-let currentActiveUsers = Math.floor(Math.random() * (16 - 3 + 1)) + 3; // *** جديد: عدد المستخدمين الابتدائي ***
+let currentActiveUsers = Math.floor(Math.random() * (16 - 3 + 1)) + 3; // *** عدد المستخدمين الابتدائي ***
 // *** عناصر الصوت ***
 const correctSound = document.getElementById('correct-sound');
 const wrongSound = document.getElementById('wrong-sound');
@@ -335,7 +335,7 @@ if (submitBtn) {
             if (correctSound) {
                 correctSound.currentTime = 0; // إعادة للبداية
                 // استخدام catch للتعامل مع قيود التشغيل التلقائي
-                correctSound.play().catch(e => console.warn("Error playing correct sound:", e)); 
+                correctSound.play().catch(e => console.warn("Autoplay was prevented for correct sound:", e)); 
             }
         } else {
             score += POINTS_WRONG;
@@ -351,7 +351,7 @@ if (submitBtn) {
             correctAnswer: correctAnswer,
             isCorrect: isCorrect,
         };
-        // *** إضافة فئات التلوين التي تم تفعيلها في CSS ***
+        // *** إضافة فئات التلوين ***
         document.querySelectorAll('.option-label').forEach(label => {
             const input = label.querySelector('input');
             input.disabled = true; 
@@ -432,7 +432,12 @@ function showResults() {
     clearInterval(timerInterval);
     const quizScreen = document.getElementById('quiz-screen');
     const resultsScreen = document.getElementById('results-screen');
-    // ... (بقية العناصر) ...
+    const finalScoreElement = document.getElementById('final-score');
+    const totalQuestionsCountElement = document.getElementById('total-questions-count');
+    const gradeMessage = document.getElementById('grade-message');
+    const reviewArea = document.getElementById('review-area');
+    const correctCountElement = document.getElementById('correct-count');
+    const wrongCountElement = document.getElementById('wrong-count');
     if (quizScreen) quizScreen.classList.add('hidden');
     if (resultsScreen) resultsScreen.classList.remove('hidden');
     let correctCount = 0;
@@ -455,7 +460,21 @@ function showResults() {
     if (totalQuestionsCountElement) totalQuestionsCountElement.textContent = totalQuestions;
     if (correctCountElement) correctCountElement.textContent = correctCount;
     if (wrongCountElement) wrongCountElement.textContent = wrongCount;
-    // ... (بقية منطق النتائج) ...
+    const divisor = totalQuestions || 1; 
+    const percentage = Math.round((correctCount / divisor) * 100);
+    const t = translations[currentLanguage];
+    if (gradeMessage) {
+        if (percentage >= 90) {
+            gradeMessage.innerHTML = t.great_job;
+            gradeMessage.style.color = 'var(--correct-color)';
+        } else if (percentage >= 70) {
+            gradeMessage.innerHTML = t.good_job;
+            gradeMessage.style.color = 'var(--neon-blue)';
+        } else {
+            gradeMessage.innerHTML = t.needs_review;
+            gradeMessage.style.color = 'var(--incorrect-color)';
+        }
+    }
     const progressRingFill = document.querySelector('.progress-ring-fill');
     if (progressRingFill) {
         const radius = progressRingFill.r.baseVal.value;
@@ -463,7 +482,25 @@ function showResults() {
         const offset = circumference - (percentage / 100) * circumference;
         progressRingFill.style.strokeDashoffset = offset;
     }
-    // ... (بقية منطق منطقة المراجعة) ...
+    if (reviewArea) {
+        reviewArea.innerHTML = `<h3><i class="fas fa-bug"></i> ${t.review_errors}</h3>`; 
+        let errorsFound = false;
+        Object.values(userAnswers).forEach(answer => {
+            if (!answer.isCorrect) {
+                errorsFound = true;
+                reviewArea.innerHTML += `
+                    <div class="review-item">
+                        <p class="error-q">${answer.question}</p>
+                        <p class="error-a">${t.your_answer} <span class="wrong">${answer.userAnswer}</span></p>
+                        <p class="error-a">${t.correct_answer} <span class="right">${answer.correctAnswer}</span></p>
+                    </div>
+                `;
+            }
+        });
+        if (!errorsFound) {
+            reviewArea.innerHTML += `<p class="all-correct">${t.all_correct_message}</p>`;
+        }
+    }
 }
 // **=================================================**
 // [4] وظائف مساعدة 
