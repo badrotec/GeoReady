@@ -85,14 +85,14 @@ const RockQuizData = {
             image: "Calcaire.jpeg"
         },
         {
-            name: "Argilite", // استخدمت Argilite/Shale هنا للتوافق مع الصور
+            name: "Argilite", 
             type: "فتاتية دقيقة",
             features: "بني رمادي، طبقي، هش",
             location: "أحواض هادئة، بيئات طينية",
             image: "argilite.jpeg"
         },
          {
-            name: "Shale", // إضافة Shale منفصلة لزيادة التنوع
+            name: "Shale", 
             type: "فتاتية دقيقة",
             features: "داكن، يتميز بالصفائحية والانشقاق الموازي للطبقات",
             location: "أحواض هادئة، بيئات طينية",
@@ -453,7 +453,6 @@ function populateTopicLists(dataObject, isSubMenu = false) {
     } else {
         if (backBtn) backBtn.classList.add('hidden');
         if (headerTitle) headerTitle.innerHTML = `<i class="fas fa-folder-open"></i> ${t.choose_domain}`; 
-        // لا نحتاج لإخفاء الأزرار هنا، فقط في دالة event listener للزر "بدء اختبار مخصص"
     }
     
     Object.keys(dataObject).forEach(key => {
@@ -513,7 +512,6 @@ function startDailyChallenge() {
     function collectQuestions(dataObject) {
         Object.values(dataObject).forEach(content => {
             if (Array.isArray(content)) {
-                // نضمن عدم إضافة أسئلة الصخور (التي هي كائنات وليست تنسيق سؤال تقليدي) إلى التحدي اليومي العشوائي
                 if (!content.some(item => item.hasOwnProperty('image'))) { 
                     allQuestions = allQuestions.concat(content);
                 }
@@ -569,7 +567,7 @@ function displayQuestion() {
     const nextBtn = document.getElementById('next-btn');
     const questionCounter = document.getElementById('question-counter');
     const currentScoreDisplay = document.getElementById('current-score'); 
-    const rockInfoBox = document.getElementById('rock-info-display'); // جديد
+    const rockInfoBox = document.getElementById('rock-info-display'); 
 
     if (currentQuestionIndex >= currentQuestions.length) {
         return showResults(); 
@@ -636,11 +634,15 @@ function displayQuestion() {
     
     const feedbackContainer = document.getElementById('feedback-container');
     if (feedbackContainer) feedbackContainer.classList.add('hidden');
+
+    // التأكد من أن حاوية الخيارات مرئية
+    const optionsContainer = qContainer.querySelector('.options-container');
+    if (optionsContainer) optionsContainer.classList.remove('hidden');
 }
 
 
 // **=================================================**
-// [7] منطق اختبار الصخور (جديد)
+// [7] منطق اختبار الصخور (جديد ومصحح)
 // **=================================================**
 
 function startRockQuiz(quizTitle, rockList) {
@@ -688,18 +690,20 @@ function displayRockQuestion() {
         currentScoreDisplay.textContent = score;
     }
     
-    // إنشاء خيارات عشوائية (4 خيارات)
+    // 💡 إنشاء خيارات عشوائية (4 خيارات)
     let allRockNames = [];
     Object.values(RockQuizData).forEach(arr => {
         allRockNames = allRockNames.concat(arr.map(r => r.name));
     });
 
     let wrongOptions = allRockNames.filter(name => name !== currentQ.name);
+    // نخلط القائمة ونأخذ 3 خيارات خاطئة فقط
     shuffleArray(wrongOptions);
-    const options = shuffleArray([currentQ.name, ...wrongOptions.slice(0, 3)]);
+    const options = shuffleArray([currentQ.name, ...wrongOptions.slice(0, 3)]); // 4 خيارات إجمالاً
 
     // إنشاء محتوى السؤال (الصورة + الخيارات)
-    let htmlContent = `<img src="roch/${currentQ.image}" alt="صورة صخرة للاختبار" class="rock-image-quiz">`;
+    // ❌ التصحيح: استخدام ./roch/ لضمان المسار الصحيح على GitHub Pages
+    let htmlContent = `<img src="./roch/${currentQ.image}" alt="صورة صخرة للاختبار" class="rock-image-quiz">`;
     htmlContent += '<p class="question-text">ما هو اسم هذه الصخرة؟</p>'; 
     
     // إضافة حاوية معلومات الصخرة (مخفية مبدئياً)
@@ -772,7 +776,6 @@ function processAnswer(isSkippedOrTimeout = false) {
     const selectedOptionInput = document.querySelector('input[name="option"]:checked');
     let userAnswer = selectedOptionInput ? selectedOptionInput.value : t.timeout_answer;
     
-    // التحقق مما إذا كان الاختبار الحالي هو اختبار صخور أو اختبار تقليدي
     const isRockQuiz = currentQ.hasOwnProperty('image');
     const correctAnswer = currentQ.name || currentQ.answer; 
     
@@ -846,12 +849,14 @@ function processAnswer(isSkippedOrTimeout = false) {
     // إظهار معلومات الصخرة فقط في اختبار الصخور
     if (isRockQuiz) {
         const rockInfoBox = document.getElementById('rock-info-display');
+        const optionsContainer = document.querySelector('#question-container .options-container');
+
         if (rockInfoBox) {
             rockInfoBox.classList.remove('hidden');
-            const optionsContainer = rockInfoBox.nextElementSibling; 
-            if (optionsContainer && optionsContainer.classList.contains('options-container')) {
-                optionsContainer.classList.add('hidden');
-            }
+        }
+        // ❌ التصحيح: إخفاء حاوية الخيارات مباشرة
+        if (optionsContainer) {
+            optionsContainer.classList.add('hidden');
         }
     }
 }
@@ -969,11 +974,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (skipBtn) {
         skipBtn.addEventListener('click', () => {
             const selectedOptionInput = document.querySelector('input[name="option"]:checked');
-            // إذا كان هناك اختيار، يتم احتسابه كإجابة
             if (selectedOptionInput) {
                 processAnswer(false);
             } else {
-                // إذا لم يكن هناك اختيار، يتم احتسابه كتخطي/وقت مستقطع
                 processAnswer(true); 
             }
         });
