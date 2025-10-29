@@ -1,202 +1,1891 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl" data-theme="dark">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GEO-MASTER</title>
-    <link rel="stylesheet" href="style.css">
+    <title>GEO-MASTER | منصة اختبارات الجيولوجيا</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    
     <canvas id="particles-canvas"></canvas>
+    
     <div class="cyber-grid"></div>
+    
+    <aside id="sidebar">
+        <div class="sidebar-header">
+            <h3><i class="fas fa-layer-group"></i> وحدات التدريب</h3>
+            <button id="close-sidebar-btn" class="sidebar-close-btn" title="إغلاق">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="language-selector">
+            <label for="lang-select"><i class="fas fa-globe"></i> نظام اللغة:</label>
+            <select id="lang-select" onchange="changeLanguage(this.value)">
+                <option value="ar" selected>العربية (AR)</option>
+                <option value="en">English (EN)</option>
+                <option value="fr">Français (FR)</option>
+            </select>
+        </div>
+        
+        <div class="stats-container">
+            <div class="stat-item">
+                <i class="fas fa-brain"></i>
+                <span id="total-quizzes">0</span>
+                <p>اختبارات مكتملة</p>
+            </div>
+            <div class="stat-item">
+                <i class="fas fa-trophy"></i>
+                <span id="avg-score">0%</span>
+                <p>متوسط النجاح</p>
+            </div>
+        </div>
+
+        <div class="sidebar-links-section">
+            <h4 class="sidebar-section-title"><i class="fas fa-book-open"></i> موارد تعليمية</h4>
+            <a href="gis.html" class="sidebar-link-item">
+                <i class="fas fa-globe-americas"></i>
+                <span>مدخل إلى GIS الجيولوجي</span>
+            </a>
+            </div>
+        <div class="sidebar-topics-list" id="sidebar-topics-list">
+            </div>
+    </aside>
+    
+    <div id="overlay"></div>
 
     <div id="main-content-wrapper">
         <header class="main-header">
-            <button class="sidebar-toggle-btn" id="sidebar-toggle"><i class="fas fa-bars"></i></button>
-            <h1 class="app-title title-glitch">GEO-MASTER</h1>
+            <button id="open-sidebar-btn" class="sidebar-toggle-btn" title="فتح القائمة">
+                <i class="fas fa-bars"></i>
+            </button>
+            <h1 class="app-title">
+                <span class="title-glitch" data-text="GEO-MASTER">GEO-MASTER</span>
+            </h1>
             <div class="header-info">
-                <div class="user-status">
-                    <span class="active-users-indicator">
-                        <span class="active-dot"></span>
-                        متصل: <span id="active-users-count">0</span>
-                    </span>
-                </div>
-                <button class="theme-btn" id="theme-toggle"><i class="fas fa-moon"></i></button>
+                <span class="active-users-indicator" title="المتدربون النشطون الآن">
+                    <span class="active-dot"></span>
+                    <span id="active-users-count">12</span> </span>
+                <span class="user-status">
+                    <i class="fas fa-user-circle"></i> وضع الزائر
+                </span>
+                <button id="theme-toggle" class="theme-btn" title="تبديل السمة">
+                    <i class="fas fa-moon"></i>
+                </button>
             </div>
         </header>
 
-        <div id="sidebar">
-            <div class="sidebar-header">
-                <h2>القائمة</h2>
-                <button class="sidebar-close-btn" id="sidebar-close"><i class="fas fa-times"></i></button>
-            </div>
-            
-            <div class="language-selector">
-                <label for="lang-select">اللغة:</label>
-                <select id="lang-select">
-                    <option value="ar">العربية</option>
-                    <option value="en">الإنجليزية</option>
-                </select>
-            </div>
-
-            <div class="stats-container">
-                <div class="stat-item">
-                    <h3>الأسئلة المجابة</h3>
-                    <p id="total-answered">0</p>
-                </div>
-                <div class="stat-item">
-                    <h3>النتيجة الكلية</h3>
-                    <p id="total-score">0</p>
-                </div>
-            </div>
-
-            <ul class="sidebar-topics-list">
-                <li><a href="#" data-topic="جيولوجيا الأساسية"><i class="fas fa-flask"></i> الجيولوجيا الأساسية</a></li>
-                <li><a href="#" data-topic="الجيومورفولوجيا"><i class="fas fa-mountain"></i> الجيومورفولوجيا</a></li>
-                <li><a href="#" data-topic="جيولوجيا التركيبية"><i class="fas fa-layer-group"></i> جيولوجيا التركيبية</a></li>
-                <li><a href="#" data-topic="علم المعادن"><i class="fas fa-gem"></i> علم المعادن</a></li>
-                <li><a href="#" data-topic="علم الصخور"><i class="fas fa-dharmachakra"></i> علم الصخور</a></li>
-                <li><a href="#" data-topic="الجيوفيزياء"><i class="fas fa-globe"></i> الجيوفيزياء</a></li>
-                <li><a href="#" data-topic="الجيوميكانيك"><i class="fas fa-cube"></i> الجيوميكانيك</a></li>
-                <li><a href="#" data-topic="الجيولوجيا البترولية والتطبيقية"><i class="fas fa-oil-can"></i> الجيولوجيا البترولية والتطبيقية</a></li>
-                <li><a href="#" data-topic="الموارد المائية"><i class="fas fa-tint"></i> الموارد المائية</a></li>
-                <li><a href="#" data-topic="الهيدروجيولوجيا"><i class="fas fa-water"></i> الهيدروجيولوجيا</a></li>
-                <li><a href="#" data-topic="جيولوجيا البيئة"><i class="fas fa-leaf"></i> جيولوجيا البيئة</a></li>
-                <li><a href="#" data-topic="التصوير الجيولوجي"><i class="fas fa-camera"></i> التصوير الجيولوجي</a></li>
-                <li><a href="#" data-topic="الجيولوجيا الهندسية"><i class="fas fa-hard-hat"></i> الجيولوجيا الهندسية</a></li>
-                <li><a href="#" data-topic="جيولوجيا التعدين"><i class="fas fa-pickaxe"></i> جيولوجيا التعدين</a></li>
-                <li><a href="#" data-topic="المخاطر الجيولوجية"><i class="fas fa-exclamation-triangle"></i> المخاطر الجيولوجية</a></li>
-                <li><a href="#" data-topic="الجيولوجيا البحرية"><i class="fas fa-ship"></i> الجيولوجيا البحرية</a></li>
-                <li><a href="#" data-topic="الجيولوجيا التاريخية"><i class="fas fa-clock"></i> الجيولوجيا التاريخية</a></li>
-                <li><a href="#" data-topic="علوم الفضاء"><i class="fas fa-space-shuttle"></i> علوم الفضاء</a></li>
-                <li><a href="#" data-topic="الجيومعلوماتية"><i class="fas fa-database"></i> الجيومعلوماتية</a></li>
-                <li><a href="#" data-topic="الجيولوجيا الاقتصادية"><i class="fas fa-dollar-sign"></i> الجيولوجيا الاقتصادية</a></li>
-                <li><a href="#" data-topic="الاستشعار عن بعد"><i class="fas fa-satellite"></i> الاستشعار عن بعد</a></li>
-                <li><a href="#" data-topic="الجيولوجيا الحقلية"><i class="fas fa-map-marked-alt"></i> الجيولوجيا الحقلية</a></li>
-                <li><a href="#" data-topic="جيولوجيا التربة"><i class="fas fa-seedling"></i> جيولوجيا التربة</a></li>
-                <li><a href="#" data-topic="الباليوجيولوجيا"><i class="fas fa-fossil"></i> الباليوجيولوجيا</a></li>
-                <li><a href="#" data-topic="التكتونيك"><i class="fas fa-globe-africa"></i> التكتونيك</a></li>
-            </ul>
-        </div>
-
-        <div id="overlay"></div>
-
         <main id="app-container">
-            <section id="hero-screen" class="screen active animated-fade">
-                <div class="hero-section data-module">
+            <section id="topic-selection" class="screen active">
+                <div class="hero-section">
                     <div class="hero-content">
-                        <h2 class="section-title"><i class="fas fa-book title-icon"></i> أهلاً بك في GEO-MASTER</h2>
+                        <h2 class="section-title animated-fade">
+                            <span class="title-icon"><i class="fas fa-satellite-dish"></i></span>
+                            مرحباً بك في نظام GEO-MASTER
+                        </h2>
                         <p class="hero-description">
-                            اختبر معلوماتك الجيولوجية مع آلاف الأسئلة في مجالات متعددة.
-                            تحدَ نفسك وحسّن مهاراتك مع أسئلة متنوعة.
+                            منصة تدريب متقدمة لاختبار معرفتك في علوم الأرض والجيولوجيا
                         </p>
                         <div class="hero-image-container">
-                            <img src="https://via.placeholder.com/400x250?text=GEO-MASTER+Image" alt="GEO-MASTER" class="hero-image">
+                            <img src="images/field-geologist.jpg" alt="جيولوجي في الميدان يستخدم أدوات المسح" class="hero-image">
                         </div>
-                        <div class="daily-challenge-section">
-                            <button id="start-quiz-btn" class="large-btn pulse-btn">
-                                ابدأ الاختبار الآن <i class="fas fa-play btn-icon"></i>
-                                <span class="btn-glow"></span>
-                            </button>
                         </div>
+                    
+                    <div class="daily-challenge-section">
+                        <button id="daily-challenge-btn" class="control-btn secondary large-btn neon-edge pulse-secondary-btn">
+                             <span class="btn-icon"><i class="fas fa-calendar-day"></i></span>
+                             <span class="btn-text">التحدي اليومي (7 أسئلة)</span>
+                             <span class="btn-glow"></span>
+                        </button>
+                    </div>
+                    <button id="start-quiz-btn" class="control-btn primary large-btn animated-fade neon-edge pulse-btn" style="margin-top: 20px;"> <span class="btn-icon"><i class="fas fa-rocket"></i></span>
+                        <span class="btn-text">بدء اختبار مخصص</span>
+                        <span class="btn-glow"></span>
+                    </button>
+                    
+                </div>
+
+                <div id="topics-list-container" class="hidden">
+                    <h3 class="topics-header">
+                        <i class="fas fa-folder-open"></i> اختر مجال الاختبار المخصص:
+                    </h3>
+                    <div id="topics-list" class="list-container">
+                        <div id="loading-message" class="loading-spinner">
+                            <div class="spinner-ring"></div>
+                            <p>... تحليل بيانات النظام</p>
+                        </div> 
                     </div>
                 </div>
             </section>
 
-            <section id="topics-screen" class="screen">
-                <div class="topics-header">
-                    <h2 class="section-title"><i class="fas fa-list-alt title-icon"></i> اختر مجال الاختبار المخصص:</h2>
-                    </div>
-                <div class="list-container" id="topics-list">
-                    <div class="loading-spinner">
-                        <div class="spinner-ring"></div>
-                        <p>جاري تحميل المواضيع...</p>
-                    </div>
-                </div>
-            </section>
-
-            <section id="quiz-screen" class="screen">
-                <div class="quiz-header-status data-module">
+            <section id="quiz-screen" class="screen hidden">
+                <div class="quiz-header-status">
+                    <h2 id="quiz-title" class="section-title"></h2>
+                    
                     <div class="quiz-meta">
-                        <button id="home-btn" class="small-btn"><i class="fas fa-home"></i></button>
-                        <div id="timer-display" data-critical="false">
-                            <span class="timer-value">00:00</span>
-                            <span class="timer-unit"></span>
-                        </div>
-                        <div class="counter-badge"><i class="fas fa-question-circle"></i> <span id="question-number">1</span> / <span id="total-questions">10</span></div>
-                        <div class="score-badge"><i class="fas fa-star"></i> <span id="current-score">0</span></div>
+                        <span id="timer-display" class="timer-display">
+                            <i class="fas fa-clock"></i>
+                            <span class="timer-value">20</span>
+                            <span class="timer-unit">ث</span>
+                        </span>
+                        
+                        <span id="question-counter" class="counter-badge">
+                            <i class="fas fa-list-ol"></i> السؤال 1 / 10
+                        </span>
+                        
+                        <span id="score-display" class="score-badge">
+                            <i class="fas fa-star"></i> النقاط: <span id="current-score">0</span>
+                        </span>
                     </div>
+                    
                     <div id="progress-bar-container">
-                        <div id="progress-bar"></div>
+                        <div id="progress-bar-fill"></div>
+                        <div class="progress-glow"></div>
                     </div>
-                    <h2><span id="quiz-topic-name"></span></h2>
+                </div>
+
+                <div id="question-container" class="data-module quiz-card"></div>
+                
+                <div id="controls" class="controls-bar">
+                    <button id="submit-btn" class="control-btn primary neon-edge" disabled>
+                        <span class="btn-icon"><i class="fas fa-check"></i></span>
+                        <span class="btn-text">تأكيد الإجابة</span>
+                    </button>
+                    <button id="next-btn" class="control-btn secondary hidden">
+                        <span class="btn-text">السؤال التالي</span>
+                        <span class="btn-icon"><i class="fas fa-arrow-left"></i></span>
+                    </button>
+                    <button id="skip-btn" class="control-btn tertiary">
+                        <span class="btn-icon"><i class="fas fa-forward"></i></span>
+                        <span class="btn-text">تخطي</span>
+                    </button>
                 </div>
                 
-                <div id="question-container" class="data-module">
-                    <div class="question-text" id="question-text"></div>
-                    <div class="options-container" id="options-container">
-                        </div>
-                    <div class="feedback-message" id="feedback-message"></div>
-                </div>
-
-                <div class="controls-bar">
-                    <button id="skip-btn" class="control-btn tertiary"><i class="fas fa-forward"></i> تخطي</button>
-                    <button id="next-btn" class="control-btn primary" disabled><i class="fas fa-check"></i> تأكيد الإجابة</button>
-                </div>
+                <div id="feedback-container" class="feedback-message hidden"></div>
             </section>
 
-            <section id="results-screen" class="screen">
-                <div class="results-hero data-module">
-                    <h2 class="section-title"><i class="fas fa-trophy title-icon"></i> نتائج الاختبار</h2>
-                    <p>تهانينا! لقد أكملت الاختبار.</p>
-                    <div class="score-display">
-                        <span id="final-score-value">0</span> / <span id="final-total-questions">0</span> <span>نقطة</span>
+            <section id="results-screen" class="screen hidden">
+                <div class="results-hero">
+                    <div class="results-animation">
+                        <div class="trophy-container">
+                            <i class="fas fa-trophy trophy-icon"></i>
+                            <div class="trophy-rays"></div>
+                        </div>
+                    </div>
+                    
+                    <h2 class="section-title result-title animated-fade">
+                        <i class="fas fa-chart-line"></i> تقرير تحليل الأداء
+                    </h2>
+                </div>
+                
+                <div class="results-grid">
+                    <div class="data-module summary-card">
+                        <h3>
+                            <i class="fas fa-file-alt"></i> ملخص البروتوكول
+                        </h3>
+                        <div class="score-display">
+                            <div class="score-circle">
+                                <svg class="progress-ring" width="200" height="200">
+                                    <defs>
+                                        <linearGradient id="scoreGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                            <stop offset="0%" style="stop-color: var(--neon-blue); stop-opacity: 1" />
+                                            <stop offset="100%" style="stop-color: var(--neon-purple); stop-opacity: 1" />
+                                        </linearGradient>
+                                    </defs>
+                                    <circle class="progress-ring-bg" cx="100" cy="100" r="90"></circle>
+                                    <circle class="progress-ring-fill" cx="100" cy="100" r="90"></circle>
+                                </svg>
+                                <div class="score-content">
+                                    <span id="final-score" class="score-number">0</span>
+                                    <span class="score-separator">/</span>
+                                    <span id="total-questions-count" class="total-score">0</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="grade-message" class="grade-message-text"></div>
+                        
+                        <div class="stats-breakdown">
+                            <div class="stat-box correct-stat">
+                                <i class="fas fa-check-circle"></i>
+                                <span id="correct-count">0</span>
+                                <p>إجابات صحيحة</p>
+                            </div>
+                            <div class="stat-box wrong-stat">
+                                <i class="fas fa-times-circle"></i>
+                                <span id="wrong-count">0</span>
+                                <p>إجابات خاطئة</p>
+                            </div>
+                            <div class="stat-box time-stat">
+                                <i class="fas fa-hourglass-half"></i>
+                                <span id="total-time">0</span>
+                                <p>الوقت المستغرق</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="review-area" class="review-log data-module">
+                        <h3>
+                            <i class="fas fa-bug"></i> فحص الأخطاء:
+                        </h3>
+                        <div id="review-content"></div>
                     </div>
                 </div>
-
-                <div class="stats-breakdown">
-                    <div class="stat-card">
-                        <h4>الإجابات الصحيحة</h4>
-                        <p id="correct-answers-count">0</p>
-                    </div>
-                    <div class="stat-card">
-                        <h4>الإجابات الخاطئة</h4>
-                        <p id="incorrect-answers-count">0</p>
-                    </div>
-                    <div class="stat-card">
-                        <h4>وقت الاختبار</h4>
-                        <p id="time-taken">00:00</p>
-                    </div>
-                </div>
-
+                
                 <div class="action-buttons">
-                    <button id="restart-quiz-btn" class="large-btn pulse-btn primary">
-                        <i class="fas fa-redo btn-icon"></i> إعادة الاختبار
+                    <button onclick="window.location.reload()" class="control-btn primary large-btn neon-edge">
+                        <span class="btn-icon"><i class="fas fa-redo-alt"></i></span>
+                        <span class="btn-text">إعادة تشغيل النظام</span>
                     </button>
-                    <button id="back-to-topics-btn" class="large-btn secondary">
-                        <i class="fas fa-list-alt btn-icon"></i> العودة للمواضيع
+                    <button id="share-results-btn" class="control-btn secondary large-btn">
+                        <span class="btn-icon"><i class="fas fa-share-alt"></i></span>
+                        <span class="btn-text">مشاركة النتائج</span>
                     </button>
                 </div>
             </section>
         </main>
-
-        <div class="footer-wrapper">
-            <div class="total-trainees-section">
-                <i class="fas fa-users"></i> إجمالي المتدربين المسجلين: <span id="trainee-count" class="trainee-count">177</span>
-            </div>
-            <footer class="app-footer">
-                <p>&copy; 2025 <i class="fas fa-heart"></i> GEO-MASTER | Developed with 2025</p>
-            </footer>
+        
+        <div class="total-trainees-section">
+             <i class="fas fa-users"></i> إجمالي المتدربين المسجلين: 
+             <span class="trainee-count">177</span>
         </div>
+        <footer class="app-footer">
+            <p>&copy; 2025 GEO-MASTER | Developed with <i class="fas fa-heart"></i></p>
+        </footer>
     </div>
-
-    <div id="notification-toast" class="notification-toast">
+    
+    <div id="notification-toast" class="notification-toast hidden">
         <i class="fas fa-info-circle"></i>
-        <span id="toast-message"></span>
+        <span id="notification-message"></span>
     </div>
-
-    <script src="particles.js"></script>
+    
     <script src="script.js"></script>
+    <script>
+        // كود JavaScript لتحديث عدد المستخدمين النشطين بشكل عشوائي (كمثال)
+        document.addEventListener('DOMContentLoaded', () => {
+            const activeUsersCountElement = document.getElementById('active-users-count');
+            
+            function updateActiveUsers() {
+                const randomCount = Math.floor(Math.random() * (35 - 7 + 1)) + 7; // رقم عشوائي بين 7 و 35
+                if (activeUsersCountElement) {
+                    activeUsersCountElement.textContent = randomCount;
+                }
+            }
+            
+            // تحديث العدد كل 5 ثواني كمثال
+            setInterval(updateActiveUsers, 5000); 
+            updateActiveUsers(); // تحديث فوري عند تحميل الصفحة
+        });
+    </script>
 </body>
 </html>
+
+
+
+/* =======================================================
+   1. المتغيرات والألوان (Cyberpunk/Sci-Fi Enhanced)
+   ======================================================= */
+:root {
+    --bg-main: #0a0e14;
+    --bg-module: #13171e;
+    --bg-card: #1a1f2e;
+    --text-main: #e0e6f0;
+    --text-secondary: #8b95a8;
+    
+    --neon-blue: #00d9ff;
+    --neon-cyan: #00fff5;
+    --neon-purple: #b026ff;
+    --neon-pink: #ff006e;
+    --neon-accent: #ff4500; /* Orange */
+    --neon-green: #39ff14; /* Neon Green for active status */
+    --correct-color: #00ff88;
+    --incorrect-color: #ff3366;
+    
+    --shadow-deep: 0 8px 32px rgba(0, 0, 0, 0.9);
+    --shadow-neon-blue: 0 0 20px rgba(0, 217, 255, 0.5), 0 0 40px rgba(0, 217, 255, 0.3);
+    --shadow-neon-purple: 0 0 20px rgba(176, 38, 255, 0.5);
+    --shadow-neon-accent: 0 0 20px rgba(255, 69, 0, 0.5); /* Orange shadow */
+    --shadow-neon-green: 0 0 15px rgba(57, 255, 20, 0.6); /* Green shadow */
+    
+    --sidebar-width: 85%;
+    --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* Dark Theme Variables */
+body[data-theme="dark"] {
+    --bg-main: #0a0e14;
+    --bg-module: #13171e;
+}
+
+/* Light Theme (Optional) */
+body[data-theme="light"] {
+    --bg-main: #f0f4f8;
+    --bg-module: #ffffff;
+    --text-main: #1a1f2e;
+    --text-secondary: #5a6b7d;
+}
+
+/* =======================================================
+   2. التنسيق العام والخلفيات المتحركة
+   ======================================================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', 'Cairo', 'Tajawal', sans-serif;
+    background: var(--bg-main);
+    color: var(--text-main);
+    direction: rtl;
+    line-height: 1.6;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* Canvas للجزيئات المتحركة */
+#particles-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.3;
+}
+
+/* الشبكة السيبرانية */
+.cyber-grid {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        linear-gradient(rgba(0, 217, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 217, 255, 0.03) 1px, transparent 1px);
+    background-size: 50px 50px;
+    z-index: 1;
+    pointer-events: none;
+    animation: gridMove 20s linear infinite;
+}
+
+@keyframes gridMove {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(50px, 50px); }
+}
+
+/* =======================================================
+   3. Animations المتقدمة
+   ======================================================= */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes pulseGlow { /* Primary button pulse */
+    0%, 100% {
+        box-shadow: 0 0 20px rgba(0, 217, 255, 0.4);
+    }
+    50% {
+        box-shadow: 0 0 40px rgba(0, 217, 255, 0.8);
+    }
+}
+
+@keyframes pulseGlowSecondary { /* Secondary button pulse */
+    0%, 100% {
+        box-shadow: 0 0 20px rgba(255, 69, 0, 0.5); /* Orange shadow */
+    }
+    50% {
+        box-shadow: 0 0 40px rgba(255, 0, 110, 0.7); /* Pinkish-orange shadow */
+    }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+}
+
+@keyframes glitch {
+    0% { text-shadow: 0.05em 0 0 rgba(255, 0, 0, 0.75), -0.05em -0.025em 0 rgba(0, 255, 0, 0.75); }
+    14% { text-shadow: 0.05em 0 0 rgba(255, 0, 0, 0.75), -0.05em -0.025em 0 rgba(0, 255, 0, 0.75); }
+    15% { text-shadow: -0.05em -0.025em 0 rgba(255, 0, 0, 0.75), 0.025em 0.025em 0 rgba(0, 255, 0, 0.75); }
+    49% { text-shadow: -0.05em -0.025em 0 rgba(255, 0, 0, 0.75), 0.025em 0.025em 0 rgba(0, 255, 0, 0.75); }
+    50% { text-shadow: 0.025em 0.05em 0 rgba(0, 255, 0, 0.75), 0.05em 0 0 rgba(255, 0, 0, 0.75); }
+    99% { text-shadow: 0.025em 0.05em 0 rgba(0, 255, 0, 0.75), 0.05em 0 0 rgba(255, 0, 0, 0.75); }
+    100% { text-shadow: -0.025em 0 0 rgba(255, 0, 0, 0.75), -0.025em -0.025em 0 rgba(0, 255, 0, 0.75); }
+}
+
+@keyframes rotate3d {
+    0% { transform: rotateY(0deg); }
+    100% { transform: rotateY(360deg); }
+}
+
+.animated-fade {
+    animation: fadeInUp 0.8s ease-out both;
+}
+
+.pulse-btn { /* Primary pulse */
+    animation: pulseGlow 2s ease-in-out infinite;
+}
+
+.pulse-secondary-btn { /* Secondary pulse */
+    animation: pulseGlowSecondary 2.2s ease-in-out infinite; /* Slightly different timing */
+}
+
+@keyframes dotPulse { /* Green dot pulse */
+    0% { box-shadow: 0 0 0 0 rgba(57, 255, 20, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(57, 255, 20, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(57, 255, 20, 0); }
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* =======================================================
+   4. الهيدر المحسّن
+   ======================================================= */
+#main-content-wrapper {
+    position: relative;
+    z-index: 10;
+    transition: var(--transition-smooth);
+}
+
+.main-header {
+    background: linear-gradient(135deg, var(--bg-module) 0%, rgba(19, 23, 30, 0.95) 100%);
+    backdrop-filter: blur(10px);
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: var(--shadow-deep);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 2px solid var(--neon-blue);
+}
+
+.sidebar-toggle-btn,
+.theme-btn {
+    background: transparent;
+    border: 2px solid var(--neon-blue);
+    color: var(--neon-blue);
+    font-size: 1.5em;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+.sidebar-toggle-btn:hover,
+.theme-btn:hover {
+    background: var(--neon-blue);
+    color: var(--bg-main);
+    transform: scale(1.1);
+    box-shadow: var(--shadow-neon-blue);
+}
+
+.app-title {
+    font-size: 1.8em;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.title-glitch {
+    color: var(--neon-blue);
+    font-weight: 900;
+    position: relative;
+    animation: glitch 5s infinite;
+}
+
+.version { /* تم إخفاء رقم الإصدار V2.0 */
+    display: none; 
+}
+
+.header-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.user-status {
+    display: none; /* Hidden by default, shown on larger screens */
+    align-items: center;
+    gap: 8px;
+    color: var(--text-secondary);
+    font-size: 0.9em;
+}
+
+/* Active Users Indicator - NEW */
+.active-users-indicator {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background-color: var(--bg-card);
+    padding: 5px 10px;
+    border-radius: 20px;
+    border: 1px solid var(--neon-green);
+    color: var(--neon-green);
+    font-size: 0.9em;
+    font-weight: 600;
+    box-shadow: var(--shadow-neon-green);
+}
+
+.active-dot {
+    width: 10px;
+    height: 10px;
+    background-color: var(--neon-green);
+    border-radius: 50%;
+    animation: dotPulse 1.5s infinite cubic-bezier(0.66, 0, 0, 1);
+}
+
+#active-users-count {
+    min-width: 15px; /* Ensure space for two digits */
+    text-align: center;
+}
+
+
+/* =======================================================
+   5. القائمة الجانبية المحسّنة
+   ======================================================= */
+#sidebar {
+    height: 100vh;
+    width: var(--sidebar-width);
+    position: fixed;
+    top: 0;
+    right: calc(-1 * var(--sidebar-width));
+    background: linear-gradient(180deg, var(--bg-module) 0%, rgba(13, 17, 24, 0.98) 100%);
+    backdrop-filter: blur(15px);
+    box-shadow: -10px 0 50px rgba(0, 0, 0, 0.8);
+    z-index: 2000;
+    transition: right 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    overflow-y: auto;
+    border-left: 3px solid var(--neon-blue);
+}
+
+#sidebar.open {
+    right: 0;
+}
+
+#sidebar::-webkit-scrollbar {
+    width: 8px;
+}
+
+#sidebar::-webkit-scrollbar-track {
+    background: var(--bg-main);
+}
+
+#sidebar::-webkit-scrollbar-thumb {
+    background: var(--neon-blue);
+    border-radius: 4px;
+}
+
+.sidebar-header {
+    padding: 20px;
+    background: linear-gradient(135deg, var(--neon-blue) 0%, var(--neon-purple) 100%);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 3px solid var(--neon-cyan);
+}
+
+.sidebar-header h3 {
+    margin: 0;
+    color: var(--bg-main);
+    font-size: 1.3em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sidebar-close-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: var(--bg-main);
+    font-size: 1.5em;
+    padding: 5px 10px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+.sidebar-close-btn:hover {
+    background: rgba(255, 255, 255, 0.4);
+    transform: rotate(90deg);
+}
+
+.language-selector {
+    padding: 20px;
+    background: var(--bg-card);
+    margin: 20px;
+    border-radius: 12px;
+    border: 2px solid var(--neon-purple);
+}
+
+.language-selector label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    color: var(--neon-cyan);
+    font-weight: 600;
+}
+
+#lang-select {
+    width: 100%;
+    padding: 10px;
+    background: var(--bg-main);
+    color: var(--text-main);
+    border: 2px solid var(--neon-blue);
+    border-radius: 8px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+#lang-select:focus {
+    outline: none;
+    border-color: var(--neon-cyan);
+    box-shadow: 0 0 15px rgba(0, 255, 245, 0.3);
+}
+
+/* إحصائيات القائمة الجانبية */
+.stats-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    padding: 20px;
+}
+
+.stat-item {
+    background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-module) 100%);
+    padding: 15px;
+    border-radius: 12px;
+    text-align: center;
+    border: 2px solid var(--neon-blue);
+    transition: var(--transition-smooth);
+}
+
+.stat-item:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-neon-blue);
+}
+
+.stat-item i {
+    font-size: 2em;
+    color: var(--neon-cyan);
+    margin-bottom: 10px;
+    display: block;
+}
+
+.stat-item span {
+    display: block;
+    font-size: 1.8em;
+    font-weight: 900;
+    color: var(--neon-blue);
+    margin-bottom: 5px;
+}
+
+.stat-item p {
+    font-size: 0.85em;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+.sidebar-topics-list {
+    padding: 20px;
+}
+
+.sidebar-topics-list a {
+    display: block;
+    padding: 15px 20px;
+    color: var(--text-main);
+    text-decoration: none;
+    border-right: 4px solid transparent;
+    transition: var(--transition-smooth);
+    margin-bottom: 10px;
+    border-radius: 8px;
+    background: var(--bg-card);
+}
+
+.sidebar-topics-list a:hover {
+    background: linear-gradient(90deg, var(--bg-card) 0%, rgba(0, 217, 255, 0.1) 100%);
+    border-right-color: var(--neon-cyan);
+    transform: translateX(-10px);
+}
+
+#overlay {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(5px);
+    z-index: 1999;
+    display: none;
+    transition: var(--transition-smooth);
+}
+
+/* =======================================================
+   6. المحتوى الرئيسي
+   ======================================================= */
+#app-container {
+    padding: 30px 20px;
+    max-width: 100%;
+    position: relative;
+    z-index: 10;
+}
+
+/* Hero Section */
+.hero-section {
+    text-align: center;
+    padding: 40px 20px;
+    background: linear-gradient(135deg, rgba(0, 217, 255, 0.05) 0%, rgba(176, 38, 255, 0.05) 100%);
+    border-radius: 20px;
+    border: 2px solid var(--neon-blue);
+    margin-bottom: 40px;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(0, 217, 255, 0.1) 0%, transparent 70%);
+    animation: rotate3d 20s linear infinite;
+    z-index: 0; /* Behind hero content */
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+.section-title {
+    font-size: 2em;
+    margin: 20px 0;
+    color: var(--neon-blue);
+    text-shadow: 0 0 10px var(--neon-blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.title-icon {
+    font-size: 1.2em;
+    animation: float 3s ease-in-out infinite;
+}
+
+.hero-description {
+    font-size: 1.2em;
+    color: var(--text-secondary);
+    margin: 20px 0;
+    line-height: 1.8;
+}
+
+/* Hero Image - NEW/EXISTING */
+.hero-image-container {
+    margin-top: 30px; 
+    text-align: center; 
+    position: relative; /* Needed for z-index */
+    z-index: 2; /* Ensure image is above pseudo-element */
+}
+
+.hero-image {
+    max-width: 80%; 
+    height: auto; 
+    border-radius: 15px; 
+    border: 3px solid var(--neon-cyan); 
+    box-shadow: 0 0 25px rgba(0, 255, 245, 0.4); 
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hero-image:hover {
+    transform: scale(1.03); 
+    box-shadow: 0 0 40px rgba(0, 255, 245, 0.6); 
+}
+
+/* Daily Challenge Button - NEW */
+.daily-challenge-section {
+    margin-top: 35px; /* Space between image and button */
+    position: relative; /* Needed for z-index */
+    z-index: 2; /* Ensure button is above pseudo-element */
+}
+
+/* زر البدء المحسّن */
+.large-btn {
+    padding: 20px 40px;
+    font-size: 1.3em;
+    border-radius: 50px;
+    position: relative;
+    overflow: hidden;
+    z-index: 2; /* Ensure button is above pseudo-element */
+}
+
+.large-btn .btn-icon {
+    margin-left: 10px;
+    font-size: 1.2em;
+}
+
+.large-btn .btn-glow {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s;
+}
+
+.large-btn:hover .btn-glow {
+    left: 100%;
+}
+
+/* قائمة المواضيع */
+#topics-list-container {
+    margin-top: 40px;
+}
+
+.topics-header {
+    font-size: 1.5em;
+    color: var(--neon-cyan);
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid var(--neon-purple);
+}
+
+.list-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+}
+
+.topic-card {
+    background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-module) 100%);
+    padding: 30px 25px;
+    border-radius: 15px;
+    font-size: 1.3em;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: var(--shadow-deep);
+    transition: var(--transition-bounce);
+    text-align: center;
+    border: 2px solid transparent;
+    position: relative;
+    overflow: hidden;
+}
+
+.topic-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, var(--neon-blue), var(--neon-purple));
+    opacity: 0;
+    transition: var(--transition-smooth);
+}
+
+.topic-card:hover::before {
+    opacity: 0.1;
+}
+
+.topic-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    border-color: var(--neon-blue);
+    box-shadow: var(--shadow-neon-blue);
+}
+
+.topic-card:active {
+    transform: scale(0.98);
+}
+
+/* Loading Spinner */
+.loading-spinner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+}
+
+.spinner-ring {
+    width: 80px;
+    height: 80px;
+    border: 6px solid var(--bg-card);
+    border-top: 6px solid var(--neon-blue);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 20px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.loading-spinner p {
+    color: var(--neon-cyan);
+    font-size: 1.1em;
+}
+
+/* =======================================================
+   7. شاشة الاختبار المحسّنة (تم تحسين تخطيطها لمنع التمرير الداخلي)
+   ======================================================= */
+.data-module {
+    background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-module) 100%);
+    border: 2px solid var(--neon-blue);
+    box-shadow: var(--shadow-deep);
+    padding: 35px 25px;
+    border-radius: 20px;
+    position: relative;
+}
+
+#quiz-screen {
+    display: flex;
+    flex-direction: column;
+}
+
+.data-module::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, var(--neon-blue), var(--neon-purple), var(--neon-pink));
+    border-radius: 20px;
+    z-index: -1;
+    opacity: 0;
+    transition: var(--transition-smooth);
+}
+
+.data-module:hover::after {
+    opacity: 0.3;
+    filter: blur(20px);
+}
+
+.quiz-header-status {
+    margin-bottom: 30px;
+}
+
+.quiz-header-status h2 {
+    margin: 0 0 20px 0;
+    font-size: 1.5em;
+}
+
+.quiz-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.timer-display {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1.6em;
+    font-weight: 900;
+    color: var(--neon-blue);
+    background: var(--bg-card);
+    padding: 10px 20px;
+    border-radius: 50px;
+    border: 2px solid var(--neon-blue);
+    box-shadow: var(--shadow-neon-blue);
+    animation: pulseGlow 2s ease-in-out infinite;
+}
+
+.timer-display i {
+    font-size: 0.9em;
+}
+
+.timer-value {
+    font-size: 1.2em;
+    min-width: 40px;
+    text-align: center;
+}
+
+.timer-unit {
+    font-size: 0.8em;
+}
+
+.counter-badge,
+.score-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1em;
+    padding: 8px 16px;
+    background: var(--neon-accent);
+    color: var(--bg-main);
+    border-radius: 50px;
+    font-weight: 700;
+    box-shadow: 0 4px 15px rgba(255, 69, 0, 0.4);
+}
+
+.score-badge {
+    background: linear-gradient(135deg, var(--neon-purple), var(--neon-pink));
+}
+
+#progress-bar-container {
+    width: 100%;
+    height: 8px;
+    background: var(--bg-main);
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+#progress-bar-fill {
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(90deg, var(--neon-blue), var(--neon-cyan));
+    border-radius: 10px;
+    transition: width 0.1s linear;
+    position: relative;
+    box-shadow: 0 0 15px var(--neon-blue);
+}
+
+.progress-glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    animation: progressShine 2s infinite;
+}
+
+@keyframes progressShine {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+.question-text {
+    font-size: 1.5em;
+    padding: 25px;
+    margin-bottom: 30px;
+    background: linear-gradient(135deg, rgba(0, 217, 255, 0.05), rgba(176, 38, 255, 0.05));
+    border-radius: 15px;
+    border-right: 5px solid var(--neon-cyan);
+    color: var(--text-main);
+    line-height: 1.8;
+    box-shadow: inset 0 0 20px rgba(0, 217, 255, 0.1);
+}
+
+.options-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.option-label {
+    background: var(--bg-card);
+    border: 2px solid var(--neon-blue);
+    border-radius: 15px;
+    padding: 20px;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    position: relative;
+    overflow: hidden;
+}
+
+.option-label::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 217, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.option-label:hover::before {
+    left: 100%;
+}
+
+.option-label:hover {
+    border-color: var(--neon-cyan);
+    transform: translateX(-5px);
+    box-shadow: var(--shadow-neon-blue);
+}
+
+.option-label input[type="radio"] {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    accent-color: var(--neon-blue);
+}
+
+.option-label .option-text {
+    flex: 1;
+}
+
+.option-label.correct {
+    background: linear-gradient(135deg, var(--correct-color), rgba(0, 255, 136, 0.8));
+    border-color: var(--correct-color);
+    color: var(--bg-main);
+    animation: correctPulse 0.6s ease-out;
+}
+
+.option-label.incorrect {
+    background: linear-gradient(135deg, var(--incorrect-color), rgba(255, 51, 102, 0.8));
+    border-color: var(--incorrect-color);
+    color: white;
+    animation: incorrectShake 0.5s ease-out;
+}
+
+@keyframes correctPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+@keyframes incorrectShake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    75% { transform: translateX(10px); }
+}
+
+.feedback-message {
+    margin-top: 25px;
+    padding: 20px;
+    border-radius: 15px;
+    font-size: 1.1em;
+    font-weight: 600;
+    text-align: center;
+    animation: fadeInUp 0.5s ease-out;
+}
+
+.feedback-message.correct-feedback {
+    background: linear-gradient(135deg, rgba(0, 255, 136, 0.2), rgba(0, 255, 136, 0.1));
+    border: 2px solid var(--correct-color);
+    color: var(--correct-color);
+}
+
+.feedback-message.incorrect-feedback {
+    background: linear-gradient(135deg, rgba(255, 51, 102, 0.2), rgba(255, 51, 102, 0.1));
+    border: 2px solid var(--incorrect-color);
+    color: var(--incorrect-color);
+}
+
+.controls-bar {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.control-btn {
+    padding: 16px 30px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 1.1em;
+    border: none;
+    cursor: pointer;
+    transition: var(--transition-bounce);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.control-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.control-btn:active::before {
+    width: 300px;
+    height: 300px;
+}
+
+.primary {
+    background: linear-gradient(135deg, var(--neon-blue), var(--neon-cyan));
+    color: var(--bg-main);
+    box-shadow: 0 8px 25px rgba(0, 217, 255, 0.5);
+}
+
+.secondary {
+    background: linear-gradient(135deg, var(--neon-accent), var(--neon-pink));
+    color: white;
+    box-shadow: 0 8px 25px rgba(255, 69, 0, 0.5);
+}
+
+.tertiary {
+    background: transparent;
+    color: var(--text-secondary);
+    border: 2px solid var(--text-secondary);
+}
+
+.primary:hover:not(:disabled) {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 12px 35px rgba(0, 217, 255, 0.7);
+}
+
+.secondary:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 12px 35px rgba(255, 69, 0, 0.7);
+}
+
+.tertiary:hover {
+    background: var(--bg-card);
+    border-color: var(--neon-blue);
+    color: var(--neon-blue);
+}
+
+.control-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.neon-edge {
+    position: relative;
+}
+
+.neon-edge::after {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    background: linear-gradient(45deg, var(--neon-blue), var(--neon-purple), var(--neon-pink), var(--neon-cyan));
+    border-radius: 50px;
+    z-index: -1;
+    opacity: 0;
+    filter: blur(15px);
+    transition: var(--transition-smooth);
+}
+
+.neon-edge:hover::after {
+    opacity: 0.7;
+}
+
+/* =======================================================
+   8. شاشة النتائج المحسّنة
+   ======================================================= */
+.results-hero {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.results-animation {
+    margin-bottom: 30px;
+}
+
+.trophy-container {
+    position: relative;
+    display: inline-block;
+    animation: float 3s ease-in-out infinite;
+}
+
+.trophy-icon {
+    font-size: 6em;
+    color: var(--neon-blue);
+    filter: drop-shadow(0 0 30px var(--neon-blue));
+}
+
+.trophy-rays {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 200px;
+    height: 200px;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle, rgba(0, 217, 255, 0.3) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+    50% { transform: translate(-50%, -50%) scale(1.3); opacity: 0.8; }
+}
+
+.results-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 30px;
+}
+
+.summary-card {
+    text-align: center;
+}
+
+.summary-card h3 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 30px;
+    font-size: 1.5em;
+    color: var(--neon-cyan);
+}
+
+.score-display {
+    display: flex;
+    justify-content: center;
+    margin: 40px 0;
+}
+
+.score-circle {
+    position: relative;
+    width: 200px;
+    height: 200px;
+}
+
+.progress-ring {
+    transform: rotate(-90deg);
+}
+
+.progress-ring-bg {
+    fill: none;
+    stroke: var(--bg-card);
+    stroke-width: 15;
+}
+
+.progress-ring-fill {
+    fill: none;
+    stroke: url(#scoreGradient);
+    stroke-width: 15;
+    stroke-linecap: round;
+    stroke-dasharray: 565;
+    stroke-dashoffset: 565;
+    transition: stroke-dashoffset 2s ease-out;
+}
+
+.score-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: baseline;
+    gap: 5px;
+}
+
+.score-number {
+    font-size: 3em;
+    font-weight: 900;
+    color: var(--neon-blue);
+    text-shadow: 0 0 20px var(--neon-blue);
+}
+
+.score-separator {
+    font-size: 2em;
+    color: var(--text-secondary);
+}
+
+.total-score {
+    font-size: 2em;
+    color: var(--text-secondary);
+}
+
+.grade-message-text {
+    font-size: 1.3em;
+    padding: 20px;
+    border-radius: 15px;
+    margin: 20px 0;
+    font-weight: 600;
+    background: linear-gradient(135deg, rgba(0, 217, 255, 0.1), rgba(176, 38, 255, 0.1));
+    border: 2px solid var(--neon-purple);
+}
+
+.stats-breakdown {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.stat-box {
+    background: var(--bg-card);
+    padding: 20px;
+    border-radius: 15px;
+    border: 2px solid var(--neon-blue);
+    transition: var(--transition-smooth);
+}
+
+.stat-box:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-neon-blue);
+}
+
+.stat-box i {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.stat-box span {
+    display: block;
+    font-size: 2em;
+    font-weight: 900;
+    margin: 10px 0;
+}
+
+.stat-box p {
+    font-size: 1em;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+.correct-stat {
+    border-color: var(--correct-color);
+}
+
+.correct-stat i {
+    color: var(--correct-color);
+}
+
+.correct-stat span {
+    color: var(--correct-color);
+}
+
+.wrong-stat {
+    border-color: var(--incorrect-color);
+}
+
+.wrong-stat i {
+    color: var(--incorrect-color);
+}
+
+.wrong-stat span {
+    color: var(--incorrect-color);
+}
+
+.time-stat {
+    border-color: var(--neon-purple);
+}
+
+.time-stat i {
+    color: var(--neon-purple);
+}
+
+.time-stat span {
+    color: var(--neon-purple);
+}
+
+.review-log {
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+.review-log::-webkit-scrollbar {
+    width: 8px;
+}
+
+.review-log::-webkit-scrollbar-track {
+    background: var(--bg-main);
+    border-radius: 10px;
+}
+
+.review-log::-webkit-scrollbar-thumb {
+    background: var(--neon-blue);
+    border-radius: 10px;
+}
+
+.review-log h3 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 25px;
+    font-size: 1.5em;
+    color: var(--neon-accent);
+}
+
+.review-item {
+    background: var(--bg-card);
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    border-right: 5px solid var(--incorrect-color);
+    animation: slideInRight 0.5s ease-out;
+}
+
+.error-q {
+    font-size: 1.2em;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: var(--neon-cyan);
+    padding-bottom: 10px;
+    border-bottom: 1px dashed var(--neon-purple);
+}
+
+.error-a {
+    margin: 10px 0;
+    font-size: 1.05em;
+}
+
+.wrong {
+    color: var(--incorrect-color);
+    font-weight: 700;
+    padding: 5px 10px;
+    background: rgba(255, 51, 102, 0.2);
+    border-radius: 8px;
+}
+
+.right {
+    color: var(--correct-color);
+    font-weight: 700;
+    padding: 5px 10px;
+    background: rgba(0, 255, 136, 0.2);
+    border-radius: 8px;
+}
+
+.all-correct {
+    text-align: center;
+    font-size: 1.5em;
+    color: var(--correct-color);
+    padding: 40px 20px;
+}
+
+.action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 40px;
+}
+
+/* =======================================================
+   9. Footer
+   ======================================================= */
+.app-footer {
+    text-align: center;
+    padding: 30px 20px;
+    background: var(--bg-module);
+    border-top: 2px solid var(--neon-blue);
+    /* margin-top: 60px; Removed margin-top to place total trainees above */
+    color: var(--text-secondary);
+    position: relative; /* Ensure it stays below */
+    z-index: 5; /* Lower z-index */
+}
+
+.app-footer i {
+    color: var(--neon-pink);
+    animation: heartbeat 1.5s ease-in-out infinite;
+}
+
+@keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    25% { transform: scale(1.2); }
+    50% { transform: scale(1); }
+}
+
+/* =======================================================
+   10. Notification Toast
+   ======================================================= */
+.notification-toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+    color: white;
+    padding: 15px 30px;
+    border-radius: 50px;
+    box-shadow: 0 10px 40px rgba(0, 217, 255, 0.6);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    z-index: 3000;
+    transition: var(--transition-smooth);
+}
+
+.notification-toast.show {
+    transform: translateX(-50%) translateY(0);
+}
+
+.notification-toast i {
+    font-size: 1.5em;
+}
+
+/* =======================================================
+   11. Responsive Design (Desktop)
+   ======================================================= */
+@media (min-width: 768px) {
+    :root {
+        --sidebar-width: 350px;
+    }
+    
+    #app-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 40px 30px;
+    }
+    
+    .app-title {
+        font-size: 2.2em;
+    }
+    
+    .user-status {
+        display: flex; /* Show user status on larger screens */
+    }
+    
+    .list-container {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+    }
+    
+    .topic-card {
+        padding: 40px 30px;
+    }
+    
+    .controls-bar {
+        flex-direction: row;
+        justify-content: flex-end;
+    }
+    
+    .control-btn {
+        width: auto;
+        padding: 18px 40px;
+    }
+    
+    .quiz-meta {
+        justify-content: space-around;
+    }
+    
+    .results-grid {
+        grid-template-columns: 1fr 1.5fr;
+    }
+    
+    .stats-breakdown {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .action-buttons {
+        flex-direction: row;
+        justify-content: center;
+    }
+    
+    .section-title {
+        font-size: 2.5em;
+    }
+    
+    .question-text {
+        font-size: 1.7em;
+    }
+
+    .hero-image {
+        max-width: 60%; /* Adjust image size on larger screens */
+    }
+}
+
+@media (min-width: 1200px) {
+    #app-container {
+        max-width: 1400px;
+    }
+    
+    .list-container {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* =======================================================
+   12. Accessibility & Print Styles
+   ======================================================= */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+@media print {
+    #particles-canvas,
+    .cyber-grid,
+    #sidebar,
+    #overlay,
+    .main-header,
+    .controls-bar,
+    .app-footer,
+    .total-trainees-section { /* Hide new section in print */
+        display: none !important;
+    }
+    
+    body {
+        background: white;
+        color: black;
+    }
+}
+
+/*
+=============================
+ تنسيقات قسم الموارد التعليمية
+=============================
+*/
+.sidebar-links-section {
+    padding: 0 15px;
+    margin: 20px 0;
+    border-top: 1px solid var(--border-color, #444); /* خط فاصل */
+    padding-top: 20px;
+}
+
+.sidebar-section-title {
+    font-size: 0.9rem;
+    color: var(--text-muted, #aaa);
+    text-transform: uppercase;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px; /* مسافة بين الأيقونة والنص */
+}
+
+.sidebar-link-item {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    color: var(--text-primary, #eee);
+    text-decoration: none;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    gap: 10px; /* مسافة بين الأيقونة والنص */
+    border: 1px solid transparent;
+}
+
+.sidebar-link-item i {
+    color: var(--neon-blue, #00c6ff); 
+    transition: all 0.3s ease;
+}
+
+.sidebar-link-item:hover {
+    background-color: var(--primary-hover-bg, #2a2a3a);
+    color: var(--neon-glow, #fff);
+    border-color: var(--neon-blue, #00c6ff);
+    transform: translateX(5px);
+    box-shadow: 0 0 10px var(--neon-blue-shadow, #00c6ff4d);
+}
+
+.sidebar-link-item:hover i {
+    color: var(--neon-glow, #fff);
+}
+
+/*
+=============================
+ تنسيقات العناصر الجديدة 
+=============================
+*/
+
+/* تنسيق قسم إجمالي المتدربين */
+.total-trainees-section {
+    text-align: center;
+    padding: 25px 20px;
+    background: var(--bg-module);
+    border-top: 2px solid var(--neon-purple);
+    border-bottom: 2px solid var(--neon-purple); /* Added bottom border */
+    margin: 40px 0 0 0; /* Space above, remove bottom margin */
+    color: var(--neon-cyan);
+    font-size: 1.2em;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    position: relative; /* Needed for z-index */
+    z-index: 10; /* Ensure it's above grid/particles */
+}
+
+.total-trainees-section .trainee-count {
+    font-size: 1.5em;
+    font-weight: 900;
+    color: var(--neon-pink);
+    text-shadow: 0 0 10px var(--neon-pink);
+}
+
+/* تعديل تنسيق الفوتر ليكون أسفل القسم الجديد */
+.app-footer {
+    margin-top: 0; /* Remove top margin as total trainees section provides space */
+    border-top: none; /* Remove top border as total trainees section has bottom border */
+    padding-top: 20px; /* Adjust padding if needed */
+}
+
+/* تعديل تنسيق زر التحدي اليومي */
+#daily-challenge-btn.secondary {
+    /* Uses existing .secondary styles */
+    /* Add specific overrides if needed */
+    font-size: 1.2em; /* Slightly smaller than main button */
+    padding: 18px 35px; /* Adjust padding */
+}
+
+/* إضافة استجابة للصورة والهامش على الشاشات الأصغر */
+@media (max-width: 767px) {
+    .hero-image {
+        max-width: 90%; 
+    }
+    .daily-challenge-section {
+        margin-top: 25px; /* Adjust margin on smaller screens */
+    }
+    #start-quiz-btn {
+        margin-top: 15px; /* Adjust margin on smaller screens */
+    }
+     .active-users-indicator {
+        font-size: 0.8em; /* Smaller font on mobile */
+        padding: 4px 8px;
+        gap: 4px;
+    }
+    .active-dot {
+        width: 8px;
+        height: 8px;
+    }
+}
