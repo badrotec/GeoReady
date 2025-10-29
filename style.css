@@ -24,8 +24,8 @@
     --shadow-neon-green: 0 0 15px rgba(57, 255, 20, 0.6); /* Green shadow */
     
     --sidebar-width: 85%;
-    --header-height: 75px; 
-    --footer-height: 70px; 
+    --header-height: 75px; /* ارتفاع الهيدر التقريبي */
+    --footer-height: 70px; /* ارتفاع الفوتر التقريبي */
     --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-bounce: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
@@ -102,6 +102,7 @@ body {
 /* =======================================================
    3. Animations المتقدمة
    ======================================================= */
+/* (لا تغيير هنا) */
 @keyframes fadeInUp { /* ... */ }
 @keyframes slideInRight { /* ... */ }
 @keyframes pulseGlow { /* ... */ }
@@ -144,12 +145,34 @@ body {
     height: var(--header-height); 
     flex-shrink: 0; 
 }
-/* ... (باقي تنسيقات الهيدر) ... */
+
+/* (باقي تنسيقات الهيدر لا تتغير) */
+.sidebar-toggle-btn, .theme-btn { /* ... */ }
+.app-title { /* ... */ }
+.title-glitch { /* ... */ }
+.header-info { /* ... */ }
+.user-status { /* ... */ }
+.active-users-indicator { /* ... */ }
+.active-dot { /* ... */ }
+#active-users-count { /* ... */ }
+
 
 /* =======================================================
    5. القائمة الجانبية المحسّنة
    ======================================================= */
-/* ... (تنسيقات القائمة الجانبية) ... */
+/* (لا تغيير هنا) */
+#sidebar { /* ... */ }
+#sidebar.open { /* ... */ }
+#sidebar::-webkit-scrollbar { /* ... */ }
+.sidebar-header { /* ... */ }
+.sidebar-close-btn { /* ... */ }
+.language-selector { /* ... */ }
+#lang-select { /* ... */ }
+.stats-container { /* ... */ }
+.stat-item { /* ... */ }
+.sidebar-topics-list { /* ... */ }
+.sidebar-topics-list a { /* ... */ }
+#overlay { /* ... */ }
 
 
 /* =======================================================
@@ -167,20 +190,18 @@ body {
     overflow-x: hidden;
 }
 
-.screen.active {
-    flex-grow: 1; 
-    width: 100%;
-    display: flex; 
+/* *** تعديل الواجهة الأولى لـ: توسيط وتنظيم الستايل الداخلي (النيون) *** */
+#topic-selection {
+    display: flex;
     flex-direction: column;
-    /* *** جديد: توسيط محتوى الشاشة الأولى *** */
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding-top: 30px; /* إضافة مسافة علوية عند الحاجة */
-    padding-bottom: 30px; /* إضافة مسافة سفلية عند الحاجة */
+    align-items: center; 
+    text-align: center; 
+    flex-grow: 1;
+    justify-content: center; /* توسيط عمودي في الشاشة */
+    padding-top: 30px; 
+    padding-bottom: 30px;
 }
 
-/* *** جديد: تنظيم محتوى Hero Section *** */
 .hero-section {
     width: 100%;
     max-width: 700px; /* تحديد عرض أقصى لتركيز المحتوى */
@@ -189,7 +210,7 @@ body {
     background: linear-gradient(135deg, var(--bg-module) 0%, rgba(19, 23, 30, 0.9) 100%);
     border: 2px solid var(--neon-purple);
     border-radius: 20px;
-    box-shadow: var(--shadow-neon-purple); 
+    box-shadow: var(--shadow-neon-purple); /* إضافة ظل نيون لتأثير أقوى */
     display: flex;
     flex-direction: column;
     align-items: center; 
@@ -197,13 +218,6 @@ body {
 
 .hero-content {
     margin-bottom: 30px;
-}
-
-.hero-description {
-    font-size: 1.1em;
-    color: var(--text-secondary);
-    margin-top: 10px;
-    max-width: 500px;
 }
 
 .hero-image-container {
@@ -221,8 +235,15 @@ body {
 /* قائمة المواضيع (لا تغيير هنا) */
 #topics-list-container { /* ... */ }
 .topics-header { /* ... */ }
-/* ... (بقية تنسيقات القوائم) ... */
-
+.list-container { /* ... */ }
+.topic-card { /* ... */ }
+.topic-card::before { /* ... */ }
+.topic-card:hover { /* ... */ }
+.topic-card:active { /* ... */ }
+.loading-spinner { /* ... */ }
+.spinner-ring { /* ... */ }
+@keyframes spin { /* ... */ }
+.loading-spinner p { /* ... */ }
 
 /* =======================================================
    7. شاشة الاختبار المحسّنة (*** إضافة تلوين الإجابات الصحيحة/الخاطئة ***)
@@ -235,8 +256,22 @@ body {
     border-radius: 20px;
     position: relative;
 }
-/* ... (بقية تنسيقات الشاشة) ... */
 
+/* *** تعديل جذري لتثبيت الواجهة *** */
+#quiz-screen {
+    display: flex; 
+    flex-direction: column; 
+    /* حساب الارتفاع المتاح: كامل ارتفاع العرض - ارتفاع الهيدر - ارتفاع الفوتر - الحشو العلوي والسفلي لـ app-container */
+    height: calc(100vh - var(--header-height) - var(--footer-height) - 40px); 
+    padding-bottom: 0; 
+    box-sizing: border-box; 
+    overflow: hidden; 
+    min-height: 0; 
+}
+
+/* ... (بقية تنسيقات quiz-screen و quiz-meta) ... */
+
+/* *** تنسيق الخيارات *** */
 .option-label {
     background: var(--bg-card);
     border: 2px solid var(--neon-blue);
@@ -252,12 +287,22 @@ body {
     overflow: hidden;
 }
 
-/* *** جديد: تنسيق الإجابة الصحيحة *** */
+/* *** تأثيرات إضافية عند اختيار الخيار (قبل التأكيد) *** */
+.option-label:has(input[type="radio"]:checked) {
+     border-color: var(--neon-cyan);
+     box-shadow: 0 0 15px rgba(0, 255, 245, 0.4);
+     transform: scale(1.01); 
+     background: linear-gradient(90deg, var(--bg-card) 0%, rgba(0, 217, 255, 0.05) 100%);
+}
+
+/* ------------------------------------------- */
+/* *** تطبيق تلوين الإجابات *** */
+/* *** تنسيق الإجابة الصحيحة (الأخضر النيون) *** */
 .option-label.correct {
-    background: linear-gradient(90deg, var(--bg-card) 0%, rgba(0, 255, 136, 0.1) 100%);
+    background: linear-gradient(90deg, var(--bg-card) 0%, rgba(0, 255, 136, 0.15) 100%);
     border-color: var(--correct-color);
     box-shadow: 0 0 25px rgba(0, 255, 136, 0.6), inset 0 0 10px rgba(0, 255, 136, 0.4);
-    transform: scale(1.02); /* تكبير طفيف للتركيز */
+    transform: scale(1.02); 
 }
 .option-label.correct .option-text {
     color: var(--correct-color);
@@ -267,12 +312,12 @@ body {
     accent-color: var(--correct-color);
 }
 
-/* *** جديد: تنسيق الإجابة الخاطئة *** */
+/* *** تنسيق الإجابة الخاطئة (الأحمر النيون) *** */
 .option-label.incorrect {
-    background: linear-gradient(90deg, var(--bg-card) 0%, rgba(255, 51, 102, 0.1) 100%);
+    background: linear-gradient(90deg, var(--bg-card) 0%, rgba(255, 51, 102, 0.15) 100%);
     border-color: var(--incorrect-color);
     box-shadow: 0 0 15px rgba(255, 51, 102, 0.7), inset 0 0 10px rgba(255, 51, 102, 0.5);
-    animation: incorrectShake 0.5s; /* تطبيق تأثير الاهتزاز إن وجد */
+    animation: incorrectShake 0.5s; 
 }
 .option-label.incorrect .option-text {
     color: var(--incorrect-color);
@@ -282,10 +327,12 @@ body {
     accent-color: var(--incorrect-color);
 }
 .option-label.incorrect:has(input[type="radio"]:checked) {
+     /* لضمان أن الخيار المختار الخاطئ يظل أحمر ومميزاً */
      box-shadow: 0 0 15px rgba(255, 51, 102, 0.7), inset 0 0 10px rgba(255, 51, 102, 0.5);
      transform: none;
-     background: linear-gradient(90deg, var(--bg-card) 0%, rgba(255, 51, 102, 0.15) 100%);
+     background: linear-gradient(90deg, var(--bg-card) 0%, rgba(255, 51, 102, 0.2) 100%);
 }
+
 
 /* *** تنسيق رسائل التغذية الراجعة *** */
 .feedback-message {
@@ -310,7 +357,68 @@ body {
 }
 /* ------------------------------------------- */
 
-/* ... (بقية التنسيقات كما هي) ... */
+
+.feedback-message { /* تم إلغاء 'display: none' في الكود المدمج وإبقائه في الفئة 'hidden' في HTML */
+    display: none;
+}
+
+.controls-bar {
+    flex-shrink: 0; 
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px; 
+    margin-top: 0; 
+    padding-top: 15px;
+    border-top: 1px solid var(--text-secondary);
+    background: var(--bg-main); 
+    position: relative; 
+    z-index: 2; 
+}
+
+/* ... (بقية تنسيقات الأزرار) ... */
+
+
+/* =======================================================
+   8. شاشة النتائج المحسّنة
+   ======================================================= */
+/* (لا تغيير هنا) */
+.results-hero { /* ... */ }
+/* ... (باقي تنسيقات النتائج) ... */
+.action-buttons { /* ... */ }
+
+
+/* =======================================================
+   9. Footer 
+   ======================================================= */
+.app-footer {
+    text-align: center;
+    padding: 20px; 
+    background: var(--bg-module);
+    color: var(--text-secondary);
+    position: relative; 
+    z-index: 5; 
+    height: var(--footer-height); 
+    flex-shrink: 0; 
+    margin-top: 0; 
+    border-top: none; 
+}
+.app-footer p { 
+    line-height: calc(var(--footer-height) - 40px);
+}
+
+.app-footer i { /* (لا تغيير) */ }
+@keyframes heartbeat { /* (لا تغيير) */ }
+
+
+/* =======================================================
+   10. Notification Toast
+   ======================================================= */
+/* (لا تغيير هنا) */
+.notification-toast { /* ... */ }
+.notification-toast.show { /* ... */ }
+.notification-toast i { /* ... */ }
 
 
 /* =======================================================
@@ -328,18 +436,70 @@ body {
         margin: 0 auto;
         padding: 30px; 
     }
-    
-    .screen.active {
+
+    /* لضمان توسيط محتوى الشاشة الأولى على الديسكتوب */
+    #topic-selection {
+        justify-content: center;
+        align-items: center;
         padding-top: 0;
         padding-bottom: 0;
+    }
+    .hero-section {
+        max-width: 900px; /* توسيع العرض على الديسكتوب */
     }
 
     #quiz-screen {
         height: calc(100vh - var(--header-height) - var(--footer-height) - 60px); 
     }
 
-    /* ... (بقية التنسيقات الاستجابية) ... */
-    
+    /* تعديل تنسيق الأزرار للشاشات الكبيرة إذا لزم الأمر */
+    .controls-bar {
+        justify-content: flex-end; 
+        gap: 15px; 
+    }
+    .controls-bar .control-btn {
+        flex-grow: 0; 
+        max-width: none; 
+        padding: 16px 30px; 
+        font-size: 1.1em; 
+    }
+     .controls-bar #skip-btn {
+        flex-grow: 0; 
+        max-width: none;
+    }
+
+    /* إرجاع تخطيط الخيارات لعمود واحد للشاشات الكبيرة (كما كان) */
+    .options-container {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    .option-label {
+        padding: 18px 20px; 
+        font-size: 1.1em; 
+    }
+     .option-label input[type="radio"] {
+        width: 22px; 
+        height: 22px;
+    }
+     .question-text {
+         font-size: 1.5em; 
+         padding: 25px;
+     }
+
+     #timer-display { font-size: 1.4em; padding: 8px 16px; }
+     .counter-badge, .score-badge { font-size: 1em; padding: 8px 16px; }
+     .small-btn { font-size: 1em !important; padding: 8px 12px !important;}
+
+
+    /* (باقي التنسيقات الاستجابية) */
+    .quiz-meta { /* ... */ }
+    .results-grid { /* ... */ }
+    .stats-breakdown { /* ... */ }
+    .action-buttons { /* ... */ }
+    .section-title { /* ... */ }
+    .hero-image { /* ... */ }
+    #question-container.data-module { /* ... */ }
+    .quiz-header-status { /* ... */ }
 }
 
 @media (min-width: 1200px) {
@@ -352,6 +512,99 @@ body {
     }
 }
 
-/* ... (بقية الميديا كويري) ... */
-@media (max-height: 600px) and (max-width: 767px) { /* ... (تعديلات الشاشات القصيرة) ... */ }
-@media (max-width: 767px) { /* ... (تعديلات الموبايل) ... */ }
+/* =======================================================
+   12. Accessibility & Print Styles
+   ======================================================= */
+/* (لا تغيير هنا) */
+@media (prefers-reduced-motion: reduce) { /* ... */ }
+@media print { /* ... */ }
+
+/*
+=============================
+ تنسيقات قسم الموارد التعليمية
+=============================
+*/
+/* (لا تغيير هنا) */
+.sidebar-links-section { /* ... */ }
+.sidebar-section-title { /* ... */ }
+.sidebar-link-item { /* ... */ }
+.sidebar-link-item i { /* ... */ }
+.sidebar-link-item:hover { /* ... */ }
+.sidebar-link-item:hover i { /* ... */ }
+
+/*
+=============================
+ تنسيقات العناصر الجديدة
+=============================
+*/
+
+/* تنسيق قسم إجمالي المتدربين */
+/* (لا تغيير هنا) */
+.total-trainees-section { /* ... */ }
+.total-trainees-section .trainee-count { /* ... */ }
+
+/* تعديل تنسيق الفوتر ليكون أسفل القسم الجديد */
+.app-footer {
+    /* تم نقل التعديلات للأعلى */
+}
+
+/* تعديل تنسيق زر التحدي اليومي */
+/* (لا تغيير هنا) */
+#daily-challenge-btn.secondary { /* ... */ }
+
+/* --- كود "الضغط" للشاشات القصيرة جداً --- */
+/* (مراجعة وتعديل طفيف ليتناسب مع التخطيط الثابت) */
+@media (max-height: 600px) and (max-width: 767px) { 
+
+     #quiz-screen {
+        /* قد تحتاج لتقليل الارتفاع أكثر إذا كان الهيدر/الفوتر أكبر */
+        height: calc(100vh - var(--header-height) - var(--footer-height) - 20px); 
+     }
+
+     .quiz-header-status h2 { font-size: 1.1em; margin-bottom: 5px; }
+     .quiz-meta { gap: 5px; margin-bottom: 5px;}
+     .counter-badge, .score-badge, #timer-display { font-size: 0.7em; padding: 3px 6px; }
+     .small-btn { font-size: 0.8em !important; padding: 4px 8px !important; min-width: 30px;}
+     #timer-display { padding: 4px 8px; animation: none; box-shadow: none;}
+     #timer-display .timer-value { font-size: 0.9em; }
+     #timer-display .timer-unit { font-size: 0.6em; }
+
+     #question-container { padding: 10px; margin-bottom: 10px; }
+     .question-text { font-size: 1em; padding: 10px; margin-bottom: 10px; }
+     .options-container { gap: 8px; grid-template-columns: 1fr; }
+     .option-label { font-size: 0.8em; padding: 8px 10px; gap: 8px; }
+     .option-label input[type="radio"] { width: 14px; height: 14px; }
+
+     .controls-bar { margin-top: 5px; gap: 8px; padding-top: 10px; }
+     .control-btn { font-size: 0.8em; padding: 6px 10px; }
+     .controls-bar .control-btn { max-width: calc(50% - 8px); }
+     .controls-bar #skip-btn { max-width: calc(30% - 8px); }
+}
+
+/* --- تعديل لـ @media (max-width: 767px) الأساسي ليتوافق مع التخطيط الجديد --- */
+@media (max-width: 767px) {
+    /* إزالة التعديلات القديمة التي تعارض التخطيط الثابت */
+
+    /* الحفاظ على التعديلات المتوافقة أو إضافة جديدة */
+     .quiz-meta {
+         justify-content: space-between; 
+     }
+
+     /* تأكيد عمود واحد للخيارات على الموبايل */
+    .options-container {
+        grid-template-columns: 1fr; 
+    }
+
+     .hero-image { max-width: 90%; }
+     .daily-challenge-section { margin-top: 25px; }
+     #start-quiz-btn { margin-top: 15px; }
+     .active-users-indicator {
+         font-size: 0.8em;
+         padding: 4px 8px;
+         gap: 4px;
+     }
+     .active-dot {
+         width: 8px;
+         height: 8px;
+     }
+}
