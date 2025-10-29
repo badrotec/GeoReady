@@ -1,47 +1,64 @@
 /* =======================================================
-   1. المتغيرات والألوان (Cyberpunk/Sci-Fi Enhanced)
+   1. المتغيرات والألوان (Modern Sci-Fi / Dark Mode Focus)
    ======================================================= */
 :root {
-    --bg-main: #0a0e14;
-    --bg-module: #13171e;
-    --bg-card: #1a1f2e;
-    --text-main: #e0e6f0;
-    --text-secondary: #8b95a8;
+    --bg-main: #0a0e14; /* خلفية رئيسية داكنة جداً */
+    --bg-module: #1a1f2e; /* خلفية الموديولات، أغمق قليلاً من البطاقات */
+    --bg-card: #2c3340; /* خلفية البطاقات، أفتح قليلاً للتمييز */
+    --text-main: #e0e6f0; /* لون النص الرئيسي الفاتح */
+    --text-secondary: #8b95a8; /* لون النص الثانوي للوصف والتفاصيل */
     
-    --neon-blue: #00d9ff;
-    --neon-cyan: #00fff5;
-    --neon-purple: #b026ff;
-    --neon-pink: #ff006e;
-    --neon-accent: #ff4500; /* Orange */
-    --neon-green: #39ff14; /* Neon Green for active status */
-    --correct-color: #00ff88;
-    --incorrect-color: #ff3366;
+    --accent-blue: #00bcd4; /* أزرق سماوي كلاسيكي كلون أساسي */
+    --accent-cyan: #00e5ff; /* أزرق فاتح/سماوي للأضواء والتأثيرات */
+    --accent-purple: #8e24aa; /* بنفسجي ثانوي لأضواء عميقة أو تظليل */
+    --accent-pink: #d81b60; /* وردي مميز للتنبيهات أو العناصر النشطة */
+    --accent-orange: #ff9800; /* برتقالي للمؤقتات أو الأهمية */
+    --accent-green: #4caf50; /* أخضر للإجابات الصحيحة/النجاح */
     
-    --shadow-deep: 0 8px 32px rgba(0, 0, 0, 0.9);
-    --shadow-neon-blue: 0 0 20px rgba(0, 217, 255, 0.5), 0 0 40px rgba(0, 217, 255, 0.3);
-    --shadow-neon-purple: 0 0 20px rgba(176, 38, 255, 0.5);
-    --shadow-neon-accent: 0 0 20px rgba(255, 69, 0, 0.5); /* Orange shadow */
-    --shadow-neon-green: 0 0 15px rgba(57, 255, 20, 0.6); /* Green shadow */
+    --correct-color: #4caf50; /* أخضر ثابت للصحيح */
+    --incorrect-color: #ef5350; /* أحمر ثابت للخطأ */
     
-    --sidebar-width: 85%;
-    --header-height: 75px; /* *** جديد: ارتفاع الهيدر التقريبي *** */
-    --footer-height: 70px; /* *** جديد: ارتفاع الفوتر التقريبي *** */
-    --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-bounce: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    --shadow-light: 0 4px 15px rgba(0, 0, 0, 0.4);
+    --shadow-deep: 0 8px 30px rgba(0, 0, 0, 0.8);
+    --shadow-neon-blue: 0 0 15px rgba(0, 188, 212, 0.6), 0 0 30px rgba(0, 229, 255, 0.4);
+    --shadow-neon-cyan: 0 0 15px rgba(0, 229, 255, 0.7);
+    --shadow-neon-pink: 0 0 15px rgba(216, 27, 96, 0.7);
+    --shadow-neon-green: 0 0 10px rgba(76, 175, 80, 0.5);
+    
+    --sidebar-width: 280px; /* عرض جانبي ثابت للموبايل */
+    --header-height: 65px; /* ارتفاع الهيدر */
+    --footer-height-total: 100px; /* الارتفاع الكلي للفوتر وقسم المتدربين */
+    
+    --transition-duration: 0.3s;
+    --transition-timing: ease-out;
+    --transition-smooth: all var(--transition-duration) var(--transition-timing);
 }
 
-/* Dark Theme Variables */
+/* Dark Theme Variables (تأكيد) */
 body[data-theme="dark"] {
     --bg-main: #0a0e14;
-    --bg-module: #13171e;
+    --bg-module: #1a1f2e;
+    --bg-card: #2c3340;
+    --text-main: #e0e6f0;
+    --text-secondary: #8b95a8;
 }
 
-/* Light Theme (Optional) */
+/* Light Theme (اختياري - يمكنك تعبئتها لاحقاً) */
 body[data-theme="light"] {
+    /* هذه الألوان يمكن تعديلها لإنشاء "وضع فاتح" */
     --bg-main: #f0f4f8;
     --bg-module: #ffffff;
+    --bg-card: #e0e6ef;
     --text-main: #1a1f2e;
     --text-secondary: #5a6b7d;
+    --accent-blue: #0097a7; 
+    --accent-cyan: #00bcd4;
+    --accent-purple: #7b1fa2;
+    --accent-pink: #c2185b;
+    --accent-orange: #f57c00;
+    --accent-green: #388e3c;
+    --shadow-light: 0 4px 10px rgba(0, 0, 0, 0.1);
+    --shadow-deep: 0 6px 20px rgba(0, 0, 0, 0.15);
 }
 
 /* =======================================================
@@ -51,6 +68,13 @@ body[data-theme="light"] {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    /* خطوط حادة للحدود */
+    outline: none; 
+}
+
+html, body {
+    height: 100%; 
+    overflow: hidden; /* منع التمرير على مستوى الصفحة */
 }
 
 body {
@@ -59,11 +83,8 @@ body {
     color: var(--text-main);
     direction: rtl;
     line-height: 1.6;
-    min-height: 100vh;
-    overflow-x: hidden; /* إبقاء منع التمرير الأفقي العام */
-    /* overflow-y: hidden; /* *** جديد: منع تمرير الصفحة عمودياً للسماح بالتمرير الداخلي *** */
     position: relative;
-    display: flex; /* *** جديد: استخدام flex لتسهيل حساب الارتفاع *** */
+    display: flex; 
     flex-direction: column;
 }
 
@@ -87,41 +108,48 @@ body {
     width: 100%;
     height: 100%;
     background-image:
-        linear-gradient(rgba(0, 217, 255, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0, 217, 255, 0.03) 1px, transparent 1px);
-    background-size: 50px 50px;
+        linear-gradient(rgba(0, 188, 212, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 188, 212, 0.05) 1px, transparent 1px);
+    background-size: 40px 40px; /* شبكة أدق قليلاً */
     z-index: 1;
     pointer-events: none;
-    animation: gridMove 20s linear infinite;
+    animation: gridMove 25s linear infinite; /* حركة أبطأ */
+    opacity: 0.2;
 }
 
 @keyframes gridMove {
-    0% { transform: translate(0, 0); }
-    100% { transform: translate(50px, 50px); }
+    0% { background-position: 0 0; }
+    100% { background-position: 40px 40px; } /* تحرك بنفس حجم الشبكة */
 }
 
 /* =======================================================
    3. Animations المتقدمة
    ======================================================= */
-/* (لا تغيير هنا) */
-@keyframes fadeInUp { /* ... */ }
-@keyframes slideInRight { /* ... */ }
-@keyframes pulseGlow { /* ... */ }
-@keyframes pulseGlowSecondary { /* ... */ }
-@keyframes float { /* ... */ }
-@keyframes glitch { /* ... */ }
-@keyframes rotate3d { /* ... */ }
-.animated-fade { /* ... */ }
-.pulse-btn { /* ... */ }
-.pulse-secondary-btn { /* ... */ }
-@keyframes dotPulse { /* ... */ }
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes slideInRight { from { opacity: 0; transform: translateX(-30px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes pulseGlow { 0%, 100% { box-shadow: 0 0 15px var(--accent-cyan); } 50% { box-shadow: 0 0 30px var(--accent-blue); } }
+@keyframes pulseGlowSecondary { 0%, 100% { box-shadow: 0 0 15px var(--accent-pink); } 50% { box-shadow: 0 0 30px var(--accent-purple); } }
+@keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
+@keyframes glitch { 
+    2%, 64% { transform: translate(2px, 0) skew(0deg); }
+    4% { transform: translate(-2px, 0) skew(0deg); }
+    65% { transform: translate(0, 0) skew(0deg); }
+    66% { transform: translate(0, 0) skew(20deg); }
+    70% { transform: translate(0, 0) skew(-20deg); }
+    75% { transform: translate(0, 0) skew(0deg); }
+}
+@keyframes rotate3d { 0% { transform: rotateY(0deg); } 100% { transform: rotateY(360deg); } }
+.animated-fade { animation: fadeInUp 0.6s var(--transition-timing) both; }
+.pulse-btn { animation: pulseGlow 2s ease-in-out infinite; }
+.pulse-secondary-btn { animation: pulseGlowSecondary 2.2s ease-in-out infinite; }
+@keyframes dotPulse { 0% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(76, 175, 80, 0); } 100% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0); } }
 
 .hidden {
     display: none !important;
 }
 
 /* =======================================================
-   4. الهيدر المحسّن (*** تعديل بسيط ***)
+   4. الهيدر (Header)
    ======================================================= */
 #main-content-wrapper {
     position: relative;
@@ -129,67 +157,240 @@ body {
     transition: var(--transition-smooth);
     display: flex;
     flex-direction: column;
-    /* min-height: 100vh; /* *** تم نقله إلى body *** */
-    flex-grow: 1; /* *** جديد: السماح له بأخذ المساحة المتبقية *** */
-    overflow: hidden; /* *** جديد: منع التمرير الداخلي غير المرغوب *** */
+    flex-grow: 1; 
+    overflow: hidden; 
+    height: 100%; 
+    background-color: var(--bg-main); /* تأكد من الخلفية */
 }
 
 .main-header {
-    background: linear-gradient(135deg, var(--bg-module) 0%, rgba(19, 23, 30, 0.95) 100%);
-    backdrop-filter: blur(10px);
-    padding: 15px 20px;
+    background: linear-gradient(135deg, var(--bg-module) 0%, rgba(26, 31, 46, 0.95) 100%);
+    backdrop-filter: blur(8px); /* تأثير ضباب أخف */
+    padding: 12px 18px; /* حشو أصغر */
     display: flex;
     justify-content: space-between;
     align-items: center;
     box-shadow: var(--shadow-deep);
-    /* position: sticky; /* *** إزالة التثبيت *** */
-    /* top: 0; */
     z-index: 100;
-    border-bottom: 2px solid var(--neon-blue);
-    height: var(--header-height); /* *** جديد: تحديد ارتفاع ثابت *** */
-    flex-shrink: 0; /* *** جديد: منع الهيدر من الانكماش *** */
+    border-bottom: 2px solid var(--accent-blue);
+    height: var(--header-height); 
+    flex-shrink: 0; 
 }
 
-/* (باقي تنسيقات الهيدر لا تتغير) */
-.sidebar-toggle-btn, .theme-btn { /* ... */ }
-.app-title { /* ... */ }
-.title-glitch { /* ... */ }
-.header-info { /* ... */ }
-.user-status { /* ... */ }
-.active-users-indicator { /* ... */ }
-.active-dot { /* ... */ }
-#active-users-count { /* ... */ }
+.sidebar-toggle-btn, .theme-btn {
+    background: transparent;
+    border: none;
+    color: var(--accent-cyan);
+    font-size: 1.6em; /* أيقونات أكبر */
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    padding: 5px 8px; /* حشو أصغر للأزرار */
+    border-radius: 8px;
+}
+.sidebar-toggle-btn:hover, .theme-btn:hover {
+    color: var(--accent-blue);
+    background-color: rgba(0, 188, 212, 0.1);
+    box-shadow: 0 0 10px rgba(0, 188, 212, 0.3);
+}
 
+.app-title {
+    font-size: 2em; /* عنوان أكبر */
+    font-weight: 700;
+    color: var(--text-main);
+    text-shadow: 0 0 10px var(--accent-cyan); /* ظل نص نيون */
+    position: relative;
+}
+.title-glitch { animation: glitch 4s infinite linear alternate; } /* تطبيق Glitch */
+
+.header-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.user-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--bg-card);
+    padding: 8px 12px;
+    border-radius: 20px;
+    color: var(--text-secondary);
+    font-size: 0.9em;
+    border: 1px solid var(--accent-purple);
+    box-shadow: var(--shadow-light);
+}
+
+.active-users-indicator {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--accent-green);
+    font-weight: 600;
+}
+.active-dot {
+    width: 10px;
+    height: 10px;
+    background-color: var(--accent-green);
+    border-radius: 50%;
+    animation: dotPulse 1.5s infinite;
+}
+#active-users-count {
+    color: var(--text-main);
+    font-weight: 700;
+}
 
 /* =======================================================
-   5. القائمة الجانبية المحسّنة
+   5. القائمة الجانبية (Sidebar)
    ======================================================= */
-/* (لا تغيير هنا) */
-#sidebar { /* ... */ }
-#sidebar.open { /* ... */ }
-#sidebar::-webkit-scrollbar { /* ... */ }
-.sidebar-header { /* ... */ }
-.sidebar-close-btn { /* ... */ }
-.language-selector { /* ... */ }
-#lang-select { /* ... */ }
-.stats-container { /* ... */ }
-.stat-item { /* ... */ }
-.sidebar-topics-list { /* ... */ }
-.sidebar-topics-list a { /* ... */ }
-#overlay { /* ... */ }
+#sidebar { 
+    height: 100%; /* تأكد من الارتفاع الكامل */
+    width: var(--sidebar-width); 
+    position: fixed; 
+    top: 0; 
+    right: calc(-1 * var(--sidebar-width)); /* مخفية لليمين */
+    background: linear-gradient(180deg, var(--bg-module) 0%, rgba(26, 31, 46, 0.95) 100%);
+    backdrop-filter: blur(12px);
+    z-index: 2000; /* أعلى من كل شيء */
+    box-shadow: var(--shadow-deep);
+    transition: right var(--transition-duration) var(--transition-timing);
+    display: flex; /* لترتيب المحتوى عمودياً */
+    flex-direction: column;
+    padding: 20px;
+    border-left: 2px solid var(--accent-blue);
+    overflow-y: auto; /* للسماح بالتمرير إذا كان المحتوى طويلاً */
+}
+#sidebar.open { right: 0; }
+#sidebar::-webkit-scrollbar { width: 8px; }
+#sidebar::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); border-radius: 4px; }
+#sidebar::-webkit-scrollbar-thumb { background: var(--accent-cyan); border-radius: 4px; }
+
+.sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(0, 188, 212, 0.3);
+}
+.sidebar-close-btn {
+    background: transparent;
+    border: none;
+    color: var(--accent-blue);
+    font-size: 1.8em;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+.sidebar-close-btn:hover {
+    color: var(--accent-cyan);
+    transform: rotate(90deg);
+}
+
+.language-selector {
+    margin-bottom: 25px;
+    text-align: center;
+}
+#lang-select {
+    width: 100%;
+    padding: 10px 15px;
+    border: 1px solid var(--accent-blue);
+    border-radius: 8px;
+    background-color: var(--bg-card);
+    color: var(--text-main);
+    font-size: 1em;
+    appearance: none; /* لإزالة المظهر الافتراضي للمتصفح */
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%2300bcd4'%3e%3cpath d='M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: left 10px top 50%; /* تعديل لـ RTL */
+    background-size: 18px auto;
+}
+#lang-select option {
+    background-color: var(--bg-module);
+    color: var(--text-main);
+}
+
+.stats-container {
+    margin-bottom: 30px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+}
+.stat-item {
+    background: var(--bg-card);
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px solid var(--accent-purple);
+    box-shadow: var(--shadow-light);
+    text-align: center;
+}
+.stat-item h3 {
+    font-size: 1.1em;
+    color: var(--accent-cyan);
+    margin-bottom: 8px;
+}
+.stat-item p {
+    font-size: 1.6em;
+    font-weight: 700;
+    color: var(--text-main);
+    text-shadow: 0 0 5px rgba(0, 229, 255, 0.4);
+}
+
+.sidebar-topics-list {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 30px;
+    flex-grow: 1; /* للسماح لها بأخذ المساحة المتبقية */
+}
+.sidebar-topics-list a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 10px;
+    margin-bottom: 8px;
+    background: var(--bg-module);
+    border-radius: 8px;
+    color: var(--text-main);
+    text-decoration: none;
+    font-size: 1.1em;
+    transition: var(--transition-smooth);
+    border: 1px solid transparent;
+}
+.sidebar-topics-list a:hover {
+    background-color: rgba(0, 188, 212, 0.15);
+    border-color: var(--accent-blue);
+    color: var(--accent-cyan);
+    transform: translateX(-5px);
+    box-shadow: var(--shadow-neon-blue);
+}
+.sidebar-topics-list a i {
+    color: var(--accent-purple);
+    font-size: 1.3em;
+}
+
+#overlay { 
+    position: fixed; 
+    width: 100%; 
+    height: 100%; 
+    background: rgba(0, 0, 0, 0.7); 
+    backdrop-filter: blur(4px); /* ضباب أقل */
+    z-index: 1999; 
+    display: none; 
+    top: 0; 
+    left: 0;
+}
 
 /* =======================================================
-   6. المحتوى الرئيسي (*** تعديل ***)
+   6. المحتوى الرئيسي (Main Content)
    ======================================================= */
 #app-container {
-    padding: 20px; /* تقليل الحشو قليلاً */
+    padding: 20px; 
     position: relative;
     z-index: 10;
-    flex-grow: 1;
+    flex-grow: 1; 
     display: flex; 
     flex-direction: column;
     width: 100%;
-    overflow-y: auto; /* *** جديد: السماح بالتمرير داخل المحتوى الرئيسي إذا لزم الأمر (مثل شاشة النتائج الطويلة) *** */
+    overflow-y: auto; 
     overflow-x: hidden;
 }
 
@@ -198,541 +399,936 @@ body {
     width: 100%;
     display: flex; 
     flex-direction: column;
-    /* min-height: 0; /* *** جديد: لمنع مشاكل flexbox *** */
+    min-height: 0; 
+    animation: fadeInUp 0.7s var(--transition-timing) both; /* حركة دخول للصفحات */
 }
 
-/* Hero Section (لا تغيير هنا) */
-.hero-section { /* ... */ }
-.hero-section::before { /* ... */ }
-.hero-content { /* ... */ }
-.section-title { /* ... */ }
-.title-icon { /* ... */ }
-.hero-description { /* ... */ }
-.hero-image-container { /* ... */ }
-.hero-image { /* ... */ }
-.daily-challenge-section { /* ... */ }
-.large-btn { /* ... */ }
-.large-btn .btn-icon { /* ... */ }
-.large-btn .btn-glow { /* ... */ }
+/* Hero Section */
+.hero-section {
+    position: relative;
+    background: linear-gradient(135deg, var(--bg-module) 0%, var(--bg-card) 100%);
+    border-radius: 20px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    box-shadow: var(--shadow-deep);
+    border: 2px solid var(--accent-purple);
+    overflow: hidden;
+    margin-bottom: 30px;
+}
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: -50px;
+    left: -50px;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(0, 229, 255, 0.2) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: float 10s ease-in-out infinite alternate;
+    z-index: 1;
+}
+.hero-content { z-index: 2; }
+.section-title {
+    font-size: 2.5em;
+    color: var(--accent-cyan);
+    margin-bottom: 15px;
+    text-shadow: 0 0 12px rgba(0, 229, 255, 0.6);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.title-icon { color: var(--accent-blue); font-size: 0.8em; }
+.hero-description {
+    font-size: 1.1em;
+    color: var(--text-secondary);
+    margin-bottom: 25px;
+    max-width: 600px;
+}
+.hero-image-container {
+    width: 100%;
+    max-width: 400px;
+    margin-top: 20px;
+    position: relative;
+    z-index: 2;
+}
+.hero-image {
+    width: 100%;
+    height: auto;
+    border-radius: 15px;
+    border: 2px solid var(--accent-blue);
+    box-shadow: var(--shadow-neon-blue);
+}
+.daily-challenge-section {
+    margin-top: 30px;
+}
+.large-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px 30px;
+    border-radius: 30px;
+    font-size: 1.2em;
+    font-weight: 700;
+    text-decoration: none;
+    color: var(--text-main);
+    background: linear-gradient(90deg, var(--accent-blue) 0%, var(--accent-cyan) 100%);
+    border: none;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: var(--transition-smooth);
+    box-shadow: var(--shadow-neon-blue);
+}
+.large-btn .btn-icon { margin-left: 10px; font-size: 1.1em; }
+.large-btn .btn-glow {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: rgba(255, 255, 255, 0.15);
+    transform: rotate(45deg);
+    transition: all 0.7s ease;
+    z-index: 1;
+}
+.large-btn:hover .btn-glow { left: 100%; }
+.large-btn:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: var(--shadow-neon-blue);
+}
+.large-btn:active {
+    transform: translateY(0) scale(1);
+    box-shadow: 0 0 10px var(--accent-blue);
+}
 
-/* قائمة المواضيع (لا تغيير هنا) */
-#topics-list-container { /* ... */ }
-.topics-header { /* ... */ }
-.list-container { /* ... */ }
-.topic-card { /* ... */ }
-.topic-card::before { /* ... */ }
-.topic-card:hover { /* ... */ }
-.topic-card:active { /* ... */ }
-.loading-spinner { /* ... */ }
-.spinner-ring { /* ... */ }
-@keyframes spin { /* ... */ }
-.loading-spinner p { /* ... */ }
+/* قائمة المواضيع */
+#topics-list-container {
+    padding: 20px 0;
+}
+.topics-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    border-bottom: 1px solid rgba(139, 149, 168, 0.3);
+    padding-bottom: 15px;
+}
+.list-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+}
+.topic-card {
+    background: var(--bg-card);
+    border: 1px solid var(--accent-purple);
+    border-radius: 15px;
+    padding: 25px;
+    text-align: center;
+    box-shadow: var(--shadow-light);
+    transition: var(--transition-smooth);
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+    color: var(--text-main);
+}
+.topic-card::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    width: 30px;
+    height: 30px;
+    background-color: var(--accent-blue);
+    border-radius: 50%;
+    filter: blur(15px);
+    opacity: 0.4;
+    transition: all 0.4s ease;
+    z-index: 0;
+}
+.topic-card:hover::before {
+    transform: scale(3);
+    opacity: 0.6;
+}
+.topic-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: var(--shadow-neon-cyan);
+    border-color: var(--accent-cyan);
+}
+.topic-card h3 {
+    font-size: 1.5em;
+    color: var(--accent-cyan);
+    margin-bottom: 10px;
+    z-index: 1;
+    position: relative;
+}
+.topic-card p {
+    font-size: 0.95em;
+    color: var(--text-secondary);
+    z-index: 1;
+    position: relative;
+}
+.loading-spinner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 150px;
+    color: var(--text-main);
+    font-size: 1.1em;
+}
+.spinner-ring {
+    width: 50px;
+    height: 50px;
+    border: 4px solid rgba(0, 188, 212, 0.3);
+    border-top: 4px solid var(--accent-cyan);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 10px;
+}
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+.loading-spinner p { color: var(--text-secondary); }
 
 /* =======================================================
-   7. شاشة الاختبار المحسّنة (*** تعديلات جذرية ***)
+   7. شاشة الاختبار (Quiz Screen)
    ======================================================= */
-.data-module { /* (لا تغيير هنا) */
+.data-module { 
     background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-module) 100%);
-    border: 2px solid var(--neon-blue);
+    border: 2px solid var(--accent-blue);
     box-shadow: var(--shadow-deep);
     padding: 35px 25px;
     border-radius: 20px;
     position: relative;
 }
-.data-module::after { /* (لا تغيير هنا) */ }
-.data-module:hover::after { /* (لا تغيير هنا) */ }
+.data-module::after {
+    content: '';
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    bottom: 5px;
+    left: 5px;
+    border: 1px dashed rgba(0, 188, 212, 0.3);
+    border-radius: 18px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity var(--transition-duration) var(--transition-timing);
+}
+.data-module:hover::after {
+    opacity: 1;
+}
 
-
-/* *** تعديل جذري لتثبيت الواجهة *** */
 #quiz-screen {
     display: flex; 
     flex-direction: column; 
-    /* حساب الارتفاع المتاح: كامل ارتفاع العرض - ارتفاع الهيدر - ارتفاع الفوتر - الحشو العلوي والسفلي لـ app-container */
-    height: calc(100vh - var(--header-height) - var(--footer-height) - 40px); 
-    padding-bottom: 0; /* إزالة الحشو السفلي السابق */
+    flex-grow: 1; 
+    padding-bottom: 0; 
     box-sizing: border-box; 
-    overflow: hidden; /* منع التمرير للشاشة بأكملها */
-    min-height: 0; /* منع مشاكل التمدد في flexbox */
+    overflow: hidden; 
+    min-height: 0; 
 }
 
 .quiz-header-status {
-    flex-shrink: 0; /* منع الانكماش */
+    flex-shrink: 0; 
     margin-bottom: 0;
-    padding-bottom: 15px; /* مسافة بسيطة */
+    padding: 10px 0 15px 0; /* حشو علوي إضافي */
     border-bottom: none;
     box-shadow: none;
-    position: relative; /* ليس sticky لتجنب المشاكل مع التمرير الداخلي */
-    z-index: 2; /* فوق منطقة السؤال */
+    position: relative; 
+    z-index: 2; 
+    background: var(--bg-main); 
 }
 
 .quiz-header-status h2 {
-    margin: 0 0 10px 0; /* تقليل الهامش السفلي */
-    font-size: 1.4em; /* تصغير طفيف للعنوان */
+    margin: 0 0 10px 0; 
+    font-size: 1.5em; /* حجم أكبر */
     text-align: center; 
+    color: var(--accent-cyan);
+    text-shadow: 0 0 8px rgba(0, 229, 255, 0.5);
 }
 
 .quiz-meta {
     display: flex;
-    justify-content: space-between; /* توزيع العناصر على الأطراف وفي الوسط */
+    justify-content: space-between; 
     align-items: center;
-    flex-wrap: nowrap; /* منع الانتقال لسطر جديد */
-    gap: 10px; /* تقليل المسافة */
-    margin-bottom: 10px;
+    flex-wrap: nowrap; 
+    gap: 10px; 
+    margin-bottom: 15px; /* هامش أكبر */
 }
 
-/* *** تنسيق زر العودة الجديد *** */
+/* تنسيق زر العودة */
 .small-btn {
-    padding: 6px 10px !important; /* حجم أصغر */
-    font-size: 0.9em !important; /* خط أصغر */
-    min-width: 40px; /* عرض أدنى */
-    border-radius: 8px !important; /* زوايا أقل دائرية */
-    flex-grow: 0 !important; /* لا يتمدد */
+    background: var(--bg-card);
+    border: 1px solid var(--accent-blue);
+    color: var(--text-main);
+    padding: 8px 12px !important; 
+    font-size: 1em !important; 
+    min-width: 50px; 
+    border-radius: 10px !important; 
+    flex-grow: 0 !important; 
     max-width: none !important;
+    transition: var(--transition-smooth);
+    box-shadow: var(--shadow-light);
 }
-#home-btn i {
-    margin: 0; /* إزالة الهامش إذا كان الزر يحتوي أيقونة فقط */
+.small-btn:hover {
+    background-color: var(--accent-blue);
+    color: var(--bg-main);
+    box-shadow: var(--shadow-neon-blue);
 }
-
+#home-btn i { margin: 0; }
 
 #timer-display {
     position: static; 
-    font-size: 1.2em; /* تصغير طفيف */
-    padding: 6px 12px; /* تقليل الحشو */
+    font-size: 1.3em; 
+    padding: 8px 15px; 
     box-shadow: var(--shadow-neon-blue);
     animation: pulseGlow 2s ease-in-out infinite;
-    border: 2px solid var(--neon-blue); /* تأكيد وجود الحدود */
-    border-radius: 8px; /* إضافة زوايا دائرية */
+    border: 2px solid var(--accent-blue); 
+    border-radius: 10px; 
     text-align: center;
+    font-weight: 700;
+    color: var(--accent-cyan);
+    transition: color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
-#timer-display .timer-value { font-size: 1.1em; }
-#timer-display .timer-unit { font-size: 0.7em; }
+#timer-display .timer-value { font-size: 1.2em; }
+#timer-display .timer-unit { font-size: 0.8em; }
 
-/* *** جديد: تنسيق المؤقت الحرج *** */
+/* تنسيق المؤقت الحرج */
 #timer-display[data-critical="true"] {
     color: var(--incorrect-color) !important;
     border-color: var(--incorrect-color);
-    box-shadow: 0 0 15px rgba(255, 51, 102, 0.6);
-    animation: pulseGlowCritical 1s ease-in-out infinite; /* تأثير نبض مختلف */
+    box-shadow: 0 0 15px rgba(239, 83, 80, 0.6), 0 0 25px rgba(239, 83, 80, 0.4);
+    animation: pulseGlowCritical 0.8s ease-in-out infinite alternate; 
 }
-
 @keyframes pulseGlowCritical {
-    0%, 100% { box-shadow: 0 0 15px rgba(255, 51, 102, 0.4); }
-    50% { box-shadow: 0 0 25px rgba(255, 51, 102, 0.8); }
+    0%, 100% { box-shadow: 0 0 15px rgba(239, 83, 80, 0.4); }
+    50% { box-shadow: 0 0 25px rgba(239, 83, 80, 0.8); }
 }
-
 
 .counter-badge,
 .score-badge {
     display: flex;
     align-items: center;
-    gap: 5px; /* تقليل المسافة */
-    font-size: 0.9em; /* تصغير طفيف */
-    padding: 6px 12px; /* تقليل الحشو */
-    border-radius: 20px; /* تقليل دائرية الزوايا قليلاً */
-    font-weight: 600; /* تقليل الوزن قليلاً */
+    gap: 8px; 
+    font-size: 0.95em; 
+    padding: 8px 15px; 
+    border-radius: 25px; /* دائرية أكثر */
+    font-weight: 600; 
+    background: var(--bg-card);
+    border: 1px solid var(--accent-purple);
+    color: var(--text-main);
+    box-shadow: var(--shadow-light);
 }
-.score-badge { /* (لا تغيير) */ }
+.score-badge { border-color: var(--accent-green); color: var(--accent-green); }
 
 
-#progress-bar-container { /* (لا تغيير، يبقى مخفياً) */
-    display: none;
-}
+#progress-bar-container { display: none; } /* لا يزال مخفياً */
 
-/* *** تعديل جذري لمنطقة السؤال والخيارات *** */
+/* منطقة السؤال والخيارات */
 #question-container {
-    flex-grow: 1; /* السماح له بأخذ المساحة المتبقية */
-    overflow-y: auto; /* إضافة تمرير داخلي عند الحاجة */
-    margin-bottom: 15px; 
-    padding: 20px; /* تقليل الحشو الداخلي */
-    position: relative; /* للتأكد من السياق */
-    /* تحسينات تصميمية */
-    background: linear-gradient(145deg, var(--bg-module) 0%, var(--bg-card) 100%);
-    border: 1px solid var(--neon-purple); 
-    border-radius: 15px; /* زوايا دائرية مناسبة */
-    min-height: 0; /* منع مشاكل التمدد في flexbox */
+    flex-grow: 1; 
+    overflow-y: auto; 
+    margin-bottom: 20px; /* هامش أكبر */
+    padding: 25px; /* حشو أكبر */
+    position: relative; 
+    background: linear-gradient(145deg, rgba(26, 31, 46, 0.8) 0%, rgba(44, 51, 64, 0.9) 100%);
+    border: 2px solid var(--accent-purple); 
+    border-radius: 18px; /* دائرية أكثر قليلاً */
+    min-height: 0; 
+    box-shadow: var(--shadow-deep);
 }
 
-/* *** جديد: تنسيق شريط التمرير الداخلي *** */
-#question-container::-webkit-scrollbar {
-    width: 8px;
+/* تنسيق شريط التمرير الداخلي */
+#question-container::-webkit-scrollbar { width: 10px; }
+#question-container::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); border-radius: 5px; }
+#question-container::-webkit-scrollbar-thumb { 
+    background-color: var(--accent-blue);
+    border-radius: 5px;
+    border: 3px solid transparent; 
+    background-clip: content-box; 
 }
-#question-container::-webkit-scrollbar-track {
-    background: rgba(0,0,0,0.2);
-    border-radius: 4px;
-    margin: 5px 0; /* هامش بسيط */
-}
-#question-container::-webkit-scrollbar-thumb {
-    background: var(--neon-blue);
-    border-radius: 4px;
-}
-#question-container::-webkit-scrollbar-thumb:hover {
-    background: var(--neon-cyan);
-}
+#question-container::-webkit-scrollbar-thumb:hover { background-color: var(--accent-cyan); }
 
 
 .question-text {
-    font-size: 1.3em; /* تصغير طفيف */
-    padding: 15px 20px; /* تقليل الحشو */
-    margin-bottom: 20px; 
-    border-radius: 10px; /* تقليل دائرية الزوايا */
-    border-right: 5px solid var(--neon-cyan); /* تغيير للجانب الأيمن للتوافق مع rtl */
-    border-left: none; /* إزالة الحدود اليسرى */
+    font-size: 1.4em; 
+    padding: 20px 25px; 
+    margin-bottom: 30px; 
+    border-radius: 12px; 
+    border-right: 6px solid var(--accent-cyan); /* حد أسمك */
+    border-left: none; 
     color: var(--text-main);
-    line-height: 1.6; 
-    box-shadow: inset 0 0 10px rgba(0, 217, 255, 0.1);
-    background: rgba(0, 217, 255, 0.03); /* خلفية شفافة أكثر */
-    padding-right: 20px; /* إرجاع الحشو الأصلي للجانب الأيمن */
-    padding-left: 15px; /* تقليل الحشو الأيسر */
+    line-height: 1.7; 
+    box-shadow: inset 0 0 15px rgba(0, 229, 255, 0.15); /* ظل داخلي أقوى */
+    background: rgba(0, 229, 255, 0.05); /* خلفية أزرق فاتح شفافة */
+    position: relative; /* لضمان ظهور الظل الداخلي بشكل جيد */
 }
+.question-text::before { /* تأثير وهج على الجانب */
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 20px;
+    height: 100%;
+    background: linear-gradient(to left, var(--accent-cyan), transparent);
+    opacity: 0.1;
+    pointer-events: none;
+}
+
 
 .options-container {
     display: grid;
-    /* العودة لعمود واحد افتراضياً */
     grid-template-columns: 1fr; 
-    gap: 12px; /* زيادة المسافة قليلاً */
+    gap: 15px; /* مسافة أكبر بين الخيارات */
 }
 
 .option-label {
     background: var(--bg-card);
-    border: 2px solid var(--neon-blue);
-    border-radius: 10px; /* تقليل دائرية الزوايا */
-    padding: 12px 15px; /* تعديل الحشو */
-    font-size: 1.05em; /* تصغير طفيف */
+    border: 2px solid var(--accent-blue);
+    border-radius: 12px; 
+    padding: 15px 20px; /* حشو أكبر */
+    font-size: 1.1em; 
     cursor: pointer;
-    transition: var(--transition-smooth);
+    transition: all 0.3s ease-in-out; 
     display: flex;
     align-items: center;
-    gap: 12px; 
+    gap: 15px; 
     position: relative;
     overflow: hidden;
+    box-shadow: var(--shadow-light);
 }
 
-.option-label::before { /* (لا تغيير) */ }
-.option-label:hover::before { /* (لا تغيير) */ }
+.option-label::before { 
+    content: '';
+    position: absolute;
+    top: 0;
+    right: -100%; 
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(270deg, transparent, rgba(0, 229, 255, 0.1), transparent); 
+    transition: right 0.6s ease-out; 
+    z-index: 0;
+}
+.option-label:hover::before { right: 100%; }
 
 .option-label:hover {
-    border-color: var(--neon-cyan);
-    transform: translateX(-3px); /* تقليل الحركة */
-    box-shadow: var(--shadow-neon-blue);
+    border-color: var(--accent-cyan);
+    transform: translateY(-3px) scale(1.01); 
+    box-shadow: var(--shadow-neon-cyan);
+    background-color: rgba(0, 188, 212, 0.05);
 }
 
 .option-label input[type="radio"] {
-    width: 18px; 
-    height: 18px;
+    width: 20px; 
+    height: 20px;
     cursor: pointer;
-    accent-color: var(--neon-cyan); /* تغيير اللون قليلاً */
+    accent-color: var(--accent-cyan); 
     flex-shrink: 0; 
+    border: 2px solid var(--accent-blue); /* حد للراديو */
+    border-radius: 50%;
+    transition: var(--transition-smooth);
+}
+.option-label input[type="radio"]:checked {
+    border-color: var(--accent-cyan);
+    box-shadow: 0 0 8px var(--accent-cyan);
 }
 
 .option-label .option-text {
     flex: 1;
-    transition: color 0.3s ease; /* *** جديد: تأثير بسيط عند الاختيار *** */
+    transition: color 0.3s ease; 
+    font-weight: 500;
+    z-index: 1; /* فوق تأثير الوهج */
 }
 
-/* *** جديد: تأثيرات إضافية عند اختيار الخيار (قبل التأكيد) *** */
+/* تأثيرات عند اختيار الخيار (قبل التأكيد) */
 .option-label:has(input[type="radio"]:checked) {
-     border-color: var(--neon-cyan);
-     box-shadow: 0 0 15px rgba(0, 255, 245, 0.4);
-     transform: scale(1.01); /* تكبير طفيف جداً */
-     background: linear-gradient(90deg, var(--bg-card) 0%, rgba(0, 217, 255, 0.05) 100%);
+     border-color: var(--accent-cyan);
+     box-shadow: 0 0 20px rgba(0, 229, 255, 0.5);
+     transform: scale(1.01); 
+     background: linear-gradient(270deg, var(--bg-card) 0%, rgba(0, 229, 255, 0.1) 100%);
+     color: var(--accent-cyan);
 }
 .option-label input[type="radio"]:checked + .option-text {
-    color: var(--neon-cyan); 
-    font-weight: 600; /* جعل الخط أثقل قليلاً */
-}
-/* ------------------------------------------- */
-
-
-.option-label.correct { /* (لا تغيير) */ }
-.option-label.incorrect { /* (لا تغيير) */ }
-@keyframes correctPulse { /* (لا تغيير) */ }
-@keyframes incorrectShake { /* (لا تغيير) */ }
-
-.feedback-message { /* (لا تغيير، يبقى مخفياً) */
-    display: none;
+    color: var(--accent-cyan); 
+    font-weight: 600; 
 }
 
+/* حالات الصحيح والخطأ */
+.option-label.correct { 
+    background: linear-gradient(135deg, var(--correct-color) 0%, rgba(76, 175, 80, 0.8) 100%); 
+    border-color: var(--correct-color); 
+    color: white; 
+    box-shadow: var(--shadow-neon-green);
+    animation: correctPulse 0.6s ease-out; 
+}
+.option-label.incorrect { 
+    background: linear-gradient(135deg, var(--incorrect-color) 0%, rgba(239, 83, 80, 0.8) 100%); 
+    border-color: var(--incorrect-color); 
+    color: white; 
+    box-shadow: var(--shadow-neon-pink);
+    animation: incorrectShake 0.5s ease-out; 
+}
+/* أزرار الراديو في حالات الصحيح والخطأ */
+.option-label.correct input[type="radio"], .option-label.incorrect input[type="radio"] {
+    accent-color: white;
+    border-color: white;
+}
+
+/* شريط التحكم السفلي */
 .controls-bar {
-    flex-shrink: 0; /* منع الانكماش */
+    flex-shrink: 0; 
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    gap: 10px; /* تقليل المسافة */
-    margin-top: 0; /* إزالة الهامش العلوي */
-    padding-top: 15px;
-    border-top: 1px solid var(--text-secondary);
-    background: var(--bg-main); /* *** جديد: إضافة خلفية لتغطية المحتوى المتمرر تحته *** */
-    position: relative; /* للتأكد من Z-index */
-    z-index: 2; /* فوق منطقة السؤال */
+    gap: 12px; /* مسافة أكبر */
+    margin-top: 0; 
+    padding: 15px; 
+    border-top: 1px solid rgba(139, 149, 168, 0.3);
+    background: var(--bg-main); 
+    position: relative; 
+    z-index: 2; 
 }
 
 .controls-bar .control-btn {
      width: auto;
      flex-grow: 1;
-     max-width: calc(50% - 10px); /* تعديل الحساب ليشمل المسافة */
-     padding: 12px 20px; /* تقليل الحشو */
-     font-size: 1em; /* تصغير الخط قليلاً */
+     max-width: calc(50% - 10px); 
+     padding: 12px 18px; 
+     font-size: 1em; 
 }
 .controls-bar #skip-btn {
-    flex-grow: 0.5; /* تعديل التمدد */
-    max-width: calc(30% - 10px); /* حجم أصغر لزر التخطي */
+    flex-grow: 0.4; 
+    max-width: calc(25% - 10px); 
 }
 
-
-.control-btn { /* (تعديلات طفيفة على الحشو والخط) */
-    padding: 12px 25px; 
-    border-radius: 25px; 
+.control-btn { 
+    padding: 14px 25px; /* حشو أكبر قليلاً */
+    border-radius: 30px; /* دائرية أكثر */
     font-weight: 700;
-    font-size: 1em; 
+    font-size: 1.05em; /* خط أكبر قليلاً */
     border: none;
     cursor: pointer;
-    transition: var(--transition-bounce);
+    transition: var(--transition-smooth);
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px; /* تقليل المسافة */
+    gap: 8px; 
     position: relative;
     overflow: hidden;
+    z-index: 1; /* لضمان ظهور النصوص فوق التأثيرات */
+}
+.control-btn i {
+    z-index: 2;
 }
 
-/* (باقي تنسيقات الأزرار لا تتغير) */
-.control-btn::before { /* ... */ }
-.control-btn:active::before { /* ... */ }
-.primary { /* ... */ }
-.secondary { /* ... */ }
-.tertiary { /* ... */ }
-.primary:hover:not(:disabled) { /* ... */ }
-.secondary:hover { /* ... */ }
-.tertiary:hover { /* ... */ }
-.control-btn:disabled { /* ... */ }
-.neon-edge { /* ... */ }
-.neon-edge::after { /* ... */ }
-.neon-edge:hover::after { /* ... */ }
+/* الأزرار الرئيسية */
+.control-btn.primary {
+    background: linear-gradient(90deg, var(--accent-blue) 0%, var(--accent-cyan) 100%);
+    color: var(--bg-main);
+    box-shadow: var(--shadow-neon-blue);
+}
+.control-btn.primary:hover:not(:disabled) {
+    transform: translateY(-2px) scale(1.01);
+    box-shadow: 0 0 25px var(--accent-cyan);
+}
+.control-btn.secondary {
+    background: var(--bg-card);
+    color: var(--accent-blue);
+    border: 1px solid var(--accent-blue);
+    box-shadow: var(--shadow-light);
+}
+.control-btn.secondary:hover:not(:disabled) {
+    background-color: var(--accent-blue);
+    color: var(--bg-main);
+    border-color: var(--accent-cyan);
+    box-shadow: var(--shadow-neon-blue);
+}
+.control-btn.tertiary { /* لزر التخطي */
+    background: transparent;
+    color: var(--text-secondary);
+    border: 1px dashed rgba(139, 149, 168, 0.5);
+    box-shadow: none;
+}
+.control-btn.tertiary:hover:not(:disabled) {
+    color: var(--accent-orange);
+    border-color: var(--accent-orange);
+    background-color: rgba(255, 152, 0, 0.1);
+    box-shadow: 0 0 10px rgba(255, 152, 0, 0.4);
+}
+.control-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background-color: var(--bg-module) !important;
+    color: var(--text-secondary) !important;
+    border-color: var(--text-secondary) !important;
+    box-shadow: none !important;
+    transform: none !important;
+}
 
 /* =======================================================
-   8. شاشة النتائج المحسّنة
+   8. شاشة النتائج (Results Screen)
    ======================================================= */
-/* (لا تغيير هنا) */
-.results-hero { /* ... */ }
-/* ... (باقي تنسيقات النتائج) ... */
-.action-buttons { /* ... */ }
+.results-hero {
+    background: linear-gradient(135deg, var(--bg-module) 0%, var(--bg-card) 100%);
+    border-radius: 20px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: var(--shadow-deep);
+    border: 2px solid var(--accent-blue);
+    margin-bottom: 30px;
+}
+.results-hero .section-title {
+    font-size: 2.8em;
+    color: var(--accent-green);
+    text-shadow: 0 0 15px rgba(76, 175, 80, 0.7);
+}
+.results-hero p {
+    font-size: 1.2em;
+    color: var(--text-main);
+    margin-bottom: 20px;
+}
+.results-hero .score-display {
+    font-size: 3em;
+    font-weight: 700;
+    color: var(--accent-cyan);
+    text-shadow: 0 0 20px rgba(0, 229, 255, 0.8);
+    margin-bottom: 25px;
+}
+.results-hero .score-display span {
+    font-size: 0.6em;
+    color: var(--text-secondary);
+}
+
+.stats-breakdown {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+.stat-card {
+    background: var(--bg-card);
+    border: 1px solid var(--accent-purple);
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: var(--shadow-light);
+}
+.stat-card h4 {
+    font-size: 1.1em;
+    color: var(--accent-blue);
+    margin-bottom: 10px;
+}
+.stat-card p {
+    font-size: 1.8em;
+    font-weight: 700;
+    color: var(--text-main);
+    text-shadow: 0 0 5px rgba(0, 188, 212, 0.4);
+}
+.action-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
 
 /* =======================================================
-   9. Footer (*** تعديل بسيط ***)
+   9. Footer (الفوتر وقسم المتدربين)
    ======================================================= */
+.footer-wrapper {
+    flex-shrink: 0; 
+    position: relative;
+    z-index: 10;
+    background-color: var(--bg-module); /* خلفية موحدة */
+    padding-top: 1px; /* لإظهار الحدود العلوية */
+}
+
+.total-trainees-section {
+    text-align: center;
+    padding: 12px 20px; /* حشو أقل */
+    background: linear-gradient(90deg, var(--bg-module), rgba(0, 188, 212, 0.1), var(--bg-module)); /* تأثير وهج خفيف */
+    border-top: 1px solid var(--accent-purple);
+    border-bottom: 1px solid rgba(139, 149, 168, 0.2); /* حد سفلي خفيف */
+    margin: 0; 
+    color: var(--accent-cyan);
+    font-size: 1em; 
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 40px; /* ارتفاع ثابت أصغر */
+}
+.total-trainees-section i {
+    color: var(--accent-green);
+    text-shadow: var(--shadow-neon-green);
+}
+.total-trainees-section .trainee-count {
+    color: var(--text-main);
+    margin-left: 5px;
+    text-shadow: 0 0 5px rgba(224, 230, 240, 0.3);
+}
+
 .app-footer {
     text-align: center;
-    padding: 20px; /* تقليل الحشو */
+    padding: 12px 20px; /* حشو أقل */
     background: var(--bg-module);
-    /* border-top: 2px solid var(--neon-blue); /* إزالة الحد العلوي إن وجد (القسم السابق يضيفه) */
+    border-top: none; /* إزالة الحد العلوي المتكرر */
     color: var(--text-secondary);
-    position: relative; 
-    z-index: 5; 
-    height: var(--footer-height); /* *** جديد: تحديد ارتفاع ثابت *** */
-    flex-shrink: 0; /* *** جديد: منع الفوتر من الانكماش *** */
-    margin-top: 0; /* التأكد من عدم وجود هامش علوي */
-    border-top: none; /* التأكد من إزالة الحدود المكررة */
+    height: var(--actual-footer-height); 
+    margin-top: 0; 
 }
-.app-footer p { /* *** جديد: توسيط النص عمودياً *** */
-    line-height: calc(var(--footer-height) - 40px);
+.app-footer p { 
+    line-height: 1.4; /* لضمان التوسيط الجيد */
+    font-size: 0.85em; /* خط أصغر */
 }
-
-.app-footer i { /* (لا تغيير) */ }
-@keyframes heartbeat { /* (لا تغيير) */ }
+.app-footer i {
+    color: var(--accent-pink);
+    animation: heartbeat 1.5s infinite;
+}
+@keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
 
 /* =======================================================
    10. Notification Toast
    ======================================================= */
-/* (لا تغيير هنا) */
-.notification-toast { /* ... */ }
-.notification-toast.show { /* ... */ }
-.notification-toast i { /* ... */ }
+.notification-toast {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(90deg, var(--bg-module) 0%, rgba(0, 229, 255, 0.2) 100%);
+    color: var(--text-main);
+    padding: 12px 20px;
+    border-radius: 10px;
+    box-shadow: var(--shadow-neon-blue);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease-out, top 0.5s ease-out;
+    z-index: 3000;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid var(--accent-cyan);
+}
+.notification-toast.show {
+    opacity: 1;
+    visibility: visible;
+    top: 30px;
+}
+.notification-toast i {
+    color: var(--accent-cyan);
+    font-size: 1.4em;
+}
 
 /* =======================================================
-   11. Responsive Design (Desktop)
+   11. Responsive Design (Desktop & Mobile)
    ======================================================= */
+/* لجميع الشاشات الأصغر من 768px (Mobile First) */
+@media (max-width: 767px) {
+    :root {
+        --sidebar-width: 280px; /* عرض جانبي ثابت للموبايل */
+        --header-height: 60px;
+        --footer-height-total: 90px; /* الارتفاع الكلي للفوتر وقسم المتدربين */
+    }
+
+    .main-header {
+        padding: 10px 15px;
+        height: var(--header-height);
+    }
+    .app-title { font-size: 1.6em; }
+    .sidebar-toggle-btn, .theme-btn { font-size: 1.4em; padding: 4px 6px; }
+    .user-status { display: none; /* إخفاء حالة المستخدم لتوفير المساحة */ }
+
+    #app-container {
+        padding: 15px;
+    }
+
+    .hero-section {
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+    .section-title { font-size: 2em; margin-bottom: 10px; }
+    .hero-description { font-size: 1em; margin-bottom: 20px; }
+    .large-btn { padding: 12px 25px; font-size: 1.1em; }
+    .list-container {
+        grid-template-columns: 1fr; /* عمود واحد للمواضيع على الموبايل */
+        gap: 20px;
+    }
+    .topic-card { padding: 20px; }
+    .topic-card h3 { font-size: 1.3em; }
+
+    /* Quiz Screen Mobile adjustments */
+    .quiz-header-status h2 { font-size: 1.3em; margin-bottom: 8px; }
+    .quiz-meta { gap: 8px; margin-bottom: 12px; }
+    .small-btn { padding: 6px 10px !important; font-size: 0.9em !important; min-width: 40px;}
+    #timer-display { font-size: 1.1em; padding: 5px 10px; }
+    #timer-display .timer-value { font-size: 1em; }
+    #timer-display .timer-unit { font-size: 0.7em; }
+    .counter-badge, .score-badge { font-size: 0.85em; padding: 6px 12px; gap: 5px; }
+
+    #question-container { padding: 18px; margin-bottom: 15px; }
+    .question-text { font-size: 1.2em; padding: 15px 18px; margin-bottom: 20px; border-right: 5px solid var(--accent-cyan); }
+    .options-container { gap: 12px; }
+    .option-label { padding: 12px 15px; font-size: 1em; gap: 12px; }
+    .option-label input[type="radio"] { width: 18px; height: 18px; }
+    
+    .controls-bar { padding: 12px; gap: 10px; }
+    .controls-bar .control-btn { padding: 10px 15px; font-size: 0.9em; }
+    .controls-bar #skip-btn { max-width: calc(30% - 10px); }
+
+    .total-trainees-section { height: 35px; font-size: 0.9em; padding: 10px 15px; }
+    .app-footer { padding: 10px 15px; font-size: 0.8em; }
+}
+
+
+/* Tablet and Desktop Screens */
 @media (min-width: 768px) {
     :root {
-        --sidebar-width: 350px;
-        --header-height: 80px; /* تعديل الارتفاع للشاشات الكبيرة */
-        --footer-height: 75px; 
+        --sidebar-width: 320px; /* عرض أكبر للجانب على الشاشات الأكبر */
+        --header-height: 70px;
+        --footer-height-total: 110px;
     }
 
     #app-container {
-        max-width: 1200px;
+        max-width: 1000px;
         margin: 0 auto;
-        padding: 30px; /* إعادة الحشو */
+        padding: 30px;
     }
 
-    #quiz-screen {
-         /* إعادة حساب الارتفاع للشاشات الكبيرة */
-        height: calc(100vh - var(--header-height) - var(--footer-height) - 60px); 
+    .main-header {
+        padding: 15px 25px;
+        height: var(--header-height);
     }
+    .app-title { font-size: 2.2em; }
+    .sidebar-toggle-btn, .theme-btn { font-size: 1.8em; padding: 6px 10px; }
+    .user-status { display: flex; /* إظهار حالة المستخدم */ }
 
-    /* (باقي التنسيقات الاستجابية لا تحتاج تعديل كبير إلا إذا كان هناك تضارب) */
-    .app-title { /* ... */ }
-    .user-status { /* ... */ }
-    .list-container { /* ... */ }
-    .topic-card { /* ... */ }
+    .hero-section {
+        flex-direction: row; /* تخطيط أفقي */
+        text-align: right; /* محاذاة النص لليمين */
+        padding: 40px;
+    }
+    .hero-content {
+        flex: 1;
+        padding-left: 30px; /* مسافة بين النص والصورة */
+    }
+    .hero-image-container {
+        flex: 0 0 300px; /* عرض ثابت للصورة */
+        margin-top: 0;
+    }
+    .section-title { font-size: 3em; }
+    .hero-description { font-size: 1.1em; }
+    .large-btn { padding: 18px 35px; font-size: 1.3em; }
+    .list-container {
+        grid-template-columns: repeat(2, 1fr); /* عمودين للمواضيع */
+        gap: 30px;
+    }
+    .topic-card h3 { font-size: 1.6em; }
+
+    /* Quiz Screen Desktop adjustments */
+    .quiz-header-status h2 { font-size: 1.8em; margin-bottom: 15px; }
+    .quiz-meta { gap: 20px; margin-bottom: 20px; }
+    .small-btn { padding: 10px 15px !important; font-size: 1.1em !important; min-width: 60px;}
+    #timer-display { font-size: 1.5em; padding: 10px 20px; }
+    #timer-display .timer-value { font-size: 1.3em; }
+    #timer-display .timer-unit { font-size: 0.9em; }
+    .counter-badge, .score-badge { font-size: 1em; padding: 10px 18px; gap: 8px; }
+
+    #question-container { padding: 30px; margin-bottom: 25px; }
+    .question-text { font-size: 1.6em; padding: 20px 25px; margin-bottom: 35px; border-right: 8px solid var(--accent-cyan); }
+    .options-container { gap: 18px; }
+    .option-label { padding: 18px 25px; font-size: 1.15em; gap: 15px; }
+    .option-label input[type="radio"] { width: 22px; height: 22px; }
     
-    /* تعديل تنسيق الأزرار للشاشات الكبيرة إذا لزم الأمر */
-    .controls-bar {
-        justify-content: flex-end; /* إرجاع المحاذاة لليمين */
-        gap: 15px; /* زيادة المسافة */
-    }
-    .controls-bar .control-btn {
-        flex-grow: 0; /* إلغاء التمدد */
-        max-width: none; /* إلغاء الحد الأقصى للعرض */
-        padding: 16px 30px; /* إعادة الحشو الأصلي */
-        font-size: 1.1em; /* إعادة حجم الخط */
-    }
-     .controls-bar #skip-btn {
-        flex-grow: 0; 
-        max-width: none;
-    }
+    .controls-bar { padding: 18px; gap: 15px; justify-content: flex-end; /* الأزرار لليمين */ }
+    .controls-bar .control-btn { padding: 14px 25px; font-size: 1.05em; flex-grow: 0; max-width: none; }
+    .controls-bar #skip-btn { max-width: none; }
 
-    /* إرجاع تخطيط الخيارات لعمود واحد للشاشات الكبيرة (كما كان) */
-    .options-container {
-        grid-template-columns: 1fr;
-        gap: 15px;
-    }
-    .option-label {
-        padding: 18px 20px; /* تعديل الحشو */
-        font-size: 1.1em; /* تعديل حجم الخط */
-    }
-     .option-label input[type="radio"] {
-        width: 22px; /* تعديل حجم الراديو */
-        height: 22px;
-    }
-     .question-text {
-         font-size: 1.5em; /* إعادة حجم خط السؤال */
-         padding: 25px;
-     }
-
-     #timer-display { font-size: 1.4em; padding: 8px 16px; }
-     .counter-badge, .score-badge { font-size: 1em; padding: 8px 16px; }
-     .small-btn { font-size: 1em !important; padding: 8px 12px !important;}
-
-
-    /* (باقي التنسيقات الاستجابية) */
-    .quiz-meta { /* ... */ }
-    .results-grid { /* ... */ }
-    .stats-breakdown { /* ... */ }
-    .action-buttons { /* ... */ }
-    .section-title { /* ... */ }
-    .hero-image { /* ... */ }
-    #question-container.data-module { /* ... */ }
-    .quiz-header-status { /* ... */ }
+    .total-trainees-section { height: 45px; font-size: 1.1em; padding: 12px 25px; }
+    .app-footer { padding: 15px 25px; font-size: 0.9em; }
 }
 
 @media (min-width: 1200px) {
     #app-container {
-        max-width: 1400px;
+        max-width: 1200px; /* زيادة أقصى عرض */
     }
-
     .list-container {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(3, 1fr); /* 3 أعمدة للمواضيع */
+    }
+    .hero-section {
+        padding: 50px;
+    }
+    .hero-content {
+        padding-left: 50px;
+    }
+    .hero-image-container {
+        flex: 0 0 400px;
     }
 }
+
 
 /* =======================================================
    12. Accessibility & Print Styles
    ======================================================= */
-/* (لا تغيير هنا) */
-@media (prefers-reduced-motion: reduce) { /* ... */ }
-@media print { /* ... */ }
-
-/*
-=============================
- تنسيقات قسم الموارد التعليمية
-=============================
-*/
-/* (لا تغيير هنا) */
-.sidebar-links-section { /* ... */ }
-.sidebar-section-title { /* ... */ }
-.sidebar-link-item { /* ... */ }
-.sidebar-link-item i { /* ... */ }
-.sidebar-link-item:hover { /* ... */ }
-.sidebar-link-item:hover i { /* ... */ }
-
-/*
-=============================
- تنسيقات العناصر الجديدة
-=============================
-*/
-
-/* تنسيق قسم إجمالي المتدربين */
-/* (لا تغيير هنا) */
-.total-trainees-section { /* ... */ }
-.total-trainees-section .trainee-count { /* ... */ }
-
-/* تعديل تنسيق الفوتر ليكون أسفل القسم الجديد */
-.app-footer {
-    /* تم نقل التعديلات للأعلى */
-}
-
-/* تعديل تنسيق زر التحدي اليومي */
-/* (لا تغيير هنا) */
-#daily-challenge-btn.secondary { /* ... */ }
-
-/* --- كود "الضغط" للشاشات القصيرة جداً --- */
-/* (مراجعة وتعديل طفيف ليتناسب مع التخطيط الثابت) */
-@media (max-height: 600px) and (max-width: 767px) { /* *** تعديل: إضافة max-height *** */
-
-     #quiz-screen {
-        /* قد تحتاج لتقليل الارتفاع أكثر إذا كان الهيدر/الفوتر أكبر */
-        height: calc(100vh - var(--header-height) - var(--footer-height) - 20px); /* تقليل الحشو المحسوب */
-     }
-
-     .quiz-header-status h2 { font-size: 1.1em; margin-bottom: 5px; }
-     .quiz-meta { gap: 5px; margin-bottom: 5px;}
-     .counter-badge, .score-badge, #timer-display { font-size: 0.7em; padding: 3px 6px; }
-     .small-btn { font-size: 0.8em !important; padding: 4px 8px !important; min-width: 30px;}
-     #timer-display { padding: 4px 8px; animation: none; box-shadow: none;}
-     #timer-display .timer-value { font-size: 0.9em; }
-     #timer-display .timer-unit { font-size: 0.6em; }
-
-     #question-container { padding: 10px; margin-bottom: 10px; }
-     .question-text { font-size: 1em; padding: 10px; margin-bottom: 10px; }
-     .options-container { gap: 8px; grid-template-columns: 1fr; /* *** تعديل: عمود واحد دائماً على الشاشات القصيرة *** */ }
-     .option-label { font-size: 0.8em; padding: 8px 10px; gap: 8px; }
-     .option-label input[type="radio"] { width: 14px; height: 14px; }
-
-     .controls-bar { margin-top: 5px; gap: 8px; padding-top: 10px; }
-     .control-btn { font-size: 0.8em; padding: 6px 10px; }
-     .controls-bar .control-btn { max-width: calc(50% - 8px); }
-     .controls-bar #skip-btn { max-width: calc(30% - 8px); }
-}
-
-/* --- تعديل لـ @media (max-width: 767px) الأساسي ليتوافق مع التخطيط الجديد --- */
-@media (max-width: 767px) {
-    /* إزالة التعديلات القديمة التي تعارض التخطيط الثابت */
-    /* #question-container.data-module { ... } */ /* <-- إزالة أو تعديل */
-    /* .quiz-header-status { ... } */ /* <-- إزالة أو تعديل */
-    /* ... إزالة التعديلات المتعارضة الأخرى ... */
-
-    /* الحفاظ على التعديلات المتوافقة أو إضافة جديدة */
-     .quiz-meta {
-         /* يمكن تعديل justify-content هنا إذا لزم الأمر */
-         justify-content: space-between; 
-     }
-
-     /* تأكيد عمود واحد للخيارات على الموبايل */
-    .options-container {
-        grid-template-columns: 1fr; 
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
     }
-
-     .hero-image { max-width: 90%; }
-     .daily-challenge-section { margin-top: 25px; }
-     #start-quiz-btn { margin-top: 15px; }
-     .active-users-indicator {
-         font-size: 0.8em;
-         padding: 4px 8px;
-         gap: 4px;
-     }
-     .active-dot {
-         width: 8px;
-         height: 8px;
-     }
+    .hero-section::before, .cyber-grid {
+        display: none !important;
+    }
+}
+@media print {
+    body {
+        background-color: #fff !important;
+        color: #000 !important;
+        overflow: visible !important;
+    }
+    .main-header, #sidebar, .app-footer, .controls-bar, #particles-canvas, .cyber-grid, #overlay, .notification-toast,
+    .sidebar-toggle-btn, .theme-btn, .user-status, .total-trainees-section, .hero-image-container {
+        display: none !important;
+    }
+    #main-content-wrapper, #app-container, #quiz-screen, .screen {
+        width: 100% !important;
+        height: auto !important;
+        max-width: none !important;
+        min-height: 0 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        background-color: #fff !important;
+        color: #000 !important;
+        overflow: visible !important;
+        flex: none !important;
+        display: block !important;
+    }
+    .screen.active { animation: none !important; }
+    .data-module, .hero-section, .topic-card, .stat-card {
+        border: 1px solid #ccc !important;
+        box-shadow: none !important;
+        background: #fff !important;
+        border-radius: 0 !important;
+        margin-bottom: 20px !important;
+        padding: 15px !important;
+    }
+    .question-text, .option-label {
+        border: 1px solid #eee !important;
+        background: #f9f9f9 !important;
+        color: #333 !important;
+        margin-bottom: 10px !important;
+        padding: 10px !important;
+    }
+    .option-label::before { display: none !important; }
+    .option-label.correct { background-color: #e6ffe6 !important; }
+    .option-label.incorrect { background-color: #ffe6e6 !important; }
+    h1, h2, h3, h4 { color: #000 !important; text-shadow: none !important; }
+    .large-btn { display: none !important; }
+    .logo, .app-title { display: block !important; text-align: center; margin-bottom: 20px; }
 }
