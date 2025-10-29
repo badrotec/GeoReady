@@ -132,9 +132,6 @@
                     <h2 id="quiz-title" class="section-title"></h2>
                     
                     <div class="quiz-meta">
-                        <button id="home-btn" class="control-btn tertiary small-btn" title="العودة للقائمة الرئيسية">
-                            <i class="fas fa-home"></i>
-                        </button>
                         <span id="timer-display" class="timer-display">
                             <i class="fas fa-clock"></i>
                             <span class="timer-value">20</span>
@@ -150,7 +147,8 @@
                         </span>
                     </div>
                     
-                    <div id="progress-bar-container"> <div id="progress-bar-fill"></div>
+                    <div id="progress-bar-container">
+                        <div id="progress-bar-fill"></div>
                         <div class="progress-glow"></div>
                     </div>
                 </div>
@@ -172,7 +170,8 @@
                     </button>
                 </div>
                 
-                <div id="feedback-container" class="feedback-message hidden"></div> </section>
+                <div id="feedback-container" class="feedback-message hidden"></div>
+            </section>
 
             <section id="results-screen" class="screen hidden">
                 <div class="results-hero">
@@ -270,27 +269,21 @@
     
     <script src="script.js"></script>
     <script>
-        // (الكود القديم الخاص بعداد المستخدمين سيتم استبداله في script.js)
-        // يمكنك حذف هذا الجزء الآن أو تركه، سنستبدله لاحقاً
-        /*
+        // كود JavaScript لتحديث عدد المستخدمين النشطين بشكل عشوائي (كمثال)
         document.addEventListener('DOMContentLoaded', () => {
             const activeUsersCountElement = document.getElementById('active-users-count');
             
             function updateActiveUsers() {
-                const randomCount = Math.floor(Math.random() * (35 - 7 + 1)) + 7; 
+                const randomCount = Math.floor(Math.random() * (35 - 7 + 1)) + 7; // رقم عشوائي بين 7 و 35
                 if (activeUsersCountElement) {
                     activeUsersCountElement.textContent = randomCount;
                 }
             }
             
+            // تحديث العدد كل 5 ثواني كمثال
             setInterval(updateActiveUsers, 5000); 
-            updateActiveUsers(); 
+            updateActiveUsers(); // تحديث فوري عند تحميل الصفحة
         });
-        */
     </script>
-
-    <audio id="correct-sound" src="sounds/correct.mp3" preload="auto"></audio>
-    <audio id="wrong-sound" src="sounds/wrong.mp3" preload="auto"></audio>
-    <audio id="perfect-sound" src="sounds/perfect.mp3" preload="auto"></audio>
-    </body>
+</body>
 </html>
