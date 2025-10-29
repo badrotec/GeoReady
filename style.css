@@ -696,7 +696,7 @@ body {
 }
 
 /* =======================================================
-   7. شاشة الاختبار المحسّنة (تم تحسين تخطيطها لمنع التمرير الداخلي)
+   7. شاشة الاختبار المحسّنة (تعديلات التخطيط الجديدة)
    ======================================================= */
 .data-module {
     background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-module) 100%);
@@ -734,61 +734,51 @@ body {
     filter: blur(20px);
 }
 
+/* --- تعديل 5: جعل شريط المعلومات ملتصقاً بحاوية السؤال --- */
 .quiz-header-status {
-    margin-bottom: 30px;
-    /* [الحل 1] تعديل لمنع تمرير الصفحة بالكامل */
+    /* [الحل 1] */
     flex-shrink: 0; 
-    padding-bottom: 15px;
-    
-    /* إلغاء الحلول السابقة الخاطئة */
-    position: static; 
-    box-shadow: none;
-    border-bottom: none;
+
+    /* إزالة المسافات والفواصل */
+    margin-bottom: 0; 
+    padding-bottom: 10px; 
+    border-bottom: none; 
+    box-shadow: none; 
+    position: static; /* تأكيد إلغاء sticky */
 }
 
-
 .quiz-header-status h2 {
-    margin: 0 0 20px 0;
+    margin: 0 0 15px 0; /* تقليل الهامش */
     font-size: 1.5em;
 }
 
+/* --- تعديل 5: تعديل تخطيط شريط المعلومات بعد إزالة المؤقت منه --- */
 .quiz-meta {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around; /* توزيع المسافة بين العنصرين المتبقيين */
     align-items: center;
     flex-wrap: wrap;
     gap: 15px;
-    margin-bottom: 20px;
+    margin-bottom: 10px; /* تقليل الهامش السفلي */
 }
 
-.timer-display {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 1.6em;
-    font-weight: 900;
-    color: var(--neon-blue);
-    background: var(--bg-card);
-    padding: 10px 20px;
-    border-radius: 50px;
-    border: 2px solid var(--neon-blue);
-    box-shadow: var(--shadow-neon-blue);
-    animation: pulseGlow 2s ease-in-out infinite;
+/* --- تعديل 2: نقل المؤقت إلى الزاوية --- */
+#timer-display {
+    position: absolute;
+    top: 15px; 
+    left: 15px; /* سيظهر يمين بسبب RTL */
+    z-index: 5; 
+    
+    /* تصغير حجم المؤقت */
+    font-size: 1.1em; 
+    padding: 5px 10px;
+    box-shadow: none; 
+    animation: none; 
+    border-width: 1px;
 }
+#timer-display .timer-value { font-size: 1em; }
+#timer-display .timer-unit { font-size: 0.7em; }
 
-.timer-display i {
-    font-size: 0.9em;
-}
-
-.timer-value {
-    font-size: 1.2em;
-    min-width: 40px;
-    text-align: center;
-}
-
-.timer-unit {
-    font-size: 0.8em;
-}
 
 .counter-badge,
 .score-badge {
@@ -843,16 +833,26 @@ body {
     100% { transform: translateX(100%); }
 }
 
-/* [الحل 1] تعديل لمنع تمرير الصفحة بالكامل */
-#question-container {
-    flex-grow: 1; /* أهم خاصية: تملأ المساحة بين الرأس والأزرار */
-    overflow-y: auto; /* إضافة تمرير داخلي *فقط* لهذه الحاوية إذا كان السؤال طويلاً */
-    padding: 15px;
-    margin-bottom: 15px; /* فصلها عن أزرار التحكم */
-    border-radius: 15px; 
-    background: var(--bg-card); /* إضافة خلفية لتمييز منطقة التمرير */
+/* --- تعديل 1 و 5: تعديل حاوية السؤال --- */
+#question-container.data-module {
+    /* [الحل 1] النمو والتمرير الداخلي */
+    flex-grow: 1; 
+    overflow-y: auto; 
+    margin-bottom: 15px; 
+    
+    /* تعديل 1: لتحديد موقع المؤقت */
+    position: relative; 
+    padding-top: 25px; 
+    
+    /* تعديل 5: للالتصاق البصري */
+    border-top: 2px solid var(--neon-blue); 
+    border-top-left-radius: 0; 
+    border-top-right-radius: 0;
+    padding: 15px; /* إعادة الحشو الأساسي */
 }
 
+
+/* --- تعديل 3: إضافة حشو لنص السؤال --- */
 .question-text {
     font-size: 1.5em;
     padding: 25px;
@@ -863,6 +863,9 @@ body {
     color: var(--text-main);
     line-height: 1.8;
     box-shadow: inset 0 0 20px rgba(0, 217, 255, 0.1);
+    
+    /* تجنب تداخل النص مع المؤقت */
+    padding-left: 100px; /* زيادة الحشو الأيسر (الأيمن بسبب RTL) */
 }
 
 .options-container {
@@ -965,18 +968,37 @@ body {
     color: var(--incorrect-color);
 }
 
+/* --- تعديل 4: جعل الأزرار بجانب بعض --- */
 .controls-bar {
-    display: flex;
-    flex-direction: column-reverse;
-    gap: 15px;
-    margin-top: 30px;
-    
-    /* [الحل 1] تعديل لمنع تمرير الصفحة بالكامل */
+    /* [الحل 1] عدم الانكماش */
     flex-shrink: 0; 
-    padding-top: 15px;
-    border-top: 1px solid var(--text-secondary); /* تعديل بسيط للون الخط */
-    margin-top: 0; /* إلغاء الهامش العلوي الافتراضي */
+    
+    /* جعل الأزرار أفقية */
+    display: flex;
+    flex-direction: row; 
+    justify-content: space-between; 
+    align-items: center; 
+    gap: 15px;
+    
+    /* إزالة التنسيقات العمودية السابقة */
+    margin-top: 0; 
+    padding-top: 15px; /* إعادة الحشو العلوي للفصل */
+    border-top: 1px solid var(--text-secondary); /* إبقاء الخط العلوي */
 }
+
+/* تعديل حجم الأزرار في الوضع الأفقي */
+.controls-bar .control-btn {
+     /* الأزرار تأخذ الحجم الطبيعي للمحتوى */
+     /* يمكن إلغاء تحديد العرض إذا كان موجوداً */
+     width: auto; 
+     flex-grow: 1; /* جعل الأزرار تتمدد لتملأ المساحة */
+     max-width: 48%; /* لضمان وجود مسافة بينهما */
+}
+/* زر التخطي يأخذ مساحة أقل إذا لزم الأمر */
+.controls-bar #skip-btn {
+    flex-grow: 0.5; 
+}
+
 
 .control-btn {
     padding: 16px 30px;
@@ -1448,12 +1470,17 @@ body {
     
     .controls-bar {
         flex-direction: row;
-        justify-content: flex-end;
+        justify-content: flex-end; /* إرجاع الأزرار لليمين على الشاشات الكبيرة */
     }
     
     .control-btn {
         width: auto;
         padding: 18px 40px;
+        flex-grow: 0; /* إلغاء التمدد على الشاشات الكبيرة */
+        max-width: none;
+    }
+     .controls-bar #skip-btn {
+        flex-grow: 0; /* إلغاء التمدد على الشاشات الكبيرة */
     }
     
     .quiz-meta {
@@ -1479,17 +1506,38 @@ body {
     
     .question-text {
         font-size: 1.7em;
+        padding-left: 25px; /* إرجاع الحشو الأصلي على الشاشات الكبيرة */
     }
 
     .hero-image {
         max-width: 60%; /* Adjust image size on larger screens */
     }
     
-    /* [الحل 1] تعديل لمنع تمرير الصفحة بالكامل */
-    /* إلغاء الحشو الزائد على الحاسوب */
-    #question-container {
-        padding: 35px 25px; 
+    /* إلغاء تحديد موقع المؤقت على الشاشات الكبيرة */
+    #timer-display {
+        position: static; /* إرجاع للوضع الطبيعي */
+        font-size: 1.6em; /* إرجاع الحجم الأصلي */
+        padding: 10px 20px;
+        box-shadow: var(--shadow-neon-blue);
+        animation: pulseGlow 2s ease-in-out infinite;
+        border-width: 2px;
     }
+     #timer-display .timer-value { font-size: 1.2em; }
+     #timer-display .timer-unit { font-size: 0.8em; }
+
+     /* إرجاع الحشو العلوي لحاوية السؤال */
+     #question-container.data-module {
+         padding-top: 35px; 
+         border-top: 2px solid var(--neon-blue); /* إرجاع الحدود الأصلية */
+         border-top-left-radius: 20px; 
+         border-top-right-radius: 20px;
+     }
+     /* إرجاع الهامش الأصلي */
+     .quiz-header-status {
+         margin-bottom: 30px; 
+         padding-bottom: 15px;
+     }
+
 }
 
 @media (min-width: 1200px) {
@@ -1635,97 +1683,96 @@ body {
 }
 
 /* --- [الحل 2] إضافة كود "الضغط" للشاشات القصيرة جداً --- */
-/* هذا الكود هو الحل الوحيد لتحقيق طلبك "رؤية كل شيء دفعة واحدة" */
+/* (مع تعديلات التخطيط الجديدة) */
 @media (max-width: 767px) {
     
-    /* 1. إزالة التمرير الداخلي من حاوية السؤال 
-       والسماح لها بالانكماش (لإفساح المجال)
-    */
+    /* 1. إزالة التمرير الداخلي من حاوية السؤال والسماح لها بالانكماش */
     #question-container.data-module {
-        flex-grow: 0; /* السماح بالانكماش (إلغاء flex-grow: 1) */
-        overflow-y: visible; /* إلغاء التمرير الداخلي */
-        padding: 15px; /* تقليل الحشو */
-        margin-bottom: 10px; /* تقليل الهامش */
+        flex-grow: 0; 
+        overflow-y: visible; 
+        padding: 15px; 
+        padding-top: 20px; /* تعديل الحشو العلوي ليناسب المؤقت المصغر */
+        margin-bottom: 10px; 
     }
 
     /* 2. تقليل هوامش رأس الاختبار */
     .quiz-header-status {
-        margin-bottom: 15px; /* تقليل الهامش السفلي */
+        margin-bottom: 0; /* الالتصاق بحاوية السؤال */
         padding-bottom: 10px;
     }
 
     .quiz-header-status h2 {
-        margin-bottom: 15px;
-        font-size: 1.3em; /* تصغير الخط */
+        margin-bottom: 10px; /* تقليل الهامش */
+        font-size: 1.2em; /* تصغير الخط */
     }
     
     .quiz-meta {
-        margin-bottom: 15px;
-        gap: 10px; /* تقليل الفجوة */
+        margin-bottom: 10px;
+        gap: 8px; /* تقليل الفجوة */
     }
 
-    /* 3. تصغير عناصر الـ meta (الوقت، النقاط) */
-    .timer-display {
-        font-size: 1.2em; /* تصغير */
-        padding: 6px 12px;
-    }
-    .timer-value { font-size: 1em; }
+    /* 3. تصغير عناصر الـ meta (المتبقية) */
     .counter-badge, .score-badge {
-        font-size: 0.85em;
-        padding: 5px 10px;
+        font-size: 0.8em; /* تصغير أكثر */
+        padding: 4px 8px;
     }
-    
-    /* 4. تصغير خط السؤال */
+    /* تصغير المؤقت أكثر */
+    #timer-display {
+        font-size: 0.9em; 
+        padding: 4px 8px;
+        top: 10px;
+        left: 10px;
+    }
+     #timer-display .timer-value { font-size: 0.9em; }
+     #timer-display .timer-unit { font-size: 0.6em; }
+
+    /* 4. تصغير خط السؤال وتعديل الحشو */
     .question-text {
-        font-size: 1.15em; /* تصغير خط السؤال */
-        padding: 12px; /* تقليل الحشو */
-        margin-bottom: 15px; /* تقليل الهامش */
-        line-height: 1.6;
+        font-size: 1.1em; /* تصغير خط السؤال */
+        padding: 10px; 
+        margin-bottom: 10px; 
+        line-height: 1.5;
+        padding-left: 70px; /* تعديل الحشو ليناسب المؤقت المصغر */
     }
 
     /* 5. تصغير الخيارات */
-    .options-container { gap: 8px; }
+    .options-container { gap: 6px; } /* تقليل المسافة أكثر */
     .option-label {
-        font-size: 1em; /* تصغير خط الخيار */
-        padding: 10px 12px; /* تقليل الحشو */
+        font-size: 0.9em; /* تصغير خط الخيار */
+        padding: 8px 10px; /* تقليل الحشو */
     }
      .option-label input[type="radio"] {
-        width: 20px;
-        height: 20px;
+        width: 18px;
+        height: 18px;
     }
 
-    /* 6. تقليل هوامش الأزرار */
+    /* 6. تعديل الأزرار لتناسب الوضع الأفقي المصغر */
     .controls-bar {
-        margin-top: 15px; /* تقليل الهامش العلوي */
-        gap: 10px;
+        margin-top: 10px; 
+        gap: 8px;
         padding-top: 10px;
-        border-top: none; 
+        border-top: 1px solid var(--text-secondary); /* إبقاء الخط للفصل */
     }
 
     .control-btn {
-        font-size: 1em; /* تصغير خط الأزرار */
-        padding: 12px 25px;
+        font-size: 0.9em; /* تصغير خط الأزرار */
+        padding: 10px 15px; /* تقليل الحشو */
+         max-width: 49%; /* ضمان وجود مسافة صغيرة */
     }
     
     /* 7. تصغير رسالة الإجابة */
     #feedback-container {
         margin-top: 10px;
-        padding: 10px;
-        font-size: 1em;
+        padding: 8px;
+        font-size: 0.9em;
     }
     
     /* 8. تعديل استجابة الصورة الأصلية */
-    .hero-image {
-        max-width: 90%; 
-    }
-    .daily-challenge-section {
-        margin-top: 25px; /* Adjust margin on smaller screens */
-    }
-    #start-quiz-btn {
-        margin-top: 15px; /* Adjust margin on smaller screens */
-    }
-     .active-users-indicator {
-        font-size: 0.8em; /* Smaller font on mobile */
+    .hero-image { max-width: 90%; }
+    .daily-challenge-section { margin-top: 25px; }
+    #start-quiz-btn { margin-top: 15px; }
+    .active-users-indicator {
+        font-size: 0.8em; 
         padding: 4px 8px;
         gap: 4px;
     }
@@ -1734,95 +1781,3 @@ body {
         height: 8px;
     }
 }
-/* =======================================================
-   13. [إضافة] تعديلات تخطيط شاشة الاختبار المخصصة
-   ======================================================= */
-
-/* --- 1. جعل حاوية السؤال تقبل تحديد المواقع داخليا --- */
-#question-container.data-module {
-    position: relative; /* ضروري لتحديد موقع المؤقت بداخله */
-    padding-top: 25px; /* زيادة الحشو العلوي قليلاً لجمالية */
-}
-
-/* --- 2. نقل المؤقت إلى الزاوية العلوية اليسرى داخل حاوية السؤال --- */
-#timer-display {
-    position: absolute;
-    top: 15px; /* مسافة من الأعلى */
-    left: 15px; /* مسافة من اليسار (ستكون اليمين بسبب RTL) */
-    z-index: 5; /* لضمان ظهوره فوق أي عناصر أخرى */
-    
-    /* (اختياري) تصغير حجم المؤقت قليلاً */
-    font-size: 1.1em; 
-    padding: 5px 10px;
-    box-shadow: none; /* إزالة الظل الكبير */
-    animation: none; /* إزالة النبض */
-    border-width: 1px;
-}
-#timer-display .timer-value { font-size: 1em; }
-#timer-display .timer-unit { font-size: 0.7em; }
-
-/* --- 3. إضافة حشو لنص السؤال لتجنب تداخله مع المؤقت --- */
-.question-text {
-    /* زيادة الحشو الأيسر (الأيمن بسبب RTL) بمقدار يكفي المؤقت */
-    padding-left: 100px; /* قد تحتاج لتعديل هذه القيمة حسب حجم المؤقت */
-}
-
-/* --- 4. جعل أزرار التحكم (تخطي وتأكيد) بجانب بعض --- */
-.controls-bar {
-    flex-direction: row; /* تغيير الاتجاه إلى أفقي */
-    justify-content: space-between; /* توزيع المسافة بين الأزرار */
-    align-items: center; /* محاذاة عمودية للأزرار */
-    border-top: none; /* إزالة الخط العلوي (كان مناسباً للترتيب العمودي) */
-    padding-top: 0; /* إزالة الحشو العلوي */
-}
-
-/* (اختياري) تعديل حجم الأزرار إذا لزم الأمر */
-.controls-bar .control-btn {
-     /* يمكن إضافة قواعد لتحديد عرض الأزرار إذا لم يتوزعوا جيداً */
-     /* مثال: flex-grow: 1; لزر التأكيد ليأخذ مساحة أكبر */
-     /* أو width: 48%; لكل زر مع justify-content: space-between; */
-}
-
-
-/* --- 5. جعل شريط المعلومات (ترقيم، نقاط) يبدو ملتصقاً --- */
-/* (إزالة المسافة بين رأس الاختبار وحاوية السؤال) */
-.quiz-header-status {
-    margin-bottom: 0; /* إزالة الهامش السفلي */
-    padding-bottom: 10px; /* تقليل الحشو السفلي */
-    border-bottom: none; /* إزالة الخط السفلي (سنضيفه لحاوية السؤال) */
-    box-shadow: none; /* إزالة الظل (كان مهماً مع sticky) */
-}
-
-#question-container.data-module {
-    /* إضافة خط علوي مطابق لخط الهيدر ليبدو متصلاً */
-    border-top: 2px solid var(--neon-blue); 
-    border-top-left-radius: 0; /* جعل الزوايا حادة للاتصال */
-    border-top-right-radius: 0;
-}
-
-/* تعديل تخطيط شريط المعلومات بعد إزالة المؤقت منه */
-.quiz-meta {
-     justify-content: space-around; /* توزيع المسافة بين العنصرين المتبقيين */
-     margin-bottom: 10px; /* تقليل الهامش السفلي */
-}
-
-/* --- 6. تعديلات إضافية لـ @media query لضمان عمل التصغير --- */
-/* (مهم لضمان أن التصغير لا يتعارض مع التغييرات الجديدة) */
-@media (max-width: 767px) {
-    /* التأكد من أن نص السؤال لا يزال لديه الحشو الكافي للمؤقت */
-    .question-text {
-        padding-left: 80px; /* تعديل قيمة الحشو لتناسب الحجم المصغر */
-    }
-
-    /* تعديل ترتيب الأزرار ليكون مناسباً أفقياً */
-    .controls-bar {
-        /* التنسيقات الأفقية المطبقة أعلاه يجب أن تعمل هنا أيضاً */
-    }
-    
-    /* قد نحتاج لتصغير الأزرار أكثر في الوضع الأفقي */
-     .controls-bar .control-btn {
-        font-size: 0.9em;
-        padding: 10px 20px;
-    }
-}
-
