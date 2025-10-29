@@ -81,7 +81,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: 
+    background-image:
         linear-gradient(rgba(0, 217, 255, 0.03) 1px, transparent 1px),
         linear-gradient(90deg, rgba(0, 217, 255, 0.03) 1px, transparent 1px);
     background-size: 50px 50px;
@@ -187,7 +187,7 @@ body {
     position: relative;
     z-index: 10;
     transition: var(--transition-smooth);
-    
+
     /* [الحل 1] تعديل لمنع تمرير الصفحة بالكامل */
     display: flex;
     flex-direction: column;
@@ -244,7 +244,7 @@ body {
 }
 
 .version { /* تم إخفاء رقم الإصدار V2.0 */
-    display: none; 
+    display: none;
 }
 
 .header-info {
@@ -478,7 +478,7 @@ body {
     max-width: 100%;
     position: relative;
     z-index: 10;
-    
+
     /* [الحل 1] تعديل لمنع تمرير الصفحة بالكامل */
     flex-grow: 1;
     display: flex;
@@ -547,24 +547,24 @@ body {
 
 /* Hero Image - NEW/EXISTING */
 .hero-image-container {
-    margin-top: 30px; 
-    text-align: center; 
+    margin-top: 30px;
+    text-align: center;
     position: relative; /* Needed for z-index */
     z-index: 2; /* Ensure image is above pseudo-element */
 }
 
 .hero-image {
-    max-width: 80%; 
-    height: auto; 
-    border-radius: 15px; 
-    border: 3px solid var(--neon-cyan); 
-    box-shadow: 0 0 25px rgba(0, 255, 245, 0.4); 
+    max-width: 80%;
+    height: auto;
+    border-radius: 15px;
+    border: 3px solid var(--neon-cyan);
+    box-shadow: 0 0 25px rgba(0, 255, 245, 0.4);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .hero-image:hover {
-    transform: scale(1.03); 
-    box-shadow: 0 0 40px rgba(0, 255, 245, 0.6); 
+    transform: scale(1.03);
+    box-shadow: 0 0 40px rgba(0, 255, 245, 0.6);
 }
 
 /* Daily Challenge Button - NEW */
@@ -709,10 +709,10 @@ body {
 
 #quiz-screen {
     /* [الحل 1] تعديل لمنع تمرير الصفحة بالكامل */
-    display: flex; 
+    display: flex;
     flex-direction: column;
-    padding-bottom: 20px; 
-    box-sizing: border-box; 
+    padding-bottom: 20px;
+    box-sizing: border-box;
 }
 
 .data-module::after {
@@ -737,13 +737,13 @@ body {
 /* --- تعديل 5: جعل شريط المعلومات ملتصقاً بحاوية السؤال --- */
 .quiz-header-status {
     /* [الحل 1] */
-    flex-shrink: 0; 
+    flex-shrink: 0;
 
     /* إزالة المسافات والفواصل */
-    margin-bottom: 0; 
-    padding-bottom: 10px; 
-    border-bottom: none; 
-    box-shadow: none; 
+    margin-bottom: 0;
+    padding-bottom: 10px;
+    border-bottom: none;
+    box-shadow: none;
     position: static; /* تأكيد إلغاء sticky */
 }
 
@@ -765,15 +765,15 @@ body {
 /* --- تعديل 2: نقل المؤقت إلى الزاوية --- */
 #timer-display {
     position: absolute;
-    top: 15px; 
-    left: 15px; /* سيظهر يمين بسبب RTL */
-    z-index: 5; 
-    
+    top: 20px;  /* زيادة المسافة من الأعلى */
+    left: 20px; /* زيادة المسافة من اليسار (ستظهر يمين بسبب RTL) */
+    z-index: 5;
+
     /* تصغير حجم المؤقت */
-    font-size: 1.1em; 
+    font-size: 1.1em;
     padding: 5px 10px;
-    box-shadow: none; 
-    animation: none; 
+    box-shadow: none;
+    animation: none;
     border-width: 1px;
 }
 #timer-display .timer-value { font-size: 1em; }
@@ -798,14 +798,9 @@ body {
     background: linear-gradient(135deg, var(--neon-purple), var(--neon-pink));
 }
 
+/* --- إخفاء شريط التقدم --- */
 #progress-bar-container {
-    width: 100%;
-    height: 8px;
-    background: var(--bg-main);
-    border-radius: 10px;
-    overflow: hidden;
-    position: relative;
-    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.5);
+    display: none; /* إخفاء العنصر */
 }
 
 #progress-bar-fill {
@@ -836,17 +831,17 @@ body {
 /* --- تعديل 1 و 5: تعديل حاوية السؤال --- */
 #question-container.data-module {
     /* [الحل 1] النمو والتمرير الداخلي */
-    flex-grow: 1; 
-    overflow-y: auto; 
-    margin-bottom: 15px; 
-    
+    flex-grow: 1;
+    overflow-y: auto;
+    margin-bottom: 15px;
+
     /* تعديل 1: لتحديد موقع المؤقت */
-    position: relative; 
-    padding-top: 25px; 
-    
+    position: relative;
+    padding-top: 30px; /* زيادة الحشو العلوي أكثر */
+
     /* تعديل 5: للالتصاق البصري */
-    border-top: 2px solid var(--neon-blue); 
-    border-top-left-radius: 0; 
+    border-top: 2px solid var(--neon-blue);
+    border-top-left-radius: 0;
     border-top-right-radius: 0;
     padding: 15px; /* إعادة الحشو الأساسي */
 }
@@ -863,9 +858,9 @@ body {
     color: var(--text-main);
     line-height: 1.8;
     box-shadow: inset 0 0 20px rgba(0, 217, 255, 0.1);
-    
+
     /* تجنب تداخل النص مع المؤقت */
-    padding-left: 100px; /* زيادة الحشو الأيسر (الأيمن بسبب RTL) */
+    padding-left: 110px; /* زيادة الحشو الأيسر أكثر (الأيمن بسبب RTL) */
 }
 
 .options-container {
@@ -946,14 +941,17 @@ body {
     75% { transform: translateX(10px); }
 }
 
+/* --- إخفاء رسالة الإجابة --- */
 .feedback-message {
+    display: none; /* إخفاء العنصر بالكامل */
+    /* التنسيقات القديمة (يمكن إزالتها إذا أردت)
     margin-top: 25px;
     padding: 20px;
     border-radius: 15px;
     font-size: 1.1em;
     font-weight: 600;
     text-align: center;
-    animation: fadeInUp 0.5s ease-out;
+    animation: fadeInUp 0.5s ease-out; */
 }
 
 .feedback-message.correct-feedback {
@@ -971,17 +969,17 @@ body {
 /* --- تعديل 4: جعل الأزرار بجانب بعض --- */
 .controls-bar {
     /* [الحل 1] عدم الانكماش */
-    flex-shrink: 0; 
-    
+    flex-shrink: 0;
+
     /* جعل الأزرار أفقية */
     display: flex;
-    flex-direction: row; 
-    justify-content: space-between; 
-    align-items: center; 
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
     gap: 15px;
-    
+
     /* إزالة التنسيقات العمودية السابقة */
-    margin-top: 0; 
+    margin-top: 0;
     padding-top: 15px; /* إعادة الحشو العلوي للفصل */
     border-top: 1px solid var(--text-secondary); /* إبقاء الخط العلوي */
 }
@@ -990,13 +988,13 @@ body {
 .controls-bar .control-btn {
      /* الأزرار تأخذ الحجم الطبيعي للمحتوى */
      /* يمكن إلغاء تحديد العرض إذا كان موجوداً */
-     width: auto; 
+     width: auto;
      flex-grow: 1; /* جعل الأزرار تتمدد لتملأ المساحة */
      max-width: 48%; /* لضمان وجود مسافة بينهما */
 }
 /* زر التخطي يأخذ مساحة أقل إذا لزم الأمر */
 .controls-bar #skip-btn {
-    flex-grow: 0.5; 
+    flex-grow: 0.5;
 }
 
 
@@ -1327,457 +1325,3 @@ body {
     gap: 10px;
     margin-bottom: 25px;
     font-size: 1.5em;
-    color: var(--neon-accent);
-}
-
-.review-item {
-    background: var(--bg-card);
-    padding: 20px;
-    border-radius: 15px;
-    margin-bottom: 20px;
-    border-right: 5px solid var(--incorrect-color);
-    animation: slideInRight 0.5s ease-out;
-}
-
-.error-q {
-    font-size: 1.2em;
-    font-weight: 600;
-    margin-bottom: 15px;
-    color: var(--neon-cyan);
-    padding-bottom: 10px;
-    border-bottom: 1px dashed var(--neon-purple);
-}
-
-.error-a {
-    margin: 10px 0;
-    font-size: 1.05em;
-}
-
-.wrong {
-    color: var(--incorrect-color);
-    font-weight: 700;
-    padding: 5px 10px;
-    background: rgba(255, 51, 102, 0.2);
-    border-radius: 8px;
-}
-
-.right {
-    color: var(--correct-color);
-    font-weight: 700;
-    padding: 5px 10px;
-    background: rgba(0, 255, 136, 0.2);
-    border-radius: 8px;
-}
-
-.all-correct {
-    text-align: center;
-    font-size: 1.5em;
-    color: var(--correct-color);
-    padding: 40px 20px;
-}
-
-.action-buttons {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    margin-top: 40px;
-}
-
-/* =======================================================
-   9. Footer
-   ======================================================= */
-.app-footer {
-    text-align: center;
-    padding: 30px 20px;
-    background: var(--bg-module);
-    border-top: 2px solid var(--neon-blue);
-    /* margin-top: 60px; Removed margin-top to place total trainees above */
-    color: var(--text-secondary);
-    position: relative; /* Ensure it stays below */
-    z-index: 5; /* Lower z-index */
-}
-
-.app-footer i {
-    color: var(--neon-pink);
-    animation: heartbeat 1.5s ease-in-out infinite;
-}
-
-@keyframes heartbeat {
-    0%, 100% { transform: scale(1); }
-    25% { transform: scale(1.2); }
-    50% { transform: scale(1); }
-}
-
-/* =======================================================
-   10. Notification Toast
-   ======================================================= */
-.notification-toast {
-    position: fixed;
-    bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%) translateY(100px);
-    background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
-    color: white;
-    padding: 15px 30px;
-    border-radius: 50px;
-    box-shadow: 0 10px 40px rgba(0, 217, 255, 0.6);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-weight: 600;
-    z-index: 3000;
-    transition: var(--transition-smooth);
-}
-
-.notification-toast.show {
-    transform: translateX(-50%) translateY(0);
-}
-
-.notification-toast i {
-    font-size: 1.5em;
-}
-
-/* =======================================================
-   11. Responsive Design (Desktop)
-   ======================================================= */
-@media (min-width: 768px) {
-    :root {
-        --sidebar-width: 350px;
-    }
-    
-    #app-container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 40px 30px;
-    }
-    
-    .app-title {
-        font-size: 2.2em;
-    }
-    
-    .user-status {
-        display: flex; /* Show user status on larger screens */
-    }
-    
-    .list-container {
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 30px;
-    }
-    
-    .topic-card {
-        padding: 40px 30px;
-    }
-    
-    .controls-bar {
-        flex-direction: row;
-        justify-content: flex-end; /* إرجاع الأزرار لليمين على الشاشات الكبيرة */
-    }
-    
-    .control-btn {
-        width: auto;
-        padding: 18px 40px;
-        flex-grow: 0; /* إلغاء التمدد على الشاشات الكبيرة */
-        max-width: none;
-    }
-     .controls-bar #skip-btn {
-        flex-grow: 0; /* إلغاء التمدد على الشاشات الكبيرة */
-    }
-    
-    .quiz-meta {
-        justify-content: space-around;
-    }
-    
-    .results-grid {
-        grid-template-columns: 1fr 1.5fr;
-    }
-    
-    .stats-breakdown {
-        grid-template-columns: repeat(3, 1fr);
-    }
-    
-    .action-buttons {
-        flex-direction: row;
-        justify-content: center;
-    }
-    
-    .section-title {
-        font-size: 2.5em;
-    }
-    
-    .question-text {
-        font-size: 1.7em;
-        padding-left: 25px; /* إرجاع الحشو الأصلي على الشاشات الكبيرة */
-    }
-
-    .hero-image {
-        max-width: 60%; /* Adjust image size on larger screens */
-    }
-    
-    /* إلغاء تحديد موقع المؤقت على الشاشات الكبيرة */
-    #timer-display {
-        position: static; /* إرجاع للوضع الطبيعي */
-        font-size: 1.6em; /* إرجاع الحجم الأصلي */
-        padding: 10px 20px;
-        box-shadow: var(--shadow-neon-blue);
-        animation: pulseGlow 2s ease-in-out infinite;
-        border-width: 2px;
-    }
-     #timer-display .timer-value { font-size: 1.2em; }
-     #timer-display .timer-unit { font-size: 0.8em; }
-
-     /* إرجاع الحشو العلوي لحاوية السؤال */
-     #question-container.data-module {
-         padding-top: 35px; 
-         border-top: 2px solid var(--neon-blue); /* إرجاع الحدود الأصلية */
-         border-top-left-radius: 20px; 
-         border-top-right-radius: 20px;
-     }
-     /* إرجاع الهامش الأصلي */
-     .quiz-header-status {
-         margin-bottom: 30px; 
-         padding-bottom: 15px;
-     }
-
-}
-
-@media (min-width: 1200px) {
-    #app-container {
-        max-width: 1400px;
-    }
-    
-    .list-container {
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
-
-/* =======================================================
-   12. Accessibility & Print Styles
-   ======================================================= */
-@media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-    }
-}
-
-@media print {
-    #particles-canvas,
-    .cyber-grid,
-    #sidebar,
-    #overlay,
-    .main-header,
-    .controls-bar,
-    .app-footer,
-    .total-trainees-section { /* Hide new section in print */
-        display: none !important;
-    }
-    
-    body {
-        background: white;
-        color: black;
-    }
-}
-
-/*
-=============================
- تنسيقات قسم الموارد التعليمية
-=============================
-*/
-.sidebar-links-section {
-    padding: 0 15px;
-    margin: 20px 0;
-    border-top: 1px solid var(--border-color, #444); /* خط فاصل */
-    padding-top: 20px;
-}
-
-.sidebar-section-title {
-    font-size: 0.9rem;
-    color: var(--text-muted, #aaa);
-    text-transform: uppercase;
-    margin-bottom: 15px;
-    display: flex;
-    align-items: center;
-    gap: 8px; /* مسافة بين الأيقونة والنص */
-}
-
-.sidebar-link-item {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    padding: 12px 15px;
-    margin-bottom: 8px;
-    border-radius: 8px;
-    color: var(--text-primary, #eee);
-    text-decoration: none;
-    font-size: 1rem;
-    transition: all 0.3s ease;
-    gap: 10px; /* مسافة بين الأيقونة والنص */
-    border: 1px solid transparent;
-}
-
-.sidebar-link-item i {
-    color: var(--neon-blue, #00c6ff); 
-    transition: all 0.3s ease;
-}
-
-.sidebar-link-item:hover {
-    background-color: var(--primary-hover-bg, #2a2a3a);
-    color: var(--neon-glow, #fff);
-    border-color: var(--neon-blue, #00c6ff);
-    transform: translateX(5px);
-    box-shadow: 0 0 10px var(--neon-blue-shadow, #00c6ff4d);
-}
-
-.sidebar-link-item:hover i {
-    color: var(--neon-glow, #fff);
-}
-
-/*
-=============================
- تنسيقات العناصر الجديدة 
-=============================
-*/
-
-/* تنسيق قسم إجمالي المتدربين */
-.total-trainees-section {
-    text-align: center;
-    padding: 25px 20px;
-    background: var(--bg-module);
-    border-top: 2px solid var(--neon-purple);
-    border-bottom: 2px solid var(--neon-purple); /* Added bottom border */
-    margin: 40px 0 0 0; /* Space above, remove bottom margin */
-    color: var(--neon-cyan);
-    font-size: 1.2em;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    position: relative; /* Needed for z-index */
-    z-index: 10; /* Ensure it's above grid/particles */
-}
-
-.total-trainees-section .trainee-count {
-    font-size: 1.5em;
-    font-weight: 900;
-    color: var(--neon-pink);
-    text-shadow: 0 0 10px var(--neon-pink);
-}
-
-/* تعديل تنسيق الفوتر ليكون أسفل القسم الجديد */
-.app-footer {
-    margin-top: 0; /* Remove top margin as total trainees section provides space */
-    border-top: none; /* Remove top border as total trainees section has bottom border */
-    padding-top: 20px; /* Adjust padding if needed */
-}
-
-/* تعديل تنسيق زر التحدي اليومي */
-#daily-challenge-btn.secondary {
-    /* Uses existing .secondary styles */
-    /* Add specific overrides if needed */
-    font-size: 1.2em; /* Slightly smaller than main button */
-    padding: 18px 35px; /* Adjust padding */
-}
-
-/* --- [الحل 2] إضافة كود "الضغط" للشاشات القصيرة جداً --- */
-/* (مع تعديلات التخطيط الجديدة) */
-@media (max-width: 767px) {
-    
-    /* 1. إزالة التمرير الداخلي من حاوية السؤال والسماح لها بالانكماش */
-    #question-container.data-module {
-        flex-grow: 0; 
-        overflow-y: visible; 
-        padding: 15px; 
-        padding-top: 20px; /* تعديل الحشو العلوي ليناسب المؤقت المصغر */
-        margin-bottom: 10px; 
-    }
-
-    /* 2. تقليل هوامش رأس الاختبار */
-    .quiz-header-status {
-        margin-bottom: 0; /* الالتصاق بحاوية السؤال */
-        padding-bottom: 10px;
-    }
-
-    .quiz-header-status h2 {
-        margin-bottom: 10px; /* تقليل الهامش */
-        font-size: 1.2em; /* تصغير الخط */
-    }
-    
-    .quiz-meta {
-        margin-bottom: 10px;
-        gap: 8px; /* تقليل الفجوة */
-    }
-
-    /* 3. تصغير عناصر الـ meta (المتبقية) */
-    .counter-badge, .score-badge {
-        font-size: 0.8em; /* تصغير أكثر */
-        padding: 4px 8px;
-    }
-    /* تصغير المؤقت أكثر */
-    #timer-display {
-        font-size: 0.9em; 
-        padding: 4px 8px;
-        top: 10px;
-        left: 10px;
-    }
-     #timer-display .timer-value { font-size: 0.9em; }
-     #timer-display .timer-unit { font-size: 0.6em; }
-
-    /* 4. تصغير خط السؤال وتعديل الحشو */
-    .question-text {
-        font-size: 1.1em; /* تصغير خط السؤال */
-        padding: 10px; 
-        margin-bottom: 10px; 
-        line-height: 1.5;
-        padding-left: 70px; /* تعديل الحشو ليناسب المؤقت المصغر */
-    }
-
-    /* 5. تصغير الخيارات */
-    .options-container { gap: 6px; } /* تقليل المسافة أكثر */
-    .option-label {
-        font-size: 0.9em; /* تصغير خط الخيار */
-        padding: 8px 10px; /* تقليل الحشو */
-    }
-     .option-label input[type="radio"] {
-        width: 18px;
-        height: 18px;
-    }
-
-    /* 6. تعديل الأزرار لتناسب الوضع الأفقي المصغر */
-    .controls-bar {
-        margin-top: 10px; 
-        gap: 8px;
-        padding-top: 10px;
-        border-top: 1px solid var(--text-secondary); /* إبقاء الخط للفصل */
-    }
-
-    .control-btn {
-        font-size: 0.9em; /* تصغير خط الأزرار */
-        padding: 10px 15px; /* تقليل الحشو */
-         max-width: 49%; /* ضمان وجود مسافة صغيرة */
-    }
-    
-    /* 7. تصغير رسالة الإجابة */
-    #feedback-container {
-        margin-top: 10px;
-        padding: 8px;
-        font-size: 0.9em;
-    }
-    
-    /* 8. تعديل استجابة الصورة الأصلية */
-    .hero-image { max-width: 90%; }
-    .daily-challenge-section { margin-top: 25px; }
-    #start-quiz-btn { margin-top: 15px; }
-    .active-users-indicator {
-        font-size: 0.8em; 
-        padding: 4px 8px;
-        gap: 4px;
-    }
-    .active-dot {
-        width: 8px;
-        height: 8px;
-    }
-}
