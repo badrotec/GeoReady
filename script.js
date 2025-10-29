@@ -1,4 +1,5 @@
 // **=================================================**
+
 // [1] المتغيرات العالمية والتحكم
 let geologicalData = {};
 let currentQuestions = [];
@@ -92,8 +93,8 @@ const translations = {
 
 async function loadGeologyData() {
     const loadingMessage = document.getElementById('loading-message');
-    const startCustomBtn = document.getElementById('start-quiz-btn'); 
-    const dailyChallengeBtn = document.getElementById('daily-challenge-btn'); 
+    const startCustomBtn = document.getElementById('start-quiz-btn'); // Renamed for clarity
+    const dailyChallengeBtn = document.getElementById('daily-challenge-btn'); // Get daily challenge button
 
     try {
         if (loadingMessage) {
@@ -104,8 +105,7 @@ async function loadGeologyData() {
         if (startCustomBtn) startCustomBtn.disabled = true;
         if (dailyChallengeBtn) dailyChallengeBtn.disabled = true;
 
-        // **ملاحظة: هذا المسار './Question.json' يجب أن يكون صحيحاً**
-        const response = await fetch('./Question.json'); 
+        const response = await fetch('./Question.json');
 
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -132,7 +132,7 @@ function initializeUIElements(data) {
     const sidebarList = document.getElementById('sidebar-topics-list');
     const loadingMessage = document.getElementById('loading-message');
     const startCustomBtn = document.getElementById('start-quiz-btn');
-    const dailyChallengeBtn = document.getElementById('daily-challenge-btn'); 
+    const dailyChallengeBtn = document.getElementById('daily-challenge-btn'); // Get daily challenge button
     const topicsListContainer = document.getElementById('topics-list-container');
 
 
@@ -145,8 +145,7 @@ function initializeUIElements(data) {
         startCustomBtn.addEventListener('click', () => {
              // Hide hero buttons and show topic list
              if (startCustomBtn) startCustomBtn.classList.add('hidden');
-             // Hidden button container is not used in HTML structure, so hide parent div
-             if (dailyChallengeBtn) dailyChallengeBtn.parentElement.classList.add('hidden'); 
+             if (dailyChallengeBtn) dailyChallengeBtn.parentElement.classList.add('hidden'); // Hide daily challenge button container too
              if (topicsListContainer) topicsListContainer.classList.remove('hidden');
         });
     }
@@ -199,7 +198,7 @@ function initializeUIElements(data) {
 // [3] منطق الاختبار (بدء، عرض، إجابة، نتائج)
 // **=================================================**
 
-// ------ دالة خلط عشوائي للمصفوفة (Fisher-Yates) ------
+// ------ دالة خلط عشوائي للمصفوفة (Fisher-Yates) - جديدة ------
 function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -208,10 +207,12 @@ function shuffleArray(array) {
     return array;
 }
 
-// ------ دالة بدء التحدي اليومي ------
+// ------ دالة بدء التحدي اليومي - جديدة ------
 function startDailyChallenge() {
     const t = translations[currentLanguage];
     if (!geologicalData || Object.keys(geologicalData).length === 0) {
+        console.error("Geological data not loaded yet.");
+        // Maybe show a notification toast here
         showNotification("Data not ready, please wait."); // Example notification
         return;
     }
@@ -226,9 +227,9 @@ function startDailyChallenge() {
     const shuffledQuestions = shuffleArray(allQuestions);
     const dailyQuestions = shuffledQuestions.slice(0, DAILY_CHALLENGE_QUESTIONS);
 
-    if (dailyQuestions.length === 0) {
-         showNotification("No questions found to start the challenge.");
-         return;
+    if (dailyQuestions.length < DAILY_CHALLENGE_QUESTIONS) {
+        console.warn(`Not enough questions for daily challenge. Found ${dailyQuestions.length}`);
+        // Optionally show a message or proceed with fewer questions
     }
 
     // Start the quiz with the selected questions and specific title
@@ -251,7 +252,7 @@ function startQuiz(quizTitle, questions) { // Modified to accept title
     const quizScreen = document.getElementById('quiz-screen');
 
     if (topicSelection) topicSelection.classList.add('hidden');
-    if (topicsListContainer) topicsListContainer.classList.add('hidden'); 
+    if (topicsListContainer) topicsListContainer.classList.add('hidden'); // Hide topic list if visible
     if (resultsScreen) resultsScreen.classList.add('hidden');
 
     // Show quiz screen
@@ -273,7 +274,7 @@ function displayQuestion() {
     const submitBtn = document.getElementById('submit-btn');
     const nextBtn = document.getElementById('next-btn');
     const questionCounter = document.getElementById('question-counter');
-    const currentScoreDisplay = document.getElementById('current-score'); 
+    const currentScoreDisplay = document.getElementById('current-score'); // Added for score update
 
     if (currentQuestionIndex >= currentQuestions.length) {
         return showResults(); // End quiz if no more questions
@@ -284,7 +285,7 @@ function displayQuestion() {
 
     if (!currentQ) {
         console.error("Invalid question data at index:", currentQuestionIndex);
-        return showResults(); 
+        return showResults(); // Or handle error appropriately
     }
 
     startTimer(); // Start timer for the new question
@@ -293,7 +294,7 @@ function displayQuestion() {
     if (questionCounter) {
         questionCounter.innerHTML = `<i class="fas fa-list-ol"></i> ${t.question} ${currentQuestionIndex + 1} / ${currentQuestions.length}`;
     }
-     // Update current score display
+     // Update current score display - NEW
      if (currentScoreDisplay) {
          currentScoreDisplay.textContent = score;
      }
@@ -302,8 +303,9 @@ function displayQuestion() {
     let htmlContent = `<p class="question-text">${currentQ.question}</p>`;
     htmlContent += '<div class="options-container">';
 
-    const options = currentQ.options ? [...currentQ.options] : []; 
-    shuffleArray(options); // Shuffle options display order
+    // Ensure options exist and shuffle them if needed (optional)
+    const options = currentQ.options ? [...currentQ.options] : []; // Copy options
+    // shuffleArray(options); // Uncomment to shuffle options display order
 
     options.forEach((option, index) => {
         const optionId = `q${currentQuestionIndex}-opt${index}`;
@@ -339,150 +341,83 @@ function displayQuestion() {
      if (feedbackContainer) feedbackContainer.classList.add('hidden');
 }
 
-// **التصنت على الأزرار يتم هنا لضمان وجودها بعد تحميل DOM**
+// ------ معالجة الإجابة (Submit) ------
+const submitBtn = document.getElementById('submit-btn');
+if (submitBtn) {
+    submitBtn.addEventListener('click', () => {
+        clearInterval(timerInterval); // Stop timer immediately
 
-document.addEventListener('DOMContentLoaded', () => {
-    // ------ معالجة الإجابة (Submit) ------
-    const submitBtn = document.getElementById('submit-btn');
-    const nextBtn = document.getElementById('next-btn');
-    
-    if (submitBtn) {
-        submitBtn.addEventListener('click', () => {
-            clearInterval(timerInterval); // Stop timer immediately
+        const selectedOptionInput = document.querySelector('input[name="option"]:checked');
+        if (!selectedOptionInput) return; // Should not happen if button is enabled correctly
 
-            const selectedOptionInput = document.querySelector('input[name="option"]:checked');
-            if (!selectedOptionInput) return; 
+        const userAnswer = selectedOptionInput.value;
+        const currentQ = currentQuestions[currentQuestionIndex];
+        const correctAnswer = currentQ.answer;
+        const isCorrect = (userAnswer === correctAnswer);
 
-            const userAnswer = selectedOptionInput.value;
-            const currentQ = currentQuestions[currentQuestionIndex];
-            const correctAnswer = currentQ.answer;
-            const isCorrect = (userAnswer === correctAnswer);
+        // Update score
+        if (isCorrect) {
+            score += POINTS_CORRECT;
+        } else {
+            score += POINTS_WRONG;
+        }
 
-            // Update score
-            if (isCorrect) {
-                score += POINTS_CORRECT;
-            } else {
-                score += POINTS_WRONG;
+        // Store user answer details
+        userAnswers[currentQ.id || currentQuestionIndex] = {
+            question: currentQ.question,
+            userAnswer: userAnswer,
+            correctAnswer: correctAnswer,
+            isCorrect: isCorrect,
+        };
+
+        // Provide visual feedback on options
+        document.querySelectorAll('.option-label').forEach(label => {
+            const input = label.querySelector('input');
+            input.disabled = true; // Disable all options
+
+            if (input.value === correctAnswer) {
+                label.classList.add('correct'); // Highlight correct answer
+            } else if (input.checked && !isCorrect) {
+                label.classList.add('incorrect'); // Highlight wrong selected answer
             }
-
-            // Store user answer details
-            userAnswers[currentQ.id || currentQuestionIndex] = {
-                question: currentQ.question,
-                userAnswer: userAnswer,
-                correctAnswer: correctAnswer,
-                isCorrect: isCorrect,
-            };
-
-            // Provide visual feedback on options
-            document.querySelectorAll('.option-label').forEach(label => {
-                const input = label.querySelector('input');
-                input.disabled = true; // Disable all options
-
-                if (input.value === correctAnswer) {
-                    label.classList.add('correct'); // Highlight correct answer
-                } else if (input.checked && !isCorrect) {
-                    label.classList.add('incorrect'); // Highlight wrong selected answer
-                }
-            });
-
-             // Show feedback message 
-             const feedbackContainer = document.getElementById('feedback-container');
-             if (feedbackContainer) {
-                 feedbackContainer.textContent = isCorrect ? "إجابة صحيحة!" : `إجابة خاطئة. الصحيح: ${correctAnswer}`;
-                 feedbackContainer.className = `feedback-message ${isCorrect ? 'correct-feedback' : 'incorrect-feedback'}`; 
-                 feedbackContainer.classList.remove('hidden');
-             }
-
-            // Update score display immediately after answering
-             const currentScoreDisplay = document.getElementById('current-score');
-             if (currentScoreDisplay) {
-                 currentScoreDisplay.textContent = score;
-             }
-
-            // Toggle buttons
-            if (submitBtn) submitBtn.classList.add('hidden');
-            if (nextBtn) nextBtn.classList.remove('hidden');
         });
-    }
 
-    // ------ الانتقال للسؤال التالي (Next) ------
-    if (nextBtn) {
-        nextBtn.addEventListener('click', () => {
-            currentQuestionIndex++;
-            displayQuestion();
-        });
-    }
-    
-    // --- التحكم في القائمة الجانبية (تم نقله هنا) ---
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('overlay');
-    const openSidebarBtn = document.getElementById('open-sidebar-btn');
-    const closeSidebarBtn = document.getElementById('close-sidebar-btn');
-
-    if (openSidebarBtn && sidebar && overlay) {
-        openSidebarBtn.addEventListener('click', () => {
-            sidebar.classList.add('open');
-            overlay.style.display = 'block';
-        });
-    }
-
-    if (closeSidebarBtn && sidebar && overlay) {
-        closeSidebarBtn.addEventListener('click', () => {
-            sidebar.classList.remove('open');
-            overlay.style.display = 'none';
-        });
-    }
-     // Close sidebar if clicking overlay
-     if (overlay && sidebar) {
-          overlay.addEventListener('click', () => {
-               sidebar.classList.remove('open');
-               overlay.style.display = 'none';
-          });
-     }
-     
-     // --- Active users count update (تم نقله هنا) ---
-     const activeUsersCountElement = document.getElementById('active-users-count');
-     function updateActiveUsers() {
-         const randomCount = Math.floor(Math.random() * (35 - 7 + 1)) + 7; // Random between 7 and 35
-         if (activeUsersCountElement) {
-             activeUsersCountElement.textContent = randomCount;
+         // Show feedback message (optional, can be styled)
+         const feedbackContainer = document.getElementById('feedback-container');
+         if (feedbackContainer) {
+             feedbackContainer.textContent = isCorrect ? "إجابة صحيحة!" : `إجابة خاطئة. الصحيح: ${correctAnswer}`;
+             feedbackContainer.className = `feedback-message ${isCorrect ? 'correct-feedback' : 'incorrect-feedback'}`; // Use classes for styling
+             feedbackContainer.classList.remove('hidden');
          }
-     }
-     setInterval(updateActiveUsers, 5000); // Update every 5 seconds
-     updateActiveUsers(); // Initial update
-     
-     // --- زر تبديل السمة (تم نقله هنا) ---
-    const themeToggleBtn = document.getElementById('theme-toggle');
-    if (themeToggleBtn) {
-        themeToggleBtn.addEventListener('click', () => {
-            const body = document.body;
-            let currentTheme = body.getAttribute('data-theme');
-            const newTheme = (currentTheme === 'dark') ? 'light' : 'dark';
-            body.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-            themeToggleBtn.innerHTML = (newTheme === 'dark') ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
-        });
 
-        // Load saved theme on startup
-        const savedTheme = localStorage.getItem('theme') || 'dark'; // Default to dark
-        document.body.setAttribute('data-theme', savedTheme);
-        themeToggleBtn.innerHTML = (savedTheme === 'dark') ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
-    }
+        // Update score display immediately after answering
+         const currentScoreDisplay = document.getElementById('current-score');
+         if (currentScoreDisplay) {
+             currentScoreDisplay.textContent = score;
+         }
 
 
-    // --- تحميل بيانات الاختبار ---
-    loadGeologyData(); // Load data after DOM is ready
-});
+        // Toggle buttons
+        if (submitBtn) submitBtn.classList.add('hidden');
+        const nextBtn = document.getElementById('next-btn');
+        if (nextBtn) nextBtn.classList.remove('hidden');
+    });
+}
 
+// ------ الانتقال للسؤال التالي (Next) ------
+const nextBtn = document.getElementById('next-btn');
+if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+        currentQuestionIndex++;
+        displayQuestion();
+    });
+}
 
 // ------ التعامل مع انتهاء الوقت ------
 function handleTimeout() {
     clearInterval(timerInterval);
     const currentQ = currentQuestions[currentQuestionIndex];
     const t = translations[currentLanguage];
-    const submitBtn = document.getElementById('submit-btn'); // Get inside function for certainty
-    const nextBtn = document.getElementById('next-btn'); // Get inside function for certainty
-
 
     // Penalize score for timeout
     score += POINTS_WRONG;
@@ -522,8 +457,16 @@ function handleTimeout() {
      }
 
     // Toggle buttons
+    const submitBtn = document.getElementById('submit-btn');
     if (submitBtn) submitBtn.classList.add('hidden');
+    const nextBtn = document.getElementById('next-btn');
     if (nextBtn) nextBtn.classList.remove('hidden');
+
+    // Optional: Auto-advance after a short delay
+    // setTimeout(() => {
+    //     currentQuestionIndex++;
+    //     displayQuestion();
+    // }, 2000); // Wait 2 seconds before moving on
 }
 
 
@@ -590,14 +533,13 @@ function showResults() {
 
     // Display review of errors
     if (reviewArea) {
-        reviewArea.innerHTML = `<h3><i class="fas fa-bug"></i> ${t.review_errors}</h3><div id="review-content"></div>`; 
-        const reviewContent = document.getElementById('review-content');
+        reviewArea.innerHTML = `<h3><i class="fas fa-bug"></i> ${t.review_errors}</h3>`; // Add icon back
         let errorsFound = false;
 
         Object.values(userAnswers).forEach(answer => {
             if (!answer.isCorrect) {
                 errorsFound = true;
-                reviewContent.innerHTML += `
+                reviewArea.innerHTML += `
                     <div class="review-item">
                         <p class="error-q">${answer.question}</p>
                         <p class="error-a">${t.your_answer} <span class="wrong">${answer.userAnswer}</span></p>
@@ -608,7 +550,7 @@ function showResults() {
         });
 
         if (!errorsFound) {
-            reviewContent.innerHTML += `<p class="all-correct">${t.all_correct_message}</p>`;
+            reviewArea.innerHTML += `<p class="all-correct">${t.all_correct_message}</p>`;
         }
     }
 }
@@ -621,8 +563,8 @@ function showResults() {
 function startTimer() {
     clearInterval(timerInterval); // Clear any existing timer
     let timeRemaining = TIME_LIMIT;
-    const timerValueElement = document.querySelector('#timer-display .timer-value'); 
-    const timerUnitElement = document.querySelector('#timer-display .timer-unit'); 
+    const timerValueElement = document.querySelector('#timer-display .timer-value'); // Target only the number span
+    const timerUnitElement = document.querySelector('#timer-display .timer-unit'); // Target unit span if needed for language
     const progressBar = document.getElementById('progress-bar-fill');
     const t = translations[currentLanguage];
 
@@ -662,7 +604,7 @@ function startTimer() {
 
 function translateUI(langCode) {
     currentLanguage = langCode;
-    const t = translations[langCode] || translations['ar']; 
+    const t = translations[langCode] || translations['ar']; // Fallback to Arabic
 
     document.documentElement.lang = langCode; // Set page language
     document.documentElement.dir = (langCode === 'ar') ? 'rtl' : 'ltr'; // Set page direction
@@ -673,44 +615,49 @@ function translateUI(langCode) {
         if (element) element.textContent = t[key];
     };
     // Helper function to update innerHTML if element exists
-     const updateHTML = (selector, key) => {
+     const updateHTML = (selector, key, iconClass = '') => {
         const element = document.querySelector(selector);
         if (element) {
-             const iconSpan = element.querySelector('.btn-icon');
-             const textSpan = element.querySelector('.btn-text');
-             
-             if (textSpan) { // Update button text part
-                  textSpan.textContent = t[key];
-             } else { // Simpler update for non-buttons
-                  element.textContent = t[key]; 
+             const iconHTML = iconClass ? `<span class="btn-icon"><i class="${iconClass}"></i></span>` : '';
+             // Check if it needs icon structure
+             if (element.classList.contains('control-btn')) {
+                  element.innerHTML = `${iconHTML}<span class="btn-text">${t[key]}</span>${element.querySelector('.btn-glow') ? '<span class="btn-glow"></span>' : ''}`;
+             } else {
+                  element.innerHTML = t[key] + (iconHTML ? ` ${iconHTML}` : ''); // Simpler update for non-buttons
              }
         }
     };
 
     // Update various elements using helpers
-    updateHTML('#start-quiz-btn', 'start_custom_quiz'); 
-    updateHTML('#daily-challenge-btn', 'daily_challenge_button'); 
+    updateHTML('#start-quiz-btn .btn-text', 'start_custom_quiz'); // Update only text part
+    updateHTML('#daily-challenge-btn .btn-text', 'daily_challenge_button'); // Update only text part
     updateText('#topics-list-container h3', 'choose_domain');
 
     // Update elements within the quiz screen only if it's active
-    const quizScreen = document.getElementById('quiz-screen');
-    if (quizScreen && !quizScreen.classList.contains('hidden')) {
-        updateHTML('#submit-btn', 'submit');
-        updateHTML('#next-btn', 'next');
+    if (!document.getElementById('quiz-screen').classList.contains('hidden')) {
+        updateText('#quiz-title', 'quiz_title_prefix'); // Update prefix, actual title set in startQuiz
+        updateHTML('#submit-btn .btn-text', 'submit');
+        updateHTML('#next-btn .btn-text', 'next');
         const timerUnitElement = document.querySelector('#timer-display .timer-unit');
          if (timerUnitElement) timerUnitElement.textContent = t.timer_text;
           const questionCounterElement = document.getElementById('question-counter');
-        if (questionCounterElement && currentQuestions.length > 0) {
+        if (questionCounterElement) {
             // Reconstruct the counter text
             questionCounterElement.innerHTML = `<i class="fas fa-list-ol"></i> ${t.question} ${currentQuestionIndex + 1} / ${currentQuestions.length}`;
         }
     }
 
      // Update elements within the results screen only if it's active
-     const resultsScreen = document.getElementById('results-screen');
-     if (resultsScreen && !resultsScreen.classList.contains('hidden')) {
-        updateHTML('#results-screen button[onclick*="reload"]', 'new_quiz');
-        
+     if (!document.getElementById('results-screen').classList.contains('hidden')) {
+        updateHTML('#results-screen button[onclick*="reload"] .btn-text', 'new_quiz');
+        // Re-evaluate grade message based on current percentage/score if needed
+         const gradeMessageElement = document.getElementById('grade-message');
+         if (gradeMessageElement) {
+             // Re-apply logic based on score or recalculate percentage if necessary
+             // This might require storing the percentage or score globally accessible here
+             // For now, just re-fetching based on existing content might be tricky.
+             // It's better to update it fully when showResults is called after language change.
+         }
          const reviewTitle = document.querySelector('#review-area h3');
          if (reviewTitle) reviewTitle.innerHTML = `<i class="fas fa-bug"></i> ${t.review_errors}`;
 
@@ -733,17 +680,39 @@ function translateUI(langCode) {
     }
 
 
+    // Update sidebar topic links if needed (textContent usually sufficient)
     // Update active user title attribute
      const activeUsersIndicator = document.querySelector('.active-users-indicator');
      if (activeUsersIndicator) activeUsersIndicator.title = t.active_users_title;
-     
-     // Trigger UI element re-initialization that depends on language (like topic names)
-     // NOTE: Topic names are not translated, only display names are generated from keys
+
+    // Update language selector visually (optional)
+    const langSelect = document.getElementById('lang-select');
+    if (langSelect) langSelect.value = langCode;
 }
 
 
 function changeLanguage(langCode) {
     translateUI(langCode);
+    // Optionally: re-render dynamic content like topic list names if they need translation
+    // initializeTopicSelection(geologicalData); // This might re-add listeners, be careful
+}
+
+// ------ تبديل السمة ------
+const themeToggleBtn = document.getElementById('theme-toggle');
+if (themeToggleBtn) {
+    themeToggleBtn.addEventListener('click', () => {
+        const body = document.body;
+        let currentTheme = body.getAttribute('data-theme');
+        const newTheme = (currentTheme === 'dark') ? 'light' : 'dark';
+        body.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        themeToggleBtn.innerHTML = (newTheme === 'dark') ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+    });
+
+    // Load saved theme on startup
+    const savedTheme = localStorage.getItem('theme') || 'dark'; // Default to dark
+    document.body.setAttribute('data-theme', savedTheme);
+    themeToggleBtn.innerHTML = (savedTheme === 'dark') ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
 }
 
 // ------ إظهار إشعار مؤقت (Toast) ------
@@ -764,6 +733,64 @@ function showNotification(message, duration = 3000) {
         }, 500); // Match this duration to CSS transition if any
     }, duration);
 }
+
+
+// **=================================================**
+// [5] تشغيل الكود عند تحميل الصفحة
+// **=================================================**
+
+document.addEventListener('DOMContentLoaded', () => {
+    // --- التحكم في القائمة الجانبية ---
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+    const openSidebarBtn = document.getElementById('open-sidebar-btn');
+    const closeSidebarBtn = document.getElementById('close-sidebar-btn');
+
+    if (openSidebarBtn && sidebar && overlay) {
+        openSidebarBtn.addEventListener('click', () => {
+            sidebar.classList.add('open');
+            overlay.style.display = 'block';
+        });
+    }
+
+    if (closeSidebarBtn && sidebar && overlay) {
+        closeSidebarBtn.addEventListener('click', () => {
+            sidebar.classList.remove('open');
+            overlay.style.display = 'none';
+        });
+    }
+     // Close sidebar if clicking overlay
+     if (overlay && sidebar) {
+          overlay.addEventListener('click', () => {
+               sidebar.classList.remove('open');
+               overlay.style.display = 'none';
+          });
+     }
+
+
+    // --- زر إعادة تشغيل النظام ---
+    // Moved event listener addition inside DOMContentLoaded for safety
+    const restartBtn = document.querySelector('#results-screen button[onclick*="reload"]');
+    if (restartBtn) {
+         // The onclick attribute handles the reload, but we could add more complex logic here if needed.
+         // Example: restartBtn.addEventListener('click', () => { /* custom logic */ window.location.reload(); });
+    }
+
+     // --- Active users count update ---
+     const activeUsersCountElement = document.getElementById('active-users-count');
+     function updateActiveUsers() {
+         const randomCount = Math.floor(Math.random() * (35 - 7 + 1)) + 7; // Random between 7 and 35
+         if (activeUsersCountElement) {
+             activeUsersCountElement.textContent = randomCount;
+         }
+     }
+     setInterval(updateActiveUsers, 5000); // Update every 5 seconds
+     updateActiveUsers(); // Initial update
+
+
+    // --- تحميل بيانات الاختبار ---
+    loadGeologyData(); // Load data after DOM is ready
+});
 
 // Load initial language (could be from storage or default)
 translateUI(currentLanguage);
