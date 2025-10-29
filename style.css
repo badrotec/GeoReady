@@ -490,6 +490,8 @@ body {
 .screen.active {
     flex-grow: 1; /* الشاشة النشطة تملأ المساحة المتاحة */
     width: 100%;
+    display: flex; /* !! جعل الشاشات النشطة flex أيضاً */
+    flex-direction: column;
 }
 
 /* Hero Section */
@@ -708,7 +710,7 @@ body {
 }
 
 #quiz-screen {
-    /* [الحل 1] تعديل لمنع تمرير الصفحة بالكامل */
+    /* [الحل 1] */
     display: flex;
     flex-direction: column;
     padding-bottom: 20px;
@@ -744,40 +746,36 @@ body {
     padding-bottom: 10px;
     border-bottom: none;
     box-shadow: none;
-    position: static; /* تأكيد إلغاء sticky */
+    position: static;
 }
 
 .quiz-header-status h2 {
-    margin: 0 0 15px 0; /* تقليل الهامش */
+    margin: 0 0 15px 0;
     font-size: 1.5em;
+    text-align: center; /* توسيط العنوان */
 }
 
-/* --- تعديل 5: تعديل تخطيط شريط المعلومات بعد إزالة المؤقت منه --- */
+/* --- تعديل 5: تعديل تخطيط شريط المعلومات --- */
 .quiz-meta {
     display: flex;
-    justify-content: space-around; /* توزيع المسافة بين العنصرين المتبقيين */
+    justify-content: space-around; /* توزيع المسافة */
     align-items: center;
     flex-wrap: wrap;
     gap: 15px;
-    margin-bottom: 10px; /* تقليل الهامش السفلي */
+    margin-bottom: 10px;
 }
 
-/* --- تعديل 2: نقل المؤقت إلى الزاوية --- */
+/* --- تعديل 2: إعادة المؤقت لمكانه الأصلي ضمن quiz-meta --- */
 #timer-display {
-    position: absolute;
-    top: 20px;  /* زيادة المسافة من الأعلى */
-    left: 20px; /* زيادة المسافة من اليسار (ستظهر يمين بسبب RTL) */
-    z-index: 5;
-
-    /* تصغير حجم المؤقت */
-    font-size: 1.1em;
-    padding: 5px 10px;
-    box-shadow: none;
-    animation: none;
-    border-width: 1px;
+    position: static; /* إرجاع للوضع الطبيعي */
+    font-size: 1.6em; /* إرجاع الحجم الأصلي */
+    padding: 10px 20px;
+    box-shadow: var(--shadow-neon-blue);
+    animation: pulseGlow 2s ease-in-out infinite;
+    border-width: 2px;
 }
-#timer-display .timer-value { font-size: 1em; }
-#timer-display .timer-unit { font-size: 0.7em; }
+#timer-display .timer-value { font-size: 1.2em; }
+#timer-display .timer-unit { font-size: 0.8em; }
 
 
 .counter-badge,
@@ -800,86 +798,57 @@ body {
 
 /* --- إخفاء شريط التقدم --- */
 #progress-bar-container {
-    display: none; /* إخفاء العنصر */
-}
-
-#progress-bar-fill {
-    height: 100%;
-    width: 100%;
-    background: linear-gradient(90deg, var(--neon-blue), var(--neon-cyan));
-    border-radius: 10px;
-    transition: width 0.1s linear;
-    position: relative;
-    box-shadow: 0 0 15px var(--neon-blue);
-}
-
-.progress-glow {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-    animation: progressShine 2s infinite;
-}
-
-@keyframes progressShine {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(100%); }
+    display: none;
 }
 
 /* --- تعديل 1 و 5: تعديل حاوية السؤال --- */
 #question-container.data-module {
-    /* [الحل 1] النمو والتمرير الداخلي */
+    /* [الحل 1] */
     flex-grow: 1;
     overflow-y: auto;
     margin-bottom: 15px;
-
-    /* تعديل 1: لتحديد موقع المؤقت */
-    position: relative;
-    padding-top: 30px; /* زيادة الحشو العلوي أكثر */
 
     /* تعديل 5: للالتصاق البصري */
     border-top: 2px solid var(--neon-blue);
     border-top-left-radius: 0;
     border-top-right-radius: 0;
-    padding: 15px; /* إعادة الحشو الأساسي */
+    padding: 25px; /* تعديل الحشو */
+    position: static; /* التأكد من عدم وجود position: relative */
 }
 
-
-/* --- تعديل 3: إضافة حشو لنص السؤال --- */
+/* --- تعديل 3: إزالة الحشو الإضافي من نص السؤال --- */
 .question-text {
     font-size: 1.5em;
     padding: 25px;
-    margin-bottom: 30px;
+    margin-bottom: 20px; /* تقليل الهامش قليلاً */
     background: linear-gradient(135deg, rgba(0, 217, 255, 0.05), rgba(176, 38, 255, 0.05));
     border-radius: 15px;
     border-right: 5px solid var(--neon-cyan);
     color: var(--text-main);
-    line-height: 1.8;
+    line-height: 1.7; /* تعديل طفيف */
     box-shadow: inset 0 0 20px rgba(0, 217, 255, 0.1);
-
-    /* تجنب تداخل النص مع المؤقت */
-    padding-left: 110px; /* زيادة الحشو الأيسر أكثر (الأيمن بسبب RTL) */
+    padding-left: 25px; /* إرجاع الحشو الأصلي */
 }
 
+/* --- تعديل 4: تغيير تخطيط الخيارات إلى شبكة 2x2 --- */
 .options-container {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* عمودان متساويان */
+    gap: 10px; /* تقليل المسافة بين الخيارات */
 }
 
+/* تعديل حشو الخيارات في الشبكة */
 .option-label {
     background: var(--bg-card);
     border: 2px solid var(--neon-blue);
     border-radius: 15px;
-    padding: 20px;
-    font-size: 1.2em;
+    padding: 15px; /* تقليل الحشو قليلاً */
+    font-size: 1.1em; /* يمكن تصغير الخط قليلاً إذا لزم الأمر */
     cursor: pointer;
     transition: var(--transition-smooth);
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 10px; /* تقليل المسافة الداخلية */
     position: relative;
     overflow: hidden;
 }
@@ -906,10 +875,11 @@ body {
 }
 
 .option-label input[type="radio"] {
-    width: 24px;
-    height: 24px;
+    width: 20px; /* تصغير حجم الراديو */
+    height: 20px;
     cursor: pointer;
     accent-color: var(--neon-blue);
+    flex-shrink: 0; /* منع زر الراديو من الانكماش */
 }
 
 .option-label .option-text {
@@ -943,32 +913,12 @@ body {
 
 /* --- إخفاء رسالة الإجابة --- */
 .feedback-message {
-    display: none; /* إخفاء العنصر بالكامل */
-    /* التنسيقات القديمة (يمكن إزالتها إذا أردت)
-    margin-top: 25px;
-    padding: 20px;
-    border-radius: 15px;
-    font-size: 1.1em;
-    font-weight: 600;
-    text-align: center;
-    animation: fadeInUp 0.5s ease-out; */
-}
-
-.feedback-message.correct-feedback {
-    background: linear-gradient(135deg, rgba(0, 255, 136, 0.2), rgba(0, 255, 136, 0.1));
-    border: 2px solid var(--correct-color);
-    color: var(--correct-color);
-}
-
-.feedback-message.incorrect-feedback {
-    background: linear-gradient(135deg, rgba(255, 51, 102, 0.2), rgba(255, 51, 102, 0.1));
-    border: 2px solid var(--incorrect-color);
-    color: var(--incorrect-color);
+    display: none;
 }
 
 /* --- تعديل 4: جعل الأزرار بجانب بعض --- */
 .controls-bar {
-    /* [الحل 1] عدم الانكماش */
+    /* [الحل 1] */
     flex-shrink: 0;
 
     /* جعل الأزرار أفقية */
@@ -980,19 +930,16 @@ body {
 
     /* إزالة التنسيقات العمودية السابقة */
     margin-top: 0;
-    padding-top: 15px; /* إعادة الحشو العلوي للفصل */
-    border-top: 1px solid var(--text-secondary); /* إبقاء الخط العلوي */
+    padding-top: 15px;
+    border-top: 1px solid var(--text-secondary);
 }
 
 /* تعديل حجم الأزرار في الوضع الأفقي */
 .controls-bar .control-btn {
-     /* الأزرار تأخذ الحجم الطبيعي للمحتوى */
-     /* يمكن إلغاء تحديد العرض إذا كان موجوداً */
      width: auto;
-     flex-grow: 1; /* جعل الأزرار تتمدد لتملأ المساحة */
-     max-width: 48%; /* لضمان وجود مسافة بينهما */
+     flex-grow: 1;
+     max-width: 48%;
 }
-/* زر التخطي يأخذ مساحة أقل إذا لزم الأمر */
 .controls-bar #skip-btn {
     flex-grow: 0.5;
 }
@@ -1325,3 +1272,462 @@ body {
     gap: 10px;
     margin-bottom: 25px;
     font-size: 1.5em;
+    color: var(--neon-accent);
+}
+
+.review-item {
+    background: var(--bg-card);
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    border-right: 5px solid var(--incorrect-color);
+    animation: slideInRight 0.5s ease-out;
+}
+
+.error-q {
+    font-size: 1.2em;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: var(--neon-cyan);
+    padding-bottom: 10px;
+    border-bottom: 1px dashed var(--neon-purple);
+}
+
+.error-a {
+    margin: 10px 0;
+    font-size: 1.05em;
+}
+
+.wrong {
+    color: var(--incorrect-color);
+    font-weight: 700;
+    padding: 5px 10px;
+    background: rgba(255, 51, 102, 0.2);
+    border-radius: 8px;
+}
+
+.right {
+    color: var(--correct-color);
+    font-weight: 700;
+    padding: 5px 10px;
+    background: rgba(0, 255, 136, 0.2);
+    border-radius: 8px;
+}
+
+.all-correct {
+    text-align: center;
+    font-size: 1.5em;
+    color: var(--correct-color);
+    padding: 40px 20px;
+}
+
+.action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 40px;
+}
+
+/* =======================================================
+   9. Footer
+   ======================================================= */
+.app-footer {
+    text-align: center;
+    padding: 30px 20px;
+    background: var(--bg-module);
+    border-top: 2px solid var(--neon-blue);
+    /* margin-top: 60px; Removed margin-top to place total trainees above */
+    color: var(--text-secondary);
+    position: relative; /* Ensure it stays below */
+    z-index: 5; /* Lower z-index */
+}
+
+.app-footer i {
+    color: var(--neon-pink);
+    animation: heartbeat 1.5s ease-in-out infinite;
+}
+
+@keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    25% { transform: scale(1.2); }
+    50% { transform: scale(1); }
+}
+
+/* =======================================================
+   10. Notification Toast
+   ======================================================= */
+.notification-toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+    color: white;
+    padding: 15px 30px;
+    border-radius: 50px;
+    box-shadow: 0 10px 40px rgba(0, 217, 255, 0.6);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    z-index: 3000;
+    transition: var(--transition-smooth);
+}
+
+.notification-toast.show {
+    transform: translateX(-50%) translateY(0);
+}
+
+.notification-toast i {
+    font-size: 1.5em;
+}
+
+/* =======================================================
+   11. Responsive Design (Desktop)
+   ======================================================= */
+@media (min-width: 768px) {
+    :root {
+        --sidebar-width: 350px;
+    }
+
+    #app-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 40px 30px;
+    }
+
+    .app-title {
+        font-size: 2.2em;
+    }
+
+    .user-status {
+        display: flex; /* Show user status on larger screens */
+    }
+
+    .list-container {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+    }
+
+    .topic-card {
+        padding: 40px 30px;
+    }
+
+    .controls-bar {
+        flex-direction: row;
+        justify-content: flex-end; /* إرجاع الأزرار لليمين على الشاشات الكبيرة */
+    }
+
+    .control-btn {
+        width: auto;
+        padding: 18px 40px;
+        flex-grow: 0; /* إلغاء التمدد على الشاشات الكبيرة */
+        max-width: none;
+    }
+     .controls-bar #skip-btn {
+        flex-grow: 0; /* إلغاء التمدد على الشاشات الكبيرة */
+    }
+
+    .quiz-meta {
+        justify-content: space-around;
+    }
+
+    .results-grid {
+        grid-template-columns: 1fr 1.5fr;
+    }
+
+    .stats-breakdown {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .action-buttons {
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    .section-title {
+        font-size: 2.5em;
+    }
+
+    .question-text {
+        font-size: 1.7em;
+        padding-left: 25px; /* إرجاع الحشو الأصلي على الشاشات الكبيرة */
+    }
+
+    .hero-image {
+        max-width: 60%; /* Adjust image size on larger screens */
+    }
+
+    /* إرجاع الحشو العلوي لحاوية السؤال */
+     #question-container.data-module {
+         padding-top: 35px;
+         border-top: 2px solid var(--neon-blue); /* إرجاع الحدود الأصلية */
+         border-top-left-radius: 20px;
+         border-top-right-radius: 20px;
+         padding: 35px 25px; /* إرجاع الحشو الأصلي */
+     }
+     /* إرجاع الهامش الأصلي */
+     .quiz-header-status {
+         margin-bottom: 0; /* الإبقاء على الالتصاق */
+         padding-bottom: 15px;
+     }
+     /* إعادة الخيارات لعمود واحد على الشاشات الكبيرة */
+    .options-container {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    .option-label {
+        padding: 20px;
+        font-size: 1.2em;
+    }
+     .option-label input[type="radio"] {
+        width: 24px;
+        height: 24px;
+    }
+
+
+}
+
+@media (min-width: 1200px) {
+    #app-container {
+        max-width: 1400px;
+    }
+
+    .list-container {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* =======================================================
+   12. Accessibility & Print Styles
+   ======================================================= */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+@media print {
+    #particles-canvas,
+    .cyber-grid,
+    #sidebar,
+    #overlay,
+    .main-header,
+    .controls-bar,
+    .app-footer,
+    .total-trainees-section { /* Hide new section in print */
+        display: none !important;
+    }
+
+    body {
+        background: white;
+        color: black;
+    }
+}
+
+/*
+=============================
+ تنسيقات قسم الموارد التعليمية
+=============================
+*/
+.sidebar-links-section {
+    padding: 0 15px;
+    margin: 20px 0;
+    border-top: 1px solid var(--border-color, #444); /* خط فاصل */
+    padding-top: 20px;
+}
+
+.sidebar-section-title {
+    font-size: 0.9rem;
+    color: var(--text-muted, #aaa);
+    text-transform: uppercase;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px; /* مسافة بين الأيقونة والنص */
+}
+
+.sidebar-link-item {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    color: var(--text-primary, #eee);
+    text-decoration: none;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    gap: 10px; /* مسافة بين الأيقونة والنص */
+    border: 1px solid transparent;
+}
+
+.sidebar-link-item i {
+    color: var(--neon-blue, #00c6ff);
+    transition: all 0.3s ease;
+}
+
+.sidebar-link-item:hover {
+    background-color: var(--primary-hover-bg, #2a2a3a);
+    color: var(--neon-glow, #fff);
+    border-color: var(--neon-blue, #00c6ff);
+    transform: translateX(5px);
+    box-shadow: 0 0 10px var(--neon-blue-shadow, #00c6ff4d);
+}
+
+.sidebar-link-item:hover i {
+    color: var(--neon-glow, #fff);
+}
+
+/*
+=============================
+ تنسيقات العناصر الجديدة
+=============================
+*/
+
+/* تنسيق قسم إجمالي المتدربين */
+.total-trainees-section {
+    text-align: center;
+    padding: 25px 20px;
+    background: var(--bg-module);
+    border-top: 2px solid var(--neon-purple);
+    border-bottom: 2px solid var(--neon-purple); /* Added bottom border */
+    margin: 40px 0 0 0; /* Space above, remove bottom margin */
+    color: var(--neon-cyan);
+    font-size: 1.2em;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    position: relative; /* Needed for z-index */
+    z-index: 10; /* Ensure it's above grid/particles */
+}
+
+.total-trainees-section .trainee-count {
+    font-size: 1.5em;
+    font-weight: 900;
+    color: var(--neon-pink);
+    text-shadow: 0 0 10px var(--neon-pink);
+}
+
+/* تعديل تنسيق الفوتر ليكون أسفل القسم الجديد */
+.app-footer {
+    margin-top: 0; /* Remove top margin as total trainees section provides space */
+    border-top: none; /* Remove top border as total trainees section has bottom border */
+    padding-top: 20px; /* Adjust padding if needed */
+}
+
+/* تعديل تنسيق زر التحدي اليومي */
+#daily-challenge-btn.secondary {
+    /* Uses existing .secondary styles */
+    /* Add specific overrides if needed */
+    font-size: 1.2em; /* Slightly smaller than main button */
+    padding: 18px 35px; /* Adjust padding */
+}
+
+/* --- [الحл 2 + تعديلات جديدة] كود "الضغط" للشاشات القصيرة جداً --- */
+/* (مع تعديلات التخطيط الجديدة) */
+@media (max-width: 767px) {
+
+    /* 1. إزالة التمرير الداخلي من حاوية السؤال والسماح لها بالانكماش */
+    #question-container.data-module {
+        flex-grow: 0;
+        overflow-y: visible;
+        padding: 15px;
+        padding-top: 15px; /* إرجاع الحشو العلوي العادي */
+        margin-bottom: 10px;
+        position: static; /* إلغاء relative هنا */
+        border-top-left-radius: 15px; /* إرجاع الزوايا الدائرية */
+        border-top-right-radius: 15px;
+    }
+
+    /* 2. تقليل هوامش رأس الاختبار */
+    .quiz-header-status {
+        margin-bottom: 15px; /* إرجاع الهامش للفصل */
+        padding-bottom: 10px;
+    }
+
+    .quiz-header-status h2 {
+        margin-bottom: 10px;
+        font-size: 1.2em;
+    }
+
+    .quiz-meta {
+        margin-bottom: 10px;
+        gap: 8px;
+        justify-content: space-between; /* تعديل التوزيع */
+    }
+
+    /* 3. تصغير عناصر الـ meta */
+    .counter-badge, .score-badge, #timer-display {
+        font-size: 0.8em;
+        padding: 4px 8px;
+    }
+    /* إرجاع المؤقت لمكانه الأصلي وتصغيره */
+    #timer-display {
+        position: static;
+        box-shadow: none;
+        animation: none;
+        border-width: 1px;
+    }
+     #timer-display .timer-value { font-size: 0.9em; }
+     #timer-display .timer-unit { font-size: 0.6em; }
+
+    /* 4. تصغير خط السؤال وإلغاء الحشو الإضافي */
+    .question-text {
+        font-size: 1.1em;
+        padding: 10px;
+        margin-bottom: 10px;
+        line-height: 1.5;
+        padding-left: 10px; /* إلغاء الحشو الإضافي */
+    }
+
+    /* 5. تصغير الخيارات (تبقى 2x2) */
+    .options-container { gap: 6px; }
+    .option-label {
+        font-size: 0.85em;
+        padding: 8px 10px;
+    }
+     .option-label input[type="radio"] {
+        width: 16px;
+        height: 16px;
+    }
+
+    /* 6. تعديل الأزرار لتناسب الوضع الأفقي المصغر */
+    .controls-bar {
+        margin-top: 10px;
+        gap: 8px;
+        padding-top: 10px;
+        border-top: 1px solid var(--text-secondary);
+    }
+
+    .control-btn {
+        font-size: 0.85em; /* تصغير أكثر */
+        padding: 8px 10px; /* تقليل الحشو أكثر */
+         max-width: 49%;
+    }
+
+    /* 7. إخفاء رسالة الإجابة (تأكيد) */
+    #feedback-container {
+        display: none;
+    }
+
+    /* 8. تعديل استجابة الصورة الأصلية */
+    .hero-image { max-width: 90%; }
+    .daily-challenge-section { margin-top: 25px; }
+    #start-quiz-btn { margin-top: 15px; }
+    .active-users-indicator {
+        font-size: 0.8em;
+        padding: 4px 8px;
+        gap: 4px;
+    }
+    .active-dot {
+        width: 8px;
+        height: 8px;
+    }
+}
