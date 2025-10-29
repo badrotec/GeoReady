@@ -255,23 +255,24 @@ body {
 /* منطقة السؤال والخيارات */
 #question-container {
     flex-grow: 1; 
-    overflow-y: auto; 
+    /* إزالة التمرير العمودي ليتسع المحتوى داخل المساحة المتاحة */
+    overflow-y: hidden; 
     margin-bottom: 15px; 
     padding: 20px; 
     background: linear-gradient(145deg, var(--bg-module) 0%, var(--bg-card) 100%);
     border: 1px solid var(--neon-purple); 
     border-radius: 15px; 
     min-height: 0; 
+    /* استخدام Flexbox لتوزيع محتويات السؤال */
+    display: flex;
+    flex-direction: column;
 }
 
-/* شريط التمرير الداخلي (لـ #question-container) */
-#question-container::-webkit-scrollbar { width: 8px; }
-#question-container::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); border-radius: 4px; }
-#question-container::-webkit-scrollbar-thumb { background: var(--neon-blue); border-radius: 4px; }
-#question-container::-webkit-scrollbar-thumb:hover { background: var(--neon-cyan); }
+/* شريط التمرير الداخلي (تم إزالته من #question-container) */
 
 
 .question-text {
+    flex-shrink: 0; /* منع انكماش النص */
     font-size: 1.3em; 
     padding: 15px 20px; 
     margin-bottom: 20px; 
@@ -281,12 +282,19 @@ body {
     line-height: 1.6; 
     box-shadow: inset 0 0 10px rgba(0, 217, 255, 0.1);
     background: rgba(0, 217, 255, 0.03); 
+    /* ضمان ألا يتعدى ارتفاعه حداً معيناً في حال النصوص الطويلة جدًا */
+    max-height: 40%; /* تخصيص نسبة تقريبية لارتفاع السؤال */
+    overflow-y: auto; /* إضافة تمرير فقط لنص السؤال إذا كان طويلاً جداً */
 }
 
+/* 🔄 التعديل المطلوب: شبكة 2x2 للخيارات */
 .options-container {
+    flex-grow: 1; /* السماح للحاوية بأخذ المساحة المتبقية */
     display: grid;
-    grid-template-columns: 1fr; 
+    /* تخطيط 2x2: عمودين متساويين */
+    grid-template-columns: repeat(2, 1fr); 
     gap: 12px; 
+    overflow-y: hidden; /* منع التمرير في حاوية الخيارات نفسها */
 }
 
 .option-label {
@@ -302,11 +310,27 @@ body {
     gap: 12px; 
     position: relative;
     overflow: hidden;
+    /* التعديلات لضمان التوافق مع 2x2 */
+    height: 100%; /* يجب أن يأخذ الخيار الارتفاع الكامل لمساحته */
+    justify-content: center; /* توسيط المحتوى داخله */
+    text-align: center;
+    flex-direction: column; /* ترتيب العناصر بشكل عمودي لتوفير مساحة أفقية أكبر للنص */
+}
+.option-label .option-text {
+     flex: none; /* إزالة flex-grow */
+}
+.option-label input[type="radio"] { 
+    width: 18px; 
+    height: 18px; 
+    cursor: pointer; 
+    accent-color: var(--neon-cyan); 
+    flex-shrink: 0; 
+    margin-bottom: 5px; /* مسافة بين الراديو والنص */
 }
 
 .option-label:hover {
     border-color: var(--neon-cyan);
-    transform: translateX(-3px); 
+    transform: translateY(-3px); 
     box-shadow: var(--shadow-neon-blue);
 }
 
@@ -321,7 +345,6 @@ body {
     color: var(--neon-cyan); 
     font-weight: 600; 
 }
-.option-label input[type="radio"] { width: 18px; height: 18px; cursor: pointer; accent-color: var(--neon-cyan); flex-shrink: 0; }
 
 /* حالات التصحيح */
 .option-label.correct { background: rgba(0, 255, 136, 0.1); border-color: var(--correct-color); color: var(--correct-color); box-shadow: 0 0 15px rgba(0, 255, 136, 0.6); animation: correctPulse 0.5s; }
@@ -485,6 +508,29 @@ body {
         flex-grow: 0; 
         max-width: none;
     }
+    
+    /* 🔄 التعديل المطلوب على الشاشات الكبيرة: 2x2 */
+    .options-container {
+        grid-template-columns: repeat(2, 1fr); 
+        gap: 15px;
+    }
+    .option-label {
+        padding: 18px 20px; 
+        font-size: 1.1em; 
+        flex-direction: column; /* تبقى عمودية */
+    }
+     .option-label input[type="radio"] {
+        width: 22px; 
+        height: 22px;
+    }
+     .question-text {
+         font-size: 1.5em; 
+         padding: 25px;
+     }
+
+     #timer-display { font-size: 1.4em; padding: 8px 16px; }
+     .counter-badge, .score-badge { font-size: 1em; padding: 8px 16px; }
+     .small-btn { font-size: 1em !important; padding: 8px 12px !important;}
 }
 
 @media (min-width: 1200px) {
@@ -511,7 +557,15 @@ body {
 
      #question-container { padding: 10px; margin-bottom: 10px; }
      .question-text { font-size: 1em; padding: 10px; margin-bottom: 10px; }
-     .option-label { font-size: 0.8em; padding: 8px 10px; gap: 8px; }
+     
+     /* 🔄 التعديل المطلوب على الشاشات الصغيرة: 2x2 */
+     .options-container { 
+        grid-template-columns: repeat(2, 1fr); 
+        gap: 8px;
+     }
+     .option-label { font-size: 0.8em; padding: 8px 10px; gap: 8px; flex-direction: column; }
+     .option-label input[type="radio"] { width: 14px; height: 14px; }
+
      .controls-bar { margin-top: 5px; gap: 8px; padding-top: 10px; }
      .control-btn { font-size: 0.8em; padding: 6px 10px; }
 }
