@@ -20,6 +20,7 @@ const translations = {
         'daily_challenge': 'التحدي اليومي',
         'daily_challenge_button': `التحدي اليومي (${DAILY_CHALLENGE_QUESTIONS} أسئلة)`,
         'choose_domain': 'اختر مجال الاختبار المخصص:',
+        'choose_gis_domain': 'اختر اختبار GIS:', // *** جديد ***
         'quiz_title_prefix': 'اختبار:',
         'question': 'السؤال',
         'submit': 'تأكيد الإجابة',
@@ -36,13 +37,15 @@ const translations = {
         'loading_error': '[خطأ الاتصال] عذراً، لا يمكن تحميل البيانات. يرجى مراجعة ملف Question.json.',
         'timeout_answer': '(Timeout - لم يتم الإجابة)',
         'all_correct_message': '🎉 ممتاز! لا توجد أخطاء لمراجعتها.',
-        'active_users_title': 'المتدربون النشطون الآن'
+        'active_users_title': 'المتدربون النشطون الآن',
+        'back_button': 'الرجوع للقائمة الرئيسية' // *** جديد ***
     },
     'en': {
         'start_custom_quiz': 'Start Custom Quiz',
         'daily_challenge': 'Daily Challenge',
         'daily_challenge_button': `Daily Challenge (${DAILY_CHALLENGE_QUESTIONS} Questions)`,
         'choose_domain': 'Choose Custom Quiz Domain:',
+        'choose_gis_domain': 'Choose GIS Quiz:', // *** جديد ***
         'quiz_title_prefix': 'Quiz:',
         'question': 'Question',
         'submit': 'Submit Answer',
@@ -59,7 +62,8 @@ const translations = {
         'loading_error': '[Connection Error] Sorry, data could not be loaded. Please check Question.json file.',
         'timeout_answer': '(Timeout - No answer provided)',
         'all_correct_message': '🎉 Excellent! No errors to review.',
-        'active_users_title': 'Active Trainees Now'
+        'active_users_title': 'Active Trainees Now',
+        'back_button': 'Back to Main Menu' // *** جديد ***
 
     },
     'fr': {
@@ -67,6 +71,7 @@ const translations = {
         'daily_challenge': 'Défi Quotidien',
         'daily_challenge_button': `Défi Quotidien (${DAILY_CHALLENGE_QUESTIONS} Questions)`,
         'choose_domain': 'Choisissez un domaine de Quiz Personnalisé:',
+        'choose_gis_domain': 'Choisissez un Quiz GIS:', // *** جديد ***
         'quiz_title_prefix': 'Quiz:',
         'question': 'Question',
         'submit': 'Soumettre la Réponse',
@@ -83,18 +88,20 @@ const translations = {
         'loading_error': '[Erreur de Connexion] Désolé, les données n\'ont pas pu être chargées. Veuillez vérifier le fichier Question.json.',
         'timeout_answer': '(Timeout - Aucune réponse fournie)',
         'all_correct_message': '🎉 Excellent! Aucune erreur à examiner.',
-        'active_users_title': 'Apprenants Actifs Maintenant'
+        'active_users_title': 'Apprenants Actifs Maintenant',
+        'back_button': 'Retour au menu principal' // *** جديد ***
     }
 };
 
 // **=================================================**
-// [2] تحميل البيانات والتهيئة الأولية
+// [2] تحميل البيانات والتهيئة الأولية (*** معدل ***)
 // **=================================================**
 
 async function loadGeologyData() {
     const loadingMessage = document.getElementById('loading-message');
-    const startCustomBtn = document.getElementById('start-quiz-btn'); // Renamed for clarity
-    const dailyChallengeBtn = document.getElementById('daily-challenge-btn'); // Get daily challenge button
+    const startCustomBtn = document.getElementById('start-quiz-btn'); 
+    const dailyChallengeBtn = document.getElementById('daily-challenge-btn');
+    const topicsListContainer = document.getElementById('topics-list-container');
 
     try {
         if (loadingMessage) {
@@ -113,7 +120,29 @@ async function loadGeologyData() {
 
         geologicalData = await response.json();
 
-        initializeUIElements(geologicalData); // Function to setup buttons and lists
+        // *** تم التعديل هنا ***
+        // تمكين الأزرار. سيتم ملء القائمة عند النقر
+        if (loadingMessage) loadingMessage.classList.add('hidden'); // Hide loading message
+
+        if (startCustomBtn) {
+            startCustomBtn.disabled = false;
+            startCustomBtn.classList.remove('hidden'); 
+            startCustomBtn.addEventListener('click', () => {
+                 // Hide hero buttons and show topic list
+                 if (startCustomBtn) startCustomBtn.classList.add('hidden');
+                 if (dailyChallengeBtn) dailyChallengeBtn.parentElement.classList.add('hidden'); 
+                 if (topicsListContainer) topicsListContainer.classList.remove('hidden');
+                 // *** جديد: املأ القائمة الرئيسية عند الضغط ***
+                 populateTopicLists(geologicalData, false); 
+            });
+        }
+        if (dailyChallengeBtn) {
+             dailyChallengeBtn.disabled = false;
+             dailyChallengeBtn.parentElement.classList.remove('hidden'); 
+             // Add event listener for daily challenge
+             dailyChallengeBtn.addEventListener('click', startDailyChallenge);
+        }
+        // *** نهاية التعديل ***
 
     } catch (error) {
         console.error("فشل في تحميل بيانات الجيولوجيا:", error);
@@ -127,72 +156,87 @@ async function loadGeologyData() {
     }
 }
 
-function initializeUIElements(data) {
+// **=================================================**
+// [2.5] *** دالة جديدة كلياً (بدلاً من initializeUIElements) ***
+// **=================================================**
+function populateTopicLists(dataObject, isSubMenu = false) {
     const topicsList = document.getElementById('topics-list');
     const sidebarList = document.getElementById('sidebar-topics-list');
     const loadingMessage = document.getElementById('loading-message');
-    const startCustomBtn = document.getElementById('start-quiz-btn');
-    const dailyChallengeBtn = document.getElementById('daily-challenge-btn'); // Get daily challenge button
-    const topicsListContainer = document.getElementById('topics-list-container');
+    const backBtn = document.getElementById('back-to-main-menu-btn');
+    const headerTitle = document.getElementById('topics-header-title');
+    const t = translations[currentLanguage];
 
+    if (!topicsList || !sidebarList) return;
 
-    if (loadingMessage) loadingMessage.classList.add('hidden'); // Hide loading message
+    if (loadingMessage) loadingMessage.classList.add('hidden'); 
+    
+    // مسح القوائم القديمة
+    topicsList.innerHTML = ''; 
+    sidebarList.innerHTML = ''; 
 
-    // Enable buttons now that data is loaded
-    if (startCustomBtn) {
-        startCustomBtn.disabled = false;
-        startCustomBtn.classList.remove('hidden'); // Show custom quiz button
-        startCustomBtn.addEventListener('click', () => {
-             // Hide hero buttons and show topic list
-             if (startCustomBtn) startCustomBtn.classList.add('hidden');
-             if (dailyChallengeBtn) dailyChallengeBtn.parentElement.classList.add('hidden'); // Hide daily challenge button container too
-             if (topicsListContainer) topicsListContainer.classList.remove('hidden');
-        });
-    }
-    if (dailyChallengeBtn) {
-         dailyChallengeBtn.disabled = false;
-         dailyChallengeBtn.parentElement.classList.remove('hidden'); // Show daily challenge button section
-         // Add event listener for daily challenge
-         dailyChallengeBtn.addEventListener('click', startDailyChallenge);
+    // التحكم بزر الرجوع والعنوان
+    if (isSubMenu) {
+        if (backBtn) backBtn.classList.remove('hidden');
+        if (headerTitle) headerTitle.innerHTML = `<i class="fas fa-globe-americas"></i> ${t.choose_gis_domain}`; // عنوان القائمة الفرعية
+    } else {
+        if (backBtn) backBtn.classList.add('hidden');
+        if (headerTitle) headerTitle.innerHTML = `<i class="fas fa-folder-open"></i> ${t.choose_domain}`; // العنوان الرئيسي
     }
 
+    // ملء القوائم بالمحتوى الجديد
+    Object.keys(dataObject).forEach(key => {
+        const topicDisplayName = key.replace(/_/g, ' ');
+        const content = dataObject[key];
 
-    topicsList.innerHTML = ''; // Clear previous items
-    sidebarList.innerHTML = ''; // Clear previous items
+        let clickHandler;
+        let isFolder = false;
 
-    Object.keys(data).forEach(topic => {
-        const topicDisplayName = topic.replace(/_/g, ' '); // Make topic name readable
+        // التحقق إذا كان المحتوى اختبار (Array) أو مجلد فرعي (Object)
+        if (Array.isArray(content)) {
+            // هذا اختبار جاهز
+            clickHandler = () => {
+                startQuiz(topicDisplayName, content); 
+                document.getElementById('sidebar').classList.remove('open');
+                document.getElementById('overlay').style.display = 'none';
+            };
+        } else if (typeof content === 'object' && content !== null) {
+            // هذا مجلد (قائمة فرعية)
+            isFolder = true;
+            clickHandler = () => {
+                populateTopicLists(content, true); // استدعاء الدالة مجدداً بالمحتوى الفرعي
+                document.getElementById('sidebar').classList.remove('open');
+                document.getElementById('overlay').style.display = 'none';
+            };
+        }
 
-        // Create card for main topic list
+        // إنشاء بطاقة في القائمة الرئيسية
         const gridCard = document.createElement('div');
         gridCard.className = 'topic-card';
-        gridCard.textContent = topicDisplayName;
+        if (isFolder) {
+            // إضافة أيقونة مجلد للتمييز
+            gridCard.innerHTML = `<i class="fas fa-folder" style="margin-right: 10px; color: var(--neon-cyan);"></i> ${topicDisplayName}`;
+        } else {
+            gridCard.textContent = topicDisplayName;
+        }
+        gridCard.addEventListener('click', clickHandler);
+        topicsList.appendChild(gridCard);
 
-        // Create link for sidebar
+        // إنشاء رابط في القائمة الجانبية
         const sidebarLink = document.createElement('a');
         sidebarLink.href = "#";
-        sidebarLink.textContent = topicDisplayName;
-
-        // Handler to start quiz for this topic
-        const startTopicQuizHandler = () => {
-            startQuiz(topicDisplayName, data[topic]); // Pass display name and questions
-            // Close sidebar if open
-            document.getElementById('sidebar').classList.remove('open');
-            document.getElementById('overlay').style.display = 'none';
-        };
-
-        gridCard.addEventListener('click', startTopicQuizHandler);
-
-        const listItem = document.createElement('li'); // Create list item for sidebar
-        sidebarLink.addEventListener('click', startTopicQuizHandler);
+        if (isFolder) {
+            sidebarLink.innerHTML = `<i class="fas fa-folder" style="margin-right: 10px; color: var(--neon-cyan);"></i> ${topicDisplayName}`;
+        } else {
+            sidebarLink.textContent = topicDisplayName;
+        }
+        const listItem = document.createElement('li'); 
+        sidebarLink.addEventListener('click', clickHandler);
         listItem.appendChild(sidebarLink);
-
-        topicsList.appendChild(gridCard);
         sidebarList.appendChild(listItem);
     });
-
-    translateUI(currentLanguage); // Update UI text based on language
 }
+
 
 // **=================================================**
 // [3] منطق الاختبار (بدء، عرض، إجابة، نتائج)
@@ -207,21 +251,31 @@ function shuffleArray(array) {
     return array;
 }
 
-// ------ دالة بدء التحدي اليومي - جديدة ------
+// ------ دالة بدء التحدي اليومي - (*** معدلة ***) ------
 function startDailyChallenge() {
     const t = translations[currentLanguage];
     if (!geologicalData || Object.keys(geologicalData).length === 0) {
         console.error("Geological data not loaded yet.");
-        // Maybe show a notification toast here
         showNotification("Data not ready, please wait."); // Example notification
         return;
     }
 
     let allQuestions = [];
-    // Combine questions from all topics
-    Object.values(geologicalData).forEach(topicQuestions => {
-        allQuestions = allQuestions.concat(topicQuestions);
-    });
+    
+    // *** دالة جديدة للبحث داخل المجلدات الفرعية ***
+    function collectQuestions(dataObject) {
+        Object.values(dataObject).forEach(content => {
+            if (Array.isArray(content)) {
+                // هذا اختبار، أضف أسئلته
+                allQuestions = allQuestions.concat(content);
+            } else if (typeof content === 'object' && content !== null && !Array.isArray(content)) {
+                // هذا مجلد، ابحث بداخله
+                collectQuestions(content);
+            }
+        });
+    }
+    
+    collectQuestions(geologicalData); // ابدأ البحث من الجذر
 
     // Shuffle and select the required number of questions
     const shuffledQuestions = shuffleArray(allQuestions);
@@ -229,7 +283,6 @@ function startDailyChallenge() {
 
     if (dailyQuestions.length < DAILY_CHALLENGE_QUESTIONS) {
         console.warn(`Not enough questions for daily challenge. Found ${dailyQuestions.length}`);
-        // Optionally show a message or proceed with fewer questions
     }
 
     // Start the quiz with the selected questions and specific title
@@ -621,7 +674,10 @@ function translateUI(langCode) {
              const iconHTML = iconClass ? `<span class="btn-icon"><i class="${iconClass}"></i></span>` : '';
              // Check if it needs icon structure
              if (element.classList.contains('control-btn')) {
-                  element.innerHTML = `${iconHTML}<span class="btn-text">${t[key]}</span>${element.querySelector('.btn-glow') ? '<span class="btn-glow"></span>' : ''}`;
+                  // *** تعديل: التأكد من الحفاظ على الأيقونة الصحيحة ***
+                  const existingIcon = element.querySelector('.btn-icon');
+                  const iconToUse = existingIcon ? existingIcon.outerHTML : (iconHTML ? iconHTML : ''); // Handle no icon case
+                  element.innerHTML = `${iconToUse}<span class="btn-text">${t[key]}</span>${element.querySelector('.btn-glow') ? '<span class="btn-glow"></span>' : ''}`;
              } else {
                   element.innerHTML = t[key] + (iconHTML ? ` ${iconHTML}` : ''); // Simpler update for non-buttons
              }
@@ -631,7 +687,22 @@ function translateUI(langCode) {
     // Update various elements using helpers
     updateHTML('#start-quiz-btn .btn-text', 'start_custom_quiz'); // Update only text part
     updateHTML('#daily-challenge-btn .btn-text', 'daily_challenge_button'); // Update only text part
-    updateText('#topics-list-container h3', 'choose_domain');
+    
+    // *** تعديل: تحديث العناوين والأزرار الجديدة ***
+    const headerTitle = document.getElementById('topics-header-title');
+    if (headerTitle) {
+        // التحقق إذا كنا في قائمة فرعية أم لا بناءً على زر الرجوع
+        const backBtn = document.getElementById('back-to-main-menu-btn');
+        const backBtnVisible = backBtn && !backBtn.classList.contains('hidden');
+        if (backBtnVisible) {
+            headerTitle.innerHTML = `<i class="fas fa-globe-americas"></i> ${t.choose_gis_domain}`;
+        } else {
+            headerTitle.innerHTML = `<i class="fas fa-folder-open"></i> ${t.choose_domain}`;
+        }
+    }
+    updateHTML('#back-to-main-menu-btn .btn-text', 'back_button');
+    // *** نهاية التعديل ***
+
 
     // Update elements within the quiz screen only if it's active
     if (!document.getElementById('quiz-screen').classList.contains('hidden')) {
@@ -653,10 +724,7 @@ function translateUI(langCode) {
         // Re-evaluate grade message based on current percentage/score if needed
          const gradeMessageElement = document.getElementById('grade-message');
          if (gradeMessageElement) {
-             // Re-apply logic based on score or recalculate percentage if necessary
-             // This might require storing the percentage or score globally accessible here
-             // For now, just re-fetching based on existing content might be tricky.
-             // It's better to update it fully when showResults is called after language change.
+             // (No change needed here, logic is in showResults)
          }
          const reviewTitle = document.querySelector('#review-area h3');
          if (reviewTitle) reviewTitle.innerHTML = `<i class="fas fa-bug"></i> ${t.review_errors}`;
@@ -694,7 +762,7 @@ function translateUI(langCode) {
 function changeLanguage(langCode) {
     translateUI(langCode);
     // Optionally: re-render dynamic content like topic list names if they need translation
-    // initializeTopicSelection(geologicalData); // This might re-add listeners, be careful
+    // (Handled by populateTopicLists if user navigates)
 }
 
 // ------ تبديل السمة ------
@@ -736,7 +804,7 @@ function showNotification(message, duration = 3000) {
 
 
 // **=================================================**
-// [5] تشغيل الكود عند تحميل الصفحة
+// [5] تشغيل الكود عند تحميل الصفحة (*** معدل ***)
 // **=================================================**
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -767,13 +835,20 @@ document.addEventListener('DOMContentLoaded', () => {
           });
      }
 
+    // *** جديد: إضافة مستمع لزر الرجوع ***
+    const backBtn = document.getElementById('back-to-main-menu-btn');
+    if (backBtn) {
+        backBtn.addEventListener('click', () => {
+            populateTopicLists(geologicalData, false); // العودة للقائمة الرئيسية
+        });
+    }
+    // *** نهاية التعديل ***
 
     // --- زر إعادة تشغيل النظام ---
     // Moved event listener addition inside DOMContentLoaded for safety
     const restartBtn = document.querySelector('#results-screen button[onclick*="reload"]');
     if (restartBtn) {
-         // The onclick attribute handles the reload, but we could add more complex logic here if needed.
-         // Example: restartBtn.addEventListener('click', () => { /* custom logic */ window.location.reload(); });
+         // (No change)
     }
 
      // --- Active users count update ---
