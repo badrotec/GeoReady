@@ -1,0 +1,56 @@
+{
+  "app": {
+    "title": "جيوليرن - منصة تعلم الجيولوجيا",
+    "subtitle": "منصة متكاملة لتعلم الجيولوجيا",
+    "loading": "جاري التحميل...",
+    "error": "حدث خطأ",
+    "success": "تم بنجاح"
+  },
+  "navigation": {
+    "home": "الرئيسية",
+    "quizzes": "الكويزات",
+    "progress": "التقدم",
+    "settings": "الإعدادات"
+  },
+  "quizzes": {
+    "basic_geology": "الجيولوجيا الأساسية",
+    "petrology": "البترولوجيا - علم الصخور",
+    "hydrogeology": "الهيدروجيولوجيا - علم المياه الجوفية",
+    "geophysics": "الجيوفيزياء - استكشاف باطن الأرض",
+    "field_work": "المهام العملية للجيولوجي",
+    "structural_geo": "الجيولوجيا التركيبية",
+    "historical_geo": "الجيولوجيا التاريخية",
+    "environmental_geo": "الجيولوجيا البيئية",
+    "mining_geology": "جيولوجيا المناجم",
+    "engineering_geo": "الجيولوجيا الهندسية"
+  },
+  "quiz_ui": {
+    "start_quiz": "بدء الكويز",
+    "next_question": "السؤال التالي",
+    "previous_question": "السؤال السابق",
+    "submit_answer": "تأكيد الإجابة",
+    "finish_quiz": "إنهاء الكويز",
+    "question": "سؤال",
+    "of": "من",
+    "score": "النقاط",
+    "correct": "صحيح",
+    "wrong": "خاطئ",
+    "time_left": "الوقت المتبقي",
+    "explanation": "التفسير"
+  },
+  "results": {
+    "quiz_completed": "تم إنهاء الكويز",
+    "your_score": "نتيجتك",
+    "correct_answers": "الإجابات الصحيحة",
+    "wrong_answers": "الإجابات الخاطئة",
+    "time_spent": "الوقت المستغرق",
+    "restart_quiz": "إعادة الكويز",
+    "back_to_quizzes": "العودة للكويزات"
+  },
+  "settings": {
+    "language": "اللغة",
+    "theme": "الثيم",
+    "sound": "الصوت",
+    "notifications": "الإشعارات"
+  }
+}
