@@ -3,264 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GEO-MASTER | Geotech Nexus</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>GeoReady - أعماق الأرض الرقمية</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
-<body data-theme="dark">
-    
-    <canvas id="particles-canvas"></canvas>
-    <div class="cyber-grid"></div>
-    
-    <aside id="sidebar" aria-label="وحدات التدريب والإحصائيات">
-        <div class="sidebar-header">
-            <h3><i class="fas fa-microchip"></i> وحدة التحكم (Core Unit)</h3>
-            <button id="close-sidebar-btn" class="ctrl-btn-square" title="إغلاق القائمة">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        
-        <div class="language-selector module-box">
-            <label for="lang-select"><i class="fas fa-globe-africa"></i> بروتوكول اللغة:</label>
-            <select id="lang-select" onchange="changeLanguage(this.value)">
-                <option value="ar" selected>العربية (AR)</option>
-                <option value="en">English (EN)</option>
-                <option value="fr">Français (FR)</option>
-            </select>
-        </div>
-        
-        <nav class="sidebar-topics-list" id="sidebar-topics-list" aria-label="قائمة المواضيع الفرعية">
-            <h4 class="box-title" style="padding: 10px 0;">القوائم السريعة:</h4>
-            </nav>
-        
-        <section class="stats-container module-box">
-            <h4 class="box-title"><i class="fas fa-signal"></i> إحصائيات النظام</h4>
-            <div class="stat-grid">
-                <div class="stat-item">
-                    <i class="fas fa-brain"></i>
-                    <span id="total-quizzes">0</span>
-                    <p>وحدات تم تحليلها</p>
+<body>
+
+    <nav id="sidebar-menu" class="sidebar-overlay">
+        <button id="close-sidebar-btn" class="close-btn"><i class="fas fa-times"></i></button>
+        <div class="sidebar-content">
+            <h2 class="neon-text">قائمة التخصصات</h2>
+            <div class="master-progress-container">
+                <span class="progress-label">التقدم العام</span>
+                <div id="master-progress-bar">
+                    <div id="master-progress-fill" style="width: 0%;"></div>
                 </div>
-                <div class="stat-item">
-                    <i class="fas fa-trophy"></i>
-                    <span id="avg-score">0%</span>
-                    <p>معدل الدقة</p>
+                <span id="master-progress-percent" class="progress-percent neon-text">0% إنجاز</span>
+            </div>
+            
+            <ul id="main-menu-list" class="nested-menu">
+                </ul>
+        </div>
+    </nav>
+
+    <main id="app-container">
+
+        <header class="main-header">
+            <button id="toggle-sidebar-btn" class="header-btn" title="القائمة الرئيسية"><i class="fas fa-bars"></i></button>
+            <h1 class="logo-title">GeoReady</h1>
+            <button id="toggle-sound-btn" class="header-btn" title="كتم/تشغيل الصوت"><i class="fas fa-volume-up"></i></button>
+        </header>
+
+        <section id="home-screen" class="screen active">
+            <div class="hero-section">
+                <div id="hero-background" style="background-image: url('images/field-geologist.jpg');">
+                    <div class="gis-overlay"></div>
                 </div>
+                
+                <div class="hero-content">
+                    <p class="slogan-pre">منصة الجيولوجيا المتقدمة</p>
+                    <h2 class="main-title-hero">أعماق الأرض: البيانات، والاختبارات، والمعرفة.</h2>
+                    
+                    <button id="start-daily-challenge" class="big-btn neon-btn pulse-effect">
+                        ابدأ التحدي اليومي الآن 🚀
+                    </button>
+
+                    <div class="stats-counter">
+                        <span id="total-questions-display" class="counter-value">0</span>
+                        <span class="counter-label">سؤال تحليلي بانتظارك</span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="category-grid" class="category-grid-home">
+                </div>
+            
+            <footer class="main-footer">
+                <p>GeoReady &copy; 2025 | تحليل بيانات الأقمار الصناعية والتربة</p>
+            </footer>
+        </section>
+
+        <section id="daily-quiz-screen" class="screen">
+            <div id="quiz-status" class="quiz-status-bar">
+                <span id="daily-timer" class="timer-display">⏱️ 00:20</span>
+                <span id="daily-score" class="score-display">🏆 0</span>
+            </div>
+            
+            <div id="daily-progress-container" class="daily-progress-bar">
+                <div id="daily-progress-fill" style="width: 0%;"></div>
+                <span id="daily-progress-count">1 / 7</span>
+            </div>
+
+            <div id="daily-question-card" class="question-card">
+                <h3 id="daily-question-text">السؤال العشوائي اليومي هنا؟</h3>
+                <div id="daily-options-container" class="options-grid-2x2">
+                    </div>
             </div>
         </section>
-        
-    </aside>
-    
-    <div id="overlay" aria-hidden="true"></div>
 
-    <div id="main-content-wrapper">
-        
-        <header class="main-header module-box">
-            <button id="open-sidebar-btn" class="ctrl-btn-square" title="فتح وحدة التحكم" aria-controls="sidebar" aria-expanded="false">
-                <i class="fas fa-bars"></i>
-            </button>
-            <h1 class="app-title">
-                <span class="title-glitch" data-text="GEO-MASTER">GEO-MASTER</span>
-            </h1>
-            <div class="header-info">
-                <span class="active-users-indicator" title="المتدربون النشطون الآن">
-                    <span class="active-dot"></span>
-                    <span id="active-users-count">12</span>
-                </span>
-                <span class="user-status status-online">
-                    <i class="fas fa-user-circle"></i> وضع الزائر
-                </span>
-                <button id="theme-toggle" class="ctrl-btn-square" title="تبديل النمط">
-                    <i class="fas fa-moon"></i>
-                </button>
-            </div>
-        </header>
-        
-        <div id="top-controls" class="top-controls-bar">
-            <button id="back-btn" class="control-btn tertiary small-btn back-btn hidden" data-lang-key="back_button" aria-label="الرجوع للخلف">
-                <span class="btn-icon"><i class="fas fa-arrow-right"></i></span>
-                <span class="btn-text">الرجوع للخلف</span>
-            </button>
-        </div>
+        <section id="quiz-center-screen" class="screen" style="display: none;">
+             <h2>اختبارات التخصصات المتقدمة</h2>
+        </section>
 
+    </main>
 
-        <main id="app-container">
-            
-            <section id="topic-selection" class="screen active" aria-labelledby="hero-title">
-                <div class="hero-section">
-                    <h2 id="hero-title" class="section-title animated-fade">
-                        <span class="title-icon"><i class="fas fa-satellite-dish"></i></span>
-                        نظام تشغيل GEO-MASTER.EXE
-                    </h2>
-                    <p class="hero-description">
-                        منصة محاكاة متقدمة لاختبار وتحليل معرفتك في علوم الأرض.
-                    </p>
+    <audio id="correct-sound" src="sounds/correct.mp3"></audio>
+    <audio id="wrong-sound" src="sounds/wrong.mp3"></audio>
+    <audio id="timeout-sound" src="sounds/timeout.mp3"></audio>
 
-                    <div id="start-buttons" class="actions-group">
-                        <button id="daily-challenge-btn" class="control-btn accent large-btn neon-pulse" aria-label="بدء التحدي اليومي بـ 7 أسئلة">
-                             <span class="btn-icon"><i class="fas fa-shield-alt"></i></span>
-                             <span class="btn-text" data-lang-key="daily_challenge_button">التحدي اليومي (7 أسئلة)</span>
-                        </button>
-                        
-                        <button id="start-custom-quiz-btn" class="control-btn primary large-btn neon-pulse" data-lang-key="start_custom_quiz" aria-label="بدء اختبار مخصص">
-                            <span class="btn-icon"><i class="fas fa-terminal"></i></span>
-                            <span class="btn-text">بدء اختبار مخصص</span>
-                        </button>
-                    </div>
-
-                    <div id="topics-list-container" class="module-box hidden">
-                        <h3 class="topics-header" id="topics-header-title" data-lang-key="choose_domain">
-                            <i class="fas fa-folder-open"></i> اختر مجال الاختبار المخصص:
-                        </h3>
-                        
-                        <div id="topics-list" class="list-container topic-grid">
-                            <div id="loading-message" class="loading-spinner">
-                                <div class="spinner-ring"></div>
-                                <p data-lang-key="loading_data">... تحليل بيانات النظام</p>
-                            </div> 
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="quiz-screen" class="screen hidden" aria-live="polite">
-                <div class="quiz-header-status module-box">
-                    <h2 id="quiz-title" class="section-title"></h2>
-                    
-                    <div class="quiz-meta">
-                        <span id="timer-display" class="timer-display" aria-label="الوقت المتبقي">
-                            <i class="fas fa-clock"></i>
-                            <span class="timer-value">20</span>
-                            <span class="timer-unit" data-lang-key="timer_text">ث</span>
-                        </span>
-                        
-                        <span id="question-counter" class="counter-badge" aria-label="عداد السؤال الحالي">
-                            <i class="fas fa-list-ol"></i> السؤال 1 / 10
-                        </span>
-                        
-                        <span id="score-display" class="score-badge" aria-label="النقاط الحالية">
-                            <i class="fas fa-star"></i> النقط: <span id="current-score">0</span>
-                        </span>
-                        <button id="home-btn" class="ctrl-btn-square tertiary-square" title="إنهاء المحاكاة" aria-label="العودة للقائمة الرئيسية">
-                            <i class="fas fa-power-off"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <div id="question-container" class="data-module quiz-card" role="group" aria-labelledby="quiz-title">
-                    </div>
-                
-                <div id="controls" class="controls-bar module-box">
-                    <button id="submit-btn" class="control-btn primary neon-edge" disabled data-lang-key="submit" aria-label="تأكيد الإجابة">
-                        <span class="btn-icon"><i class="fas fa-check"></i></span>
-                        <span class="btn-text">تأكيد الإجابة</span>
-                    </button>
-                    <button id="next-btn" class="control-btn accent hidden" data-lang-key="next" aria-label="الانتقال للسؤال التالي">
-                        <span class="btn-text">السؤال التالي</span>
-                        <span class="btn-icon"><i class="fas fa-arrow-left"></i></span>
-                    </button>
-                    <button id="skip-btn" class="control-btn secondary" data-lang-key="skip" aria-label="تخطي السؤال الحالي">
-                        <span class="btn-icon"><i class="fas fa-forward"></i></span>
-                        <span class="btn-text">تخطي</span>
-                    </button>
-                </div>
-                
-                <div id="feedback-container" class="feedback-message hidden" aria-atomic="true"></div> 
-            </section>
-
-            <section id="results-screen" class="screen hidden" aria-labelledby="results-title">
-                <div class="results-hero">
-                    <h2 id="results-title" class="section-title result-title animated-fade">
-                        <i class="fas fa-chart-line"></i> بروتوكول نتائج التحليل
-                    </h2>
-                </div>
-                
-                <div class="results-grid">
-                    <div class="data-module summary-card module-box">
-                        <h3 class="box-title"><i class="fas fa-file-alt"></i> ملخص البروتوكول</h3>
-                        <div class="score-display">
-                            <div class="score-circle">
-                                <svg class="progress-ring" width="200" height="200" viewBox="0 0 200 200">
-                                    <defs>
-                                        <linearGradient id="scoreGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                                            <stop offset="0%" style="stop-color: var(--color-accent); stop-opacity: 1" />
-                                            <stop offset="100%" style="stop-color: var(--color-primary); stop-opacity: 1" />
-                                        </linearGradient>
-                                    </defs>
-                                    <circle class="progress-ring-bg" cx="100" cy="100" r="90"></circle>
-                                    <circle class="progress-ring-fill" cx="100" cy="100" r="90"></circle>
-                                </svg>
-                                <div class="score-content">
-                                    <span id="final-score" class="score-number">0</span>
-                                    <span class="score-separator">/</span>
-                                    <span id="total-questions-count" class="total-score">0</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div id="grade-message" class="grade-message-text"></div>
-                        
-                        <div class="stats-breakdown">
-                            <div class="stat-box correct-stat">
-                                <i class="fas fa-check-circle"></i>
-                                <span id="correct-count">0</span>
-                                <p>إجابات صحيحة</p>
-                            </div>
-                            <div class="stat-box wrong-stat">
-                                <i class="fas fa-times-circle"></i>
-                                <span id="wrong-count">0</span>
-                                <p>إجابات خاطئة</p>
-                            </div>
-                            <div class="stat-box time-stat">
-                                <i class="fas fa-hourglass-half"></i>
-                                <span id="total-time">0</span>
-                                <p data-lang-key="time_spent">الوقت المستغرق</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div id="review-area" class="review-log data-module module-box" aria-labelledby="review-title-h3">
-                        <h3 id="review-title-h3" class="box-title" data-lang-key="review_errors">
-                            <i class="fas fa-bug"></i> فحص الأخطاء:
-                        </h3>
-                        <div id="review-content">
-                            </div>
-                    </div>
-                </div>
-                
-                <div class="action-buttons">
-                    <button onclick="window.location.reload()" class="control-btn primary large-btn neon-edge" data-lang-key="new_quiz" aria-label="إعادة تشغيل النظام وبدء اختبار جديد">
-                        <span class="btn-icon"><i class="fas fa-redo-alt"></i></span>
-                        <span class="btn-text">إعادة تشغيل النظام</span>
-                    </button>
-                    <button id="share-results-btn" class="control-btn secondary large-btn" data-lang-key="share_results" aria-label="مشاركة نتائج الاختبار">
-                        <span class="btn-icon"><i class="fas fa-share-alt"></i></span>
-                        <span class="btn-text">مشاركة النتائج</span>
-                    </button>
-                </div>
-            </section>
-        </main>
-        
-        <div class="total-trainees-section module-box" aria-label="إجمالي المتدربين المسجلين">
-             <i class="fas fa-users"></i> <span data-lang-key="total_trainees">إجمالي المتدربين المسجلين:</span>
-             <span class="trainee-count">177</span>
-        </div>
-        
-        <footer class="app-footer">
-            <p>&copy; 2025 GEO-MASTER | Project Aurora <i class="fas fa-code-branch"></i></p>
-        </footer>
-    </div>
-    
-    <div id="notification-toast" class="notification-toast hidden" role="alert" aria-live="polite">
-        <i class="fas fa-info-circle"></i>
-        <span id="notification-message"></span>
-    </div>
-    
-    <audio id="correct-sound" src="sounds/correct.mp3" preload="auto"></audio>
-    <audio id="wrong-sound" src="sounds/wrong.mp3" preload="auto"></audio>
-    <audio id="perfect-sound" src="sounds/perfect.mp3" preload="auto"></audio>
-    
-    <script src="particles.js"></script> 
     <script src="script.js"></script>
-    
 </body>
 </html>
