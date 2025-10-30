@@ -1,0 +1,283 @@
+{
+  "id": "environmental_geo",
+  "name": {
+    "ar": "الجيولوجيا البيئية",
+    "en": "Environmental Geology", 
+    "fr": "Géologie Environnementale"
+  },
+  "description": {
+    "ar": "تعلم التفاعل بين الإنسان والبيئة الجيولوجية والمخاطر الطبيعية",
+    "en": "Learn about human interaction with geological environment and natural hazards",
+    "fr": "Apprenez l'interaction humaine avec l'environnement géologique et les risques naturels"
+  },
+  "icon": "🌍",
+  "level": "intermediate",
+  "estimated_time": 20,
+  "questions": [
+    {
+      "id": 1,
+      "type": "multiple_choice",
+      "question": {
+        "ar": "ما هي المخاطر الجيولوجية الرئيسية؟",
+        "en": "What are the main geological hazards?",
+        "fr": "Quels sont les principaux risques géologiques?"
+      },
+      "image": "assets/images/diagrams/faults_folds.jpg",
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "الزلازل، الانهيارات الأرضية، البراكين، تسونامي",
+            "en": "Earthquakes, landslides, volcanoes, tsunamis",
+            "fr": "Tremblements de terre, glissements de terrain, volcans, tsunamis"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "الأمطار، الرياح، الثلوج",
+            "en": "Rain, wind, snow",
+            "fr": "Pluie, vent, neige"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "الحرائق، الفيضانات، الجفاف",
+            "en": "Fires, floods, drought",
+            "fr": "Feux, inondations, sécheresse"
+          },
+          "correct": false
+        },
+        {
+          "id": "D",
+          "text": {
+            "ar": "التلوث، النفايات، الانبعاثات",
+            "en": "Pollution, waste, emissions",
+            "fr": "Pollution, déchets, émissions"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "المخاطر الجيولوجية هي أحداث طبيعية ناتجة عن العمليات الجيولوجية التي قد تشكل خطراً على الإنسان والممتلكات",
+        "en": "Geological hazards are natural events resulting from geological processes that may pose risks to humans and property",
+        "fr": "Les risques géologiques sont des événements naturels résultant de processus géologiques qui peuvent présenter des risques pour les humains et les biens"
+      }
+    },
+    {
+      "id": 2,
+      "type": "multiple_choice",
+      "question": {
+        "ar": "كيف يمكن تقليل مخاطر الزلازل في المناطق الحضرية؟",
+        "en": "How can earthquake risks be reduced in urban areas?",
+        "fr": "Comment réduire les risques sismiques dans les zones urbaines?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "تصميم مباني مقاومة للزلازل وتخطيط استخدام الأراضي",
+            "en": "Designing earthquake-resistant buildings and land-use planning",
+            "fr": "Concevoir des bâtiments parasismiques et planifier l'utilisation des terres"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "منع البناء تماماً",
+            "en": "Preventing construction completely",
+            "fr": "Empêcher complètement la construction"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "تجنب المناطق الحضرية",
+            "en": "Avoiding urban areas",
+            "fr": "Éviter les zones urbaines"
+          },
+          "correct": false
+        },
+        {
+          "id": "D",
+          "text": {
+            "ar": "عدم فعل أي شيء",
+            "en": "Doing nothing",
+            "fr": "Ne rien faire"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "الهندسة الجيوتقنية والتخطيط الحضري السليم يمكن أن يقللا بشكل كبير من مخاطر الزلازل في المناطق المأهولة",
+        "en": "Geotechnical engineering and proper urban planning can significantly reduce earthquake risks in populated areas",
+        "fr": "L'ingénierie géotechnique et une planification urbaine appropriée peuvent réduire considérablement les risques sismiques dans les zones peuplées"
+      }
+    },
+    {
+      "id": 3,
+      "type": "multiple_choice",
+      "question": {
+        "ar": "ما هو تأثير التعدين على البيئة؟",
+        "en": "What is the environmental impact of mining?",
+        "fr": "Quel est l'impact environnemental de l'exploitation minière?"
+      },
+      "image": "assets/images/maps/minerals_map.jpg",
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "تلوث التربة والمياه، تدمير الموائل، توليد النفايات",
+            "en": "Soil and water pollution, habitat destruction, waste generation",
+            "fr": "Pollution des sols et de l'eau, destruction des habitats, génération de déchets"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "تحسين جودة التربة فقط",
+            "en": "Only improving soil quality",
+            "fr": "Seulement améliorer la qualité du sol"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "زيادة التنوع البيولوجي",
+            "en": "Increasing biodiversity",
+            "fr": "Augmenter la biodiversité"
+          },
+          "correct": false
+        },
+        {
+          "id": "D",
+          "text": {
+            "ar": "تنقية المياه الجوفية",
+            "en": "Purifying groundwater",
+            "fr": "Purifier les eaux souterraines"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "التعدين يمكن أن يسبب تلوثاً بالمعادن الثقيلة، تدمير التضاريس، وتلوث المياه الجوفية إذا لم تتم إدارته بشكل صحيح",
+        "en": "Mining can cause heavy metal pollution, terrain destruction, and groundwater contamination if not properly managed",
+        "fr": "L'exploitation minière peut causer une pollution par les métaux lourds, la destruction du terrain et la contamination des eaux souterraines si elle n'est pas correctement gérée"
+      }
+    },
+    {
+      "id": 4,
+      "type": "multiple_choice",
+      "question": {
+        "ar": "ما هي طرق معالجة تلوث المياه الجوفية؟",
+        "en": "What are the methods for treating groundwater pollution?",
+        "fr": "Quelles sont les méthodes de traitement de la pollution des eaux souterraines?"
+      },
+      "image": "assets/images/maps/groundwater_map.jpg",
+      "options": [
+        {
+          "id": "id": "A",
+          "text": {
+            "ar": "المعالجة الحيوية، الضخ والمعالجة، الحواجز التفاعلية",
+            "en": "Bioremediation, pump-and-treat, reactive barriers",
+            "fr": "Bioremédiation, pompage-traitement, barrières réactives"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "الخلط مع مياه البحر",
+            "en": "Mixing with seawater",
+            "fr": "Mélanger avec l'eau de mer"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "الغليان فقط",
+            "en": "Boiling only",
+            "fr": "Ébullition seulement"
+          },
+          "correct": false
+        },
+        {
+          "id": "D",
+          "text": {
+            "ar": "لا يوجد علاج ممكن",
+            "en": "No treatment possible",
+            "fr": "Aucun traitement possible"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تتضمن تقنيات المعالجة استخدام الكائنات الحية الدقيقة (المعالجة الحيوية) أو العمليات الكيميائية لإزالة الملوثات من المياه الجوفية",
+        "en": "Treatment techniques involve using microorganisms (bioremediation) or chemical processes to remove contaminants from groundwater",
+        "fr": "Les techniques de traitement impliquent l'utilisation de micro-organismes (bioremédiation) ou de processus chimiques pour éliminer les contaminants des eaux souterraines"
+      }
+    },
+    {
+      "id": 5,
+      "type": "multiple_choice",
+      "question": {
+        "ar": "ما هو دور الجيولوجي في التخطيط العمراني؟",
+        "en": "What is the geologist's role in urban planning?",
+        "fr": "Quel est le rôle du géologue dans l'urbanisme?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "تقييم مخاطر المنحدرات، أساسات التربة، موارد المياه الجوفية",
+            "en": "Assessing slope risks, soil foundations, groundwater resources",
+            "fr": "Évaluer les risques de pentes, les fondations du sol, les ressources en eaux souterraines"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "تصميم المباني فقط",
+            "en": "Only designing buildings",
+            "fr": "Seulement concevoir des bâtiments"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "رسم الخرائط المعمارية",
+            "en": "Drawing architectural maps",
+            "fr": "Dessiner des cartes architecturales"
+          },
+          "correct": false
+        },
+        {
+          "id": "D",
+          "text": {
+            "ar": "تخطيط حركة المرور",
+            "en": "Planning traffic flow",
+            "fr": "Planifier la circulation"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يساهم الجيولوجي في التخطيط العمراني من خلال تقييم الظروف الجيولوجية والجيوتقنية لضمان سلامة واستدامة المشاريع التنموية",
+        "en": "The geologist contributes to urban planning by assessing geological and geotechnical conditions to ensure safety and sustainability of development projects",
+        "fr": "Le géologue contribue à l'urbanisme en évaluant les conditions géologiques et géotechniques pour assurer la sécurité et la durabilité des projets de développement"
+      }
+    }
+  ],
+  "total_questions": 15,
+  "passing_score": 75
+}
