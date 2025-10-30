@@ -1,528 +1,785 @@
 // **=================================================**
-// ** ملف: script.js (المصحح) - يحتاج Question.json **
-// **=================================================**
-
 // [1] المتغيرات العالمية والتحكم
-let geologicalData = {}; 
+// **=================================================**
+let geologicalData = {};
 let currentQuestions = [];
 let currentQuestionIndex = 0;
 let score = 0;
-let userAnswers = {};
+let userAnswers = {}; // تخزين إجابات المستخدمين للمراجعة
 let timerInterval;
-const TIME_LIMIT = 20;
+let quizStartTime = 0; // جديد: لبدء احتساب الوقت الإجمالي
+const TIME_LIMIT = 20; // ثانية لكل سؤال
 const POINTS_CORRECT = 5;
 const POINTS_WRONG = -3;
+const DAILY_CHALLENGE_QUESTIONS = 7; 
 let currentLanguage = 'ar';
-
+let currentActiveUsers = Math.floor(Math.random() * (16 - 3 + 1)) + 3; 
+// عناصر الصوت
+const correctSound = document.getElementById('correct-sound');
+const wrongSound = document.getElementById('wrong-sound');
+const perfectSound = document.getElementById('perfect-sound');
+// قاموس الترجمة
 const translations = {
-    'ar': {
-        'start_quiz': 'ابدأ الاختبار',
-        'choose_domain': 'اختر مجال الاختبار:',
-        'question': 'السؤال',
-        'submit': 'تأكيد الإجابة',
-        'next': 'السؤال التالي',
-        'review_errors': 'مراجعة الأخطاء المفاهيمية:',
-        'your_answer': 'إجابتك:',
-        'correct_answer': 'الصحيح:',
-        'great_job': '🌟 أداء استثنائي! معرفة جيولوجية قوية.',
-        'good_job': '✨ جيد جداً! أساس متين، لكن هناك مجال للمراجعة.',
-        'needs_review': '⚠️ تحتاج إلى مراجعة مكثفة لهذه المفاهيم.',
-        'new_quiz': 'إعادة تشغيل النظام',
-        'timer_text': 'ث'
-    },
-    'en': {
-        'start_quiz': 'Start Quiz',
-        'choose_domain': 'Choose Quiz Domain:',
-        'question': 'Question',
-        'submit': 'Submit Answer',
-        'next': 'Next Question',
-        'review_errors': 'Review Conceptual Errors:',
-        'your_answer': 'Your Answer:',
-        'correct_answer': 'Correct:',
-        'great_job': '🌟 Exceptional performance! Strong geological knowledge.',
-        'good_job': '✨ Very good! Solid foundation, but room for review.',
-        'needs_review': '⚠️ Requires intensive review of these concepts.',
-        'new_quiz': 'Restart System',
-        'timer_text': 's'
-    },
-    'fr': {
-        'start_quiz': 'Commencer le Quiz',
-        'choose_domain': 'Choisissez un domaine de Quiz:',
-        'question': 'Question',
-        'submit': 'Soumettre la Réponse',
-        'next': 'Question Suivante',
-        'review_errors': 'Revue des Erreurs Conceptuelles:',
-        'your_answer': 'Votre Réponse:',
-        'correct_answer': 'La Bonne:',
-        'great_job': '🌟 Performance exceptionnelle! Solides connaissances géologiques.',
-        'good_job': '✨ Très bien! Base solide, mais il y a place à l\'amélioration.',
-        'needs_review': '⚠️ Nécessite une révision intensive de ces concepts.',
-        'new_quiz': 'Redémarrer le Système',
-        'timer_text': 's'
-    }
+    'ar': {
+        'start_custom_quiz': 'بدء اختبار مخصص',
+        'daily_challenge': 'التحدي اليومي',
+        'daily_challenge_button': `التحدي اليومي (${DAILY_CHALLENGE_QUESTIONS} أسئلة)`,
+        'choose_domain': 'اختر مجال الاختبار المخصص:',
+        'choose_gis_domain': 'اختر اختبار فرعي:',
+        'quiz_title_prefix': 'اختبار:',
+        'question': 'السؤال',
+        'submit': 'تأكيد الإجابة',
+        'next': 'السؤال التالي',
+        'skip': 'تخطي', // جديد: ترجمة زر التخطي
+        'review_errors': 'فحص الأخطاء:',
+        'your_answer': 'إجابتك:',
+        'correct_answer': 'الصحيح:',
+        'great_job': '🌟 أداء استثنائي! معرفة جيولوجية قوية.',
+        'good_job': '✨ جيد جداً! أساس متين، لكن هناك مجال للمراجعة.',
+        'needs_review': '⚠️ تحتاج إلى مراجعة مكثفة لهذه المفاهيم.',
+        'new_quiz': 'إعادة تشغيل النظام',
+        'share_results': 'مشاركة النتائج',
+        'timer_text': 'ث',
+        'loading_data': '... تحليل بيانات النظام',
+        'loading_error': '[خطأ الاتصال] عذراً، لا يمكن تحميل البيانات. يرجى مراجعة ملف Question.json.',
+        'timeout_answer': '(انتهى الوقت - لم يتم الإجابة)',
+        'all_correct_message': '🎉 ممتاز! لا توجد أخطاء لمراجعتها.',
+        'active_users_title': 'المتدربون النشطون الآن',
+        'back_button': 'الرجوع للقائمة الرئيسية',
+        'time_spent': 'الوقت المستغرق', // جديد: ترجمة الوقت
+        'seconds': 'ثانية', // جديد: ترجمة ثانية
+        'correct_feedback': 'إجابة صحيحة!',
+        'incorrect_feedback': 'إجابة خاطئة. الصحيح:',
+        'timeout_feedback': 'انتهى الوقت! الإجابة الصحيحة:',
+        'total_trainees': 'إجمالي المتدربين المسجلين:'
+    },
+    'en': {
+        'start_custom_quiz': 'Start Custom Quiz',
+        'daily_challenge': 'Daily Challenge',
+        'daily_challenge_button': `Daily Challenge (${DAILY_CHALLENGE_QUESTIONS} Questions)`,
+        'choose_domain': 'Choose Custom Quiz Domain:',
+        'choose_gis_domain': 'Choose Sub Quiz:',
+        'quiz_title_prefix': 'Quiz:',
+        'question': 'Question',
+        'submit': 'Submit Answer',
+        'next': 'Next Question',
+        'skip': 'Skip',
+        'review_errors': 'Review Conceptual Errors:',
+        'your_answer': 'Your Answer:',
+        'correct_answer': 'Correct:',
+        'great_job': '🌟 Exceptional performance! Strong geological knowledge.',
+        'good_job': '✨ Very good! Solid foundation, but room for review.',
+        'needs_review': '⚠️ Requires intensive review of these concepts.',
+        'new_quiz': 'Restart System',
+        'share_results': 'Share Results',
+        'timer_text': 's',
+        'loading_data': '... Analyzing system data',
+        'loading_error': '[Connection Error] Sorry, data could not be loaded. Please check Question.json file.',
+        'timeout_answer': '(Timeout - No answer provided)',
+        'all_correct_message': '🎉 Excellent! No errors to review.',
+        'active_users_title': 'Active Trainees Now',
+        'back_button': 'Back to Main Menu',
+        'time_spent': 'Total Time',
+        'seconds': 'seconds',
+        'correct_feedback': 'Correct Answer!',
+        'incorrect_feedback': 'Wrong Answer. Correct:',
+        'timeout_feedback': 'Timeout! Correct Answer:',
+        'total_trainees': 'Total Registered Trainees:'
+    },
+    'fr': {
+        'start_custom_quiz': 'Commencer Quiz Personnalisé',
+        'daily_challenge': 'Défi Quotidien',
+        'daily_challenge_button': `Défi Quotidien (${DAILY_CHALLENGE_QUESTIONS} Questions)`,
+        'choose_domain': 'Choisissez un domaine de Quiz Personnalisé:',
+        'choose_gis_domain': 'Choisissez Sous-Quiz:',
+        'quiz_title_prefix': 'Quiz:',
+        'question': 'Question',
+        'submit': 'Soumettre la Réponse',
+        'next': 'Question Suivante',
+        'skip': 'Sauter',
+        'review_errors': 'Revue des Erreurs Conceptuelles:',
+        'your_answer': 'Votre Réponse:',
+        'correct_answer': 'La Bonne:',
+        'great_job': '🌟 Performance exceptionnelle! Solides connaissances géologiques.',
+        'good_job': '✨ Très bien! Base solide, mais il y a place à l\'amélioration.',
+        'needs_review': '⚠️ Nécessite une révision intensive de ces concepts.',
+        'new_quiz': 'Redémarrer le Système',
+        'share_results': 'Partager les Résultats',
+        'timer_text': 's',
+        'loading_data': '... Analyse des données système',
+        'loading_error': '[Erreur de Connexion] Désolé, les données n\'ont pas pu être chargées. Veuillez vérifier le fichier Question.json.',
+        'timeout_answer': '(Temps écoulé - Aucune réponse fournie)',
+        'all_correct_message': '🎉 Excellent! Aucune erreur à examiner.',
+        'active_users_title': 'Apprenants Actifs Maintenant',
+        'back_button': 'Retour au menu principal',
+        'time_spent': 'Temps Total',
+        'seconds': 'secondes',
+        'correct_feedback': 'Réponse Correcte!',
+        'incorrect_feedback': 'Mauvaise Réponse. Correct:',
+        'timeout_feedback': 'Temps écoulé! Réponse Correcte:',
+        'total_trainees': 'Apprenants Enregistrés Totaux:'
+    }
 };
-
-// ---------------------- 2. دالة تحميل البيانات (الجديدة) ----------------------
-
+// **=================================================**
+// [2] تحميل البيانات والتهيئة الأولية
+// **=================================================**
 async function loadGeologyData() {
-    const loadingMessage = document.getElementById('loading-message');
-    try {
-        loadingMessage.textContent = '... جاري تحميل بيانات النظام';
-        
-        const response = await fetch('./Question.json'); 
-        
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        
-        geologicalData = await response.json();
-        
-        initializeTopicSelection(geologicalData); 
-
-    } catch (error) {
-        console.error("فشل في تحميل بيانات الجيولوجيا:", error);
-        loadingMessage.textContent = `[خطأ الاتصال] عذراً، لا يمكن تحميل البيانات.`;
-        document.getElementById('start-quiz-btn').disabled = true;
-    }
+    const loadingMessage = document.getElementById('loading-message');
+    const startCustomBtn = document.getElementById('start-quiz-btn'); 
+    const dailyChallengeBtn = document.getElementById('daily-challenge-btn');
+    const topicsListContainer = document.getElementById('topics-list-container');
+    
+    try {
+        if (loadingMessage) {
+            loadingMessage.textContent = translations[currentLanguage].loading_data;
+            loadingMessage.classList.remove('hidden');
+        }
+        if (startCustomBtn) startCustomBtn.disabled = true;
+        if (dailyChallengeBtn) dailyChallengeBtn.disabled = true;
+        
+        // التحميل من Question.json (بناءً على الصورة المرفقة)
+        const response = await fetch('./Question.json'); 
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        geologicalData = await response.json();
+        
+        if (loadingMessage) loadingMessage.classList.add('hidden'); 
+        
+        // تفعيل الأزرار بعد التحميل
+        if (startCustomBtn) {
+            startCustomBtn.disabled = false;
+            startCustomBtn.addEventListener('click', () => {
+                 if (startCustomBtn) startCustomBtn.classList.add('hidden');
+                 if (dailyChallengeBtn) dailyChallengeBtn.parentElement.classList.add('hidden'); 
+                 if (topicsListContainer) topicsListContainer.classList.remove('hidden');
+                 populateTopicLists(geologicalData, false); 
+            });
+        }
+        if (dailyChallengeBtn) {
+            dailyChallengeBtn.disabled = false;
+            dailyChallengeBtn.parentElement.classList.remove('hidden'); 
+            dailyChallengeBtn.addEventListener('click', startDailyChallenge);
+        }
+        
+    } catch (error) {
+        console.error("فشل في تحميل بيانات الجيولوجيا:", error);
+        if (loadingMessage) {
+            loadingMessage.textContent = translations[currentLanguage].loading_error;
+            loadingMessage.classList.remove('hidden');
+        }
+        if (startCustomBtn) startCustomBtn.disabled = true;
+        if (dailyChallengeBtn) dailyChallengeBtn.disabled = true;
+    }
 }
-
-// ---------------------- 3. منطق المؤقت والتحكم ----------------------
-
-function startTimer() {
-    clearInterval(timerInterval);
-    let timeRemaining = TIME_LIMIT;
-    const timerDisplay = document.getElementById('timer-display');
-    const progressBar = document.getElementById('progress-bar-fill');
-    const t = translations[currentLanguage];
-
-    progressBar.style.width = '100%';
-    timerDisplay.textContent = `${timeRemaining}${t.timer_text}`;
-
-    timerInterval = setInterval(() => {
-        timeRemaining--;
-        timerDisplay.textContent = `${timeRemaining}${t.timer_text}`;
-        
-        const progressPercentage = (timeRemaining / TIME_LIMIT) * 100;
-        progressBar.style.width = `${progressPercentage}%`;
-
-        // تغيير لون المؤقت كإنذار
-        if (timeRemaining <= 5) {
-            timerDisplay.style.color = 'var(--incorrect-color)';
-        } else {
-            timerDisplay.style.color = 'var(--neon-blue)';
-        }
-
-        if (timeRemaining <= 0) {
-            clearInterval(timerInterval);
-            handleTimeout();
-        }
-    }, 1000);
+// **=================================================**
+// [2.5] دالة ملء القوائم (دعم التفرعات)
+// **=================================================**
+function populateTopicLists(dataObject, isSubMenu = false) {
+    const topicsList = document.getElementById('topics-list');
+    const sidebarList = document.getElementById('sidebar-topics-list');
+    const loadingMessage = document.getElementById('loading-message');
+    const backBtn = document.getElementById('back-to-main-menu-btn');
+    const startCustomBtn = document.getElementById('start-quiz-btn'); 
+    const dailyChallengeContainer = document.querySelector('.daily-challenge-section');
+    const headerTitle = document.getElementById('topics-header-title');
+    const t = translations[currentLanguage];
+    
+    if (!topicsList || !sidebarList) return;
+    if (loadingMessage) loadingMessage.classList.add('hidden'); 
+    
+    topicsList.innerHTML = ''; 
+    sidebarList.innerHTML = ''; 
+    
+    // إخفاء/إظهار زر الرجوع والعنوان
+    if (isSubMenu) {
+        if (backBtn) backBtn.classList.remove('hidden');
+        if (headerTitle) headerTitle.innerHTML = `<i class="fas fa-globe-americas"></i> ${t.choose_gis_domain}`; 
+    } else {
+        if (backBtn) backBtn.classList.add('hidden');
+        if (headerTitle) headerTitle.innerHTML = `<i class="fas fa-folder-open"></i> ${t.choose_domain}`; 
+        // إعادة إظهار الأزرار الرئيسية في القائمة الرئيسية
+        if (startCustomBtn) startCustomBtn.classList.add('hidden');
+        if (dailyChallengeContainer) dailyChallengeContainer.classList.add('hidden');
+    }
+    
+    Object.keys(dataObject).forEach(key => {
+        const topicDisplayName = key.replace(/_/g, ' ');
+        const content = dataObject[key];
+        let clickHandler;
+        let isFolder = false;
+        
+        if (Array.isArray(content)) {
+            // الموضوع هو قائمة أسئلة مباشرة
+            clickHandler = () => {
+                startQuiz(topicDisplayName, content); 
+                document.getElementById('sidebar').classList.remove('open');
+                document.getElementById('overlay').style.display = 'none';
+            };
+        } else if (typeof content === 'object' && content !== null) {
+            // الموضوع يحتوي على فروع فرعية
+            isFolder = true;
+            clickHandler = () => {
+                populateTopicLists(content, true); 
+                document.getElementById('sidebar').classList.remove('open');
+                document.getElementById('overlay').style.display = 'none';
+            };
+        }
+        
+        // إنشاء بطاقة الشاشة الرئيسية
+        const gridCard = document.createElement('div');
+        gridCard.className = `topic-card ${isFolder ? 'topic-folder' : 'topic-quiz'}`; // إضافة كلاس لتفريق المظهر
+        const icon = isFolder ? `<i class="fas fa-folder" style="color: var(--neon-cyan);"></i> ` : `<i class="fas fa-chalkboard-teacher" style="color: var(--neon-blue);"></i> `;
+        gridCard.innerHTML = icon + topicDisplayName;
+        if (clickHandler) gridCard.addEventListener('click', clickHandler);
+        topicsList.appendChild(gridCard);
+        // إنشاء رابط القائمة الجانبية
+        const sidebarLink = document.createElement('a');
+        sidebarLink.href = "#";
+        sidebarLink.classList.add('sidebar-link-item');
+        sidebarLink.innerHTML = icon + `<span>${topicDisplayName}</span>`;
+        if (clickHandler) sidebarLink.addEventListener('click', clickHandler);
+        sidebarList.appendChild(sidebarLink);
+    });
 }
-
-function handleTimeout() {
-    const t = translations[currentLanguage];
-    const currentQ = currentQuestions[currentQuestionIndex];
-
-    score += POINTS_WRONG; 
-    
-    userAnswers[currentQ.id || currentQuestionIndex] = {
-        question: currentQ.question,
-        userAnswer: `(Timeout - ${t.correct_answer}: ${currentQ.answer})`,
-        correctAnswer: currentQ.answer,
-        isCorrect: false,
-    };
-    
-    document.querySelectorAll('.option-label').forEach(label => {
-        label.querySelector('input').disabled = true;
-        if (label.querySelector('input').value === currentQ.answer) {
-            label.classList.add('correct'); 
-        }
-    });
-
-    document.getElementById('submit-btn').classList.add('hidden');
-    document.getElementById('next-btn').classList.remove('hidden');
-    
-    // إضافة صوت انتهاء الوقت
-    playSound('timeout');
-    
-    setTimeout(() => {
-        currentQuestionIndex++;
-        displayQuestion();
-    }, 2000);
+// **=================================================**
+// [3] منطق الاختبار (بدء، عرض، إجابة، نتائج)
+// **=================================================**
+// دالة خلط عشوائي للمصفوفة
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]]; 
+    }
+    return array;
 }
-
-// ---------------------- 4. نظام الأصوات ----------------------
-
-function playSound(type) {
-    try {
-        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        
-        switch(type) {
-            case 'correct':
-                // صوت للإجابة الصحيحة
-                playBeep(audioContext, 800, 0.3);
-                break;
-            case 'incorrect':
-                // صوت للإجابة الخاطئة
-                playBeep(audioContext, 400, 0.3);
-                break;
-            case 'timeout':
-                // صوت انتهاء الوقت
-                playBeep(audioContext, 300, 0.5);
-                break;
-            case 'click':
-                // صوت للنقر
-                playBeep(audioContext, 600, 0.1);
-                break;
-        }
-    } catch (error) {
-        console.log('لا يمكن تشغيل الأصوات:', error);
-    }
+// دالة بدء التحدي اليومي
+function startDailyChallenge() {
+    const t = translations[currentLanguage];
+    let allQuestions = [];
+    
+    function collectQuestions(dataObject) {
+        Object.values(dataObject).forEach(content => {
+            if (Array.isArray(content)) {
+                allQuestions = allQuestions.concat(content);
+            } else if (typeof content === 'object' && content !== null && !Array.isArray(content)) {
+                collectQuestions(content);
+            }
+        });
+    }
+    
+    collectQuestions(geologicalData); 
+    const shuffledQuestions = shuffleArray(allQuestions);
+    const dailyQuestions = shuffledQuestions.slice(0, DAILY_CHALLENGE_QUESTIONS);
+    
+    if (dailyQuestions.length === 0) {
+        showNotification("لا توجد أسئلة متاحة لبدء التحدي اليومي.", 5000);
+        return;
+    }
+    
+    startQuiz(t.daily_challenge, dailyQuestions);
 }
-
-function playBeep(audioContext, frequency, duration) {
-    const oscillator = audioContext.createOscillator();
-    const gainNode = audioContext.createGain();
-    
-    oscillator.connect(gainNode);
-    gainNode.connect(audioContext.destination);
-    
-    oscillator.frequency.value = frequency;
-    oscillator.type = 'sine';
-    
-    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
-    
-    oscillator.start(audioContext.currentTime);
-    oscillator.stop(audioContext.currentTime + duration);
+// دالة بدء الاختبار
+function startQuiz(quizTitle, questions) { 
+    clearInterval(timerInterval);
+    currentQuestions = shuffleArray(questions.map((q, index) => ({...q, id: q.id || index}))); // ضمان وجود ID وخلط
+    currentQuestionIndex = 0;
+    score = 0;
+    userAnswers = {};
+    quizStartTime = Date.now(); // تسجيل وقت بدء الاختبار
+    
+    // تبديل الشاشات
+    document.getElementById('topic-selection').classList.add('hidden');
+    document.getElementById('results-screen').classList.add('hidden');
+    document.getElementById('quiz-screen').classList.remove('hidden');
+    
+    const quizTitleElement = document.getElementById('quiz-title');
+    if (quizTitleElement) {
+        quizTitleElement.textContent = `${translations[currentLanguage].quiz_title_prefix} ${quizTitle}`;
+    }
+    
+    // إخفاء زر التخطي في التحدي اليومي، وإظهاره في الاختبار المخصص
+    const skipBtn = document.getElementById('skip-btn');
+    if (skipBtn) {
+         if (quizTitle === translations['ar'].daily_challenge) { // مقارنة بالترجمة العربية الثابتة
+             skipBtn.classList.add('hidden');
+         } else {
+             skipBtn.classList.remove('hidden');
+         }
+    }
+    displayQuestion();
 }
-
-// دالة الترجمة وتحديث الواجهة
-function translateUI(langCode) {
-    currentLanguage = langCode;
-    const t = translations[langCode] || translations['ar'];
-
-    document.getElementById('start-quiz-btn').innerHTML = `${t.start_quiz} <i class="fas fa-satellite-dish"></i>`;
-    document.getElementById('submit-btn').innerHTML = `${t.submit} <i class="fas fa-terminal"></i>`;
-    document.getElementById('next-btn').innerHTML = `<i class="fas fa-arrow-right"></i> ${t.next}`;
-    document.querySelector('#topics-list-container h3').textContent = t.choose_domain;
-    document.querySelector('#results-screen .large-btn').innerHTML = `${t.new_quiz} <i class="fas fa-redo-alt"></i>`;
-    
-    if (!document.getElementById('quiz-screen').classList.contains('hidden')) {
-        document.getElementById('timer-display').textContent = `${TIME_LIMIT}${t.timer_text}`;
-        document.getElementById('question-counter').textContent = `${t.question} ${currentQuestionIndex + 1} / ${currentQuestions.length}`;
-        document.querySelector('.review-log h3').textContent = t.review_errors;
-    }
-}
-
-function changeLanguage(langCode) {
-    translateUI(langCode);
-}
-
-// ---------------------- 5. التهيئة ومنطق بدء التشغيل ----------------------
-
-// التحكم في القائمة الجانبية
-document.getElementById('open-sidebar-btn').addEventListener('click', () => {
-    document.getElementById('sidebar').classList.add('open');
-    document.getElementById('overlay').style.display = 'block';
-    playSound('click');
-});
-document.getElementById('close-sidebar-btn').addEventListener('click', () => {
-    document.getElementById('sidebar').classList.remove('open');
-    document.getElementById('overlay').style.display = 'none';
-    playSound('click');
-});
-
-// إضافة حدث زر "ابدأ"
-document.getElementById('start-quiz-btn').addEventListener('click', () => {
-    document.getElementById('welcome-screen').classList.add('hidden');
-    document.getElementById('topic-selection').classList.remove('hidden');
-    playSound('click');
-});
-
-// زر إعادة التشغيل
-document.getElementById('new-quiz-btn').addEventListener('click', () => {
-    document.getElementById('results-screen').classList.add('hidden');
-    document.getElementById('welcome-screen').classList.remove('hidden');
-    resetQuiz();
-    playSound('click');
-});
-
-function resetQuiz() {
-    clearInterval(timerInterval);
-    currentQuestions = [];
-    currentQuestionIndex = 0;
-    score = 0;
-    userAnswers = {};
-}
-
-
-function initializeTopicSelection(data) {
-    const topicsList = document.getElementById('topics-list'); 
-    const sidebarList = document.getElementById('sidebar-topics-list');
-    const loadingMessage = document.getElementById('loading-message');
-
-    if (loadingMessage) loadingMessage.classList.add('hidden');
-    topicsList.innerHTML = '';
-    sidebarList.innerHTML = '';
-
-    Object.keys(data).forEach(topic => {
-        const topicDisplayName = topic.replace(/_/g, ' ');
-        const questionCount = Array.isArray(data[topic]) ? data[topic].length : 0;
-
-        const gridCard = document.createElement('div');
-        gridCard.className = 'topic-card';
-        gridCard.innerHTML = `
-            <h3>${topicDisplayName}</h3>
-            <p>${questionCount} سؤال متاح</p>
-        `;
-        
-        const sidebarLink = document.createElement('a');
-        sidebarLink.href = "#";
-        sidebarLink.textContent = topicDisplayName;
-        
-        const startQuizHandler = () => {
-            if (questionCount > 0) {
-                startQuiz(topicDisplayName, data[topic]);
-                document.getElementById('sidebar').classList.remove('open'); 
-                document.getElementById('overlay').style.display = 'none';
-                playSound('click');
-            } else {
-                alert('لا توجد أسئلة في هذا الموضوع');
-            }
-        };
-        
-        gridCard.addEventListener('click', startQuizHandler);
-        sidebarLink.addEventListener('click', startQuizHandler);
-        
-        topicsList.appendChild(gridCard);
-        sidebarList.appendChild(sidebarLink); 
-    });
-    
-    translateUI(currentLanguage);
-}
-
-// ---------------------- 6. منطق الاختبار ----------------------
-
-function startQuiz(topicTitle, questions) {
-    clearInterval(timerInterval);
-    
-    // التحقق من صحة البيانات
-    if (!Array.isArray(questions) || questions.length === 0) {
-        alert('لا توجد أسئلة في هذا الموضوع');
-        return;
-    }
-    
-    currentQuestions = questions;
-    currentQuestionIndex = 0;
-    score = 0;
-    userAnswers = {};
-
-    document.getElementById('topic-selection').classList.add('hidden');
-    document.getElementById('quiz-screen').classList.remove('hidden');
-    document.getElementById('quiz-title').textContent = `اختبار: ${topicTitle}`;
-
-    displayQuestion();
-}
-
+// دالة عرض السؤال
 function displayQuestion() {
-    clearInterval(timerInterval); 
-    const qContainer = document.getElementById('question-container');
-    const currentQ = currentQuestions[currentQuestionIndex];
-    const t = translations[currentLanguage];
-
-    if (!currentQ) {
-        return showResults();
-    }
-    
-    startTimer();
-    
-    document.getElementById('question-counter').textContent = 
-        `${t.question} ${currentQuestionIndex + 1} / ${currentQuestions.length}`;
-
-    let htmlContent = `<div class="question-text">${currentQ.question}</div>`;
-    htmlContent += '<div class="options-container">';
-
-    currentQ.options.forEach((option, index) => {
-        htmlContent += `
-            <label class="option-label">
-                <input type="radio" name="option" value="${option}">
-                <span class="option-text">${String.fromCharCode(65 + index)}. ${option}</span>
-            </label>
-        `;
-    });
-    htmlContent += '</div>';
-    qContainer.innerHTML = htmlContent;
-    
-    document.getElementById('submit-btn').classList.remove('hidden');
-    document.getElementById('next-btn').classList.add('hidden');
-    document.getElementById('submit-btn').disabled = true;
-
-    // تمكين زر الإرسال عند اختيار خيار
-    document.querySelectorAll('input[name="option"]').forEach(input => {
-        input.addEventListener('change', () => {
-            document.getElementById('submit-btn').disabled = false;
-            playSound('click');
-        });
-    });
+    clearInterval(timerInterval); 
+    const qContainer = document.getElementById('question-container');
+    const submitBtn = document.getElementById('submit-btn');
+    const nextBtn = document.getElementById('next-btn');
+    const questionCounter = document.getElementById('question-counter');
+    const currentScoreDisplay = document.getElementById('current-score'); 
+    
+    if (currentQuestionIndex >= currentQuestions.length) {
+        return showResults(); 
+    }
+    
+    const currentQ = currentQuestions[currentQuestionIndex];
+    const t = translations[currentLanguage];
+    
+    // إعادة تعيين شريط المؤقت والتحذير
+    startTimer(); 
+    
+    if (questionCounter) {
+        questionCounter.innerHTML = `<i class="fas fa-list-ol"></i> ${t.question} ${currentQuestionIndex + 1} / ${currentQuestions.length}`;
+    }
+    if (currentScoreDisplay) {
+        currentScoreDisplay.textContent = score;
+    }
+    
+    let htmlContent = `<p class="question-text">${currentQ.question}</p>`;
+    htmlContent += '<div class="options-container">';
+    const options = currentQ.options ? shuffleArray([...currentQ.options]) : []; 
+    
+    options.forEach((option, index) => {
+        const optionId = `q${currentQuestionIndex}-opt${index}`;
+        htmlContent += `
+            <label class="option-label" for="${optionId}">
+                <input type="radio" name="option" id="${optionId}" value="${option}">
+                <span class="option-text">${option}</span>
+            </label>
+        `;
+    });
+    htmlContent += '</div>';
+    qContainer.innerHTML = htmlContent;
+    
+    if (submitBtn) {
+        submitBtn.classList.remove('hidden');
+        submitBtn.disabled = true; // يتم التفعيل عند اختيار خيار
+    }
+    if (nextBtn) {
+        nextBtn.classList.add('hidden');
+    }
+    
+    // تفعيل زر التأكيد عند اختيار خيار
+    document.querySelectorAll('input[name="option"]').forEach(input => {
+        input.addEventListener('change', () => {
+            if (submitBtn) submitBtn.disabled = false;
+        });
+    });
+    
+    const feedbackContainer = document.getElementById('feedback-container');
+    if (feedbackContainer) feedbackContainer.classList.add('hidden');
 }
-
-// ---------------------- 7. معالجة الإجابة ----------------------
-
-function handleAnswerSubmission() {
-    clearInterval(timerInterval); 
-    
-    const selectedOption = document.querySelector('input[name="option"]:checked');
-    if (!selectedOption) {
-        alert('يرجى اختيار إجابة أولاً');
-        return;
-    }
-
-    const currentQ = currentQuestions[currentQuestionIndex];
-    const userAnswer = selectedOption.value;
-    const isCorrect = (userAnswer === currentQ.answer);
-    
-    if (isCorrect) {
-        score += POINTS_CORRECT;
-        playSound('correct');
-    } else {
-        score += POINTS_WRONG;
-        playSound('incorrect');
-    }
-
-    userAnswers[currentQuestionIndex] = {
-        question: currentQ.question,
-        userAnswer: userAnswer,
-        correctAnswer: currentQ.answer,
-        isCorrect: isCorrect,
-    };
-
-    // إظهار الإجابات الصحيحة والخاطئة بوضوح
-    document.querySelectorAll('.option-label').forEach(label => {
-        const input = label.querySelector('input');
-        input.disabled = true; 
-
-        if (input.value === currentQ.answer) {
-            label.classList.add('correct');
-            // إضافة تأثير مرئي للإجابة الصحيحة
-            label.style.animation = 'pulse 0.5s ease-in-out 2';
-        } else if (input.value === userAnswer && !isCorrect) {
-            label.classList.add('incorrect');
-            // إضافة تأثير مرئي للإجابة الخاطئة
-            label.style.animation = 'shake 0.5s ease-in-out';
-        }
-    });
-
-    document.getElementById('submit-btn').classList.add('hidden');
-    document.getElementById('next-btn').classList.remove('hidden');
-    
-    // الانتقال التلقائي بعد 2 ثانية
-    setTimeout(() => {
-        currentQuestionIndex++;
-        displayQuestion();
-    }, 2000);
+// ------ معالجة الإجابة (Submit) ------
+const submitBtn = document.getElementById('submit-btn');
+if (submitBtn) {
+    submitBtn.addEventListener('click', () => {
+        processAnswer(false);
+    });
 }
-
-// إضافة مستمع الحدث للإجابة
-document.getElementById('submit-btn').addEventListener('click', handleAnswerSubmission);
-
-document.getElementById('next-btn').addEventListener('click', () => {
-    currentQuestionIndex++;
-    displayQuestion();
-    playSound('click');
-});
-
-// ---------------------- 8. عرض النتائج ----------------------
-
+// ------ الانتقال للسؤال التالي (Next) ------
+const nextBtn = document.getElementById('next-btn');
+if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+        currentQuestionIndex++;
+        displayQuestion();
+    });
+}
+// ------ تخطي السؤال (Skip) ------
+const skipBtn = document.getElementById('skip-btn');
+if (skipBtn) {
+    skipBtn.addEventListener('click', () => {
+        // يتم تسجيل السؤال كـ "لم يتم الإجابة" ثم الانتقال
+        processAnswer(true); 
+    });
+}
+// ------ دالة معالجة الإجابة الموحدة (للإرسال أو التخطي/Timeout) ------
+function processAnswer(isSkippedOrTimeout = false) {
+    clearInterval(timerInterval); 
+    const currentQ = currentQuestions[currentQuestionIndex];
+    const t = translations[currentLanguage];
+    
+    const selectedOptionInput = document.querySelector('input[name="option"]:checked');
+    let userAnswer = selectedOptionInput ? selectedOptionInput.value : t.timeout_answer;
+    const correctAnswer = currentQ.answer;
+    let isCorrect = false;
+    let isAnswered = false;
+    if (isSkippedOrTimeout) {
+        isCorrect = false;
+        isAnswered = false; // لم تتم الإجابة فعلياً
+        score += POINTS_WRONG; // خصم نقاط للتخطي أو انتهاء الوقت
+        if (wrongSound) { wrongSound.currentTime = 0; wrongSound.play().catch(e => console.error("Error playing sound:", e)); }
+    } else {
+        isAnswered = true;
+        isCorrect = (userAnswer === correctAnswer);
+        if (isCorrect) {
+            score += POINTS_CORRECT;
+            if (correctSound) { correctSound.currentTime = 0; correctSound.play().catch(e => console.error("Error playing sound:", e)); }
+        } else {
+            score += POINTS_WRONG;
+            if (wrongSound) { wrongSound.currentTime = 0; wrongSound.play().catch(e => console.error("Error playing sound:", e)); }
+        }
+    }
+    // تسجيل الإجابة
+    userAnswers[currentQ.id] = {
+        question: currentQ.question,
+        userAnswer: userAnswer,
+        correctAnswer: correctAnswer,
+        isCorrect: isCorrect,
+    };
+    // تحديث الواجهة لعرض الإجابة الصحيحة/الخاطئة
+    document.querySelectorAll('.option-label').forEach(label => {
+        const input = label.querySelector('input');
+        input.disabled = true; // تعطيل الخيارات
+        if (input.value === correctAnswer) {
+            label.classList.add('correct'); 
+        } else if (input.checked && !isCorrect && isAnswered) { // إذا اختارها وكانت خاطئة
+            label.classList.add('incorrect'); 
+        }
+        if (!isAnswered && input.value !== correctAnswer) { // في حالة التخطي/التايم آوت
+             label.classList.add('incorrect');
+        }
+    });
+    
+    // عرض رسالة التغذية الراجعة
+    const feedbackContainer = document.getElementById('feedback-container');
+    if (feedbackContainer) {
+        if (isSkippedOrTimeout) {
+            feedbackContainer.textContent = `${t.timeout_feedback} ${correctAnswer}`;
+            feedbackContainer.className = 'feedback-message incorrect-feedback';
+        } else {
+             feedbackContainer.textContent = isCorrect ? t.correct_feedback : `${t.incorrect_feedback} ${correctAnswer}`;
+             feedbackContainer.className = `feedback-message ${isCorrect ? 'correct-feedback' : 'incorrect-feedback'}`; 
+        }
+        feedbackContainer.classList.remove('hidden');
+    }
+    const currentScoreDisplay = document.getElementById('current-score');
+    if (currentScoreDisplay) currentScoreDisplay.textContent = score;
+    
+    if (submitBtn) submitBtn.classList.add('hidden');
+    const nextBtn = document.getElementById('next-btn');
+    if (nextBtn) nextBtn.classList.remove('hidden');
+    // إخفاء زر التخطي بعد الإجابة/التخطي
+    if (skipBtn) skipBtn.classList.add('hidden');
+}
+// ------ التعامل مع انتهاء الوقت ------
+function handleTimeout() {
+    // نستخدم دالة processAnswer مع معلمة التخطي/التايم آوت
+    processAnswer(true); 
+    // يجب إظهار زر التالي هنا
+    const nextBtn = document.getElementById('next-btn');
+    if (nextBtn) nextBtn.classList.remove('hidden');
+}
+// ------ عرض النتائج النهائية ------
 function showResults() {
-    clearInterval(timerInterval); 
-    document.getElementById('quiz-screen').classList.add('hidden');
-    document.getElementById('results-screen').classList.remove('hidden');
-
-    document.getElementById('final-score').textContent = score;
-
-    const correctAnswers = Object.values(userAnswers).filter(a => a.isCorrect).length;
-    const totalQuestions = currentQuestions.length;
-    const percentage = (correctAnswers / totalQuestions) * 100;
-    
-    const gradeMessage = document.getElementById('grade-message');
-    const t = translations[currentLanguage];
-    
-    if (percentage >= 90) {
-        gradeMessage.innerHTML = t.great_job;
-        gradeMessage.style.color = 'var(--correct-color)';
-    } else if (percentage >= 70) {
-        gradeMessage.innerHTML = t.good_job;
-        gradeMessage.style.color = 'var(--neon-blue)';
-    } else {
-        gradeMessage.innerHTML = t.needs_review;
-        gradeMessage.style.color = 'var(--incorrect-color)';
-    }
-
-    const reviewArea = document.getElementById('review-area');
-    reviewArea.innerHTML = `<h3>${t.review_errors}</h3>`;
-    let errorsFound = false;
-    
-    Object.values(userAnswers).forEach(answer => {
-        if (!answer.isCorrect) {
-            errorsFound = true;
-            reviewArea.innerHTML += `
-                <div class="review-item">
-                    <div class="review-question">${answer.question}</div>
-                    <div class="review-answer">
-                        <div class="user-answer">
-                            <i class="fas fa-times" style="color: var(--incorrect-color);"></i>
-                            ${t.your_answer} <span style="color: var(--incorrect-color);">${answer.userAnswer}</span>
-                        </div>
-                        <div class="correct-answer">
-                            <i class="fas fa-check" style="color: var(--correct-color);"></i>
-                            ${t.correct_answer} <span style="color: var(--correct-color);">${answer.correctAnswer}</span>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-    });
-    
-    if (!errorsFound) {
-        reviewArea.innerHTML += `
-            <div class="all-correct">
-                <i class="fas fa-trophy" style="font-size: 3rem; color: var(--correct-color); margin-bottom: 20px;"></i>
-                <h3 style="color: var(--correct-color);">🎉 ممتاز! لا توجد أخطاء لمراجعتها.</h3>
-            </div>
-        `;
-    }
+    clearInterval(timerInterval);
+    const quizScreen = document.getElementById('quiz-screen');
+    const resultsScreen = document.getElementById('results-screen');
+    const finalScoreElement = document.getElementById('final-score');
+    const totalQuestionsCountElement = document.getElementById('total-questions-count');
+    const gradeMessage = document.getElementById('grade-message');
+    const reviewArea = document.getElementById('review-area');
+    const correctCountElement = document.getElementById('correct-count');
+    const wrongCountElement = document.getElementById('wrong-count');
+    const totalTimeElement = document.getElementById('total-time');
+    
+    if (quizScreen) quizScreen.classList.add('hidden');
+    if (resultsScreen) resultsScreen.classList.remove('hidden');
+    const totalQuestions = currentQuestions.length;
+    let correctCount = Object.values(userAnswers).filter(answer => answer.isCorrect).length;
+    let wrongCount = totalQuestions - correctCount;
+    // حساب الوقت المستغرق
+    const totalTimeSeconds = Math.round((Date.now() - quizStartTime) / 1000);
+    if (totalTimeElement) totalTimeElement.textContent = `${totalTimeSeconds} ${translations[currentLanguage].seconds}`;
+    
+    // تشغيل صوت الإنجاز المثالي
+    if (wrongCount === 0 && totalQuestions > 0) { 
+        if (perfectSound) { perfectSound.currentTime = 0; perfectSound.play().catch(e => console.error("Error playing perfect sound:", e)); }
+    }
+    
+    if (finalScoreElement) finalScoreElement.textContent = score;
+    if (totalQuestionsCountElement) totalQuestionsCountElement.textContent = totalQuestions;
+    if (correctCountElement) correctCountElement.textContent = correctCount;
+    if (wrongCountElement) wrongCountElement.textContent = wrongCount;
+    
+    // حساب النسبة المئوية
+    const percentage = Math.round((correctCount / (totalQuestions || 1)) * 100);
+    const t = translations[currentLanguage];
+    
+    // تحديد الرسالة واللون
+    if (gradeMessage) {
+        if (percentage >= 90) { gradeMessage.innerHTML = t.great_job; gradeMessage.style.color = 'var(--correct-color)'; } 
+        else if (percentage >= 70) { gradeMessage.innerHTML = t.good_job; gradeMessage.style.color = 'var(--neon-blue)'; } 
+        else { gradeMessage.innerHTML = t.needs_review; gradeMessage.style.color = 'var(--incorrect-color)'; }
+    }
+    
+    // تحديث دائرة التقدم (Progress Ring)
+    const progressRingFill = document.querySelector('.progress-ring-fill');
+    if (progressRingFill) {
+        const radius = progressRingFill.r.baseVal.value;
+        const circumference = 2 * Math.PI * radius;
+        const offset = circumference - (percentage / 100) * circumference;
+        progressRingFill.style.strokeDashoffset = offset;
+    }
+    
+    // مراجعة الأخطاء
+    if (reviewArea) {
+        let reviewContentHTML = `<h3><i class="fas fa-bug"></i> ${t.review_errors}</h3><div id="review-content">`; 
+        let errorsFound = false;
+        
+        Object.values(userAnswers).forEach(answer => {
+            if (!answer.isCorrect) {
+                errorsFound = true;
+                reviewContentHTML += `
+                    <div class="review-item">
+                        <p class="error-q">${answer.question}</p>
+                        <p class="error-a">${t.your_answer} <span class="wrong">${answer.userAnswer}</span></p>
+                        <p class="error-a">${t.correct_answer} <span class="right">${answer.correctAnswer}</span></p>
+                    </div>
+                `;
+            }
+        });
+        
+        reviewContentHTML += `</div>`;
+        
+        if (!errorsFound) {
+            reviewContentHTML += `<p class="all-correct">${t.all_correct_message}</p>`;
+        }
+        
+        reviewArea.innerHTML = reviewContentHTML;
+    }
+    
+    // إخفاء زر التخطي في حال العودة لشاشة النتائج
+    if (skipBtn) skipBtn.classList.add('hidden');
 }
-
-// إضافة أنماط CSS للرسوم المتحركة
-const animationStyles = document.createElement('style');
-animationStyles.textContent = `
-    @keyframes pulse {
-        0%, 100% { transform: scale(1); }
-        50% { transform: scale(1.05); }
-    }
-    
-    @keyframes shake {
-        0%, 100% { transform: translateX(0); }
-        25% { transform: translateX(-5px); }
-        75% { transform: translateX(5px); }
-    }
-    
-    .correct {
-        background: rgba(76, 222, 128, 0.2) !important;
-        border-color: var(--correct-color) !important;
-    }
-    
-    .incorrect {
-        background: rgba(248, 113, 113, 0.2) !important;
-        border-color: var(--incorrect-color) !important;
-    }
-    
-    .option-label {
-        transition: all 0.3s ease;
-    }
-`;
-document.head.appendChild(animationStyles);
-
-// تشغيل التهيئة: يبدأ بتحميل البيانات من Question.json
-loadGeologyData();
+// **=================================================**
+// [4] وظائف مساعدة (مؤقت، ترجمة، تبديل السمة، إلخ)
+// **=================================================**
+// ------ دالة المؤقت (مُحسنة) ------
+function startTimer() {
+    clearInterval(timerInterval); 
+    let timeRemaining = TIME_LIMIT;
+    const timerDisplayElement = document.getElementById('timer-display'); 
+    const timerValueElement = document.querySelector('#timer-display .timer-value'); 
+    const timerUnitElement = document.querySelector('#timer-display .timer-unit'); 
+    const t = translations[currentLanguage];
+    // إعادة تعيين المؤقت للوضع الطبيعي
+    if (timerValueElement) timerValueElement.textContent = timeRemaining;
+    if (timerUnitElement) timerUnitElement.textContent = t.timer_text; 
+    if (timerDisplayElement) {
+        timerDisplayElement.removeAttribute('data-critical'); 
+        timerDisplayElement.style.color = 'var(--neon-blue)'; // لإلغاء التعديل المباشر
+    }
+    timerInterval = setInterval(() => {
+        timeRemaining--;
+        if (timerValueElement) timerValueElement.textContent = timeRemaining;
+        // تغيير المؤقت إلى وضع حرج (آخر 5 ثواني)
+        if (timeRemaining <= 5) {
+            if (timerDisplayElement) {
+                timerDisplayElement.setAttribute('data-critical', 'true'); 
+            }
+        } else {
+            if (timerDisplayElement) {
+                 timerDisplayElement.removeAttribute('data-critical'); 
+            }
+        }
+        
+        // التعامل مع انتهاء الوقت
+        if (timeRemaining <= 0) {
+            clearInterval(timerInterval);
+            handleTimeout();
+        }
+    }, 1000);
+}
+// ------ دالة الترجمة الموحدة ------
+function translateUI(langCode) {
+    currentLanguage = langCode;
+    const t = translations[langCode] || translations['ar']; 
+    
+    document.documentElement.lang = langCode; 
+    document.documentElement.dir = (langCode === 'ar') ? 'rtl' : 'ltr'; 
+    
+    const updateText = (selector, key) => {
+        const element = document.querySelector(selector);
+        if (element) element.textContent = t[key];
+    };
+    
+    const updateHTML = (selector, key) => {
+        const element = document.querySelector(selector);
+        if (element) {
+            const btnText = element.querySelector('.btn-text');
+            const btnGlow = element.querySelector('.btn-glow') ? '<span class="btn-glow"></span>' : '';
+            if (btnText) {
+                btnText.textContent = t[key];
+            } else {
+                 // حالة الأزرار التي تحتوي فقط على نص (مثل زر الرجوع)
+                 const icon = element.querySelector('.btn-icon') ? element.querySelector('.btn-icon').outerHTML : '';
+                 element.innerHTML = `${icon}<span class="btn-text">${t[key]}</span>${btnGlow}`;
+            }
+        }
+    };
+    
+    // الشاشة الرئيسية
+    updateHTML('#start-quiz-btn', 'start_custom_quiz'); 
+    updateHTML('#daily-challenge-btn', 'daily_challenge_button'); 
+    updateHTML('#back-to-main-menu-btn', 'back_button');
+    
+    // شاشة الاختبار
+    updateHTML('#submit-btn', 'submit');
+    updateHTML('#next-btn', 'next');
+    updateHTML('#skip-btn', 'skip');
+    updateText('#timer-display .timer-unit', 'timer_text');
+    
+    // شاشة النتائج
+    updateHTML('#results-screen button[onclick*="reload"]', 'new_quiz');
+    updateHTML('#share-results-btn', 'share_results');
+    const reviewTitle = document.querySelector('#review-area h3');
+    if (reviewTitle) reviewTitle.innerHTML = `<i class="fas fa-bug"></i> ${t.review_errors}`;
+    
+    // نصوص إحصائيات النتائج
+    updateText('#total-time + p', 'time_spent');
+    updateText('#correct-count + p', 'إجابات صحيحة');
+    updateText('#wrong-count + p', 'إجابات خاطئة');
+    
+    // الفوتر والإحصائيات العلوية
+    const activeUsersIndicator = document.querySelector('.active-users-indicator');
+    if (activeUsersIndicator) activeUsersIndicator.title = t.active_users_title;
+    
+    const traineesSection = document.querySelector('.total-trainees-section');
+    if (traineesSection) {
+        traineesSection.childNodes[1].textContent = `${t.total_trainees} `;
+    }
+    
+    // تحديث العناوين الديناميكية (مثل قائمة المواضيع)
+    const headerTitle = document.getElementById('topics-header-title');
+    if (headerTitle) {
+        const backBtnVisible = document.getElementById('back-to-main-menu-btn') && !document.getElementById('back-to-main-menu-btn').classList.contains('hidden');
+        if (backBtnVisible) {
+            headerTitle.innerHTML = `<i class="fas fa-globe-americas"></i> ${t.choose_gis_domain}`;
+        } else {
+            headerTitle.innerHTML = `<i class="fas fa-folder-open"></i> ${t.choose_domain}`;
+        }
+    }
+}
+function changeLanguage(langCode) {
+    translateUI(langCode);
+}
+// ------ تبديل السمة (مُحسنة) ------
+const themeToggleBtn = document.getElementById('theme-toggle');
+if (themeToggleBtn) {
+    themeToggleBtn.addEventListener('click', () => {
+        const body = document.body;
+        let currentTheme = body.getAttribute('data-theme');
+        const newTheme = (currentTheme === 'dark') ? 'light' : 'dark';
+        body.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        themeToggleBtn.innerHTML = (newTheme === 'dark') ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+        themeToggleBtn.title = (newTheme === 'dark') ? 'تبديل إلى السمة الفاتحة' : 'تبديل إلى السمة الداكنة';
+    });
+    const savedTheme = localStorage.getItem('theme') || 'dark'; 
+    document.body.setAttribute('data-theme', savedTheme);
+    themeToggleBtn.innerHTML = (savedTheme === 'dark') ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+}
+// ------ إظهار إشعار مؤقت (Toast) ------
+function showNotification(message, duration = 3000) {
+    const toast = document.getElementById('notification-toast');
+    const messageElement = document.getElementById('notification-message');
+    if (!toast || !messageElement) return;
+    
+    // التأكد من أن التوغل مخفي قبل البدء
+    toast.classList.remove('show');
+    toast.classList.add('hidden');
+    
+    messageElement.textContent = message;
+    
+    // إظهار
+    setTimeout(() => {
+        toast.classList.remove('hidden');
+        toast.classList.add('show');
+    }, 50); // تأخير بسيط لضمان إعادة تشغيل الـ CSS transition
+    // إخفاء
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => {
+             toast.classList.add('hidden');
+        }, 500); 
+    }, duration);
+}
+// **=================================================**
+// [5] تشغيل الكود عند تحميل الصفحة
+// **=================================================**
+document.addEventListener('DOMContentLoaded', () => {
+    // --- التحكم في القائمة الجانبية (Sidebar) ---
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+    const openSidebarBtn = document.getElementById('open-sidebar-btn');
+    const closeSidebarBtn = document.getElementById('close-sidebar-btn');
+    
+    if (openSidebarBtn && sidebar && overlay) {
+        openSidebarBtn.addEventListener('click', () => {
+            sidebar.classList.add('open');
+            overlay.style.display = 'block';
+            openSidebarBtn.setAttribute('aria-expanded', 'true');
+        });
+    }
+    if (closeSidebarBtn && sidebar && overlay) {
+        closeSidebarBtn.addEventListener('click', () => {
+            sidebar.classList.remove('open');
+            overlay.style.display = 'none';
+            openSidebarBtn.setAttribute('aria-expanded', 'false');
+        });
+    }
+    if (overlay && sidebar) {
+        overlay.addEventListener('click', () => {
+              sidebar.classList.remove('open');
+              overlay.style.display = 'none';
+              openSidebarBtn.setAttribute('aria-expanded', 'false');
+         });
+     }
+    
+    // --- زر الرجوع من قائمة المواضيع الفرعية ---
+    const backBtn = document.getElementById('back-to-main-menu-btn');
+    const startCustomBtn = document.getElementById('start-quiz-btn'); 
+    const dailyChallengeContainer = document.querySelector('.daily-challenge-section');
+    const topicsListContainer = document.getElementById('topics-list-container');
+    if (backBtn) {
+        backBtn.addEventListener('click', () => {
+            populateTopicLists(geologicalData, false); // العودة للقائمة الرئيسية
+            // إعادة إظهار الأزرار الرئيسية
+            if (startCustomBtn) startCustomBtn.classList.remove('hidden');
+            if (dailyChallengeContainer) dailyChallengeContainer.classList.remove('hidden'); 
+            if (topicsListContainer) topicsListContainer.classList.add('hidden');
+        });
+    }
+    // --- زر العودة للقائمة الرئيسية من شاشة الاختبار ---
+    const homeBtn = document.getElementById('home-btn');
+    if (homeBtn) {
+        homeBtn.addEventListener('click', () => {
+            window.location.reload(); // إعادة تحميل الصفحة للعودة للقائمة الرئيسية
+        });
+    }
+    
+    // --- تحديث عداد المستخدمين النشطين (Active users count) ---
+    const activeUsersCountElement = document.getElementById('active-users-count');
+    function updateActiveUsersGradually() {
+        let change = Math.floor(Math.random() * 3) - 1; 
+        currentActiveUsers += change;
+        currentActiveUsers = Math.max(3, Math.min(16, currentActiveUsers));
+        if (activeUsersCountElement) {
+             activeUsersCountElement.textContent = currentActiveUsers;
+        }
+    }
+    function scheduleNextUserUpdate() {
+        const randomInterval = Math.random() * 4000 + 3000; 
+        setTimeout(() => {
+             updateActiveUsersGradually();
+             scheduleNextUserUpdate(); 
+        }, randomInterval);
+    }
+    if (activeUsersCountElement) activeUsersCountElement.textContent = currentActiveUsers; 
+    scheduleNextUserUpdate(); 
+    
+    // --- تحميل بيانات الاختبار وتطبيق الترجمة الأولية ---
+    loadGeologyData(); 
+    translateUI(currentLanguage); // تطبيق الترجمة الأولية
+});
