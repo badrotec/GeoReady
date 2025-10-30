@@ -1,1116 +1,282 @@
-// **=================================================**
-// [1] المتغيرات العالمية والتحكم
-// **=================================================**
-let geologicalData = {};
-let currentQuestions = [];
-let currentQuestionIndex = 0;
-let score = 0;
-let userAnswers = {}; // تخزين إجابات المستخدمين للمراجعة
-let timerInterval;
-let quizStartTime = 0; // جديد: لبدء احتساب الوقت الإجمالي
-const TIME_LIMIT = 20; // ثانية لكل سؤال
-const POINTS_CORRECT = 5;
-const POINTS_WRONG = -3;
-const DAILY_CHALLENGE_QUESTIONS = 7; 
-let currentLanguage = 'ar';
-let currentActiveUsers = Math.floor(Math.random() * (16 - 3 + 1)) + 3; 
-const ROCK_QUIZ_TITLE = "تحديد الصخور بالصور"; // عنوان ثابت لاختبار الصخور
+document.addEventListener('DOMContentLoaded', () => {
+    // --- Global State & Config ---
+    const JSON_DATA = (/* The provided JSON data is huge, we treat it as already available here */);
+    const ALL_QUESTIONS = JSON.parse(JSON.stringify(JSON_DATA)); // Deep copy the data
+    const DAILY_QUESTION_COUNT = 7;
+    const TIME_PER_DAILY_QUESTION = 20; // Seconds
 
-// عناصر الصوت (تأكد من وجودها في HTML)
-const correctSound = document.getElementById('correct-sound');
-const wrongSound = document.getElementById('wrong-sound');
-const perfectSound = document.getElementById('perfect-sound');
-
-// 💡 بيانات الصخور الجديدة (مدمجة هنا - لإنشاء اختبار الصخور)
-const RockQuizData = {
-    // 🧱 أولًا: الصخور النارية (Magmatiques / Igneous Rocks)
-    "Magmatiques_Igneous_Rocks": [
-        {
-            name: "Granite",
-            type: "نارية جوفية",
-            features: "فاتح اللون، بلورات واضحة (كوارتز + فلسبار + ميكا)، صلب جدًا",
-            location: "الكتل البلوتونية، الهضاب القديمة",
-            image: "Granite.jpg" // 💡 يجب وضع الصورة في مجلد /roch/
-        },
-        {
-            name: "Diorite",
-            type: "نارية جوفية",
-            features: "رمادي متوسط، يحتوي أمفيبول وفلسبار، دون كوارتز واضح",
-            location: "سلاسل جبلية قديمة",
-            image: "Diorite.jpg"
-        },
-        {
-            name: "Gabbro",
-            type: "نارية جوفية",
-            features: "داكن جدًا، حبيبات خشنة، غني بالبيروكسين والفلسبار الكلسي",
-            location: "الصخور القاعدية",
-            image: "Gabbro.jpg"
-        },
-        {
-            name: "Basalte",
-            type: "نارية سطحية",
-            features: "داكن، ناعم الحبيبات، يظهر في تدفقات بركانية",
-            location: "الحقول البركانية والحمم",
-            image: "Basalte.jpg"
-        },
-        {
-            name: "Andésite",
-            type: "نارية سطحية",
-            features: "رمادي مائل للخضرة، متوسط التركيب، فقاقيع أحيانًا",
-            location: "مناطق بركانية قوسية",
-            image: "Andésite.jpg"
-        },
-        {
-            name: "Rhyolite",
-            type: "نارية سطحية",
-            features: "فاتح اللون، زجاجي أحيانًا، مشابه للغرانيت لكن دقيق الحبيبات",
-            location: "تدفقات حمم سيليسية",
-            image: "Rhyolite.jpg"
-        }
-    ],
-    // 🪨 ثانيًا: الصخور الرسوبية (Sédimentaires / Sedimentary Rocks)
-    "Sédimentaires_Sedimentary_Rocks": [
-        {
-            name: "Grès",
-            type: "فتاتية",
-            features: "ملمس رملي، تتكون من حبيبات كوارتز ملتحمة",
-            location: "الصحارى، الأحواض القارية",
-            image: "grès.jpeg"
-        },
-        {
-            name: "Calcaire",
-            type: "كيميائية / بيولوجية",
-            features: "يتفاعل مع HCl، يحتوي أحيانًا على بقايا عضوية",
-            location: "البحار الضحلة، الجروف",
-            image: "Calcaire.jpeg"
-        },
-        {
-            name: "Argilite", 
-            type: "فتاتية دقيقة",
-            features: "بني رمادي، طبقي، هش",
-            location: "أحواض هادئة، بيئات طينية",
-            image: "argilite.jpeg"
-        },
-         {
-            name: "Shale", 
-            type: "فتاتية دقيقة",
-            features: "داكن، يتميز بالصفائحية والانشقاق الموازي للطبقات",
-            location: "أحواض هادئة، بيئات طينية",
-            image: "shale.jpeg"
-        },
-        {
-            name: "Conglomérat",
-            type: "فتاتية خشنة",
-            features: "حبيبات كبيرة (حصى) ملتحمة بملاط",
-            location: "رواسب أنهار قديمة",
-            image: "Conglomérat.jpeg"
-        },
-        {
-            name: "Marnes",
-            type: "مختلط",
-            features: "رمادي مزرق، طيني كلسي، ناعم جدًا",
-            location: "انتقالات بحرية–قارية",
-            image: "Marnes.jpeg"
-        },
-        {
-            name: "Dolomie",
-            type: "كيميائية",
-            features: "مشابه للحجر الجيري لكن أفتح وأقل تفاعلًا مع HCl",
-            location: "متبخرات قديمة",
-            image: "Dolomie.jpeg"
-        }
-    ],
-    // 🔥 ثالثًا: الصخور المتحولة (Métamorphiques / Metamorphic Rocks)
-    "Métamorphiques_Metamorphic_Rocks": [
-        {
-            name: "Schiste",
-            type: "متحولة متوسطة",
-            features: "صفائحية، لامعة بالميكا، قابلة للانشقاق",
-            location: "مناطق الطي والتحول الإقليمي",
-            image: "Schiste.jpeg"
-        },
-        {
-            name: "Gneiss",
-            type: "متحولة عالية",
-            features: "نطاقات فاتحة وغامقة متناوبة، خشنة الحبيبات",
-            location: "تحت الجبال القديمة",
-            image: "Gneiss.jpeg"
-        },
-        {
-            name: "Quartzite",
-            type: "متحولة من الرملية",
-            features: "صلب جدًا، لامع، لا ينخدش بالظفر",
-            location: "بقايا قديمة متحولة",
-            image: "Quartzite.jpeg"
-        },
-        {
-            name: "Marbre",
-            type: "متحول من الكالسير",
-            features: "أبيض لامع، ناعم، يتفاعل مع HCl",
-            location: "مناطق التحول التماسي",
-            image: "Marbre.jpeg"
-        },
-         {
-            name: "Amphibolite",
-            type: "متحول من البازلت أو الغابرو",
-            features: "داكن، غني بالأمفيبول، نسيج متوازي",
-            location: "مناطق الضغط العالي",
-            image: "Amphibolite.jpg" 
-        }
-    ]
-};
-
-// قاموس الترجمة
-const translations = {
-    'ar': {
-        'start_custom_quiz': 'بدء اختبار مخصص',
-        'daily_challenge': 'التحدي اليومي',
-        'daily_challenge_button': `التحدي اليومي (${DAILY_CHALLENGE_QUESTIONS} أسئلة)`,
-        'choose_domain': 'اختر مجال الاختبار المخصص:',
-        'choose_gis_domain': 'اختر اختبار فرعي:',
-        'quiz_title_prefix': 'بروتوكول:',
-        'question': 'السؤال',
-        'submit': 'تأكيد الإجابة',
-        'next': 'السؤال التالي',
-        'skip': 'تخطي', 
-        'review_errors': 'فحص الأخطاء:',
-        'your_answer': 'إجابتك:',
-        'correct_answer': 'الصحيح:',
-        'great_job': '🌟 أداء استثنائي! معرفة جيولوجية قوية.',
-        'good_job': '✨ جيد جداً! أساس متين، لكن هناك مجال للمراجعة.',
-        'needs_review': '⚠️ تحتاج إلى مراجعة مكثفة لهذه المفاهيم.',
-        'new_quiz': 'إعادة تشغيل النظام',
-        'share_results': 'مشاركة النتائج',
-        'timer_text': 'ث',
-        'loading_data': '... تحليل بيانات النظام',
-        'loading_error': '[خطأ الاتصال] عذراً، لا يمكن تحميل البيانات. يرجى مراجعة ملف Question.json.',
-        'timeout_answer': '(انتهى الوقت - لم يتم الإجابة)',
-        'all_correct_message': '🎉 ممتاز! لا توجد أخطاء لمراجعتها.',
-        'active_users_title': 'المتدربون النشطون الآن',
-        'back_button': 'الرجوع للقائمة الرئيسية',
-        'time_spent': 'الوقت المستغرق', 
-        'seconds': 'ثانية', 
-        'correct_feedback': 'إجابة صحيحة!',
-        'incorrect_feedback': 'إجابة خاطئة. الصحيح:',
-        'timeout_feedback': 'انتهى الوقت! الإجابة الصحيحة:',
-        'total_trainees': 'إجمالي المتدربين المسجلين:',
-        // 💡 ترجمة لأقسام الصخور الجديدة
-        'rock_quiz_title': ROCK_QUIZ_TITLE,
-        'Magmatiques_Igneous_Rocks': 'الصخور النارية (Igneous)',
-        'Sédimentaires_Sedimentary_Rocks': 'الصخور الرسوبية (Sedimentary)',
-        'Métamorphiques_Metamorphic_Rocks': 'الصخور المتحولة (Metamorphic)',
-        'rock_info_title': 'معلومات تحليل الصخر:',
-        'rock_type': 'النوع الجيولوجي:',
-        'rock_features': 'المميزات الميدانية:',
-        'rock_location': 'أماكن شائعة:',
-        'go_to_next': 'السؤال التالي'
-    },
-    'en': {
-        'start_custom_quiz': 'Start Custom Quiz',
-        'daily_challenge': 'Daily Challenge',
-        'daily_challenge_button': `Daily Challenge (${DAILY_CHALLENGE_QUESTIONS} Questions)`,
-        'choose_domain': 'Choose Custom Quiz Domain:',
-        'choose_gis_domain': 'Choose Sub Quiz:',
-        'quiz_title_prefix': 'Protocol:',
-        'question': 'Question',
-        'submit': 'Confirm Answer',
-        'next': 'Next Question',
-        'skip': 'Skip',
-        'review_errors': 'Review Conceptual Errors:',
-        'your_answer': 'Your Answer:',
-        'correct_answer': 'Correct:',
-        'great_job': '🌟 Exceptional performance! Strong geological knowledge.',
-        'good_job': '✨ Very good! Solid foundation, but room for review.',
-        'needs_review': '⚠️ Requires intensive review of these concepts.',
-        'new_quiz': 'Restart System',
-        'share_results': 'Share Results',
-        'timer_text': 's',
-        'loading_data': '... Analyzing system data',
-        'loading_error': '[Connection Error] Sorry, data could not be loaded. Please check Question.json file.',
-        'timeout_answer': '(Timeout - No answer provided)',
-        'all_correct_message': '🎉 Excellent! No errors to review.',
-        'active_users_title': 'Active Trainees Now',
-        'back_button': 'Back to Main Menu',
-        'time_spent': 'Total Time',
-        'seconds': 'seconds',
-        'correct_feedback': 'Correct Answer!',
-        'incorrect_feedback': 'Wrong Answer. Correct:',
-        'timeout_feedback': 'Timeout! Correct Answer:',
-        'total_trainees': 'Total Registered Trainees:',
-        'rock_quiz_title': 'Identify the Rocks by Image',
-        'Magmatiques_Igneous_Rocks': 'Igneous Rocks',
-        'Sédimentaires_Sedimentary_Rocks': 'Sedimentary Rocks',
-        'Métamorphiques_Metamorphic_Rocks': 'Metamorphic Rocks',
-        'rock_info_title': 'Rock Analysis Information:',
-        'rock_type': 'Geological Type:',
-        'rock_features': 'Field Features:',
-        'rock_location': 'Common Locations:',
-        'go_to_next': 'Next Question'
-    },
-    'fr': {
-        'start_custom_quiz': 'Commencer Quiz Personnalisé',
-        'daily_challenge': 'Défi Quotidien',
-        'daily_challenge_button': `Défi Quotidien (${DAILY_CHALLENGE_QUESTIONS} Questions)`,
-        'choose_domain': 'Choisissez un domaine de Quiz Personnalisé:',
-        'choose_gis_domain': 'Choisissez Sous-Quiz:',
-        'quiz_title_prefix': 'Protocole:',
-        'question': 'Question',
-        'submit': 'Confirmer la Réponse',
-        'next': 'Question Suivante',
-        'skip': 'Sauter',
-        'review_errors': 'Revue des Erreurs Conceptuelles:',
-        'your_answer': 'Votre Réponse:',
-        'correct_answer': 'La Bonne:',
-        'great_job': '🌟 Performance exceptionnelle! Solides connaissances géologiques.',
-        'good_job': '✨ Très bien! Base solide, mais il y a place à l\'amélioration.',
-        'needs_review': '⚠️ Nécessite une révision intensive de ces concepts.',
-        'new_quiz': 'Redémarrer le Système',
-        'share_results': 'Partager les Résultats',
-        'timer_text': 's',
-        'loading_data': '... Analyse des données système',
-        'loading_error': '[Erreur de Connexion] Désolé, les données n\'ont pas pu être chargées. Veuillez vérifier le fichier Question.json.',
-        'timeout_answer': '(Temps écoulé - Aucune réponse fournie)',
-        'all_correct_message': '🎉 Excellent! Aucune erreur à examiner.',
-        'active_users_title': 'Apprenants Actifs Maintenant',
-        'back_button': 'Retour au menu principal',
-        'time_spent': 'Temps Total',
-        'seconds': 'secondes',
-        'correct_feedback': 'Réponse Correcte!',
-        'incorrect_feedback': 'Mauvaise Réponse. Correct:',
-        'timeout_feedback': 'Temps écoulé! Réponse Correcte:',
-        'total_trainees': 'Apprenants Enregistrés Totaux:',
-        'rock_quiz_title': 'Identifier les Roches par Image',
-        'Magmatiques_Igneous_Rocks': 'Roches Magmatiques',
-        'Sédimentaires_Sedimentary_Rocks': 'Roches Sédimentaires',
-        'Métamorphiques_Metamorphic_Rocks': 'Roches Métamorphiques',
-        'rock_info_title': 'Informations sur l\'analyse des roches:',
-        'rock_type': 'Type Géologique:',
-        'rock_features': 'Caractéristiques de Terrain:',
-        'rock_location': 'Lieux Communs:',
-        'go_to_next': 'Question Suivante'
-    }
-};
-
-
-// **=================================================**
-// [2] دوال مساعدة أساسية (Shuffle, SwitchScreen)
-// **=================================================**
-
-function shuffleArray(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
-}
-
-function switchScreen(screenId) {
-    const screens = ['topic-selection', 'quiz-screen', 'results-screen'];
-    screens.forEach(id => {
-        const screen = document.getElementById(id);
-        if (screen) {
-            if (id === screenId) {
-                screen.classList.remove('hidden');
-            } else {
-                screen.classList.add('hidden');
-            }
-        }
-    });
-}
-
-function showNotification(message, duration = 3000) {
-    const toast = document.getElementById('notification-toast');
-    const msgElement = document.getElementById('notification-message');
-    if (toast && msgElement) {
-        msgElement.textContent = message;
-        toast.classList.remove('hidden');
-        setTimeout(() => {
-            toast.classList.add('hidden');
-        }, duration);
-    }
-}
-
-function translateUI(lang) {
-    currentLanguage = lang;
-    const t = translations[lang];
-
-    // تحديث النصوص الثابتة بناءً على خاصية data-lang-key
-    document.querySelectorAll('[data-lang-key]').forEach(element => {
-        const key = element.getAttribute('data-lang-key');
-        if (t[key]) {
-            element.textContent = t[key];
-        }
-    });
-
-    // تحديث الأزرار التي تحتوي على أيقونات ونص
-    const dailyChallengeBtn = document.getElementById('daily-challenge-btn');
-    if (dailyChallengeBtn) {
-        const btnTextSpan = dailyChallengeBtn.querySelector('.btn-text');
-        if (btnTextSpan) {
-             btnTextSpan.textContent = t.daily_challenge_button;
-        }
-    }
-    // تحديث عنوان شاشة النتائج
-    const resultsTitle = document.getElementById('results-title');
-    if (resultsTitle) {
-        resultsTitle.innerHTML = `<i class="fas fa-chart-line"></i> ${t['results-title'] || 'بروتوكول نتائج التحليل'}`; 
-    }
+    let dailyQuiz = {
+        questions: [],
+        current: 0,
+        score: 0,
+        timerInterval: null,
+        timeLeft: TIME_PER_DAILY_QUESTION,
+        isAnswered: false
+    };
     
-    // إذا كانت شاشة اختيار المواضيع مفتوحة، أعد ملء القوائم لعرض الأسماء المترجمة
-    if (!document.getElementById('topic-selection').classList.contains('hidden')) {
-        populateTopicLists(geologicalData, false); 
-    }
+    // Total question count for the main counter
+    const TOTAL_Q_COUNT = Object.values(ALL_QUESTIONS).reduce((sum, bank) => {
+        return sum + (Array.isArray(bank) ? bank.length : Object.values(bank).flat().length);
+    }, 0);
     
-    // يمكن إضافة المزيد من تحديثات الواجهة هنا (مثل العناوين الرئيسية)
-}
-
-function changeLanguage(lang) {
-    translateUI(lang);
-}
-
-
-// **=================================================**
-// [3] منطق المؤقت والوقت
-// **=================================================**
-
-function startTimer() {
-    clearInterval(timerInterval); 
-    let timeRemaining = TIME_LIMIT;
-    const timerDisplayElement = document.getElementById('timer-display'); 
-    const timerValueElement = document.querySelector('#timer-display .timer-value'); 
-    const timerUnitElement = document.querySelector('#timer-display .timer-unit'); 
-    const t = translations[currentLanguage];
-
-    if (timerValueElement) timerValueElement.textContent = timeRemaining;
-    if (timerUnitElement) timerUnitElement.textContent = t.timer_text; 
-    if (timerDisplayElement) {
-        timerDisplayElement.removeAttribute('data-critical'); 
-        timerDisplayElement.style.color = 'var(--color-wrong)'; 
-    }
-
-    timerInterval = setInterval(() => {
-        timeRemaining--;
-        if (timerValueElement) timerValueElement.textContent = timeRemaining;
-
-        if (timeRemaining <= 5) {
-            if (timerDisplayElement) {
-                timerDisplayElement.setAttribute('data-critical', 'true'); 
-            }
-        } else {
-            if (timerDisplayElement) {
-                 timerDisplayElement.removeAttribute('data-critical'); 
-            }
-        }
-        
-        if (timeRemaining <= 0) {
-            clearInterval(timerInterval);
-            handleTimeout();
-        }
-    }, 1000);
-}
-
-function handleTimeout() {
-    processAnswer(true); 
-    const nextBtn = document.getElementById('next-btn');
-    if (nextBtn) nextBtn.classList.remove('hidden');
-}
-
-
-// **=================================================**
-// [4] دالة تحميل البيانات وتهيئة الأزرار 
-// **=================================================**
-
-async function loadGeologyData() {
-    const loadingMessage = document.getElementById('loading-message');
-    const startCustomBtn = document.getElementById('start-quiz-btn'); 
-    const dailyChallengeBtn = document.getElementById('daily-challenge-btn');
-    const topicsListContainer = document.getElementById('topics-list-container');
-    const dailyChallengeContainer = document.querySelector('.daily-challenge-section');
-    
-    let allData = {...RockQuizData}; // البدء ببيانات الصخور الثابتة
-    
-    try {
-        if (loadingMessage) {
-            loadingMessage.textContent = translations[currentLanguage].loading_data;
-            loadingMessage.classList.remove('hidden');
-        }
-        
-        // محاولة تحميل البيانات من Question.json
-        const response = await fetch('./Question.json'); 
-        if (response.ok) {
-            const dynamicData = await response.json();
-            allData = {...dynamicData, ...RockQuizData};
-        } else {
-             console.warn("Question.json not loaded, using only static Rock Quiz Data.");
-        }
-        
-        geologicalData = allData;
-        if (loadingMessage) loadingMessage.classList.add('hidden'); 
-        
-        // تفعيل الأزرار بعد التحميل
-        if (startCustomBtn) {
-            startCustomBtn.disabled = false;
-            startCustomBtn.addEventListener('click', () => {
-                 if (startCustomBtn) startCustomBtn.classList.add('hidden');
-                 if (dailyChallengeContainer) dailyChallengeContainer.classList.add('hidden'); 
-                 if (topicsListContainer) topicsListContainer.classList.remove('hidden');
-                 populateTopicLists(geologicalData, false); 
-            });
-        }
-        if (dailyChallengeBtn) {
-            dailyChallengeBtn.disabled = false;
-            if (dailyChallengeContainer) dailyChallengeContainer.classList.remove('hidden'); 
-            dailyChallengeBtn.addEventListener('click', startDailyChallenge);
-        }
-        
-    } catch (error) {
-        console.error("فشل في تحميل بيانات الجيولوجيا:", error);
-        if (loadingMessage) {
-            loadingMessage.textContent = translations[currentLanguage].loading_error;
-            loadingMessage.classList.remove('hidden');
-        }
-        if (startCustomBtn) startCustomBtn.disabled = true;
-        if (dailyChallengeBtn) dailyChallengeBtn.disabled = true;
-    }
-}
-
-// **=================================================**
-// [5] دالة ملء القوائم (لتحديث أسماء الصخور المترجمة)
-// **=================================================**
-
-function populateTopicLists(dataObject, isSubMenu = false) {
-    const topicsList = document.getElementById('topics-list');
-    const sidebarList = document.getElementById('sidebar-topics-list');
-    const loadingMessage = document.getElementById('loading-message');
-    const backBtn = document.getElementById('back-to-main-menu-btn');
-    const startCustomBtn = document.getElementById('start-quiz-btn'); 
-    const dailyChallengeContainer = document.querySelector('.daily-challenge-section');
-    const headerTitle = document.getElementById('topics-header-title');
-    const t = translations[currentLanguage];
-    
-    if (!topicsList || !sidebarList) return;
-    if (loadingMessage) loadingMessage.classList.add('hidden'); 
-    
-    topicsList.innerHTML = ''; 
-    sidebarList.innerHTML = ''; 
-    
-    if (isSubMenu) {
-        if (backBtn) backBtn.classList.remove('hidden');
-        if (headerTitle) headerTitle.innerHTML = `<i class="fas fa-microchip"></i> ${t.choose_gis_domain}`; 
-    } else {
-        if (backBtn) backBtn.classList.add('hidden');
-        if (headerTitle) headerTitle.innerHTML = `<i class="fas fa-folder-open"></i> ${t.choose_domain}`; 
-    }
-    
-    Object.keys(dataObject).forEach(key => {
-        let topicDisplayName = t[key] || key.replace(/_/g, ' ');
-        
-        const content = dataObject[key];
-        let clickHandler;
-        let isFolder = false;
-        
-        if (Array.isArray(content)) {
-            clickHandler = () => {
-                if (Object.keys(RockQuizData).includes(key) || (content.length > 0 && content[0].hasOwnProperty('image'))) {
-                    startRockQuiz(topicDisplayName, content);
-                } else {
-                    startQuiz(topicDisplayName, content); 
-                }
-                
-                document.getElementById('sidebar').classList.remove('open');
-                const overlay = document.getElementById('overlay');
-                if (overlay) overlay.style.display = 'none';
-            };
-        } else if (typeof content === 'object' && content !== null) {
-            isFolder = true;
-            clickHandler = () => {
-                populateTopicLists(content, true); 
-                document.getElementById('sidebar').classList.remove('open');
-                const overlay = document.getElementById('overlay');
-                if (overlay) overlay.style.display = 'none';
-            };
-        }
-        
-        const gridCard = document.createElement('div');
-        gridCard.className = `topic-card ${isFolder ? 'topic-folder' : 'topic-quiz'}`; 
-        const icon = isFolder ? `<i class="fas fa-folder" style="color: var(--color-text-light);"></i> ` : `<i class="fas fa-chalkboard-teacher" style="color: var(--color-accent);"></i> `;
-        gridCard.innerHTML = icon + topicDisplayName;
-        if (clickHandler) gridCard.addEventListener('click', clickHandler);
-        topicsList.appendChild(gridCard);
-
-        const sidebarLink = document.createElement('a');
-        sidebarLink.href = "#";
-        sidebarLink.classList.add('sidebar-link-item');
-        sidebarLink.innerHTML = icon + `<span>${topicDisplayName}</span>`;
-        if (clickHandler) sidebarLink.addEventListener('click', clickHandler);
-        sidebarList.appendChild(sidebarLink);
-    });
-}
-
-
-// **=================================================**
-// [6] منطق الاختبار التقليدي (النص)
-// **=================================================**
-
-function startDailyChallenge() {
-    const t = translations[currentLanguage];
-    let allQuestions = [];
-    
-    function collectQuestions(dataObject) {
-        Object.values(dataObject).forEach(content => {
-            if (Array.isArray(content)) {
-                if (!content.some(item => item.hasOwnProperty('image'))) { 
-                    allQuestions = allQuestions.concat(content);
-                }
-            } else if (typeof content === 'object' && content !== null && !Array.isArray(content)) {
-                collectQuestions(content);
-            }
-        });
-    }
-    
-    collectQuestions(geologicalData); 
-    const shuffledQuestions = shuffleArray(allQuestions);
-    const dailyQuestions = shuffledQuestions.slice(0, DAILY_CHALLENGE_QUESTIONS);
-    
-    if (dailyQuestions.length === 0) {
-        showNotification("لا تتوفر أسئلة كافية لهذا التحدي.", 5000);
-        return;
-    }
-    
-    startQuiz(t.daily_challenge, dailyQuestions);
-}
-
-function startQuiz(quizTitle, questions) { 
-    clearInterval(timerInterval);
-    currentQuestions = shuffleArray(questions.map((q, index) => ({...q, id: q.id || index}))); 
-    currentQuestionIndex = 0;
-    score = 0;
-    userAnswers = {};
-    quizStartTime = Date.now(); 
-    
-    switchScreen('quiz-screen');
-    
-    const quizTitleElement = document.getElementById('quiz-title');
-    if (quizTitleElement) {
-        quizTitleElement.textContent = `${translations[currentLanguage].quiz_title_prefix} ${quizTitle}`;
-    }
-    
-    const skipBtn = document.getElementById('skip-btn');
-    if (skipBtn) {
-         if (quizTitle === translations['ar'].daily_challenge) {
-             skipBtn.classList.add('hidden');
-         } else {
-             skipBtn.classList.remove('hidden');
-         }
-    }
-
-    displayQuestion();
-}
-
-function displayQuestion() {
-    clearInterval(timerInterval); 
-    const qContainer = document.getElementById('question-container');
-    const submitBtn = document.getElementById('submit-btn');
-    const nextBtn = document.getElementById('next-btn');
-    const questionCounter = document.getElementById('question-counter');
-    const currentScoreDisplay = document.getElementById('current-score'); 
-    const rockInfoBox = document.getElementById('rock-info-display'); 
-
-    if (currentQuestionIndex >= currentQuestions.length) {
-        return showResults(); 
-    }
-    
-    const currentQ = currentQuestions[currentQuestionIndex];
-    const t = translations[currentLanguage];
-    
-    startTimer(); 
-    
-    if (questionCounter) {
-        questionCounter.innerHTML = `<i class="fas fa-list-ol"></i> ${t.question} ${currentQuestionIndex + 1} / ${currentQuestions.length}`;
-    }
-    if (currentScoreDisplay) {
-        currentScoreDisplay.textContent = score;
-    }
-    
-    // إخفاء صندوق معلومات الصخرة في الاختبارات التقليدية
-    if (rockInfoBox) rockInfoBox.remove(); // إزالة العنصر القديم
-    
-    // إخفاء أي صورة صخرة سابقة
-    const oldRockImage = qContainer.querySelector('.rock-image-quiz');
-    if (oldRockImage) oldRockImage.remove();
-
-
-    let htmlContent = `<p class="question-text">${currentQ.question}</p>`;
-    htmlContent += '<div class="options-container">';
-    const options = currentQ.options ? shuffleArray([...currentQ.options]) : []; 
-    
-    options.forEach((option, index) => {
-        const optionId = `q${currentQuestionIndex}-opt${index}`;
-        htmlContent += `
-            <label class="option-label" for="${optionId}">
-                <input type="radio" name="option" id="${optionId}" value="${option}">
-                <span class="option-text">${option}</span>
-            </label>
-        `;
-    });
-    htmlContent += '</div>';
-    qContainer.innerHTML = htmlContent;
-    
-    if (submitBtn) {
-        submitBtn.classList.remove('hidden');
-        submitBtn.disabled = true;
-    }
-    if (nextBtn) {
-        nextBtn.classList.add('hidden');
-        nextBtn.querySelector('.btn-text').textContent = t.next; 
-    }
-    
-    // تفعيل زر التأكيد وتظليل الخيار
-    document.querySelectorAll('.option-label').forEach(label => {
-        const input = label.querySelector('input[type="radio"]');
-        
-        input.addEventListener('change', () => {
-             document.querySelectorAll('.option-label').forEach(l => l.classList.remove('selected'));
-             if(input.checked) {
-                 label.classList.add('selected');
-             }
-             if (submitBtn) submitBtn.disabled = false;
-        });
-
-        label.addEventListener('click', (e) => {
-             if (e.target === input) return; 
-             input.checked = true;
-             input.dispatchEvent(new Event('change')); 
-        });
-    });
-    
-    const feedbackContainer = document.getElementById('feedback-container');
-    if (feedbackContainer) feedbackContainer.classList.add('hidden');
-}
-
-
-// **=================================================**
-// [7] منطق اختبار الصخور (التحديد بالصور) - جديد
-// **=================================================**
-
-function startRockQuiz(quizTitle, rockList) {
-    clearInterval(timerInterval);
-    currentQuestions = shuffleArray(rockList.map((q, index) => ({...q, id: q.name || index}))); 
-    currentQuestionIndex = 0;
-    score = 0;
-    userAnswers = {};
-    quizStartTime = Date.now(); 
-    
-    switchScreen('quiz-screen');
-    
-    const quizTitleElement = document.getElementById('quiz-title');
-    if (quizTitleElement) {
-        quizTitleElement.textContent = `${translations[currentLanguage].quiz_title_prefix} ${quizTitle}`;
-    }
-
-    const skipBtn = document.getElementById('skip-btn');
-    if (skipBtn) skipBtn.classList.remove('hidden'); 
-
-    displayRockQuestion(); 
-}
-
-function displayRockQuestion() {
-    clearInterval(timerInterval); 
-    const qContainer = document.getElementById('question-container');
-    const submitBtn = document.getElementById('submit-btn');
-    const nextBtn = document.getElementById('next-btn');
-    const questionCounter = document.getElementById('question-counter');
-    const currentScoreDisplay = document.getElementById('current-score'); 
-    
-    if (currentQuestionIndex >= currentQuestions.length) {
-        return showResults(); 
-    }
-    
-    const currentQ = currentQuestions[currentQuestionIndex]; 
-    const t = translations[currentLanguage];
-    
-    startTimer(); 
-    
-    if (questionCounter) {
-        questionCounter.innerHTML = `<i class="fas fa-list-ol"></i> ${t.question} ${currentQuestionIndex + 1} / ${currentQuestions.length}`;
-    }
-    if (currentScoreDisplay) {
-        currentScoreDisplay.textContent = score;
-    }
-    
-    // 💡 إنشاء خيارات عشوائية (4 خيارات)
-    let allRockNames = [];
-    Object.values(RockQuizData).forEach(arr => {
-        allRockNames = allRockNames.concat(arr.map(r => r.name));
-    });
-
-    let wrongOptions = allRockNames.filter(name => name !== currentQ.name);
-    shuffleArray(wrongOptions);
-    const options = shuffleArray([currentQ.name, ...wrongOptions.slice(0, 3)]); // 4 خيارات إجمالاً
-
-    // إنشاء محتوى السؤال (الصورة + الخيارات)
-    // ✅ يجب أن تكون الصور في مجلد اسمه "roch" أو "images" حسب مسار ملف Question.json
-    const imagePath = currentQ.image.includes('/') ? currentQ.image : `./roch/${currentQ.image}`;
-    let htmlContent = `<img src="${imagePath}" alt="صورة صخرة للاختبار" class="rock-image-quiz">`;
-    htmlContent += '<p class="question-text">ما هو اسم هذه الصخرة؟</p>'; 
-    
-    // إضافة حاوية معلومات الصخرة (مخفية مبدئياً)
-    htmlContent += `
-        <div id="rock-info-display" class="rock-info-box hidden">
-            <h3 class="rock-info-title"><i class="fas fa-microscope"></i> ${t.rock_info_title} ${currentQ.name}</h3>
-            <p class="rock-info-item"><strong>${t.rock_type}:</strong> ${currentQ.type}</p>
-            <p class="rock-info-item"><strong>${t.rock_features}:</strong> ${currentQ.features}</p>
-            <p class="rock-info-item"><strong>${t.rock_location}:</strong> ${currentQ.location}</p>
-        </div>
-    `;
-
-    // حاوية الخيارات (2x2)
-    htmlContent += '<div class="options-container">';
-    
-    options.forEach((option, index) => {
-        const optionId = `q${currentQuestionIndex}-opt${index}`;
-        htmlContent += `
-            <label class="option-label" for="${optionId}">
-                <input type="radio" name="option" id="${optionId}" value="${option}">
-                <span class="option-text">${option}</span>
-            </label>
-        `;
-    });
-    htmlContent += '</div>';
-    qContainer.innerHTML = htmlContent;
-    
-    if (submitBtn) {
-        submitBtn.classList.remove('hidden');
-        submitBtn.disabled = true; 
-    }
-    if (nextBtn) {
-        nextBtn.classList.add('hidden');
-        nextBtn.querySelector('.btn-text').textContent = t.go_to_next;
-    }
-
-    // تفعيل زر التأكيد وتظليل الخيار
-    document.querySelectorAll('.option-label').forEach(label => {
-        const input = label.querySelector('input[type="radio"]');
-        
-        input.addEventListener('change', () => {
-             document.querySelectorAll('.option-label').forEach(l => l.classList.remove('selected'));
-             if(input.checked) {
-                 label.classList.add('selected');
-             }
-             if (submitBtn) submitBtn.disabled = false;
-        });
-
-        label.addEventListener('click', (e) => {
-             if (e.target === input) return; 
-             input.checked = true;
-             input.dispatchEvent(new Event('change')); 
-        });
-    });
-    
-    const feedbackContainer = document.getElementById('feedback-container');
-    if (feedbackContainer) feedbackContainer.classList.add('hidden');
-}
-
-
-// **=================================================**
-// [8] دالة معالجة الإجابة الموحدة (تدعم الصخور والأسئلة التقليدية)
-// **=================================================**
-
-function processAnswer(isSkippedOrTimeout = false) {
-    clearInterval(timerInterval); 
-    const currentQ = currentQuestions[currentQuestionIndex];
-    const t = translations[currentLanguage];
-    
-    const selectedOptionInput = document.querySelector('input[name="option"]:checked');
-    let userAnswer = selectedOptionInput ? selectedOptionInput.value : t.timeout_answer;
-    
-    const isRockQuiz = currentQ.hasOwnProperty('image');
-    const correctAnswer = currentQ.name || currentQ.correctAnswer || currentQ.answer; 
-    
-    let isCorrect = false;
-    let isAnswered = false;
-
-    if (isSkippedOrTimeout) {
-        isCorrect = false;
-        isAnswered = false; 
-        score += POINTS_WRONG; 
-        if (wrongSound) { wrongSound.currentTime = 0; wrongSound.play().catch(e => console.error("Error playing sound:", e)); }
-    } else {
-        isAnswered = true;
-        isCorrect = (userAnswer === correctAnswer);
-        if (isCorrect) {
-            score += POINTS_CORRECT;
-            if (correctSound) { correctSound.currentTime = 0; correctSound.play().catch(e => console.error("Error playing sound:", e)); }
-        } else {
-            score += POINTS_WRONG;
-            if (wrongSound) { wrongSound.currentTime = 0; wrongSound.play().catch(e => console.error("Error playing sound:", e)); }
-        }
-    }
-
-    // تسجيل الإجابة
-    userAnswers[currentQ.id] = {
-        question: isRockQuiz ? `تحديد الصخرة: ${correctAnswer}` : currentQ.question,
-        userAnswer: userAnswer,
-        correctAnswer: correctAnswer,
-        isCorrect: isCorrect,
+    // --- DOM Elements ---
+    const screens = {
+        home: document.getElementById('home-screen'),
+        daily: document.getElementById('daily-quiz-screen'),
+        center: document.getElementById('quiz-center-screen')
     };
 
-    // تلوين الخيارات
-    document.querySelectorAll('.option-label').forEach(label => {
-        const input = label.querySelector('input');
-        input.disabled = true; 
-        label.style.cursor = 'default'; 
-
-        label.classList.remove('selected'); 
-
-        if (input.value === correctAnswer) {
-            label.classList.add('correct'); 
-        } else if (input.checked && !isCorrect && isAnswered) { 
-            label.classList.add('incorrect'); 
-        }
-        
-        // تعطيل النقرات على جميع الخيارات
-        label.style.pointerEvents = 'none';
-    });
-    
-    // عرض رسالة التغذية الراجعة
-    const feedbackContainer = document.getElementById('feedback-container');
-    if (feedbackContainer) {
-        if (isSkippedOrTimeout) {
-            feedbackContainer.textContent = `${t.timeout_feedback} ${correctAnswer}`;
-            feedbackContainer.className = 'feedback-message incorrect-feedback';
-        } else {
-             feedbackContainer.textContent = isCorrect ? t.correct_feedback : `${t.incorrect_feedback} ${correctAnswer}`;
-             feedbackContainer.className = `feedback-message ${isCorrect ? 'correct-feedback' : 'incorrect-feedback'}`; 
-        }
-        feedbackContainer.classList.remove('hidden');
-    }
-
-    const currentScoreDisplay = document.getElementById('current-score');
-    if (currentScoreDisplay) currentScoreDisplay.textContent = score;
-    
-    const submitBtn = document.getElementById('submit-btn');
-    if (submitBtn) submitBtn.classList.add('hidden');
-    const nextBtn = document.getElementById('next-btn');
-    if (nextBtn) nextBtn.classList.remove('hidden');
-    const skipBtn = document.getElementById('skip-btn');
-    if (skipBtn) skipBtn.classList.add('hidden');
-
-    // 💡 إظهار معلومات الصخرة فقط في اختبار الصخور بعد الإجابة
-    if (isRockQuiz) {
-        const rockInfoBox = document.getElementById('rock-info-display');
-        const optionsContainer = document.querySelector('#question-container .options-container');
-        const questionTextElement = document.querySelector('#question-container .question-text');
-
-        if (rockInfoBox) {
-            rockInfoBox.classList.remove('hidden');
-        }
-        // إخفاء حاوية الخيارات لإفساح المجال للمعلومات
-        if (optionsContainer) {
-            optionsContainer.classList.add('hidden');
-        }
-        // إخفاء نص السؤال بعد الإجابة
-        if (questionTextElement) {
-            questionTextElement.classList.add('hidden');
-        }
-    }
-}
-
-
-// **=================================================**
-// [9] عرض النتائج
-// **=================================================**
-
-function showResults() {
-    clearInterval(timerInterval);
-    const quizScreen = document.getElementById('quiz-screen');
-    const resultsScreen = document.getElementById('results-screen');
-    const finalScoreElement = document.getElementById('final-score');
-    const totalQuestionsCountElement = document.getElementById('total-questions-count');
-    const gradeMessage = document.getElementById('grade-message');
-    const reviewArea = document.getElementById('review-area');
-    const correctCountElement = document.getElementById('correct-count');
-    const wrongCountElement = document.getElementById('wrong-count');
-    const totalTimeElement = document.getElementById('total-time');
-    
-    if (quizScreen) quizScreen.classList.add('hidden');
-    if (resultsScreen) resultsScreen.classList.remove('hidden');
-
-    const totalQuestions = currentQuestions.length;
-    let correctCount = Object.values(userAnswers).filter(answer => answer.isCorrect).length;
-    let wrongCount = totalQuestions - correctCount;
-
-    const totalTimeSeconds = Math.round((Date.now() - quizStartTime) / 1000);
-    if (totalTimeElement) totalTimeElement.textContent = `${totalTimeSeconds} ${translations[currentLanguage].seconds}`;
-    
-    if (wrongCount === 0 && totalQuestions > 0) { 
-        if (perfectSound) { perfectSound.currentTime = 0; perfectSound.play().catch(e => console.error("Error playing perfect sound:", e)); }
-    }
-    
-    if (finalScoreElement) finalScoreElement.textContent = score;
-    if (totalQuestionsCountElement) totalQuestionsCountElement.textContent = totalQuestions;
-    if (correctCountElement) correctCountElement.textContent = correctCount;
-    if (wrongCountElement) wrongCountElement.textContent = wrongCount;
-    
-    const percentage = Math.round((correctCount / (totalQuestions || 1)) * 100);
-    const t = translations[currentLanguage];
-    
-    if (gradeMessage) {
-        if (percentage >= 90) { gradeMessage.innerHTML = t.great_job; gradeMessage.style.color = 'var(--color-correct)'; } 
-        else if (percentage >= 70) { gradeMessage.innerHTML = t.good_job; gradeMessage.style.color = 'var(--color-accent)'; } 
-        else { gradeMessage.innerHTML = t.needs_review; gradeMessage.style.color = 'var(--color-wrong)'; }
-    }
-    
-    const progressRingFill = document.querySelector('.progress-ring-fill');
-    if (progressRingFill) {
-        const radius = progressRingFill.r.baseVal.value;
-        const circumference = 2 * Math.PI * radius;
-        const offset = circumference - (percentage / 100) * circumference;
-        progressRingFill.style.strokeDashoffset = offset;
-    }
-    
-    if (reviewArea) {
-        let reviewContentHTML = `<h3><i class="fas fa-bug"></i> ${t.review_errors}</h3><div id="review-content">`; 
-        let errorsFound = false;
-        
-        Object.values(userAnswers).forEach(answer => {
-            if (!answer.isCorrect) {
-                errorsFound = true;
-                reviewContentHTML += `
-                    <div class="review-item">
-                        <p class="error-q">${answer.question}</p>
-                        <p class="error-a">${t.your_answer} <span class="wrong">${answer.userAnswer}</span></p>
-                        <p class="error-a">${t.correct_answer} <span class="right">${answer.correctAnswer}</span></p>
-                    </div>
-                `;
-            }
-        });
-        
-        reviewContentHTML += `</div>`;
-        
-        if (!errorsFound) {
-            reviewContentHTML += `<p class="all-correct">${t.all_correct_message}</p>`;
-        }
-        
-        reviewArea.innerHTML = reviewContentHTML;
-    }
-    
-    const skipBtn = document.getElementById('skip-btn');
-    if (skipBtn) skipBtn.classList.add('hidden');
-}
-
-
-// **=================================================**
-// [10] تشغيل الكود عند تحميل الصفحة
-// **=================================================**
-
-document.addEventListener('DOMContentLoaded', () => {
-    // ربط الأزرار بمنطقها
-    const nextBtn = document.getElementById('next-btn');
-    const skipBtn = document.getElementById('skip-btn');
-    const submitBtn = document.getElementById('submit-btn');
-    const langSelect = document.getElementById('lang-select');
-
-    if (submitBtn) {
-        submitBtn.addEventListener('click', () => processAnswer(false));
-    }
-
-    if (nextBtn) {
-        nextBtn.addEventListener('click', () => {
-            currentQuestionIndex++;
-            if (currentQuestions.length > 0 && (currentQuestions[0].hasOwnProperty('image') || currentQuestions[0].hasOwnProperty('name'))) {
-                displayRockQuestion();
-            } else {
-                displayQuestion();
-            }
-        });
-    }
-
-    if (skipBtn) {
-        skipBtn.addEventListener('click', () => {
-            const selectedOptionInput = document.querySelector('input[name="option"]:checked');
-            if (selectedOptionInput) {
-                processAnswer(false);
-            } else {
-                processAnswer(true); 
-            }
-        });
-    }
-
-    // ربط تغيير اللغة
-    if (langSelect) {
-         langSelect.addEventListener('change', (e) => changeLanguage(e.target.value));
-    }
-    
-    // --- منطق القائمة الجانبية وزر العودة ---
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('overlay');
-    const openSidebarBtn = document.getElementById('open-sidebar-btn');
+    const sidebar = document.getElementById('sidebar-menu');
+    const toggleSidebarBtn = document.getElementById('toggle-sidebar-btn');
     const closeSidebarBtn = document.getElementById('close-sidebar-btn');
-    const homeBtn = document.getElementById('home-btn');
-    const backBtn = document.getElementById('back-to-main-menu-btn');
-    const startCustomBtn = document.getElementById('start-quiz-btn'); 
-    const dailyChallengeContainer = document.querySelector('.daily-challenge-section');
-    const topicsListContainer = document.getElementById('topics-list-container');
+    const mainMenu = document.getElementById('main-menu-list');
+    const startDailyChallengeBtn = document.getElementById('start-daily-challenge');
     
-    if (openSidebarBtn && sidebar && overlay) {
-        openSidebarBtn.addEventListener('click', () => {
-            sidebar.classList.add('open');
-            overlay.style.display = 'block';
-            openSidebarBtn.setAttribute('aria-expanded', 'true');
-        });
-    }
-    if (closeSidebarBtn && sidebar && overlay) {
-        closeSidebarBtn.addEventListener('click', () => {
-            sidebar.classList.remove('open');
-            overlay.style.display = 'none';
-            openSidebarBtn.setAttribute('aria-expanded', 'false');
-        });
-    }
-    if (overlay && sidebar) {
-        overlay.addEventListener('click', () => {
-              sidebar.classList.remove('open');
-              overlay.style.display = 'none';
-              openSidebarBtn.setAttribute('aria-expanded', 'false');
-         });
-     }
+    const totalQuestionsDisplay = document.getElementById('total-questions-display');
+    const dailyTimer = document.getElementById('daily-timer');
+    const dailyScore = document.getElementById('daily-score');
+    const dailyProgressCount = document.getElementById('daily-progress-count');
+    const dailyProgressFill = document.getElementById('daily-progress-fill');
+    const dailyQuestionText = document.getElementById('daily-question-text');
+    const dailyOptionsContainer = document.getElementById('daily-options-container');
 
-    if (backBtn) {
-        backBtn.addEventListener('click', () => {
-            populateTopicLists(geologicalData, false); 
-            if (startCustomBtn) startCustomBtn.classList.remove('hidden');
-            if (dailyChallengeContainer) dailyChallengeContainer.classList.remove('hidden'); 
-            if (topicsListContainer) topicsListContainer.classList.add('hidden');
-        });
-    }
-
-    if (homeBtn) {
-        homeBtn.addEventListener('click', () => {
-            window.location.reload(); 
-        });
-    }
+    const correctSound = document.getElementById('correct-sound');
+    const wrongSound = document.getElementById('wrong-sound');
+    const timeoutSound = document.getElementById('timeout-sound');
     
-    // --- تحديث عداد المستخدمين النشطين (Active users count) ---
-    const activeUsersCountElement = document.getElementById('active-users-count');
-    function updateActiveUsersGradually() {
-        let change = Math.floor(Math.random() * 3) - 1; 
-        currentActiveUsers += change;
-        currentActiveUsers = Math.max(3, Math.min(16, currentActiveUsers));
-        if (activeUsersCountElement) {
-             activeUsersCountElement.textContent = currentActiveUsers;
+    // --- Utility Functions ---
+
+    /** Plays a sound from the DOM audio elements. */
+    function playSound(type) {
+        let sound = document.getElementById(`${type}-sound`);
+        if (sound) {
+            sound.currentTime = 0;
+            sound.play().catch(e => console.warn(`Sound playback blocked: ${e.message}`));
         }
     }
-    function scheduleNextUserUpdate() {
-        const randomInterval = Math.random() * 4000 + 3000; 
-        setTimeout(() => {
-             updateActiveUsersGradually();
-             scheduleNextUserUpdate(); 
-        }, randomInterval);
+
+    /** Shuffles an array in place. */
+    function shuffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
     }
-    if (activeUsersCountElement) activeUsersCountElement.textContent = currentActiveUsers; 
-    scheduleNextUserUpdate(); 
+
+    /** Navigates between main screens. */
+    function navigateTo(targetScreen) {
+        Object.values(screens).forEach(screen => screen.classList.remove('active'));
+        screens[targetScreen].classList.add('active');
+        if (targetScreen !== 'daily') stopDailyTimer();
+    }
+
+    // --- Sidebar & Nested Menu Logic ---
+
+    function buildSidebarMenu() {
+        mainMenu.innerHTML = '';
+        
+        // 1. Get all category names (Main level)
+        const categories = Object.keys(ALL_QUESTIONS);
+
+        categories.forEach(mainCategory => {
+            const mainItem = document.createElement('li');
+            const mainBtn = document.createElement('button');
+            mainBtn.textContent = mainCategory.replace(/_/g, ' '); // Replace underscore with space
+            mainItem.appendChild(mainBtn);
+
+            const subMenu = document.createElement('ul');
+            subMenu.classList.add('sub-menu');
+            
+            let subCategories = [];
+            // Check if it's a simple array (like Geochemistry) or a nested object (like GIS)
+            if (Array.isArray(ALL_QUESTIONS[mainCategory])) {
+                subCategories.push(`اختبار عام (${ALL_QUESTIONS[mainCategory].length} سؤال)`);
+                // Placeholder for other sub-categories if needed later (e.g., 'اختبار الصور')
+            } else {
+                subCategories = Object.keys(ALL_QUESTIONS[mainCategory]).map(subKey => 
+                    `${subKey.replace(/_/g, ' ')} (${ALL_QUESTIONS[mainCategory][subKey].length} سؤال)`);
+            }
+
+            subCategories.forEach(subItemText => {
+                const subItem = document.createElement('li');
+                const subBtn = document.createElement('button');
+                subBtn.textContent = subItemText;
+                // Add click listener to start specific quiz from here
+                subBtn.onclick = () => { /* Logic to start specific quiz */; closeSidebar(); };
+                subItem.appendChild(subBtn);
+                subMenu.appendChild(subItem);
+            });
+            
+            mainItem.appendChild(subMenu);
+            mainMenu.appendChild(mainItem);
+
+            // Toggle Nested Menu
+            mainBtn.onclick = () => {
+                subMenu.classList.toggle('open');
+                mainBtn.classList.toggle('active');
+            };
+        });
+    }
+
+    function toggleSidebar() {
+        sidebar.classList.toggle('open');
+    }
+
+    function closeSidebar() {
+        sidebar.classList.remove('open');
+    }
+
+    toggleSidebarBtn.addEventListener('click', toggleSidebar);
+    closeSidebarBtn.addEventListener('click', closeSidebar);
+
+
+    // --- Daily Challenge Logic ---
+
+    function prepareDailyQuiz() {
+        let allQs = [];
+        // Flatten all questions from all banks
+        Object.values(ALL_QUESTIONS).forEach(bank => {
+            if (Array.isArray(bank)) {
+                allQs.push(...bank);
+            } else {
+                Object.values(bank).forEach(subBank => {
+                    allQs.push(...subBank);
+                });
+            }
+        });
+
+        shuffle(allQs);
+        dailyQuiz.questions = allQs.slice(0, DAILY_QUESTION_COUNT);
+        dailyQuiz.current = 0;
+        dailyQuiz.score = 0;
+        dailyQuiz.isAnswered = false;
+    }
+
+    function startDailyQuiz() {
+        prepareDailyQuiz();
+        navigateTo('daily');
+        renderDailyQuestion();
+    }
+
+    function renderDailyQuestion() {
+        if (dailyQuiz.current >= dailyQuiz.questions.length) {
+            showDailyResults();
+            return;
+        }
+
+        const qData = dailyQuiz.questions[dailyQuiz.current];
+        dailyQuestionText.textContent = qData.question;
+        dailyOptionsContainer.innerHTML = '';
+        dailyQuiz.isAnswered = false;
+        
+        // 1. Prepare options (key/text pairs)
+        let optionsArray = Object.entries(qData.options).map(([key, text]) => ({ key, text }));
+        
+        // 2. Shuffle the options array
+        shuffle(optionsArray);
+
+        // 3. Render 2x2 grid buttons
+        optionsArray.forEach(opt => {
+            const btn = document.createElement('button');
+            btn.classList.add('option-btn-2x2');
+            btn.setAttribute('data-key', opt.key); // CRITICAL: Store the original key
+            btn.textContent = opt.text;
+            btn.onclick = () => handleDailySelection(btn, qData);
+            dailyOptionsContainer.appendChild(btn);
+        });
+
+        resetDailyTimer();
+        startDailyTimer();
+        updateDailyStatus();
+    }
+
+    function handleDailySelection(selectedButton, question) {
+        if (dailyQuiz.isAnswered) return;
+        dailyQuiz.isAnswered = true;
+        stopDailyTimer();
+        
+        const selectedKey = selectedButton.getAttribute('data-key');
+        const isCorrect = selectedKey === question.answer;
+        
+        const allOptions = dailyOptionsContainer.querySelectorAll('.option-btn-2x2');
+        allOptions.forEach(btn => btn.disabled = true); // Disable further clicks
+
+        // TLOONING: Apply colors based on data-key
+        allOptions.forEach(btn => {
+            const optionKey = btn.getAttribute('data-key');
+            if (optionKey === question.answer) {
+                btn.classList.add('correct');
+            } else if (optionKey === selectedKey) {
+                btn.classList.add('wrong');
+            }
+        });
+        
+        if (isCorrect) {
+            dailyQuiz.score += 1;
+            playSound('correct');
+        } else {
+            playSound('wrong');
+        }
+
+        // Move to next question after delay
+        setTimeout(() => {
+            dailyQuiz.current++;
+            renderDailyQuestion();
+        }, 1500);
+    }
     
-    // --- تحميل بيانات الاختبار وتطبيق الترجمة الأولية ---
-    loadGeologyData(); 
-    translateUI(currentLanguage); 
+    function updateDailyStatus() {
+        dailyScore.textContent = `🏆 ${dailyQuiz.score}`;
+        dailyProgressCount.textContent = `${dailyQuiz.current} / ${DAILY_QUESTION_COUNT}`;
+        dailyProgressFill.style.width = `${(dailyQuiz.current / DAILY_QUESTION_COUNT) * 100}%`;
+    }
+
+    function startDailyTimer() {
+        dailyQuiz.timerInterval = setInterval(() => {
+            dailyQuiz.timeLeft--;
+            const seconds = String(dailyQuiz.timeLeft).padStart(2, '0');
+            dailyTimer.textContent = `⏱️ 00:${seconds}`;
+
+            if (dailyQuiz.timeLeft <= 5) {
+                dailyTimer.style.color = 'var(--neon-red)';
+            } else {
+                dailyTimer.style.color = 'var(--neon-green)';
+            }
+
+            if (dailyQuiz.timeLeft <= 0) {
+                stopDailyTimer();
+                // Treat as wrong answer / skip (but reveal answer)
+                handleDailySelection(null, dailyQuiz.questions[dailyQuiz.current]);
+            }
+        }, 1000);
+    }
+
+    function stopDailyTimer() {
+        if (dailyQuiz.timerInterval) {
+            clearInterval(dailyQuiz.timerInterval);
+            dailyQuiz.timerInterval = null;
+        }
+    }
+
+    function resetDailyTimer() {
+        dailyQuiz.timeLeft = TIME_PER_DAILY_QUESTION;
+        dailyTimer.textContent = `⏱️ 00:${String(dailyQuiz.timeLeft).padStart(2, '0')}`;
+    }
+
+    function showDailyResults() {
+        // Here you would navigate to a dedicated results screen or back to home
+        alert(`انتهى التحدي اليومي! نتيجتك: ${dailyQuiz.score} / ${DAILY_QUESTION_COUNT}`);
+        navigateTo('home');
+        // Reset state for next day
+        dailyQuiz.current = DAILY_QUESTION_COUNT;
+    }
+
+
+    // --- Initialization ---
+
+    startDailyChallengeBtn.addEventListener('click', startDailyQuiz);
+
+    // Initial setup
+    buildSidebarMenu();
+    totalQuestionsDisplay.textContent = TOTAL_Q_COUNT;
 });
