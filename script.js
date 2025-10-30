@@ -21,7 +21,7 @@ const correctSound = document.getElementById('correct-sound');
 const wrongSound = document.getElementById('wrong-sound');
 const perfectSound = document.getElementById('perfect-sound');
 
-// 💡 بيانات الصخور الجديدة (تم دمجها في الجافاسكريبت مباشرةً)
+// 💡 بيانات الصخور الجديدة (مدمجة هنا - لإنشاء اختبار الصخور)
 const RockQuizData = {
     // 🧱 أولًا: الصخور النارية (Magmatiques / Igneous Rocks)
     "Magmatiques_Igneous_Rocks": [
@@ -64,7 +64,6 @@ const RockQuizData = {
             name: "Rhyolite",
             type: "نارية سطحية",
             features: "فاتح اللون، زجاجي أحيانًا، مشابه للغرانيت لكن دقيق الحبيبات",
-            location: "تدفقات حمم سيليسية",
             image: "Rhyolite.jpg"
         }
     ],
@@ -155,7 +154,7 @@ const RockQuizData = {
             type: "متحول من البازلت أو الغابرو",
             features: "داكن، غني بالأمفيبول، نسيج متوازي",
             location: "مناطق الضغط العالي",
-            image: "Amphibolite.jpg" // افتراضي - يجب توفير صورة حقيقية
+            image: "Amphibolite.jpg" 
         }
     ]
 };
@@ -194,7 +193,7 @@ const translations = {
         'incorrect_feedback': 'إجابة خاطئة. الصحيح:',
         'timeout_feedback': 'انتهى الوقت! الإجابة الصحيحة:',
         'total_trainees': 'إجمالي المتدربين المسجلين:',
-        // 💡 ترجمة لأقسام الصخور الجديدة
+        // 💡 جديد: ترجمة لأقسام الصخور الجديدة
         'rock_quiz_title': ROCK_QUIZ_TITLE,
         'Magmatiques_Igneous_Rocks': 'الصخور النارية (Igneous)',
         'Sédimentaires_Sedimentary_Rocks': 'الصخور الرسوبية (Sedimentary)',
@@ -206,10 +205,90 @@ const translations = {
         'go_to_next': 'السؤال التالي'
     },
     'en': {
-        // ... (تم حذف الترجمة الإنجليزية والفرنسية للاختصار، لكنها موجودة في الشيفرة الأصلية)
+         // ... (تتمة الترجمة الإنجليزية)
+        'start_custom_quiz': 'Start Custom Quiz',
+        'daily_challenge': 'Daily Challenge',
+        'daily_challenge_button': `Daily Challenge (${DAILY_CHALLENGE_QUESTIONS} Questions)`,
+        'choose_domain': 'Choose Custom Quiz Domain:',
+        'choose_gis_domain': 'Choose Sub Quiz:',
+        'quiz_title_prefix': 'Quiz:',
+        'question': 'Question',
+        'submit': 'Submit Answer',
+        'next': 'Next Question',
+        'skip': 'Skip',
+        'review_errors': 'Review Conceptual Errors:',
+        'your_answer': 'Your Answer:',
+        'correct_answer': 'Correct:',
+        'great_job': '🌟 Exceptional performance! Strong geological knowledge.',
+        'good_job': '✨ Very good! Solid foundation, but room for review.',
+        'needs_review': '⚠️ Requires intensive review of these concepts.',
+        'new_quiz': 'Restart System',
+        'share_results': 'Share Results',
+        'timer_text': 's',
+        'loading_data': '... Analyzing system data',
+        'loading_error': '[Connection Error] Sorry, data could not be loaded. Please check Question.json file.',
+        'timeout_answer': '(Timeout - No answer provided)',
+        'all_correct_message': '🎉 Excellent! No errors to review.',
+        'active_users_title': 'Active Trainees Now',
+        'back_button': 'Back to Main Menu',
+        'time_spent': 'Total Time',
+        'seconds': 'seconds',
+        'correct_feedback': 'Correct Answer!',
+        'incorrect_feedback': 'Wrong Answer. Correct:',
+        'timeout_feedback': 'Timeout! Correct Answer:',
+        'total_trainees': 'Total Registered Trainees:',
+        'rock_quiz_title': 'Identify the Rocks by Image',
+        'Magmatiques_Igneous_Rocks': 'Igneous Rocks',
+        'Sédimentaires_Sedimentary_Rocks': 'Sedimentary Rocks',
+        'Métamorphiques_Metamorphic_Rocks': 'Metamorphic Rocks',
+        'rock_info_title': 'Rock Analysis Information:',
+        'rock_type': 'Geological Type:',
+        'rock_features': 'Field Features:',
+        'rock_location': 'Common Locations:',
+        'go_to_next': 'Next Question'
     },
     'fr': {
-        // ... (تم حذف الترجمة الفرنسية للاختصار، لكنها موجودة في الشيفرة الأصلية)
+         // ... (تتمة الترجمة الفرنسية)
+        'start_custom_quiz': 'Commencer Quiz Personnalisé',
+        'daily_challenge': 'Défi Quotidien',
+        'daily_challenge_button': `Défi Quotidien (${DAILY_CHALLENGE_QUESTIONS} Questions)`,
+        'choose_domain': 'Choisissez un domaine de Quiz Personnalisé:',
+        'choose_gis_domain': 'Choisissez Sous-Quiz:',
+        'quiz_title_prefix': 'Quiz:',
+        'question': 'Question',
+        'submit': 'Soumettre la Réponse',
+        'next': 'Question Suivante',
+        'skip': 'Sauter',
+        'review_errors': 'Revue des Erreurs Conceptuelles:',
+        'your_answer': 'Votre Réponse:',
+        'correct_answer': 'La Bonne:',
+        'great_job': '🌟 Performance exceptionnelle! Solides connaissances géologiques.',
+        'good_job': '✨ Très bien! Base solide, mais il y a place à l\'amélioration.',
+        'needs_review': '⚠️ Nécessite une révision intensive de ces concepts.',
+        'new_quiz': 'Redémarrer le Système',
+        'share_results': 'Partager les Résultats',
+        'timer_text': 's',
+        'loading_data': '... Analyse des données système',
+        'loading_error': '[Erreur de Connexion] Désolé, les données n\'ont pas pu être chargées. Veuillez vérifier le fichier Question.json.',
+        'timeout_answer': '(Temps écoulé - Aucune réponse fournie)',
+        'all_correct_message': '🎉 Excellent! Aucune erreur à examiner.',
+        'active_users_title': 'Apprenants Actifs Maintenant',
+        'back_button': 'Retour au menu principal',
+        'time_spent': 'Temps Total',
+        'seconds': 'secondes',
+        'correct_feedback': 'Réponse Correcte!',
+        'incorrect_feedback': 'Mauvaise Réponse. Correct:',
+        'timeout_feedback': 'Temps écoulé! Réponse Correcte:',
+        'total_trainees': 'Apprenants Enregistrés Totaux:',
+        'rock_quiz_title': 'Identifier les Roches par Image',
+        'Magmatiques_Igneous_Rocks': 'Roches Magmatiques',
+        'Sédimentaires_Sedimentary_Rocks': 'Roches Sédimentaires',
+        'Métamorphiques_Metamorphic_Rocks': 'Roches Métamorphiques',
+        'rock_info_title': 'Informations sur l\'analyse des roches:',
+        'rock_type': 'Type Géologique:',
+        'rock_features': 'Caractéristiques de Terrain:',
+        'rock_location': 'Lieux Communs:',
+        'go_to_next': 'Question Suivante'
     }
 };
 
@@ -240,9 +319,16 @@ function switchScreen(screenId) {
     });
 }
 
-function translateUI(lang) {
-    // هذه الدالة يفترض وجودها في ملف HTML أو منفصل لتحديث النصوص بناءً على قاموس translations
-    // تم حذف المنطق هنا لعدم التعارض مع النسخة الأصلية للشيفرة
+function showNotification(message, duration = 3000) {
+    const toast = document.getElementById('notification-toast');
+    const msgElement = document.getElementById('notification-message');
+    if (toast && msgElement) {
+        msgElement.textContent = message;
+        toast.classList.remove('hidden');
+        setTimeout(() => {
+            toast.classList.add('hidden');
+        }, duration);
+    }
 }
 
 
@@ -263,6 +349,7 @@ function startTimer() {
     if (timerUnitElement) timerUnitElement.textContent = t.timer_text; 
     if (timerDisplayElement) {
         timerDisplayElement.removeAttribute('data-critical'); 
+        // يفترض وجود متغيرات CSS مثل var(--neon-blue)
         timerDisplayElement.style.color = 'var(--neon-blue)'; 
     }
 
@@ -288,7 +375,6 @@ function startTimer() {
 }
 
 function handleTimeout() {
-    // نستخدم دالة processAnswer مع معلمة التخطي/التايم آوت
     processAnswer(true); 
     const nextBtn = document.getElementById('next-btn');
     if (nextBtn) nextBtn.classList.remove('hidden');
@@ -319,6 +405,7 @@ async function loadGeologyData() {
         if (response.ok) {
             const dynamicData = await response.json();
             // دمج البيانات الديناميكية مع بيانات الصخور
+            // ملاحظة: إذا كان ملف Question.json يحتوي على أسئلة نصية، ستُدمج تلقائيًا
             allData = {...dynamicData, ...RockQuizData};
         } else {
              console.warn("Question.json not loaded, using only static Rock Quiz Data.");
@@ -331,7 +418,6 @@ async function loadGeologyData() {
         if (startCustomBtn) {
             startCustomBtn.disabled = false;
             startCustomBtn.addEventListener('click', () => {
-                 // إخفاء أزرار البداية وإظهار قائمة المواضيع
                  if (startCustomBtn) startCustomBtn.classList.add('hidden');
                  if (dailyChallengeContainer) dailyChallengeContainer.classList.add('hidden'); 
                  if (topicsListContainer) topicsListContainer.classList.remove('hidden');
@@ -360,7 +446,6 @@ async function loadGeologyData() {
 // **=================================================**
 
 function populateTopicLists(dataObject, isSubMenu = false) {
-    // ... (نفس منطق ملء القوائم السابق)
     const topicsList = document.getElementById('topics-list');
     const sidebarList = document.getElementById('sidebar-topics-list');
     const loadingMessage = document.getElementById('loading-message');
@@ -393,8 +478,8 @@ function populateTopicLists(dataObject, isSubMenu = false) {
         
         if (Array.isArray(content)) {
             clickHandler = () => {
-                // 💡 التمييز بين اختبار الصخور (الصورة) والاختبار التقليدي (النص)
-                if (Object.keys(RockQuizData).includes(key)) {
+                // التمييز بين اختبار الصخور (الصورة) والاختبار التقليدي (النص)
+                if (Object.keys(RockQuizData).includes(key) || (content.length > 0 && content[0].hasOwnProperty('image'))) {
                     startRockQuiz(topicDisplayName, content);
                 } else {
                     startQuiz(topicDisplayName, content); 
@@ -436,7 +521,6 @@ function populateTopicLists(dataObject, isSubMenu = false) {
 // **=================================================**
 
 function startDailyChallenge() {
-    // ... (نفس منطق التحدي اليومي السابق)
     const t = translations[currentLanguage];
     let allQuestions = [];
     
@@ -458,7 +542,7 @@ function startDailyChallenge() {
     const dailyQuestions = shuffledQuestions.slice(0, DAILY_CHALLENGE_QUESTIONS);
     
     if (dailyQuestions.length === 0) {
-        // ...
+        showNotification("لا تتوفر أسئلة كافية لهذا التحدي.", 5000);
         return;
     }
     
@@ -466,7 +550,6 @@ function startDailyChallenge() {
 }
 
 function startQuiz(quizTitle, questions) { 
-    // ... (نفس منطق بدء الاختبار السابق)
     clearInterval(timerInterval);
     currentQuestions = shuffleArray(questions.map((q, index) => ({...q, id: q.id || index}))); 
     currentQuestionIndex = 0;
@@ -494,7 +577,6 @@ function startQuiz(quizTitle, questions) {
 }
 
 function displayQuestion() {
-    // ... (نفس منطق عرض السؤال التقليدي السابق)
     clearInterval(timerInterval); 
     const qContainer = document.getElementById('question-container');
     const submitBtn = document.getElementById('submit-btn');
@@ -523,7 +605,7 @@ function displayQuestion() {
     if (rockInfoBox) rockInfoBox.classList.add('hidden');
     // إخفاء أي صورة صخرة سابقة
     const oldRockImage = qContainer.querySelector('.rock-image-quiz');
-    if (oldRockImage) oldRockImage.style.display = 'none';
+    if (oldRockImage) oldRockImage.remove();
 
 
     let htmlContent = `<p class="question-text">${currentQ.question}</p>`;
@@ -542,7 +624,6 @@ function displayQuestion() {
     htmlContent += '</div>';
     qContainer.innerHTML = htmlContent;
     
-    // ... (بقية منطق عرض السؤال التقليدي)
     if (submitBtn) {
         submitBtn.classList.remove('hidden');
         submitBtn.disabled = true;
@@ -577,12 +658,11 @@ function displayQuestion() {
 
 
 // **=================================================**
-// [7] منطق اختبار الصخور (التحديد بالصور)
+// [7] منطق اختبار الصخور (التحديد بالصور) - جديد
 // **=================================================**
 
 function startRockQuiz(quizTitle, rockList) {
     clearInterval(timerInterval);
-    // نستخدم اسم الصخرة كـ ID
     currentQuestions = shuffleArray(rockList.map((q, index) => ({...q, id: q.name || index}))); 
     currentQuestionIndex = 0;
     score = 0;
@@ -597,7 +677,7 @@ function startRockQuiz(quizTitle, rockList) {
     }
 
     const skipBtn = document.getElementById('skip-btn');
-    if (skipBtn) skipBtn.classList.remove('hidden'); // يمكن تخطي أسئلة الصخور
+    if (skipBtn) skipBtn.classList.remove('hidden'); 
 
     displayRockQuestion(); 
 }
@@ -629,6 +709,7 @@ function displayRockQuestion() {
     // 💡 إنشاء خيارات عشوائية (4 خيارات)
     let allRockNames = [];
     Object.values(RockQuizData).forEach(arr => {
+        // جمع الأسماء من جميع مجموعات الصخور الثابتة
         allRockNames = allRockNames.concat(arr.map(r => r.name));
     });
 
@@ -638,17 +719,18 @@ function displayRockQuestion() {
     const options = shuffleArray([currentQ.name, ...wrongOptions.slice(0, 3)]); // 4 خيارات إجمالاً
 
     // إنشاء محتوى السؤال (الصورة + الخيارات)
-    // ✅ ملاحظة: تم تعديل المسار هنا إلى ./roch/ ليتناسب مع هيكل افتراضي على الويب
-    let htmlContent = `<img src="./roch/${currentQ.image}" alt="صورة صخرة للاختبار" class="rock-image-quiz">`;
+    // ✅ يجب أن تكون الصور في مجلد اسمه "roch" أو "images" حسب مسار ملف Question.json
+    const imagePath = currentQ.image.includes('/') ? currentQ.image : `./roch/${currentQ.image}`;
+    let htmlContent = `<img src="${imagePath}" alt="صورة صخرة للاختبار" class="rock-image-quiz">`;
     htmlContent += '<p class="question-text">ما هو اسم هذه الصخرة؟</p>'; 
     
     // إضافة حاوية معلومات الصخرة (مخفية مبدئياً)
     htmlContent += `
         <div id="rock-info-display" class="rock-info-box hidden">
             <h3 class="rock-info-title"><i class="fas fa-microscope"></i> ${t.rock_info_title} ${currentQ.name}</h3>
-            <p class="rock-info-item"><strong>${t.rock_type}</strong> ${currentQ.type}</p>
-            <p class="rock-info-item"><strong>${t.rock_features}</strong> ${currentQ.features}</p>
-            <p class="rock-info-item"><strong>${t.rock_location}</strong> ${currentQ.location}</p>
+            <p class="rock-info-item"><strong>${t.rock_type}:</strong> ${currentQ.type}</p>
+            <p class="rock-info-item"><strong>${t.rock_features}:</strong> ${currentQ.features}</p>
+            <p class="rock-info-item"><strong>${t.rock_location}:</strong> ${currentQ.location}</p>
         </div>
     `;
 
@@ -712,22 +794,20 @@ function processAnswer(isSkippedOrTimeout = false) {
     const selectedOptionInput = document.querySelector('input[name="option"]:checked');
     let userAnswer = selectedOptionInput ? selectedOptionInput.value : t.timeout_answer;
     
-    // التحقق مما إذا كان السؤال الحالي هو سؤال صخرة (يحتوي على خاصية 'image')
+    // التحقق مما إذا كان السؤال الحالي هو سؤال صخرة 
     const isRockQuiz = currentQ.hasOwnProperty('image');
     // الإجابة الصحيحة تكون "name" للصخرة أو "answer" للسؤال التقليدي
-    const correctAnswer = currentQ.name || currentQ.answer; 
+    const correctAnswer = currentQ.name || currentQ.correctAnswer || currentQ.answer; 
     
     let isCorrect = false;
     let isAnswered = false;
 
     if (isSkippedOrTimeout) {
-        // ... (نفس منطق التخطي/انتهاء الوقت)
         isCorrect = false;
         isAnswered = false; 
         score += POINTS_WRONG; 
         if (wrongSound) { wrongSound.currentTime = 0; wrongSound.play().catch(e => console.error("Error playing sound:", e)); }
     } else {
-        // ... (نفس منطق الإجابة العادية)
         isAnswered = true;
         isCorrect = (userAnswer === correctAnswer);
         if (isCorrect) {
@@ -760,9 +840,9 @@ function processAnswer(isSkippedOrTimeout = false) {
         } else if (input.checked && !isCorrect && isAnswered) { 
             label.classList.add('incorrect'); 
         }
-        if (!isAnswered && input.value !== correctAnswer) { 
-             if (input.value !== correctAnswer) label.classList.add('incorrect');
-        }
+        
+        // تعطيل النقرات على جميع الخيارات
+        label.style.pointerEvents = 'none';
     });
     
     // عرض رسالة التغذية الراجعة
@@ -814,7 +894,6 @@ function processAnswer(isSkippedOrTimeout = false) {
 // **=================================================**
 
 function showResults() {
-    // ... (نفس منطق عرض النتائج السابق)
     clearInterval(timerInterval);
     const quizScreen = document.getElementById('quiz-screen');
     const resultsScreen = document.getElementById('results-screen');
@@ -911,7 +990,7 @@ document.addEventListener('DOMContentLoaded', () => {
         nextBtn.addEventListener('click', () => {
             currentQuestionIndex++;
             // ✅ التحقق مما إذا كان الاختبار الحالي هو اختبار صخور
-            if (currentQuestions.length > 0 && currentQuestions[0].hasOwnProperty('image')) {
+            if (currentQuestions.length > 0 && (currentQuestions[0].hasOwnProperty('image') || currentQuestions[0].hasOwnProperty('name'))) {
                 displayRockQuestion();
             } else {
                 displayQuestion();
