@@ -360,4 +360,212 @@ function restartQuiz() {
     startQuiz(currentCategory);
 }
 
-// قسم التعرف على الص
+// قسم التعرف على الصخور
+function generateRockQuestions() {
+    rockQuestions = [];
+    
+    // قائمة بأسماء الصخور من المجلدات مع ترجماتها
+    const rockData = [
+        { name: 'Gneiss', displayName: 'النيس', image: 'Gneiss.jpeg' },
+        { name: 'Granite', displayName: 'الجرانيت', image: 'Granite.jpg' },
+        { name: 'Marbre', displayName: 'الرخام', image: 'Marbre.jpeg' },
+        { name: 'Marnes', displayName: 'المارل', image: 'Marnes.jpg' },
+        { name: 'Quartzite', displayName: 'الكوارتزيت', image: 'Quartzite.jpeg' },
+        { name: 'Rhyclite', displayName: 'الريولايت', image: 'Rhyclite.jpg' },
+        { name: 'Schiste', displayName: 'الشيست', image: 'Schiste.jpg' },
+        { name: 'argilite', displayName: 'الأرجيليت', image: 'argilite.jpeg' },
+        { name: 'grès', displayName: 'الحجر الرملي', image: 'grès.jpeg' },
+        { name: 'shale', displayName: 'الطفل', image: 'shale.jpeg' },
+        { name: 'Andésite', displayName: 'الأنديزيت', image: 'Andésite.jpeg' },
+        { name: 'Basalte', displayName: 'البازلت', image: 'Basalte.jpg' },
+        { name: 'Calcaire', displayName: 'الحجر الجيري', image: 'Calcaire.jpeg' },
+        { name: 'Conglomérat', displayName: 'المدملكات', image: 'Conglomérat.jpeg' },
+        { name: 'Diorite', displayName: 'الديوريت', image: 'Diorite.jpg' },
+        { name: 'Dolomie', displayName: 'الدولوميت', image: 'Dolomie.jpeg' },
+        { name: 'Gabbro', displayName: 'الجابرو', image: 'Gabbro.jpg' }
+    ];
+    
+    // إنشاء أسئلة للصخور
+    rockData.forEach(rock => {
+        // إنشاء خيارات عشوائية
+        const otherRocks = rockData.filter(r => r.name !== rock.name);
+        shuffleArray(otherRocks);
+        const selectedOptions = otherRocks.slice(0, 3).map(r => r.displayName);
+        selectedOptions.push(rock.displayName);
+        shuffleArray(selectedOptions);
+        
+        rockQuestions.push({
+            rock: rock.name,
+            displayName: rock.displayName,
+            image: rock.image,
+            options: selectedOptions,
+            answer: rock.displayName
+        });
+    });
+}
+
+// بدء اختبار الصخور
+function startRockQuiz() {
+    currentRockIndex = 0;
+    rockScore = 0;
+    rockScoreElement.textContent = '0';
+    shuffleArray(rockQuestions);
+    showRockQuestion();
+}
+
+// عرض سؤال الصخور
+function showRockQuestion() {
+    const rockQuestion = rockQuestions[currentRockIndex];
+    
+    // تحديث صورة الصخرة
+    rockImage.src = `roch/${rockQuestion.image}`;
+    rockImage.alt = rockQuestion.displayName;
+    rockName.textContent = 'ما اسم هذه الصخرة؟';
+    
+    // تحديث خيارات الإجابة
+    rockOptions.forEach((option, index) => {
+        option.textContent = rockQuestion.options[index];
+        option.className = 'rock-option';
+        option.disabled = false;
+    });
+    
+    // إعادة تعيين المؤقت
+    startRockTimer();
+    
+    // إخفاء زر التالي
+    nextRockBtn.style.display = 'none';
+}
+
+// اختيار إجابة في قسم الصخور
+function selectRockOption(option) {
+    // تعطيل جميع الخيارات
+    rockOptions.forEach(opt => {
+        opt.disabled = true;
+    });
+    
+    const selectedAnswer = option.textContent;
+    const correctAnswer = rockQuestions[currentRockIndex].answer;
+    
+    // التحقق من الإجابة
+    if (selectedAnswer === correctAnswer) {
+        option.classList.add('correct');
+        rockScore++;
+        rockScoreElement.textContent = rockScore;
+        correctSound.play().catch(e => console.log('خطأ في تشغيل الصوت:', e));
+        rockName.textContent = `✓ ${rockQuestions[currentRockIndex].displayName}`;
+        rockName.style.color = '#2ecc71';
+    } else {
+        option.classList.add('wrong');
+        
+        // إظهار الإجابة الصحيحة
+        rockOptions.forEach(opt => {
+            if (opt.textContent === correctAnswer) {
+                opt.classList.add('correct');
+            }
+        });
+        
+        wrongSound.play().catch(e => console.log('خطأ في تشغيل الصوت:', e));
+        rockName.textContent = `✗ ${rockQuestions[currentRockIndex].displayName}`;
+        rockName.style.color = '#e74c3c';
+    }
+    
+    // إظهار زر التالي
+    nextRockBtn.style.display = 'block';
+    
+    // إيقاف المؤقت
+    clearInterval(rockTimer);
+}
+
+// عرض الصخرة التالية
+function showNextRock() {
+    if (currentRockIndex < rockQuestions.length - 1) {
+        currentRockIndex++;
+        showRockQuestion();
+    } else {
+        // نهاية اختبار الصخور
+        alert(`🏆 انتهى اختبار الصخور!\n\nلقد حصلت على ${rockScore} من ${rockQuestions.length}\n\n${rockScore >= rockQuestions.length * 0.7 ? 'أداء رائع! 👏' : 'حاول مرة أخرى! 💪'}`);
+        startRockQuiz(); // إعادة البدء
+    }
+}
+
+// بدء مؤقت الصخور
+function startRockTimer() {
+    let timeLeft = 20;
+    rockTimerElement.textContent = timeLeft;
+    rockTimerElement.className = 'timer';
+    
+    clearInterval(rockTimer);
+    rockTimer = setInterval(() => {
+        timeLeft--;
+        rockTimerElement.textContent = timeLeft;
+        
+        // تغيير لون المؤقت عند اقتراب النهاية
+        if (timeLeft <= 5) {
+            rockTimerElement.classList.add('danger');
+        } else if (timeLeft <= 10) {
+            rockTimerElement.classList.add('warning');
+        }
+        
+        // انتهاء الوقت
+        if (timeLeft <= 0) {
+            clearInterval(rockTimer);
+            // تعطيل الخيارات تلقائيًا
+            rockOptions.forEach(opt => {
+                opt.disabled = true;
+            });
+            
+            // إظهار الإجابة الصحيحة
+            const correctAnswer = rockQuestions[currentRockIndex].answer;
+            rockOptions.forEach(opt => {
+                if (opt.textContent === correctAnswer) {
+                    opt.classList.add('correct');
+                }
+            });
+            
+            // إظهار زر التالي
+            nextRockBtn.style.display = 'block';
+            
+            wrongSound.play().catch(e => console.log('خطأ في تشغيل الصوت:', e));
+            rockName.textContent = `⏰ ${rockQuestions[currentRockIndex].displayName}`;
+            rockName.style.color = '#e74c3c';
+        }
+    }, 1000);
+}
+
+// إظهار قسم معين وإخفاء الآخرين
+function showSection(sectionId) {
+    // إخفاء جميع الأقسام
+    document.querySelectorAll('.section').forEach(section => {
+        section.classList.remove('active');
+    });
+    
+    // إظهار القسم المطلوب
+    document.getElementById(sectionId).classList.add('active');
+}
+
+// تعيين زر التنقل النشط
+function setActiveNav(activeBtn) {
+    document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    activeBtn.classList.add('active');
+}
+
+// تحديث عدد المستخدمين النشطين
+function updateActiveUsers() {
+    // عدد عشوائي بين 3 و 11
+    const activeCount = Math.floor(Math.random() * 9) + 3;
+    activeUsersCount.textContent = activeCount;
+    
+    // تحديث كل 30 ثانية
+    setTimeout(updateActiveUsers, 30000);
+}
+
+// دالة لخلط المصفوفات (لخلط الأسئلة والخيارات)
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
