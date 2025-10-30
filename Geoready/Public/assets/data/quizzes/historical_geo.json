@@ -1,0 +1,281 @@
+{
+  "id": "historical_geo",
+  "name": {
+    "ar": "الجيولوجيا التاريخية",
+    "en": "Historical Geology", 
+    "fr": "Géologie Historique"
+  },
+  "description": {
+    "ar": "تعلم تاريخ الأرض والعصور الجيولوجية والتطور الزمني للكوكب",
+    "en": "Learn about Earth's history, geological eras and planetary evolution through time",
+    "fr": "Apprenez l'histoire de la Terre, les ères géologiques et l'évolution planétaire à travers le temps"
+  },
+  "icon": "🕰️",
+  "level": "intermediate",
+  "estimated_time": 25,
+  "questions": [
+    {
+      "id": 1,
+      "type": "multiple_choice",
+      "question": {
+        "ar": "ما هو المبدأ الأساسي في الجيولوجيا التاريخية؟",
+        "en": "What is the fundamental principle in historical geology?",
+        "fr": "Quel est le principe fondamental en géologie historique?"
+      },
+      "image": "assets/images/diagrams/geological_layers.jpg",
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "مبدأ التعاقب: الطبقات الأقدم في الأسفل والأحدث في الأعلى",
+            "en": "Principle of superposition: older layers at bottom, younger at top",
+            "fr": "Principe de superposition : couches plus anciennes en bas, plus récentes en haut"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "مبدأ الصدفة: كل شيء حدث بالصدفة",
+            "en": "Principle of coincidence: everything happened by chance",
+            "fr": "Principe de coïncidence : tout est arrivé par hasard"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "مبدأ السرعة: كل شيء حدث بسرعة",
+            "en": "Principle of speed: everything happened quickly",
+            "fr": "Principe de vitesse : tout est arrivé rapidement"
+          },
+          "correct": false
+        },
+        {
+          "id": "D",
+          "text": {
+            "ar": "مبدأ العشوائية: لا يوجد ترتيب",
+            "en": "Principle of randomness: no order exists",
+            "fr": "Principe de randomisation : aucun ordre n'existe"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "مبدأ التعاقب ينص أنه في التسلسل الطبقي غير المقلوب، تكون الطبقات الأقدم في الأسفل والأحدث في الأعلى",
+        "en": "The principle of superposition states that in an undisturbed stratigraphic sequence, the oldest layers are at the bottom and the youngest at the top",
+        "fr": "Le principe de superposition stipule que dans une séquence stratigraphique non perturbée, les couches les plus anciennes sont en bas et les plus récentes en haut"
+      }
+    },
+    {
+      "id": 2,
+      "type": "multiple_choice",
+      "question": {
+        "ar": "كم يبلغ العمر التقريبي للأرض؟",
+        "en": "What is the approximate age of the Earth?",
+        "fr": "Quel est l'âge approximatif de la Terre?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "4.54 مليار سنة",
+            "en": "4.54 billion years",
+            "fr": "4.54 milliards d'années"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "10 آلاف سنة",
+            "en": "10 thousand years",
+            "fr": "10 mille ans"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "100 مليون سنة",
+            "en": "100 million years",
+            "fr": "100 millions d'années"
+          },
+          "correct": false
+        },
+        {
+          "id": "D",
+          "text": {
+            "ar": "1 مليار سنة",
+            "en": "1 billion years",
+            "fr": "1 milliard d'années"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يُقدّر عمر الأرض بحوالي 4.54 مليار سنة بناءً على التأريخ الإشعاعي للنيازك وأقدم الصخور المعروفة",
+        "en": "Earth's age is estimated at about 4.54 billion years based on radiometric dating of meteorites and the oldest known rocks",
+        "fr": "L'âge de la Terre est estimé à environ 4,54 milliards d'années sur la base de la datation radiométrique des météorites et des roches les plus anciennes connues"
+      }
+    },
+    {
+      "id": 3,
+      "type": "multiple_choice",
+      "question": {
+        "ar": "ما هي الأحافير المرشدة؟",
+        "en": "What are index fossils?",
+        "fr": "Que sont les fossiles index?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "أحافير كانت منتشرة على نطاق واسع وعاشت لفترة زمنية قصيرة",
+            "en": "Fossils that were widespread and lived for a short time period",
+            "fr": "Fossiles qui étaient répandus et ont vécu pendant une courte période"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "أحافير كبيرة الحجم فقط",
+            "en": "Only large-sized fossils",
+            "fr": "Seulement des fossiles de grande taille"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "أحافير موجودة في مكان واحد فقط",
+            "en": "Fossils found in only one location",
+            "fr": "Fossiles trouvés dans un seul endroit"
+          },
+          "correct": false
+        },
+        {
+          "id": "D",
+          "text": {
+            "ar": "أحافير غير مكتملة",
+            "en": "Incomplete fossils",
+            "fr": "Fossiles incomplets"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "الأحافير المرشدة مهمة للتأريخ النسبي لأنها تمثل كائنات عاشت لفترات قصيرة ولكن كانت منتشرة جغرافياً",
+        "en": "Index fossils are important for relative dating because they represent organisms that lived for short periods but were geographically widespread",
+        "fr": "Les fossiles index sont importants pour la datation relative car ils représentent des organismes qui ont vécu pendant de courtes périodes mais étaient géographiquement répandus"
+      }
+    },
+    {
+      "id": 4,
+      "type": "multiple_choice",
+      "question": {
+        "ar": "ما هو الانقراض الجماعي الذي قضى على الديناصورات؟",
+        "en": "What mass extinction wiped out the dinosaurs?",
+        "fr": "Quelle extinction massive a anéanti les dinosaures?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "انقراض العصر الطباشيري-الباليوجيني (K-Pg)",
+            "en": "Cretaceous-Paleogene (K-Pg) extinction",
+            "fr": "Extinction Crétacé-Paléogène (K-Pg)"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "انقراض العصر البرمي-الثلاثي",
+            "en": "Permian-Triassic extinction",
+            "fr": "Extinction Permien-Trias"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "انقراض العصر الأوردوفيشي-السيلوري",
+            "en": "Ordovician-Silurian extinction",
+            "fr": "Extinction Ordovicien-Silurien"
+          },
+          "correct": false
+        },
+        {
+          "id": "D",
+          "text": {
+            "ar": "انقراض العصر الديفوني المتأخر",
+            "en": "Late Devonian extinction",
+            "fr": "Extinction du Dévonien tardif"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "حدث انقراض K-Pg منذ 66 مليون سنة، ويرجح أن سببه اصطدام كويكب كبير بالأرض وتغير المناخ",
+        "en": "The K-Pg extinction occurred 66 million years ago, likely caused by a large asteroid impact and climate change",
+        "fr": "L'extinction K-Pg s'est produite il y a 66 millions d'années, probablement causée par un impact d'astéroïde majeur et un changement climatique"
+      }
+    },
+    {
+      "id": 5,
+      "type": "multiple_choice",
+      "question": {
+        "ar": "ما هي الحقبة الجيولوجية الحالية؟",
+        "en": "What is the current geological era?",
+        "fr": "Quelle est l'ère géologique actuelle?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "حقبة السينوزوي (الحقبة الحديثة)",
+            "en": "Cenozoic Era (Modern Era)",
+            "fr": "Ère Cénozoïque (Ère Moderne)"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "حقبة الميزوزوي (حقبة الزواحف)",
+            "en": "Mesozoic Era (Age of Reptiles)",
+            "fr": "Ère Mésozoïque (Âge des Reptiles)"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "حقبة الباليوزوي (حقبة الحياة القديمة)",
+            "en": "Paleozoic Era (Ancient Life)",
+            "fr": "Ère Paléozoïque (Vie Ancienne)"
+          },
+          "correct": false
+        },
+        {
+          "id": "D",
+          "text": {
+            "ar": "حقبة ما قبل الكمبري",
+            "en": "Precambrian Era",
+            "fr": "Ère Précambrienne"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "نحن نعيش في حقبة السينوزوي التي بدأت منذ 66 مليون سنة وتشهد تطور الثدييات وظهور الإنسان",
+        "en": "We live in the Cenozoic Era which began 66 million years ago and witnesses mammalian evolution and human emergence",
+        "fr": "Nous vivons dans l'ère Cénozoïque qui a commencé il y a 66 millions d'années et témoigne de l'évolution des mammifères et de l'émergence humaine"
+      }
+    }
+  ],
+  "total_questions": 15,
+  "passing_score": 75
+}
