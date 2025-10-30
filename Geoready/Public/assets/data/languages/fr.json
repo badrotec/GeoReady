@@ -1,0 +1,56 @@
+{
+  "app": {
+    "title": "GeoLearn - Plateforme d'Apprentissage de Géologie",
+    "subtitle": "Plateforme Complète d'Apprentissage de la Géologie",
+    "loading": "Chargement...",
+    "error": "Erreur survenue",
+    "success": "Succès"
+  },
+  "navigation": {
+    "home": "Accueil",
+    "quizzes": "Quiz",
+    "progress": "Progrès",
+    "settings": "Paramètres"
+  },
+  "quizzes": {
+    "basic_geology": "Géologie de Base",
+    "petrology": "Pétrologie - Science des Roches",
+    "hydrogeology": "Hydrogéologie - Science des Eaux Souterraines",
+    "geophysics": "Géophysique - Exploration Terrestre",
+    "field_work": "Travail de Terrain du Géologue",
+    "structural_geo": "Géologie Structurale",
+    "historical_geo": "Géologie Historique",
+    "environmental_geo": "Géologie Environnementale",
+    "mining_geology": "Géologie Minière",
+    "engineering_geo": "Géologie de l'Ingénieur"
+  },
+  "quiz_ui": {
+    "start_quiz": "Commencer le Quiz",
+    "next_question": "Question Suivante",
+    "previous_question": "Question Précédente",
+    "submit_answer": "Soumettre la Réponse",
+    "finish_quiz": "Terminer le Quiz",
+    "question": "Question",
+    "of": "de",
+    "score": "Score",
+    "correct": "Correct",
+    "wrong": "Incorrect",
+    "time_left": "Temps Restant",
+    "explanation": "Explication"
+  },
+  "results": {
+    "quiz_completed": "Quiz Terminé",
+    "your_score": "Votre Score",
+    "correct_answers": "Réponses Correctes",
+    "wrong_answers": "Réponses Incorrectes",
+    "time_spent": "Temps Passé",
+    "restart_quiz": "Redémarrer le Quiz",
+    "back_to_quizzes": "Retour aux Quiz"
+  },
+  "settings": {
+    "language": "Langue",
+    "theme": "Thème",
+    "sound": "Son",
+    "notifications": "Notifications"
+  }
+}
