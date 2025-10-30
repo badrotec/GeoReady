@@ -1,0 +1,230 @@
+{
+  "id": "geophysics",
+  "name": {
+    "ar": "الجيوفيزياء - استكشاف باطن الأرض",
+    "en": "Geophysics - Earth Exploration",
+    "fr": "Géophysique - Exploration Terrestre"
+  },
+  "description": {
+    "ar": "تعلم طرق استكشاف باطن الأرض باستخدام القياسات الفيزيائية",
+    "en": "Learn methods for exploring Earth's interior using physical measurements",
+    "fr": "Apprenez les méthodes d'exploration de l'intérieur de la Terre using des mesures physiques"
+  },
+  "icon": "📡",
+  "level": "intermediate",
+  "estimated_time": 25,
+  "questions": [
+    {
+      "id": 1,
+      "type": "multiple_choice",
+      "question": {
+        "ar": "ما هو المسح السيزمي؟",
+        "en": "What is seismic surveying?",
+        "fr": "Qu'est-ce que l'étude sismique?"
+      },
+      "image": "assets/images/diagrams/geological_section.jpg",
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "طريقة تستخدم الموجات الزلزالية لاستكشاف الطبقات تحت السطح",
+            "en": "A method using seismic waves to explore subsurface layers",
+            "fr": "Une méthode utilisant les ondes sismiques pour explorer les couches souterraines"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "قياس المجال المغناطيسي للأرض",
+            "en": "Measuring Earth's magnetic field",
+            "fr": "Mesurer le champ magnétique terrestre"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "دراسة الزلازل فقط",
+            "en": "Studying earthquakes only",
+            "fr": "Étudier seulement les tremblements de terre"
+          },
+          "correct": false
+        },
+        {
+          "id": "D",
+          "text": {
+            "ar": "تحليل الصخور في المختبر",
+            "en": "Analyzing rocks in the laboratory",
+            "fr": "Analyser les roches en laboratoire"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "المسح السيزمي يستخدم الموجات الزلزالية المنتَجة صناعياً لاستكشاف التركيب الجيولوجي تحت السطح",
+        "en": "Seismic surveying uses artificially generated seismic waves to explore geological structure beneath the surface",
+        "fr": "L'étude sismique utilise des ondes sismiques générées artificiellement pour explorer la structure géologique sous la surface"
+      }
+    },
+    {
+      "id": 2,
+      "type": "multiple_choice",
+      "question": {
+        "ar": "ما هو الغرض من المسح المغناطيسي؟",
+        "en": "What is the purpose of magnetic surveying?",
+        "fr": "Quel est le but de l'étude magnétique?"
+      },
+      "image": "assets/images/maps/geological_map.jpg",
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "كشف الصخور المغناطيسية وتحديد التراكيب الجيولوجية",
+            "en": "Detecting magnetic rocks and identifying geological structures",
+            "fr": "Détecter les roches magnétiques et identifier les structures géologiques"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "قياس عمق المياه",
+            "en": "Measuring water depth",
+            "fr": "Mesurer la profondeur de l'eau"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "تحليل تركيب المعادن",
+            "en": "Analyzing mineral composition",
+            "fr": "Analyser la composition minérale"
+          },
+          "correct": false
+        },
+        {
+          "id": "D",
+          "text": {
+            "ar": "رصد النشاط البركاني",
+            "en": "Monitoring volcanic activity",
+            "fr": "Surveiller l'activité volcanique"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "المسح المغناطيسي يقيس الاختلافات في المجال المغناطيسي الأرضي الناتجة عن الصخور المغناطيسية مثل الماغنتايت",
+        "en": "Magnetic surveying measures variations in Earth's magnetic field caused by magnetic rocks like magnetite",
+        "fr": "L'étude magnétique mesure les variations du champ magnétique terrestre causées par des roches magnétiques comme la magnétite"
+      }
+    },
+    {
+      "id": 3,
+      "type": "multiple_choice",
+      "question": {
+        "ar": "ما هي طريقة الجاذبية في الجيوفيزياء؟",
+        "en": "What is the gravity method in geophysics?",
+        "fr": "Quelle est la méthode gravimétrique en géophysique?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "قياس الاختلافات في مجال الجاذبية الأرضية",
+            "en": "Measuring variations in Earth's gravity field",
+            "fr": "Mesurer les variations du champ gravitationnel terrestre"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "دراسة سقوط الأجسام",
+            "en": "Studying falling objects",
+            "fr": "Étudier la chute des objets"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "تحليل وزن الصخور",
+            "en": "Analyzing rock weight",
+            "fr": "Analyser le poids des roches"
+          },
+          "correct": false
+        },
+        {
+          "id": "D",
+          "text": {
+            "ar": "قياس كثافة المعادن",
+            "en": "Measuring mineral density",
+            "fr": "Mesurer la densité des minéraux"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "طريقة الجاذبية تقيس الاختلافات الدقيقة في مجال الجاذبية الناتجة عن اختلاف كثافة الصخور تحت السطح",
+        "en": "The gravity method measures subtle variations in the gravity field caused by differences in subsurface rock density",
+        "fr": "La méthode gravimétrique mesure les variations subtiles du champ gravitationnel causées par les différences de densité des roches souterraines"
+      }
+    },
+    {
+      "id": 4,
+      "type": "multiple_choice",
+      "question": {
+        "ar": "أي من هذه الطرق تستخدم للكشف عن المياه الجوفية؟",
+        "en": "Which of these methods is used for groundwater detection?",
+        "fr": "Laquelle de ces méthodes est utilisée pour la détection des eaux souterraines?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "المسح الكهربائي",
+            "en": "Electrical resistivity surveying",
+            "fr": "Étude de la résistivité électrique"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "المسح الإشعاعي",
+            "en": "Radioactive surveying",
+            "fr": "Étude radioactive"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "المسح الحراري",
+            "en": "Thermal surveying",
+            "fr": "Étude thermique"
+          },
+          "correct": false
+        },
+        {
+          "id": "D",
+          "text": {
+            "ar": "المسح الصوتي",
+            "en": "Acoustic surveying",
+            "fr": "Étude acoustique"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "المسح الكهربائي يقيس مقاومة التربة والصخور للموصلية الكهربائية، حيث تختلف مقاومة المناطق المشبعة بالمياه",
+        "en": "Electrical resistivity surveying measures soil and rock resistance to electrical conductivity, as water-saturated areas have different resistivity",
+        "fr": "L'étude de la résistivité électrique mesure la résistance du sol et des roches à la conductivité électrique, car les zones saturées en eau ont une résistivité différente"
+      }
+    }
+  ],
+  "total_questions": 15,
+  "passing_score": 75
+}
