@@ -223,6 +223,11 @@ header p {
     text-align: center;
     margin-bottom: 40px;
     position: relative;
+    min-height: 350px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .rock-image-container img {
@@ -232,11 +237,17 @@ header p {
     box-shadow: var(--box-shadow);
     border: 3px solid var(--light-color);
     transition: var(--transition);
+    background: #f8f9fa;
 }
 
 .rock-image-container img:hover {
     transform: scale(1.02);
     box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+.rock-image-container img.loading {
+    opacity: 0.7;
+    filter: blur(2px);
 }
 
 .rock-name {
@@ -248,6 +259,7 @@ header p {
     padding: 8px 20px;
     border-radius: 25px;
     display: inline-block;
+    transition: var(--transition);
 }
 
 .rock-options {
@@ -364,6 +376,20 @@ header p {
 
 .timer {
     color: var(--accent-color);
+}
+
+.timer.warning {
+    color: var(--warning-color);
+    animation: pulse 1s infinite;
+}
+
+.timer.danger {
+    color: var(--accent-color);
+    animation: pulse 0.5s infinite;
+}
+
+.timer.flashing {
+    animation: flash 0.5s infinite alternate;
 }
 
 .score {
@@ -503,6 +529,40 @@ header p {
     color: var(--accent-color);
 }
 
+/* رسائل النتائج */
+.result-message {
+    margin: 20px 0;
+    padding: 15px;
+    border-radius: var(--border-radius);
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.result-excellent {
+    background: rgba(46, 204, 113, 0.1);
+    border: 2px solid var(--success-color);
+    color: var(--success-color);
+}
+
+.result-good {
+    background: rgba(52, 152, 219, 0.1);
+    border: 2px solid var(--secondary-color);
+    color: var(--secondary-color);
+}
+
+.result-average {
+    background: rgba(243, 156, 18, 0.1);
+    border: 2px solid var(--warning-color);
+    color: var(--warning-color);
+}
+
+.result-poor {
+    background: rgba(231, 76, 60, 0.1);
+    border: 2px solid var(--accent-color);
+    color: var(--accent-color);
+}
+
 /* الفوتر */
 footer {
     text-align: center;
@@ -513,21 +573,16 @@ footer {
     opacity: 0.9;
 }
 
-/* التايمر */
-.timer.warning {
-    color: var(--warning-color);
-    animation: pulse 1s infinite;
-}
-
-.timer.danger {
-    color: var(--accent-color);
-    animation: pulse 0.5s infinite;
-}
-
+/* أنيميشن */
 @keyframes pulse {
     0% { opacity: 1; transform: scale(1); }
     50% { opacity: 0.7; transform: scale(1.05); }
     100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes flash {
+    from { opacity: 1; }
+    to { opacity: 0.5; }
 }
 
 /* التجاوب مع الشاشات الصغيرة */
@@ -587,6 +642,14 @@ footer {
         padding: 12px 25px;
         font-size: 1rem;
     }
+    
+    .rock-image-container {
+        min-height: 250px;
+    }
+    
+    .rock-image-container img {
+        max-height: 250px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -606,5 +669,13 @@ footer {
         padding: 15px;
         min-height: 70px;
         font-size: 1rem;
+    }
+    
+    .rock-quiz-container {
+        padding: 20px;
+    }
+    
+    .quiz-header h2 {
+        font-size: 1.4rem;
     }
 }
