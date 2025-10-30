@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GeoLearn - منصة تعلم الجيولوجيا</title>
+    <link rel="stylesheet" href="src/css/main.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2c3e50">
+</head>
+<body>
+    <!-- 🌍 شريط اللغة والثيم -->
+    <header class="app-header">
+        <div class="header-content">
+            <div class="logo-section">
+                <h1 class="app-logo">⛰️ GeoLearn</h1>
+            </div>
+            <div class="controls-section">
+                <div class="language-selector">
+                    <select id="language-select" class="language-dropdown">
+                        <option value="ar">العربية 🇸🇦</option>
+                        <option value="en">English 🇺🇸</option>
+                        <option value="fr">Français 🇫🇷</option>
+                    </select>
+                </div>
+                <button id="theme-toggle" class="theme-btn" title="تبديل الثيم">
+                    <span class="theme-icon">🌙</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 🎯 القسم الرئيسي -->
+    <main class="main-container">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-content">
+                <h1 class="app-title" data-i18n="app.title">GeoLearn - منصة تعلم الجيولوجيا</h1>
+                <p class="app-subtitle" data-i18n="app.subtitle">منصة متكاملة لتعلم الجيولوجيا</p>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">10</span>
+                        <span class="stat-label">كويزات</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">165</span>
+                        <span class="stat-label">سؤال</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">3</span>
+                        <span class="stat-label">لغات</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 📊 تقدم المستخدم -->
+        <section class="progress-section">
+            <div class="section-header">
+                <h2 data-i18n="navigation.progress">تقدمك</h2>
+            </div>
+            <div class="progress-stats">
+                <div class="stat-card">
+                    <div class="stat-icon">✅</div>
+                    <span class="stat-number" id="completed-quizzes">0</span>
+                    <span class="stat-label">كويزات مكتملة</span>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">⭐</div>
+                    <span class="stat-number" id="total-score">0</span>
+                    <span class="stat-label">النقاط الإجمالية</span>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🎯</div>
+                    <span class="stat-number" id="success-rate">0%</span>
+                    <span class="stat-label">معدل النجاح</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 🎯 شبكة الكويزات -->
+        <section class="quizzes-section">
+            <div class="section-header">
+                <h2 data-i18n="navigation.quizzes">الكويزات</h2>
+                <p class="section-subtitle">اختر كويزاً للبدء في رحلة التعلم</p>
+            </div>
+            
+            <div class="quizzes-grid" id="quizzes-container">
+                <!-- سيتم ملء الكويزات ديناميكياً -->
+            </div>
+        </section>
+
+        <!-- ℹ️ قسم المعلومات -->
+        <section class="info-section">
+            <div class="info-cards">
+                <div class="info-card">
+                    <div class="info-icon">🎓</div>
+                    <h3>تعلم متعمق</h3>
+                    <p>محتوى تعليمي شامل يغطي جميع فروع الجيولوجيا</p>
+                </div>
+                <div class="info-card">
+                    <div class="info-icon">🌍</div>
+                    <h3>متعدد اللغات</h3>
+                    <p>استخدم التطبيق بلغتك المفضلة (عربي، إنجليزي، فرنسي)</p>
+                </div>
+                <div class="info-card">
+                    <div class="info-icon">📱</div>
+                    <h3>متجاوب</h3>
+                    <p>يعمل على جميع الأجهزة والشاشات المختلفة</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 🔧 القائمة السفلية -->
+    <nav class="bottom-nav">
+        <button class="nav-btn active" data-page="home">
+            <span class="nav-icon">🏠</span>
+            <span class="nav-label" data-i18n="navigation.home">الرئيسية</span>
+        </button>
+        <button class="nav-btn" data-page="quizzes">
+            <span class="nav-icon">🎯</span>
+            <span class="nav-label" data-i18n="navigation.quizzes">الكويزات</span>
+        </button>
+        <button class="nav-btn" data-page="progress">
+            <span class="nav-icon">📊</span>
+            <span class="nav-label" data-i18n="navigation.progress">التقدم</span>
+        </button>
+        <button class="nav-btn" data-page="settings">
+            <span class="nav-icon">⚙️</span>
+            <span class="nav-label" data-i18n="navigation.settings">الإعدادات</span>
+        </button>
+    </nav>
+
+    <!-- 🎯 شاشة الكويز (مخفية) -->
+    <div id="quiz-screen" class="screen hidden">
+        <!-- سيتم ملؤها ديناميكياً -->
+    </div>
+
+    <!-- 📊 شاشة النتائج (مخفية) -->
+    <div id="results-screen" class="screen hidden">
+        <!-- سيتم ملؤها ديناميكياً -->
+    </div>
+
+    <!-- JavaScript -->
+    <script src="src/js/languageManager.js"></script>
+    <script src="src/js/quizEngine.js"></script>
+    <script src="src/js/main.js"></script>
+</body>
+</html>
