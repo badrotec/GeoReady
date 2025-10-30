@@ -3,383 +3,144 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GEO-MASTER | منصة اختبارات الجيولوجيا والمسح</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>جيوكويز - اختبارات الجيولوجيا</title>
     <link rel="stylesheet" href="style.css">
-
-    <style>
-        /* الأنماط الأساسية المفقودة التي تستخدمها الشيفرة */
-        .rock-image-quiz {
-            max-width: 90%;
-            height: auto;
-            border: 3px solid var(--neon-cyan);
-            border-radius: 8px;
-            margin: 15px auto;
-            display: block;
-            box-shadow: 0 0 15px var(--neon-cyan-transp);
-        }
-        
-        .rock-info-box {
-            background-color: var(--dark-bg-highlight); /* لون خلفية غامق */
-            border: 1px solid var(--neon-purple);
-            border-radius: 6px;
-            padding: 15px;
-            margin-top: 20px;
-            text-align: right;
-        }
-
-        .rock-info-title {
-            color: var(--neon-purple);
-            border-bottom: 2px dashed var(--neon-purple-transp);
-            padding-bottom: 5px;
-            margin-bottom: 10px;
-            font-size: 1.1em;
-        }
-
-        .rock-info-item {
-            font-size: 0.95em;
-            color: var(--text-color-secondary);
-            margin-bottom: 5px;
-            line-height: 1.5;
-        }
-        
-        /* تلوين الخيارات (مكررة لكن مهمة للعمل) */
-        .options-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr; /* عرض 2x2 */
-            gap: 15px;
-            margin-top: 20px;
-        }
-        
-        .option-label {
-            display: block;
-            background-color: var(--dark-bg-module);
-            border: 2px solid var(--border-color);
-            padding: 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.2s;
-            text-align: center;
-        }
-        .option-label:hover {
-            border-color: var(--neon-blue);
-            box-shadow: 0 0 8px var(--neon-blue-transp);
-        }
-        .option-label.selected {
-            border-color: var(--neon-cyan);
-            background-color: var(--neon-cyan-transp);
-        }
-        .option-label.correct {
-            background-color: var(--correct-color-transp) !important;
-            border-color: var(--correct-color) !important;
-        }
-        .option-label.incorrect {
-            background-color: var(--incorrect-color-transp) !important;
-            border-color: var(--incorrect-color) !important;
-        }
-        .option-label input[type="radio"] {
-            display: none; /* إخفاء زر الراديو الأصلي */
-        }
-        .question-text {
-            font-size: 1.2em;
-            margin-bottom: 15px;
-            color: var(--text-color-primary);
-        }
-        
-        /* يجب تعريف المتغيرات اللونية في style.css أو هنا */
-        :root {
-            --neon-blue: #00bcd4;
-            --neon-cyan: #00ffc8;
-            --neon-purple: #9c27b0;
-            --correct-color: #4caf50;
-            --incorrect-color: #f44336;
-            --dark-bg-highlight: #1c2732; 
-            --dark-bg-module: #131a20; 
-            --border-color: #445566;
-            --text-color-primary: #f0f0f0;
-            --text-color-secondary: #aaaaaa;
-            --neon-blue-transp: rgba(0, 188, 212, 0.3);
-            --neon-cyan-transp: rgba(0, 255, 200, 0.3);
-            --neon-purple-transp: rgba(156, 39, 176, 0.3);
-            --correct-color-transp: rgba(76, 175, 80, 0.3);
-            --incorrect-color-transp: rgba(244, 67, 54, 0.3);
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
 </head>
-<body data-theme="dark">
-    
-    <canvas id="particles-canvas"></canvas>
-    <div class="cyber-grid"></div>
-    
-    <aside id="sidebar" aria-label="وحدات التدريب والإحصائيات">
-        <div class="sidebar-header">
-            <h3><i class="fas fa-layer-group"></i> وحدات التدريب</h3>
-            <button id="close-sidebar-btn" class="sidebar-close-btn" title="إغلاق القائمة">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        
-        <div class="language-selector">
-            <label for="lang-select"><i class="fas fa-globe"></i> نظام اللغة:</label>
-            <select id="lang-select" onchange="changeLanguage(this.value)">
-                <option value="ar" selected>العربية (AR)</option>
-                <option value="en">English (EN)</option>
-                <option value="fr">Français (FR)</option>
-            </select>
-        </div>
-        
-        <section class="stats-container">
-            <div class="stat-item">
-                <i class="fas fa-brain"></i>
-                <span id="total-quizzes">0</span>
-                <p>اختبارات مكتملة</p>
-            </div>
-            <div class="stat-item">
-                <i class="fas fa-trophy"></i>
-                <span id="avg-score">0%</span>
-                <p>متوسط النجاح</p>
-            </div>
-        </section>
-
-        <nav class="sidebar-links-section" aria-label="موارد تعليمية إضافية">
-            <h4 class="sidebar-section-title"><i class="fas fa-book-open"></i> موارد تعليمية</h4>
-            <a href="gis.html" class="sidebar-link-item">
-                <i class="fas fa-globe-americas"></i>
-                <span>مدخل إلى GIS الجيولوجي</span>
-            </a>
-            </nav>
-        
-        <nav class="sidebar-topics-list" id="sidebar-topics-list" aria-label="قائمة المواضيع الفرعية"></nav>
-    </aside>
-    
-    <div id="overlay" aria-hidden="true"></div>
-
-    <div id="main-content-wrapper">
-        
-        <header class="main-header">
-            <button id="open-sidebar-btn" class="sidebar-toggle-btn" title="فتح قائمة التدريب" aria-controls="sidebar" aria-expanded="false">
-                <i class="fas fa-bars"></i>
-            </button>
-            <h1 class="app-title">
-                <span class="title-glitch" data-text="GEO-MASTER">GEO-MASTER</span>
-            </h1>
-            <div class="header-info">
-                <span class="active-users-indicator" title="المتدربون النشطون الآن">
-                    <span class="active-dot"></span>
-                    <span id="active-users-count">12</span>
-                </span>
-                <span class="user-status">
-                    <i class="fas fa-user-circle"></i> وضع الزائر
-                </span>
-                <button id="theme-toggle" class="theme-btn" title="تبديل السمة بين الداكن والفاتح">
-                    <i class="fas fa-moon"></i>
-                </button>
+<body>
+    <div class="container">
+        <header>
+            <h1>جيوكويز</h1>
+            <p>اختبارات تفاعلية في علوم الجيولوجيا</p>
+            <div class="active-users">
+                <span id="active-users-count">5</span> مستخدم نشط الآن
             </div>
         </header>
 
-        <main id="app-container">
-            
-            <section id="topic-selection" class="screen active" aria-labelledby="hero-title">
-                <div class="hero-section">
-                    <div class="hero-content">
-                        <h2 id="hero-title" class="section-title animated-fade">
-                            <span class="title-icon"><i class="fas fa-satellite-dish"></i></span>
-                            مرحباً بك في نظام GEO-MASTER
-                        </h2>
-                        <p class="hero-description">
-                            منصة تدريب متقدمة لاختبار معرفتك في علوم الأرض والجيولوجيا
-                        </p>
-                        <div class="hero-image-container">
-                            <img src="images/field-geologist.jpg" alt="جيولوجي في الميدان يستخدم أدوات المسح" class="hero-image">
+        <nav class="main-nav">
+            <button id="quiz-btn" class="nav-btn active">الاختبارات</button>
+            <button id="rocks-btn" class="nav-btn">التعرف على الصخور</button>
+        </nav>
+
+        <main>
+            <!-- قسم الاختبارات -->
+            <section id="quiz-section" class="section active">
+                <div class="section-header">
+                    <h2>اختر مجال الاختبار</h2>
+                </div>
+                <div class="categories-grid">
+                    <!-- سيتم ملؤها ديناميكيًا -->
+                </div>
+            </section>
+
+            <!-- قسم التعرف على الصخور -->
+            <section id="rocks-section" class="section">
+                <div class="section-header">
+                    <h2>التدرب على معرفة الصخور</h2>
+                    <p>اختر الإجابة الصحيحة للصخرة المعروضة</p>
+                </div>
+                <div class="rock-quiz-container">
+                    <div class="rock-image-container">
+                        <img id="rock-image" src="" alt="صخرة">
+                    </div>
+                    <div class="rock-options">
+                        <div class="options-row">
+                            <button class="rock-option" data-option="1"></button>
+                            <button class="rock-option" data-option="2"></button>
+                        </div>
+                        <div class="options-row">
+                            <button class="rock-option" data-option="3"></button>
+                            <button class="rock-option" data-option="4"></button>
                         </div>
                     </div>
-                    
-                    <div class="daily-challenge-section">
-                        <button id="daily-challenge-btn" class="control-btn secondary large-btn neon-edge pulse-secondary-btn" aria-label="بدء التحدي اليومي بـ 7 أسئلة">
-                             <span class="btn-icon"><i class="fas fa-calendar-day"></i></span>
-                             <span class="btn-text">التحدي اليومي (7 أسئلة)</span>
-                             <span class="btn-glow"></span>
-                        </button>
-                    </div>
-                    
-                    <button id="start-quiz-btn" class="control-btn primary large-btn animated-fade neon-edge pulse-btn" style="margin-top: 20px;" aria-label="بدء اختبار مخصص">
-                        <span class="btn-icon"><i class="fas fa-rocket"></i></span>
-                        <span class="btn-text">بدء اختبار مخصص</span>
-                        <span class="btn-glow"></span>
-                    </button>
-                </div>
-
-                <div id="topics-list-container" class="hidden">
-                    
-                    <button id="back-to-main-menu-btn" class="control-btn tertiary hidden" aria-label="الرجوع للقائمة الرئيسية" style="margin-bottom: 20px;">
-                        <span class="btn-icon"><i class="fas fa-arrow-right"></i></span>
-                        <span class="btn-text">الرجوع للقائمة الرئيسية</span>
-                    </button>
-                    
-                    <h3 class="topics-header" id="topics-header-title">
-                        <i class="fas fa-folder-open"></i> اختر مجال الاختبار المخصص:
-                    </h3>
-                    
-                    <div id="topics-list" class="list-container">
-                        <div id="loading-message" class="loading-spinner">
-                            <div class="spinner-ring"></div>
-                            <p>... تحليل بيانات النظام</p>
-                        </div> 
+                    <div class="rock-controls">
+                        <div class="timer-container">
+                            <span>الوقت المتبقي:</span>
+                            <div class="timer" id="rock-timer">20</div>
+                        </div>
+                        <div class="score-container">
+                            <span>الإجابات الصحيحة:</span>
+                            <div class="score" id="rock-score">0</div>
+                        </div>
+                        <button id="next-rock" class="btn">التالي</button>
                     </div>
                 </div>
             </section>
 
-            <section id="quiz-screen" class="screen hidden" aria-live="polite">
-                <div class="quiz-header-status">
-                    <h2 id="quiz-title" class="section-title"></h2>
-                    
-                    <div class="quiz-meta">
-                        <button id="home-btn" class="control-btn tertiary small-btn" title="العودة للقائمة الرئيسية" aria-label="العودة للقائمة الرئيسية">
-                            <i class="fas fa-home"></i>
-                        </button>
-                        <span id="timer-display" class="timer-display" aria-label="الوقت المتبقي">
-                            <i class="fas fa-clock"></i>
-                            <span class="timer-value">20</span>
-                            <span class="timer-unit">ث</span>
-                        </span>
-                        
-                        <span id="question-counter" class="counter-badge" aria-label="عداد السؤال الحالي">
-                            <i class="fas fa-list-ol"></i> السؤال 1 / 10
-                        </span>
-                        
-                        <span id="score-display" class="score-badge" aria-label="النقاط الحالية">
-                            <i class="fas fa-star"></i> النقاط: <span id="current-score">0</span>
-                        </span>
-                    </div>
-                    
-                    <div id="progress-bar-container" class="hidden"> 
-                        <div id="progress-bar-fill"></div>
-                        <div class="progress-glow"></div>
+            <!-- قسم الأسئلة -->
+            <section id="questions-section" class="section">
+                <div class="quiz-header">
+                    <h2 id="quiz-title">عنوان الاختبار</h2>
+                    <div class="quiz-info">
+                        <div class="timer-container">
+                            <span>الوقت المتبقي:</span>
+                            <div class="timer" id="quiz-timer">20</div>
+                        </div>
+                        <div class="progress-container">
+                            <span>التقدم:</span>
+                            <div class="progress" id="quiz-progress">1/10</div>
+                        </div>
+                        <div class="score-container">
+                            <span>النتيجة:</span>
+                            <div class="score" id="quiz-score">0</div>
+                        </div>
                     </div>
                 </div>
-
-                <div id="question-container" class="data-module quiz-card" role="group" aria-labelledby="quiz-title">
+                <div class="question-container">
+                    <div class="question" id="question-text">نص السؤال</div>
+                    <div class="options">
+                        <div class="options-row">
+                            <button class="option" data-option="1"></button>
+                            <button class="option" data-option="2"></button>
+                        </div>
+                        <div class="options-row">
+                            <button class="option" data-option="3"></button>
+                            <button class="option" data-option="4"></button>
+                        </div>
                     </div>
-                
-                <div id="controls" class="controls-bar">
-                    <button id="submit-btn" class="control-btn primary neon-edge" disabled aria-label="تأكيد الإجابة">
-                        <span class="btn-icon"><i class="fas fa-check"></i></span>
-                        <span class="btn-text">تأكيد الإجابة</span>
-                    </button>
-                    <button id="next-btn" class="control-btn secondary hidden" aria-label="الانتقال للسؤال التالي">
-                        <span class="btn-text">السؤال التالي</span>
-                        <span class="btn-icon"><i class="fas fa-arrow-left"></i></span>
-                    </button>
-                    <button id="skip-btn" class="control-btn tertiary" aria-label="تخطي السؤال الحالي">
-                        <span class="btn-icon"><i class="fas fa-forward"></i></span>
-                        <span class="btn-text">تخطي</span>
-                    </button>
                 </div>
-                
-                <div id="feedback-container" class="feedback-message hidden" aria-atomic="true"></div> 
+                <div class="quiz-controls">
+                    <button id="prev-question" class="btn">السابق</button>
+                    <button id="next-question" class="btn">التالي</button>
+                    <button id="finish-quiz" class="btn finish">إنهاء الاختبار</button>
+                </div>
             </section>
 
-            <section id="results-screen" class="screen hidden" aria-labelledby="results-title">
-                <div class="results-hero">
-                    <div class="results-animation">
-                        <div class="trophy-container">
-                            <i class="fas fa-trophy trophy-icon"></i>
-                            <div class="trophy-rays"></div>
+            <!-- قسم النتائج -->
+            <section id="results-section" class="section">
+                <div class="results-container">
+                    <h2>نتيجة الاختبار</h2>
+                    <div class="result-score">
+                        <span>إجمالي النقاط:</span>
+                        <div class="final-score" id="final-score">0/10</div>
+                    </div>
+                    <div class="result-details">
+                        <div class="correct-answers">
+                            <span>الإجابات الصحيحة:</span>
+                            <div id="correct-count">0</div>
+                        </div>
+                        <div class="wrong-answers">
+                            <span>الإجابات الخاطئة:</span>
+                            <div id="wrong-count">0</div>
                         </div>
                     </div>
-                    
-                    <h2 id="results-title" class="section-title result-title animated-fade">
-                        <i class="fas fa-chart-line"></i> تقرير تحليل الأداء
-                    </h2>
-                </div>
-                
-                <div class="results-grid">
-                    <div class="data-module summary-card">
-                        <h3>
-                            <i class="fas fa-file-alt"></i> ملخص البروتوكول
-                        </h3>
-                        <div class="score-display">
-                            <div class="score-circle">
-                                <svg class="progress-ring" width="200" height="200" viewBox="0 0 200 200">
-                                    <defs>
-                                        <linearGradient id="scoreGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                                            <stop offset="0%" style="stop-color: var(--neon-blue); stop-opacity: 1" />
-                                            <stop offset="100%" style="stop-color: var(--neon-purple); stop-opacity: 1" />
-                                        </linearGradient>
-                                    </defs>
-                                    <circle class="progress-ring-bg" cx="100" cy="100" r="90"></circle>
-                                    <circle class="progress-ring-fill" cx="100" cy="100" r="90"></circle>
-                                </svg>
-                                <div class="score-content">
-                                    <span id="final-score" class="score-number">0</span>
-                                    <span class="score-separator">/</span>
-                                    <span id="total-questions-count" class="total-score">0</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div id="grade-message" class="grade-message-text"></div>
-                        
-                        <div class="stats-breakdown">
-                            <div class="stat-box correct-stat">
-                                <i class="fas fa-check-circle"></i>
-                                <span id="correct-count">0</span>
-                                <p>إجابات صحيحة</p>
-                            </div>
-                            <div class="stat-box wrong-stat">
-                                <i class="fas fa-times-circle"></i>
-                                <span id="wrong-count">0</span>
-                                <p>إجابات خاطئة</p>
-                            </div>
-                            <div class="stat-box time-stat">
-                                <i class="fas fa-hourglass-half"></i>
-                                <span id="total-time">0</span>
-                                <p>الوقت المستغرق</p>
-                            </div>
-                        </div>
+                    <div class="result-actions">
+                        <button id="restart-quiz" class="btn">إعادة الاختبار</button>
+                        <button id="back-to-categories" class="btn">العودة للقائمة</button>
                     </div>
-
-                    <div id="review-area" class="review-log data-module" aria-labelledby="review-title-h3">
-                        <h3 id="review-title-h3">
-                            <i class="fas fa-bug"></i> فحص الأخطاء:
-                        </h3>
-                        <div id="review-content">
-                            </div>
-                    </div>
-                </div>
-                
-                <div class="action-buttons">
-                    <button onclick="window.location.reload()" class="control-btn primary large-btn neon-edge" aria-label="إعادة تشغيل النظام وبدء اختبار جديد">
-                        <span class="btn-icon"><i class="fas fa-redo-alt"></i></span>
-                        <span class="btn-text">إعادة تشغيل النظام</span>
-                    </button>
-                    <button id="share-results-btn" class="control-btn secondary large-btn" aria-label="مشاركة نتائج الاختبار">
-                        <span class="btn-icon"><i class="fas fa-share-alt"></i></span>
-                        <span class="btn-text">مشاركة النتائج</span>
-                    </button>
                 </div>
             </section>
         </main>
-        
-        <div class="total-trainees-section" aria-label="إجمالي المتدربين المسجلين">
-             <i class="fas fa-users"></i> إجمالي المتدربين المسجلين: 
-             <span class="trainee-count">177</span>
-        </div>
-        
-        <footer class="app-footer">
-            <p>&copy; 2025 GEO-MASTER | Developed with <i class="fas fa-heart"></i></p>
+
+        <footer>
+            <p>© 2023 جيوكويز - جميع الحقوق محفوظة</p>
         </footer>
     </div>
-    
-    <div id="notification-toast" class="notification-toast hidden" role="alert" aria-live="polite">
-        <i class="fas fa-info-circle"></i>
-        <span id="notification-message"></span>
-    </div>
-    
+
     <audio id="correct-sound" src="sounds/correct.mp3" preload="auto"></audio>
     <audio id="wrong-sound" src="sounds/wrong.mp3" preload="auto"></audio>
     <audio id="perfect-sound" src="sounds/perfect.mp3" preload="auto"></audio>
-    
+
     <script src="script.js"></script>
-    
 </body>
 </html>
