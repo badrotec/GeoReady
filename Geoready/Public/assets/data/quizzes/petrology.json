@@ -1,0 +1,205 @@
+{
+  "id": "petrology",
+  "name": {
+    "ar": "البترولوجيا - علم الصخور",
+    "en": "Petrology - Rock Science",
+    "fr": "Pétrologie - Science des Roches"
+  },
+  "description": {
+    "ar": "تعلم أنواع الصخور وخصائصها وعمليات تكوينها",
+    "en": "Learn about rock types, their properties and formation processes",
+    "fr": "Apprenez les types de roches, leurs propriétés et processus de formation"
+  },
+  "icon": "🪨",
+  "level": "beginner",
+  "estimated_time": 25,
+  "questions": [
+    {
+      "id": 1,
+      "type": "multiple_choice",
+      "question": {
+        "ar": "ما هي الأنواع الرئيسية للصخور؟",
+        "en": "What are the main types of rocks?",
+        "fr": "Quels sont les principaux types de roches?"
+      },
+      "image": "assets/images/diagrams/rock_cycle.png",
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "نارية، رسوبية، متحولة",
+            "en": "Igneous, sedimentary, metamorphic",
+            "fr": "Ignees, sédimentaires, métamorphiques"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "صلبة، سائلة، غازية",
+            "en": "Solid, liquid, gaseous",
+            "fr": "Solide, liquide, gazeux"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "ثقيلة، خفيفة، متوسطة",
+            "en": "Heavy, light, medium",
+            "fr": "Lourde, légère, moyenne"
+          },
+          "correct": false
+        },
+        {
+          "id": "D",
+          "text": {
+            "ar": "بركانية، بلوتونية، تحولية",
+            "en": "Volcanic, plutonic, metamorphic",
+            "fr": "Volcanique, plutonique, métamorphique"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "الأنواع الرئيسية للصخور هي: نارية (من الصهارة)، رسوبية (من ترسب المواد)، متحولة (من تحول الصخور الموجودة)",
+        "en": "The main rock types are: igneous (from magma), sedimentary (from sediment deposition), metamorphic (from transformation of existing rocks)",
+        "fr": "Les principaux types de roches sont : ignées (du magma), sédimentaires (de la déposition de sédiments), métamorphiques (de la transformation des roches existantes)"
+      }
+    },
+    {
+      "id": 2,
+      "type": "image_identification",
+      "question": {
+        "ar": "ما نوع هذه الصخرة؟",
+        "en": "What type of rock is this?",
+        "fr": "Quel type de roche est-ce?"
+      },
+      "image": "assets/images/rocks/Granite.jpg",
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "صخرة نارية",
+            "en": "Igneous rock",
+            "fr": "Roche ignée"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "صخرة رسوبية",
+            "en": "Sedimentary rock",
+            "fr": "Roche sédimentaire"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "صخرة متحولة",
+            "en": "Metamorphic rock",
+            "fr": "Roche métamorphique"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "الجرانيت هو صخرة نارية تتكون من تبريد بطيء للصهارة تحت سطح الأرض",
+        "en": "Granite is an igneous rock formed by slow cooling of magma beneath the Earth's surface",
+        "fr": "Le granite est une roche ignée formée par le refroidissement lent du magma sous la surface de la Terre"
+      }
+    },
+    {
+      "id": 3,
+      "type": "image_identification",
+      "question": {
+        "ar": "ما نوع هذه الصخرة؟",
+        "en": "What type of rock is this?",
+        "fr": "Quel type de roche est-ce?"
+      },
+      "image": "assets/images/rocks/Marbre.jpeg",
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "صخرة نارية",
+            "en": "Igneous rock",
+            "fr": "Roche ignée"
+          },
+          "correct": false
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "صخرة رسوبية",
+            "en": "Sedimentary rock",
+            "fr": "Roche sédimentaire"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "صخرة متحولة",
+            "en": "Metamorphic rock",
+            "fr": "Roche métamorphique"
+          },
+          "correct": true
+        }
+      ],
+      "explanation": {
+        "ar": "الرخام هو صخرة متحولة تتكون من تحول الحجر الجيري تحت الحرارة والضغط",
+        "en": "Marble is a metamorphic rock formed from the transformation of limestone under heat and pressure",
+        "fr": "Le marbre est une roche métamorphique formée à partir de la transformation du calcaire sous la chaleur et la pression"
+      }
+    },
+    {
+      "id": 4,
+      "type": "image_identification",
+      "question": {
+        "ar": "ما نوع هذه الصخرة؟",
+        "en": "What type of rock is this?",
+        "fr": "Quel type de roche est-ce?"
+      },
+      "image": "assets/images/rocks/Calcaire.jpeg",
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "صخرة نارية",
+            "en": "Igneous rock",
+            "fr": "Roche ignée"
+          },
+          "correct": false
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "صخرة رسوبية",
+            "en": "Sedimentary rock",
+            "fr": "Roche sédimentaire"
+          },
+          "correct": true
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "صخرة متحولة",
+            "en": "Metamorphic rock",
+            "fr": "Roche métamorphique"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "الحجر الجيري هو صخرة رسوبية تتكون من ترسب هياكل الكائنات البحرية",
+        "en": "Limestone is a sedimentary rock formed from the deposition of marine organism skeletons",
+        "fr": "Le calcaire est une roche sédimentaire formée par le dépôt de squelettes d'organismes marins"
+      }
+    }
+  ],
+  "total_questions": 20,
+  "passing_score": 75
+}
