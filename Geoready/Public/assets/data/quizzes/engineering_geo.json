@@ -1,0 +1,283 @@
+{
+  "id": "engineering_geo",
+  "name": {
+    "ar": "الجيولوجيا الهندسية",
+    "en": "Engineering Geology", 
+    "fr": "Géologie de l'Ingénieur"
+  },
+  "description": {
+    "ar": "تعلم تطبيق المبادئ الجيولوجية في المشاريع الهندسية والإنشائية",
+    "en": "Learn application of geological principles in engineering and construction projects",
+    "fr": "Apprenez l'application des principes géologiques dans les projets d'ingénierie et de construction"
+  },
+  "icon": "🏔️",
+  "level": "advanced",
+  "estimated_time": 25,
+  "questions": [
+    {
+      "id": 1,
+      "type": "multiple_choice",
+      "question": {
+        "ar": "ما هو الهدف الرئيسي من الجيولوجيا الهندسية؟",
+        "en": "What is the main objective of engineering geology?",
+        "fr": "Quel est l'objectif principal de la géologie de l'ingénieur?"
+      },
+      "image": "assets/images/diagrams/geological_section.jpg",
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "تقييم الظروف الجيولوجية لضمان سلامة واستقرار المنشآت",
+            "en": "Assessing geological conditions to ensure safety and stability of structures",
+            "fr": "Évaluer les conditions géologiques pour assurer la sécurité et la stabilité des structures"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "استكشاف المعادن فقط",
+            "en": "Only exploring minerals",
+            "fr": "Seulement explorer les minéraux"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "دراسة الأحافير",
+            "en": "Studying fossils",
+            "fr": "Étudier les fossiles"
+          },
+          "correct": false
+        },
+        {
+          "id": "D",
+          "text": {
+            "ar": "رسم الخرائط الجيولوجية فقط",
+            "en": "Only drawing geological maps",
+            "fr": "Seulement dessiner des cartes géologiques"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تركز الجيولوجيا الهندسية على فهم سلوك المواد الجيولوجية وتأثيرها على المنشآت الهندسية مثل السدود والجسور والمباني",
+        "en": "Engineering geology focuses on understanding the behavior of geological materials and their impact on engineering structures like dams, bridges and buildings",
+        "fr": "La géologie de l'ingénieur se concentre sur la compréhension du comportement des matériaux géologiques et leur impact sur les structures d'ingénierie comme les barrages, les ponts et les bâtiments"
+      }
+    },
+    {
+      "id": 2,
+      "type": "multiple_choice",
+      "question": {
+        "ar": "ما هي الاختبارات الجيوتقنية الشائعة؟",
+        "en": "What are common geotechnical tests?",
+        "fr": "Quels sont les tests géotechniques courants?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "اختبار الاختراق القياسي، اختبار الضغط، اختبار القص",
+            "en": "Standard penetration test, compression test, shear test",
+            "fr": "Test de pénétration standard, test de compression, test de cisaillement"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "اختبار الذكاء فقط",
+            "en": "Only intelligence test",
+            "fr": "Seulement test d'intelligence"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "الفحص البصري فقط",
+            "en": "Only visual inspection",
+            "fr": "Seulement inspection visuelle"
+          },
+          "correct": false
+        },
+        {
+          "id": "D",
+          "text": {
+            "ar": "اختبار الصوت",
+            "en": "Sound test",
+            "fr": "Test sonore"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "الاختبارات الجيوتقنية تقيس خصائص التربة والصخور مثل الكثافة، القوة، والمرونة لتحديد ملاءمتها للأساسات",
+        "en": "Geotechnical tests measure soil and rock properties like density, strength and elasticity to determine their suitability for foundations",
+        "fr": "Les tests géotechniques mesurent les propriétés du sol et des roches comme la densité, la résistance et l'élasticité pour déterminer leur aptitude aux fondations"
+      }
+    },
+    {
+      "id": 3,
+      "type": "multiple_choice",
+      "question": {
+        "ar": "ما هي مخاطر المنحدرات في المشاريع الهندسية؟",
+        "en": "What are slope hazards in engineering projects?",
+        "fr": "Quels sont les risques de pentes dans les projets d'ingénierie?"
+      },
+      "image": "assets/images/diagrams/faults_folds.jpg",
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "الانهيارات الأرضية، انزلاق الصخور، انهيار الجسور",
+            "en": "Landslides, rockfalls, bridge collapses",
+            "fr": "Glissements de terrain, chutes de pierres, effondrements de ponts"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "ارتفاع درجة الحرارة فقط",
+            "en": "Only temperature rise",
+            "fr": "Seulement élévation de température"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "هطول الأمطار فقط",
+            "en": "Only rainfall",
+            "fr": "Seulement précipitations"
+          },
+          "correct": false
+        },
+        {
+          "id": "D",
+          "text": {
+            "ar": "الرياح القوية",
+            "en": "Strong winds",
+            "fr": "Vents forts"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تتأثر استقرارية المنحدرات بعوامل مثل زاوية الميل، نوع الصخور، وجود المياه، والنشاط التكتوني",
+        "en": "Slope stability is affected by factors like angle of inclination, rock type, water presence and tectonic activity",
+        "fr": "La stabilité des pentes est affectée par des facteurs comme l'angle d'inclinaison, le type de roche, la présence d'eau et l'activité tectonique"
+      }
+    },
+    {
+      "id": 4,
+      "type": "multiple_choice",
+      "question": {
+        "ar": "كيف تؤثر المياه الجوفية على أساسات المباني؟",
+        "en": "How does groundwater affect building foundations?",
+        "fr": "Comment les eaux souterraines affectent-elles les fondations des bâtiments?"
+      },
+      "image": "assets/images/maps/groundwater_map.jpg",
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "تسبب انتفاخ التربة، ذوبان المواد، ضعف تحمل التربة",
+            "en": "Causing soil swelling, material dissolution, reduced soil bearing capacity",
+            "fr": "Provoquant le gonflement du sol, la dissolution des matériaux, la réduction de la capacité portante du sol"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "تقوي الأساسات دائماً",
+            "en": "Always strengthening foundations",
+            "fr": "Toujours renforcer les fondations"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "لا تأثير لها",
+            "en": "No effect",
+            "fr": "Aucun effet"
+          },
+          "correct": false
+        },
+        {
+          "id": "D",
+          "text": {
+            "ar": "تحسن المظهر فقط",
+            "en": "Only improving appearance",
+            "fr": "Seulement améliorer l'apparence"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يمكن أن تؤدي التغيرات في منسوب المياه الجوفية إلى تغيير خصائص التربة وتسبب مشاكل مثل الهبوط التفاضلي والتآكل",
+        "en": "Changes in groundwater level can alter soil properties and cause problems like differential settlement and erosion",
+        "fr": "Les changements du niveau des eaux souterraines peuvent modifier les propriétés du sol et causer des problèmes comme le tassement différentiel et l'érosion"
+      }
+    },
+    {
+      "id": 5,
+      "type": "multiple_choice",
+      "question": {
+        "ar": "ما هو دور الجيولوجي في مشاريع الأنفاق؟",
+        "en": "What is the geologist's role in tunnel projects?",
+        "fr": "Quel est le rôle du géologue dans les projets de tunnels?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "توقع الظروف الجيولوجية، تحديد طرق الحفر، مراقبة الاستقرار",
+            "en": "Predicting geological conditions, determining excavation methods, monitoring stability",
+            "fr": "Prédire les conditions géologiques, déterminer les méthodes d'excavation, surveiller la stabilité"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "قيادة آلات الحفر فقط",
+            "en": "Only operating excavation machines",
+            "fr": "Seulement opérer les machines d'excavation"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "التصميم المعماري فقط",
+            "en": "Only architectural design",
+            "fr": "Seulement conception architecturale"
+          },
+          "correct": false
+        },
+        {
+          "id": "D",
+          "text": {
+            "ar": "التمويل فقط",
+            "en": "Only financing",
+            "fr": "Seulement financement"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يضمن الجيولوجي سلامة أنفاق الحفر من خلال التنبؤ بالصعوبات المحتملة مثل تدفق المياه، الصخور الضعيفة، والصدوع",
+        "en": "The geologist ensures tunnel excavation safety by predicting potential difficulties like water inflow, weak rock and faults",
+        "fr": "Le géologue assure la sécurité de l'excavation des tunnels en prédisant les difficultés potentielles comme les venues d'eau, les roches faibles et les failles"
+      }
+    }
+  ],
+  "total_questions": 15,
+  "passing_score": 80
+}
