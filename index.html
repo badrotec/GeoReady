@@ -1,973 +1,0 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GeoQuiz Pro - تدريب الجيولوجيين</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            color: #fff;
-            overflow-x: hidden;
-        }
-
-        .particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        .particle {
-            position: absolute;
-            background: rgba(255,255,255,0.1);
-            border-radius: 50%;
-            animation: float 15s infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0; }
-            50% { opacity: 1; }
-            100% { transform: translateY(-1000px) rotate(360deg); opacity: 0; }
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 20px;
-            position: relative;
-            z-index: 2;
-        }
-
-        header {
-            text-align: center;
-            padding: 30px 0;
-            animation: slideDown 0.8s ease;
-        }
-
-        @keyframes slideDown {
-            from { transform: translateY(-50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-
-        .logo {
-            font-size: 3em;
-            font-weight: bold;
-            background: linear-gradient(45deg, #fff, #ffd700);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 10px;
-            text-shadow: 0 0 30px rgba(255,215,0,0.3);
-        }
-
-        .tagline {
-            font-size: 1.2em;
-            opacity: 0.9;
-            letter-spacing: 2px;
-        }
-
-        .stats-bar {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin: 30px 0;
-            flex-wrap: wrap;
-        }
-
-        .stat-item {
-            background: rgba(255,255,255,0.15);
-            backdrop-filter: blur(10px);
-            padding: 20px 40px;
-            border-radius: 15px;
-            border: 2px solid rgba(255,255,255,0.2);
-            transition: all 0.3s;
-            animation: pulse 2s infinite;
-        }
-
-        .stat-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-
-        @keyframes pulse {
-            0%, 100% { box-shadow: 0 0 20px rgba(255,255,255,0.2); }
-            50% { box-shadow: 0 0 30px rgba(255,255,255,0.4); }
-        }
-
-        .stat-number {
-            font-size: 2.5em;
-            font-weight: bold;
-            color: #ffd700;
-        }
-
-        .stat-label {
-            font-size: 0.9em;
-            opacity: 0.8;
-            margin-top: 5px;
-        }
-
-        .daily-quiz {
-            background: linear-gradient(135deg, rgba(255,255,255,0.2), rgba(255,255,255,0.1));
-            backdrop-filter: blur(15px);
-            border-radius: 25px;
-            padding: 40px;
-            margin: 30px 0;
-            border: 2px solid rgba(255,255,255,0.3);
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            animation: fadeIn 1s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        .daily-title {
-            font-size: 2em;
-            margin-bottom: 20px;
-            text-align: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-        }
-
-        .daily-title::before,
-        .daily-title::after {
-            content: '⭐';
-            animation: rotate 3s linear infinite;
-        }
-
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .question-card {
-            background: rgba(255,255,255,0.1);
-            padding: 30px;
-            border-radius: 20px;
-            margin: 20px 0;
-            border: 1px solid rgba(255,255,255,0.2);
-        }
-
-        .question-text {
-            font-size: 1.4em;
-            margin-bottom: 25px;
-            line-height: 1.6;
-        }
-
-        .options {
-            display: grid;
-            gap: 15px;
-        }
-
-        .option-btn {
-            background: rgba(255,255,255,0.15);
-            border: 2px solid rgba(255,255,255,0.3);
-            color: #fff;
-            padding: 20px;
-            border-radius: 15px;
-            font-size: 1.1em;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-align: right;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .option-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: 0.5s;
-        }
-
-        .option-btn:hover::before {
-            left: 100%;
-        }
-
-        .option-btn:hover {
-            background: rgba(255,255,255,0.25);
-            transform: translateX(-5px);
-            border-color: #ffd700;
-        }
-
-        .option-btn.correct {
-            background: rgba(76, 175, 80, 0.6);
-            border-color: #4caf50;
-            animation: correct 0.5s ease;
-        }
-
-        .option-btn.wrong {
-            background: rgba(244, 67, 54, 0.6);
-            border-color: #f44336;
-            animation: wrong 0.5s ease;
-        }
-
-        @keyframes correct {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
-        @keyframes wrong {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(10px); }
-            75% { transform: translateX(-10px); }
-        }
-
-        .categories-section {
-            margin: 50px 0;
-        }
-
-        .section-title {
-            font-size: 2.5em;
-            text-align: center;
-            margin-bottom: 40px;
-            text-shadow: 0 0 20px rgba(0,0,0,0.3);
-        }
-
-        .categories-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin: 30px 0;
-        }
-
-        .category-card {
-            background: linear-gradient(135deg, rgba(255,255,255,0.2), rgba(255,255,255,0.1));
-            backdrop-filter: blur(10px);
-            padding: 30px;
-            border-radius: 20px;
-            border: 2px solid rgba(255,255,255,0.2);
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .category-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-            transform: scale(0);
-            transition: transform 0.6s;
-        }
-
-        .category-card:hover::before {
-            transform: scale(1);
-        }
-
-        .category-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.4);
-            border-color: #ffd700;
-        }
-
-        .category-icon {
-            font-size: 4em;
-            margin-bottom: 20px;
-            display: block;
-            text-align: center;
-            filter: drop-shadow(0 0 10px rgba(255,215,0,0.5));
-        }
-
-        .category-name {
-            font-size: 1.8em;
-            font-weight: bold;
-            margin-bottom: 10px;
-            text-align: center;
-        }
-
-        .category-questions {
-            text-align: center;
-            opacity: 0.9;
-            font-size: 1.1em;
-        }
-
-        .leaderboard {
-            background: linear-gradient(135deg, rgba(255,255,255,0.2), rgba(255,255,255,0.1));
-            backdrop-filter: blur(15px);
-            border-radius: 25px;
-            padding: 40px;
-            margin: 40px 0;
-            border: 2px solid rgba(255,255,255,0.3);
-        }
-
-        .leaderboard-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 20px;
-            margin: 15px 0;
-            background: rgba(255,255,255,0.1);
-            border-radius: 15px;
-            border: 1px solid rgba(255,255,255,0.2);
-            transition: all 0.3s;
-        }
-
-        .leaderboard-item:hover {
-            background: rgba(255,255,255,0.2);
-            transform: translateX(-10px);
-        }
-
-        .rank {
-            font-size: 2em;
-            font-weight: bold;
-            width: 60px;
-            text-align: center;
-        }
-
-        .rank.gold { color: #ffd700; text-shadow: 0 0 20px #ffd700; }
-        .rank.silver { color: #c0c0c0; text-shadow: 0 0 20px #c0c0c0; }
-        .rank.bronze { color: #cd7f32; text-shadow: 0 0 20px #cd7f32; }
-
-        .player-name {
-            flex: 1;
-            font-size: 1.3em;
-            padding: 0 20px;
-        }
-
-        .score {
-            font-size: 1.5em;
-            font-weight: bold;
-            color: #ffd700;
-        }
-
-        .quiz-container {
-            display: none;
-            background: linear-gradient(135deg, rgba(255,255,255,0.2), rgba(255,255,255,0.1));
-            backdrop-filter: blur(15px);
-            border-radius: 25px;
-            padding: 40px;
-            margin: 30px 0;
-            border: 2px solid rgba(255,255,255,0.3);
-        }
-
-        .quiz-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 10px;
-            background: rgba(255,255,255,0.2);
-            border-radius: 10px;
-            overflow: hidden;
-            margin: 20px 0;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #4caf50, #8bc34a);
-            width: 0%;
-            transition: width 0.5s ease;
-            box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
-        }
-
-        .nav-buttons {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            margin-top: 30px;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            padding: 15px 40px;
-            font-size: 1.2em;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-weight: bold;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.3);
-            transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
-        }
-
-        .btn:hover::after {
-            width: 300px;
-            height: 300px;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            border: 2px solid rgba(255,255,255,0.3);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-
-        .btn-secondary {
-            background: rgba(255,255,255,0.2);
-            color: white;
-            border: 2px solid rgba(255,255,255,0.3);
-        }
-
-        .btn-secondary:hover {
-            background: rgba(255,255,255,0.3);
-        }
-
-        .score-display {
-            font-size: 1.5em;
-            padding: 15px 30px;
-            background: rgba(255,215,0,0.2);
-            border-radius: 15px;
-            border: 2px solid rgba(255,215,0,0.5);
-        }
-
-        .result-modal {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0);
-            background: linear-gradient(135deg, rgba(76, 175, 80, 0.95), rgba(56, 142, 60, 0.95));
-            padding: 50px;
-            border-radius: 30px;
-            text-align: center;
-            z-index: 1000;
-            border: 3px solid rgba(255,255,255,0.5);
-            box-shadow: 0 30px 80px rgba(0,0,0,0.5);
-            transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-        }
-
-        .result-modal.show {
-            display: block;
-            transform: translate(-50%, -50%) scale(1);
-        }
-
-        .result-modal h2 {
-            font-size: 3em;
-            margin-bottom: 20px;
-            animation: bounce 1s infinite;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-        }
-
-        .overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.7);
-            backdrop-filter: blur(5px);
-            z-index: 999;
-        }
-
-        .overlay.show {
-            display: block;
-        }
-
-        @media (max-width: 768px) {
-            .logo { font-size: 2em; }
-            .stat-item { padding: 15px 25px; }
-            .categories-grid { grid-template-columns: 1fr; }
-            .quiz-header { flex-direction: column; }
-        }
-
-        .floating-icon {
-            position: fixed;
-            font-size: 3em;
-            opacity: 0.1;
-            pointer-events: none;
-            animation: floatIcon 20s infinite;
-        }
-
-        @keyframes floatIcon {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            25% { transform: translate(100px, -100px) rotate(90deg); }
-            50% { transform: translate(50px, 100px) rotate(180deg); }
-            75% { transform: translate(-100px, 50px) rotate(270deg); }
-        }
-    </style>
-</head>
-<body>
-    <div class="particles" id="particles"></div>
-    
-    <div class="floating-icon" style="top: 10%; right: 10%;">🌋</div>
-    <div class="floating-icon" style="top: 30%; left: 5%; animation-delay: 3s;">💎</div>
-    <div class="floating-icon" style="bottom: 20%; right: 15%; animation-delay: 6s;">⛰️</div>
-
-    <div class="container">
-        <header>
-            <div class="logo">🌍 GeoQuiz Pro</div>
-            <div class="tagline">منصة تدريب الجيولوجيين الاحترافية</div>
-        </header>
-
-        <div class="stats-bar">
-            <div class="stat-item">
-                <div class="stat-number" id="activeUsers">8</div>
-                <div class="stat-label">مستخدمين نشطين الآن</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number">150</div>
-                <div class="stat-label">سؤال متاح</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number">6</div>
-                <div class="stat-label">أقسام متخصصة</div>
-            </div>
-        </div>
-
-        <div id="mainPage">
-            <div class="daily-quiz">
-                <h2 class="daily-title">كويز اليوم السريع</h2>
-                <div class="question-card">
-                    <div class="question-text">ما هو المعدن الأكثر صلابة في مقياس موس؟</div>
-                    <div class="options">
-                        <button class="option-btn" onclick="checkDaily(this, false)">أ) الكوارتز</button>
-                        <button class="option-btn" onclick="checkDaily(this, false)">ب) التوباز</button>
-                        <button class="option-btn" onclick="checkDaily(this, true)">ج) الماس</button>
-                        <button class="option-btn" onclick="checkDaily(this, false)">د) الكورندم</button>
-                    </div>
-                </div>
-            </div>
-
-            <section class="categories-section">
-                <h2 class="section-title">اختر مجالك التخصصي</h2>
-                <div class="categories-grid">
-                    <div class="category-card" onclick="startQuiz('mineralogy')">
-                        <span class="category-icon">💎</span>
-                        <div class="category-name">علم المعادن</div>
-                        <div class="category-questions">25 سؤال</div>
-                    </div>
-                    <div class="category-card" onclick="startQuiz('petrology')">
-                        <span class="category-icon">🪨</span>
-                        <div class="category-name">علم الصخور</div>
-                        <div class="category-questions">25 سؤال</div>
-                    </div>
-                    <div class="category-card" onclick="startQuiz('paleontology')">
-                        <span class="category-icon">🦴</span>
-                        <div class="category-name">علم الأحافير</div>
-                        <div class="category-questions">25 سؤال</div>
-                    </div>
-                    <div class="category-card" onclick="startQuiz('structural')">
-                        <span class="category-icon">⛰️</span>
-                        <div class="category-name">الجيولوجيا البنيوية</div>
-                        <div class="category-questions">25 سؤال</div>
-                    </div>
-                    <div class="category-card" onclick="startQuiz('geophysics')">
-                        <span class="category-icon">🌋</span>
-                        <div class="category-name">الجيوفيزياء</div>
-                        <div class="category-questions">25 سؤال</div>
-                    </div>
-                    <div class="category-card" onclick="startQuiz('hydrogeology')">
-                        <span class="category-icon">💧</span>
-                        <div class="category-name">الهيدروجيولوجيا</div>
-                        <div class="category-questions">25 سؤال</div>
-                    </div>
-                </div>
-            </section>
-
-            <div class="leaderboard">
-                <h2 class="section-title">🏆 لوحة المتصدرين</h2>
-                <div class="leaderboard-item">
-                    <span class="rank gold">1</span>
-                    <span class="player-name">أحمد العتيبي</span>
-                    <span class="score">2,450 نقطة</span>
-                </div>
-                <div class="leaderboard-item">
-                    <span class="rank silver">2</span>
-                    <span class="player-name">سارة الغامدي</span>
-                    <span class="score">2,280 نقطة</span>
-                </div>
-                <div class="leaderboard-item">
-                    <span class="rank bronze">3</span>
-                    <span class="player-name">محمد القحطاني</span>
-                    <span class="score">2,150 نقطة</span>
-                </div>
-                <div class="leaderboard-item">
-                    <span class="rank">4</span>
-                    <span class="player-name">فاطمة الدوسري</span>
-                    <span class="score">2,050 نقطة</span>
-                </div>
-                <div class="leaderboard-item">
-                    <span class="rank">5</span>
-                    <span class="player-name">عبدالله المطيري</span>
-                    <span class="score">1,980 نقطة</span>
-                </div>
-            </div>
-        </div>
-
-        <div id="quizPage" class="quiz-container">
-            <div class="quiz-header">
-                <h2 id="quizTitle"></h2>
-                <div class="score-display">النقاط: <span id="scoreValue">0</span></div>
-            </div>
-            <div class="progress-bar">
-                <div class="progress-fill" id="progressBar"></div>
-            </div>
-            <div id="questionContainer"></div>
-            <div class="nav-buttons">
-                <button class="btn btn-secondary" onclick="previousQuestion()">⏮️ السابق</button>
-                <button class="btn btn-primary" onclick="nextQuestion()">التالي ⏭️</button>
-                <button class="btn btn-secondary" onclick="endQuiz()">إنهاء الاختبار</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="overlay" id="overlay"></div>
-    <div class="result-modal" id="resultModal">
-        <h2>🎉 تهانينا!</h2>
-        <p style="font-size: 2em; margin: 20px 0;">لقد أنهيت الاختبار</p>
-        <p style="font-size: 1.5em;">نقاطك: <span id="finalScore"></span>/25</p>
-        <button class="btn btn-primary" style="margin-top: 30px;" onclick="closeResult()">العودة للرئيسية</button>
-    </div>
-
-    <script>
-        // Create particles
-        const particlesContainer = document.getElementById('particles');
-        for(let i = 0; i < 20; i++) {
-            const particle = document.createElement('div');
-            particle.className = 'particle';
-            particle.style.left = Math.random() * 100 + '%';
-            particle.style.width = particle.style.height = Math.random() * 30 + 10 + 'px';
-            particle.style.animationDelay = Math.random() * 15 + 's';
-            particlesContainer.appendChild(particle);
-        }
-
-        // Active users animation
-        setInterval(() => {
-            const users = document.getElementById('activeUsers');
-            const current = parseInt(users.textContent);
-            const change = Math.random() > 0.5 ? 1 : -1;
-            const newValue = Math.max(3, Math.min(11, current + change));
-            users.textContent = newValue;
-        }, 5000);
-
-        function checkDaily(btn, isCorrect) {
-            const buttons = btn.parentElement.children;
-            for(let b of buttons) {
-                b.disabled = true;
-            }
-            if(isCorrect) {
-                btn.classList.add('correct');
-                setTimeout(() => alert('🎉 إجابة صحيحة! أحسنت!'), 300);
-            } else {
-                btn.classList.add('wrong');
-                setTimeout(() => alert('❌ إجابة خاطئة! الإجابة الصحيحة هي: الماس'), 300);
-            }
-        }
-
-        const quizData = {
-            mineralogy: {
-                name: 'علم المعادن',
-                icon: '💎',
-                questions: [
-                    {q: 'ما هو المعدن الذي يتكون من كربونات الكالسيوم؟', options: ['الكوارتز', 'الكالسيت', 'الفلسبار', 'الميكا'], correct: 1},
-                    {q: 'ما هو أصلب معدن طبيعي على الأرض؟', options: ['الماس', 'الكورندم', 'التوباز', 'الكوارتز'], correct: 0},
-                    {q: 'ما هي الخاصية التي تحدد لمعان المعدن؟', options: ['البريق', 'الصلابة', 'المخدش', 'الانفصام'], correct: 0},
-                    {q: 'ما المعدن المستخدم في صناعة الجبس؟', options: ['الهاليت', 'الجبسيت', 'الكالسيت', 'الدولوميت'], correct: 1},
-                    {q: 'أي معدن له صلابة 7 على مقياس موس؟', options: ['الكوارتز', 'الماس', 'الكالسيت', 'التلك'], correct: 0},
-                    {q: 'ما هو المعدن الرئيسي في خام الحديد؟', options: ['الهيماتيت', 'البوكسيت', 'الجالينا', 'السفاليريت'], correct: 0},
-                    {q: 'ما هي أنعم المعادن على مقياس موس؟', options: ['التلك', 'الجبس', 'الكالسيت', 'الفلوريت'], correct: 0},
-                    {q: 'ما المعدن الذي يستخدم في صناعة الألمنيوم؟', options: ['البوكسيت', 'الهيماتيت', 'الماجنيتيت', 'السيديريت'], correct: 0},
-                    {q: 'ما هو لون مخدش الهيماتيت؟', options: ['أحمر', 'أسود', 'أبيض', 'أصفر'], correct: 0},
-                    {q: 'أي معدن يتميز بانفصام كامل في اتجاه واحد؟', options: ['الميكا', 'الكوارتز', 'الماس', 'الذهب'], correct: 0},
-                    {q: 'ما المعدن الذي يحتوي على الكبريت والحديد؟', options: ['البيريت', 'الجالينا', 'الكالكوبيريت', 'السفاليريت'], correct: 0},
-                    {q: 'ما هي الخاصية الفيزيائية للذهب الأكثر تميزاً؟', options: ['المطاوعة', 'الصلابة العالية', 'الشفافية', 'المغناطيسية'], correct: 0},
-                    {q: 'ما المعدن المستخدم في صناعة الرصاص؟', options: ['الجالينا', 'السفاليريت', 'البوكسيت', 'الهيماتيت'], correct: 0},
-                    {q: 'أي معدن له بريق معدني وصلابة 6.5؟', options: ['البيريت', 'الكوارتز', 'الكالسيت', 'الجبس'], correct: 0},
-                    {q: 'ما المعدن الذي يتفاعل مع حمض الهيدروكلوريك؟', options: ['الكالسيت', 'الكوارتز', 'الفلسبار', 'الميكا'], correct: 0},
-                    {q: 'ما هو خام النحاس الرئيسي؟', options: ['الكالكوبيريت', 'الجالينا', 'السفاليريت', 'الهيماتيت'], correct: 0},
-                    {q: 'أي معدن يستخدم كمسحوق في مستحضرات التجميل؟', options: ['التلك', 'الكوارتز', 'الفلسبار', 'الكالسيت'], correct: 0},
-                    {q: 'ما المعدن الذي يُظهر ألوان الطيف عند تعرضه للضوء؟', options: ['الأوبال', 'الماس', 'الكوارتز', 'الجبس'], correct: 0},
-                    {q: 'ما هو المعدن الذي يتكون منه الملح الصخري؟', options: ['الهاليت', 'الجبس', 'الكالسيت', 'السيلفيت'], correct: 0},
-                    {q: 'أي معدن يستخدم في صناعة الأسمدة؟', options: ['الأباتيت', 'الكوارتز', 'الفلسبار', 'الميكا'], correct: 0},
-                    {q: 'ما المعدن الذي له مغناطيسية طبيعية؟', options: ['الماجنتيت', 'الهيماتيت', 'البيريت', 'الكالسيت'], correct: 0},
-                    {q: 'ما هو المعدن الأكثر شيوعاً في القشرة الأرضية؟', options: ['الفلسبار', 'الكوارتز', 'الكالسيت', 'الميكا'], correct: 0},
-                    {q: 'أي معدن يُستخدم في صناعة الزجاج؟', options: ['الكوارتز', 'الكالسيت', 'الجبس', 'التلك'], correct: 0},
-                    {q: 'ما المعدن الذي يتميز بلونه الأخضر الزاهي؟', options: ['المالاكيت', 'الأزوريت', 'الهيماتيت', 'البيريت'], correct: 0},
-                    {q: 'ما هو المعدن الذي يُكوّن الياقوت؟', options: ['الكورندم', 'الكوارتز', 'الماس', 'الزركون'], correct: 0}
-                ]
-            },
-            petrology: {
-                name: 'علم الصخور',
-                icon: '🪨',
-                questions: [
-                    {q: 'ما هو نوع الصخر الذي يتشكل من تبريد الماغما؟', options: ['الصخور النارية', 'الصخور الرسوبية', 'الصخور المتحولة', 'الصخور الفتاتية'], correct: 0},
-                    {q: 'ما الصخر الناري الذي يحتوي على بلورات كبيرة؟', options: ['الجرانيت', 'البازلت', 'الخفاف', 'السبج'], correct: 0},
-                    {q: 'أي صخر رسوبي يتكون من بقايا كائنات بحرية؟', options: ['الحجر الجيري', 'الحجر الرملي', 'الطفل الصفحي', 'الكونجلوميرات'], correct: 0},
-                    {q: 'ما الصخر الذي يتشكل من تحول الحجر الجيري؟', options: ['الرخام', 'الكوارتزيت', 'الشيست', 'النايس'], correct: 0},
-                    {q: 'ما هو الصخر الناري البركاني الأكثر شيوعاً؟', options: ['البازلت', 'الجرانيت', 'الديوريت', 'الجابرو'], correct: 0},
-                    {q: 'أي صخر متحول يتشكل من الطين الصفحي؟', options: ['الإردواز', 'الرخام', 'الكوارتزيت', 'النايس'], correct: 0},
-                    {q: 'ما الصخر الرسوبي المكون من حبيبات الرمل؟', options: ['الحجر الرملي', 'الحجر الجيري', 'الطفل', 'البريشيا'], correct: 0},
-                    {q: 'ما هو الصخر الناري الجوفي الغني بالفلسبار والكوارتز؟', options: ['الجرانيت', 'البازلت', 'الأنديزيت', 'الريوليت'], correct: 0},
-                    {q: 'أي صخر يتميز بنسيج زجاجي؟', options: ['السبج', 'الجرانيت', 'الحجر الرملي', 'الرخام'], correct: 0},
-                    {q: 'ما الصخر المتحول الذي يتشكل من الحجر الرملي؟', options: ['الكوارتزيت', 'الرخام', 'الإردواز', 'الشيست'], correct: 0},
-                    {q: 'أي صخر رسوبي يتكون من الطين المتصلب؟', options: ['الطفل الصفحي', 'الحجر الرملي', 'الكونجلوميرات', 'الحجر الجيري'], correct: 0},
-                    {q: 'ما الصخر الناري البركاني الذي يطفو على الماء؟', options: ['الخفاف', 'البازلت', 'السبج', 'الأنديزيت'], correct: 0},
-                    {q: 'أي صخر يتكون من حبيبات مدورة كبيرة الحجم؟', options: ['الكونجلوميرات', 'البريشيا', 'الحجر الرملي', 'الطفل'], correct: 0},
-                    {q: 'ما الصخر المتحول الذي يحتوي على طبقات متبادلة؟', options: ['النايس', 'الرخام', 'الكوارتزيت', 'الإردواز'], correct: 0},
-                    {q: 'أي صخر يتكون من رماد بركاني متصلب؟', options: ['التف البركاني', 'البازلت', 'الجرانيت', 'الأنديزيت'], correct: 0},
-                    {q: 'ما الصخر الذي يستخدم في صناعة الإسمنت؟', options: ['الحجر الجيري', 'الجرانيت', 'البازلت', 'الرخام'], correct: 0},
-                    {q: 'أي صخر متحول له تورق واضح؟', options: ['الشيست', 'الرخام', 'الكوارتزيت', 'الهورنفلس'], correct: 0},
-                    {q: 'ما الصخر الناري الذي يحتوي على فجوات غازية؟', options: ['السكوريا', 'الجرانيت', 'الديوريت', 'السبج'], correct: 0},
-                    {q: 'أي صخر رسوبي يتكون من التبخر؟', options: ['الجبس', 'الحجر الرملي', 'الطفل', 'الحجر الجيري'], correct: 0},
-                    {q: 'ما الصخر المتحول الناتج عن الضغط الشديد؟', options: ['الإيكلوجيت', 'الرخام', 'الكوارتزيت', 'الإردواز'], correct: 0},
-                    {q: 'أي صخر ناري له تركيب وسطي بين الجرانيت والبازلت؟', options: ['الأنديزيت', 'الريوليت', 'الجابرو', 'البيريدوتيت'], correct: 0},
-                    {q: 'ما الصخر الرسوبي الذي يحتوي على أحافير؟', options: ['الحجر الجيري الأحفوري', 'الحجر الرملي', 'الكونجلوميرات', 'البريشيا'], correct: 0},
-                    {q: 'أي صخر متحول يستخدم في البناء والزخرفة؟', options: ['الرخام', 'الإردواز', 'الشيست', 'الهورنفلس'], correct: 0},
-                    {q: 'ما الصخر الناري الجوفي الأثقل والأغمق لوناً؟', options: ['الجابرو', 'الجرانيت', 'الديوريت', 'السينيت'], correct: 0},
-                    {q: 'أي صخر يحتوي على حبيبات زاوية حادة؟', options: ['البريشيا', 'الكونجلوميرات', 'الحجر الرملي', 'الطفل'], correct: 0}
-                ]
-            },
-            paleontology: {
-                name: 'علم الأحافير',
-                icon: '🦴',
-                questions: [
-                    {q: 'ما هي الأحافير؟', options: ['بقايا كائنات حية قديمة', 'صخور نارية', 'معادن نادرة', 'بلورات قديمة'], correct: 0},
-                    {q: 'في أي نوع من الصخور توجد الأحافير عادة؟', options: ['الصخور الرسوبية', 'الصخور النارية', 'الصخور المتحولة', 'الصخور البركانية'], correct: 0},
-                    {q: 'ما هو أقدم شكل من أشكال الحياة المتحجرة؟', options: ['السيانوبكتيريا', 'الديناصورات', 'الثدييات', 'الأسماك'], correct: 0},
-                    {q: 'ما اسم الفترة التي عاشت فيها الديناصورات؟', options: ['العصر الوسيط', 'العصر الحديث', 'العصر القديم', 'الدهر السحيق'], correct: 0},
-                    {q: 'ما هي الأحافير الدالة؟', options: ['أحافير تحدد عمر الطبقة', 'أحافير كبيرة الحجم', 'أحافير نباتية فقط', 'أحافير حديثة'], correct: 0},
-                    {q: 'متى انقرضت الديناصورات؟', options: ['منذ 66 مليون سنة', 'منذ 10 ملايين سنة', 'منذ 200 مليون سنة', 'منذ مليار سنة'], correct: 0},
-                    {q: 'ما هو التحجر؟', options: ['عملية حفظ الكائنات الحية', 'تكوين الصخور', 'انصهار المعادن', 'تبخر الماء'], correct: 0},
-                    {q: 'أي من هذه كائنات من العصر الكامبري؟', options: ['التريلوبيت', 'التيرانوصور', 'الماموث', 'الإنسان البدائي'], correct: 0},
-                    {q: 'ما هو الكهرمان في علم الأحافير؟', options: ['راتنج نباتي متحجر', 'نوع من الصخور', 'معدن نادر', 'نوع من الديناصورات'], correct: 0},
-                    {q: 'ما المصطلح الذي يصف الانقراض الجماعي؟', options: ['الانقراض الكبير', 'التطور السريع', 'التكيف البيئي', 'الانتواع'], correct: 0},
-                    {q: 'أي حيوان بحري له أحافير على شكل حلزوني؟', options: ['الأمونيت', 'التريلوبيت', 'البراكيوبود', 'الكرينويد'], correct: 0},
-                    {q: 'ما هي الأحافير الحية؟', options: ['كائنات حالية لم تتغير منذ ملايين السنين', 'أحافير محفوظة في الجليد', 'أحافير نباتية', 'بكتيريا قديمة'], correct: 0},
-                    {q: 'في أي عصر ظهرت أول الثدييات؟', options: ['العصر الترياسي', 'العصر الكامبري', 'العصر الطباشيري', 'العصر البرمي'], correct: 0},
-                    {q: 'ما هو السجل الأحفوري؟', options: ['تاريخ الحياة على الأرض من خلال الأحافير', 'كتاب علمي', 'نوع من الصخور', 'طبقة جيولوجية'], correct: 0},
-                    {q: 'أي نوع من الأحافير يُظهر آثار أقدام؟', options: ['أحافير الآثار', 'أحافير الجسم', 'أحافير القوالب', 'أحافير الطوابع'], correct: 0},
-                    {q: 'متى ظهر الإنسان الحديث (هومو سابينس)؟', options: ['منذ 300,000 سنة', 'منذ 10 ملايين سنة', 'منذ 1000 سنة', 'منذ 66 مليون سنة'], correct: 0},
-                    {q: 'ما هي الستروماتوليتات؟', options: ['هياكل صخرية بكتيرية قديمة', 'نوع من الديناصورات', 'أحافير ثدييات', 'معادن نادرة'], correct: 0},
-                    {q: 'أي عصر يسمى بعصر الأسماك؟', options: ['الديفوني', 'الكامبري', 'الترياسي', 'الجوراسي'], correct: 0},
-                    {q: 'ما هو البراكيوصور؟', options: ['ديناصور طويل العنق', 'نوع من الأسماك', 'ثديي منقرض', 'زاحف بحري'], correct: 0},
-                    {q: 'في أي صخور توجد أحافير الفحم؟', options: ['الكربوني', 'الكامبري', 'البرمي', 'الطباشيري'], correct: 0},
-                    {q: 'ما هو الماموث؟', options: ['فيل منقرض ضخم', 'ديناصور', 'زاحف قديم', 'نوع من الأسماك'], correct: 0},
-                    {q: 'أي أحفورة تساعد على ربط الطبقات الصخرية؟', options: ['أحافير دالة', 'أحافير نادرة', 'أحافير محلية', 'أحافير عملاقة'], correct: 0},
-                    {q: 'ما هو أكبر ديناصور معروف؟', options: ['الأرجنتينوصور', 'التيرانوصور', 'الفيلوسيرابتور', 'الترايسيراتوبس'], correct: 0},
-                    {q: 'متى حدث الانفجار الكامبري؟', options: ['منذ 540 مليون سنة', 'منذ 66 مليون سنة', 'منذ مليار سنة', 'منذ 10 ملايين سنة'], correct: 0},
-                    {q: 'ما الذي يدرسه علم الأحياء القديمة النباتية؟', options: ['النباتات المتحجرة', 'الحيوانات المنقرضة', 'البكتيريا القديمة', 'الصخور'], correct: 0}
-                ]
-            },
-            structural: {
-                name: 'الجيولوجيا البنيوية',
-                icon: '⛰️',
-                questions: [
-                    {q: 'ما هي الطية في الجيولوجيا؟', options: ['انحناء في طبقات الصخور', 'كسر في الصخور', 'بركان نشط', 'تجوية صخرية'], correct: 0},
-                    {q: 'ما هو الفالق؟', options: ['كسر في الصخور مع حركة', 'طية صخرية', 'طبقة رسوبية', 'معدن نادر'], correct: 0},
-                    {q: 'ما نوع الطية التي تكون محدبة للأعلى؟', options: ['الطية المحدبة', 'الطية المقعرة', 'الطية الأفقية', 'الطية المائلة'], correct: 0},
-                    {q: 'ما هو الفالق العادي؟', options: ['فالق ينتج عن قوى الشد', 'فالق ينتج عن قوى الضغط', 'فالق أفقي', 'فالق دائري'], correct: 0},
-                    {q: 'ما المصطلح الذي يصف اتجاه ميل الطبقة؟', options: ['الميل', 'الاتجاه', 'الانكسار', 'الالتواء'], correct: 0},
-                    {q: 'أي نوع من الفوالق يحدث عند حدود الصفائح المتقاربة؟', options: ['الفالق العكسي', 'الفالق العادي', 'الفالق الانتقالي', 'الفالق الدائري'], correct: 0},
-                    {q: 'ما هي القوى التكتونية؟', options: ['قوى داخلية تشكل القشرة الأرضية', 'قوى التجوية', 'قوى التعرية', 'قوى الجاذبية'], correct: 0},
-                    {q: 'ما هو الفالق الانتقالي؟', options: ['حركة أفقية على جانبي الفالق', 'حركة رأسية', 'حركة دائرية', 'لا توجد حركة'], correct: 0},
-                    {q: 'ما هي البنية الجيولوجية التي تحبس النفط؟', options: ['الطية المحدبة', 'الفالق العادي', 'الطبقة المستوية', 'الصدع البركاني'], correct: 0},
-                    {q: 'أي من هذه يعتبر دليلاً على الحركة التكتونية؟', options: ['الزلازل', 'التجوية', 'التعرية', 'الترسيب'], correct: 0},
-                    {q: 'ما هو المستوى المحوري للطية؟', options: ['مستوى يقسم الطية إلى نصفين', 'قمة الطية', 'قاع الطية', 'جانب الطية'], correct: 0},
-                    {q: 'ما نوع الفالق في صدع سان أندرياس؟', options: ['فالق انتقالي', 'فالق عادي', 'فالق عكسي', 'فالق دائري'], correct: 0},
-                    {q: 'ما المصطلح الذي يصف الاتجاه الأفقي للطبقة؟', options: ['الاتجاه', 'الميل', 'الانحدار', 'الانكسار'], correct: 0},
-                    {q: 'أي من هذه البنى تنتج عن الضغط الشديد؟', options: ['الطيات', 'الفوالق العادية', 'الفوالق الانتقالية', 'الطبقات الأفقية'], correct: 0},
-                    {q: 'ما هو التشوه الهش؟', options: ['كسر الصخور', 'ثني الصخور', 'صهر الصخور', 'تجوية الصخور'], correct: 0},
-                    {q: 'ما هو التشوه اللدن؟', options: ['ثني الصخور بدون كسر', 'كسر الصخور', 'صهر الصخور', 'تفتت الصخور'], correct: 0},
-                    {q: 'أي بنية تتشكل عند حدود الصفائح المتباعدة؟', options: ['الفوالق العادية', 'الفوالق العكسية', 'الطيات المحدبة', 'الفوالق الدائرية'], correct: 0},
-                    {q: 'ما هو الإجهاد الصخري؟', options: ['القوة المؤثرة على الصخر', 'انحناء الصخر', 'كسر الصخر', 'تآكل الصخر'], correct: 0},
-                    {q: 'ما هي المفصلات في الجيولوجيا؟', options: ['شقوق في الصخور بدون حركة', 'طيات صخرية', 'فوالق كبيرة', 'طبقات رسوبية'], correct: 0},
-                    {q: 'أي نوع من الطيات يكون قاعاً للوادي؟', options: ['الطية المقعرة', 'الطية المحدبة', 'الطية الأفقية', 'الطية المعكوسة'], correct: 0},
-                    {q: 'ما هو الفالق الدفعي؟', options: ['فالق عكسي بزاوية منخفضة', 'فالق عادي', 'فالق انتقالي', 'فالق رأسي'], correct: 0},
-                    {q: 'ما البنية الناتجة عن قوى الشد؟', options: ['الفوالق العادية', 'الطيات', 'الفوالق العكسية', 'الطيات المحدبة'], correct: 0},
-                    {q: 'ما هو التورق في الصخور المتحولة؟', options: ['ترتيب المعادن في طبقات', 'كسر الصخر', 'ثني الصخر', 'انصهار الصخر'], correct: 0},
-                    {q: 'أي بنية جيولوجية تسبب الزلازل الكبرى؟', options: ['الفوالق النشطة', 'الطيات', 'الطبقات الأفقية', 'الصخور النارية'], correct: 0},
-                    {q: 'ما هو الأوروجين؟', options: ['عملية بناء الجبال', 'عملية التعرية', 'عملية الترسيب', 'عملية التجوية'], correct: 0}
-                ]
-            },
-            geophysics: {
-                name: 'الجيوفيزياء',
-                icon: '🌋',
-                questions: [
-                    {q: 'ما هو علم الزلازل؟', options: ['دراسة الموجات الزلزالية', 'دراسة البراكين', 'دراسة المعادن', 'دراسة المناخ'], correct: 0},
-                    {q: 'ما هي نقطة تولد الزلزال داخل الأرض؟', options: ['البؤرة', 'المركز السطحي', 'القشرة', 'الوشاح'], correct: 0},
-                    {q: 'ما المقياس الأكثر استخداماً لقياس قوة الزلازل؟', options: ['مقياس ريختر', 'مقياس موس', 'مقياس مركالي', 'مقياس كلفن'], correct: 0},
-                    {q: 'ما نوع الموجات الزلزالية الأسرع؟', options: ['الموجات الأولية P', 'الموجات الثانوية S', 'الموجات السطحية', 'موجات الحب'], correct: 0},
-                    {q: 'ما هو المجال المغناطيسي للأرض؟', options: ['حقل مغناطيسي ناتج عن اللب الخارجي', 'إشعاع شمسي', 'مجال كهربائي', 'موجات راديو'], correct: 0},
-                    {q: 'ما طبقة الأرض السائلة؟', options: ['اللب الخارجي', 'اللب الداخلي', 'الوشاح', 'القشرة'], correct: 0},
-                    {q: 'ما هو المقياس الذي يسجل الموجات الزلزالية؟', options: ['السيزموغراف', 'البارومتر', 'الثيرمومتر', 'الأنيمومتر'], correct: 0},
-                    {q: 'ما الذي يسبب ظاهرة الشفق القطبي؟', options: ['تفاعل الرياح الشمسية مع المجال المغناطيسي', 'البرق', 'البراكين', 'الزلازل'], correct: 0},
-                    {q: 'ما هي أعمق نقطة في المحيطات؟', options: ['خندق ماريانا', 'خليج المكسيك', 'البحر الميت', 'المحيط الأطلسي'], correct: 0},
-                    {q: 'ما الطبقة التي تتحرك عليها الصفائح التكتونية؟', options: ['الغلاف الموري', 'القشرة', 'اللب', 'الميزوسفير'], correct: 0},
-                    {q: 'ما هو الجاذبية الأرضية؟', options: ['قوة جذب الأرض للأجسام', 'قوة مغناطيسية', 'قوة كهربائية', 'قوة نووية'], correct: 0},
-                    {q: 'أي موجات زلزالية لا تمر عبر السوائل؟', options: ['الموجات الثانوية S', 'الموجات الأولية P', 'الموجات السطحية', 'كل الموجات'], correct: 0},
-                    {q: 'ما هو الحمل الحراري في الوشاح؟', options: ['حركة دورانية للصخور الساخنة', 'زلزال قوي', 'ثوران بركاني', 'تجمد الماغما'], correct: 0},
-                    {q: 'ما هي البقعة الساخنة؟', options: ['منطقة نشاط بركاني في وسط الصفيحة', 'حدود صفائح', 'صدع أرضي', 'جبل جليدي'], correct: 0},
-                    {q: 'ما درجة حرارة لب الأرض تقريباً؟', options: ['5000-6000 درجة مئوية', '100 درجة', '1000 درجة', '10000 درجة'], correct: 0},
-                    {q: 'ما الذي يدرس علم الجاذبية الأرضية؟', options: ['اختلافات الجاذبية على سطح الأرض', 'الزلازل', 'البراكين', 'المناخ'], correct: 0},
-                    {q: 'ما هو التسونامي؟', options: ['موجة عملاقة ناتجة عن زلزال بحري', 'إعصار', 'فيضان نهري', 'عاصفة رعدية'], correct: 0},
-                    {q: 'ما نوع البركان الأكثر انفجاراً؟', options: ['البركان المركب', 'البركان الدرعي', 'البركان المخروطي', 'البركان الهادئ'], correct: 0},
-                    {q: 'ما هي الماغما؟', options: ['صخور منصهرة تحت السطح', 'صخور على السطح', 'معادن صلبة', 'ماء ساخن'], correct: 0},
-                    {q: 'ما الفرق بين الماغما واللافا؟', options: ['الماغما تحت السطح واللافا فوقه', 'لا يوجد فرق', 'اللافا أبرد', 'الماغما أخف'], correct: 0},
-                    {q: 'ما هي الموجات الزلزالية السطحية؟', options: ['موجات تنتقل على سطح الأرض', 'موجات في اللب', 'موجات في الوشاح', 'موجات في الغلاف الجوي'], correct: 0},
-                    {q: 'ما سبب انعكاس الأقطاب المغناطيسية؟', options: ['تغيرات في اللب الخارجي', 'الزلازل', 'البراكين', 'الشمس'], correct: 0},
-                    {q: 'ما هو الطفو القاري؟', options: ['طفو القارات على الوشاح', 'حركة المحيطات', 'ارتفاع الجبال', 'انخفاض الأودية'], correct: 0},
-                    {q: 'أين تحدث أقوى الزلازل؟', options: ['عند حدود الصفائح', 'في وسط القارات', 'في القطبين', 'في الصحاري'], correct: 0},
-                    {q: 'ما هي الحلقة النارية؟', options: ['منطقة براكين وزلازل حول المحيط الهادئ', 'دائرة من النار', 'حفرة بركانية', 'صحراء حارة'], correct: 0},
-                    {q: 'ما الطريقة المستخدمة لرسم خرائط قاع المحيط؟', options: ['السونار', 'الرادار', 'الأقمار الصناعية', 'التلسكوب'], correct: 0}
-                ]
-            },
-            hydrogeology: {
-                name: 'الهيدروجيولوجيا',
-                icon: '💧',
-                questions: [
-                    {q: 'ما هي المياه الجوفية؟', options: ['مياه تحت سطح الأرض', 'مياه الأمطار', 'مياه الأنهار', 'مياه البحار'], correct: 0},
-                    {q: 'ما هو الخزان الجوفي؟', options: ['طبقة صخرية تحتوي على مياه', 'بحيرة', 'نهر', 'محيط'], correct: 0},
-                    {q: 'ما هي النفاذية؟', options: ['قدرة الصخر على تمرير الماء', 'صلابة الصخر', 'لون الصخر', 'وزن الصخر'], correct: 0},
-                    {q: 'ما المصطلح الذي يصف المسامات في الصخور؟', options: ['المسامية', 'النفاذية', 'الكثافة', 'الصلابة'], correct: 0},
-                    {q: 'ما هو منسوب الماء الجوفي؟', options: ['السطح العلوي للمياه الجوفية', 'قاع البئر', 'سطح البحر', 'قاع النهر'], correct: 0},
-                    {q: 'أي نوع صخور أفضل لتخزين المياه الجوفية؟', options: ['الحجر الرملي', 'الجرانيت', 'البازلت', 'الطين الصفحي'], correct: 0},
-                    {q: 'ما هي الطبقة الكتيمة؟', options: ['طبقة لا تسمح بمرور الماء', 'طبقة نفاذة', 'طبقة مسامية', 'طبقة رسوبية'], correct: 0},
-                    {q: 'ما هي الينابيع؟', options: ['نقاط تدفق طبيعي للمياه الجوفية', 'آبار صناعية', 'أنهار', 'بحيرات'], correct: 0},
-                    {q: 'ما هو التسرب؟', options: ['حركة الماء من السطح إلى باطن الأرض', 'تبخر الماء', 'جريان الماء', 'تجمد الماء'], correct: 0},
-                    {q: 'ما الذي يسبب ملوحة المياه الجوفية؟', options: ['ذوبان المعادن والأملاح', 'الأمطار', 'الثلوج', 'الرياح'], correct: 0},
-                    {q: 'ما هو الخزان الجوفي الحر؟', options: ['خزان ليس له سقف كتيم', 'خزان مغلق', 'خزان عميق', 'خزان ملوث'], correct: 0},
-                    {q: 'ما هو الخزان الجوفي المحصور؟', options: ['خزان بين طبقتين كتيمتين', 'خزان مفتوح', 'خزان سطحي', 'خزان صغير'], correct: 0},
-                    {q: 'ما هي البئر الارتوازية؟', options: ['بئر تتدفق فيها المياه تلقائياً', 'بئر يحتاج مضخة', 'بئر جاف', 'بئر ضحل'], correct: 0},
-                    {q: 'ما هو الكارست؟', options: ['تضاريس ناتجة عن ذوبان الصخور الجيرية', 'نوع من الصخور', 'نهر جوفي', 'بركان'], correct: 0},
-                    {q: 'ما هي الصواعد؟', options: ['تكوينات كلسية تنمو من الأسفل', 'تنمو من الأعلى', 'نوع من الأشجار', 'نوع من الصخور'], correct: 0},
-                    {q: 'ما هي الهوابط؟', options: ['تكوينات كلسية تنمو من السقف', 'تنمو من الأرض', 'نوع من المعادن', 'نوع من الأحافير'], correct: 0},
-                    {q: 'ما المصطلح الذي يصف نضوب المياه الجوفية؟', options: ['الاستنزاف', 'الشحن', 'التسرب', 'التبخر'], correct: 0},
-                    {q: 'ما هي المياه المعدنية؟', options: ['مياه غنية بالمعادن الذائبة', 'مياه نقية', 'مياه مقطرة', 'مياه البحر'], correct: 0},
-                    {q: 'ما الذي يسبب تكون الكهوف؟', options: ['ذوبان الصخور بالماء الحمضي', 'الزلازل', 'البراكين', 'الرياح'], correct: 0},
-                    {q: 'ما هو اختبار الضخ في البئر؟', options: ['اختبار لقياس إنتاجية البئر', 'اختبار الماء', 'اختبار الصخور', 'اختبار التربة'], correct: 0},
-                    {q: 'ما هي المنطقة المشبعة؟', options: ['منطقة ممتلئة بالماء', 'منطقة جافة', 'منطقة رطبة', 'منطقة صخرية'], correct: 0},
-                    {q: 'ما هي المنطقة غير المشبعة؟', options: ['منطقة فوق منسوب الماء الجوفي', 'منطقة تحت الماء', 'منطقة مشبعة', 'منطقة محصورة'], correct: 0},
-                    {q: 'ما هو التوصيل الهيدروليكي؟', options: ['قدرة الصخر على نقل الماء', 'قدرة التخزين', 'قدرة الامتصاص', 'قدرة التبخر'], correct: 0},
-                    {q: 'ما الذي يهدد المياه الجوفية الساحلية؟', options: ['تسرب مياه البحر المالحة', 'الأمطار', 'الثلوج', 'الأنهار'], correct: 0},
-                    {q: 'ما هو الترشيح الطبيعي؟', options: ['تنقية الماء عبر طبقات التربة', 'تلوث الماء', 'تبخر الماء', 'تجمد الماء'], correct: 0}
-                ]
-            }
-        };
-
-        let currentQuiz = null;
-        let currentQuestion = 0;
-        let score = 0;
-        let answers = [];
-
-        function startQuiz(category) {
-            currentQuiz = quizData[category];
-            currentQuestion = 0;
-            score = 0;
-            answers = new Array(25).fill(null);
-            
-            document.getElementById('mainPage').style.display = 'none';
-            document.getElementById('quizPage').style.display = 'block';
-            document.getElementById('quizTitle').textContent = currentQuiz.icon + ' ' + currentQuiz.name;
-            
-            showQuestion();
-        }
-
-        function showQuestion() {
-            const q = currentQuiz.questions[currentQuestion];
-            const container = document.getElementById('questionContainer');
-            
-            container.innerHTML = `
-                <div class="question-card">
-                    <div class="question-text">السؤال ${currentQuestion + 1} من 25: ${q.q}</div>
-                    <div class="options">
-                        ${q.options.map((opt, i) => `
-                            <button class="option-btn ${answers[currentQuestion] === i ? (i === q.correct ? 'correct' : 'wrong') : ''}" 
-                                    onclick="selectAnswer(${i})"
-                                    ${answers[currentQuestion] !== null ? 'disabled' : ''}>
-                                ${opt}
-                            </button>
-                        `).join('')}
-                    </div>
-                </div>
-            `;
-            
-            updateProgress();
-            document.getElementById('scoreValue').textContent = score;
-        }
-
-        function selectAnswer(selected) {
-            const q = currentQuiz.questions[currentQuestion];
-            answers[currentQuestion] = selected;
-            
-            if(selected === q.correct) {
-                score++;
-            }
-            
-            showQuestion();
-        }
-
-        function updateProgress() {
-            const progress = ((currentQuestion + 1) / 25) * 100;
-            document.getElementById('progressBar').style.width = progress + '%';
-        }
-
-        function nextQuestion() {
-            if(currentQuestion < 24) {
-                currentQuestion++;
-                showQuestion();
-            }
-        }
-
-        function previousQuestion() {
-            if(currentQuestion > 0) {
-                currentQuestion--;
-                showQuestion();
-            }
-        }
-
-        function endQuiz() {
-            document.getElementById('finalScore').textContent = score;
-            document.getElementById('overlay').classList.add('show');
-            document.getElementById('resultModal').classList.add('show');
-        }
-
-        function closeResult() {
-            document.getElementById('overlay').classList.remove('show');
-            document.getElementById('resultModal').classList.remove('show');
-            document.getElementById('quizPage').style.display = 'none';
-            document.getElementById('mainPage').style.display = 'block';
-        }
-    </script>
-</body>
-</html>
