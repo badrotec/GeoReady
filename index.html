@@ -6,6 +6,105 @@
     <title>GEO-MASTER | منصة اختبارات الجيولوجيا والمسح</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* الأنماط الأساسية المفقودة التي تستخدمها الشيفرة */
+        .rock-image-quiz {
+            max-width: 90%;
+            height: auto;
+            border: 3px solid var(--neon-cyan);
+            border-radius: 8px;
+            margin: 15px auto;
+            display: block;
+            box-shadow: 0 0 15px var(--neon-cyan-transp);
+        }
+        
+        .rock-info-box {
+            background-color: var(--dark-bg-highlight); /* لون خلفية غامق */
+            border: 1px solid var(--neon-purple);
+            border-radius: 6px;
+            padding: 15px;
+            margin-top: 20px;
+            text-align: right;
+        }
+
+        .rock-info-title {
+            color: var(--neon-purple);
+            border-bottom: 2px dashed var(--neon-purple-transp);
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .rock-info-item {
+            font-size: 0.95em;
+            color: var(--text-color-secondary);
+            margin-bottom: 5px;
+            line-height: 1.5;
+        }
+        
+        /* تلوين الخيارات (مكررة لكن مهمة للعمل) */
+        .options-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* عرض 2x2 */
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .option-label {
+            display: block;
+            background-color: var(--dark-bg-module);
+            border: 2px solid var(--border-color);
+            padding: 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+        .option-label:hover {
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 8px var(--neon-blue-transp);
+        }
+        .option-label.selected {
+            border-color: var(--neon-cyan);
+            background-color: var(--neon-cyan-transp);
+        }
+        .option-label.correct {
+            background-color: var(--correct-color-transp) !important;
+            border-color: var(--correct-color) !important;
+        }
+        .option-label.incorrect {
+            background-color: var(--incorrect-color-transp) !important;
+            border-color: var(--incorrect-color) !important;
+        }
+        .option-label input[type="radio"] {
+            display: none; /* إخفاء زر الراديو الأصلي */
+        }
+        .question-text {
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            color: var(--text-color-primary);
+        }
+        
+        /* يجب تعريف المتغيرات اللونية في style.css أو هنا */
+        :root {
+            --neon-blue: #00bcd4;
+            --neon-cyan: #00ffc8;
+            --neon-purple: #9c27b0;
+            --correct-color: #4caf50;
+            --incorrect-color: #f44336;
+            --dark-bg-highlight: #1c2732; 
+            --dark-bg-module: #131a20; 
+            --border-color: #445566;
+            --text-color-primary: #f0f0f0;
+            --text-color-secondary: #aaaaaa;
+            --neon-blue-transp: rgba(0, 188, 212, 0.3);
+            --neon-cyan-transp: rgba(0, 255, 200, 0.3);
+            --neon-purple-transp: rgba(156, 39, 176, 0.3);
+            --correct-color-transp: rgba(76, 175, 80, 0.3);
+            --incorrect-color-transp: rgba(244, 67, 54, 0.3);
+        }
+    </style>
 </head>
 <body data-theme="dark">
     
