@@ -45,8 +45,800 @@
         "en": "Earth's age is estimated at about 4.54 billion years based on radiometric dating of meteorites and the oldest known rocks",
         "fr": "L'âge de la Terre est estimé à environ 4,54 milliards d'années sur la base de la datation radiométrique des météorites et des roches les plus anciennes connues"
       }
+    },
+    {
+      "id": 2,
+      "question": {
+        "ar": "ما هو العصر الجيولوجي الحالي؟",
+        "en": "What is the current geological era?",
+        "fr": "Quelle est l'ère géologique actuelle?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "السينوزوي",
+            "en": "Cenozoic",
+            "fr": "Cénozoïque"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "الميزوزوي",
+            "en": "Mesozoic",
+            "fr": "Mésozoïque"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "نحن نعيش حالياً في حقبة السينوزوي التي بدأت منذ حوالي 66 مليون سنة بعد انقراض الديناصورات",
+        "en": "We currently live in the Cenozoic era, which began about 66 million years ago after the extinction of dinosaurs",
+        "fr": "Nous vivons actuellement dans l'ère Cénozoïque, qui a commencé il y a environ 66 millions d'années après l'extinction des dinosaures"
+      }
+    },
+    {
+      "id": 3,
+      "question": {
+        "ar": "متى حدث انقراض العصر البرمي-الثلاثي؟",
+        "en": "When did the Permian-Triassic extinction occur?",
+        "fr": "Quand s'est produite l'extinction Permien-Trias?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "قبل 252 مليون سنة",
+            "en": "252 million years ago",
+            "fr": "Il y a 252 millions d'années"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "قبل 66 مليون سنة",
+            "en": "66 million years ago",
+            "fr": "Il y a 66 millions d'années"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "انقراض العصر البرمي-الثلاثي هو أكبر انقراض جماعي في تاريخ الأرض، حيث انقرض حوالي 96% من الأنواع البحرية",
+        "en": "The Permian-Triassic extinction is the largest mass extinction in Earth's history, wiping out about 96% of marine species",
+        "fr": "L'extinction Permien-Trias est la plus grande extinction massive de l'histoire de la Terre, éliminant environ 96% des espèces marines"
+      }
+    },
+    {
+      "id": 4,
+      "question": {
+        "ar": "ما هي القارة العملاقة التي كانت موجودة قبل 300 مليون سنة؟",
+        "en": "What was the supercontinent that existed 300 million years ago?",
+        "fr": "Quel était le supercontinent qui existait il y a 300 millions d'années?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "بانجيا",
+            "en": "Pangaea",
+            "fr": "Pangée"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "غندوانا",
+            "en": "Gondwana",
+            "fr": "Gondwana"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "بانجيا كانت القارة العملاقة التي تشكلت خلال أواخر العصر الباليوزوي وبدأت بالتفكك خلال العصر الجوراسي",
+        "en": "Pangaea was the supercontinent that formed during the late Paleozoic era and began to break apart during the Jurassic period",
+        "fr": "La Pangée était le supercontinent qui s'est formé à la fin de l'ère Paléozoïque et a commencé à se fragmenter pendant la période Jurassique"
+      }
+    },
+    {
+      "id": 5,
+      "question": {
+        "ar": "ما هو أقدم عصر في حقبة الحياة الظاهرة؟",
+        "en": "What is the oldest period in the Phanerozoic eon?",
+        "fr": "Quelle est la période la plus ancienne de l'éon Phanérozoïque?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "الكمبري",
+            "en": "Cambrian",
+            "fr": "Cambrien"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "الأوردوفيشي",
+            "en": "Ordovician",
+            "fr": "Ordovicien"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "عصر الكمبري هو أول عصر في حقبة الحياة الظاهرة، وامتد من 541 إلى 485 مليون سنة مضت",
+        "en": "The Cambrian period is the first period of the Phanerozoic eon, spanning from 541 to 485 million years ago",
+        "fr": "La période Cambrienne est la première période de l'éon Phanérozoïque, s'étendant de 541 à 485 millions d'années"
+      }
+    },
+    {
+      "id": 6,
+      "question": {
+        "ar": "ماذا يُطلق على الانفجار الكبير للتنوع البيولوجي خلال العصر الكمبري؟",
+        "en": "What is the term for the great biodiversity explosion during the Cambrian period?",
+        "fr": "Quel est le terme pour la grande explosion de biodiversité durant la période Cambrienne?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "الانفجار الكمبري",
+            "en": "Cambrian Explosion",
+            "fr": "Explosion Cambrienne"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "الثورة الكمبرية",
+            "en": "Cambrian Revolution",
+            "fr": "Révolution Cambrienne"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "الانفجار الكمبري يشير إلى الظهور السريع لمعظم الشعب الحيوانية الرئيسية في السجل الأحفوري خلال العصر الكمبري",
+        "en": "The Cambrian Explosion refers to the rapid appearance of most major animal phyla in the fossil record during the Cambrian period",
+        "fr": "L'Explosion Cambrienne fait référence à l'apparition rapide de la plupart des grands phylums animaux dans les archives fossiles durant la période Cambrienne"
+      }
+    },
+    {
+      "id": 7,
+      "question": {
+        "ar": "ما هو العصر الجليدي الذي حدث خلال العصر البليستوسيني؟",
+        "en": "What is the ice age that occurred during the Pleistocene epoch?",
+        "fr": "Quelle est la période glaciaire qui s'est produite durant l'époque Pléistocène?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "العصر الجليدي الرباعي",
+            "en": "Quaternary Ice Age",
+            "fr": "Âge glaciaire du Quaternaire"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "العصر الجليدي الكربوني",
+            "en": "Carboniferous Ice Age",
+            "fr": "Âge glaciaire Carbonifère"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "العصر الجليدي الرباعي حدث خلال العصر البليستوسيني وغطت فيه الصفائح الجليدية الكبيرة أجزاء كبيرة من أمريكا الشمالية وأوروبا",
+        "en": "The Quaternary Ice Age occurred during the Pleistocene epoch when large ice sheets covered significant parts of North America and Europe",
+        "fr": "L'âge glaciaire du Quaternaire s'est produit durant l'époque Pléistocène lorsque de grandes calottes glaciaires couvraient des parties importantes de l'Amérique du Nord et de l'Europe"
+      }
+    },
+    {
+      "id": 8,
+      "question": {
+        "ar": "ما هي أقدم الصخور المعروفة على الأرض؟",
+        "en": "What are the oldest known rocks on Earth?",
+        "fr": "Quelles sont les roches les plus anciennes connues sur Terre?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "صخور الأكرون في كندا",
+            "en": "Acasta Gneiss in Canada",
+            "fr": "Gneiss d'Acasta au Canada"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "صخور جرينلاند",
+            "en": "Greenland rocks",
+            "fr": "Roches du Groenland"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "صخور الأكرون في شمال غرب كندا هي أقدم الصخور المعروفة على الأرض، ويقدر عمرها بحوالي 4.03 مليار سنة",
+        "en": "The Acasta Gneiss in northwestern Canada are the oldest known rocks on Earth, estimated to be about 4.03 billion years old",
+        "fr": "Le Gneiss d'Acasta dans le nord-ouest du Canada sont les roches les plus anciennes connues sur Terre, estimées à environ 4,03 milliards d'années"
+      }
+    },
+    {
+      "id": 9,
+      "question": {
+        "ar": "متى ظهرت أولى الكائنات متعددة الخلايا؟",
+        "en": "When did the first multicellular organisms appear?",
+        "fr": "Quand sont apparus les premiers organismes multicellulaires?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "قبل حوالي 600 مليون سنة",
+            "en": "About 600 million years ago",
+            "fr": "Environ 600 millions d'années"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "قبل حوالي 1 مليار سنة",
+            "en": "About 1 billion years ago",
+            "fr": "Environ 1 milliard d'années"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "ظهرت أولى الكائنات متعددة الخلايا خلال العصر الإدياكاري، قبل الانفجار الكمبري مباشرة",
+        "en": "The first multicellular organisms appeared during the Ediacaran period, just before the Cambrian Explosion",
+        "fr": "Les premiers organismes multicellulaires sont apparus durant la période Édiacarienne, juste avant l'Explosion Cambrienne"
+      }
+    },
+    {
+      "id": 10,
+      "question": {
+        "ar": "ما هو المبدأ الجيولوجي الذي ينص على أن 'الحاضر مفتاح الماضي'؟",
+        "en": "What geological principle states that 'the present is the key to the past'?",
+        "fr": "Quel principe géologique énonce que 'le présent est la clé du passé'?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "المبدأ الواقعي",
+            "en": "Uniformitarianism",
+            "fr": "Uniformitarisme"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "المبدأ الكارثي",
+            "en": "Catastrophism",
+            "fr": "Catastrophisme"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "المبدأ الواقعي، الذي طوره جيمس هاتون، يفترض أن العمليات الجيولوجية التي تعمل اليوم عملت بنفس الطريقة في الماضي",
+        "en": "Uniformitarianism, developed by James Hutton, assumes that geological processes operating today have operated in the same way in the past",
+        "fr": "L'uniformitarisme, développé par James Hutton, suppose que les processus géologiques qui opèrent aujourd'hui ont opéré de la même manière dans le passé"
+      }
+    },
+    {
+      "id": 11,
+      "question": {
+        "ar": "ما هو العصر الذي سيطرت فيه الديناصورات على الأرض؟",
+        "en": "During which era did dinosaurs dominate the Earth?",
+        "fr": "Durant quelle ère les dinosaures ont-ils dominé la Terre?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "العصر الوسيط (الميزوزوي)",
+            "en": "Mesozoic Era",
+            "fr": "Ère Mésozoïque"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "العصر القديم (الباليوزوي)",
+            "en": "Paleozoic Era",
+            "fr": "Ère Paléozoïque"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "سيطرت الديناصورات على الأرض خلال العصر الوسيط، والذي ينقسم إلى العصور الترياسي والجوراسي والطباشيري",
+        "en": "Dinosaurs dominated the Earth during the Mesozoic Era, which is divided into the Triassic, Jurassic, and Cretaceous periods",
+        "fr": "Les dinosaures ont dominé la Terre durant l'ère Mésozoïque, qui est divisée en périodes Triasique, Jurassique et Crétacée"
+      }
+    },
+    {
+      "id": 12,
+      "question": {
+        "ar": "ما هو الحدث الذي يعتقد أنه تسبب في انقراض الديناصورات؟",
+        "en": "What event is believed to have caused the extinction of dinosaurs?",
+        "fr": "Quel événement est censé avoir causé l'extinction des dinosaures?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "اصطدام نيزك كبير",
+            "en": "Large meteorite impact",
+            "fr": "Impact d'une grande météorite"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "ثوران بركاني هائل",
+            "en": "Massive volcanic eruption",
+            "fr": "Éruption volcanique massive"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يعتقد أن اصطدام نيزك كبير بشبه جزيرة يوكاتان في المكسيك تسبب في انقراض الديناصورات والعديد من الأنواع الأخرى قبل 66 مليون سنة",
+        "en": "A large meteorite impact in the Yucatan Peninsula, Mexico is believed to have caused the extinction of dinosaurs and many other species 66 million years ago",
+        "fr": "Un impact de grande météorite dans la péninsule du Yucatan, Mexique est censé avoir causé l'extinction des dinosaures et de nombreuses autres espèces il y a 66 millions d'années"
+      }
+    },
+    {
+      "id": 13,
+      "question": {
+        "ar": "ما هو العصر الذي ظهرت فيه أولى النباتات البرية؟",
+        "en": "During which period did the first land plants appear?",
+        "fr": "Durant quelle période les premières plantes terrestres sont-elles apparues?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "العصر الأوردوفيشي",
+            "en": "Ordovician Period",
+            "fr": "Période Ordovicienne"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "العصر السيلوري",
+            "en": "Silurian Period",
+            "fr": "Période Silurienne"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "ظهرت أولى النباتات البرية خلال العصر الأوردوفيشي، قبل حوالي 470 مليون سنة",
+        "en": "The first land plants appeared during the Ordovician Period, about 470 million years ago",
+        "fr": "Les premières plantes terrestres sont apparues durant la période Ordovicienne, il y a environ 470 millions d'années"
+      }
+    },
+    {
+      "id": 14,
+      "question": {
+        "ar": "ما هو اسم القارة العملاقة الجنوبية التي كانت جزءاً من بانجيا؟",
+        "en": "What is the name of the southern supercontinent that was part of Pangaea?",
+        "fr": "Quel est le nom du supercontinent sud qui faisait partie de la Pangée?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "غندوانا",
+            "en": "Gondwana",
+            "fr": "Gondwana"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "لوراسيا",
+            "en": "Laurasia",
+            "fr": "Laurasia"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "غندوانا كانت القارة العملاقة الجنوبية التي تضمنت أمريكا الجنوبية وأفريقيا والهند وأستراليا والقارة القطبية الجنوبية",
+        "en": "Gondwana was the southern supercontinent that included South America, Africa, India, Australia, and Antarctica",
+        "fr": "Le Gondwana était le supercontinent sud qui comprenait l'Amérique du Sud, l'Afrique, l'Inde, l'Australie et l'Antarctique"
+      }
+    },
+    {
+      "id": 15,
+      "question": {
+        "ar": "ما هو العصر الجيولوجي الحالي؟",
+        "en": "What is the current geological epoch?",
+        "fr": "Quelle est l'époque géologique actuelle?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "الهولوسين",
+            "en": "Holocene",
+            "fr": "Holocène"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "البليستوسين",
+            "en": "Pleistocene",
+            "fr": "Pléistocène"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "الهولوسين هو العصر الجيولوجي الحالي الذي بدأ قبل حوالي 11,700 سنة بعد نهاية العصر الجليدي الأخير",
+        "en": "The Holocene is the current geological epoch that began about 11,700 years ago after the last ice age",
+        "fr": "L'Holocène est l'époque géologique actuelle qui a commencé il y a environ 11 700 ans après la dernière période glaciaire"
+      }
+    },
+    {
+      "id": 16,
+      "question": {
+        "ar": "ما هي أقدم الأحافير المعروفة على الأرض؟",
+        "en": "What are the oldest known fossils on Earth?",
+        "fr": "Quels sont les plus anciens fossiles connus sur Terre?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "المستحاثات المجهرية فيسترتفورت",
+            "en": "Stromatolites",
+            "fr": "Stromatolites"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "أحافير ثلاثية الفصوص",
+            "en": "Trilobite fossils",
+            "fr": "Fossiles de trilobites"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "المستحاثات المجهرية (سترتفورت) هي أقدم الأحافير المعروفة، يعود تاريخها إلى 3.7 مليار سنة، وتشكلت بواسطة البكتيريا الزرقاء",
+        "en": "Stromatolites are the oldest known fossils, dating back 3.7 billion years, formed by cyanobacteria",
+        "fr": "Les stromatolites sont les plus anciens fossiles connus, datant de 3,7 milliards d'années, formés par des cyanobactéries"
+      }
+    },
+    {
+      "id": 17,
+      "question": {
+        "ar": "متى تشكلت جبال الهيمالايا؟",
+        "en": "When did the Himalayas form?",
+        "fr": "Quand l'Himalaya s'est-il formé?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "خلال العصر الثالث (السينوزوي)",
+            "en": "During the Cenozoic Era",
+            "fr": "Durant l'ère Cénozoïque"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "خلال العصر الوسيط",
+            "en": "During the Mesozoic Era",
+            "fr": "Durant l'ère Mésozoïque"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تشكلت جبال الهيمالايا خلال العصر الثالث نتيجة لاصطدام الصفيحة الهندية بالصفيحة الأوراسية",
+        "en": "The Himalayas formed during the Cenozoic Era as a result of the collision between the Indian Plate and the Eurasian Plate",
+        "fr": "L'Himalaya s'est formé durant l'ère Cénozoïque suite à la collision entre la plaque indienne et la plaque eurasienne"
+      }
+    },
+    {
+      "id": 18,
+      "question": {
+        "ar": "ما هو العصر الذي ظهرت فيه أولى الثدييات؟",
+        "en": "During which era did the first mammals appear?",
+        "fr": "Durant quelle ère les premiers mammifères sont-ils apparus?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "العصر الوسيط",
+            "en": "Mesozoic Era",
+            "fr": "Ère Mésozoïque"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "العصر الحديث",
+            "en": "Cenozoic Era",
+            "fr": "Ère Cénozoïque"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "ظهرت أولى الثدييات خلال العصر الوسيط، وتحديداً في العصر الترياسي، وكانت صغيرة الحجم وآكلة للحشرات",
+        "en": "The first mammals appeared during the Mesozoic Era, specifically in the Triassic period, and were small, insect-eating animals",
+        "fr": "Les premiers mammifères sont apparus durant l'ère Mésozoïque, spécifiquement durant la période Triasique, et étaient de petits animaux insectivores"
+      }
+    },
+    {
+      "id": 19,
+      "question": {
+        "ar": "ما هو المقياس الزمني الجيولوجي؟",
+        "en": "What is the geological time scale?",
+        "fr": "Qu'est-ce que l'échelle des temps géologiques?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "نظام تقسيم تاريخ الأرض إلى وحدات زمنية",
+            "en": "A system dividing Earth's history into time units",
+            "fr": "Un système divisant l'histoire de la Terre en unités temporelles"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "مقياس لقياس أعمار الصخور",
+            "en": "A scale for measuring rock ages",
+            "fr": "Une échelle pour mesurer l'âge des roches"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "المقياس الزمني الجيولوجي هو نظام يستخدمه الجيولوجيون لتقسيم تاريخ الأرض إلى وحدات زمنية بناءً على الأحداث الجيولوجية والبيولوجية الكبرى",
+        "en": "The geological time scale is a system used by geologists to divide Earth's history into time units based on major geological and biological events",
+        "fr": "L'échelle des temps géologiques est un système utilisé par les géologues pour diviser l'histoire de la Terre en unités temporelles basées sur les événements géologiques et biologiques majeurs"
+      }
+    },
+    {
+      "id": 20,
+      "question": {
+        "ar": "ما هو العصر الذي تشكلت فيه معظم احتياطيات الفحم في العالم؟",
+        "en": "During which period were most of the world's coal reserves formed?",
+        "fr": "Durant quelle période la plupart des réserves de charbon mondiales se sont-elles formées?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "العصر الكربوني",
+            "en": "Carboniferous Period",
+            "fr": "Période Carbonifère"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "العصر البرمي",
+            "en": "Permian Period",
+            "fr": "Période Permienne"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تشكلت معظم احتياطيات الفحم العالمية خلال العصر الكربوني نتيجة لتراكم الغابات الاستوائية الكثيفة في المستنقعات",
+        "en": "Most of the world's coal reserves formed during the Carboniferous Period from the accumulation of dense tropical forests in swamps",
+        "fr": "La plupart des réserves de charbon mondiales se sont formées durant la période Carbonifère à partir de l'accumulation de forêts tropicales denses dans les marécages"
+      }
+    },
+    {
+      "id": 21,
+      "question": {
+        "ar": "ما هو الحدث الذي يمثل نهاية العصر الطباشيري وبداية العصر الباليوجيني؟",
+        "en": "What event marks the end of the Cretaceous and the beginning of the Paleogene?",
+        "fr": "Quel événement marque la fin du Crétacé et le début du Paléogène?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "انقراض الديناصورات",
+            "en": "Extinction of dinosaurs",
+            "fr": "Extinction des dinosaures"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "تشكل بانجيا",
+            "en": "Formation of Pangaea",
+            "fr": "Formation de la Pangée"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "انقراض الديناصورات والعديد من الأنواع الأخرى يمثل الحد الفاصل بين العصر الطباشيري والعصر الباليوجيني",
+        "en": "The extinction of dinosaurs and many other species marks the boundary between the Cretaceous and Paleogene periods",
+        "fr": "L'extinction des dinosaures et de nombreuses autres espèces marque la frontière entre les périodes Crétacée et Paléogène"
+      }
+    },
+    {
+      "id": 22,
+      "question": {
+        "ar": "ما هو أقدم حقب الحياة في تاريخ الأرض؟",
+        "en": "What is the oldest eon in Earth's history?",
+        "fr": "Quel est l'éon le plus ancien de l'histoire de la Terre?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "الدهر السحيق",
+            "en": "Archean Eon",
+            "fr": "Éon Archéen"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "الدهر الظاهري",
+            "en": "Phanerozoic Eon",
+            "fr": "Éon Phanérozoïque"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "الدهر السحيق هو أقدم حقب الحياة، وامتد من 4 إلى 2.5 مليار سنة مضت، وشهد تكون القشرة القارية الأولى وظهور الحياة",
+        "en": "The Archean Eon is the oldest eon, spanning from 4 to 2.5 billion years ago, witnessing the formation of the first continental crust and the emergence of life",
+        "fr": "L'éon Archéen est l'éon le plus ancien, s'étendant de 4 à 2,5 milliards d'années, témoignant de la formation de la première croûte continentale et de l'émergence de la vie"
+      }
+    },
+    {
+      "id": 23,
+      "question": {
+        "ar": "متى حدث تكوين القشرة القارية الأولى؟",
+        "en": "When did the first continental crust form?",
+        "fr": "Quand la première croûte continentale s'est-elle formée?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "خلال الدهر السحيق",
+            "en": "During the Archean Eon",
+            "fr": "Durant l'éon Archéen"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "خلال الدهر الظاهري",
+            "en": "During the Phanerozoic Eon",
+            "fr": "Durant l'éon Phanérozoïque"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "بدأ تكون القشرة القارية الأولى خلال الدهر السحيق، قبل حوالي 4 مليارات سنة",
+        "en": "The first continental crust began forming during the Archean Eon, about 4 billion years ago",
+        "fr": "La première croûte continentale a commencé à se former durant l'éon Archéen, il y a environ 4 milliards d'années"
+      }
+    },
+    {
+      "id": 24,
+      "question": {
+        "ar": "ما هو العصر الذي ظهرت فيه أولى الأسماك ذات الفكوك؟",
+        "en": "During which period did the first jawed fish appear?",
+        "fr": "Durant quelle période les premiers poissons à mâchoires sont-ils apparus?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "العصر السيلوري",
+            "en": "Silurian Period",
+            "fr": "Période Silurienne"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "العصر الديفوني",
+            "en": "Devonian Period",
+            "fr": "Période Dévonienne"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "ظهرت أولى الأسماك ذات الفكوك خلال العصر السيلوري، مما مثل تطوراً هاماً في تطور الفقاريات",
+        "en": "The first jawed fish appeared during the Silurian Period, representing an important development in vertebrate evolution",
+        "fr": "Les premiers poissons à mâchoires sont apparus durant la période Silurienne, représentant un développement important dans l'évolution des vertébrés"
+      }
+    },
+    {
+      "id": 25,
+      "question": {
+        "ar": "ما هو الحدث الذي يمثل بداية العصر الكمبري؟",
+        "en": "What event marks the beginning of the Cambrian period?",
+        "fr": "Quel événement marque le début de la période Cambrienne?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "الانفجار الكمبري للتنوع البيولوجي",
+            "en": "Cambrian explosion of biodiversity",
+            "fr": "Explosion Cambrienne de la biodiversité"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "تشكل القارة العملاقة بانجيا",
+            "en": "Formation of Pangaea supercontinent",
+            "fr": "Formation du supercontinent Pangée"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "بداية العصر الكمبري تميزت بالانفجار الكمبري، حيث ظهرت معظم الشعب الحيوانية الرئيسية في السجل الأحفوري",
+        "en": "The beginning of the Cambrian period is marked by the Cambrian explosion, when most major animal phyla appeared in the fossil record",
+        "fr": "Le début de la période Cambrienne est marqué par l'explosion Cambrienne, lorsque la plupart des grands phylums animaux sont apparus dans les archives fossiles"
+      }
     }
   ],
-  "total_questions": 1,
+  "total_questions": 25,
   "passing_score": 75
 }
