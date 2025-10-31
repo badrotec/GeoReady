@@ -1,4 +1,4 @@
-// نظام تشغيل الأصوات
+// نظام تشغيل الأصوات المصحح والمنظم
 class SoundManager {
     constructor() {
         this.sounds = {
@@ -9,16 +9,52 @@ class SoundManager {
             timer: 'sounds/timer.mp3'
         };
         this.enabled = true;
+        this.audioElements = {};
+        this.lastPlayTime = {};
+        this.minPlayInterval = 200;
+        this.preloadSounds();
+    }
+
+    preloadSounds() {
+        Object.keys(this.sounds).forEach(soundName => {
+            const audio = new Audio(this.sounds[soundName]);
+            audio.preload = 'auto';
+            audio.load();
+            audio.loop = false;
+            this.audioElements[soundName] = audio;
+        });
     }
 
     play(soundName) {
         if (!this.enabled || !this.sounds[soundName]) return;
         
+        const now = Date.now();
+        const lastTime = this.lastPlayTime[soundName] || 0;
+        
+        if (now - lastTime < this.minPlayInterval) {
+            return;
+        }
+        
+        this.lastPlayTime[soundName] = now;
+        
         try {
-            const audio = new Audio(this.sounds[soundName]);
-            audio.play().catch(e => console.log('Sound error:', e));
+            const audio = this.audioElements[soundName];
+            if (audio) {
+                audio.currentTime = 0;
+                audio.pause();
+                audio.play().catch(e => {
+                    console.log(`🔇 ${soundName} error:`, e);
+                });
+            }
         } catch (error) {
-            console.log('Sound play failed:', error);
+            console.log(`🔇 ${soundName} failed:`, error);
+        }
+    }
+
+    stop(soundName) {
+        if (this.audioElements[soundName]) {
+            this.audioElements[soundName].pause();
+            this.audioElements[soundName].currentTime = 0;
         }
     }
 }
@@ -33,19 +69,21 @@ class GeoLearnApp {
         this.userAnswers = [];
         this.score = 0;
         this.quizStartTime = null;
-        this.timer = null;
         this.questionTimer = null;
         this.timeLeft = 15;
         this.isAnswerRevealed = false;
         this.dailyQuizPlayed = false;
+        this.isProcessingClick = false;
+        this.isProcessingSelection = false;
+        this.lastTimerSound = 0;
         
-        // نظام الأصوات
         this.soundManager = new SoundManager();
         
         this.init();
     }
 
     async init() {
+        await this.preloadAssets();
         await this.loadQuizzes();
         this.renderQuizzes();
         this.setupEventListeners();
@@ -54,10 +92,15 @@ class GeoLearnApp {
         this.setupDailyQuiz();
         
         console.log('GeoLearn App Started! 🚀');
-        console.log('Loaded quizzes:', this.quizzes.length);
     }
 
-    // إعداد الكويز اليومي
+    async preloadAssets() {
+        console.log('🔄 جاري تحميل الأصوات...');
+        return new Promise(resolve => {
+            setTimeout(resolve, 1000);
+        });
+    }
+
     setupDailyQuiz() {
         const today = new Date().toDateString();
         const lastPlayed = localStorage.getItem('daily-quiz-date');
@@ -70,7 +113,6 @@ class GeoLearnApp {
         this.dailyQuizPlayed = localStorage.getItem('daily-quiz-played') === 'true';
     }
 
-    // تحميل بيانات الكويزات
     async loadQuizzes() {
         const quizIds = [
             'basic_geology', 'petrology', 'hydrogeology', 'geophysics', 'field_work',
@@ -88,7 +130,6 @@ class GeoLearnApp {
             }
         }
 
-        // إضافة كويز يومي
         this.addDailyQuiz();
     }
 
@@ -104,7 +145,6 @@ class GeoLearnApp {
         }
     }
 
-    // إضافة كويز يومي
     addDailyQuiz() {
         const dailyQuiz = {
             id: 'daily_quiz',
@@ -129,7 +169,6 @@ class GeoLearnApp {
         this.quizzes.unshift(dailyQuiz);
     }
 
-    // توليد أسئلة يومية
     generateDailyQuestions() {
         return [
             {
@@ -191,239 +230,10 @@ class GeoLearnApp {
                     en: "Marble is a metamorphic rock formed from the transformation of limestone",
                     fr: "Le marbre est une roche métamorphique formée à partir de la transformation du calcaire"
                 }
-            },
-            {
-                id: 3,
-                type: "true_false",
-                question: {
-                    ar: "الصخور الرسوبية تتكون من ضغط وتماسك الرواسب",
-                    en: "Sedimentary rocks form from compaction and cementation of sediments",
-                    fr: "Les roches sédimentaires se forment par compaction et cimentation des sédiments"
-                },
-                options: [
-                    {
-                        id: "A",
-                        text: { ar: "صح", en: "True", fr: "Vrai" },
-                        correct: true
-                    },
-                    {
-                        id: "B", 
-                        text: { ar: "خطأ", en: "False", fr: "Faux" },
-                        correct: false
-                    }
-                ],
-                explanation: {
-                    ar: "نعم، الصخور الرسوبية تتكون من ترسب وتماسك الرواسب بفعل الضغط",
-                    en: "Yes, sedimentary rocks form from deposition and cementation of sediments under pressure",
-                    fr: "Oui, les roches sédimentaires se forment par dépôt et cimentation des sédiments sous pression"
-                }
-            },
-            {
-                id: 4,
-                question: {
-                    ar: "ما هو المعدن الأكثر وفرة في قشرة الأرض؟",
-                    en: "What is the most abundant mineral in Earth's crust?",
-                    fr: "Quel est le minéral le plus abondant dans la croûte terrestre?"
-                },
-                options: [
-                    {
-                        id: "A",
-                        text: { ar: "الكوارتز", en: "Quartz", fr: "Quartz" },
-                        correct: false
-                    },
-                    {
-                        id: "B", 
-                        text: { ar: "الفلدسبار", en: "Feldspar", fr: "Feldspath" },
-                        correct: true
-                    },
-                    {
-                        id: "C",
-                        text: { ar: "المايكا", en: "Mica", fr: "Mica" },
-                        correct: false
-                    }
-                ],
-                explanation: {
-                    ar: "الفلدسبار يشكل حوالي 60% من قشرة الأرض",
-                    en: "Feldspar makes up about 60% of Earth's crust",
-                    fr: "Le feldspath constitue environ 60% de la croûte terrestre"
-                }
-            },
-            {
-                id: 5,
-                question: {
-                    ar: "أي نوع من الصدوع ينتج عن قوى الشد؟",
-                    en: "Which type of fault results from tensional forces?",
-                    fr: "Quel type de faille résulte des forces de tension?"
-                },
-                options: [
-                    {
-                        id: "A",
-                        text: { ar: "الصدع العكسي", en: "Reverse fault", fr: "Faille inverse" },
-                        correct: false
-                    },
-                    {
-                        id: "B", 
-                        text: { ar: "الصدع العادي", en: "Normal fault", fr: "Faille normale" },
-                        correct: true
-                    },
-                    {
-                        id: "C",
-                        text: { ar: "الصدع الانزلاقي", en: "Strike-slip fault", fr: "Faille décrochante" },
-                        correct: false
-                    }
-                ],
-                explanation: {
-                    ar: "الصدع العادي ينتج عن قوى الشد حيث تتحرك الكتلة العلوية للأسفل",
-                    en: "Normal fault results from tensional forces where the hanging wall moves downward",
-                    fr: "La faille normale résulte des forces de tension où le mur suspendu se déplace vers le bas"
-                }
-            },
-            {
-                id: 6,
-                type: "true_false",
-                question: {
-                    ar: "الزلازل تحدث فقط عند حدود الصفائح التكتونية",
-                    en: "Earthquakes occur only at tectonic plate boundaries",
-                    fr: "Les tremblements de terre se produisent uniquement aux limites des plaques tectoniques"
-                },
-                options: [
-                    {
-                        id: "A",
-                        text: { ar: "صح", en: "True", fr: "Vrai" },
-                        correct: false
-                    },
-                    {
-                        id: "B", 
-                        text: { ar: "خطأ", en: "False", fr: "Faux" },
-                        correct: true
-                    }
-                ],
-                explanation: {
-                    ar: "الزلازل يمكن أن تحدث داخل الصفائح أيضاً وليس فقط عند الحدود",
-                    en: "Earthquakes can also occur within plates, not only at boundaries",
-                    fr: "Les tremblements de terre peuvent également se produire à l'intérieur des plaques, pas seulement aux limites"
-                }
-            },
-            {
-                id: 7,
-                question: {
-                    ar: "ما هو العصر الجيولوجي الحالي؟",
-                    en: "What is the current geological era?",
-                    fr: "Quelle est l'ère géologique actuelle?"
-                },
-                options: [
-                    {
-                        id: "A",
-                        text: { ar: "السينوزوي", en: "Cenozoic", fr: "Cénozoïque" },
-                        correct: true
-                    },
-                    {
-                        id: "B", 
-                        text: { ar: "الميزوزوي", en: "Mesozoic", fr: "Mésozoïque" },
-                        correct: false
-                    },
-                    {
-                        id: "C",
-                        text: { ar: "الباليوزوي", en: "Paleozoic", fr: "Paléozoïque" },
-                        correct: false
-                    }
-                ],
-                explanation: {
-                    ar: "نحن نعيش في حقبة السينوزوي التي بدأت منذ 66 مليون سنة",
-                    en: "We live in the Cenozoic era which began 66 million years ago",
-                    fr: "Nous vivons dans l'ère Cénozoïque qui a commencé il y a 66 millions d'années"
-                }
-            },
-            {
-                id: 8,
-                question: {
-                    ar: "أي من هذه الطرق تستخدم للكشف عن المياه الجوفية؟",
-                    en: "Which of these methods is used for groundwater detection?",
-                    fr: "Laquelle de ces méthodes est utilisée pour la détection des eaux souterraines?"
-                },
-                options: [
-                    {
-                        id: "A",
-                        text: { ar: "المسح المغناطيسي", en: "Magnetic survey", fr: "Étude magnétique" },
-                        correct: false
-                    },
-                    {
-                        id: "B", 
-                        text: { ar: "المسح الكهربائي", en: "Electrical resistivity", fr: "Résistivité électrique" },
-                        correct: true
-                    },
-                    {
-                        id: "C",
-                        text: { ar: "المسح الجذبي", en: "Gravity survey", fr: "Étude gravimétrique" },
-                        correct: false
-                    }
-                ],
-                explanation: {
-                    ar: "المسح الكهربائي يقيس مقاومة التربة والصخور للموصلية الكهربائية، حيث تختلف مقاومة المناطق المشبعة بالمياه",
-                    en: "Electrical resistivity measures soil and rock resistance to electrical conductivity, as water-saturated areas have different resistivity",
-                    fr: "La résistivité électrique mesure la résistance du sol et des roches à la conductivité électrique, car les zones saturées en eau ont une résistivité différente"
-                }
-            },
-            {
-                id: 9,
-                type: "true_false",
-                question: {
-                    ar: "جميع البراكين تثور بشكل متفجر",
-                    en: "All volcanoes erupt explosively",
-                    fr: "Tous les volcans entrent en éruption de manière explosive"
-                },
-                options: [
-                    {
-                        id: "A",
-                        text: { ar: "صح", en: "True", fr: "Vrai" },
-                        correct: false
-                    },
-                    {
-                        id: "B", 
-                        text: { ar: "خطأ", en: "False", fr: "Faux" },
-                        correct: true
-                    }
-                ],
-                explanation: {
-                    ar: "بعض البراكين تثور بهدوء وتتدفق منها الحمم بشكل سلمي",
-                    en: "Some volcanoes erupt quietly with lava flowing peacefully",
-                    fr: "Certains volcans entrent en éruption calmement avec de la lave coulant paisiblement"
-                }
-            },
-            {
-                id: 10,
-                question: {
-                    ar: "ما هو الغرض الرئيسي من البوصلة الجيولوجية؟",
-                    en: "What is the main purpose of a geological compass?",
-                    fr: "Quel est le but principal d'une boussole géologique?"
-                },
-                options: [
-                    {
-                        id: "A",
-                        text: { ar: "تحديد الشمال فقط", en: "Determining north only", fr: "Déterminer seulement le nord" },
-                        correct: false
-                    },
-                    {
-                        id: "B", 
-                        text: { ar: "قياس اتجاه وميول الطبقات", en: "Measuring strike and dip of layers", fr: "Mesurer la direction et l'inclinaison des couches" },
-                        correct: true
-                    },
-                    {
-                        id: "C",
-                        text: { ar: "قياس عمق الآبار", en: "Measuring well depth", fr: "Mesurer la profondeur des puits" },
-                        correct: false
-                    }
-                ],
-                explanation: {
-                    ar: "البوصلة الجيولوجية مصممة خصيصاً لقياس اتجاه الطبقات (Strike) وميولها (Dip) بدقة",
-                    en: "The geological compass is specifically designed to accurately measure the strike (direction) and dip (inclination) of rock layers",
-                    fr: "La boussole géologique est spécialement conçue pour mesurer avec précision la direction (strike) et l'inclinaison (dip) des couches rocheuses"
-                }
             }
         ];
     }
 
-    // عرض الكويزات في الشبكة
     renderQuizzes() {
         const container = document.getElementById('quizzes-container');
         if (!container) {
@@ -434,7 +244,8 @@ class GeoLearnApp {
         console.log('🎯 Rendering quizzes:', this.quizzes.length);
         
         container.innerHTML = this.quizzes.map(quiz => `
-            <div class="quiz-card ${quiz.isDaily ? 'daily-quiz' : ''}" onclick="app.startQuiz('${quiz.id}')">
+            <div class="quiz-card ${quiz.isDaily ? 'daily-quiz' : ''}" 
+                 data-quiz-id="${quiz.id}">
                 ${quiz.isDaily ? '<div class="daily-badge">اليومي</div>' : ''}
                 <div class="quiz-icon">${quiz.icon}</div>
                 <h3 class="quiz-title">${quiz.name[this.currentLanguage] || quiz.name.ar}</h3>
@@ -446,6 +257,28 @@ class GeoLearnApp {
                 ${quiz.isDaily && this.dailyQuizPlayed ? '<div style="color: var(--accent-color); margin-top: 10px;">✔️ تم اللعب اليوم</div>' : ''}
             </div>
         `).join('');
+
+        this.setupQuizClickHandlers();
+    }
+
+    setupQuizClickHandlers() {
+        const quizCards = document.querySelectorAll('.quiz-card');
+        let isProcessing = false;
+        
+        quizCards.forEach(card => {
+            card.addEventListener('click', (e) => {
+                if (isProcessing) return;
+                isProcessing = true;
+                
+                const quizId = card.getAttribute('data-quiz-id');
+                this.soundManager.play('click');
+                
+                setTimeout(() => {
+                    this.startQuiz(quizId);
+                    isProcessing = false;
+                }, 150);
+            });
+        });
     }
 
     getLevelText(level) {
@@ -457,9 +290,7 @@ class GeoLearnApp {
         return levels[level] || level;
     }
 
-    // بدء كويز
     async startQuiz(quizId) {
-        this.soundManager.play('click');
         this.currentQuiz = this.quizzes.find(q => q.id === quizId);
         
         if (!this.currentQuiz) {
@@ -467,7 +298,6 @@ class GeoLearnApp {
             return;
         }
 
-        // التحقق من الكويز اليومي
         if (this.currentQuiz.isDaily && this.dailyQuizPlayed) {
             alert('لقد لعبت الكويز اليومي بالفعل! عد غداً 🎯');
             return;
@@ -478,6 +308,7 @@ class GeoLearnApp {
         this.score = 0;
         this.quizStartTime = new Date();
         this.isAnswerRevealed = false;
+        this.isProcessingSelection = false;
         
         this.showQuizScreen();
         this.showQuestion();
@@ -526,20 +357,23 @@ class GeoLearnApp {
         `;
     }
 
-    // مؤقت السؤال (15 ثانية) - الكود المصحح
     startQuestionTimer() {
-        // ⬇️⬇️⬇️ التصحيح: إيقاف أي مؤقت سابق أولاً
         this.stopQuestionTimer();
         
         this.timeLeft = 15;
         this.updateQuestionTimer();
+        this.lastTimerSound = 0;
         
         this.questionTimer = setInterval(() => {
             this.timeLeft--;
             this.updateQuestionTimer();
             
-            if (this.timeLeft <= 5) {
-                this.soundManager.play('timer');
+            if (this.timeLeft <= 5 && this.timeLeft > 0) {
+                const now = Date.now();
+                if (now - this.lastTimerSound >= 1000) {
+                    this.soundManager.play('timer');
+                    this.lastTimerSound = now;
+                }
             }
             
             if (this.timeLeft <= 0) {
@@ -560,10 +394,8 @@ class GeoLearnApp {
         this.stopQuestionTimer();
         this.isAnswerRevealed = true;
         
-        // إظهار الإجابة الصحيحة
         this.revealCorrectAnswer();
         
-        // الانتقال للسؤال التالي بعد 2 ثانية
         setTimeout(() => {
             if (this.currentQuestionIndex < this.currentQuiz.questions.length - 1) {
                 this.nextQuestion();
@@ -593,9 +425,9 @@ class GeoLearnApp {
     }
 
     showQuestion() {
-        // ⬇️⬇️⬇️ التصحيح: إيقاف المؤقت قبل عرض السؤال الجديد
         this.stopQuestionTimer();
         this.isAnswerRevealed = false;
+        this.isProcessingSelection = false;
         this.timeLeft = 15;
         
         const question = this.currentQuiz.questions[this.currentQuestionIndex];
@@ -623,10 +455,11 @@ class GeoLearnApp {
     }
 
     selectOption(optionId) {
-        if (this.isAnswerRevealed) return;
+        if (this.isAnswerRevealed || this.isProcessingSelection) return;
         
+        this.isProcessingSelection = true;
         this.soundManager.play('click');
-        // ⬇️⬇️⬇️ التصحيح: إيقاف المؤقت فور اختيار الإجابة
+        
         this.stopQuestionTimer();
         this.isAnswerRevealed = true;
         
@@ -634,7 +467,6 @@ class GeoLearnApp {
         const selectedOption = question.options.find(opt => opt.id === optionId);
         const correctOption = question.options.find(opt => opt.correct);
         
-        // تلوين جميع الخيارات
         document.querySelectorAll('.option').forEach(opt => {
             const optId = opt.getAttribute('data-option-id');
             if (optId === correctOption.id) {
@@ -644,19 +476,20 @@ class GeoLearnApp {
             }
         });
         
-        // حفظ الإجابة
         this.userAnswers[this.currentQuestionIndex] = optionId;
         
-        // تحديث النقاط
-        if (selectedOption.correct) {
-            this.soundManager.play('correct');
-            this.score++;
-            this.updateScore();
-        } else {
-            this.soundManager.play('wrong');
-        }
+        setTimeout(() => {
+            if (selectedOption.correct) {
+                this.soundManager.play('correct');
+                this.score++;
+                this.updateScore();
+            } else {
+                this.soundManager.play('wrong');
+            }
+            
+            this.isProcessingSelection = false;
+        }, 300);
         
-        // الانتقال التلقائي بعد 2 ثانية
         setTimeout(() => {
             if (this.currentQuestionIndex < this.currentQuiz.questions.length - 1) {
                 this.nextQuestion();
@@ -674,21 +507,35 @@ class GeoLearnApp {
     }
 
     nextQuestion() {
+        if (this.isProcessingClick) return;
+        this.isProcessingClick = true;
+        
         this.soundManager.play('click');
-        if (this.currentQuestionIndex < this.currentQuiz.questions.length - 1) {
-            this.currentQuestionIndex++;
-            this.showQuestion();
-        } else {
-            this.finishQuiz();
-        }
+        
+        setTimeout(() => {
+            if (this.currentQuestionIndex < this.currentQuiz.questions.length - 1) {
+                this.currentQuestionIndex++;
+                this.showQuestion();
+            } else {
+                this.finishQuiz();
+            }
+            this.isProcessingClick = false;
+        }, 150);
     }
 
     previousQuestion() {
+        if (this.isProcessingClick) return;
+        this.isProcessingClick = true;
+        
         this.soundManager.play('click');
-        if (this.currentQuestionIndex > 0) {
-            this.currentQuestionIndex--;
-            this.showQuestion();
-        }
+        
+        setTimeout(() => {
+            if (this.currentQuestionIndex > 0) {
+                this.currentQuestionIndex--;
+                this.showQuestion();
+            }
+            this.isProcessingClick = false;
+        }, 150);
     }
 
     updateNavigation() {
@@ -700,7 +547,6 @@ class GeoLearnApp {
         if (nextBtn) nextBtn.style.display = this.currentQuestionIndex === this.currentQuiz.questions.length - 1 ? 'none' : 'block';
         if (submitBtn) submitBtn.style.display = this.currentQuestionIndex === this.currentQuiz.questions.length - 1 ? 'block' : 'none';
         
-        // تحديث رقم السؤال الحالي
         const currentQuestionElement = document.getElementById('current-question');
         if (currentQuestionElement) {
             currentQuestionElement.textContent = this.currentQuestionIndex + 1;
@@ -735,7 +581,6 @@ class GeoLearnApp {
         const finalScore = this.calculateScore();
         const timeSpent = Math.floor((new Date() - this.quizStartTime) / 1000);
         
-        // تحديث الكويز اليومي إذا كان daily
         if (this.currentQuiz.isDaily) {
             this.dailyQuizPlayed = true;
             localStorage.setItem('daily-quiz-played', 'true');
@@ -750,7 +595,6 @@ class GeoLearnApp {
         const passingScore = this.currentQuiz.passing_score || 70;
         const passed = percentage >= passingScore;
         
-        // تشغيل صوت النجاح
         if (passed) {
             this.soundManager.play('perfect');
         }
@@ -787,17 +631,31 @@ class GeoLearnApp {
     }
 
     restartQuiz() {
+        if (this.isProcessingClick) return;
+        this.isProcessingClick = true;
+        
         this.soundManager.play('click');
-        this.startQuiz(this.currentQuiz.id);
+        
+        setTimeout(() => {
+            this.startQuiz(this.currentQuiz.id);
+            this.isProcessingClick = false;
+        }, 150);
     }
 
     exitQuiz() {
+        if (this.isProcessingClick) return;
+        this.isProcessingClick = true;
+        
         this.soundManager.play('click');
-        this.stopQuestionTimer();
-        document.getElementById('quiz-screen').classList.add('hidden');
-        document.querySelector('.main-container').classList.remove('hidden');
-        this.renderQuizzes(); // تحديث العرض بعد الخروج
-        this.currentQuiz = null;
+        
+        setTimeout(() => {
+            this.stopQuestionTimer();
+            document.getElementById('quiz-screen').classList.add('hidden');
+            document.querySelector('.main-container').classList.remove('hidden');
+            this.renderQuizzes();
+            this.currentQuiz = null;
+            this.isProcessingClick = false;
+        }, 150);
     }
 
     saveProgress(score) {
@@ -814,31 +672,49 @@ class GeoLearnApp {
     }
 
     setupEventListeners() {
-        // تبديل اللغة
         const languageSelect = document.getElementById('language-select');
         if (languageSelect) {
             languageSelect.addEventListener('change', (e) => {
+                if (this.isProcessingClick) return;
+                this.isProcessingClick = true;
+                
                 this.soundManager.play('click');
                 this.currentLanguage = e.target.value;
                 this.renderQuizzes();
+                
+                setTimeout(() => {
+                    this.isProcessingClick = false;
+                }, 300);
             });
         }
 
-        // تبديل الثيم
         const themeToggle = document.getElementById('theme-toggle');
         if (themeToggle) {
             themeToggle.addEventListener('click', () => {
+                if (this.isProcessingClick) return;
+                this.isProcessingClick = true;
+                
                 this.soundManager.play('click');
                 this.toggleTheme();
+                
+                setTimeout(() => {
+                    this.isProcessingClick = false;
+                }, 300);
             });
         }
 
-        // التنقل بين الصفحات
         document.querySelectorAll('.nav-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
+                if (this.isProcessingClick) return;
+                this.isProcessingClick = true;
+                
                 this.soundManager.play('click');
                 const page = e.currentTarget.getAttribute('data-page');
                 this.navigateTo(page);
+                
+                setTimeout(() => {
+                    this.isProcessingClick = false;
+                }, 300);
             });
         });
     }
@@ -873,11 +749,9 @@ class GeoLearnApp {
     }
 
     loadUserPreferences() {
-        // تحميل الثيم
         const savedTheme = localStorage.getItem('preferred-theme') || 'light';
         document.documentElement.setAttribute('data-theme', savedTheme);
 
-        // تحميل اللغة
         const savedLanguage = localStorage.getItem('preferred-language') || 'ar';
         this.currentLanguage = savedLanguage;
         const languageSelect = document.getElementById('language-select');
@@ -887,14 +761,13 @@ class GeoLearnApp {
     }
 }
 
-// تهيئة التطبيق عند تحميل الصفحة
+// تهيئة التطبيق
 let app;
 document.addEventListener('DOMContentLoaded', () => {
     app = new GeoLearnApp();
     window.app = app;
 });
 
-// وظائف مساعدة global
 function startQuiz(quizId) {
     if (window.app) {
         window.app.startQuiz(quizId);
