@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GeoLearn - منصة تعلم الجيولوجيا</title>
-    <link rel="stylesheet" href="src/css/main.css">
+    <link rel="stylesheet" href="main.css">
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#2c3e50">
 </head>
@@ -35,8 +35,8 @@
         <!-- Hero Section -->
         <section class="hero-section">
             <div class="hero-content">
-                <h1 class="app-title" data-i18n="app.title">GeoLearn - منصة تعلم الجيولوجيا</h1>
-                <p class="app-subtitle" data-i18n="app.subtitle">منصة متكاملة لتعلم الجيولوجيا</p>
+                <h1 class="app-title">GeoLearn - منصة تعلم الجيولوجيا</h1>
+                <p class="app-subtitle">منصة متكاملة لتعلم الجيولوجيا</p>
                 <div class="hero-stats">
                     <div class="stat-item">
                         <span class="stat-number">10</span>
@@ -57,7 +57,7 @@
         <!-- 📊 تقدم المستخدم -->
         <section class="progress-section">
             <div class="section-header">
-                <h2 data-i18n="navigation.progress">تقدمك</h2>
+                <h2>تقدمك</h2>
             </div>
             <div class="progress-stats">
                 <div class="stat-card">
@@ -81,7 +81,7 @@
         <!-- 🎯 شبكة الكويزات -->
         <section class="quizzes-section">
             <div class="section-header">
-                <h2 data-i18n="navigation.quizzes">الكويزات</h2>
+                <h2>الكويزات</h2>
                 <p class="section-subtitle">اختر كويزاً للبدء في رحلة التعلم</p>
             </div>
             
@@ -116,19 +116,19 @@
     <nav class="bottom-nav">
         <button class="nav-btn active" data-page="home">
             <span class="nav-icon">🏠</span>
-            <span class="nav-label" data-i18n="navigation.home">الرئيسية</span>
+            <span class="nav-label">الرئيسية</span>
         </button>
         <button class="nav-btn" data-page="quizzes">
             <span class="nav-icon">🎯</span>
-            <span class="nav-label" data-i18n="navigation.quizzes">الكويزات</span>
+            <span class="nav-label">الكويزات</span>
         </button>
         <button class="nav-btn" data-page="progress">
             <span class="nav-icon">📊</span>
-            <span class="nav-label" data-i18n="navigation.progress">التقدم</span>
+            <span class="nav-label">التقدم</span>
         </button>
         <button class="nav-btn" data-page="settings">
             <span class="nav-icon">⚙️</span>
-            <span class="nav-label" data-i18n="navigation.settings">الإعدادات</span>
+            <span class="nav-label">الإعدادات</span>
         </button>
     </nav>
 
@@ -143,8 +143,6 @@
     </div>
 
     <!-- JavaScript -->
-    <script src="src/js/languageManager.js"></script>
-    <script src="src/js/quizEngine.js"></script>
-    <script src="src/js/main.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>
