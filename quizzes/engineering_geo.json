@@ -20,7 +20,6 @@
         "en": "What is the main objective of engineering geology?",
         "fr": "Quel est l'objectif principal de la géologie de l'ingénieur?"
       },
-      "image": "images/diagrams/geological_section.jpg",
       "options": [
         {
           "id": "A",
@@ -46,8 +45,800 @@
         "en": "Engineering geology focuses on understanding the behavior of geological materials and their impact on engineering structures like dams, bridges and buildings",
         "fr": "La géologie de l'ingénieur se concentre sur la compréhension du comportement des matériaux géologiques et leur impact sur les structures d'ingénierie comme les barrages, les ponts et les bâtiments"
       }
+    },
+    {
+      "id": 2,
+      "question": {
+        "ar": "ما هي الخواص الهندسية الرئيسية للصخور؟",
+        "en": "What are the main engineering properties of rocks?",
+        "fr": "Quelles sont les principales propriétés d'ingénierie des roches?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "المقاومة، الصلابة، المتانة، النفاذية",
+            "en": "Strength, hardness, durability, permeability",
+            "fr": "Résistance, dureté, durabilité, perméabilité"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "اللون واللمعان فقط",
+            "en": "Only color and luster",
+            "fr": "Seulement la couleur et l'éclat"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تحدد الخواص الميكانيكية والفيزيائية للصخور مدى ملاءمتها لأغراض الإنشاءات والتأسيس",
+        "en": "The mechanical and physical properties of rocks determine their suitability for construction and foundation purposes",
+        "fr": "Les propriétés mécaniques et physiques des roches déterminent leur adéquation pour la construction et les fondations"
+      }
+    },
+    {
+      "id": 3,
+      "question": {
+        "ar": "ما هو اختبار الضغط الأحادي المحور المستخدم لقياس؟",
+        "en": "What does the uniaxial compression test measure?",
+        "fr": "Que mesure l'essai de compression uniaxiale?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "مقاومة الصخور للضغط",
+            "en": "Rock compressive strength",
+            "fr": "Résistance à la compression des roches"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "مرونة الصخور فقط",
+            "en": "Only rock elasticity",
+            "fr": "Seulement l'élasticité des roches"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يحدد اختبار الضغط الأحادي المحور أقصى إجهاد ضغط تتحمله العينة الصخرية قبل الانهيار",
+        "en": "The uniaxial compression test determines the maximum compressive stress a rock sample can withstand before failure",
+        "fr": "L'essai de compression uniaxiale détermine la contrainte de compression maximale qu'un échantillon de roche peut supporter avant la rupture"
+      }
+    },
+    {
+      "id": 4,
+      "question": {
+        "ar": "ما هي أنواع الأساسات المناسبة للتربة الضعيفة؟",
+        "en": "What types of foundations are suitable for weak soils?",
+        "fr": "Quels types de fondations sont adaptés aux sols faibles?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "الأساسات العميقة والخوازيق",
+            "en": "Deep foundations and piles",
+            "fr": "Fondations profondes et pieux"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "الأساسات السطحية فقط",
+            "en": "Only shallow foundations",
+            "fr": "Seulement les fondations superficielles"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تستخدم الأساسات العميقة لنقل أحمال المنشآت إلى طبقات التربة أو الصخور الأكثر قدرة على التحمل",
+        "en": "Deep foundations are used to transfer structural loads to more competent soil or rock layers",
+        "fr": "Les fondations profondes sont utilisées pour transférer les charges structurelles vers des couches de sol ou de roche plus compétentes"
+      }
+    },
+    {
+      "id": 5,
+      "question": {
+        "ar": "ما هو الغرض من دراسات استقرار المنحدرات؟",
+        "en": "What is the purpose of slope stability studies?",
+        "fr": "Quel est le but des études de stabilité des pentes?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "منع انهيارات المنحدرات والانزلاقات الأرضية",
+            "en": "Preventing slope failures and landslides",
+            "fr": "Prévenir les ruptures de pentes et les glissements de terrain"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "تحديد لون التربة فقط",
+            "en": "Only determining soil color",
+            "fr": "Seulement déterminer la couleur du sol"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تهدف هذه الدراسات إلى تحليل العوامل المؤثرة على استقرار المنحدرات وتصميم تدابير التحسين اللازمة",
+        "en": "These studies aim to analyze factors affecting slope stability and design necessary improvement measures",
+        "fr": "Ces études visent à analyser les facteurs affectant la stabilité des pentes et à concevoir les mesures d'amélioration nécessaires"
+      }
+    },
+    {
+      "id": 6,
+      "question": {
+        "ar": "ما هي العوامل المؤثرة على انهيار المنحدرات؟",
+        "en": "What factors influence slope failure?",
+        "fr": "Quels facteurs influencent la rupture des pentes?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "الميل، نوع الصخور، المياه الجوفية، الزلازل",
+            "en": "Slope angle, rock type, groundwater, earthquakes",
+            "fr": "Angle de pente, type de roche, eaux souterraines, séismes"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "لون الصخور فقط",
+            "en": "Only rock color",
+            "fr": "Seulement la couleur des roches"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تتفاعل عوامل جيولوجية وهيدرولوجية وزلزالية لتحديد مدى استقرار المنحدرات",
+        "en": "Geological, hydrological and seismic factors interact to determine slope stability",
+        "fr": "Les facteurs géologiques, hydrologiques et sismiques interagissent pour déterminer la stabilité des pentes"
+      }
+    },
+    {
+      "id": 7,
+      "question": {
+        "ar": "ما هو نظام تصنيف الجيوميكانيك RMR؟",
+        "en": "What is the RMR geomechanical classification system?",
+        "fr": "Qu'est-ce que le système de classification géomécanique RMR?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "تقييم كتلة الصخور للإنشاءات تحت الأرضية",
+            "en": "Rock mass rating for underground constructions",
+            "fr": "Classement des massifs rocheux pour les constructions souterraines"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "تصنيف ألوان الصخور",
+            "en": "Rock color classification",
+            "fr": "Classification des couleurs des roches"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يستخدم نظام RMR لتقييم جودة كتلة الصخور وتصميم الدعامات في الأنفاق والمنشآت تحت الأرضية",
+        "en": "The RMR system is used to assess rock mass quality and design supports in tunnels and underground structures",
+        "fr": "Le système RMR est utilisé pour évaluer la qualité des massifs rocheux et concevoir les soutènements dans les tunnels et structures souterraines"
+      }
+    },
+    {
+      "id": 8,
+      "question": {
+        "ar": "ما هي المخاطر الجيولوجية الرئيسية في المشاريع الهندسية؟",
+        "en": "What are the main geological hazards in engineering projects?",
+        "fr": "Quels sont les principaux aléas géologiques dans les projets d'ingénierie?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "الزلازل، الانهيارات، الهبوط، الانسياب",
+            "en": "Earthquakes, landslides, subsidence, liquefaction",
+            "fr": "Séismes, glissements de terrain, affaissements, liquéfaction"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "تغير اللون فقط",
+            "en": "Only color changes",
+            "fr": "Seulement les changements de couleur"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تشكل هذه المخاطر تهديدات كبيرة لسلامة المنشآت وتتطلب تقييماً دقيقاً وتدابير وقائية",
+        "en": "These hazards pose significant threats to structural safety and require careful assessment and preventive measures",
+        "fr": "Ces aléas posent des menaces importantes pour la sécurité structurelle et nécessitent une évaluation minutieuse et des mesures préventives"
+      }
+    },
+    {
+      "id": 9,
+      "question": {
+        "ar": "ما هو تأثير المياه الجوفية على استقرار المنشآت؟",
+        "en": "What is the effect of groundwater on structural stability?",
+        "fr": "Quel est l'effet des eaux souterraines sur la stabilité structurelle?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "تقليل مقاومة التربة وزيادة الضغوط",
+            "en": "Reducing soil strength and increasing pressures",
+            "fr": "Réduire la résistance du sol et augmenter les pressions"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "تحسين اللون فقط",
+            "en": "Only improving color",
+            "fr": "Seulement améliorer la couleur"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تؤثر المياه الجوفية على خواص التربة الميكانيكية وتسبب ضغوطاً محورية تؤثر على استقرار الأساسات",
+        "en": "Groundwater affects soil mechanical properties and causes pore pressures that impact foundation stability",
+        "fr": "Les eaux souterraines affectent les propriétés mécaniques du sol et causent des pressions interstitielles qui impactent la stabilité des fondations"
+      }
+    },
+    {
+      "id": 10,
+      "question": {
+        "ar": "ما هي طرق تحسين خواص التربة للإنشاءات؟",
+        "en": "What are the methods for improving soil properties for construction?",
+        "fr": "Quelles sont les méthodes pour améliorer les propriétés du sol pour la construction?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "الدك، التثبيت، الحقن، الخوازيق",
+            "en": "Compaction, stabilization, grouting, piles",
+            "fr": "Compactage, stabilisation, injection, pieux"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "تغيير اللون فقط",
+            "en": "Only changing color",
+            "fr": "Seulement changer la couleur"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تهدف هذه الطرق إلى زيادة قدرة تحمل التربة وتقليل الهبوط وتحسين الخواص الميكانيكية",
+        "en": "These methods aim to increase soil bearing capacity, reduce settlement and improve mechanical properties",
+        "fr": "Ces méthodes visent à augmenter la capacité portante du sol, réduire le tassement et améliorer les propriétés mécaniques"
+      }
+    },
+    {
+      "id": 11,
+      "question": {
+        "ar": "ما هو اختبار الاختراق القياسي SPT؟",
+        "en": "What is the Standard Penetration Test SPT?",
+        "fr": "Qu'est-ce que l'essai de pénétration standard SPT?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "اختبار ميداني لتحديد خواص التربة",
+            "en": "Field test to determine soil properties",
+            "fr": "Essai sur site pour déterminer les propriétés du sol"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "اختبار لون التربة فقط",
+            "en": "Only soil color test",
+            "fr": "Seulement test de couleur du sol"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يستخدم اختبار SPT لتحديد مقاومة التربة للقص وكثافتها من خلال قعدد الضربات اللازمة لاختراق العينة",
+        "en": "The SPT test is used to determine soil shear strength and density by counting blows needed to penetrate the sample",
+        "fr": "L'essai SPT est utilisé pour déterminer la résistance au cisaillement et la densité du sol en comptant les coups nécessaires pour pénétrer l'échantillon"
+      }
+    },
+    {
+      "id": 12,
+      "question": {
+        "ar": "ما هي أنواع الهبوط في التربة؟",
+        "en": "What are the types of soil settlement?",
+        "fr": "Quels sont les types de tassement du sol?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "هبوط فوري، هبوط تصلبي، هبوط ثانوي",
+            "en": "Immediate settlement, consolidation settlement, secondary settlement",
+            "fr": "Tassement immédiat, tassement de consolidation, tassement secondaire"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "هبوط اللون فقط",
+            "en": "Only color settlement",
+            "fr": "Seulement tassement de couleur"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يحدث الهبوط الفوري فور التحميل، بينما يحدث الهبوط التصلبي ببطء بسبب خروج المياه، والثانوي بسبب الزحف",
+        "en": "Immediate settlement occurs upon loading, consolidation settlement occurs slowly due to water drainage, and secondary due to creep",
+        "fr": "Le tassement immédiat se produit lors du chargement, le tassement de consolidation se produit lentement due au drainage de l'eau, et le secondaire due au fluage"
+      }
+    },
+    {
+      "id": 13,
+      "question": {
+        "ar": "ما هو تحليل الانسيابية في التربة؟",
+        "en": "What is liquefaction analysis in soils?",
+        "fr": "Qu'est-ce que l'analyse de liquéfaction dans les sols?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "دراسة فقدان التربة لمقاومتها أثناء الزلازل",
+            "en": "Studying soil strength loss during earthquakes",
+            "fr": "Étudier la perte de résistance du sol pendant les séismes"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "تحليل لون التربة فقط",
+            "en": "Only soil color analysis",
+            "fr": "Seulement analyse de la couleur du sol"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يحدث الانسيابية عندما تفقد التربة المشبعة بالماء مقاومتها وتتصرف كسائل تحت تأثير الاهتزازات",
+        "en": "Liquefaction occurs when saturated soils lose strength and behave like liquid under vibration",
+        "fr": "La liquéfaction se produit lorsque les sols saturés perdent leur résistance et se comportent comme un liquide sous vibration"
+      }
+    },
+    {
+      "id": 14,
+      "question": {
+        "ar": "ما هي العوامل المؤثرة على قدرة تحمل التربة؟",
+        "en": "What factors affect soil bearing capacity?",
+        "fr": "Quels facteurs affectent la capacité portante du sol?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "التماسك، زاوية الاحتكاك، العمق، الشكل",
+            "en": "Cohesion, friction angle, depth, shape",
+            "fr": "Cohésion, angle de frottement, profondeur, forme"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "لون التربة فقط",
+            "en": "Only soil color",
+            "fr": "Seulement la couleur du sol"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تحدد الخواص الميكانيكية للتربة وأبعاد الأساس وشكله أقصى حمل يمكن للأساس تحمله دون هبوط",
+        "en": "Soil mechanical properties and foundation dimensions/shape determine the maximum load a foundation can carry without settlement",
+        "fr": "Les propriétés mécaniques du sol et les dimensions/forme de la fondation déterminent la charge maximale qu'une fondation peut porter sans tassement"
+      }
+    },
+    {
+      "id": 15,
+      "question": {
+        "ar": "ما هو دور الجيولوجيا في تخطيط الطرق والأنفاق؟",
+        "en": "What is the role of geology in road and tunnel planning?",
+        "fr": "Quel est le rôle de la géologie dans la planification des routes et tunnels?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "تحديد المسارات الآمنة وتصميم الدعامات",
+            "en": "Determining safe routes and designing supports",
+            "fr": "Déterminer les tracés sûrs et concevoir les soutènements"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "اختيار ألوان الطرق فقط",
+            "en": "Only selecting road colors",
+            "fr": "Seulement sélectionner les couleurs des routes"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يساعد التقييم الجيولوجي في تجنب المناطق الخطرة وتصميم أنظمة الدعم المناسبة للأنفاق والقطع الصخرية",
+        "en": "Geological assessment helps avoid hazardous areas and design appropriate support systems for tunnels and rock cuts",
+        "fr": "L'évaluation géologique aide à éviter les zones dangereuses et à concevoir des systèmes de support appropriés pour les tunnels et les coupes rocheuses"
+      }
+    },
+    {
+      "id": 16,
+      "question": {
+        "ar": "ما هي طرق التحقيق الجيوتقنية؟",
+        "en": "What are geotechnical investigation methods?",
+        "fr": "Quelles sont les méthodes d'investigation géotechnique?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "الحفر، الاختبارات الميدانية، المسح الجيوفيزيائي",
+            "en": "Drilling, field tests, geophysical surveying",
+            "fr": "Forage, essais sur site, levé géophysique"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "مراقبة اللون فقط",
+            "en": "Only color observation",
+            "fr": "Seulement observation de la couleur"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تجمع هذه الطرق بيانات عن طبقات التربة والصخور وخصائصها للمساعدة في التصميم الهندسي",
+        "en": "These methods collect data on soil and rock layers and their properties to assist in engineering design",
+        "fr": "Ces méthodes collectent des données sur les couches de sol et de roche et leurs propriétés pour aider à la conception technique"
+      }
+    },
+    {
+      "id": 17,
+      "question": {
+        "ar": "ما هو نظام تصنيف Q للصخور؟",
+        "en": "What is the Q-system for rock classification?",
+        "fr": "Qu'est-ce que le système Q pour la classification des roches?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "نظام لتقييم جودة كتلة الصخور للأنفاق",
+            "en": "System for assessing rock mass quality for tunnels",
+            "fr": "Système pour évaluer la qualité des massifs rocheux pour les tunnels"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "تصنيف جودة الألوان",
+            "en": "Color quality classification",
+            "fr": "Classification de la qualité des couleurs"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يستخدم نظام Q ستة معايير لتقييم كتلة الصخور وتصميم دعامات الأنفاق تحت الأرضية",
+        "en": "The Q-system uses six parameters to assess rock mass and design underground tunnel supports",
+        "fr": "Le système Q utilise six paramètres pour évaluer le massif rocheux et concevoir les soutènements des tunnels souterrains"
+      }
+    },
+    {
+      "id": 18,
+      "question": {
+        "ar": "ما هي مشاكل التأسيس في التربة الانتفاخية؟",
+        "en": "What are foundation problems in expansive soils?",
+        "fr": "Quels sont les problèmes de fondation dans les sols gonflants?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "تغير الحجم مع الرطوبة causing cracking",
+            "en": "Volume changes with moisture causing cracking",
+            "fr": "Changements de volume avec l'humidité causant des fissures"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "تغير اللون فقط",
+            "en": "Only color changes",
+            "fr": "Seulement changements de couleur"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تتمدد التربة الانتفاخية عند امتصاص الماء وتنكمش عند الجفاف مسببة تشققات في المنشآت",
+        "en": "Expansive soils swell when absorbing water and shrink when drying, causing cracks in structures",
+        "fr": "Les sols gonflants se dilatent en absorbant l'eau et se contractent en séchant, causant des fissures dans les structures"
+      }
+    },
+    {
+      "id": 19,
+      "question": {
+        "ar": "ما هو تحليل الاستقرار باستخدام طريقة شرائح فيشمان؟",
+        "en": "What is stability analysis using Fellenius method?",
+        "fr": "Qu'est-ce que l'analyse de stabilité utilisant la méthode de Fellenius?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "طريقة لتحليل استقرار المنحدرات",
+            "en": "Method for analyzing slope stability",
+            "fr": "Méthode pour analyser la stabilité des pentes"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "طريقة لتحليل الألوان",
+            "en": "Method for color analysis",
+            "fr": "Méthode pour l'analyse des couleurs"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تقسم طريقة شرائح فيشمان المنحدر إلى شرائح وتحسب معامل الأمان ضد الانزلاق",
+        "en": "Fellenius slice method divides the slope into slices and calculates the safety factor against sliding",
+        "fr": "La méthode des tranches de Fellenius divise la pente en tranches et calcule le coefficient de sécurité contre le glissement"
+      }
+    },
+    {
+      "id": 20,
+      "question": {
+        "ar": "ما هي أنواع الدعامات في الأنفاق؟",
+        "en": "What are the types of supports in tunnels?",
+        "fr": "Quels sont les types de soutènements dans les tunnels?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "مساند صخرية، مرشات خرسانية، قوس فولاذي",
+            "en": "Rock bolts, shotcrete, steel arches",
+            "fr": "Boulons rocheux, béton projeté, cintres en acier"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "طلاء الألوان فقط",
+            "en": "Only color painting",
+            "fr": "Seulement peinture de couleur"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تستخدم أنظمة دعم مختلفة حسب ظروف الصخور لضمان استقرار النفق أثناء وبعد الإنشاء",
+        "en": "Different support systems are used depending on rock conditions to ensure tunnel stability during and after construction",
+        "fr": "Différents systèmes de support sont utilisés selon les conditions rocheuses pour assurer la stabilité du tunnel pendant et après la construction"
+      }
+    },
+    {
+      "id": 21,
+      "question": {
+        "ar": "ما هو تأثير التجوية على خواص الصخور الهندسية؟",
+        "en": "What is the effect of weathering on rock engineering properties?",
+        "fr": "Quel est l'effet de l'altération sur les propriétés d'ingénierie des roches?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "تقليل المقاومة وزيادة النفاذية",
+            "en": "Reducing strength and increasing permeability",
+            "fr": "Réduire la résistance et augmenter la perméabilité"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "تحسين اللون فقط",
+            "en": "Only improving color",
+            "fr": "Seulement améliorer la couleur"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تؤدي التجوية إلى تدهور الخواص الميكانيكية للصخور مما يؤثر على قدرة تحملها واستقرار المنشآت",
+        "en": "Weathering deteriorates rock mechanical properties, affecting their bearing capacity and structural stability",
+        "fr": "L'altération détériore les propriétés mécaniques des roches, affectant leur capacité portante et la stabilité structurelle"
+      }
+    },
+    {
+      "id": 22,
+      "question": {
+        "ar": "ما هي معايير اختيار موقع السدود؟",
+        "en": "What are the criteria for dam site selection?",
+        "fr": "Quels sont les critères pour la sélection des sites de barrages?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "الجيولوجيا، الطبوغرافيا، الهيدرولوجيا، الزلازل",
+            "en": "Geology, topography, hydrology, seismicity",
+            "fr": "Géologie, topographie, hydrologie, sismicité"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "لون الصخور فقط",
+            "en": "Only rock color",
+            "fr": "Seulement la couleur des roches"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يجب أن تتوفر في موقع السد ظروف جيولوجية مناسبة ومقاومة للتسرب واستقرار ضد الزلازل",
+        "en": "Dam sites must have suitable geological conditions, resistance to seepage and stability against earthquakes",
+        "fr": "Les sites de barrages doivent avoir des conditions géologiques appropriées, une résistance à l'infiltration et une stabilité contre les séismes"
+      }
+    },
+    {
+      "id": 23,
+      "question": {
+        "ar": "ما هو اختبار الضغط ثلاثي المحاور؟",
+        "en": "What is the triaxial compression test?",
+        "fr": "Qu'est-ce que l'essai de compression triaxiale?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "اختبار لتحديد خواص مقاومة التربة تحت ضغط محصور",
+            "en": "Test to determine soil strength properties under confining pressure",
+            "fr": "Essai pour déterminer les propriétés de résistance du sol sous pression de confinement"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "اختبار لون التربة فقط",
+            "en": "Only soil color test",
+            "fr": "Seulement test de couleur du sol"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يوفر اختبار الضغط ثلاثي المحاور بيانات شاملة عن مقاومة القص ومعامل المرونة للتربة تحت ظروف ضغط مختلفة",
+        "en": "The triaxial test provides comprehensive data on soil shear strength and elasticity modulus under different pressure conditions",
+        "fr": "L'essai triaxial fournit des données complètes sur la résistance au cisaillement et le module d'élasticité du sol sous différentes conditions de pression"
+      }
+    },
+    {
+      "id": 24,
+      "question": {
+        "ar": "ما هي طرق التحكم في المياه الجوفية في المشاريع؟",
+        "en": "What are groundwater control methods in projects?",
+        "fr": "Quelles sont les méthodes de contrôle des eaux souterraines dans les projets?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "الضخ، الحقن، الحواجز، التجفيف",
+            "en": "Pumping, grouting, barriers, dewatering",
+            "fr": "Pompage, injection, barrières, assèchement"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "تغيير اللون فقط",
+            "en": "Only changing color",
+            "fr": "Seulement changer la couleur"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تهدف هذه الطرق إلى خفض منسوب المياه الجوفية أو منع تسربها إلى مواقع الإنشاءات",
+        "en": "These methods aim to lower groundwater levels or prevent seepage into construction sites",
+        "fr": "Ces méthodes visent à abaisser les niveaux d'eau souterraine ou à empêcher l'infiltration dans les sites de construction"
+      }
+    },
+    {
+      "id": 25,
+      "question": {
+        "ar": "ما هو دور الجيولوجيا في تقييم المخاطر الزلزالية؟",
+        "en": "What is the role of geology in seismic risk assessment?",
+        "fr": "Quel est le rôle de la géologie dans l'évaluation du risque sismique?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "دراسة الفوالق وخصائص التربة وتضخيم الاهتزازات",
+            "en": "Studying faults, soil properties and vibration amplification",
+            "fr": "Étudier les failles, les propriétés du sol et l'amplification des vibrations"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "مراقبة ألوان الصخور فقط",
+            "en": "Only monitoring rock colors",
+            "fr": "Seulement surveiller les couleurs des roches"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يساعد التحليل الجيولوجي في تحديد المناطق المعرضة للزلازل وتصميم منشآت مقاومة للاهتزازات",
+        "en": "Geological analysis helps identify earthquake-prone areas and design vibration-resistant structures",
+        "fr": "L'analyse géologique aide à identifier les zones sujettes aux séismes et à concevoir des structures résistantes aux vibrations"
+      }
     }
   ],
-  "total_questions": 1,
+  "total_questions": 25,
   "passing_score": 80
 }
