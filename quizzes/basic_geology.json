@@ -1,0 +1,96 @@
+{
+  "id": "basic_geology",
+  "name": {
+    "ar": "الجيولوجيا الأساسية",
+    "en": "Basic Geology",
+    "fr": "Géologie de Base"
+  },
+  "description": {
+    "ar": "تعلم أساسيات علم الجيولوجيا ومكونات الأرض",
+    "en": "Learn the fundamentals of geology and Earth's components", 
+    "fr": "Apprenez les bases de la géologie et les composants de la Terre"
+  },
+  "icon": "⛰️",
+  "level": "beginner",
+  "questions": [
+    {
+      "id": 1,
+      "question": {
+        "ar": "كم عدد الصفائح التكتونية الرئيسية على الأرض؟",
+        "en": "How many major tectonic plates are there on Earth?",
+        "fr": "Combien de plaques tectoniques majeures y a-t-il sur Terre?"
+      },
+      "image": "images/diagrams/tectonic_plates.jpg",
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "7 صفائح",
+            "en": "7 plates", 
+            "fr": "7 plaques"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "12 صفيحة",
+            "en": "12 plates",
+            "fr": "12 plaques"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "هناك 7 صفائح تكتونية رئيسية: المحيط الهادئ، أمريكا الشمالية، أوراسيا، إفريقيا، القطب الجنوبي، الهندية-الأسترالية، وأمريكا الجنوبية",
+        "en": "There are 7 major tectonic plates: Pacific, North American, Eurasian, African, Antarctic, Indo-Australian, and South American",
+        "fr": "Il y a 7 plaques tectoniques majeures : Pacifique, Nord-Américaine, Eurasienne, Africaine, Antarctique, Indo-Australienne et Sud-Américaine"
+      }
+    },
+    {
+      "id": 2, 
+      "question": {
+        "ar": "ما هي الطبقة الخارجية للأرض؟",
+        "en": "What is the outermost layer of the Earth?",
+        "fr": "Quelle est la couche la plus externe de la Terre?"
+      },
+      "image": "images/diagrams/geological_layers.jpg",
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "اللب",
+            "en": "Core",
+            "fr": "Noyau"
+          },
+          "correct": false
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "الوشاح",
+            "en": "Mantle",
+            "fr": "Manteau"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "القشرة", 
+            "en": "Crust",
+            "fr": "Croûte"
+          },
+          "correct": true
+        }
+      ],
+      "explanation": {
+        "ar": "القشرة هي الطبقة الخارجية للأرض وتتراوح سماكتها بين 5-70 كم",
+        "en": "The crust is the outermost layer of the Earth, ranging from 5-70 km in thickness",
+        "fr": "La croûte est la couche la plus externe de la Terre, variant de 5 à 70 km d'épaisseur"
+      }
+    }
+  ],
+  "total_questions": 2,
+  "passing_score": 70
+}
