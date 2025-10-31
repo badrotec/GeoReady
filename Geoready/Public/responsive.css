@@ -1,0 +1,113 @@
+/* تنسيقات متجاوبة إضافية */
+
+/* شاشات كبيرة جداً */
+@media (min-width: 1400px) {
+    .main-container {
+        max-width: 1320px;
+    }
+    
+    .quizzes-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* أجهزة اللوحية */
+@media (max-width: 1024px) {
+    .quizzes-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .hero-stats {
+        gap: 1.5rem;
+    }
+}
+
+/* الهواتف الأفقية */
+@media (max-width: 768px) and (orientation: landscape) {
+    .hero-section {
+        padding: 1.5rem 1rem;
+    }
+    
+    .app-title {
+        font-size: 1.8rem;
+    }
+    
+    .bottom-nav {
+        padding: 0.3rem 0;
+    }
+}
+
+/* الهواتف الصغيرة */
+@media (max-width: 360px) {
+    .main-container {
+        padding: 0.25rem;
+    }
+    
+    .hero-section {
+        padding: 1rem 0.5rem;
+    }
+    
+    .app-title {
+        font-size: 1.5rem;
+    }
+    
+    .stat-card,
+    .quiz-card,
+    .info-card {
+        padding: 1rem;
+    }
+}
+
+/* دعم الشاشات العالية الدقة */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .quiz-icon,
+    .info-icon,
+    .stat-icon {
+        image-rendering: -webkit-optimize-contrast;
+    }
+}
+
+/* دعم وضع التوفير في الطاقة */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* دعم الوضع المظلم التلقائي */
+@media (prefers-color-scheme: dark) {
+    [data-theme="auto"] {
+        --bg-color: var(--dark-bg);
+        --text-color: var(--dark-text);
+        --card-bg: var(--dark-card);
+        --border-color: var(--dark-border);
+    }
+}
+
+/* تحسينات للقراءة */
+@media (prefers-contrast: high) {
+    :root {
+        --primary-color: #000000;
+        --secondary-color: #0000ff;
+        --success-color: #008000;
+        --warning-color: #ff0000;
+    }
+}
+
+/* تحسينات للحركة المحدودة */
+@media (prefers-reduced-motion: reduce) {
+    .quiz-card,
+    .stat-card {
+        transition: none;
+    }
+    
+    .quiz-card:hover,
+    .stat-card:hover {
+        transform: none;
+    }
+}
