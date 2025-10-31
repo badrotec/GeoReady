@@ -242,7 +242,7 @@
           "text": {
             "ar": "قدرة المادة على نقل السوائل عبر مسامها",
             "en": "The ability of a material to transmit fluids through its pores",
-            "fr": "La capacité d'un matériau à transmettre des fluides through ses pores"
+            "fr": "La capacité d'un matériau à transmettre des fluides à travers ses pores"
           },
           "correct": true
         },
@@ -371,7 +371,7 @@
           "text": {
             "ar": "قانون يصف تدفق المياه عبر الوسائط المسامية",
             "en": "A law describing water flow through porous media",
-            "fr": "Une loi décrivant l'écoulement de l'eau through les milieux poreux"
+            "fr": "Une loi décrivant l'écoulement de l'eau à travers les milieux poreux"
           },
           "correct": true
         },
@@ -455,7 +455,7 @@
         {
           "id": "A",
           "text": {
-            "ar": "المنجة حيث جميع المسام مملوءة بالماء",
+            "ar": "المنطقة حيث جميع المسام مملوءة بالماء",
             "en": "The zone where all pores are filled with water",
             "fr": "La zone où tous les pores sont remplis d'eau"
           },
@@ -464,7 +464,7 @@
         {
           "id": "B", 
           "text": {
-            "ar": "المنجة الجافة",
+            "ar": "المنطقة الجافة",
             "en": "The dry zone",
             "fr": "La zone sèche"
           },
@@ -498,7 +498,7 @@
         {
           "id": "A",
           "text": {
-            "ar": "المنجة حيث المسام تحتوي على الهواء والماء",
+            "ar": "المنطقة حيث المسام تحتوي على الهواء والماء",
             "en": "The zone where pores contain both air and water",
             "fr": "La zone où les pores contiennent à la fois air et eau"
           },
@@ -507,7 +507,7 @@
         {
           "id": "B", 
           "text": {
-            "ar": "المنجة المغمورة بالماء",
+            "ar": "المنطقة المغمورة بالماء",
             "en": "The waterlogged zone",
             "fr": "La zone inondée"
           },
@@ -655,7 +655,7 @@
       "explanation": {
         "ar": "التغذية الجوفية تحدث عندما تتسرب مياه الأمطار أو الأنهار إلى باطن الأرض لتجديد المخزون الجوفي",
         "en": "Groundwater recharge occurs when rainwater or river water infiltrates underground to replenish groundwater storage",
-        "fr": "La recharge des eaux souterraines se produit quand l'eau de pluie ou de rivière s'infiltre underground pour reconstituer le stock souterrain"
+        "fr": "La recharge des eaux souterraines se produit quand l'eau de pluie ou de rivière s'infiltre sous terre pour reconstituer le stock souterrain"
       }
     },
     {
@@ -754,7 +754,7 @@
       },
       "options": [
         {
-          "id": "id": "A",
+          "id": "A",
           "text": {
             "ar": "مياه جوفية قديمة غير متجددة",
             "en": "Ancient non-renewable groundwater",
