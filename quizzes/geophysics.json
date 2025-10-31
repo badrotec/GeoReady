@@ -266,7 +266,7 @@
         }
       ],
       "explanation": {
-        "ar": "يسمح المسح الجيوفيزيائي برسم خرائط للطبقات تحت السurface وتحديد مواقع الرواسب المعدنية والمياه",
+        "ar": "يسمح المسح الجيوفيزيائي برسم خرائط للطبقات تحت السطح وتحديد مواقع الرواسب المعدنية والمياه",
         "en": "Geophysical surveying allows mapping subsurface layers and locating mineral deposits and water resources",
         "fr": "Le levé géophysique permet de cartographier les couches sous-surface et localiser les gisements minéraux et ressources en eau"
       }
@@ -371,7 +371,7 @@
           "text": {
             "ar": "موجات زلزالية انضغاطية تنتقل في جميع الأوساط",
             "en": "Compressional seismic waves that travel through all media",
-            "fr": "Ondes sismiques de compression qui voyagent through tous les milieux"
+            "fr": "Ondes sismiques de compression qui voyagent à travers tous les milieux"
           },
           "correct": true
         },
@@ -397,7 +397,7 @@
       "explanation": {
         "ar": "الموجات الأولية هي أسرع الموجات الزلزالية وتنتقل في المواد الصلبة والسائلة والغازية",
         "en": "P-waves are the fastest seismic waves and travel through solid, liquid, and gaseous materials",
-        "fr": "Les ondes P sont les ondes sismiques les plus rapides et voyagent through les matériaux solides, liquides et gazeux"
+        "fr": "Les ondes P sont les ondes sismiques les plus rapides et voyagent à travers les matériaux solides, liquides et gazeux"
       }
     },
     {
@@ -414,7 +414,7 @@
           "text": {
             "ar": "موجات زلزالية قصية تنتقل في المواد الصلبة فقط",
             "en": "Shear seismic waves that travel only through solids",
-            "fr": "Ondes sismiques de cisaillement qui voyagent seulement through les solides"
+            "fr": "Ondes sismiques de cisaillement qui voyagent seulement à travers les solides"
           },
           "correct": true
         },
@@ -440,7 +440,7 @@
       "explanation": {
         "ar": "الموجات الثانوية أبطأ من الأولية ولا تنتقل في السوائل، مما ساعد في اكتشاف اللب الخارجي السائل",
         "en": "S-waves are slower than P-waves and don't travel through liquids, which helped discover the liquid outer core",
-        "fr": "Les ondes S sont plus lentes que les ondes P et ne voyagent pas through les liquides, ce qui a aidé à découvrir le noyau externe liquide"
+        "fr": "Les ondes S sont plus lentes que les ondes P et ne voyagent pas à travers les liquides, ce qui a aidé à découvrir le noyau externe liquide"
       }
     },
     {
@@ -791,7 +791,7 @@
       "id": 19,
       "difficulty": "hard",
       "question": {
-        "ar": "ما هو المغناطيسometer؟",
+        "ar": "ما هو المغناطيسومتر؟",
         "en": "What is a magnetometer?",
         "fr": "Qu'est-ce qu'un magnétomètre?"
       },
@@ -825,7 +825,7 @@
         }
       ],
       "explanation": {
-        "ar": "يستخدم المغناطيسometer في المسوحات الجوية والبحرية والبرية للكشف عن التراكيب الجيولوجية والرواسب المعدنية",
+        "ar": "يستخدم المغناطيسومتر في المسوحات الجوية والبحرية والبرية للكشف عن التراكيب الجيولوجية والرواسب المعدنية",
         "en": "Magnetometers are used in aerial, marine, and ground surveys to detect geological structures and mineral deposits",
         "fr": "Les magnétomètres sont utilisés dans les levés aériens, marins et terrestres pour détecter les structures géologiques et gisements minéraux"
       }
@@ -840,7 +840,7 @@
       },
       "options": [
         {
-          "id": "id": "A",
+          "id": "A",
           "text": {
             "ar": "طريقة تستخدم موجات الراديو لاستكشاف الطبقات الضحلة",
             "en": "A method using radio waves to explore shallow layers",
