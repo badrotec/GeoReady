@@ -2,52 +2,1093 @@
   "id": "hydrogeology",
   "name": {
     "ar": "الهيدروجيولوجيا - علم المياه الجوفية",
-    "en": "Hydrogeology - Groundwater Science",
+    "en": "Hydrogeology - Groundwater Science", 
     "fr": "Hydrogéologie - Science des Eaux Souterraines"
   },
   "description": {
-    "ar": "تعلم عن المياه الجوفية، الخزانات المائية، وحركة المياه تحت الأرض",
-    "en": "Learn about groundwater, aquifers, and underground water movement",
-    "fr": "Apprenez sur les eaux souterraines, les aquifères et le mouvement de l'eau souterraine"
+    "ar": "تعلم علم المياه الجوفية وحركتها وتوزيعها وجودتها",
+    "en": "Learn groundwater science, its movement, distribution, and quality",
+    "fr": "Apprenez la science des eaux souterraines, leur mouvement, distribution et qualité"
   },
   "icon": "💧",
   "level": "intermediate",
   "questions": [
     {
       "id": 1,
+      "difficulty": "easy",
       "question": {
-        "ar": "ما هو الخزان الجوفي؟",
-        "en": "What is an aquifer?",
-        "fr": "Qu'est-ce qu'un aquifère?"
+        "ar": "ما هي المياه الجوفية؟",
+        "en": "What is groundwater?",
+        "fr": "Qu'est-ce que l'eau souterraine?"
       },
-      "image": "images/diagrams/water_cycle.jpg",
       "options": [
         {
           "id": "A",
           "text": {
-            "ar": "طبقة صخرية تحتوي وتنقل المياه",
-            "en": "A rock layer that contains and transmits water",
-            "fr": "Une couche rocheuse qui contient et transmet l'eau"
+            "ar": "المياه المخزنة في مسام الصخور تحت سطح الأرض",
+            "en": "Water stored in rock pores below Earth's surface",
+            "fr": "Eau stockée dans les pores des roches sous la surface terrestre"
           },
           "correct": true
         },
         {
-          "id": "B",
+          "id": "B", 
           "text": {
-            "ar": "بحيرة تحت الأرض",
-            "en": "An underground lake",
-            "fr": "Un lac souterrain"
+            "ar": "المياه على سطح الأرض",
+            "en": "Water on Earth's surface",
+            "fr": "Eau sur la surface terrestre"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "مياه الأمطار",
+            "en": "Rainwater",
+            "fr": "Eau de pluie"
           },
           "correct": false
         }
       ],
       "explanation": {
-        "ar": "الخزان الجوفي هو تكوين جيولوجي مسامي ونفاذ يمكنه تخزين ونقل المياه الجوفية",
-        "en": "An aquifer is a porous and permeable geological formation that can store and transmit groundwater",
-        "fr": "Un aquifère est une formation géologique poreuse et perméable qui peut stocker et transmettre les eaux souterraines"
+        "ar": "المياه الجوفية تشكل حوالي 30% من المياه العذبة في العالم وتخزن في الطبقات الحاملة للماء",
+        "en": "Groundwater constitutes about 30% of world's freshwater and is stored in aquifers",
+        "fr": "Les eaux souterraines constituent environ 30% de l'eau douce mondiale et sont stockées dans les aquifères"
+      }
+    },
+    {
+      "id": 2,
+      "difficulty": "easy",
+      "question": {
+        "ar": "ما هي الطبقة الحاملة للماء؟",
+        "en": "What is an aquifer?",
+        "fr": "Qu'est-ce qu'un aquifère?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "طبقة صخرية تخزن وتنقل المياه الجوفية",
+            "en": "A rock layer that stores and transmits groundwater",
+            "fr": "Une couche rocheuse qui stocke et transmet les eaux souterraines"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "طبقة تمنع مرور المياه",
+            "en": "A layer that prevents water passage",
+            "fr": "Une couche qui empêche le passage de l'eau"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "نهر تحت الأرض",
+            "en": "An underground river",
+            "fr": "Une rivière souterraine"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "الطبقة الحاملة للماء تكون مسامية ونفاذة وتسمح بتخزين وحركة المياه الجوفية",
+        "en": "Aquifers are porous and permeable, allowing groundwater storage and movement",
+        "fr": "Les aquifères sont poreux et perméables, permettant le stockage et le mouvement des eaux souterraines"
+      }
+    },
+    {
+      "id": 3,
+      "difficulty": "easy",
+      "question": {
+        "ar": "ما هو مستوى الماء الأرضي؟",
+        "en": "What is the water table?",
+        "fr": "Qu'est-ce que la nappe phréatique?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "السطح العلوي للمنطقة المشبعة بالماء",
+            "en": "The upper surface of the saturated zone",
+            "fr": "La surface supérieure de la zone saturée"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "قاع الخزان الجوفي",
+            "en": "The bottom of an aquifer",
+            "fr": "Le fond d'un aquifère"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "سطح الأرض",
+            "en": "The ground surface",
+            "fr": "La surface du sol"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "مستوى الماء الأرضي هو الحد الفاصل بين المنطقة المشبعة وغير المشبعة، ويتغير مع الفصول",
+        "en": "The water table is the boundary between saturated and unsaturated zones, changing with seasons",
+        "fr": "La nappe phréatique est la frontière entre zones saturée et non saturée, changeant avec les saisons"
+      }
+    },
+    {
+      "id": 4,
+      "difficulty": "easy",
+      "question": {
+        "ar": "ما هي الطبقة غير المنفذة؟",
+        "en": "What is an aquitard?",
+        "fr": "Qu'est-ce qu'un aquitard?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "طبقة تبطئ حركة المياه ولكن لا تمنعها تماماً",
+            "en": "A layer that slows water movement but doesn't completely stop it",
+            "fr": "Une couche qui ralentit le mouvement de l'eau mais ne l'arrête pas complètement"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "طبقة تنقل المياه بسرعة",
+            "en": "A layer that transmits water quickly",
+            "fr": "Une couche qui transmet l'eau rapidement"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "نوع من الآبار",
+            "en": "A type of well",
+            "fr": "Un type de puits"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "الطبقة غير المنفذة لها نفاذية منخفضة وتقلل من سرعة حركة المياه الجوفية ولكن لا توقفها",
+        "en": "Aquitards have low permeability and reduce groundwater movement speed but don't stop it",
+        "fr": "Les aquitards ont une faible perméabilité et réduisent la vitesse de mouvement des eaux souterraines mais ne l'arrêtent pas"
+      }
+    },
+    {
+      "id": 5,
+      "difficulty": "easy",
+      "question": {
+        "ar": "ما هو الينبوع؟",
+        "en": "What is a spring?",
+        "fr": "Qu'est-ce qu'une source?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "مكان حيث تخرج المياه الجوفية طبيعياً إلى السطح",
+            "en": "A place where groundwater emerges naturally to the surface",
+            "fr": "Un endroit où les eaux souterraines émergent naturellement à la surface"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "بئر عميق",
+            "en": "A deep well",
+            "fr": "Un puits profond"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "نهر جوفي",
+            "en": "An underground river",
+            "fr": "Une rivière souterraine"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تتكون الينابيع عندما يتقاطع مستوى الماء الأرضي مع سطح الأرض أو عندما تمر المياه عبر صدوع",
+        "en": "Springs form when the water table intersects the ground surface or when water passes through faults",
+        "fr": "Les sources se forment quand la nappe phréatique intersecte la surface du sol ou quand l'eau passe par des failles"
+      }
+    },
+    {
+      "id": 6,
+      "difficulty": "easy",
+      "question": {
+        "ar": "ما هي النفاذية؟",
+        "en": "What is permeability?",
+        "fr": "Qu'est-ce que la perméabilité?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "قدرة المادة على نقل السوائل عبر مسامها",
+            "en": "The ability of a material to transmit fluids through its pores",
+            "fr": "La capacité d'un matériau à transmettre des fluides through ses pores"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "كمية المياه التي يمكن تخزينها",
+            "en": "The amount of water that can be stored",
+            "fr": "La quantité d'eau qui peut être stockée"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "سرعة تدفق النهر",
+            "en": "The flow speed of a river",
+            "fr": "La vitesse d'écoulement d'une rivière"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "النفاذية تحدد سرعة حركة المياه الجوفية وتعتمد على حجم واتصال المسام والشقوق",
+        "en": "Permeability determines groundwater movement speed and depends on pore size and connectivity",
+        "fr": "La perméabilité détermine la vitesse de mouvement des eaux souterraines et dépend de la taille et connectivité des pores"
+      }
+    },
+    {
+      "id": 7,
+      "difficulty": "easy",
+      "question": {
+        "ar": "ما هو المسامية؟",
+        "en": "What is porosity?",
+        "fr": "Qu'est-ce que la porosité?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "نسبة حجم الفراغات إلى الحجم الكلي للصخر",
+            "en": "The ratio of void space to total rock volume",
+            "fr": "Le rapport du volume des vides au volume total de la roche"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "سرعة حركة المياه",
+            "en": "The speed of water movement",
+            "fr": "La vitesse de mouvement de l'eau"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "عمق مستوى الماء",
+            "en": "The depth of water level",
+            "fr": "La profondeur du niveau d'eau"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "المسامية تحدد كمية المياه التي يمكن تخزينها في الصخر ولكن لا تحدد سرعة حركتها",
+        "en": "Porosity determines the amount of water that can be stored in rock but not its movement speed",
+        "fr": "La porosité détermine la quantité d'eau qui peut être stockée dans la roche mais pas sa vitesse de mouvement"
+      }
+    },
+    {
+      "id": 8,
+      "difficulty": "easy",
+      "question": {
+        "ar": "ما هو البئر الارتوازي؟",
+        "en": "What is an artesian well?",
+        "fr": "Qu'est-ce qu'un puits artésien?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "بئر حيث يرتفع الماء فوق مستوى الطبقة الحاملة بسبب الضغط",
+            "en": "A well where water rises above aquifer level due to pressure",
+            "fr": "Un puits où l'eau s'élève au-dessus du niveau de l'aquifère due à la pression"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "بئر ضحل",
+            "en": "A shallow well",
+            "fr": "Un puits peu profond"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "بئر جاف",
+            "en": "A dry well",
+            "fr": "Un puits sec"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يحدث البئر الارتوازي عندما تكون الطبقة الحاملة محصورة بين طبقتين غير منفذتين ويوجد ضغط كافٍ",
+        "en": "Artesian wells occur when aquifers are confined between impermeable layers with sufficient pressure",
+        "fr": "Les puits artésiens se produisent quand les aquifères sont confinés entre couches imperméables avec pression suffisante"
+      }
+    },
+    {
+      "id": 9,
+      "difficulty": "medium",
+      "question": {
+        "ar": "ما هو قانون دارسي؟",
+        "en": "What is Darcy's Law?",
+        "fr": "Qu'est-ce que la loi de Darcy?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "قانون يصف تدفق المياه عبر الوسائط المسامية",
+            "en": "A law describing water flow through porous media",
+            "fr": "Une loi décrivant l'écoulement de l'eau through les milieux poreux"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "قانون يصف تبخر المياه",
+            "en": "A law describing water evaporation",
+            "fr": "Une loi décrivant l'évaporation de l'eau"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "قانون يصف تكون الينابيع",
+            "en": "A law describing spring formation",
+            "fr": "Une loi décrivant la formation des sources"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "ينص قانون دارسي أن معدل التدفق يتناسب مع التدرج الهيدروليكي والنفاذية ومساحة المقطع",
+        "en": "Darcy's Law states flow rate is proportional to hydraulic gradient, permeability, and cross-sectional area",
+        "fr": "La loi de Darcy énonce que le débit est proportionnel au gradient hydraulique, perméabilité et section transversale"
+      }
+    },
+    {
+      "id": 10,
+      "difficulty": "medium",
+      "question": {
+        "ar": "ما هو التدرج الهيدروليكي؟",
+        "en": "What is hydraulic gradient?",
+        "fr": "Qu'est-ce que le gradient hydraulique?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "معدل تغير الضغط الهيدروليكي مع المسافة",
+            "en": "The rate of hydraulic head change with distance",
+            "fr": "Le taux de changement de charge hydraulique avec la distance"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "سرعة تدفق المياه",
+            "en": "The flow velocity of water",
+            "fr": "La vitesse d'écoulement de l'eau"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "عمق مستوى الماء",
+            "en": "The depth of water level",
+            "fr": "La profondeur du niveau d'eau"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "التدرج الهيدروليكي هو القوة الدافعة لحركة المياه الجوفية ويساوي فرق الضغط مقسوماً على المسافة",
+        "en": "Hydraulic gradient is the driving force for groundwater movement, equal to pressure difference divided by distance",
+        "fr": "Le gradient hydraulique est la force motrice du mouvement des eaux souterraines, égale à la différence de pression divisée par la distance"
+      }
+    },
+    {
+      "id": 11,
+      "difficulty": "medium",
+      "question": {
+        "ar": "ما هي المنطقة المشبعة؟",
+        "en": "What is the saturated zone?",
+        "fr": "Qu'est-ce que la zone saturée?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "المنجة حيث جميع المسام مملوءة بالماء",
+            "en": "The zone where all pores are filled with water",
+            "fr": "La zone où tous les pores sont remplis d'eau"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "المنجة الجافة",
+            "en": "The dry zone",
+            "fr": "La zone sèche"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "منطقة التربة السطحية",
+            "en": "The topsoil zone",
+            "fr": "La zone de terre arable"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "المنطقة المشبعة تقع تحت مستوى الماء الأرضي وتحتوي على المياه الجوفية التي يمكن سحبها بالآبار",
+        "en": "The saturated zone lies below the water table and contains groundwater that can be extracted by wells",
+        "fr": "La zone saturée se trouve sous la nappe phréatique et contient les eaux souterraines extractibles par puits"
+      }
+    },
+    {
+      "id": 12,
+      "difficulty": "medium",
+      "question": {
+        "ar": "ما هي المنطقة غير المشبعة؟",
+        "en": "What is the unsaturated zone?",
+        "fr": "Qu'est-ce que la zone non saturée?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "المنجة حيث المسام تحتوي على الهواء والماء",
+            "en": "The zone where pores contain both air and water",
+            "fr": "La zone où les pores contiennent à la fois air et eau"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "المنجة المغمورة بالماء",
+            "en": "The waterlogged zone",
+            "fr": "La zone inondée"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "منطقة الصخور الصلبة",
+            "en": "The bedrock zone",
+            "fr": "La zone du socle rocheux"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "المنطقة غير المشبعة تقع فوق مستوى الماء الأرضي وتحتوي على ماء وتهواء في مسامها",
+        "en": "The unsaturated zone lies above the water table and contains both water and air in its pores",
+        "fr": "La zone non saturée se trouve au-dessus de la nappe phréatique et contient à la fois eau et air dans ses pores"
+      }
+    },
+    {
+      "id": 13,
+      "difficulty": "medium",
+      "question": {
+        "ar": "ما هو اختبار الضخ؟",
+        "en": "What is a pumping test?",
+        "fr": "Qu'est-ce qu'un test de pompage?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "اختبار لتحديد خصائص الطبقة الحاملة للماء",
+            "en": "A test to determine aquifer characteristics",
+            "fr": "Un test pour déterminer les caractéristiques de l'aquifère"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "اختبار جودة المياه",
+            "en": "A water quality test",
+            "fr": "Un test de qualité d'eau"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "اختبار عمق البئر",
+            "en": "A well depth test",
+            "fr": "Un test de profondeur de puits"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يستخدم اختبار الضخ لقياس النفاذية ومعامل التخزين عن طريق مراقبة انخفاض منسوب الماء أثناء الضخ",
+        "en": "Pumping tests measure permeability and storage coefficient by monitoring water level decline during pumping",
+        "fr": "Les tests de pompage mesurent la perméabilité et coefficient d'emmagasinement en surveillant le déclin du niveau d'eau pendant le pompage"
+      }
+    },
+    {
+      "id": 14,
+      "difficulty": "medium",
+      "question": {
+        "ar": "ما هو معامل التخزين؟",
+        "en": "What is storage coefficient?",
+        "fr": "Qu'est-ce que le coefficient d'emmagasinement?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "حجم المياه المتحرر من مساحة معينة عند انخفاض الوحدة",
+            "en": "Water volume released from unit area per unit decline",
+            "fr": "Volume d'eau libéré par unité de surface par unité de déclin"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "سرعة تدفق المياه",
+            "en": "Water flow velocity",
+            "fr": "Vitesse d'écoulement de l'eau"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "عمق الطبقة الحاملة",
+            "en": "Aquifer depth",
+            "fr": "Profondeur de l'aquifère"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "معامل التخزين لا أبعاد ويتراوح بين 0.0001 للطبقات المحصورة و0.3 للطبقات غير المحصورة",
+        "en": "Storage coefficient is dimensionless and ranges from 0.0001 for confined to 0.3 for unconfined aquifers",
+        "fr": "Le coefficient d'emmagasinement est sans dimension et varie de 0,0001 pour les aquifères captifs à 0,3 pour les libres"
+      }
+    },
+    {
+      "id": 15,
+      "difficulty": "medium",
+      "question": {
+        "ar": "ما هو التغذية الجوفية؟",
+        "en": "What is groundwater recharge?",
+        "fr": "Qu'est-ce que la recharge des eaux souterraines?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "عملية تجديد المياه الجوفية من خلال التسرب",
+            "en": "The process of replenishing groundwater through infiltration",
+            "fr": "Le processus de reconstitution des eaux souterraines par infiltration"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "سحب المياه من الآبار",
+            "en": "Water withdrawal from wells",
+            "fr": "Prélèvement d'eau des puits"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "تبخر المياه الجوفية",
+            "en": "Groundwater evaporation",
+            "fr": "Évaporation des eaux souterraines"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "التغذية الجوفية تحدث عندما تتسرب مياه الأمطار أو الأنهار إلى باطن الأرض لتجديد المخزون الجوفي",
+        "en": "Groundwater recharge occurs when rainwater or river water infiltrates underground to replenish groundwater storage",
+        "fr": "La recharge des eaux souterraines se produit quand l'eau de pluie ou de rivière s'infiltre underground pour reconstituer le stock souterrain"
+      }
+    },
+    {
+      "id": 16,
+      "difficulty": "hard",
+      "question": {
+        "ar": "ما هو تلوث المياه الجوفية؟",
+        "en": "What is groundwater contamination?",
+        "fr": "Qu'est-ce que la contamination des eaux souterraines?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "وصول مواد ضارة إلى المياه الجوفية",
+            "en": "The introduction of harmful substances into groundwater",
+            "fr": "L'introduction de substances nocives dans les eaux souterraines"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "نضوب المياه الجوفية",
+            "en": "Groundwater depletion",
+            "fr": "L'épuisement des eaux souterraines"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "زيادة ملوحة المياه",
+            "en": "Increase in water salinity",
+            "fr": "Augmentation de la salinité de l'eau"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يمكن أن يحدث التلوث من مصادر مثل المبيدات والمخلفات الصناعية ومكبات النفايات ويتطلب سنوات للتنظيف",
+        "en": "Contamination can come from pesticides, industrial waste, landfills and takes years to clean up",
+        "fr": "La contamination peut venir des pesticides, déchets industriels, décharges et prend des années à nettoyer"
+      }
+    },
+    {
+      "id": 17,
+      "difficulty": "hard",
+      "question": {
+        "ar": "ما هو هبوط الأرض؟",
+        "en": "What is land subsidence?",
+        "fr": "Qu'est-ce que l'affaissement du sol?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "هبوط سطح الأرض بسبب سحب المياه الجوفية",
+            "en": "The sinking of land surface due to groundwater withdrawal",
+            "fr": "L'enfoncement de la surface terrestre dû au prélèvement des eaux souterraines"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "ارتفاع مستوى الأرض",
+            "en": "Rise of land surface",
+            "fr": "Élévation de la surface terrestre"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "تآكل التربة",
+            "en": "Soil erosion",
+            "fr": "Érosion du sol"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يحدث هبوط الأرض عندما ينهار هيكل المسام في الطبقات الحاملة بسبب السحب الجائر للمياه",
+        "en": "Land subsidence occurs when pore structure collapses in aquifers due to excessive water withdrawal",
+        "fr": "L'affaissement du sol se produit quand la structure poreuse s'effondre dans les aquifères due au prélèvement excessif d'eau"
+      }
+    },
+    {
+      "id": 18,
+      "difficulty": "hard",
+      "question": {
+        "ar": "ما هي المياه الأحفورية؟",
+        "en": "What is fossil water?",
+        "fr": "Qu'est-ce que l'eau fossile?"
+      },
+      "options": [
+        {
+          "id": "id": "A",
+          "text": {
+            "ar": "مياه جوفية قديمة غير متجددة",
+            "en": "Ancient non-renewable groundwater",
+            "fr": "Eaux souterraines anciennes non renouvelables"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "مياه الأمطار",
+            "en": "Rainwater",
+            "fr": "Eau de pluie"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "مياه الأنهار",
+            "en": "River water",
+            "fr": "Eau de rivière"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "المياه الأحفورية تكونت في عصور مناخية مختلفة ولا تتجدد في الظروف الحالية، مثل المياه في الصحراء",
+        "en": "Fossil water formed in different climatic eras and doesn't recharge under current conditions, like desert groundwater",
+        "fr": "Les eaux fossiles se sont formées dans des ères climatiques différentes et ne se rechargent pas dans les conditions actuelles, comme les eaux désertiques"
+      }
+    },
+    {
+      "id": 19,
+      "difficulty": "hard",
+      "question": {
+        "ar": "ما هو تداخل مياه البحر؟",
+        "en": "What is seawater intrusion?",
+        "fr": "Qu'est-ce que l'intrusion d'eau de mer?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "تقدم المياه المالحة إلى الطبقات الحاملة الساحلية",
+            "en": "The advance of saltwater into coastal aquifers",
+            "fr": "L'avancée de l'eau salée dans les aquifères côtiers"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "تلوث المياه بالمبيدات",
+            "en": "Water contamination by pesticides",
+            "fr": "Contamination de l'eau par pesticides"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "فيضان البحر",
+            "en": "Sea flooding",
+            "fr": "Inondation marine"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يحدث تداخل مياه البحر عندما ينخفض منسوب المياه العذبة في المناطق الساحلية فيتقدم الماء المالح",
+        "en": "Seawater intrusion occurs when freshwater levels drop in coastal areas, allowing saltwater advancement",
+        "fr": "L'intrusion d'eau de mer se produit quand les niveaux d'eau douce baissent dans les zones côtières, permettant l'avancée d'eau salée"
+      }
+    },
+    {
+      "id": 20,
+      "difficulty": "hard",
+      "question": {
+        "ar": "ما هي النمذجة الهيدروجيولوجية؟",
+        "en": "What is hydrogeological modeling?",
+        "fr": "Qu'est-ce que la modélisation hydrogéologique?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "استخدام نماذج رياضية لمحاكاة تدفق المياه الجوفية",
+            "en": "Using mathematical models to simulate groundwater flow",
+            "fr": "Utilisation de modèles mathématiques pour simuler l'écoulement des eaux souterraines"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "رسم خرائط المياه السطحية",
+            "en": "Mapping surface water",
+            "fr": "Cartographie des eaux de surface"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "تحليل جودة المياه",
+            "en": "Water quality analysis",
+            "fr": "Analyse de la qualité de l'eau"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تستخدم النمذجة الهيدروجيولوجية برامج حاسوبية للتنبؤ بسلوك المياه الجوفية تحت سيناريوهات مختلفة",
+        "en": "Hydrogeological modeling uses computer programs to predict groundwater behavior under different scenarios",
+        "fr": "La modélisation hydrogéologique utilise des programmes informatiques pour prédire le comportement des eaux souterraines sous différents scénarios"
+      }
+    },
+    {
+      "id": 21,
+      "difficulty": "hard",
+      "question": {
+        "ar": "ما هو اختبار الحقن؟",
+        "en": "What is a slug test?",
+        "fr": "Qu'est-ce qu'un test d'impulsion?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "اختبار سريع لتحديد النفاذية حول البئر",
+            "en": "A quick test to determine permeability around a well",
+            "fr": "Un test rapide pour déterminer la perméabilité autour d'un puits"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "اختبار جودة المياه",
+            "en": "A water quality test",
+            "fr": "Un test de qualité d'eau"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "اختبار الضخ الطويل",
+            "en": "A long-term pumping test",
+            "fr": "Un test de pompage à long terme"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "في اختبار الحقن يتم تغيير منسوب الماء فجأة في البئر ومراقبة استعادته لتحديد النفاذية المحلية",
+        "en": "In slug tests, water level is suddenly changed in a well and its recovery monitored to determine local permeability",
+        "fr": "Dans les tests d'impulsion, le niveau d'eau est soudainement changé dans un puits et sa récupération surveillée pour déterminer la perméabilité locale"
+      }
+    },
+    {
+      "id": 22,
+      "difficulty": "hard",
+      "question": {
+        "ar": "ما هو معامل الناقلية الهيدروليكية؟",
+        "en": "What is hydraulic conductivity?",
+        "fr": "Qu'est-ce que la conductivité hydraulique?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "قدرة المادة على نقل المياه تحت تدرج هيدروليكي معين",
+            "en": "The ability of a material to transmit water under specific hydraulic gradient",
+            "fr": "La capacité d'un matériau à transmettre l'eau sous gradient hydraulique spécifique"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "كمية المياه المخزنة",
+            "en": "The amount of water stored",
+            "fr": "La quantité d'eau stockée"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "سرعة الرياح",
+            "en": "Wind speed",
+            "fr": "Vitesse du vent"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "معامل الناقلية الهيدروليكية يعتمد على خصائص المادة والسائل ويقاس بوحدات المسافة/الزمن",
+        "en": "Hydraulic conductivity depends on both material and fluid properties, measured in distance/time units",
+        "fr": "La conductivité hydraulique dépend des propriétés du matériau et du fluide, mesurée en unités distance/temps"
+      }
+    },
+    {
+      "id": 23,
+      "difficulty": "hard",
+      "question": {
+        "ar": "ما هي المياه المعدنية؟",
+        "en": "What is mineral water?",
+        "fr": "Qu'est-ce que l'eau minérale?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "مياه تحتوي على معادن مذابة بتركيزات عالية",
+            "en": "Water containing dissolved minerals in high concentrations",
+            "fr": "Eau contenant des minéraux dissous en concentrations élevées"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "مياه مقطرة",
+            "en": "Distilled water",
+            "fr": "Eau distillée"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "مياه البحر",
+            "en": "Seawater",
+            "fr": "Eau de mer"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تكتسب المياه المعدنية خصائصها من الصخور التي تمر خلالها، مثل الكالسيوم والمغنيسيوم والكبريتات",
+        "en": "Mineral water gains its properties from rocks it passes through, like calcium, magnesium, and sulfates",
+        "fr": "L'eau minérale acquiert ses propriétés des roches qu'elle traverse, comme calcium, magnésium et sulfates"
+      }
+    },
+    {
+      "id": 24,
+      "difficulty": "hard",
+      "question": {
+        "ar": "ما هو نظام التدفق الجوفي؟",
+        "en": "What is a groundwater flow system?",
+        "fr": "Qu'est-ce qu'un système d'écoulement souterrain?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "النمط ثلاثي الأبعاد لحركة المياه الجوفية في منطقة ما",
+            "en": "The three-dimensional pattern of groundwater movement in an area",
+            "fr": "Le motif tridimensionnel du mouvement des eaux souterraines dans une zone"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "شبكة توزيع المياه",
+            "en": "Water distribution network",
+            "fr": "Réseau de distribution d'eau"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "نظام معالجة المياه",
+            "en": "Water treatment system",
+            "fr": "Système de traitement d'eau"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يتضمن نظام التدفق الجوفي مناطق التغذية والتفريغ ومسارات التدفق على مستويات محلية وإقليمية",
+        "en": "Groundwater flow systems include recharge and discharge areas and flow paths at local and regional scales",
+        "fr": "Les systèmes d'écoulement souterrain incluent zones de recharge et décharge et chemins d'écoulement aux échelles locales et régionales"
+      }
+    },
+    {
+      "id": 25,
+      "difficulty": "hard",
+      "question": {
+        "ar": "ما هو تأثير الضخ على المياه الجوفية؟",
+        "en": "What is the cone of depression?",
+        "fr": "Qu'est-ce que le cône de dépression?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "انخفاض على شكل قمع في مستوى الماء حول بئر مضخوخ",
+            "en": "A funnel-shaped drop in water level around a pumping well",
+            "fr": "Une baisse en forme d'entonnoir du niveau d'eau autour d'un puits de pompage"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "ارتفاع مستوى الماء",
+            "en": "Rise in water level",
+            "fr": "Élévation du niveau d'eau"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "تلوث المياه",
+            "en": "Water contamination",
+            "fr": "Contamination de l'eau"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يتشكل مخروط الانخفاض بسبب سحب المياه من البئر ويحدد منطقة التأثير ونصف قطر الاستخلاص",
+        "en": "The cone of depression forms due to water withdrawal from a well and defines the area of influence and radius of capture",
+        "fr": "Le cône de dépression se forme due au prélèvement d'eau d'un puits et définit la zone d'influence et rayon de capture"
       }
     }
   ],
-  "total_questions": 1,
+  "total_questions": 25,
   "passing_score": 70
 }
