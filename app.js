@@ -481,7 +481,6 @@ class GeoLearnApp {
         
         this.showQuizScreen();
         this.showQuestion();
-        this.startTimer();
         this.startQuestionTimer();
     }
 
@@ -506,7 +505,7 @@ class GeoLearnApp {
                     <div class="quiz-stats">
                         <div class="stat">السؤال <span id="current-question">1</span> من ${totalQuestions}</div>
                         <div class="stat">النقاط: <span id="current-score">0</span></div>
-                        <div class="stat">الوقت: <span id="quiz-timer">00:00</span></div>
+                        <div class="stat">الوقت المتبقي: <span id="question-timer">15</span> ثانية</div>
                     </div>
                 </div>
                 
@@ -604,10 +603,6 @@ class GeoLearnApp {
         
         container.innerHTML = `
             <div class="question">
-                <div class="timer-container">
-                    <div class="timer" id="question-timer">15</div>
-                </div>
-                
                 <h3>${question.question[this.currentLanguage] || question.question.ar}</h3>
                 ${question.image ? `<div class="question-image"><img src="${question.image}" alt="Question Image" onerror="this.style.display='none'"></div>` : ''}
                 
@@ -720,27 +715,6 @@ class GeoLearnApp {
         }
     }
 
-    startTimer() {
-        this.quizStartTime = new Date();
-        this.timer = setInterval(() => {
-            const now = new Date();
-            const diff = Math.floor((now - this.quizStartTime) / 1000);
-            const minutes = Math.floor(diff / 60).toString().padStart(2, '0');
-            const seconds = (diff % 60).toString().padStart(2, '0');
-            const timerElement = document.getElementById('quiz-timer');
-            if (timerElement) {
-                timerElement.textContent = `${minutes}:${seconds}`;
-            }
-        }, 1000);
-    }
-
-    stopTimer() {
-        if (this.timer) {
-            clearInterval(this.timer);
-            this.timer = null;
-        }
-    }
-
     calculateScore() {
         this.score = 0;
         this.userAnswers.forEach((answer, index) => {
@@ -758,7 +732,6 @@ class GeoLearnApp {
     async finishQuiz() {
         this.stopQuestionTimer();
         this.soundManager.play('click');
-        this.stopTimer();
         const finalScore = this.calculateScore();
         const timeSpent = Math.floor((new Date() - this.quizStartTime) / 1000);
         
@@ -821,7 +794,6 @@ class GeoLearnApp {
     exitQuiz() {
         this.soundManager.play('click');
         this.stopQuestionTimer();
-        this.stopTimer();
         document.getElementById('quiz-screen').classList.add('hidden');
         document.querySelector('.main-container').classList.remove('hidden');
         this.renderQuizzes(); // تحديث العرض بعد الخروج
