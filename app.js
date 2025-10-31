@@ -1,4 +1,4 @@
-// نظام تشغيل الأصوات المصحح - بدون صوت النقر
+// نظام تشغيل الأصوات المصحح
 class SoundManager {
     constructor() {
         this.sounds = {
@@ -79,7 +79,6 @@ class GeoLearnApp {
         this.loadUserProgress();
         this.loadUserPreferences();
         this.setupDailyQuiz();
-        this.setupSettingsModal();
         
         console.log('GeoLearn App Started! 🚀');
     }
@@ -89,35 +88,6 @@ class GeoLearnApp {
         return new Promise(resolve => {
             setTimeout(resolve, 300);
         });
-    }
-
-    setupSettingsModal() {
-        const soundEnabled = localStorage.getItem('sound-enabled');
-        if (soundEnabled !== null) {
-            this.soundManager.setEnabled(soundEnabled === 'true');
-        }
-    }
-
-    showSettings() {
-        const modal = document.getElementById('settings-modal');
-        if (modal) {
-            const soundToggle = modal.querySelector('#sound-toggle');
-            if (soundToggle) {
-                soundToggle.checked = this.soundManager.isEnabled();
-            }
-            modal.style.display = 'flex';
-        }
-    }
-
-    saveSettings() {
-        const modal = document.getElementById('settings-modal');
-        if (modal) {
-            const soundToggle = modal.querySelector('#sound-toggle');
-            if (soundToggle) {
-                this.soundManager.setEnabled(soundToggle.checked);
-            }
-            modal.style.display = 'none';
-        }
     }
 
     setupDailyQuiz() {
@@ -250,7 +220,6 @@ class GeoLearnApp {
         
         quizCards.forEach(card => {
             card.addEventListener('click', (e) => {
-                // لا يوجد صوت نقر - تنفيذ مباشر
                 const quizId = card.getAttribute('data-quiz-id');
                 this.startQuiz(quizId);
             });
@@ -305,7 +274,6 @@ class GeoLearnApp {
             <div class="quiz-container">
                 <div class="quiz-header">
                     <button class="back-btn" onclick="app.exitQuiz()">← رجوع</button>
-                    <button class="settings-btn" onclick="app.showSettings()">⚙️</button>
                     <div class="quiz-info">
                         <h2>${this.currentQuiz.name[this.currentLanguage] || this.currentQuiz.name.ar}</h2>
                         <p>${this.currentQuiz.description[this.currentLanguage] || this.currentQuiz.description.ar}</p>
@@ -369,33 +337,21 @@ class GeoLearnApp {
         this.stopQuestionTimer();
         this.isAnswerRevealed = true;
         
-        this.revealCorrectAnswer();
+        // لا تظهر الإجابة الصحيحة - فقط خصم نقطة وإظهار زر التالي
+        this.score = Math.max(0, this.score - 0.5);
+        this.updateScore();
         
-        setTimeout(() => {
-            if (this.currentQuestionIndex < this.currentQuiz.questions.length - 1) {
-                this.nextQuestion();
-            } else {
-                this.finishQuiz();
-            }
-        }, 2000);
+        // لا حفظ إجابة عند انتهاء الوقت
+        this.userAnswers[this.currentQuestionIndex] = null;
+        
+        // إظهار زر التالي فقط
+        this.updateNavigation();
     }
 
     stopQuestionTimer() {
         if (this.questionTimer) {
             clearInterval(this.questionTimer);
             this.questionTimer = null;
-        }
-    }
-
-    revealCorrectAnswer() {
-        const question = this.currentQuiz.questions[this.currentQuestionIndex];
-        const correctOption = question.options.find(opt => opt.correct);
-        
-        if (correctOption) {
-            const correctElement = document.querySelector(`[data-option-id="${correctOption.id}"]`);
-            if (correctElement) {
-                correctElement.classList.add('correct');
-            }
         }
     }
 
@@ -434,7 +390,6 @@ class GeoLearnApp {
         
         this.isProcessingSelection = true;
         
-        // لا يوجد صوت نقر - تنفيذ مباشر
         this.stopQuestionTimer();
         this.isAnswerRevealed = true;
         
@@ -442,18 +397,20 @@ class GeoLearnApp {
         const selectedOption = question.options.find(opt => opt.id === optionId);
         const correctOption = question.options.find(opt => opt.correct);
         
+        // تلوين الخيارات بناءً على الاختيار
         document.querySelectorAll('.option').forEach(opt => {
             const optId = opt.getAttribute('data-option-id');
             if (optId === correctOption.id) {
-                opt.classList.add('correct');
-            } else if (optId === optionId && !selectedOption.correct) {
-                opt.classList.add('wrong');
+                opt.classList.add('correct'); // الإجابة الصحيحة
+            }
+            if (optId === optionId && !selectedOption.correct) {
+                opt.classList.add('wrong'); // الإجابة الخاطئة
             }
         });
         
         this.userAnswers[this.currentQuestionIndex] = optionId;
         
-        // تشغيل الصوت المناسب فقط
+        // تشغيل الصوت المناسب وتحديث النقاط
         setTimeout(() => {
             if (selectedOption.correct) {
                 this.soundManager.play('correct');
@@ -461,29 +418,26 @@ class GeoLearnApp {
                 this.updateScore();
             } else {
                 this.soundManager.play('wrong');
+                // خصم 0.5 نقطة للإجابة الخاطئة
+                this.score = Math.max(0, this.score - 0.5);
+                this.updateScore();
             }
             
             this.isProcessingSelection = false;
         }, 300);
         
-        setTimeout(() => {
-            if (this.currentQuestionIndex < this.currentQuiz.questions.length - 1) {
-                this.nextQuestion();
-            } else {
-                this.finishQuiz();
-            }
-        }, 2000);
+        // إظهار زر التالي فقط
+        this.updateNavigation();
     }
 
     updateScore() {
         const scoreElement = document.getElementById('current-score');
         if (scoreElement) {
-            scoreElement.textContent = this.score;
+            scoreElement.textContent = this.score.toFixed(1);
         }
     }
 
     nextQuestion() {
-        // لا يوجد صوت نقر - تنفيذ مباشر
         if (this.currentQuestionIndex < this.currentQuiz.questions.length - 1) {
             this.currentQuestionIndex++;
             this.showQuestion();
@@ -493,7 +447,6 @@ class GeoLearnApp {
     }
 
     previousQuestion() {
-        // لا يوجد صوت نقر - تنفيذ مباشر
         if (this.currentQuestionIndex > 0) {
             this.currentQuestionIndex--;
             this.showQuestion();
@@ -505,9 +458,10 @@ class GeoLearnApp {
         const nextBtn = document.getElementById('next-btn');
         const submitBtn = document.getElementById('submit-btn');
         
+        // إظهار زر التالي فقط عندما تنكشف الإجابة (سواء باختيار أو انتهاء وقت)
         if (prevBtn) prevBtn.style.display = this.currentQuestionIndex === 0 ? 'none' : 'block';
-        if (nextBtn) nextBtn.style.display = this.currentQuestionIndex === this.currentQuiz.questions.length - 1 ? 'none' : 'block';
-        if (submitBtn) submitBtn.style.display = this.currentQuestionIndex === this.currentQuiz.questions.length - 1 ? 'block' : 'none';
+        if (nextBtn) nextBtn.style.display = (this.isAnswerRevealed && this.currentQuestionIndex < this.currentQuiz.questions.length - 1) ? 'block' : 'none';
+        if (submitBtn) submitBtn.style.display = (this.isAnswerRevealed && this.currentQuestionIndex === this.currentQuiz.questions.length - 1) ? 'block' : 'none';
         
         const currentQuestionElement = document.getElementById('current-question');
         if (currentQuestionElement) {
@@ -524,17 +478,7 @@ class GeoLearnApp {
     }
 
     calculateScore() {
-        this.score = 0;
-        this.userAnswers.forEach((answer, index) => {
-            if (answer) {
-                const question = this.currentQuiz.questions[index];
-                const selectedOption = question.options.find(opt => opt.id === answer);
-                if (selectedOption && selectedOption.correct) {
-                    this.score++;
-                }
-            }
-        });
-        return this.score;
+        return Math.max(0, this.score);
     }
 
     async finishQuiz() {
@@ -574,8 +518,8 @@ class GeoLearnApp {
                         <span class="stat-label">النسبة المئوية</span>
                     </div>
                     <div class="result-stat">
-                        <span class="stat-value">${score}/${this.currentQuiz.questions.length}</span>
-                        <span class="stat-label">الإجابات الصحيحة</span>
+                        <span class="stat-value">${score.toFixed(1)}/${this.currentQuiz.questions.length}</span>
+                        <span class="stat-label">النقاط النهائية</span>
                     </div>
                     <div class="result-stat">
                         <span class="stat-value">${Math.floor(timeSpent / 60)}:${(timeSpent % 60).toString().padStart(2, '0')}</span>
@@ -592,12 +536,10 @@ class GeoLearnApp {
     }
 
     restartQuiz() {
-        // لا يوجد صوت نقر - تنفيذ مباشر
         this.startQuiz(this.currentQuiz.id);
     }
 
     exitQuiz() {
-        // لا يوجد صوت نقر - تنفيذ مباشر
         this.stopQuestionTimer();
         document.getElementById('quiz-screen').classList.add('hidden');
         document.querySelector('.main-container').classList.remove('hidden');
@@ -622,7 +564,6 @@ class GeoLearnApp {
         const languageSelect = document.getElementById('language-select');
         if (languageSelect) {
             languageSelect.addEventListener('change', (e) => {
-                // لا يوجد صوت نقر - تنفيذ مباشر
                 this.currentLanguage = e.target.value;
                 this.renderQuizzes();
             });
@@ -631,22 +572,27 @@ class GeoLearnApp {
         const themeToggle = document.getElementById('theme-toggle');
         if (themeToggle) {
             themeToggle.addEventListener('click', () => {
-                // لا يوجد صوت نقر - تنفيذ مباشر
                 this.toggleTheme();
             });
         }
 
-        const settingsBtn = document.getElementById('settings-btn');
-        if (settingsBtn) {
-            settingsBtn.addEventListener('click', () => {
-                // لا يوجد صوت نقر - تنفيذ مباشر
-                this.showSettings();
+        // إعدادات الصوت في الواجهة الرئيسية
+        const soundToggle = document.getElementById('sound-toggle');
+        if (soundToggle) {
+            const soundEnabled = localStorage.getItem('sound-enabled');
+            if (soundEnabled !== null) {
+                this.soundManager.setEnabled(soundEnabled === 'true');
+                soundToggle.checked = this.soundManager.isEnabled();
+            }
+            
+            soundToggle.addEventListener('change', (e) => {
+                this.soundManager.setEnabled(e.target.checked);
             });
         }
 
+        // تفعيل الأيقونات في الأسفل
         document.querySelectorAll('.nav-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
-                // لا يوجد صوت نقر - تنفيذ مباشر
                 const page = e.currentTarget.getAttribute('data-page');
                 this.navigateTo(page);
             });
@@ -665,6 +611,11 @@ class GeoLearnApp {
             btn.classList.remove('active');
         });
         document.querySelector(`[data-page="${page}"]`).classList.add('active');
+        
+        document.querySelectorAll('.page').forEach(pageElement => {
+            pageElement.classList.add('hidden');
+        });
+        document.getElementById(`${page}-page`).classList.remove('hidden');
     }
 
     loadUserProgress() {
@@ -678,7 +629,7 @@ class GeoLearnApp {
         const successRateElement = document.getElementById('success-rate');
 
         if (completedElement) completedElement.textContent = completed;
-        if (totalScoreElement) totalScoreElement.textContent = totalScore;
+        if (totalScoreElement) totalScoreElement.textContent = totalScore.toFixed(1);
         if (successRateElement) successRateElement.textContent = `${successRate.toFixed(1)}%`;
     }
 
@@ -707,11 +658,3 @@ function startQuiz(quizId) {
         window.app.startQuiz(quizId);
     }
 }
-
-// إغلاق نافذة الإعدادات عند النقر خارجها
-document.addEventListener('click', function(e) {
-    const modal = document.getElementById('settings-modal');
-    if (modal && e.target === modal) {
-        modal.style.display = 'none';
-    }
-});
