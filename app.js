@@ -1,3 +1,27 @@
+// نظام تشغيل الأصوات
+class SoundManager {
+    constructor() {
+        this.sounds = {
+            correct: 'sounds/correct.mp3',
+            wrong: 'sounds/wrong.mp3', 
+            perfect: 'sounds/perfect.mp3',
+            click: 'sounds/click.mp3'
+        };
+        this.enabled = true;
+    }
+
+    play(soundName) {
+        if (!this.enabled || !this.sounds[soundName]) return;
+        
+        try {
+            const audio = new Audio(this.sounds[soundName]);
+            audio.play().catch(e => console.log('Sound error:', e));
+        } catch (error) {
+            console.log('Sound play failed:', error);
+        }
+    }
+}
+
 // التطبيق الرئيسي - GeoLearn
 class GeoLearnApp {
     constructor() {
@@ -16,29 +40,6 @@ class GeoLearnApp {
         this.init();
     }
 
-    // نظام تشغيل الأصوات
-    class SoundManager {
-        constructor() {
-            this.sounds = {
-                correct: 'sounds/correct.mp3',
-                wrong: 'sounds/wrong.mp3', 
-                perfect: 'sounds/perfect.mp3'
-            };
-            this.enabled = true;
-        }
-
-        play(soundName) {
-            if (!this.enabled || !this.sounds[soundName]) return;
-            
-            try {
-                const audio = new Audio(this.sounds[soundName]);
-                audio.play().catch(e => console.log('Sound error:', e));
-            } catch (error) {
-                console.log('Sound play failed:', error);
-            }
-        }
-    }
-
     async init() {
         await this.loadQuizzes();
         this.renderQuizzes();
@@ -47,6 +48,7 @@ class GeoLearnApp {
         this.loadUserPreferences();
         
         console.log('GeoLearn App Started! 🚀');
+        console.log('Loaded quizzes:', this.quizzes.length);
     }
 
     // تحميل بيانات الكويزات
@@ -71,9 +73,11 @@ class GeoLearnApp {
     async loadQuizData(quizId) {
         try {
             const response = await fetch(`quizzes/${quizId}.json`);
-            return await response.json();
+            const quiz = await response.json();
+            console.log(`✅ Loaded quiz: ${quizId}`);
+            return quiz;
         } catch (error) {
-            console.error(`Error loading quiz ${quizId}:`, error);
+            console.error(`❌ Error loading quiz ${quizId}:`, error);
             return null;
         }
     }
@@ -81,8 +85,13 @@ class GeoLearnApp {
     // عرض الكويزات في الشبكة
     renderQuizzes() {
         const container = document.getElementById('quizzes-container');
-        if (!container) return;
+        if (!container) {
+            console.error('❌ quizzes-container element not found!');
+            return;
+        }
 
+        console.log('🎯 Rendering quizzes:', this.quizzes.length);
+        
         container.innerHTML = this.quizzes.map(quiz => `
             <div class="quiz-card" onclick="app.startQuiz('${quiz.id}')">
                 <div class="quiz-icon">${quiz.icon}</div>
@@ -107,6 +116,7 @@ class GeoLearnApp {
 
     // بدء كويز
     async startQuiz(quizId) {
+        this.soundManager.play('click');
         this.currentQuiz = this.quizzes.find(q => q.id === quizId);
         if (!this.currentQuiz) {
             alert('الكويز غير موجود');
@@ -181,13 +191,6 @@ class GeoLearnApp {
                         </div>
                     `).join('')}
                 </div>
-                
-                ${this.userAnswers[this.currentQuestionIndex] ? `
-                    <div class="explanation" id="explanation" style="display: none;">
-                        <h4>التفسير:</h4>
-                        <p>${question.explanation?.[this.currentLanguage] || question.explanation?.ar || 'لا يوجد تفسير متاح'}</p>
-                    </div>
-                ` : ''}
             </div>
         `;
 
@@ -202,7 +205,6 @@ class GeoLearnApp {
     }
 
     selectOption(optionId) {
-        // تشغيل صوت النقر
         this.soundManager.play('click');
         
         // إزالة التحديد من جميع الخيارات
@@ -434,9 +436,6 @@ class GeoLearnApp {
             btn.classList.remove('active');
         });
         document.querySelector(`[data-page="${page}"]`).classList.add('active');
-
-        // هنا يمكن إضافة منطق إظهار/إخفاء الأقسام
-        console.log('انتقل إلى:', page);
     }
 
     loadUserProgress() {
@@ -473,7 +472,7 @@ class GeoLearnApp {
 let app;
 document.addEventListener('DOMContentLoaded', () => {
     app = new GeoLearnApp();
-    window.app = app; // جعل التطبيق متاحاً globally
+    window.app = app;
 });
 
 // وظائف مساعدة global
