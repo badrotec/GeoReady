@@ -1,0 +1,53 @@
+{
+  "id": "structural_geo",
+  "name": {
+    "ar": "الجيولوجيا التركيبية",
+    "en": "Structural Geology",
+    "fr": "Géologie Structurale"
+  },
+  "description": {
+    "ar": "تعلم التراكيب الجيولوجية مثل الصدوع والطيات والفواصل",
+    "en": "Learn about geological structures like faults, folds, and joints",
+    "fr": "Apprenez les structures géologiques comme les failles, les plis et les joints"
+  },
+  "icon": "🌋",
+  "level": "intermediate",
+  "questions": [
+    {
+      "id": 1,
+      "question": {
+        "ar": "ما هو الصدع الجيولوجي؟",
+        "en": "What is a geological fault?",
+        "fr": "Qu'est-ce qu'une faille géologique?"
+      },
+      "image": "images/diagrams/faults_folds.jpg",
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "كسر في الصخور مع حركة نسبية على جانبي الكسر",
+            "en": "A fracture in rocks with relative movement on both sides",
+            "fr": "Une fracture dans les roches avec mouvement relatif des deux côtés"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "تجعد في الطبقات الصخرية",
+            "en": "A bend in rock layers",
+            "fr": "Un pli dans les couches rocheuses"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "الصدع هو كسر في كتلة الصخور تتحرك على جانبيه بشكل نسبي، وينتج عن الإجهاد التكتوني",
+        "en": "A fault is a fracture in a rock mass where the sides have moved relative to each other, resulting from tectonic stress",
+        "fr": "Une faille est une fracture dans une masse rocheuse où les côtés ont bougé l'un par rapport à l'autre, résultant d'un stress tectonique"
+      }
+    }
+  ],
+  "total_questions": 1,
+  "passing_score": 75
+}
