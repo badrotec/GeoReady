@@ -1,0 +1,52 @@
+{
+  "id": "historical_geo",
+  "name": {
+    "ar": "الجيولوجيا التاريخية",
+    "en": "Historical Geology",
+    "fr": "Géologie Historique"
+  },
+  "description": {
+    "ar": "تعلم تاريخ الأرض والعصور الجيولوجية والتطور الزمني للكوكب",
+    "en": "Learn about Earth's history, geological eras and planetary evolution through time",
+    "fr": "Apprenez l'histoire de la Terre, les ères géologiques et l'évolution planétaire à travers le temps"
+  },
+  "icon": "🕰️",
+  "level": "intermediate",
+  "questions": [
+    {
+      "id": 1,
+      "question": {
+        "ar": "كم يبلغ العمر التقريبي للأرض؟",
+        "en": "What is the approximate age of the Earth?",
+        "fr": "Quel est l'âge approximatif de la Terre?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "4.54 مليار سنة",
+            "en": "4.54 billion years",
+            "fr": "4.54 milliards d'années"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "10 آلاف سنة",
+            "en": "10 thousand years",
+            "fr": "10 mille ans"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يُقدّر عمر الأرض بحوالي 4.54 مليار سنة بناءً على التأريخ الإشعاعي للنيازك وأقدم الصخور المعروفة",
+        "en": "Earth's age is estimated at about 4.54 billion years based on radiometric dating of meteorites and the oldest known rocks",
+        "fr": "L'âge de la Terre est estimé à environ 4,54 milliards d'années sur la base de la datation radiométrique des météorites et des roches les plus anciennes connues"
+      }
+    }
+  ],
+  "total_questions": 1,
+  "passing_score": 75
+}
