@@ -1,0 +1,52 @@
+{
+  "id": "field_work",
+  "name": {
+    "ar": "المهام العملية للجيولوجي",
+    "en": "Geologist's Field Work",
+    "fr": "Travail de Terrain du Géologue"
+  },
+  "description": {
+    "ar": "تعلم المهارات العملية والطرق الميدانية في الجيولوجيا",
+    "en": "Learn practical skills and field methods in geology",
+    "fr": "Apprenez les compétences pratiques et les méthodes de terrain en géologie"
+  },
+  "icon": "🛠️",
+  "level": "intermediate",
+  "questions": [
+    {
+      "id": 1,
+      "question": {
+        "ar": "ما هي المعدات الأساسية للجيولوجي في الحقل؟",
+        "en": "What are the essential field equipment for a geologist?",
+        "fr": "Quel est l'équipement de terrain essentiel pour un géologue?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "مطرقة جيولوجية، بوصلة، خريطة، دفتر ملاحظات",
+            "en": "Geological hammer, compass, map, notebook",
+            "fr": "Marteau géologique, boussole, carte, cahier de notes"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "مجهر، حاسوب، كاميرا فقط",
+            "en": "Microscope, computer, camera only",
+            "fr": "Microscope, ordinateur, appareil photo seulement"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "المعدات الأساسية تشمل المطرقة الجيولوجية لكسر الصخور، البوصلة للقياسات، الخرائط للملاحة، ودفتر الملاحظات للتسجيل",
+        "en": "Basic equipment includes geological hammer for breaking rocks, compass for measurements, maps for navigation, and notebook for recording",
+        "fr": "L'équipement de base comprend un marteau géologique pour casser les roches, une boussole pour les mesures, des cartes pour la navigation et un cahier pour l'enregistrement"
+      }
+    }
+  ],
+  "total_questions": 1,
+  "passing_score": 75
+}
