@@ -10,7 +10,33 @@ class GeoLearnApp {
         this.quizStartTime = null;
         this.timer = null;
         
+        // نظام الأصوات
+        this.soundManager = new SoundManager();
+        
         this.init();
+    }
+
+    // نظام تشغيل الأصوات
+    class SoundManager {
+        constructor() {
+            this.sounds = {
+                correct: 'sounds/correct.mp3',
+                wrong: 'sounds/wrong.mp3', 
+                perfect: 'sounds/perfect.mp3'
+            };
+            this.enabled = true;
+        }
+
+        play(soundName) {
+            if (!this.enabled || !this.sounds[soundName]) return;
+            
+            try {
+                const audio = new Audio(this.sounds[soundName]);
+                audio.play().catch(e => console.log('Sound error:', e));
+            } catch (error) {
+                console.log('Sound play failed:', error);
+            }
+        }
     }
 
     async init() {
@@ -176,6 +202,9 @@ class GeoLearnApp {
     }
 
     selectOption(optionId) {
+        // تشغيل صوت النقر
+        this.soundManager.play('click');
+        
         // إزالة التحديد من جميع الخيارات
         document.querySelectorAll('.option').forEach(opt => {
             opt.classList.remove('selected');
@@ -190,6 +219,18 @@ class GeoLearnApp {
         // حفظ الإجابة
         this.userAnswers[this.currentQuestionIndex] = optionId;
         
+        // تشغيل صوت الإجابة
+        const question = this.currentQuiz.questions[this.currentQuestionIndex];
+        const selectedOptionData = question.options.find(opt => opt.id === optionId);
+        
+        if (selectedOptionData) {
+            if (selectedOptionData.correct) {
+                this.soundManager.play('correct');
+            } else {
+                this.soundManager.play('wrong');
+            }
+        }
+        
         this.updateNavigation();
     }
 
@@ -201,6 +242,7 @@ class GeoLearnApp {
     }
 
     nextQuestion() {
+        this.soundManager.play('click');
         if (this.currentQuestionIndex < this.currentQuiz.questions.length - 1) {
             this.currentQuestionIndex++;
             this.showQuestion();
@@ -208,6 +250,7 @@ class GeoLearnApp {
     }
 
     previousQuestion() {
+        this.soundManager.play('click');
         if (this.currentQuestionIndex > 0) {
             this.currentQuestionIndex--;
             this.showQuestion();
@@ -273,6 +316,7 @@ class GeoLearnApp {
     }
 
     async finishQuiz() {
+        this.soundManager.play('click');
         this.stopTimer();
         const finalScore = this.calculateScore();
         const timeSpent = Math.floor((new Date() - this.quizStartTime) / 1000);
@@ -285,6 +329,11 @@ class GeoLearnApp {
         const percentage = (score / this.currentQuiz.questions.length) * 100;
         const passingScore = this.currentQuiz.passing_score || 70;
         const passed = percentage >= passingScore;
+        
+        // تشغيل صوت النجاح
+        if (passed) {
+            this.soundManager.play('perfect');
+        }
         
         document.getElementById('quiz-screen').innerHTML = `
             <div class="results-container">
@@ -318,10 +367,12 @@ class GeoLearnApp {
     }
 
     restartQuiz() {
+        this.soundManager.play('click');
         this.startQuiz(this.currentQuiz.id);
     }
 
     exitQuiz() {
+        this.soundManager.play('click');
         this.stopTimer();
         document.getElementById('quiz-screen').classList.add('hidden');
         document.querySelector('.main-container').classList.remove('hidden');
@@ -346,6 +397,7 @@ class GeoLearnApp {
         const languageSelect = document.getElementById('language-select');
         if (languageSelect) {
             languageSelect.addEventListener('change', (e) => {
+                this.soundManager.play('click');
                 this.currentLanguage = e.target.value;
                 this.renderQuizzes();
             });
@@ -355,6 +407,7 @@ class GeoLearnApp {
         const themeToggle = document.getElementById('theme-toggle');
         if (themeToggle) {
             themeToggle.addEventListener('click', () => {
+                this.soundManager.play('click');
                 this.toggleTheme();
             });
         }
@@ -362,6 +415,7 @@ class GeoLearnApp {
         // التنقل بين الصفحات
         document.querySelectorAll('.nav-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
+                this.soundManager.play('click');
                 const page = e.currentTarget.getAttribute('data-page');
                 this.navigateTo(page);
             });
