@@ -1,0 +1,53 @@
+{
+  "id": "mining_geology",
+  "name": {
+    "ar": "جيولوجيا المناجم",
+    "en": "Mining Geology",
+    "fr": "Géologie Minière"
+  },
+  "description": {
+    "ar": "تعلم استكشاف وتقييم واستخراج الموارد المعدنية",
+    "en": "Learn about exploration, evaluation and extraction of mineral resources",
+    "fr": "Apprenez l'exploration, l'évaluation et l'extraction des ressources minérales"
+  },
+  "icon": "⛏️",
+  "level": "advanced",
+  "questions": [
+    {
+      "id": 1,
+      "question": {
+        "ar": "ما هي المراحل الرئيسية لتطوير المنجم؟",
+        "en": "What are the main stages of mine development?",
+        "fr": "Quelles sont les principales étapes du développement minier?"
+      },
+      "image": "images/diagrams/geological_section.jpg",
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "الاستكشاف، التقييم، التطوير، الإنتاج، الإغلاق",
+            "en": "Exploration, evaluation, development, production, closure",
+            "fr": "Exploration, évaluation, développement, production, fermeture"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "الحفر فقط، ثم الإنتاج",
+            "en": "Only drilling, then production",
+            "fr": "Seulement le forage, puis la production"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تبدأ دورة المنجم بالاستكشاف وتنتهي بالإغلاق وإعادة التأهيل، وتستغرق عادةً سنوات عديدة",
+        "en": "The mine cycle begins with exploration and ends with closure and rehabilitation, typically spanning many years",
+        "fr": "Le cycle minier commence par l'exploration et se termine par la fermeture et la réhabilitation, s'étalant généralement sur de nombreuses années"
+      }
+    }
+  ],
+  "total_questions": 1,
+  "passing_score": 75
+}
