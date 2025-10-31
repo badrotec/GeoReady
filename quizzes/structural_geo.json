@@ -1,26 +1,69 @@
 {
   "id": "structural_geo",
   "name": {
-    "ar": "الجيولوجيا التركيبية",
-    "en": "Structural Geology",
-    "fr": "Géologie Structurale"
+    "ar": "الجيولوجيا التركيبية - الصدوع والطيات",
+    "en": "Structural Geology - Faults and Folds", 
+    "fr": "Géologie Structurale - Failles et Plis"
   },
   "description": {
-    "ar": "تعلم التراكيب الجيولوجية مثل الصدوع والطيات والفواصل",
-    "en": "Learn about geological structures like faults, folds, and joints",
-    "fr": "Apprenez les structures géologiques comme les failles, les plis et les joints"
+    "ar": "تعلم التراكيب الجيولوجية مثل الصدوع والطيات وميكانيكا تكوينها",
+    "en": "Learn geological structures like faults, folds, and their formation mechanics",
+    "fr": "Apprenez les structures géologiques comme les failles, plis et leur mécanique de formation"
   },
   "icon": "🌋",
-  "level": "intermediate",
+  "level": "advanced",
   "questions": [
     {
       "id": 1,
+      "difficulty": "easy",
+      "question": {
+        "ar": "ما هي الجيولوجيا التركيبية؟",
+        "en": "What is structural geology?",
+        "fr": "Qu'est-ce que la géologie structurale?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "علم يدرس تشوه الصخور والتراكيب الجيولوجية",
+            "en": "Science studying rock deformation and geological structures",
+            "fr": "Science étudiant la déformation des roches et les structures géologiques"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "علم دراسة المعادن فقط",
+            "en": "Science studying only minerals",
+            "fr": "Science étudiant seulement les minéraux"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "علم دراسة الأحافير",
+            "en": "Science studying fossils",
+            "fr": "Science étudiant les fossiles"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تهتم الجيولوجيا التركيبية بدراسة القوى التكتونية وتأثيرها على تشوه الصخور وتكوين التراكيب",
+        "en": "Structural geology concerns tectonic forces study and their effect on rock deformation and structure formation",
+        "fr": "La géologie structurale concerne l'étude des forces tectoniques et leur effet sur la déformation des roches et la formation des structures"
+      }
+    },
+    {
+      "id": 2,
+      "difficulty": "easy",
       "question": {
         "ar": "ما هو الصدع الجيولوجي؟",
         "en": "What is a geological fault?",
         "fr": "Qu'est-ce qu'une faille géologique?"
       },
-      "image": "images/diagrams/faults_folds.jpg",
       "options": [
         {
           "id": "A",
@@ -32,22 +75,1020 @@
           "correct": true
         },
         {
-          "id": "B",
+          "id": "B", 
           "text": {
-            "ar": "تجعد في الطبقات الصخرية",
-            "en": "A bend in rock layers",
-            "fr": "Un pli dans les couches rocheuses"
+            "ar": "تجويف في الصخور",
+            "en": "A cavity in rocks",
+            "fr": "Une cavité dans les roches"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "طبقة صخرية",
+            "en": "A rock layer",
+            "fr": "Une couche rocheuse"
           },
           "correct": false
         }
       ],
       "explanation": {
-        "ar": "الصدع هو كسر في كتلة الصخور تتحرك على جانبيه بشكل نسبي، وينتج عن الإجهاد التكتوني",
-        "en": "A fault is a fracture in a rock mass where the sides have moved relative to each other, resulting from tectonic stress",
-        "fr": "Une faille est une fracture dans une masse rocheuse où les côtés ont bougé l'un par rapport à l'autre, résultant d'un stress tectonique"
+        "ar": "تحدث الصدوع عندما تتجاوز قوى الشد قوة الصخور، مما يؤدي إلى كسرها وحركتها",
+        "en": "Faults occur when tensile forces exceed rock strength, causing fracture and movement",
+        "fr": "Les failles se produisent quand les forces de tension dépassent la résistance des roches, causant fracture et mouvement"
+      }
+    },
+    {
+      "id": 3,
+      "difficulty": "easy",
+      "question": {
+        "ar": "ما هي الطية الجيولوجية؟",
+        "en": "What is a geological fold?",
+        "fr": "Qu'est-ce qu'un pli géologique?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "انحناء في الطبقات الصخرية نتيجة قوى الضغط",
+            "en": "A bend in rock layers due to compressive forces",
+            "fr": "Une courbure dans les couches rocheuses due aux forces de compression"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "كسر في الصخور",
+            "en": "A fracture in rocks",
+            "fr": "Une fracture dans les roches"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "فتحة بركانية",
+            "en": "A volcanic vent",
+            "fr": "Une cheminée volcanique"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تتكون الطيات عندما تتعرض الصخور لقوى ضغط أفقية تؤدي إلى ثنيها دون كسرها",
+        "en": "Folds form when rocks undergo horizontal compressive forces causing bending without fracture",
+        "fr": "Les plis se forment quand les roches subissent des forces de compression horizontales causant flexion sans fracture"
+      }
+    },
+    {
+      "id": 4,
+      "difficulty": "easy",
+      "question": {
+        "ar": "ما هو الصدع العادي؟",
+        "en": "What is a normal fault?",
+        "fr": "Qu'est-ce qu'une faille normale?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "صدع حيث ينزلق الكتلة العلوية للأسفل",
+            "en": "A fault where the upper block slides downward",
+            "fr": "Une faille où le bloc supérieur glisse vers le bas"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "صدع حيث ترتفع الكتلة العلوية",
+            "en": "A fault where the upper block rises",
+            "fr": "Une faille où le bloc supérieur s'élève"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "صدع بدون حركة رأسية",
+            "en": "A fault without vertical movement",
+            "fr": "Une faille sans mouvement vertical"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يحدث الصدع العادي في مناطق الشد التكتوني، حيث تتباعد الكتل عن بعضها",
+        "en": "Normal faults occur in tectonic extension areas, where blocks move apart from each other",
+        "fr": "Les failles normales se produisent dans les zones d'extension tectonique, où les blocs s'écartent les uns des autres"
+      }
+    },
+    {
+      "id": 5,
+      "difficulty": "easy",
+      "question": {
+        "ar": "ما هو الصدع العكسي؟",
+        "en": "What is a reverse fault?",
+        "fr": "Qu'est-ce qu'une faille inverse?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "صدع حيث ترتفع الكتلة العلوية للأعلى",
+            "en": "A fault where the upper block moves upward",
+            "fr": "Une faille où le bloc supérieur se déplace vers le haut"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "صدع حيث تهبط الكتلة العلوية",
+            "en": "A fault where the upper block moves downward",
+            "fr": "Une faille où le bloc supérieur se déplace vers le bas"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "صدع أفقي",
+            "en": "A horizontal fault",
+            "fr": "Une faille horizontale"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "ينشأ الصدع العكسي في مناطق الضغط التكتوني، حيث تتقارب الكتل نحو بعضها",
+        "en": "Reverse faults form in tectonic compression areas, where blocks converge toward each other",
+        "fr": "Les failles inverses se forment dans les zones de compression tectonique, où les blocs convergent les uns vers les autres"
+      }
+    },
+    {
+      "id": 6,
+      "difficulty": "easy",
+      "question": {
+        "ar": "ما هو الصدع الانزلاقي؟",
+        "en": "What is a strike-slip fault?",
+        "fr": "Qu'est-ce qu'une faille décrochante?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "صدع مع حركة أفقية على جانبي الصدع",
+            "en": "A fault with horizontal movement on both sides",
+            "fr": "Une faille avec mouvement horizontal des deux côtés"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "صدع مع حركة رأسية فقط",
+            "en": "A fault with only vertical movement",
+            "fr": "Une faille avec seulement mouvement vertical"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "صدع دائري",
+            "en": "A circular fault",
+            "fr": "Une faille circulaire"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تتميز الصدوع الانزلاقية بحركة أفقية على طول مستوى الصدع، مثل صدع سان أندرياس",
+        "en": "Strike-slip faults feature horizontal movement along the fault plane, like the San Andreas fault",
+        "fr": "Les failles décrochantes présentent un mouvement horizontal le long du plan de faille, comme la faille de San Andreas"
+      }
+    },
+    {
+      "id": 7,
+      "difficulty": "easy",
+      "question": {
+        "ar": "ما هي الطية المحدبة؟",
+        "en": "What is an anticline?",
+        "fr": "Qu'est-ce qu'un anticlinal?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "طية مقعرة للأعلى، أقدم الصخور في المركز",
+            "en": "An upward-arching fold, oldest rocks in center",
+            "fr": "Un pli arqué vers le haut, roches les plus anciennes au centre"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "طية مقعرة للأسفل، أحدث الصخور في المركز",
+            "en": "A downward-arching fold, youngest rocks in center",
+            "fr": "Un pli arqué vers le bas, roches les plus récentes au centre"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "طية مسطحة",
+            "en": "A flat fold",
+            "fr": "Un pli plat"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "في الطيات المحدبة، تكون الطبقات الأقدم في المركز وتتجه الطبقات للأسفل على الجانبين",
+        "en": "In anticlines, oldest layers are in the center and layers dip away on both sides",
+        "fr": "Dans les anticlinaux, les couches les plus anciennes sont au centre et les couches plongent vers l'extérieur des deux côtés"
+      }
+    },
+    {
+      "id": 8,
+      "difficulty": "easy",
+      "question": {
+        "ar": "ما هي الطية المقعرة؟",
+        "en": "What is a syncline?",
+        "fr": "Qu'est-ce qu'un synclinal?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "طية مقعرة للأسفل، أحدث الصخور في المركز",
+            "en": "A downward-arching fold, youngest rocks in center",
+            "fr": "Un pli arqué vers le bas, roches les plus récentes au centre"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "طية مقعرة للأعلى، أقدم الصخور في المركز",
+            "en": "An upward-arching fold, oldest rocks in center",
+            "fr": "Un pli arqué vers le haut, roches les plus anciennes au centre"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "طية مائلة",
+            "en": "An inclined fold",
+            "fr": "Un pli incliné"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "في الطيات المقعرة، تكون الطبقات الأحدث في المركز وتتجه الطبقات للأعلى على الجانبين",
+        "en": "In synclines, youngest layers are in the center and layers dip toward the center on both sides",
+        "fr": "Dans les synclinaux, les couches les plus récentes sont au centre et les couches plongent vers le centre des deux côtés"
+      }
+    },
+    {
+      "id": 9,
+      "difficulty": "medium",
+      "question": {
+        "ar": "ما هو مستوى الصدع؟",
+        "en": "What is a fault plane?",
+        "fr": "Qu'est-ce qu'un plan de faille?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "السطح الذي يحدث عليه الحركة في الصدع",
+            "en": "The surface where movement occurs in a fault",
+            "fr": "La surface où le mouvement se produit dans une faille"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "سطح الطبقة الصخرية",
+            "en": "The surface of a rock layer",
+            "fr": "La surface d'une couche rocheuse"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "سطح الأرض",
+            "en": "The ground surface",
+            "fr": "La surface du sol"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يمكن أن يكون مستوى الصدع رأسيًا أو مائلاً أو أفقيًا، وتقاس اتجاهاته بالغمر والاتجاه",
+        "en": "Fault planes can be vertical, inclined, or horizontal, with directions measured by dip and strike",
+        "fr": "Les plans de faille peuvent être verticaux, inclinés ou horizontaux, avec directions mesurées par pendage et direction"
+      }
+    },
+    {
+      "id": 10,
+      "difficulty": "medium",
+      "question": {
+        "ar": "ما هو الحائط المعلق في الصدع؟",
+        "en": "What is the hanging wall in a fault?",
+        "fr": "Qu'est-ce que le mur suspendu dans une faille?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "الكتلة الصخرية فوق مستوى الصدع",
+            "en": "The rock block above the fault plane",
+            "fr": "Le bloc rocheux au-dessus du plan de faille"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "الكتلة الصخرية تحت مستوى الصدع",
+            "en": "The rock block below the fault plane",
+            "fr": "Le bloc rocheux sous le plan de faille"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "جانب الصدع",
+            "en": "The fault side",
+            "fr": "Le côté de la faille"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "في الصدوع المائلة، يكون الحائط المعلق هو الكتلة فوق مستوى الصدع، والحائط القاعدي تحته",
+        "en": "In inclined faults, the hanging wall is the block above the fault plane, and the footwall is below",
+        "fr": "Dans les failles inclinées, le mur suspendu est le bloc au-dessus du plan de faille, et le mur inférieur est en dessous"
+      }
+    },
+    {
+      "id": 11,
+      "difficulty": "medium",
+      "question": {
+        "ar": "ما هو الحائط القاعدي في الصدع؟",
+        "en": "What is the footwall in a fault?",
+        "fr": "Qu'est-ce que le mur inférieur dans une faille?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "الكتلة الصخرية تحت مستوى الصدع",
+            "en": "The rock block below the fault plane",
+            "fr": "Le bloc rocheux sous le plan de faille"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "الكتلة الصخرية فوق مستوى الصدع",
+            "en": "The rock block above the fault plane",
+            "fr": "Le bloc rocheux au-dessus du plan de faille"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "منتصف الصدع",
+            "en": "The fault center",
+            "fr": "Le centre de la faille"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "الحائط القاعدي هو الكتلة التي تقع تحت مستوى الصدع، وتستخدم هذه المصطلحات في الصدوع المائلة",
+        "en": "The footwall is the block below the fault plane, these terms are used for inclined faults",
+        "fr": "Le mur inférieur est le bloc sous le plan de faille, ces termes sont utilisés pour les failles inclinées"
+      }
+    },
+    {
+      "id": 12,
+      "difficulty": "medium",
+      "question": {
+        "ar": "ما هو محور الطية؟",
+        "en": "What is the fold axis?",
+        "fr": "Qu'est-ce que l'axe du pli?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "الخط الذي يصل بين نقاط الانحناء القصوى في الطية",
+            "en": "The line connecting points of maximum curvature in a fold",
+            "fr": "La ligne reliant les points de courbure maximale dans un pli"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "مركز الطية",
+            "en": "The fold center",
+            "fr": "Le centre du pli"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "قمة الطية",
+            "en": "The fold crest",
+            "fr": "La crête du pli"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يمثل محور الطية الخط الذي يمر عبر نقاط الانحناء القصوى ويمكن أن يكون أفقيًا أو مائلاً",
+        "en": "The fold axis represents the line through points of maximum curvature and can be horizontal or inclined",
+        "fr": "L'axe du pli représente la ligne traversant les points de courbure maximale et peut être horizontal ou incliné"
+      }
+    },
+    {
+      "id": 13,
+      "difficulty": "medium",
+      "question": {
+        "ar": "ما هو المستوى المحوري للطية؟",
+        "en": "What is the axial plane of a fold?",
+        "fr": "Qu'est-ce que le plan axial d'un pli?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "المستوى الذي يقسم الطية إلى نصفين متماثلين",
+            "en": "The plane that divides the fold into two symmetrical halves",
+            "fr": "Le plan qui divise le pli en deux moitiés symétriques"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "سطح الطبقة الصخرية",
+            "en": "The rock layer surface",
+            "fr": "La surface de la couche rocheuse"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "قاعدة الطية",
+            "en": "The fold base",
+            "fr": "La base du pli"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "المستوى المحوري هو السطح التخيلي الذي يمر عبر محور الطية ويقسمها إلى قسمين متماثلين",
+        "en": "The axial plane is the imaginary surface passing through the fold axis and dividing it into two symmetrical parts",
+        "fr": "Le plan axial est la surface imaginaire passant par l'axe du pli et le divisant en deux parties symétriques"
+      }
+    },
+    {
+      "id": 14,
+      "difficulty": "medium",
+      "question": {
+        "ar": "ما هي الطية المتجانسة؟",
+        "en": "What is a symmetrical fold?",
+        "fr": "Qu'est-ce qu'un pli symétrique?"
+      },
+      "options": [
+        {
+          "id": "id": "A",
+          "text": {
+            "ar": "طية يكون فيها كلا الجناحين متماثلين في الميل والطول",
+            "en": "A fold where both limbs are symmetrical in dip and length",
+            "fr": "Un pli où les deux flancs sont symétriques en pendage et longueur"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "طية ذات جناح واحد فقط",
+            "en": "A fold with only one limb",
+            "fr": "Un pli avec un seul flanc"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "طية غير منتظمة",
+            "en": "An irregular fold",
+            "fr": "Un pli irrégulier"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "في الطيات المتجانسة، يكون المستوى المحوري رأسيًا تقريبًا ويكون كلا الجناحين متماثلين",
+        "en": "In symmetrical folds, the axial plane is nearly vertical and both limbs are symmetrical",
+        "fr": "Dans les plis symétriques, le plan axial est presque vertical et les deux flancs sont symétriques"
+      }
+    },
+    {
+      "id": 15,
+      "difficulty": "medium",
+      "question": {
+        "ar": "ما هي الطية غير المتجانسة؟",
+        "en": "What is an asymmetrical fold?",
+        "fr": "Qu'est-ce qu'un pli asymétrique?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "طية يكون فيها الجناحان مختلفين في الميل والطول",
+            "en": "A fold where the two limbs differ in dip and length",
+            "fr": "Un pli où les deux flancs diffèrent en pendage et longueur"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "طية متماثلة تمامًا",
+            "en": "A perfectly symmetrical fold",
+            "fr": "Un pli parfaitement symétrique"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "طية مسطحة",
+            "en": "A flat fold",
+            "fr": "Un pli plat"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تحدث الطيات غير المتجانسة عندما يكون المستوى المحوري مائلاً، مما يؤدي إلى اختلاف بين الجناحين",
+        "en": "Asymmetrical folds occur when the axial plane is inclined, resulting in different limbs",
+        "fr": "Les plis asymétriques se produisent quand le plan axial est incliné, résultant en flancs différents"
+      }
+    },
+    {
+      "id": 16,
+      "difficulty": "hard",
+      "question": {
+        "ar": "ما هو الانزياح؟",
+        "en": "What is displacement?",
+        "fr": "Qu'est-ce que le déplacement?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "كمية الحركة النسبية على جانبي الصدع",
+            "en": "The amount of relative movement on both sides of a fault",
+            "fr": "La quantité de mouvement relatif des deux côtés d'une faille"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "سرعة الحركة",
+            "en": "The speed of movement",
+            "fr": "La vitesse du mouvement"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "اتجاه الحركة",
+            "en": "The direction of movement",
+            "fr": "La direction du mouvement"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يمكن قياس الانزياح بالمسافة والاتجاه، ويساعد في فهم تاريخ النشاط التكتوني للمنطقة",
+        "en": "Displacement can be measured by distance and direction, helping understand regional tectonic history",
+        "fr": "Le déplacement peut être mesuré par distance et direction, aidant à comprendre l'histoire tectonique régionale"
+      }
+    },
+    {
+      "id": 17,
+      "difficulty": "hard",
+      "question": {
+        "ar": "ما هي منطقة التحطم؟",
+        "en": "What is a fault zone?",
+        "fr": "Qu'est-ce qu'une zone de faille?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "منطقة عريضة تحتوي على عدة صدوع متوازية",
+            "en": "A wide area containing several parallel faults",
+            "fr": "Une zone large contenant plusieurs failles parallèles"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "صدع واحد فقط",
+            "en": "A single fault only",
+            "fr": "Une seule faille"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "منطقة بدون صدوع",
+            "en": "An area without faults",
+            "fr": "Une zone sans failles"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تتكون مناطق التحطم عندما لا تتركز القوى التكتونية على مستوى صدع واحد بل على منطقة واسعة",
+        "en": "Fault zones form when tectonic forces aren't concentrated on a single fault plane but over a wide area",
+        "fr": "Les zones de faille se forment quand les forces tectoniques ne sont pas concentrées sur un seul plan de faille mais sur une zone large"
+      }
+    },
+    {
+      "id": 18,
+      "difficulty": "hard",
+      "question": {
+        "ar": "ما هو الغمر في الجيولوجيا التركيبية؟",
+        "en": "What is dip in structural geology?",
+        "fr": "Qu'est-ce que le pendage en géologie structurale?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "زاوية ميل الطبقة أو الصدع عن الأفقي",
+            "en": "The angle of inclination of a layer or fault from horizontal",
+            "fr": "L'angle d'inclinaison d'une couche ou faille par rapport à l'horizontale"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "اتجاه الطبقة",
+            "en": "The direction of a layer",
+            "fr": "La direction d'une couche"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "عمق الطبقة",
+            "en": "The depth of a layer",
+            "fr": "La profondeur d'une couche"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يقاس الغمر بالدرجات من 0° (أفقي) إلى 90° (رأسي)، وله اتجاه يحدد اتجاه الميل",
+        "en": "Dip is measured in degrees from 0° (horizontal) to 90° (vertical), with a direction indicating tilt orientation",
+        "fr": "Le pendage est mesuré en degrés de 0° (horizontal) à 90° (vertical), avec une direction indiquant l'orientation de l'inclinaison"
+      }
+    },
+    {
+      "id": 19,
+      "difficulty": "hard",
+      "question": {
+        "ar": "ما هو الاتجاه في الجيولوجيا التركيبية؟",
+        "en": "What is strike in structural geology?",
+        "fr": "Qu'est-ce que la direction en géologie structurale?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "اتجاه خط تقاطع الطبقة مع المستوى الأفقي",
+            "en": "The direction of the intersection line of a layer with horizontal plane",
+            "fr": "La direction de la ligne d'intersection d'une couche avec le plan horizontal"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "زاوية الميل",
+            "en": "The angle of inclination",
+            "fr": "L'angle d'inclinaison"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "سمك الطبقة",
+            "en": "The layer thickness",
+            "fr": "L'épaisseur de la couche"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يقاس الاتجاه بالدرجات من الشمال (0-360°) ويعطي الخط الأفقي للطبقة أو الصدع",
+        "en": "Strike is measured in degrees from north (0-360°) and gives the horizontal line of a layer or fault",
+        "fr": "La direction est mesurée en degrés depuis le nord (0-360°) et donne la ligne horizontale d'une couche ou faille"
+      }
+    },
+    {
+      "id": 20,
+      "difficulty": "hard",
+      "question": {
+        "ar": "ما هي الطية المقلوبة؟",
+        "en": "What is an overturned fold?",
+        "fr": "Qu'est-ce qu'un pli renversé?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "طية مائلة بشدة حيث يكون أحد الجناحين مقلوبًا",
+            "en": "A strongly inclined fold where one limb is overturned",
+            "fr": "Un pli fortement incliné où un flanc est renversé"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "طية مسطحة",
+            "en": "A flat fold",
+            "fr": "Un pli plat"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "طية متناظرة",
+            "en": "A symmetrical fold",
+            "fr": "Un pli symétrique"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "في الطيات المقلوبة، يميل المستوى المحوري بشدة وقد تكون الطبقات في أحد الجناحين مقلوبة رأسًا على عقب",
+        "en": "In overturned folds, the axial plane is strongly inclined and layers in one limb may be upside down",
+        "fr": "Dans les plis renversés, le plan axial est fortement incliné et les couches dans un flanc peuvent être à l'envers"
+      }
+    },
+    {
+      "id": 21,
+      "difficulty": "hard",
+      "question": {
+        "ar": "ما هو صدع الدسر؟",
+        "en": "What is a thrust fault?",
+        "fr": "Qu'est-ce qu'une faille de chevauchement?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "صدع عكسي بزاوية غمر منخفضة (أقل من 45°)",
+            "en": "A reverse fault with low dip angle (less than 45°)",
+            "fr": "Une faille inverse avec faible angle de pendage (moins de 45°)"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "صدع عادي",
+            "en": "A normal fault",
+            "fr": "Une faille normale"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "صدع انزلاقي",
+            "en": "A strike-slip fault",
+            "fr": "Une faille décrochante"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تحدث صدوع الدسر في مناطق الضغط الشديد ويمكن أن تنقل كتل صخرية مسافات طويلة فوق بعضها",
+        "en": "Thrust faults occur in areas of intense compression and can transport rock blocks long distances over each other",
+        "fr": "Les failles de chevauchement se produisent dans les zones de compression intense et peuvent transporter des blocs rocheux sur de longues distances les uns sur les autres"
+      }
+    },
+    {
+      "id": 22,
+      "difficulty": "hard",
+      "question": {
+        "ar": "ما هي الفواصل؟",
+        "en": "What are joints?",
+        "fr": "Que sont les diaclases?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "كسور في الصخور بدون حركة نسبية",
+            "en": "Fractures in rocks without relative movement",
+            "fr": "Fractures dans les roches sans mouvement relatif"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "صدوع نشطة",
+            "en": "Active faults",
+            "fr": "Failles actives"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "طيات صغيرة",
+            "en": "Small folds",
+            "fr": "Petits plis"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تتكون الفواصل نتيجة الشد أو الانكماش في الصخور، وتلعب دورًا مهمًا في تخزين المياه والنفط",
+        "en": "Joints form due to tension or shrinkage in rocks and play important roles in water and oil storage",
+        "fr": "Les diaclases se forment due à la tension ou retrait dans les roches et jouent des rôles importants dans le stockage d'eau et pétrole"
+      }
+    },
+    {
+      "id": 23,
+      "difficulty": "hard",
+      "question": {
+        "ar": "ما هو الانزياح الافقي؟",
+        "en": "What is heave?",
+        "fr": "Qu'est-ce que le rejet horizontal?"
+      },
+      "options": [
+        {
+          "id": "id": "A",
+          "text": {
+            "ar": "المكون الأفقي للانزياح في الصدع",
+            "en": "The horizontal component of displacement in a fault",
+            "fr": "La composante horizontale du déplacement dans une faille"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "المكون الرأسي للانزياح",
+            "en": "The vertical component of displacement",
+            "fr": "La composante verticale du déplacement"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "الانزياح الكلي",
+            "en": "The total displacement",
+            "fr": "Le déplacement total"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يقاس الانزياح الأفقي بالمسافة الأفقية بين نقطتين متقابلتين على جانبي الصدع بعد الحركة",
+        "en": "Heave is measured by the horizontal distance between corresponding points on both fault sides after movement",
+        "fr": "Le rejet horizontal est mesuré par la distance horizontale entre points correspondants des deux côtés de la faille après mouvement"
+      }
+    },
+    {
+      "id": 24,
+      "difficulty": "hard",
+      "question": {
+        "ar": "ما هو الانزياح الرأسي؟",
+        "en": "What is throw?",
+        "fr": "Qu'est-ce que le rejet vertical?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "المكون الرأسي للانزياح في الصدع",
+            "en": "The vertical component of displacement in a fault",
+            "fr": "La composante verticale du déplacement dans une faille"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "المكون الأفقي للانزياح",
+            "en": "The horizontal component of displacement",
+            "fr": "La composante horizontale du déplacement"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "سرعة الحركة",
+            "en": "The speed of movement",
+            "fr": "La vitesse du mouvement"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يقاس الانزياح الرأسي بالفرق في الارتفاع بين نقطتين متقابلتين على جانبي الصدع بعد الحركة",
+        "en": "Throw is measured by the elevation difference between corresponding points on both fault sides after movement",
+        "fr": "Le rejet vertical est mesuré par la différence d'élévation entre points correspondants des deux côtés de la faille après mouvement"
+      }
+    },
+    {
+      "id": 25,
+      "difficulty": "hard",
+      "question": {
+        "ar": "ما هي أهمية دراسة الجيولوجيا التركيبية؟",
+        "en": "What is the importance of studying structural geology?",
+        "fr": "Quelle est l'importance de l'étude de la géologie structurale?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "لفهم تاريخ القوى التكتونية واستكشاف الموارد الطبيعية",
+            "en": "To understand tectonic forces history and explore natural resources",
+            "fr": "Pour comprendre l'histoire des forces tectoniques et explorer les ressources naturelles"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "لدراسة الأحافير فقط",
+            "en": "To study only fossils",
+            "fr": "Pour étudier seulement les fossiles"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "لتحليل الطقس",
+            "en": "To analyze weather",
+            "fr": "Pour analyser la météo"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تساعد الجيولوجيا التركيبية في استكشاف النفط والغاز والمياه الجوفية، وتقييم مخاطر الزلازل، والتخطيط للمشاريع الهندسية",
+        "en": "Structural geology helps in oil, gas, and groundwater exploration, earthquake risk assessment, and engineering project planning",
+        "fr": "La géologie structurale aide dans l'exploration pétrolière, gazière et des eaux souterraines, l'évaluation des risques sismiques et la planification des projets d'ingénierie"
       }
     }
   ],
-  "total_questions": 1,
-  "passing_score": 75
+  "total_questions": 25,
+  "passing_score": 70
 }
