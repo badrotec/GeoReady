@@ -5,7 +5,8 @@ class SoundManager {
             correct: 'sounds/correct.mp3',
             wrong: 'sounds/wrong.mp3', 
             perfect: 'sounds/perfect.mp3',
-            click: 'sounds/click.mp3'
+            click: 'sounds/click.mp3',
+            timer: 'sounds/timer.mp3'
         };
         this.enabled = true;
     }
@@ -33,6 +34,10 @@ class GeoLearnApp {
         this.score = 0;
         this.quizStartTime = null;
         this.timer = null;
+        this.questionTimer = null;
+        this.timeLeft = 15;
+        this.isAnswerRevealed = false;
+        this.dailyQuizPlayed = false;
         
         // نظام الأصوات
         this.soundManager = new SoundManager();
@@ -46,9 +51,23 @@ class GeoLearnApp {
         this.setupEventListeners();
         this.loadUserProgress();
         this.loadUserPreferences();
+        this.setupDailyQuiz();
         
         console.log('GeoLearn App Started! 🚀');
         console.log('Loaded quizzes:', this.quizzes.length);
+    }
+
+    // إعداد الكويز اليومي
+    setupDailyQuiz() {
+        const today = new Date().toDateString();
+        const lastPlayed = localStorage.getItem('daily-quiz-date');
+        
+        if (lastPlayed !== today) {
+            localStorage.setItem('daily-quiz-date', today);
+            localStorage.setItem('daily-quiz-played', 'false');
+        }
+        
+        this.dailyQuizPlayed = localStorage.getItem('daily-quiz-played') === 'true';
     }
 
     // تحميل بيانات الكويزات
@@ -68,6 +87,9 @@ class GeoLearnApp {
                 console.error(`Failed to load quiz: ${quizId}`, error);
             }
         }
+
+        // إضافة كويز يومي
+        this.addDailyQuiz();
     }
 
     async loadQuizData(quizId) {
@@ -82,6 +104,325 @@ class GeoLearnApp {
         }
     }
 
+    // إضافة كويز يومي
+    addDailyQuiz() {
+        const dailyQuiz = {
+            id: 'daily_quiz',
+            name: {
+                ar: 'الكويز اليومي 🏆',
+                en: 'Daily Quiz 🏆',
+                fr: 'Quiz Quotidien 🏆'
+            },
+            description: {
+                ar: 'اختبر معرفتك اليومية في الجيولوجيا - 10 أسئلة في 150 ثانية!',
+                en: 'Test your daily geology knowledge - 10 questions in 150 seconds!',
+                fr: 'Testez vos connaissances géologiques quotidiennes - 10 questions en 150 secondes!'
+            },
+            icon: '🏆',
+            level: 'intermediate',
+            questions: this.generateDailyQuestions(),
+            isDaily: true,
+            total_questions: 10,
+            passing_score: 70
+        };
+        
+        this.quizzes.unshift(dailyQuiz);
+    }
+
+    // توليد أسئلة يومية
+    generateDailyQuestions() {
+        return [
+            {
+                id: 1,
+                question: {
+                    ar: "ما هي الصخرة النارية التي تبرد ببطء تحت سطح الأرض؟",
+                    en: "Which igneous rock cools slowly beneath Earth's surface?",
+                    fr: "Quelle roche ignée refroidit lentement sous la surface de la Terre?"
+                },
+                options: [
+                    {
+                        id: "A",
+                        text: { ar: "البازلت", en: "Basalt", fr: "Basalte" },
+                        correct: false
+                    },
+                    {
+                        id: "B", 
+                        text: { ar: "الجرانيت", en: "Granite", fr: "Granite" },
+                        correct: true
+                    },
+                    {
+                        id: "C",
+                        text: { ar: "الريوليت", en: "Rhyolite", fr: "Rhyolite" },
+                        correct: false
+                    }
+                ],
+                explanation: {
+                    ar: "الجرانيت هو صخرة نارية تتكون من تبريد بطيء للصهارة تحت سطح الأرض",
+                    en: "Granite is an igneous rock formed by slow cooling of magma beneath Earth's surface",
+                    fr: "Le granite est une roche ignée formée par le refroidissement lent du magma sous la surface de la Terre"
+                }
+            },
+            {
+                id: 2,
+                question: {
+                    ar: "أي من هذه الصخور يعتبر صخرة متحولة؟",
+                    en: "Which of these rocks is a metamorphic rock?",
+                    fr: "Laquelle de ces roches est une roche métamorphique?"
+                },
+                options: [
+                    {
+                        id: "A",
+                        text: { ar: "الحجر الجيري", en: "Limestone", fr: "Calcaire" },
+                        correct: false
+                    },
+                    {
+                        id: "B", 
+                        text: { ar: "الرخام", en: "Marble", fr: "Marbre" },
+                        correct: true
+                    },
+                    {
+                        id: "C",
+                        text: { ar: "البازلت", en: "Basalt", fr: "Basalte" },
+                        correct: false
+                    }
+                ],
+                explanation: {
+                    ar: "الرخام هو صخرة متحولة تتكون من تحول الحجر الجيري",
+                    en: "Marble is a metamorphic rock formed from the transformation of limestone",
+                    fr: "Le marbre est une roche métamorphique formée à partir de la transformation du calcaire"
+                }
+            },
+            {
+                id: 3,
+                type: "true_false",
+                question: {
+                    ar: "الصخور الرسوبية تتكون من ضغط وتماسك الرواسب",
+                    en: "Sedimentary rocks form from compaction and cementation of sediments",
+                    fr: "Les roches sédimentaires se forment par compaction et cimentation des sédiments"
+                },
+                options: [
+                    {
+                        id: "A",
+                        text: { ar: "صح", en: "True", fr: "Vrai" },
+                        correct: true
+                    },
+                    {
+                        id: "B", 
+                        text: { ar: "خطأ", en: "False", fr: "Faux" },
+                        correct: false
+                    }
+                ],
+                explanation: {
+                    ar: "نعم، الصخور الرسوبية تتكون من ترسب وتماسك الرواسب بفعل الضغط",
+                    en: "Yes, sedimentary rocks form from deposition and cementation of sediments under pressure",
+                    fr: "Oui, les roches sédimentaires se forment par dépôt et cimentation des sédiments sous pression"
+                }
+            },
+            {
+                id: 4,
+                question: {
+                    ar: "ما هو المعدن الأكثر وفرة في قشرة الأرض؟",
+                    en: "What is the most abundant mineral in Earth's crust?",
+                    fr: "Quel est le minéral le plus abondant dans la croûte terrestre?"
+                },
+                options: [
+                    {
+                        id: "A",
+                        text: { ar: "الكوارتز", en: "Quartz", fr: "Quartz" },
+                        correct: false
+                    },
+                    {
+                        id: "B", 
+                        text: { ar: "الفلدسبار", en: "Feldspar", fr: "Feldspath" },
+                        correct: true
+                    },
+                    {
+                        id: "C",
+                        text: { ar: "المايكا", en: "Mica", fr: "Mica" },
+                        correct: false
+                    }
+                ],
+                explanation: {
+                    ar: "الفلدسبار يشكل حوالي 60% من قشرة الأرض",
+                    en: "Feldspar makes up about 60% of Earth's crust",
+                    fr: "Le feldspath constitue environ 60% de la croûte terrestre"
+                }
+            },
+            {
+                id: 5,
+                question: {
+                    ar: "أي نوع من الصدوع ينتج عن قوى الشد؟",
+                    en: "Which type of fault results from tensional forces?",
+                    fr: "Quel type de faille résulte des forces de tension?"
+                },
+                options: [
+                    {
+                        id: "A",
+                        text: { ar: "الصدع العكسي", en: "Reverse fault", fr: "Faille inverse" },
+                        correct: false
+                    },
+                    {
+                        id: "B", 
+                        text: { ar: "الصدع العادي", en: "Normal fault", fr: "Faille normale" },
+                        correct: true
+                    },
+                    {
+                        id: "C",
+                        text: { ar: "الصدع الانزلاقي", en: "Strike-slip fault", fr: "Faille décrochante" },
+                        correct: false
+                    }
+                ],
+                explanation: {
+                    ar: "الصدع العادي ينتج عن قوى الشد حيث تتحرك الكتلة العلوية للأسفل",
+                    en: "Normal fault results from tensional forces where the hanging wall moves downward",
+                    fr: "La faille normale résulte des forces de tension où le mur suspendu se déplace vers le bas"
+                }
+            },
+            {
+                id: 6,
+                type: "true_false",
+                question: {
+                    ar: "الزلازل تحدث فقط عند حدود الصفائح التكتونية",
+                    en: "Earthquakes occur only at tectonic plate boundaries",
+                    fr: "Les tremblements de terre se produisent uniquement aux limites des plaques tectoniques"
+                },
+                options: [
+                    {
+                        id: "A",
+                        text: { ar: "صح", en: "True", fr: "Vrai" },
+                        correct: false
+                    },
+                    {
+                        id: "B", 
+                        text: { ar: "خطأ", en: "False", fr: "Faux" },
+                        correct: true
+                    }
+                ],
+                explanation: {
+                    ar: "الزلازل يمكن أن تحدث داخل الصفائح أيضاً وليس فقط عند الحدود",
+                    en: "Earthquakes can also occur within plates, not only at boundaries",
+                    fr: "Les tremblements de terre peuvent également se produire à l'intérieur des plaques, pas seulement aux limites"
+                }
+            },
+            {
+                id: 7,
+                question: {
+                    ar: "ما هو العصر الجيولوجي الحالي؟",
+                    en: "What is the current geological era?",
+                    fr: "Quelle est l'ère géologique actuelle?"
+                },
+                options: [
+                    {
+                        id: "A",
+                        text: { ar: "السينوزوي", en: "Cenozoic", fr: "Cénozoïque" },
+                        correct: true
+                    },
+                    {
+                        id: "B", 
+                        text: { ar: "الميزوزوي", en: "Mesozoic", fr: "Mésozoïque" },
+                        correct: false
+                    },
+                    {
+                        id: "C",
+                        text: { ar: "الباليوزوي", en: "Paleozoic", fr: "Paléozoïque" },
+                        correct: false
+                    }
+                ],
+                explanation: {
+                    ar: "نحن نعيش في حقبة السينوزوي التي بدأت منذ 66 مليون سنة",
+                    en: "We live in the Cenozoic era which began 66 million years ago",
+                    fr: "Nous vivons dans l'ère Cénozoïque qui a commencé il y a 66 millions d'années"
+                }
+            },
+            {
+                id: 8,
+                question: {
+                    ar: "أي من هذه الطرق تستخدم للكشف عن المياه الجوفية؟",
+                    en: "Which of these methods is used for groundwater detection?",
+                    fr: "Laquelle de ces méthodes est utilisée pour la détection des eaux souterraines?"
+                },
+                options: [
+                    {
+                        id: "A",
+                        text: { ar: "المسح المغناطيسي", en: "Magnetic survey", fr: "Étude magnétique" },
+                        correct: false
+                    },
+                    {
+                        id: "B", 
+                        text: { ar: "المسح الكهربائي", en: "Electrical resistivity", fr: "Résistivité électrique" },
+                        correct: true
+                    },
+                    {
+                        id: "C",
+                        text: { ar: "المسح الجذبي", en: "Gravity survey", fr: "Étude gravimétrique" },
+                        correct: false
+                    }
+                ],
+                explanation: {
+                    ar: "المسح الكهربائي يقيس مقاومة التربة والصخور للموصلية الكهربائية، حيث تختلف مقاومة المناطق المشبعة بالمياه",
+                    en: "Electrical resistivity measures soil and rock resistance to electrical conductivity, as water-saturated areas have different resistivity",
+                    fr: "La résistivité électrique mesure la résistance du sol et des roches à la conductivité électrique, car les zones saturées en eau ont une résistivité différente"
+                }
+            },
+            {
+                id: 9,
+                type: "true_false",
+                question: {
+                    ar: "جميع البراكين تثور بشكل متفجر",
+                    en: "All volcanoes erupt explosively",
+                    fr: "Tous les volcans entrent en éruption de manière explosive"
+                },
+                options: [
+                    {
+                        id: "A",
+                        text: { ar: "صح", en: "True", fr: "Vrai" },
+                        correct: false
+                    },
+                    {
+                        id: "B", 
+                        text: { ar: "خطأ", en: "False", fr: "Faux" },
+                        correct: true
+                    }
+                ],
+                explanation: {
+                    ar: "بعض البراكين تثور بهدوء وتتدفق منها الحمم بشكل سلمي",
+                    en: "Some volcanoes erupt quietly with lava flowing peacefully",
+                    fr: "Certains volcans entrent en éruption calmement avec de la lave coulant paisiblement"
+                }
+            },
+            {
+                id: 10,
+                question: {
+                    ar: "ما هو الغرض الرئيسي من البوصلة الجيولوجية؟",
+                    en: "What is the main purpose of a geological compass?",
+                    fr: "Quel est le but principal d'une boussole géologique?"
+                },
+                options: [
+                    {
+                        id: "A",
+                        text: { ar: "تحديد الشمال فقط", en: "Determining north only", fr: "Déterminer seulement le nord" },
+                        correct: false
+                    },
+                    {
+                        id: "B", 
+                        text: { ar: "قياس اتجاه وميول الطبقات", en: "Measuring strike and dip of layers", fr: "Mesurer la direction et l'inclinaison des couches" },
+                        correct: true
+                    },
+                    {
+                        id: "C",
+                        text: { ar: "قياس عمق الآبار", en: "Measuring well depth", fr: "Mesurer la profondeur des puits" },
+                        correct: false
+                    }
+                ],
+                explanation: {
+                    ar: "البوصلة الجيولوجية مصممة خصيصاً لقياس اتجاه الطبقات (Strike) وميولها (Dip) بدقة",
+                    en: "The geological compass is specifically designed to accurately measure the strike (direction) and dip (inclination) of rock layers",
+                    fr: "La boussole géologique est spécialement conçue pour mesurer avec précision la direction (strike) et l'inclinaison (dip) des couches rocheuses"
+                }
+            }
+        ];
+    }
+
     // عرض الكويزات في الشبكة
     renderQuizzes() {
         const container = document.getElementById('quizzes-container');
@@ -93,14 +434,16 @@ class GeoLearnApp {
         console.log('🎯 Rendering quizzes:', this.quizzes.length);
         
         container.innerHTML = this.quizzes.map(quiz => `
-            <div class="quiz-card" onclick="app.startQuiz('${quiz.id}')">
+            <div class="quiz-card ${quiz.isDaily ? 'daily-quiz' : ''}" onclick="app.startQuiz('${quiz.id}')">
+                ${quiz.isDaily ? '<div class="daily-badge">اليومي</div>' : ''}
                 <div class="quiz-icon">${quiz.icon}</div>
                 <h3 class="quiz-title">${quiz.name[this.currentLanguage] || quiz.name.ar}</h3>
                 <p class="quiz-description">${quiz.description[this.currentLanguage] || quiz.description.ar}</p>
                 <div class="quiz-meta">
-                    <span>${quiz.questions?.length || 0} أسئلة</span>
+                    <span>${quiz.total_questions || quiz.questions?.length || 0} أسئلة</span>
                     <span class="quiz-level level-${quiz.level}">${this.getLevelText(quiz.level)}</span>
                 </div>
+                ${quiz.isDaily && this.dailyQuizPlayed ? '<div style="color: var(--accent-color); margin-top: 10px;">✔️ تم اللعب اليوم</div>' : ''}
             </div>
         `).join('');
     }
@@ -118,8 +461,15 @@ class GeoLearnApp {
     async startQuiz(quizId) {
         this.soundManager.play('click');
         this.currentQuiz = this.quizzes.find(q => q.id === quizId);
+        
         if (!this.currentQuiz) {
             alert('الكويز غير موجود');
+            return;
+        }
+
+        // التحقق من الكويز اليومي
+        if (this.currentQuiz.isDaily && this.dailyQuizPlayed) {
+            alert('لقد لعبت الكويز اليومي بالفعل! عد غداً 🎯');
             return;
         }
 
@@ -127,10 +477,12 @@ class GeoLearnApp {
         this.userAnswers = new Array(this.currentQuiz.questions.length).fill(null);
         this.score = 0;
         this.quizStartTime = new Date();
+        this.isAnswerRevealed = false;
         
         this.showQuizScreen();
         this.showQuestion();
         this.startTimer();
+        this.startQuestionTimer();
     }
 
     showQuizScreen() {
@@ -141,6 +493,7 @@ class GeoLearnApp {
     }
 
     renderQuizHeader() {
+        const totalQuestions = this.currentQuiz.questions.length;
         const quizScreen = document.getElementById('quiz-screen');
         quizScreen.innerHTML = `
             <div class="quiz-container">
@@ -151,7 +504,7 @@ class GeoLearnApp {
                         <p>${this.currentQuiz.description[this.currentLanguage] || this.currentQuiz.description.ar}</p>
                     </div>
                     <div class="quiz-stats">
-                        <div class="stat">السؤال <span id="current-question">1</span> من ${this.currentQuiz.questions.length}</div>
+                        <div class="stat">السؤال <span id="current-question">1</span> من ${totalQuestions}</div>
                         <div class="stat">النقاط: <span id="current-score">0</span></div>
                         <div class="stat">الوقت: <span id="quiz-timer">00:00</span></div>
                     </div>
@@ -174,12 +527,83 @@ class GeoLearnApp {
         `;
     }
 
+    // مؤقت السؤال (15 ثانية)
+    startQuestionTimer() {
+        this.timeLeft = 15;
+        this.updateQuestionTimer();
+        
+        this.questionTimer = setInterval(() => {
+            this.timeLeft--;
+            this.updateQuestionTimer();
+            
+            if (this.timeLeft <= 5) {
+                this.soundManager.play('timer');
+            }
+            
+            if (this.timeLeft <= 0) {
+                this.handleTimeUp();
+            }
+        }, 1000);
+    }
+
+    updateQuestionTimer() {
+        const timerElement = document.getElementById('question-timer');
+        if (timerElement) {
+            timerElement.textContent = this.timeLeft;
+            timerElement.className = `timer ${this.timeLeft <= 5 ? 'warning' : ''}`;
+        }
+    }
+
+    handleTimeUp() {
+        this.stopQuestionTimer();
+        this.isAnswerRevealed = true;
+        
+        // إظهار الإجابة الصحيحة
+        this.revealCorrectAnswer();
+        
+        // الانتقال للسؤال التالي بعد 2 ثانية
+        setTimeout(() => {
+            if (this.currentQuestionIndex < this.currentQuiz.questions.length - 1) {
+                this.nextQuestion();
+            } else {
+                this.finishQuiz();
+            }
+        }, 2000);
+    }
+
+    stopQuestionTimer() {
+        if (this.questionTimer) {
+            clearInterval(this.questionTimer);
+            this.questionTimer = null;
+        }
+    }
+
+    revealCorrectAnswer() {
+        const question = this.currentQuiz.questions[this.currentQuestionIndex];
+        const correctOption = question.options.find(opt => opt.correct);
+        
+        if (correctOption) {
+            const correctElement = document.querySelector(`[data-option-id="${correctOption.id}"]`);
+            if (correctElement) {
+                correctElement.classList.add('correct');
+            }
+        }
+    }
+
     showQuestion() {
+        this.stopQuestionTimer();
+        this.isAnswerRevealed = false;
+        this.timeLeft = 15;
+        
         const question = this.currentQuiz.questions[this.currentQuestionIndex];
         const container = document.getElementById('question-container');
         
         container.innerHTML = `
             <div class="question">
+                <div class="timer-container">
+                    <div class="timer" id="question-timer">15</div>
+                </div>
+                
                 <h3>${question.question[this.currentLanguage] || question.question.ar}</h3>
                 ${question.image ? `<div class="question-image"><img src="${question.image}" alt="Question Image" onerror="this.style.display='none'"></div>` : ''}
                 
@@ -196,50 +620,56 @@ class GeoLearnApp {
 
         this.updateNavigation();
         this.updateProgress();
-        
-        // تحديد الخيار المختار مسبقاً إن وجد
-        const selectedOptionId = this.userAnswers[this.currentQuestionIndex];
-        if (selectedOptionId) {
-            this.highlightSelectedOption(selectedOptionId);
-        }
+        this.startQuestionTimer();
     }
 
     selectOption(optionId) {
+        if (this.isAnswerRevealed) return;
+        
         this.soundManager.play('click');
+        this.stopQuestionTimer();
+        this.isAnswerRevealed = true;
         
-        // إزالة التحديد من جميع الخيارات
+        const question = this.currentQuiz.questions[this.currentQuestionIndex];
+        const selectedOption = question.options.find(opt => opt.id === optionId);
+        const correctOption = question.options.find(opt => opt.correct);
+        
+        // تلوين جميع الخيارات
         document.querySelectorAll('.option').forEach(opt => {
-            opt.classList.remove('selected');
+            const optId = opt.getAttribute('data-option-id');
+            if (optId === correctOption.id) {
+                opt.classList.add('correct');
+            } else if (optId === optionId && !selectedOption.correct) {
+                opt.classList.add('wrong');
+            }
         });
-        
-        // تحديد الخيار الجديد
-        const selectedOption = document.querySelector(`[data-option-id="${optionId}"]`);
-        if (selectedOption) {
-            selectedOption.classList.add('selected');
-        }
         
         // حفظ الإجابة
         this.userAnswers[this.currentQuestionIndex] = optionId;
         
-        // تشغيل صوت الإجابة
-        const question = this.currentQuiz.questions[this.currentQuestionIndex];
-        const selectedOptionData = question.options.find(opt => opt.id === optionId);
-        
-        if (selectedOptionData) {
-            if (selectedOptionData.correct) {
-                this.soundManager.play('correct');
-            } else {
-                this.soundManager.play('wrong');
-            }
+        // تحديث النقاط
+        if (selectedOption.correct) {
+            this.soundManager.play('correct');
+            this.score++;
+            this.updateScore();
+        } else {
+            this.soundManager.play('wrong');
         }
         
-        this.updateNavigation();
+        // الانتقال التلقائي بعد 2 ثانية
+        setTimeout(() => {
+            if (this.currentQuestionIndex < this.currentQuiz.questions.length - 1) {
+                this.nextQuestion();
+            } else {
+                this.finishQuiz();
+            }
+        }, 2000);
     }
 
-    highlightSelectedOption(optionId) {
-        const option = document.querySelector(`[data-option-id="${optionId}"]`);
-        if (option) {
-            option.classList.add('selected');
+    updateScore() {
+        const scoreElement = document.getElementById('current-score');
+        if (scoreElement) {
+            scoreElement.textContent = this.score;
         }
     }
 
@@ -248,6 +678,8 @@ class GeoLearnApp {
         if (this.currentQuestionIndex < this.currentQuiz.questions.length - 1) {
             this.currentQuestionIndex++;
             this.showQuestion();
+        } else {
+            this.finishQuiz();
         }
     }
 
@@ -284,6 +716,7 @@ class GeoLearnApp {
     }
 
     startTimer() {
+        this.quizStartTime = new Date();
         this.timer = setInterval(() => {
             const now = new Date();
             const diff = Math.floor((now - this.quizStartTime) / 1000);
@@ -318,10 +751,17 @@ class GeoLearnApp {
     }
 
     async finishQuiz() {
+        this.stopQuestionTimer();
         this.soundManager.play('click');
         this.stopTimer();
         const finalScore = this.calculateScore();
         const timeSpent = Math.floor((new Date() - this.quizStartTime) / 1000);
+        
+        // تحديث الكويز اليومي إذا كان daily
+        if (this.currentQuiz.isDaily) {
+            this.dailyQuizPlayed = true;
+            localStorage.setItem('daily-quiz-played', 'true');
+        }
         
         await this.showResults(finalScore, timeSpent);
         this.saveProgress(finalScore);
@@ -375,9 +815,11 @@ class GeoLearnApp {
 
     exitQuiz() {
         this.soundManager.play('click');
+        this.stopQuestionTimer();
         this.stopTimer();
         document.getElementById('quiz-screen').classList.add('hidden');
         document.querySelector('.main-container').classList.remove('hidden');
+        this.renderQuizzes(); // تحديث العرض بعد الخروج
         this.currentQuiz = null;
     }
 
