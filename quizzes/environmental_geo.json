@@ -1,0 +1,53 @@
+{
+  "id": "environmental_geo",
+  "name": {
+    "ar": "الجيولوجيا البيئية",
+    "en": "Environmental Geology",
+    "fr": "Géologie Environnementale"
+  },
+  "description": {
+    "ar": "تعلم التفاعل بين الإنسان والبيئة الجيولوجية والمخاطر الطبيعية",
+    "en": "Learn about human interaction with geological environment and natural hazards",
+    "fr": "Apprenez l'interaction humaine avec l'environnement géologique et les risques naturels"
+  },
+  "icon": "🌍",
+  "level": "intermediate",
+  "questions": [
+    {
+      "id": 1,
+      "question": {
+        "ar": "ما هي المخاطر الجيولوجية الرئيسية؟",
+        "en": "What are the main geological hazards?",
+        "fr": "Quels sont les principaux risques géologiques?"
+      },
+      "image": "images/diagrams/faults_folds.jpg",
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "الزلازل، الانهيارات الأرضية، البراكين، تسونامي",
+            "en": "Earthquakes, landslides, volcanoes, tsunamis",
+            "fr": "Tremblements de terre, glissements de terrain, volcans, tsunamis"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "الأمطار، الرياح، الثلوج",
+            "en": "Rain, wind, snow",
+            "fr": "Pluie, vent, neige"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "المخاطر الجيولوجية هي أحداث طبيعية ناتجة عن العمليات الجيولوجية التي قد تشكل خطراً على الإنسان والممتلكات",
+        "en": "Geological hazards are natural events resulting from geological processes that may pose risks to humans and property",
+        "fr": "Les risques géologiques sont des événements naturels résultant de processus géologiques qui peuvent présenter des risques pour les humains et les biens"
+      }
+    }
+  ],
+  "total_questions": 1,
+  "passing_score": 75
+}
