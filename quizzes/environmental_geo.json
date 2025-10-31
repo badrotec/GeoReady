@@ -1,53 +1,1094 @@
 {
   "id": "environmental_geo",
   "name": {
-    "ar": "الجيولوجيا البيئية",
-    "en": "Environmental Geology",
-    "fr": "Géologie Environnementale"
+    "ar": "الجيولوجيا البيئية - التفاعل مع البيئة",
+    "en": "Environmental Geology - Environmental Interaction", 
+    "fr": "Géologie Environnementale - Interaction avec l'Environnement"
   },
   "description": {
-    "ar": "تعلم التفاعل بين الإنسان والبيئة الجيولوجية والمخاطر الطبيعية",
-    "en": "Learn about human interaction with geological environment and natural hazards",
-    "fr": "Apprenez l'interaction humaine avec l'environnement géologique et les risques naturels"
+    "ar": "تعلم التفاعل بين العمليات الجيولوجية والبيئة والمخاطر الطبيعية",
+    "en": "Learn interaction between geological processes, environment, and natural hazards",
+    "fr": "Apprenez l'interaction entre processus géologiques, environnement et risques naturels"
   },
   "icon": "🌍",
   "level": "intermediate",
   "questions": [
     {
       "id": 1,
+      "difficulty": "easy",
       "question": {
-        "ar": "ما هي المخاطر الجيولوجية الرئيسية؟",
-        "en": "What are the main geological hazards?",
-        "fr": "Quels sont les principaux risques géologiques?"
+        "ar": "ما هي الجيولوجيا البيئية؟",
+        "en": "What is environmental geology?",
+        "fr": "Qu'est-ce que la géologie environnementale?"
       },
-      "image": "images/diagrams/faults_folds.jpg",
       "options": [
         {
           "id": "A",
           "text": {
-            "ar": "الزلازل، الانهيارات الأرضية، البراكين، تسونامي",
-            "en": "Earthquakes, landslides, volcanoes, tsunamis",
-            "fr": "Tremblements de terre, glissements de terrain, volcans, tsunamis"
+            "ar": "علم يدرس تأثير العمليات الجيولوجية على البيئة والإنسان",
+            "en": "Science studying geological processes impact on environment and humans",
+            "fr": "Science étudiant l'impact des processus géologiques sur l'environnement et les humains"
           },
           "correct": true
         },
         {
-          "id": "B",
+          "id": "B", 
           "text": {
-            "ar": "الأمطار، الرياح، الثلوج",
-            "en": "Rain, wind, snow",
-            "fr": "Pluie, vent, neige"
+            "ar": "علم دراسة الصخور فقط",
+            "en": "Science studying only rocks",
+            "fr": "Science étudiant seulement les roches"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "علم دراسة المعادن",
+            "en": "Science studying minerals",
+            "fr": "Science étudiant les minéraux"
           },
           "correct": false
         }
       ],
       "explanation": {
-        "ar": "المخاطر الجيولوجية هي أحداث طبيعية ناتجة عن العمليات الجيولوجية التي قد تشكل خطراً على الإنسان والممتلكات",
-        "en": "Geological hazards are natural events resulting from geological processes that may pose risks to humans and property",
-        "fr": "Les risques géologiques sont des événements naturels résultant de processus géologiques qui peuvent présenter des risques pour les humains et les biens"
+        "ar": "تركز الجيولوجيا البيئية على المخاطر الطبيعية وإدارة الموارد وحماية البيئة",
+        "en": "Environmental geology focuses on natural hazards, resource management, and environmental protection",
+        "fr": "La géologie environnementale se concentre sur les risques naturels, la gestion des ressources et la protection de l'environnement"
+      }
+    },
+    {
+      "id": 2,
+      "difficulty": "easy",
+      "question": {
+        "ar": "ما هي المخاطر الجيولوجية؟",
+        "en": "What are geological hazards?",
+        "fr": "Que sont les risques géologiques?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "ظواهر طبيعية قد تسبب أضراراً للبشر والممتلكات",
+            "en": "Natural phenomena that may cause harm to humans and property",
+            "fr": "Phénomènes naturels pouvant causer des dommages aux humains et biens"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "ظواهر صناعية فقط",
+            "en": "Only industrial phenomena",
+            "fr": "Seulement des phénomènes industriels"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "ظواهر فلكية",
+            "en": "Astronomical phenomena",
+            "fr": "Phénomènes astronomiques"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تشمل المخاطر الجيولوجية الزلازل والبراكين والانهيارات الأرضية والفيضانات والتسونامي",
+        "en": "Geological hazards include earthquakes, volcanoes, landslides, floods, and tsunamis",
+        "fr": "Les risques géologiques incluent tremblements de terre, volcans, glissements de terrain, inondations et tsunamis"
+      }
+    },
+    {
+      "id": 3,
+      "difficulty": "easy",
+      "question": {
+        "ar": "ما هو التلوث الجيولوجي؟",
+        "en": "What is geological pollution?",
+        "fr": "Qu'est-ce que la pollution géologique?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "تلوث التربة والمياه الجوفية بالمواد الضارة",
+            "en": "Pollution of soil and groundwater by harmful substances",
+            "fr": "Pollution du sol et eaux souterraines par substances nocives"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "تلوث الهواء فقط",
+            "en": "Only air pollution",
+            "fr": "Seulement pollution de l'air"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "تلوث الضوضاء",
+            "en": "Noise pollution",
+            "fr": "Pollution sonore"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "ينتج التلوث الجيولوجي عن الأنشطة البشرية مثل الصناعة والزراعة والتعدين وإلقاء النفايات",
+        "en": "Geological pollution results from human activities like industry, agriculture, mining, and waste disposal",
+        "fr": "La pollution géologique résulte d'activités humaines comme l'industrie, agriculture, exploitation minière et élimination des déchets"
+      }
+    },
+    {
+      "id": 4,
+      "difficulty": "easy",
+      "question": {
+        "ar": "ما هي إدارة النفايات الصلبة؟",
+        "en": "What is solid waste management?",
+        "fr": "Qu'est-ce que la gestion des déchets solides?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "التعامل مع النفايات بطريقة صديقة للبيئة",
+            "en": "Handling waste in an environmentally friendly manner",
+            "fr": "Gérer les déchets de manière écologique"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "حرق جميع النفايات",
+            "en": "Burning all waste",
+            "fr": "Brûler tous les déchets"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "دفن النفايات في الأنهار",
+            "en": "Dumping waste in rivers",
+            "fr": "Déverser les déchets dans les rivières"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تشمل إدارة النفايات الصلبة التقليل وإعادة الاستخدام والتدوير والمعالجة والدفن الصحي",
+        "en": "Solid waste management includes reduction, reuse, recycling, treatment, and sanitary landfilling",
+        "fr": "La gestion des déchets solides inclut réduction, réutilisation, recyclage, traitement et enfouissement sanitaire"
+      }
+    },
+    {
+      "id": 5,
+      "difficulty": "easy",
+      "question": {
+        "ar": "ما هو الدفن الصحي للنفايات؟",
+        "en": "What is sanitary landfilling?",
+        "fr": "Qu'est-ce que l'enfouissement sanitaire?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "طريقة هندسية لدفن النفايات مع حماية البيئة",
+            "en": "An engineering method for waste burial with environmental protection",
+            "fr": "Une méthode d'ingénierie pour l'enfouissement des déchets avec protection environnementale"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "رمي النفايات عشوائياً",
+            "en": "Random waste dumping",
+            "fr": "Déversement aléatoire des déchets"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "حرق النفايات في العراء",
+            "en": "Open burning of waste",
+            "fr": "Brûlage à ciel ouvert des déchets"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يتضمن الدفن الصحي عزل النفايات عن المياه الجوفية وجمع الغازات ومعالجة العصارة",
+        "en": "Sanitary landfilling involves isolating waste from groundwater, collecting gases, and treating leachate",
+        "fr": "L'enfouissement sanitaire implique isolement des déchets des eaux souterraines, collecte des gaz et traitement des lixiviats"
+      }
+    },
+    {
+      "id": 6,
+      "difficulty": "easy",
+      "question": {
+        "ar": "ما هي العواصف الترابية؟",
+        "en": "What are dust storms?",
+        "fr": "Que sont les tempêtes de poussière?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "عواصف تحمل كميات كبيرة من الغبار والرمال",
+            "en": "Storms carrying large amounts of dust and sand",
+            "fr": "Tempêtes transportant de grandes quantités de poussière et sable"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "عواصف مطرية فقط",
+            "en": "Only rain storms",
+            "fr": "Seulement des tempêtes de pluie"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "عواصف ثلجية",
+            "en": "Snow storms",
+            "fr": "Tempêtes de neige"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تحدث العواصف الترابية في المناطق الجافة وشبه الجافة وتؤثر على الصحة والزراعة والمناخ",
+        "en": "Dust storms occur in arid and semi-arid regions, affecting health, agriculture, and climate",
+        "fr": "Les tempêtes de poussière se produisent dans les régions arides et semi-arides, affectant santé, agriculture et climat"
+      }
+    },
+    {
+      "id": 7,
+      "difficulty": "easy",
+      "question": {
+        "ar": "ما هو التصحر؟",
+        "en": "What is desertification?",
+        "fr": "Qu'est-ce que la désertification?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "تحول الأرض المنتجة إلى صحراء",
+            "en": "Transformation of productive land into desert",
+            "fr": "Transformation de terres productives en désert"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "توسع المساحات الخضراء",
+            "en": "Expansion of green areas",
+            "fr": "Expansion des zones vertes"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "زيادة خصوبة التربة",
+            "en": "Increase in soil fertility",
+            "fr": "Augmentation de la fertilité du sol"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يحدث التصحر بسبب عوامل طبيعية وبشرية مثل الجفاف والرعي الجائر والزراعة غير المستدامة",
+        "en": "Desertification occurs due to natural and human factors like drought, overgrazing, and unsustainable farming",
+        "fr": "La désertification se produit due à des facteurs naturels et humains comme sécheresse, surpâturage et agriculture non durable"
+      }
+    },
+    {
+      "id": 8,
+      "difficulty": "easy",
+      "question": {
+        "ar": "ما هي المياه العابرة للحدود؟",
+        "en": "What are transboundary waters?",
+        "fr": "Que sont les eaux transfrontalières?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "موارد مائية مشتركة بين دولتين أو أكثر",
+            "en": "Water resources shared between two or more countries",
+            "fr": "Ressources en eau partagées entre deux ou plusieurs pays"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "مياه محلية فقط",
+            "en": "Only local waters",
+            "fr": "Seulement des eaux locales"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "مياه الأمطار",
+            "en": "Rainwater",
+            "fr": "Eau de pluie"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تشمل المياه العابرة للحدود الأنهار والبحيرات والخزانات الجوفية التي تتقاسمها عدة دول",
+        "en": "Transboundary waters include rivers, lakes, and aquifers shared by several countries",
+        "fr": "Les eaux transfrontalières incluent rivières, lacs et aquifères partagés par plusieurs pays"
+      }
+    },
+    {
+      "id": 9,
+      "difficulty": "medium",
+      "question": {
+        "ar": "ما هو تقييم الأثر البيئي؟",
+        "en": "What is environmental impact assessment?",
+        "fr": "Qu'est-ce que l'évaluation d'impact environnemental?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "دراسة تأثير المشاريع على البيئة قبل التنفيذ",
+            "en": "Studying project impacts on environment before implementation",
+            "fr": "Étudier les impacts des projets sur l'environnement avant mise en œuvre"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "دراسة تأثير البيئة على المشاريع",
+            "en": "Studying environment impact on projects",
+            "fr": "Étudier l'impact de l'environnement sur les projets"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "تقييم التكاليف فقط",
+            "en": "Only cost evaluation",
+            "fr": "Seulement évaluation des coûts"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يهدف تقييم الأثر البيئي إلى تحديد وتقييم وتخفيف الآثار السلبية للمشاريع التنموية",
+        "en": "Environmental impact assessment aims to identify, evaluate, and mitigate negative impacts of development projects",
+        "fr": "L'évaluation d'impact environnemental vise à identifier, évaluer et atténuer les impacts négatifs des projets de développement"
+      }
+    },
+    {
+      "id": 10,
+      "difficulty": "medium",
+      "question": {
+        "ar": "ما هو تغير المناخ؟",
+        "en": "What is climate change?",
+        "fr": "Qu'est-ce que le changement climatique?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "تغير طويل الأمد في أنماط الطقس العالمية",
+            "en": "Long-term change in global weather patterns",
+            "fr": "Changement à long terme des modèles météorologiques mondiaux"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "تغير يومي في الطقس",
+            "en": "Daily weather change",
+            "fr": "Changement quotidien de la météo"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "تغير في فصول السنة",
+            "en": "Change in seasons",
+            "fr": "Changement des saisons"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يشمل تغير المناخ ارتفاع درجة الحرارة وذوبان الجليد وارتفاع مستوى البحر وتغير أنماط هطول الأمطار",
+        "en": "Climate change includes temperature rise, ice melting, sea level rise, and changing precipitation patterns",
+        "fr": "Le changement climatique inclut élévation de température, fonte des glaces, montée du niveau de la mer et changement des modèles de précipitation"
+      }
+    },
+    {
+      "id": 11,
+      "difficulty": "medium",
+      "question": {
+        "ar": "ما هي ظاهرة الاحتباس الحراري؟",
+        "en": "What is the greenhouse effect?",
+        "fr": "Qu'est-ce que l'effet de serre?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "احتباس الحرارة في الغلاف الجوي بسبب غازات معينة",
+            "en": "Trapping of heat in atmosphere by certain gases",
+            "fr": "Piégeage de la chaleur dans l'atmosphère par certains gaz"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "تبريد الأرض",
+            "en": "Cooling of Earth",
+            "fr": "Refroidissement de la Terre"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "تسخين الشمس المباشر",
+            "en": "Direct solar heating",
+            "fr": "Chauffage solaire direct"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تساهم غازات الاحتباس الحراري مثل ثاني أكسيد الكربون والميثان في ارتفاع درجة حرارة الأرض",
+        "en": "Greenhouse gases like carbon dioxide and methane contribute to global warming",
+        "fr": "Les gaz à effet de serre comme dioxyde de carbone et méthane contribuent au réchauffement climatique"
+      }
+    },
+    {
+      "id": 12,
+      "difficulty": "medium",
+      "question": {
+        "ar": "ما هو تآكل التربة؟",
+        "en": "What is soil erosion?",
+        "fr": "Qu'est-ce que l'érosion du sol?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "إزالة الطبقة السطحية الخصبة للتربة",
+            "en": "Removal of fertile topsoil layer",
+            "fr": "Enlèvement de la couche arable fertile"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "زيادة خصوبة التربة",
+            "en": "Increase in soil fertility",
+            "fr": "Augmentation de la fertilité du sol"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "تكوين تربة جديدة",
+            "en": "Formation of new soil",
+            "fr": "Formation de nouveau sol"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يحدث تآكل التربة بسبب الماء والرياح والأنشطة البشرية مثل إزالة الغابات والزراعة غير المستدامة",
+        "en": "Soil erosion occurs due to water, wind, and human activities like deforestation and unsustainable farming",
+        "fr": "L'érosion du sol se produit due à l'eau, vent et activités humaines comme déforestation et agriculture non durable"
+      }
+    },
+    {
+      "id": 13,
+      "difficulty": "medium",
+      "question": {
+        "ar": "ما هي التنمية المستدامة؟",
+        "en": "What is sustainable development?",
+        "fr": "Qu'est-ce que le développement durable?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "تنمية تلبي احتياجات الحاضر دون المساس بقدرة الأجيال القادمة",
+            "en": "Development meeting present needs without compromising future generations",
+            "fr": "Développement répondant aux besoins présents sans compromettre les générations futures"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "تنمية سريعة بغض النظر عن التكاليف",
+            "en": "Rapid development regardless of costs",
+            "fr": "Développement rapide indépendamment des coûts"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "توقف التنمية",
+            "en": "Stopping development",
+            "fr": "Arrêt du développement"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تجمع التنمية المستدامة بين النمو الاقتصادي والحفاظ على البيئة والعدالة الاجتماعية",
+        "en": "Sustainable development combines economic growth, environmental conservation, and social justice",
+        "fr": "Le développement durable combine croissance économique, conservation environnementale et justice sociale"
+      }
+    },
+    {
+      "id": 14,
+      "difficulty": "medium",
+      "question": {
+        "ar": "ما هو التعدين المستدام؟",
+        "en": "What is sustainable mining?",
+        "fr": "Qu'est-ce que l'exploitation minière durable?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "تعدين يقلل الآثار البيئية ويعيد تأهيل المواقع",
+            "en": "Mining that reduces environmental impacts and rehabilitates sites",
+            "fr": "Exploitation minière réduisant impacts environnementaux et réhabilitant sites"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "تعدين عشوائي",
+            "en": "Random mining",
+            "fr": "Exploitation minière aléatoire"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "توقف التعدين",
+            "en": "Stopping mining",
+            "fr": "Arrêt de l'exploitation minière"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يشمل التعدين المستدام استخدام التقنيات النظيفة وإدارة النفايات وإعادة التأهيل والكفاءة في استخدام الطاقة",
+        "en": "Sustainable mining includes clean technologies, waste management, rehabilitation, and energy efficiency",
+        "fr": "L'exploitation minière durable inclut technologies propres, gestion des déchets, réhabilitation et efficacité énergétique"
+      }
+    },
+    {
+      "id": 15,
+      "difficulty": "medium",
+      "question": {
+        "ar": "ما هي الطاقة المتجددة؟",
+        "en": "What is renewable energy?",
+        "fr": "Qu'est-ce que l'énergie renouvelable?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "طاقة من مصادر طبيعية متجددة باستمرار",
+            "en": "Energy from naturally replenishing sources",
+            "fr": "Énergie de sources naturellement renouvelables"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "طاقة من الوقود الأحفوري",
+            "en": "Energy from fossil fuels",
+            "fr": "Énergie des combustibles fossiles"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "طاقة نووية",
+            "en": "Nuclear energy",
+            "fr": "Énergie nucléaire"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تشمل الطاقة المتجددة الطاقة الشمسية وطاقة الرياح والطاقة المائية والطاقة الحرارية الأرضية",
+        "en": "Renewable energy includes solar, wind, hydro, and geothermal energy",
+        "fr": "L'énergie renouvelable inclut énergie solaire, éolienne, hydraulique et géothermique"
+      }
+    },
+    {
+      "id": 16,
+      "difficulty": "hard",
+      "question": {
+        "ar": "ما هو تقييم المخاطر البيئية؟",
+        "en": "What is environmental risk assessment?",
+        "fr": "Qu'est-ce que l'évaluation des risques environnementaux?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "عملية تحديد وتقييم المخاطر المحتملة على البيئة",
+            "en": "Process of identifying and evaluating potential risks to environment",
+            "fr": "Processus d'identification et évaluation des risques potentiels pour l'environnement"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "تجاهل المخاطر البيئية",
+            "en": "Ignoring environmental risks",
+            "fr": "Ignorer les risques environnementaux"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "زيادة المخاطر عمداً",
+            "en": "Intentionally increasing risks",
+            "fr": "Augmentation intentionnelle des risques"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يتضمن تقييم المخاطر تحليل المصادر والمسارات والآثار المحتملة للملوثات على النظم البيئية",
+        "en": "Risk assessment involves analyzing sources, pathways, and potential impacts of pollutants on ecosystems",
+        "fr": "L'évaluation des risques implique analyser sources, voies et impacts potentiels des polluants sur les écosystèmes"
+      }
+    },
+    {
+      "id": 17,
+      "difficulty": "hard",
+      "question": {
+        "ar": "ما هي المعالجة الحيوية؟",
+        "en": "What is bioremediation?",
+        "fr": "Qu'est-ce que la bioremédiation?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "استخدام الكائنات الحية لتنظيف التلوث",
+            "en": "Using living organisms to clean up pollution",
+            "fr": "Utiliser des organismes vivants pour nettoyer la pollution"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "حرق الملوثات",
+            "en": "Burning pollutants",
+            "fr": "Brûler les polluants"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "دفن الملوثات",
+            "en": "Burying pollutants",
+            "fr": "Enfouir les polluants"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تستخدم المعالجة الحيوية البكتيريا والفطريات والنباتات لتحليل الملوثات العضوية في التربة والمياه",
+        "en": "Bioremediation uses bacteria, fungi, and plants to break down organic pollutants in soil and water",
+        "fr": "La bioremédiation utilise bactéries, champignons et plantes pour décomposer polluants organiques dans sol et eau"
+      }
+    },
+    {
+      "id": 18,
+      "difficulty": "hard",
+      "question": {
+        "ar": "ما هو نظام المعلومات الجغرافية؟",
+        "en": "What is geographic information system?",
+        "fr": "Qu'est-ce que le système d'information géographique?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "نظام حاسوبي لجمع وتحليل وعرض البيانات المكانية",
+            "en": "Computer system for collecting, analyzing, and displaying spatial data",
+            "fr": "Système informatique pour collecter, analyser et afficher données spatiales"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "نظام للكتابة فقط",
+            "en": "Only writing system",
+            "fr": "Seulement système d'écriture"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "نظام للرسم اليدوي",
+            "en": "Hand drawing system",
+            "fr": "Système de dessin manuel"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يستخدم نظام المعلومات الجغرافية في إدارة الموارد ورسم الخرائط ودراسة التغير البيئي والتخطيط العمراني",
+        "en": "GIS is used in resource management, mapping, environmental change studies, and urban planning",
+        "fr": "Le SIG est utilisé dans gestion des ressources, cartographie, études changement environnemental et planification urbaine"
+      }
+    },
+    {
+      "id": 19,
+      "difficulty": "hard",
+      "question": {
+        "ar": "ما هي البصمة البيئية؟",
+        "en": "What is ecological footprint?",
+        "fr": "Qu'est-ce que l'empreinte écologique?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "مقدار الموارد الطبيعية المستهلكة مقابل قدرة الأرض على التجديد",
+            "en": "Amount of natural resources consumed versus Earth's regeneration capacity",
+            "fr": "Quantité ressources naturelles consommées versus capacité régénération Terre"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "حجم الأقدام البشرية",
+            "en": "Size of human feet",
+            "fr": "Taille des pieds humains"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "مساحة الأرض المبنية",
+            "en": "Built-up land area",
+            "fr": "Superficie terrestre bâtie"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تقيس البصمة البيئية تأثير الأنشطة البشرية على البيئة من حيث استهلاك الموارد وإنتاج النفايات",
+        "en": "Ecological footprint measures human activities impact on environment in terms of resource consumption and waste production",
+        "fr": "L'empreinte écologique mesure l'impact activités humaines sur environnement en termes consommation ressources et production déchets"
+      }
+    },
+    {
+      "id": 20,
+      "difficulty": "hard",
+      "question": {
+        "ar": "ما هو الاقتصاد الدائري؟",
+        "en": "What is circular economy?",
+        "fr": "Qu'est-ce que l'économie circulaire?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "نظام اقتصادي يهدف إلى إعادة استخدام الموارد وتقليل النفايات",
+            "en": "Economic system aiming to reuse resources and minimize waste",
+            "fr": "Système économique visant réutilisation ressources et minimisation déchets"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "اقتصاد خطي تقليدي",
+            "en": "Traditional linear economy",
+            "fr": "Économie linéaire traditionnelle"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "اقتصاد يعتمد على الاستهلاك فقط",
+            "en": "Economy based only on consumption",
+            "fr": "Économie basée seulement sur consommation"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يعتمد الاقتصاد الدائري على مبادئ التصميم الأخضر وإطالة العمر الافتراضي وإعادة التدوير والاستدامة",
+        "en": "Circular economy relies on green design principles, lifespan extension, recycling, and sustainability",
+        "fr": "L'économie circulaire repose sur principes conception verte, prolongation durée vie, recyclage et durabilité"
+      }
+    },
+    {
+      "id": 21,
+      "difficulty": "hard",
+      "question": {
+        "ar": "ما هي السيناريوهات المناخية؟",
+        "en": "What are climate scenarios?",
+        "fr": "Que sont les scénarios climatiques?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "نماذج تنبؤية لتغير المناخ تحت افتراضات مختلفة",
+            "en": "Predictive models for climate change under different assumptions",
+            "fr": "Modèles prédictifs pour changement climatique sous différentes hypothèses"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "توقعات الطقس اليومية",
+            "en": "Daily weather forecasts",
+            "fr": "Prévisions météo quotidiennes"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "قصص خيالية عن المناخ",
+            "en": "Fictional stories about climate",
+            "fr": "Histoires fictives sur climat"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تستخدم السيناريوهات المناخية في تخطيط التكيف مع تغير المناخ وتقييم السياسات البيئية",
+        "en": "Climate scenarios are used in climate change adaptation planning and environmental policy assessment",
+        "fr": "Les scénarios climatiques sont utilisés dans planification adaptation changement climatique et évaluation politiques environnementales"
+      }
+    },
+    {
+      "id": 22,
+      "difficulty": "hard",
+      "question": {
+        "ar": "ما هو تقييم دورة الحياة؟",
+        "en": "What is life cycle assessment?",
+        "fr": "Qu'est-ce que l'analyse du cycle de vie?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "تقييم الآثار البيئية للمنتج من الإنتاج إلى التخلص",
+            "en": "Assessing environmental impacts of product from production to disposal",
+            "fr": "Évaluer impacts environnementaux produit de production à élimination"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "تقييم عمر المنتج فقط",
+            "en": "Only product lifespan assessment",
+            "fr": "Seulement évaluation durée vie produit"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "تقييم التكلفة فقط",
+            "en": "Only cost assessment",
+            "fr": "Seulement évaluation coût"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يشمل تقييم دورة الحياة استخراج المواد الخام والتصنيع والنقل والاستخدام ونهاية العمر الافتراضي",
+        "en": "Life cycle assessment includes raw material extraction, manufacturing, transportation, use, and end-of-life",
+        "fr": "L'analyse cycle vie inclut extraction matières premières, fabrication, transport, utilisation et fin de vie"
+      }
+    },
+    {
+      "id": 23,
+      "difficulty": "hard",
+      "question": {
+        "ar": "ما هي خدمات النظم الإيكولوجية؟",
+        "en": "What are ecosystem services?",
+        "fr": "Que sont les services écosystémiques?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "الفوائد التي يحصل عليها البشر من النظم البيئية",
+            "en": "Benefits humans obtain from ecosystems",
+            "fr": "Avantages humains obtenus des écosystèmes"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "خدمات الصرف الصحي فقط",
+            "en": "Only sanitation services",
+            "fr": "Seulement services assainissement"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "خدمات الإنترنت",
+            "en": "Internet services",
+            "fr": "Services Internet"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تشمل خدمات النظم الإيكولوجية التلقيح وتنقية المياه وتنظيم المناخ وتكوين التربة والترفيه",
+        "en": "Ecosystem services include pollination, water purification, climate regulation, soil formation, and recreation",
+        "fr": "Les services écosystémiques incluent pollinisation, purification eau, régulation climat, formation sol et loisirs"
+      }
+    },
+    {
+      "id": 24,
+      "difficulty": "hard",
+      "question": {
+        "ar": "ما هو التخطيط المكاني البحري؟",
+        "en": "What is marine spatial planning?",
+        "fr": "Qu'est-ce que la planification spatiale marine?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "تخطيط استخدامات المناطق البحرية بشكل مستدام",
+            "en": "Planning marine area uses in sustainable manner",
+            "fr": "Planifier utilisations zones marines de manière durable"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "تخطيط المناطق البرية فقط",
+            "en": "Only land area planning",
+            "fr": "Seulement planification zones terrestres"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "تخطيط المدن",
+            "en": "City planning",
+            "fr": "Planification villes"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يهدف التخطيط المكاني البحري إلى تنظيم الأنشطة البحرية وحماية النظم البيئية وتقليل النزاعات",
+        "en": "Marine spatial planning aims to regulate marine activities, protect ecosystems, and reduce conflicts",
+        "fr": "La planification spatiale marine vise réguler activités marines, protéger écosystèmes et réduire conflits"
+      }
+    },
+    {
+      "id": 25,
+      "difficulty": "hard",
+      "question": {
+        "ar": "ما هي المرونة البيئية؟",
+        "en": "What is environmental resilience?",
+        "fr": "Qu'est-ce que la résilience environnementale?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "قدرة النظام البيئي على تحمل الصدمات والتعافي",
+            "en": "Ability of ecosystem to withstand shocks and recover",
+            "fr": "Capacité écosystème à résister chocs et récupérer"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "ضعف النظام البيئي",
+            "en": "Ecosystem weakness",
+            "fr": "Faiblesse écosystème"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "تدمير النظام البيئي",
+            "en": "Ecosystem destruction",
+            "fr": "Destruction écosystème"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تعتمد المرونة البيئية على التنوع البيولوجي والتكيف والمرونة في مواجهة التغيرات والاضطرابات",
+        "en": "Environmental resilience depends on biodiversity, adaptation, and flexibility facing changes and disturbances",
+        "fr": "La résilience environnementale dépend biodiversité, adaptation et flexibilité face changements et perturbations"
       }
     }
   ],
-  "total_questions": 1,
-  "passing_score": 75
+  "total_questions": 25,
+  "passing_score": 70
 }
