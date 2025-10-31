@@ -1,0 +1,53 @@
+{
+  "id": "geophysics",
+  "name": {
+    "ar": "الجيوفيزياء - استكشاف باطن الأرض",
+    "en": "Geophysics - Earth Exploration",
+    "fr": "Géophysique - Exploration Terrestre"
+  },
+  "description": {
+    "ar": "تعلم طرق استكشاف باطن الأرض باستخدام القياسات الفيزيائية",
+    "en": "Learn methods for exploring Earth's interior using physical measurements",
+    "fr": "Apprenez les méthodes d'exploration de l'intérieur de la Terre using des mesures physiques"
+  },
+  "icon": "📡",
+  "level": "intermediate",
+  "questions": [
+    {
+      "id": 1,
+      "question": {
+        "ar": "ما هو المسح السيزمي؟",
+        "en": "What is seismic surveying?",
+        "fr": "Qu'est-ce que l'étude sismique?"
+      },
+      "image": "images/diagrams/geological_section.jpg",
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "طريقة تستخدم الموجات الزلزالية لاستكشاف الطبقات تحت السطح",
+            "en": "A method using seismic waves to explore subsurface layers",
+            "fr": "Une méthode utilisant les ondes sismiques pour explorer les couches souterraines"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "قياس المجال المغناطيسي للأرض",
+            "en": "Measuring Earth's magnetic field",
+            "fr": "Mesurer le champ magnétique terrestre"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "المسح السيزمي يستخدم الموجات الزلزالية المنتَجة صناعياً لاستكشاف التركيب الجيولوجي تحت السطح",
+        "en": "Seismic surveying uses artificially generated seismic waves to explore geological structure beneath the surface",
+        "fr": "L'étude sismique utilise des ondes sismiques générées artificiellement pour explorer la structure géologique sous la surface"
+      }
+    }
+  ],
+  "total_questions": 1,
+  "passing_score": 75
+}
