@@ -15,6 +15,7 @@
   "questions": [
     {
       "id": 1,
+      "difficulty": "easy",
       "question": {
         "ar": "ما هي المعدات الأساسية للجيولوجي في الحقل؟",
         "en": "What are the essential field equipment for a geologist?",
@@ -38,6 +39,15 @@
             "fr": "Microscope, ordinateur, appareil photo seulement"
           },
           "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "معدات مختبرية فقط",
+            "en": "Laboratory equipment only",
+            "fr": "Équipement de laboratoire seulement"
+          },
+          "correct": false
         }
       ],
       "explanation": {
@@ -45,8 +55,1040 @@
         "en": "Basic equipment includes geological hammer for breaking rocks, compass for measurements, maps for navigation, and notebook for recording",
         "fr": "L'équipement de base comprend un marteau géologique pour casser les roches, une boussole pour les mesures, des cartes pour la navigation et un cahier pour l'enregistrement"
       }
+    },
+    {
+      "id": 2,
+      "difficulty": "easy",
+      "question": {
+        "ar": "ما هو الغرض من المطرقة الجيولوجية؟",
+        "en": "What is the purpose of a geological hammer?",
+        "fr": "Quel est le but d'un marteau géologique?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "كسر الصخور ورؤية الأسطح الطازجة و جمع العينات",
+            "en": "Breaking rocks, viewing fresh surfaces, and collecting samples",
+            "fr": "Casser les roches, voir les surfaces fraîches et collecter des échantillons"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "لحفر الآبار فقط",
+            "en": "Only for drilling wells",
+            "fr": "Seulement pour forer des puits"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "لقياس الزلازل",
+            "en": "For measuring earthquakes",
+            "fr": "Pour mesurer les tremblements de terre"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تستخدم المطرقة الجيولوجية لكسر الصخور لرؤية الأسطح الطازجة غير المتأثرة بالعوامل الجوية وجمع العينات للدراسة",
+        "en": "Geological hammer is used to break rocks to see fresh surfaces unaffected by weathering and collect samples for study",
+        "fr": "Le marteau géologique est utilisé pour casser les roches afin de voir les surfaces fraîches non affectées par l'altération et collecter des échantillons pour l'étude"
+      }
+    },
+    {
+      "id": 3,
+      "difficulty": "easy",
+      "question": {
+        "ar": "ما هي البوصلة الجيولوجية؟",
+        "en": "What is a geological compass?",
+        "fr": "Qu'est-ce qu'une boussole géologique?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "أداة لقياس اتجاه و ميل الطبقات الصخرية",
+            "en": "A tool for measuring the direction and dip of rock layers",
+            "fr": "Un outil pour mesurer la direction et le pendage des couches rocheuses"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "بوصلة عادية للملاحة فقط",
+            "en": "A regular compass for navigation only",
+            "fr": "Une boussole ordinaire pour la navigation seulement"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "جهاز لقياس العمق",
+            "en": "A device for measuring depth",
+            "fr": "Un appareil pour mesurer la profondeur"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تستخدم البوصلة الجيولوجية لقياس اتجاه الطبقات (الاسترايك) وميلها (الدب) وتسجيل البيانات الهيكلية",
+        "en": "Geological compass is used to measure the strike (direction) and dip (inclination) of layers and record structural data",
+        "fr": "La boussole géologique est utilisée pour mesurer la direction et le pendage des couches et enregistrer les données structurales"
+      }
+    },
+    {
+      "id": 4,
+      "difficulty": "easy",
+      "question": {
+        "ar": "ما هو الغرض من دفتر الملاحظات الميداني؟",
+        "en": "What is the purpose of a field notebook?",
+        "fr": "Quel est le but d'un cahier de terrain?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "تسجيل الملاحظات والقياسات والملاحظات الميدانية",
+            "en": "Recording observations, measurements, and field notes",
+            "fr": "Enregistrer les observations, mesures et notes de terrain"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "لرسم المناظر الطبيعية فقط",
+            "en": "Only for drawing landscapes",
+            "fr": "Seulement pour dessiner les paysages"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "لحساب النفقات",
+            "en": "For calculating expenses",
+            "fr": "Pour calculer les dépenses"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يدون الجيولوجي جميع الملاحظات والقياسات والرسومات التخطيطية في دفتر الملاحظات كسجل دائم للعمل الميداني",
+        "en": "Geologists record all observations, measurements, and sketches in the notebook as a permanent record of field work",
+        "fr": "Les géologues enregistrent toutes les observations, mesures et croquis dans le cahier comme archive permanente du travail de terrain"
+      }
+    },
+    {
+      "id": 5,
+      "difficulty": "easy",
+      "question": {
+        "ar": "ما هي الخريطة الجيولوجية؟",
+        "en": "What is a geological map?",
+        "fr": "Qu'est-ce qu'une carte géologique?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "خريطة تظهر توزيع الوحدات الصخرية والتراكيب الجيولوجية",
+            "en": "A map showing distribution of rock units and geological structures",
+            "fr": "Une carte montrant la distribution des unités rocheuses et structures géologiques"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "خريطة طرق فقط",
+            "en": "A road map only",
+            "fr": "Une carte routière seulement"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "خريطة الطقس",
+            "en": "A weather map",
+            "fr": "Une carte météorologique"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تظهر الخرائط الجيولوجية أنواع الصخور وأعمارها وتراكيبها باستخدام الألوان والرموز لتمثيل الوحدات الجيولوجية المختلفة",
+        "en": "Geological maps show rock types, ages, and structures using colors and symbols to represent different geological units",
+        "fr": "Les cartes géologiques montrent les types de roches, âges et structures utilisant couleurs et symboles pour représenter différentes unités géologiques"
+      }
+    },
+    {
+      "id": 6,
+      "difficulty": "medium",
+      "question": {
+        "ar": "كيف يتم تحديد موقع العينات في الحقل؟",
+        "en": "How are sample locations determined in the field?",
+        "fr": "Comment les emplacements des échantillons sont-ils déterminés sur le terrain?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "باستخدام GPS و الإحداثيات على الخريطة",
+            "en": "Using GPS and coordinates on the map",
+            "fr": "En utilisant GPS et coordonnées sur la carte"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "بالتقدير فقط",
+            "en": "By estimation only",
+            "fr": "Par estimation seulement"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "باستخدام البوصلة فقط",
+            "en": "Using compass only",
+            "fr": "En utilisant la boussole seulement"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يستخدم الجيولوجيون أجهزة GPS لتسجيل الإحداثيات الدقيقة للعينات وربطها بالمواقع على الخريطة الجيولوجية",
+        "en": "Geologists use GPS devices to record precise coordinates of samples and link them to locations on the geological map",
+        "fr": "Les géologues utilisent des appareils GPS pour enregistrer les coordonnées précises des échantillons et les relier aux emplacements sur la carte géologique"
+      }
+    },
+    {
+      "id": 7,
+      "difficulty": "medium",
+      "question": {
+        "ar": "ما هو المسح الجيولوجي؟",
+        "en": "What is geological surveying?",
+        "fr": "Qu'est-ce que le levé géologique?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "عملية منهجية لجمع البيانات الجيولوجية في الحقل",
+            "en": "A systematic process of collecting geological data in the field",
+            "fr": "Un processus systématique de collecte de données géologiques sur le terrain"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "قياس الأعماق فقط",
+            "en": "Measuring depths only",
+            "fr": "Mesurer les profondeurs seulement"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "دراسة الأحافير فقط",
+            "en": "Studying fossils only",
+            "fr": "Étudier les fossiles seulement"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يتضمن المسح الجيولوجي المشي على طول خطوط محددة، ووصف الصخور، وأخذ العينات، وتسجيل البيانات الهيكلية",
+        "en": "Geological surveying involves walking along defined lines, describing rocks, sampling, and recording structural data",
+        "fr": "Le levé géologique implique de marcher le long de lignes définies, décrire les roches, échantillonner et enregistrer les données structurales"
+      }
+    },
+    {
+      "id": 8,
+      "difficulty": "medium",
+      "question": {
+        "ar": "كيف يتم وصف الصخور في الحقل؟",
+        "en": "How are rocks described in the field?",
+        "fr": "Comment les roches sont-elles décrites sur le terrain?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "اللون، الملمس، التركيب المعدني، والهيكل",
+            "en": "Color, texture, mineral composition, and structure",
+            "fr": "Couleur, texture, composition minérale et structure"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "الوزن فقط",
+            "en": "Weight only",
+            "fr": "Poids seulement"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "الرائحة فقط",
+            "en": "Smell only",
+            "fr": "Odeur seulement"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يصف الجيولوجي الصخور بناءً على خصائصها المرئية مثل اللون، الحبيبية، المعادن، التراكيب، وأي ظواهر جيولوجية",
+        "en": "Geologists describe rocks based on visible characteristics like color, grain size, minerals, structures, and any geological features",
+        "fr": "Les géologues décrivent les roches basé sur les caractéristiques visibles comme couleur, taille des grains, minéraux, structures et toute particularité géologique"
+      }
+    },
+    {
+      "id": 9,
+      "difficulty": "medium",
+      "question": {
+        "ar": "ما هو المقطع الجيولوجي؟",
+        "en": "What is a geological section?",
+        "fr": "Qu'est-ce qu'une coupe géologique?"
+      },
+      "options": [
+        {
+          "id": "id": "A",
+          "text": {
+            "ar": "رسم يظهر التراكيب الجيولوجية في مستوى رأسي",
+            "en": "A drawing showing geological structures in a vertical plane",
+            "fr": "Un dessin montrant les structures géologiques dans un plan vertical"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "خريطة أفقية فقط",
+            "en": "A horizontal map only",
+            "fr": "Une carte horizontale seulement"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "صورة جوية",
+            "en": "An aerial photo",
+            "fr": "Une photo aérienne"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يظهر المقطع الجيولوجي العلاقات الرأسية بين الوحدات الصخرية والتراكيب تحت السطح بناءً على البيانات الميدانية",
+        "en": "Geological sections show vertical relationships between rock units and subsurface structures based on field data",
+        "fr": "Les coupes géologiques montrent les relations verticales entre unités rocheuses et structures souterraines basées sur les données de terrain"
+      }
+    },
+    {
+      "id": 10,
+      "difficulty": "medium",
+      "question": {
+        "ar": "كيف يتم جمع العينات الصخرية؟",
+        "en": "How are rock samples collected?",
+        "fr": "Comment les échantillons de roche sont-ils collectés?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "باستخدام المطرقة الجيولوجية وتوثيق الموقع ووضع العلامات",
+            "en": "Using geological hammer, documenting location, and labeling",
+            "fr": "Utilisant marteau géologique, documentant l'emplacement et étiquetant"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "باليد فقط بدون توثيق",
+            "en": "By hand only without documentation",
+            "fr": "À main nue seulement sans documentation"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "باستخدام المتفجرات",
+            "en": "Using explosives",
+            "fr": "Utilisant des explosifs"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تؤخذ العينات بعناية مع تسجيل موقعها الدقيق ووضعها في أكياس موقعة ومرقمة للدراسة المخبرية اللاحقة",
+        "en": "Samples are carefully taken with precise location recording and placed in signed, numbered bags for later laboratory study",
+        "fr": "Les échantillons sont soigneusement prélevés avec enregistrement précis de l'emplacement et placés dans des sacs signés et numérotés pour étude en laboratoire ultérieure"
+      }
+    },
+    {
+      "id": 11,
+      "difficulty": "medium",
+      "question": {
+        "ar": "ما هو الهدف من التصوير الفوتوغرافي في العمل الميداني؟",
+        "en": "What is the purpose of photography in field work?",
+        "fr": "Quel est le but de la photographie dans le travail de terrain?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "توثيق التعرضات الصخرية والتراكيب والميزات الجيولوجية",
+            "en": "Documenting rock exposures, structures, and geological features",
+            "fr": "Documenter les affleurements rocheux, structures et caractéristiques géologiques"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "للتقاط الصور الشخصية فقط",
+            "en": "For taking personal photos only",
+            "fr": "Pour prendre des photos personnelles seulement"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "لقياس درجات الحرارة",
+            "en": "For measuring temperatures",
+            "fr": "Pour mesurer les températures"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يساعد التصوير الفوتوغرافي في توثيق الميزات الجيولوجية التي يصعب وصفها بالكلمات ويسجل العلاقات المكانية",
+        "en": "Photography helps document geological features difficult to describe in words and records spatial relationships",
+        "fr": "La photographie aide à documenter les caractéristiques géologiques difficiles à décrire avec des mots et enregistre les relations spatiales"
+      }
+    },
+    {
+      "id": 12,
+      "difficulty": "medium",
+      "question": {
+        "ar": "كيف يتم قياس سمك الطبقات الصخرية؟",
+        "en": "How is the thickness of rock layers measured?",
+        "fr": "Comment l'épaisseur des couches rocheuses est-elle mesurée?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "باستخدام شريط القياس أو تقديرياً باستخدام الميل والمسافة",
+            "en": "Using measuring tape or estimating using dip and distance",
+            "fr": "Utilisant un mètre ruban ou estimant utilisant pendage et distance"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "بالعين المجردة فقط",
+            "en": "By naked eye only",
+            "fr": "À l'œil nu seulement"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "باستخدام المطرقة",
+            "en": "Using the hammer",
+            "fr": "Utilisant le marteau"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يمكن قياس السمك مباشرة بالشريط أو حسابياً باستخدام قوانين三角ية تعتمد على زاوية الميل والمسافة الظاهرة",
+        "en": "Thickness can be measured directly with tape or calculated using trigonometric formulas based on dip angle and apparent distance",
+        "fr": "L'épaisseur peut être mesurée directement avec ruban ou calculée utilisant formules trigonométriques basées sur angle de pendage et distance apparente"
+      }
+    },
+    {
+      "id": 13,
+      "difficulty": "hard",
+      "question": {
+        "ar": "ما هو المسح الجيوفيزيائي الميداني؟",
+        "en": "What is field geophysical surveying?",
+        "fr": "Qu'est-ce que le levé géophysique de terrain?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "استخدام الأجهزة لقياس الخصائص الفيزيائية للصخور تحت السطح",
+            "en": "Using instruments to measure physical properties of subsurface rocks",
+            "fr": "Utiliser des instruments pour mesurer les propriétés physiques des roches souterraines"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "دراسة الطقس فقط",
+            "en": "Studying weather only",
+            "fr": "Étudier la météo seulement"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "رسم الخرائط فقط",
+            "en": "Mapping only",
+            "fr": "Cartographier seulement"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يتضمن المسح الجيوفيزيائي طرقاً مثل قياس الجاذبية، المغناطيسية، المقاومة الكهربائية، والزلزالية لاستكشاف ما تحت السطح",
+        "en": "Geophysical surveying involves methods like gravity, magnetic, electrical resistivity, and seismic measurements to explore subsurface",
+        "fr": "Le levé géophysique implique des méthodes comme gravité, magnétisme, résistivité électrique et mesures sismiques pour explorer le sous-sol"
+      }
+    },
+    {
+      "id": 14,
+      "difficulty": "hard",
+      "question": {
+        "ar": "كيف يتم تحديد العمر النسبي للصخور في الحقل؟",
+        "en": "How is relative age of rocks determined in the field?",
+        "fr": "Comment l'âge relatif des roches est-il déterminé sur le terrain?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "باستخدام مبادئ superposition والتقاطع والشمول",
+            "en": "Using principles of superposition, cross-cutting, and inclusion",
+            "fr": "Utilisant les principes de superposition, recoupement et inclusion"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "بقياس الوزن فقط",
+            "en": "By measuring weight only",
+            "fr": "En mesurant le poids seulement"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "باختبار المغناطيسية",
+            "en": "By testing magnetism",
+            "fr": "En testant le magnétisme"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يستخدم الجيولوجيون العلاقات الميدانية مثل superposition (الطبقات السفلية أقدم) والتقاطع (المتقاطع أحدث) لتحديد التسلسل الزمني",
+        "en": "Geologists use field relationships like superposition (lower layers older) and cross-cutting (cross-cutting features younger) to determine time sequence",
+        "fr": "Les géologues utilisent les relations de terrain comme superposition (couches inférieures plus anciennes) et recoupement (caractéristiques recoupantes plus jeunes) pour déterminer la séquence temporelle"
+      }
+    },
+    {
+      "id": 15,
+      "difficulty": "hard",
+      "question": {
+        "ar": "ما هو تحليل الخطية والانحدار؟",
+        "en": "What is lineament and trend analysis?",
+        "fr": "Qu'est-ce que l'analyse des linéaments et tendances?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "دراسة الأنماط الخطية في التضاريس والتراكيب الجيولوجية",
+            "en": "Studying linear patterns in topography and geological structures",
+            "fr": "Étudier les motifs linéaires dans la topographie et structures géologiques"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "تحليل الطقس",
+            "en": "Weather analysis",
+            "fr": "Analyse météorologique"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "دراسة الألوان فقط",
+            "en": "Studying colors only",
+            "fr": "Étudier les couleurs seulement"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يساعد تحليل الخطية في تحديد الفوالق والمفاصل والتراكيب الجيولوجية المخفية من خلال الأنماط الخطية في التضاريس والصور الجوية",
+        "en": "Lineament analysis helps identify faults, joints, and hidden geological structures through linear patterns in topography and aerial imagery",
+        "fr": "L'analyse des linéaments aide à identifier failles, diaclases et structures géologiques cachées à travers motifs linéaires dans topographie et imagerie aérienne"
+      }
+    },
+    {
+      "id": 16,
+      "difficulty": "hard",
+      "question": {
+        "ar": "كيف يتم إعداد تقرير العمل الميداني؟",
+        "en": "How is a field work report prepared?",
+        "fr": "Comment un rapport de travail de terrain est-il préparé?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "بتنظيم البيانات والملاحظات والخرائط والاستنتاجات",
+            "en": "By organizing data, observations, maps, and conclusions",
+            "fr": "En organisant données, observations, cartes et conclusions"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "بكتابة ملاحظات عشوائية",
+            "en": "By writing random notes",
+            "fr": "En écrivant des notes aléatoires"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "بدون خرائط",
+            "en": "Without maps",
+            "fr": "Sans cartes"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يجب أن يشمل التقرير المقدمة، المنهجية، الوصف الجيولوجي، الخرائط والمقاطع، التحليل، والاستنتاجات والتوصيات",
+        "en": "The report should include introduction, methodology, geological description, maps and sections, analysis, and conclusions with recommendations",
+        "fr": "Le rapport doit inclure introduction, méthodologie, description géologique, cartes et coupes, analyse, et conclusions avec recommandations"
+      }
+    },
+    {
+      "id": 17,
+      "difficulty": "hard",
+      "question": {
+        "ar": "ما هي مخاطر العمل الميداني الجيولوجي؟",
+        "en": "What are the hazards of geological field work?",
+        "fr": "Quels sont les risques du travail de terrain géologique?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "المنحدرات الخطرة، الطقس، الحيوانات، والعزلة",
+            "en": "Dangerous slopes, weather, animals, and isolation",
+            "fr": "Pentes dangereuses, météo, animaux et isolement"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "لا توجد مخاطر",
+            "en": "No hazards",
+            "fr": "Aucun risque"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "مخاطر المختبر فقط",
+            "en": "Only laboratory hazards",
+            "fr": "Seulement risques de laboratoire"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يتعامل الجيولوجي مع مخاطر التضاريس الصعبة، الظروف الجوية القاسية، الحياة البرية، والبعد عن المساعدة الطبية",
+        "en": "Geologists deal with hazards of difficult terrain, extreme weather conditions, wildlife, and remoteness from medical assistance",
+        "fr": "Les géologues font face aux risques de terrain difficile, conditions météorologiques extrêmes, faune et éloignement de l'assistance médicale"
+      }
+    },
+    {
+      "id": 18,
+      "difficulty": "hard",
+      "question": {
+        "ar": "كيف يتم استخدام الصور الجوية في العمل الميداني؟",
+        "en": "How are aerial photos used in field work?",
+        "fr": "Comment les photos aériennes sont-elles utilisées dans le travail de terrain?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "للتخطيط للمسارات وتحديد التراكيب وتوجيه العمل الميداني",
+            "en": "For planning routes, identifying structures, and guiding field work",
+            "fr": "Pour planifier les itinéraires, identifier les structures et guider le travail de terrain"
+          },
+          "correct": true
+        },
+        {
+          "id": "id": "B",
+          "text": {
+            "ar": "للتقاط الصور الجماعية فقط",
+            "en": "For taking group photos only",
+            "fr": "Pour prendre des photos de groupe seulement"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "لقياس درجات الحرارة",
+            "en": "For measuring temperatures",
+            "fr": "Pour mesurer les températures"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "توفر الصور الجوية منظوراً شاملاً يساعد في التعرف على الأنماط الجيولوجية الكبيرة والتخطيط الفعال للعمل الميداني",
+        "en": "Aerial photos provide comprehensive perspective helping recognize large geological patterns and plan field work efficiently",
+        "fr": "Les photos aériennes fournissent une perspective complète aidant à reconnaître les grands motifs géologiques et planifier le travail de terrain efficacement"
+      }
+    },
+    {
+      "id": 19,
+      "difficulty": "hard",
+      "question": {
+        "ar": "ما هو الفرق بين الملاحظة والاستدلال في العمل الميداني؟",
+        "en": "What is the difference between observation and inference in field work?",
+        "fr": "Quelle est la différence entre observation et inférence dans le travail de terrain?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "الملاحظة هي ما تراه، الاستدلال هو التفسير بناءً على الملاحظات",
+            "en": "Observation is what you see, inference is interpretation based on observations",
+            "fr": "L'observation est ce que vous voyez, l'inférence est l'interprétation basée sur les observations"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "لا يوجد فرق",
+            "en": "No difference",
+            "fr": "Aucune différence"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "الاستدلال هو الملاحظة",
+            "en": "Inference is observation",
+            "fr": "L'inférence est l'observation"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يجب فصل الملاحظات المباشرة (الوقائع) عن التفسيرات (الاستدلالات) في التسجيل الميداني للحفاظ على الدقة العلمية",
+        "en": "Direct observations (facts) should be separated from interpretations (inferences) in field recording to maintain scientific accuracy",
+        "fr": "Les observations directes (faits) doivent être séparées des interprétations (inférences) dans l'enregistrement de terrain pour maintenir la précision scientifique"
+      }
+    },
+    {
+      "id": 20,
+      "difficulty": "hard",
+      "question": {
+        "ar": "كيف يتم التحقق من دقة البيانات الميدانية؟",
+        "en": "How is field data accuracy verified?",
+        "fr": "Comment la précision des données de terrain est-elle vérifiée?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "بإعادة القياس والتحقق المتقاطع والمراجعة المستقلة",
+            "en": "By re-measurement, cross-checking, and independent review",
+            "fr": "Par remesure, vérification croisée et revue indépendante"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "بعدم التحقق",
+            "en": "By not verifying",
+            "fr": "En ne vérifiant pas"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "بالتخمين فقط",
+            "en": "By guessing only",
+            "fr": "En devinant seulement"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تتضمن ضمان الجودة إعادة زيارة المواقع، مقارنة القياسات، والمراجعة من قبل جيولوجي آخر لضمان موثوقية البيانات",
+        "en": "Quality assurance involves re-visiting sites, comparing measurements, and review by another geologist to ensure data reliability",
+        "fr": "L'assurance qualité implique de revisiter les sites, comparer les mesures et revue par un autre géologue pour assurer la fiabilité des données"
+      }
+    },
+    {
+      "id": 21,
+      "difficulty": "hard",
+      "question": {
+        "ar": "ما هو دور الحواسيب في العمل الميداني الحديث؟",
+        "en": "What is the role of computers in modern field work?",
+        "fr": "Quel est le rôle des ordinateurs dans le travail de terrain moderne?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "جمع البيانات الرقمية، المعالجة الفورية، وإدارة قواعد البيانات",
+            "en": "Digital data collection, real-time processing, and database management",
+            "fr": "Collecte de données numériques, traitement en temps réel et gestion de base de données"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "للتسلية فقط",
+            "en": "For entertainment only",
+            "fr": "Pour divertissement seulement"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "لا دور لها",
+            "en": "No role",
+            "fr": "Aucun rôle"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يستخدم الجيولوجيون أجهزة الحواسيب اللوحية والهواتف الذكية لتسجيل البيانات رقمياً، معالجة الصور، والوصول إلى الخرائط الرقمية في الوقت الفعلي",
+        "en": "Geologists use tablets and smartphones for digital data recording, image processing, and accessing digital maps in real-time",
+        "fr": "Les géologues utilisent tablettes et smartphones pour enregistrement numérique de données, traitement d'images et accès aux cartes numériques en temps réel"
+      }
+    },
+    {
+      "id": 22,
+      "difficulty": "hard",
+      "question": {
+        "ar": "كيف يتم أخذ العينات من الصخور الهشة؟",
+        "en": "How are samples taken from fragile rocks?",
+        "fr": "Comment les échantillons sont-ils prélevés des roches fragiles?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "بالحفر الدقيق والتغليف المناسب واستخدام المواد المثبتة",
+            "en": "By careful drilling, proper packaging, and using consolidants",
+            "fr": "Par forage soigneux, emballage approprié et utilisant des consolidants"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "بالكسر العنيف",
+            "en": "By violent breaking",
+            "fr": "Par cassure violente"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "باستخدام المطرقة فقط",
+            "en": "Using hammer only",
+            "fr": "Utilisant marteau seulement"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تتطلب الصخور الهشة تقنيات خاصة مثل التثبيت بالراتنجات، الحفر اليدوي، والتغليف الدقيق للحفاظ على العينات سليمة",
+        "en": "Fragile rocks require special techniques like resin consolidation, hand drilling, and careful packaging to preserve samples intact",
+        "fr": "Les roches fragiles nécessitent des techniques spéciales comme consolidation par résine, forage manuel et emballage soigneux pour préserver les échantillons intacts"
+      }
+    },
+    {
+      "id": 23,
+      "difficulty": "hard",
+      "question": {
+        "ar": "ما هي إجراءات السلامة في العمل الميداني؟",
+        "en": "What are safety procedures in field work?",
+        "fr": "Quelles sont les procédures de sécurité dans le travail de terrain?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "التخطيط المسبق، الاتصال المنتظم، المعدات الوقائية، والإسعافات الأولية",
+            "en": "Advance planning, regular communication, protective equipment, and first aid",
+            "fr": "Planification à l'avance, communication régulière, équipement de protection et premiers soins"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "لا توجد إجراءات سلامة",
+            "en": "No safety procedures",
+            "fr": "Aucune procédure de sécurité"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "العمل الفردي فقط",
+            "en": "Working alone only",
+            "fr": "Travailler seul seulement"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تشمل السلامة إبلاغ الآخرين بخطة العمل، حمل طقم الإسعافات الأولية، استخدام الخوذات، وتجنب العمل المنفرد في المناطق النائية",
+        "en": "Safety includes informing others of work plan, carrying first aid kit, using helmets, and avoiding solo work in remote areas",
+        "fr": "La sécurité inclut informer les autres du plan de travail, porter une trousse de premiers soins, utiliser des casques et éviter le travail solo dans les zones reculées"
+      }
+    },
+    {
+      "id": 24,
+      "difficulty": "hard",
+      "question": {
+        "ar": "كيف يتم تدوين القياسات الهيكلية؟",
+        "en": "How are structural measurements recorded?",
+        "fr": "Comment les mesures structurales sont-elles enregistrées?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "باتجاه وميل الطبقات، الصدوع، والمفاصل مع الرموز القياسية",
+            "en": "By strike and dip of layers, faults, and joints with standard symbols",
+            "fr": "Par direction et pendage des couches, failles et diaclases avec symboles standard"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "بكتابة وصف طويل فقط",
+            "en": "By writing long description only",
+            "fr": "En écrivant une longue description seulement"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "بالتصوير فقط",
+            "en": "By photography only",
+            "fr": "Par photographie seulement"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تسجل القياسات الهيكلية باستخدام رموز قياسية على الخرائط مع جداول البيانات التي توضح الاتجاه والميل والموقع لكل قياس",
+        "en": "Structural measurements are recorded using standard symbols on maps with data tables showing strike, dip, and location for each measurement",
+        "fr": "Les mesures structurales sont enregistrées utilisant symboles standard sur cartes avec tableaux de données montrant direction, pendage et emplacement pour chaque mesure"
+      }
+    },
+    {
+      "id": 25,
+      "difficulty": "hard",
+      "question": {
+        "ar": "ما هو أهمية العمل الجماعي في المسوحات الجيولوجية؟",
+        "en": "What is the importance of teamwork in geological surveys?",
+        "fr": "Quelle est l'importance du travail d'équipe dans les levés géologiques?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "تقسيم المهام، التحقق المتقاطع، والسلامة في المناطق النائية",
+            "en": "Task division, cross-verification, and safety in remote areas",
+            "fr": "Division des tâches, vérification croisée et sécurité dans les zones reculées"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "لا أهمية له",
+            "en": "No importance",
+            "fr": "Aucune importance"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "للمنافسة فقط",
+            "en": "For competition only",
+            "fr": "Pour compétition seulement"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يسمح العمل الجماعي بتغطية مساحات أكبر، مراجعة البيانات، وضمان السلامة المتبادلة خاصة في البيئات الصعبة والنائية",
+        "en": "Teamwork allows covering larger areas, data review, and ensuring mutual safety especially in challenging and remote environments",
+        "fr": "Le travail d'équipe permet de couvrir de plus grandes zones, revue des données et assurer une sécurité mutuelle surtout dans les environnements difficiles et reculés"
+      }
     }
   ],
-  "total_questions": 1,
-  "passing_score": 75
+  "total_questions": 25,
+  "passing_score": 70
 }
