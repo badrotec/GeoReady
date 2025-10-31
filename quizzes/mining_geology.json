@@ -20,7 +20,6 @@
         "en": "What are the main stages of mine development?",
         "fr": "Quelles sont les principales étapes du développement minier?"
       },
-      "image": "images/diagrams/geological_section.jpg",
       "options": [
         {
           "id": "A",
@@ -46,8 +45,800 @@
         "en": "The mine cycle begins with exploration and ends with closure and rehabilitation, typically spanning many years",
         "fr": "Le cycle minier commence par l'exploration et se termine par la fermeture et la réhabilitation, s'étalant généralement sur de nombreuses années"
       }
+    },
+    {
+      "id": 2,
+      "question": {
+        "ar": "ما هو الفرق بين الاحتياطي والموارد المعدنية؟",
+        "en": "What is the difference between mineral reserves and resources?",
+        "fr": "Quelle est la différence entre les réserves et les ressources minérales?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "الاحتياطي جزء اقتصادي من الموارد",
+            "en": "Reserves are the economic portion of resources",
+            "fr": "Les réserves sont la partie économique des ressources"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "هما مصطلحان لنفس المفهوم",
+            "en": "They are terms for the same concept",
+            "fr": "Ce sont des termes pour le même concept"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "الموارد تشير إلى الترسبات المعدنية المكتشفة، بينما الاحتياطي هو الجزء القابل للاستخراج اقتصادياً منها",
+        "en": "Resources refer to discovered mineral deposits, while reserves are the economically extractable portion",
+        "fr": "Les ressources désignent les gisements minéraux découverts, tandis que les réserves sont la partie économiquement extractible"
+      }
+    },
+    {
+      "id": 3,
+      "question": {
+        "ar": "ما هي الطريقة الأكثر شيوعاً لتعدين الرواسب العميقة؟",
+        "en": "What is the most common method for mining deep deposits?",
+        "fr": "Quelle est la méthode la plus courante pour l'exploitation des gisements profonds?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "التعدين تحت السطحي",
+            "en": "Underground mining",
+            "fr": "Exploitation souterraine"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "التعدين السطحي",
+            "en": "Surface mining",
+            "fr": "Exploitation à ciel ouvert"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يستخدم التعدين تحت السطحي للرواسب العميقة حيث يصبح التعدين السطحي غير اقتصادي أو غير ممكن",
+        "en": "Underground mining is used for deep deposits where surface mining becomes uneconomical or impossible",
+        "fr": "L'exploitation souterraine est utilisée pour les gisements profonds où l'exploitation à ciel ouvert devient non économique ou impossible"
+      }
+    },
+    {
+      "id": 4,
+      "question": {
+        "ar": "ما هو الغرض من عمليات الحفر الاستكشافي؟",
+        "en": "What is the purpose of exploratory drilling?",
+        "fr": "Quel est le but du forage exploratoire?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "تحديد امتداد وتركيز الخام",
+            "en": "Determining the extent and grade of ore",
+            "fr": "Déterminer l'étendue et la teneur du minerai"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "استخراج الخام مباشرة",
+            "en": "Direct ore extraction",
+            "fr": "Extraction directe du minerai"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "الحفر الاستكشافي يجمع عينات لباطن الأرض لتحديد خصائص الترسب المعدني ومدى انتشاره",
+        "en": "Exploratory drilling collects subsurface samples to determine the characteristics and extent of mineral deposits",
+        "fr": "Le forage exploratoire collecte des échantillons du sous-sol pour déterminer les caractéristiques et l'étendue des gisements minéraux"
+      }
+    },
+    {
+      "id": 5,
+      "question": {
+        "ar": "ما هي العوامل التي تحدد طريقة التعدين المناسبة؟",
+        "en": "What factors determine the appropriate mining method?",
+        "fr": "Quels facteurs déterminent la méthode d'exploitation minière appropriée?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "العمق، الشكل، التركيز، الظروف الجيوتقنية",
+            "en": "Depth, shape, grade, geotechnical conditions",
+            "fr": "Profondeur, forme, teneur, conditions géotechniques"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "لون الخام فقط",
+            "en": "Only the ore color",
+            "fr": "Seulement la couleur du minerai"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تحدد العوامل الجيولوجية والاقتصادية طريقة التعدين المثلى لكل ترسب معدني",
+        "en": "Geological and economic factors determine the optimal mining method for each mineral deposit",
+        "fr": "Les facteurs géologiques et économiques déterminent la méthode d'exploitation optimale pour chaque gisement minéral"
+      }
+    },
+    {
+      "id": 6,
+      "question": {
+        "ar": "ما هو التركيز الحرج للخام؟",
+        "en": "What is the cut-off grade?",
+        "fr": "Qu'est-ce que la teneur de coupure?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "أقل تركيز يمكن استخراجه اقتصادياً",
+            "en": "The lowest grade that can be economically mined",
+            "fr": "La teneur la plus basse qui peut être exploitée économiquement"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "أعلى تركيز في المنجم",
+            "en": "The highest grade in the mine",
+            "fr": "La teneur la plus élevée dans la mine"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "التركيز الحرج هو الحد الأدنى لمحتوى المعدن في الخام الذي يجعل الاستخراج مجدياً اقتصادياً",
+        "en": "Cut-off grade is the minimum metal content in ore that makes extraction economically feasible",
+        "fr": "La teneur de coupure est la teneur minimale en métal dans le minerai qui rend l'extraction économiquement réalisable"
+      }
+    },
+    {
+      "id": 7,
+      "question": {
+        "ar": "ما هي طريقة 'غرفة وعامود' في التعدين؟",
+        "en": "What is the 'room and pillar' mining method?",
+        "fr": "Qu'est-ce que la méthode d'exploitation par 'chambres et piliers'?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "ترك أعمدة لدعم السقف أثناء الاستخراج",
+            "en": "Leaving pillars to support the roof during extraction",
+            "fr": "Laisser des piliers pour soutenir le toit pendant l'extraction"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "إزالة كل الخام دون دعم",
+            "en": "Removing all ore without support",
+            "fr": "Retirer tout le minerai sans support"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تستخدم هذه الطريقة في الرواسب الأفقية حيث تترك أعمدة من الخام لدعم سقف المنجم",
+        "en": "This method is used in horizontal deposits where pillars of ore are left to support the mine roof",
+        "fr": "Cette méthode est utilisée dans les gisements horizontaux où des piliers de minerai sont laissés pour soutenir le toit de la mine"
+      }
+    },
+    {
+      "id": 8,
+      "question": {
+        "ar": "ما هو الغرض من عمليات المعالجة المعدنية؟",
+        "en": "What is the purpose of mineral processing?",
+        "fr": "Quel est le but du traitement des minéraux?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "رفع تركيز المعدن في الخام",
+            "en": "Increasing the metal concentration in ore",
+            "fr": "Augmenter la concentration de métal dans le minerai"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "تغيير لون الخام",
+            "en": "Changing the ore color",
+            "fr": "Changer la couleur du minerai"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تهدف المعالجة إلى فصل المعادن القيمة عن الشوائب لرفع القيمة الاقتصادية للخام",
+        "en": "Processing aims to separate valuable minerals from waste to increase the economic value of ore",
+        "fr": "Le traitement vise à séparer les minéraux valorisables des déchets pour augmenter la valeur économique du minerai"
+      }
+    },
+    {
+      "id": 9,
+      "question": {
+        "ar": "ما هي الطريقة المستخدمة في تعدين رواسب الفحم السطحية؟",
+        "en": "What method is used for surface coal mining?",
+        "fr": "Quelle méthode est utilisée pour l'exploitation du charbon en surface?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "التعدين بنظام الحفرة المفتوحة",
+            "en": "Open-pit mining",
+            "fr": "Exploitation à ciel ouvert"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "التعدين بالأنفاق",
+            "en": "Shaft mining",
+            "fr": "Exploitation par puits"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يستخدم التعدين السطحي للرواسب الضحلة حيث يتم إزالة الطبقات العلوية للوصول إلى الفحم",
+        "en": "Surface mining is used for shallow deposits where overlying layers are removed to access coal",
+        "fr": "L'exploitation de surface est utilisée pour les gisements peu profonds où les couches sus-jacentes sont enlevées pour accéder au charbon"
+      }
+    },
+    {
+      "id": 10,
+      "question": {
+        "ar": "ما هي المخاطر الجيوتقنية الرئيسية في المناجم؟",
+        "en": "What are the main geotechnical risks in mines?",
+        "fr": "Quels sont les principaux risques géotechniques dans les mines?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "الانهيارات، الفيضانات، الانفجارات",
+            "en": "Collapses, flooding, explosions",
+            "fr": "Effondrements, inondations, explosions"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "تغير لون الصخور فقط",
+            "en": "Only rock color changes",
+            "fr": "Seulement les changements de couleur des roches"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تشمل المخاطر الجيوتقنية عدم استقرار الكتلة الصخرية وضغوط الطبقات والظواهر الجيولوجية المفاجئة",
+        "en": "Geotechnical risks include rock mass instability, strata pressure, and sudden geological phenomena",
+        "fr": "Les risques géotechniques incluent l'instabilité du massif rocheux, la pression des strates et les phénomènes géologiques soudains"
+      }
+    },
+    {
+      "id": 11,
+      "question": {
+        "ar": "ما هو نظام 'المعالجة بالكومة'؟",
+        "en": "What is the 'heap leaching' system?",
+        "fr": "Qu'est-ce que le système de 'lixiviation en tas'?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "استخدام محاليل كيميائية لاستخلاص المعادن من الخام",
+            "en": "Using chemical solutions to extract metals from ore",
+            "fr": "Utiliser des solutions chimiques pour extraire les métaux du minerai"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "حرق الخام مباشرة",
+            "en": "Burning ore directly",
+            "fr": "Brûler le minerai directement"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تستخدم هذه الطريقة محاليل كيميائية تسرب عبر أكوام الخام لاستخلاص المعادن مثل الذهب والنحاس",
+        "en": "This method uses chemical solutions percolating through ore heaps to extract metals like gold and copper",
+        "fr": "Cette méthode utilise des solutions chimiques percolant à travers des tas de minerai pour extraire des métaux comme l'or et le cuivre"
+      }
+    },
+    {
+      "id": 12,
+      "question": {
+        "ar": "ما هو دور الجيولوجي في مرحلة إنتاج المنجم؟",
+        "en": "What is the geologist's role during mine production?",
+        "fr": "Quel est le rôle du géologue pendant la production minière?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "مراقبة جودة الخام وتوجيه عمليات الاستخراج",
+            "en": "Monitoring ore quality and guiding extraction operations",
+            "fr": "Surveiller la qualité du minerai et guider les opérations d'extraction"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "قيادة الشاحنات فقط",
+            "en": "Only driving trucks",
+            "fr": "Seulement conduire des camions"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يدير الجيولوجي جودة الخام ويحدد اتجاه الاستخراج ويضمن الاستغلال الأمثل للترسب المعدني",
+        "en": "The geologist manages ore quality, determines extraction direction, and ensures optimal deposit utilization",
+        "fr": "Le géologue gère la qualité du minerai, détermine la direction d'extraction et assure une utilisation optimale du gisement"
+      }
+    },
+    {
+      "id": 13,
+      "question": {
+        "ar": "ما هي طريقة 'القصف الكتلي' في التعدين؟",
+        "en": "What is 'block caving' mining method?",
+        "fr": "Qu'est-ce que la méthode d'exploitation par 'foudroyage'?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "إضعاف كتلة الخام لانهيارها تحت وزنها",
+            "en": "Weakening the ore block to collapse under its own weight",
+            "fr": "Affaiblir le bloc de minerai pour qu'il s'effondre sous son propre poids"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "قطع الخام إلى مكعبات صغيرة",
+            "en": "Cutting ore into small cubes",
+            "fr": "Couper le minerai en petits cubes"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تستخدم هذه الطريقة للرواسب الضخمة حيث يتم إضعاف قاعدة الكتلة لتسقط الخام تحت تأثير الجاذبية",
+        "en": "This method is used for massive deposits where the base is undercut to allow ore to collapse by gravity",
+        "fr": "Cette méthode est utilisée pour les gisements massifs où la base est sous-cavée pour permettre l'effondrement du minerai par gravité"
+      }
+    },
+    {
+      "id": 14,
+      "question": {
+        "ar": "ما هو الغرض من أنظمة التهوية في المناجم تحت السطحية؟",
+        "en": "What is the purpose of ventilation systems in underground mines?",
+        "fr": "Quel est le but des systèmes de ventilation dans les mines souterraines?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "توفير هواء نقي وإزالة الغازات الضارة",
+            "en": "Providing fresh air and removing harmful gases",
+            "fr": "Fournir de l'air frais et éliminer les gaz nocifs"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "تبريد الآلات فقط",
+            "en": "Only cooling machinery",
+            "fr": "Seulement refroidir les machines"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تحافظ أنظمة التهوية على جودة الهواء وتزيل الغازات السامة وتتحكم في درجة الحرارة والرطوبة",
+        "en": "Ventilation systems maintain air quality, remove toxic gases, and control temperature and humidity",
+        "fr": "Les systèmes de ventilation maintiennent la qualité de l'air, éliminent les gaz toxiques et contrôlent la température et l'humidité"
+      }
+    },
+    {
+      "id": 15,
+      "question": {
+        "ar": "ما هي العوامل التي تؤثر على قرار إغلاق المنجم؟",
+        "en": "What factors influence the decision to close a mine?",
+        "fr": "Quels facteurs influencent la décision de fermer une mine?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "نضوب الخام، انخفاض الأسعار، العوامل البيئية",
+            "en": "Ore depletion, price decline, environmental factors",
+            "fr": "Épuisement du minerai, baisse des prix, facteurs environnementaux"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "تغير لون الصخور فقط",
+            "en": "Only rock color changes",
+            "fr": "Seulement les changements de couleur des roches"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يتم إغلاق المناجم عندما تصبح غير اقتصادية أو عند نضوب الاحتياطي، مع ضرورة التخطيط لإعادة التأهيل",
+        "en": "Mines close when they become uneconomical or reserves are depleted, with rehabilitation planning required",
+        "fr": "Les mines ferment lorsqu'elles deviennent non économiques ou que les réserves sont épuisées, avec une planification de réhabilitation requise"
+      }
+    },
+    {
+      "id": 16,
+      "question": {
+        "ar": "ما هو الفرق بين الخام والجنبة؟",
+        "en": "What is the difference between ore and gangue?",
+        "fr": "Quelle est la différence entre le minerai et la gangue?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "الخام يحتوي معادن قيمة والجنبة مواد غير مرغوبة",
+            "en": "Ore contains valuable minerals and gangue is unwanted material",
+            "fr": "Le minerai contient des minéraux valorisables et la gangue est un matériau indésirable"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "هما نفس الشيء",
+            "en": "They are the same thing",
+            "fr": "Ils sont la même chose"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "الخام هو الصخر الذي يحتوي معادن قابلة للاستخلاص اقتصادياً، بينما الجنبة هي الشوائب المصاحبة",
+        "en": "Ore is rock containing economically extractable minerals, while gangue is the accompanying waste material",
+        "fr": "Le minerai est la roche contenant des minéraux économiquement extractibles, tandis que la gangue est le matériau de déchet accompagnant"
+      }
+    },
+    {
+      "id": 17,
+      "question": {
+        "ar": "ما هي طريقة التعدين المستخدمة للرواسب الطبقية؟",
+        "en": "What mining method is used for stratified deposits?",
+        "fr": "Quelle méthode d'exploitation est utilisée pour les gisements stratifiés?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "التعدين بالحائط الطويل",
+            "en": "Longwall mining",
+            "fr": "Exploitation par longue taille"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "التعدين بالدعامات",
+            "en": "Pillar mining",
+            "fr": "Exploitation par piliers"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تستخدم طريقة الحائط الطويل للرواسب الطبقية مثل الفحم حيث يتم استخراج طبقة كاملة في عملية مستمرة",
+        "en": "Longwall mining is used for stratified deposits like coal where an entire seam is extracted in a continuous process",
+        "fr": "L'exploitation par longue taille est utilisée pour les gisements stratifiés comme le charbon où une couche entière est extraite dans un processus continu"
+      }
+    },
+    {
+      "id": 18,
+      "question": {
+        "ar": "ما هو دور الجيوفيزياء في الاستكشاف المعدني؟",
+        "en": "What is the role of geophysics in mineral exploration?",
+        "fr": "Quel est le rôle de la géophysique dans l'exploration minérale?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "كشف التراكيب والرواسب تحت السطحية",
+            "en": "Detecting subsurface structures and deposits",
+            "fr": "Détecter les structures et gisements sous la surface"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "تحليل لون الصخور فقط",
+            "en": "Only analyzing rock color",
+            "fr": "Seulement analyser la couleur des roches"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تستخدم الطرق الجيوفيزيائية مثل المغناطيسية والجاذبية والكهربائية للكشف عن الترسبات المخفية",
+        "en": "Geophysical methods like magnetics, gravity, and electrical are used to detect hidden deposits",
+        "fr": "Les méthodes géophysiques comme le magnétisme, la gravité et l'électricité sont utilisées pour détecter les gisements cachés"
+      }
+    },
+    {
+      "id": 19,
+      "question": {
+        "ar": "ما هي العوامل التي تحدد اختيار طريقة الاستخراج؟",
+        "en": "What factors determine the choice of extraction method?",
+        "fr": "Quels facteurs déterminent le choix de la méthode d'extraction?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "العمق، السماكة، الميل، الخواص الميكانيكية للصخر",
+            "en": "Depth, thickness, dip, rock mechanical properties",
+            "fr": "Profondeur, épaisseur, pendage, propriétés mécaniques de la roche"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "لون الخام فقط",
+            "en": "Only ore color",
+            "fr": "Seulement la couleur du minerai"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تؤثر الخصائص الجيولوجية والجيوتقنية للترسب على قرار اختيار طريقة التعدين المثلى",
+        "en": "The geological and geotechnical characteristics of the deposit influence the choice of optimal mining method",
+        "fr": "Les caractéristiques géologiques et géotechniques du gisement influencent le choix de la méthode d'exploitation optimale"
+      }
+    },
+    {
+      "id": 20,
+      "question": {
+        "ar": "ما هو نظام JORC في تقدير الاحتياطي؟",
+        "en": "What is the JORC system in reserve estimation?",
+        "fr": "Qu'est-ce que le système JORC dans l'estimation des réserves?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "معايير دولية للإبلاغ عن الموارد والاحتياطيات",
+            "en": "International standards for reporting resources and reserves",
+            "fr": "Normes internationales pour la déclaration des ressources et réserves"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "نظام لقياس ألوان الصخور",
+            "en": "A system for measuring rock colors",
+            "fr": "Un système pour mesurer les couleurs des roches"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "JORC هي معايير أسترالية معتمدة عالمياً لتصنيف وتقدير الموارد والاحتياطيات المعدنية",
+        "en": "JORC are Australian standards globally adopted for classifying and estimating mineral resources and reserves",
+        "fr": "JORC sont des normes australiennes adoptées mondialement pour classer et estimer les ressources et réserves minérales"
+      }
+    },
+    {
+      "id": 21,
+      "question": {
+        "ar": "ما هي طريقة 'التعدين البحري'؟",
+        "en": "What is 'marine mining' method?",
+        "fr": "Qu'est-ce que la méthode d'exploitation 'minière marine'?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "استخراج المعادن من قاع المحيط",
+            "en": "Extracting minerals from the ocean floor",
+            "fr": "Extraire les minéraux du fond océanique"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "التعدين بالقرب من الشاطئ",
+            "en": "Mining near the shore",
+            "fr": "Exploitation minière près du rivage"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يتضمن التعدين البحري استخراج المعادن من العقد المتعددة الفلزات والرواسب الأخرى في قاع المحيط",
+        "en": "Marine mining involves extracting minerals from polymetallic nodules and other deposits on the ocean floor",
+        "fr": "L'exploitation minière marine implique l'extraction de minéraux à partir de nodules polymétalliques et autres gisements sur le fond océanique"
+      }
+    },
+    {
+      "id": 22,
+      "question": {
+        "ar": "ما هو الغرض من عمليات التعويم في معالجة الخام؟",
+        "en": "What is the purpose of flotation in ore processing?",
+        "fr": "Quel est le but de la flottation dans le traitement du minerai?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "فصل المعادن باستخدام الفقاعات الهوائية",
+            "en": "Separating minerals using air bubbles",
+            "fr": "Séparer les minéraux en utilisant des bulles d'air"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "طحن الخام فقط",
+            "en": "Only grinding ore",
+            "fr": "Seulement broyer le minerai"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "التعويم طريقة لفصل المعادن عن الشوائب باستخدام اختلاف الخواص السطحية والالتصاق بالفقاعات الهوائية",
+        "en": "Flotation is a method to separate minerals from gangue using differences in surface properties and adhesion to air bubbles",
+        "fr": "La flottation est une méthode pour séparer les minéraux de la gangue en utilisant les différences de propriétés de surface et l'adhésion aux bulles d'air"
+      }
+    },
+    {
+      "id": 23,
+      "question": {
+        "ar": "ما هي المخاطر البيئية الرئيسية للتعدين؟",
+        "en": "What are the main environmental risks of mining?",
+        "fr": "Quels sont les principaux risques environnementaux de l'exploitation minière?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "تلوث المياه، تدهور التربة، التغيرات الهيدرولوجية",
+            "en": "Water pollution, soil degradation, hydrological changes",
+            "fr": "Pollution de l'eau, dégradation des sols, changements hydrologiques"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "تغير لون السماء فقط",
+            "en": "Only sky color changes",
+            "fr": "Seulement les changements de couleur du ciel"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يسبب التعدين تلوثاً للمياه بالمعادن الثقيلة وتدهوراً للتربة وتغيرات في نظام المياه الجوفية",
+        "en": "Mining causes water pollution with heavy metals, soil degradation, and changes in groundwater systems",
+        "fr": "L'exploitation minière cause la pollution de l'eau par les métaux lourds, la dégradation des sols et des changements dans les systèmes d'eau souterraine"
+      }
+    },
+    {
+      "id": 24,
+      "question": {
+        "ar": "ما هو دور النمذجة الجيولوجية في التعدين؟",
+        "en": "What is the role of geological modeling in mining?",
+        "fr": "Quel est le rôle de la modélisation géologique dans l'exploitation minière?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "تمثيل ثلاثي الأبعاد للترسب المعدني",
+            "en": "3D representation of the mineral deposit",
+            "fr": "Représentation 3D du gisement minéral"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "رسم خرائط للألوان فقط",
+            "en": "Only mapping colors",
+            "fr": "Seulement cartographier les couleurs"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تساعد النمذجة الجيولوجية في فهم شكل وامتداد الترسب وتخطيط عمليات الاستخراج بشكل أفضل",
+        "en": "Geological modeling helps understand the shape and extent of deposits and better plan extraction operations",
+        "fr": "La modélisation géologique aide à comprendre la forme et l'étendue des gisements et à mieux planifier les opérations d'extraction"
+      }
+    },
+    {
+      "id": 25,
+      "question": {
+        "ar": "ما هي العوامل الاقتصادية المؤثرة على جدوى المشروع التعديني؟",
+        "en": "What economic factors affect mining project feasibility?",
+        "fr": "Quels facteurs économiques affectent la faisabilité d'un projet minier?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "أسعار المعادن، تكاليف التشغيل، الضرائب، سعر الصرف",
+            "en": "Metal prices, operating costs, taxes, exchange rates",
+            "fr": "Prix des métaux, coûts d'exploitation, taxes, taux de change"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "لون المعدن فقط",
+            "en": "Only metal color",
+            "fr": "Seulement la couleur du métal"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تتأثر الجدوى الاقتصادية للتعدين بتقلبات أسعار المعادن العالمية والتكاليف التشغيلية والسياسات الضريبية",
+        "en": "Mining economic feasibility is affected by global metal price fluctuations, operational costs, and tax policies",
+        "fr": "La faisabilité économique de l'exploitation minière est affectée par les fluctuations des prix mondiaux des métaux, les coûts opérationnels et les politiques fiscales"
+      }
     }
   ],
-  "total_questions": 1,
+  "total_questions": 25,
   "passing_score": 75
 }
