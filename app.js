@@ -527,8 +527,11 @@ class GeoLearnApp {
         `;
     }
 
-    // مؤقت السؤال (15 ثانية)
+    // مؤقت السؤال (15 ثانية) - الكود المصحح
     startQuestionTimer() {
+        // ⬇️⬇️⬇️ التصحيح: إيقاف أي مؤقت سابق أولاً
+        this.stopQuestionTimer();
+        
         this.timeLeft = 15;
         this.updateQuestionTimer();
         
@@ -591,6 +594,7 @@ class GeoLearnApp {
     }
 
     showQuestion() {
+        // ⬇️⬇️⬇️ التصحيح: إيقاف المؤقت قبل عرض السؤال الجديد
         this.stopQuestionTimer();
         this.isAnswerRevealed = false;
         this.timeLeft = 15;
@@ -627,6 +631,7 @@ class GeoLearnApp {
         if (this.isAnswerRevealed) return;
         
         this.soundManager.play('click');
+        // ⬇️⬇️⬇️ التصحيح: إيقاف المؤقت فور اختيار الإجابة
         this.stopQuestionTimer();
         this.isAnswerRevealed = true;
         
