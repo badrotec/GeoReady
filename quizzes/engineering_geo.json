@@ -1,0 +1,53 @@
+{
+  "id": "engineering_geo",
+  "name": {
+    "ar": "الجيولوجيا الهندسية",
+    "en": "Engineering Geology",
+    "fr": "Géologie de l'Ingénieur"
+  },
+  "description": {
+    "ar": "تعلم تطبيق المبادئ الجيولوجية في المشاريع الهندسية والإنشائية",
+    "en": "Learn application of geological principles in engineering and construction projects",
+    "fr": "Apprenez l'application des principes géologiques dans les projets d'ingénierie et de construction"
+  },
+  "icon": "🏔️",
+  "level": "advanced",
+  "questions": [
+    {
+      "id": 1,
+      "question": {
+        "ar": "ما هو الهدف الرئيسي من الجيولوجيا الهندسية؟",
+        "en": "What is the main objective of engineering geology?",
+        "fr": "Quel est l'objectif principal de la géologie de l'ingénieur?"
+      },
+      "image": "images/diagrams/geological_section.jpg",
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "تقييم الظروف الجيولوجية لضمان سلامة واستقرار المنشآت",
+            "en": "Assessing geological conditions to ensure safety and stability of structures",
+            "fr": "Évaluer les conditions géologiques pour assurer la sécurité et la stabilité des structures"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "استكشاف المعادن فقط",
+            "en": "Only exploring minerals",
+            "fr": "Seulement explorer les minéraux"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تركز الجيولوجيا الهندسية على فهم سلوك المواد الجيولوجية وتأثيرها على المنشآت الهندسية مثل السدود والجسور والمباني",
+        "en": "Engineering geology focuses on understanding the behavior of geological materials and their impact on engineering structures like dams, bridges and buildings",
+        "fr": "La géologie de l'ingénieur se concentre sur la compréhension du comportement des matériaux géologiques et leur impact sur les structures d'ingénierie comme les barrages, les ponts et les bâtiments"
+      }
+    }
+  ],
+  "total_questions": 1,
+  "passing_score": 80
+}
