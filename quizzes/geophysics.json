@@ -2,52 +2,1093 @@
   "id": "geophysics",
   "name": {
     "ar": "الجيوفيزياء - استكشاف باطن الأرض",
-    "en": "Geophysics - Earth Exploration",
-    "fr": "Géophysique - Exploration Terrestre"
+    "en": "Geophysics - Earth Interior Exploration", 
+    "fr": "Géophysique - Exploration de l'Intérieur Terrestre"
   },
   "description": {
-    "ar": "تعلم طرق استكشاف باطن الأرض باستخدام القياسات الفيزيائية",
-    "en": "Learn methods for exploring Earth's interior using physical measurements",
-    "fr": "Apprenez les méthodes d'exploration de l'intérieur de la Terre using des mesures physiques"
+    "ar": "تعلم طرق استكشاف باطن الأرض باستخدام الطرق الجيوفيزيائية",
+    "en": "Learn Earth interior exploration methods using geophysical techniques",
+    "fr": "Apprenez les méthodes d'exploration de l'intérieur terrestre utilisant des techniques géophysiques"
   },
   "icon": "📡",
-  "level": "intermediate",
+  "level": "advanced",
   "questions": [
     {
       "id": 1,
+      "difficulty": "easy",
       "question": {
-        "ar": "ما هو المسح السيزمي؟",
-        "en": "What is seismic surveying?",
-        "fr": "Qu'est-ce que l'étude sismique?"
+        "ar": "ما هي الجيوفيزياء؟",
+        "en": "What is geophysics?",
+        "fr": "Qu'est-ce que la géophysique?"
       },
-      "image": "images/diagrams/geological_section.jpg",
       "options": [
         {
           "id": "A",
           "text": {
-            "ar": "طريقة تستخدم الموجات الزلزالية لاستكشاف الطبقات تحت السطح",
-            "en": "A method using seismic waves to explore subsurface layers",
-            "fr": "Une méthode utilisant les ondes sismiques pour explorer les couches souterraines"
+            "ar": "علم يدرس باطن الأرض باستخدام الطرق الفيزيائية",
+            "en": "Science studying Earth's interior using physical methods",
+            "fr": "Science étudiant l'intérieur terrestre utilisant des méthodes physiques"
           },
           "correct": true
         },
         {
-          "id": "B",
+          "id": "B", 
           "text": {
-            "ar": "قياس المجال المغناطيسي للأرض",
-            "en": "Measuring Earth's magnetic field",
-            "fr": "Mesurer le champ magnétique terrestre"
+            "ar": "علم دراسة الصخور فقط",
+            "en": "Science studying only rocks",
+            "fr": "Science étudiant seulement les roches"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "علم دراسة الأحافير",
+            "en": "Science studying fossils",
+            "fr": "Science étudiant les fossiles"
           },
           "correct": false
         }
       ],
       "explanation": {
-        "ar": "المسح السيزمي يستخدم الموجات الزلزالية المنتَجة صناعياً لاستكشاف التركيب الجيولوجي تحت السطح",
-        "en": "Seismic surveying uses artificially generated seismic waves to explore geological structure beneath the surface",
-        "fr": "L'étude sismique utilise des ondes sismiques générées artificiellement pour explorer la structure géologique sous la surface"
+        "ar": "الجيوفيزياء تستخدم طرق مثل الزلازل والجاذبية والمغناطيسية لكشف تركيب باطن الأرض",
+        "en": "Geophysics uses methods like seismology, gravity, and magnetism to reveal Earth's interior structure",
+        "fr": "La géophysique utilise des méthodes comme la sismologie, la gravité et le magnétisme pour révéler la structure interne terrestre"
+      }
+    },
+    {
+      "id": 2,
+      "difficulty": "easy",
+      "question": {
+        "ar": "ما هي الطريقة السيزمية؟",
+        "en": "What is the seismic method?",
+        "fr": "Qu'est-ce que la méthode sismique?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "طريقة تستخدم الموجات الزلزالية لاستكشاف باطن الأرض",
+            "en": "A method using seismic waves to explore Earth's interior",
+            "fr": "Une méthode utilisant les ondes sismiques pour explorer l'intérieur terrestre"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "طريقة دراسة الأحافير",
+            "en": "A method for studying fossils",
+            "fr": "Une méthode pour étudier les fossiles"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "طريقة تحليل الصخور",
+            "en": "A method for rock analysis",
+            "fr": "Une méthode pour analyser les roches"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تعتمد الطريقة السيزمية على توليد موجات زلزالية ودراسة انعكاسها وانكسارها في الطبقات تحت السطح",
+        "en": "The seismic method relies on generating seismic waves and studying their reflection and refraction in subsurface layers",
+        "fr": "La méthode sismique repose sur la génération d'ondes sismiques et l'étude de leur réflexion et réfraction dans les couches sous-surface"
+      }
+    },
+    {
+      "id": 3,
+      "difficulty": "easy",
+      "question": {
+        "ar": "ما هي طريقة الجاذبية؟",
+        "en": "What is the gravity method?",
+        "fr": "Qu'est-ce que la méthode gravimétrique?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "طريقة تدرس تغيرات مجال الجاذبية الأرضية",
+            "en": "A method studying variations in Earth's gravity field",
+            "fr": "Une méthode étudiant les variations du champ gravitationnel terrestre"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "طريقة دراسة المغناطيسية",
+            "en": "A method studying magnetism",
+            "fr": "Une méthode étudiant le magnétisme"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "طريقة دراسة الكهرباء",
+            "en": "A method studying electricity",
+            "fr": "Une méthode étudiant l'électricité"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تكتشف طريقة الجاذبية الاختلافات في كثافة الصخور تحت السطح من خلال قياس التغيرات الطفيفة في الجاذبية",
+        "en": "The gravity method detects density differences in subsurface rocks by measuring slight gravity variations",
+        "fr": "La méthode gravimétrique détecte les différences de densité dans les roches sous-surface en mesurant de légères variations gravitationnelles"
+      }
+    },
+    {
+      "id": 4,
+      "difficulty": "easy",
+      "question": {
+        "ar": "ما هي طريقة المغناطيسية؟",
+        "en": "What is the magnetic method?",
+        "fr": "Qu'est-ce que la méthode magnétique?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "طريقة تدرس تغيرات المجال المغناطيسي الأرضي",
+            "en": "A method studying variations in Earth's magnetic field",
+            "fr": "Une méthode étudiant les variations du champ magnétique terrestre"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "طريقة دراسة الجاذبية",
+            "en": "A method studying gravity",
+            "fr": "Une méthode étudiant la gravité"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "طريقة دراسة الموجات الصوتية",
+            "en": "A method studying sound waves",
+            "fr": "Une méthode étudiant les ondes sonores"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تستخدم طريقة المغناطيسية للكشف عن الصخور المغناطيسية مثل البازلت والرواسب المعدنية",
+        "en": "The magnetic method is used to detect magnetic rocks like basalt and mineral deposits",
+        "fr": "La méthode magnétique est utilisée pour détecter les roches magnétiques comme le basalte et les gisements minéraux"
+      }
+    },
+    {
+      "id": 5,
+      "difficulty": "easy",
+      "question": {
+        "ar": "ما هي الطريقة الكهربائية؟",
+        "en": "What is the electrical method?",
+        "fr": "Qu'est-ce que la méthode électrique?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "طريقة تدرس الخصائص الكهربائية للصخور تحت السطح",
+            "en": "A method studying electrical properties of subsurface rocks",
+            "fr": "Une méthode étudiant les propriétés électriques des roches sous-surface"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "طريقة دراسة الحرارة",
+            "en": "A method studying heat",
+            "fr": "Une méthode étudiant la chaleur"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "طريقة دراسة الإشعاع",
+            "en": "A method studying radiation",
+            "fr": "Une méthode étudiant le rayonnement"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تعتمد الطريقة الكهربائية على قياس مقاومة أو توصيلية الصخور للتيار الكهربائي",
+        "en": "The electrical method relies on measuring rock resistance or conductivity to electric current",
+        "fr": "La méthode électrique repose sur la mesure de la résistance ou conductivité des roches au courant électrique"
+      }
+    },
+    {
+      "id": 6,
+      "difficulty": "easy",
+      "question": {
+        "ar": "ما هو الغرض من المسح الجيوفيزيائي؟",
+        "en": "What is the purpose of geophysical survey?",
+        "fr": "Quel est le but du levé géophysique?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "استكشاف باطن الأرض دون الحفر",
+            "en": "To explore Earth's interior without drilling",
+            "fr": "Explorer l'intérieur terrestre sans forage"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "دراسة الطقس",
+            "en": "To study weather",
+            "fr": "Étudier la météo"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "تحليل المياه السطحية",
+            "en": "To analyze surface water",
+            "fr": "Analyser les eaux de surface"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يسمح المسح الجيوفيزيائي برسم خرائط للطبقات تحت السurface وتحديد مواقع الرواسب المعدنية والمياه",
+        "en": "Geophysical surveying allows mapping subsurface layers and locating mineral deposits and water resources",
+        "fr": "Le levé géophysique permet de cartographier les couches sous-surface et localiser les gisements minéraux et ressources en eau"
+      }
+    },
+    {
+      "id": 7,
+      "difficulty": "easy",
+      "question": {
+        "ar": "ما هي الموجات الزلزالية؟",
+        "en": "What are seismic waves?",
+        "fr": "Que sont les ondes sismiques?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "موجات طاقة تنتقل خلال الأرض",
+            "en": "Energy waves that travel through the Earth",
+            "fr": "Ondes d'énergie qui voyagent à travers la Terre"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "موجات صوتية في الهواء",
+            "en": "Sound waves in air",
+            "fr": "Ondes sonores dans l'air"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "موجات كهرومغناطيسية",
+            "en": "Electromagnetic waves",
+            "fr": "Ondes électromagnétiques"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تنتج الموجات الزلزالية من الزلازل أو المصادر الصناعية وتستخدم لدراسة تركيب باطن الأرض",
+        "en": "Seismic waves originate from earthquakes or artificial sources and are used to study Earth's interior structure",
+        "fr": "Les ondes sismiques proviennent des tremblements de terre ou sources artificielles et sont utilisées pour étudier la structure interne terrestre"
+      }
+    },
+    {
+      "id": 8,
+      "difficulty": "easy",
+      "question": {
+        "ar": "ما هو السيزموجراف؟",
+        "en": "What is a seismograph?",
+        "fr": "Qu'est-ce qu'un sismographe?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "جهاز يسجل الموجات الزلزالية",
+            "en": "An instrument that records seismic waves",
+            "fr": "Un instrument qui enregistre les ondes sismiques"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "جهاز قياس الجاذبية",
+            "en": "An instrument measuring gravity",
+            "fr": "Un instrument mesurant la gravité"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "جهاز قياس المغناطيسية",
+            "en": "An instrument measuring magnetism",
+            "fr": "Un instrument mesurant le magnétisme"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يسجل السيزموجراف حركة الأرض الناتجة عن الموجات الزلزالية ويعطي معلومات عن قوة وموقع الزلزال",
+        "en": "The seismograph records ground motion caused by seismic waves and provides information about earthquake strength and location",
+        "fr": "Le sismographe enregistre le mouvement du sol causé par les ondes sismiques et fournit des informations sur la force et localisation du tremblement de terre"
+      }
+    },
+    {
+      "id": 9,
+      "difficulty": "medium",
+      "question": {
+        "ar": "ما هي الموجات الأولية (P)؟",
+        "en": "What are P-waves?",
+        "fr": "Que sont les ondes P?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "موجات زلزالية انضغاطية تنتقل في جميع الأوساط",
+            "en": "Compressional seismic waves that travel through all media",
+            "fr": "Ondes sismiques de compression qui voyagent through tous les milieux"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "موجات سطحية",
+            "en": "Surface waves",
+            "fr": "Ondes de surface"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "موجات قصية",
+            "en": "Shear waves",
+            "fr": "Ondes de cisaillement"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "الموجات الأولية هي أسرع الموجات الزلزالية وتنتقل في المواد الصلبة والسائلة والغازية",
+        "en": "P-waves are the fastest seismic waves and travel through solid, liquid, and gaseous materials",
+        "fr": "Les ondes P sont les ondes sismiques les plus rapides et voyagent through les matériaux solides, liquides et gazeux"
+      }
+    },
+    {
+      "id": 10,
+      "difficulty": "medium",
+      "question": {
+        "ar": "ما هي الموجات الثانوية (S)؟",
+        "en": "What are S-waves?",
+        "fr": "Que sont les ondes S?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "موجات زلزالية قصية تنتقل في المواد الصلبة فقط",
+            "en": "Shear seismic waves that travel only through solids",
+            "fr": "Ondes sismiques de cisaillement qui voyagent seulement through les solides"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "موجات انضغاطية",
+            "en": "Compressional waves",
+            "fr": "Ondes de compression"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "موجات سطحية",
+            "en": "Surface waves",
+            "fr": "Ondes de surface"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "الموجات الثانوية أبطأ من الأولية ولا تنتقل في السوائل، مما ساعد في اكتشاف اللب الخارجي السائل",
+        "en": "S-waves are slower than P-waves and don't travel through liquids, which helped discover the liquid outer core",
+        "fr": "Les ondes S sont plus lentes que les ondes P et ne voyagent pas through les liquides, ce qui a aidé à découvrir le noyau externe liquide"
+      }
+    },
+    {
+      "id": 11,
+      "difficulty": "medium",
+      "question": {
+        "ar": "ما هو الانعكاس السيزمي؟",
+        "en": "What is seismic reflection?",
+        "fr": "Qu'est-ce que la réflexion sismique?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "ارتداد الموجات الزلزالية عند حدود الطبقات",
+            "en": "The bouncing back of seismic waves at layer boundaries",
+            "fr": "Le rebondissement des ondes sismiques aux limites des couches"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "انكسار الموجات الزلزالية",
+            "en": "The refraction of seismic waves",
+            "fr": "La réfraction des ondes sismiques"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "امتصاص الموجات الزلزالية",
+            "en": "The absorption of seismic waves",
+            "fr": "L'absorption des ondes sismiques"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يعتمد الانعكاس السيزمي على اختلاف الخصائص الصوتية بين الطبقات ويساعد في رسم هياكل تحت السطح",
+        "en": "Seismic reflection depends on acoustic property differences between layers and helps map subsurface structures",
+        "fr": "La réflexion sismique dépend des différences de propriétés acoustiques entre couches et aide à cartographier les structures sous-surface"
+      }
+    },
+    {
+      "id": 12,
+      "difficulty": "medium",
+      "question": {
+        "ar": "ما هو الانكسار السيزمي؟",
+        "en": "What is seismic refraction?",
+        "fr": "Qu'est-ce que la réfraction sismique?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "انحناء الموجات الزلزالية عند تغير سرعتها",
+            "en": "The bending of seismic waves when their velocity changes",
+            "fr": "La courbure des ondes sismiques quand leur vitesse change"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "ارتداد الموجات الزلزالية",
+            "en": "The reflection of seismic waves",
+            "fr": "La réflexion des ondes sismiques"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "تشتت الموجات الزلزالية",
+            "en": "The scattering of seismic waves",
+            "fr": "La dispersion des ondes sismiques"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يحدث الانكسار السيزمي عندما تدخل الموجات إلى وسط بسرعة مختلفة، مما يغير اتجاه انتشارها",
+        "en": "Seismic refraction occurs when waves enter a medium with different velocity, changing their propagation direction",
+        "fr": "La réfraction sismique se produit quand les ondes entrent dans un milieu avec vitesse différente, changeant leur direction de propagation"
+      }
+    },
+    {
+      "id": 13,
+      "difficulty": "medium",
+      "question": {
+        "ar": "ما هو الشذوذ الجاذبي؟",
+        "en": "What is a gravity anomaly?",
+        "fr": "Qu'est-ce qu'une anomalie gravimétrique?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "انحراف قياس الجاذبية عن القيمة المتوقعة",
+            "en": "A deviation of gravity measurement from expected value",
+            "fr": "Un écart de mesure gravitationnelle de la valeur attendue"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "قياس الجاذبية الطبيعي",
+            "en": "Normal gravity measurement",
+            "fr": "Mesure gravitationnelle normale"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "انحراف المغناطيسية",
+            "en": "Magnetic deviation",
+            "fr": "Déviation magnétique"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يشير الشذوذ الجاذبي الموجب إلى صخور عالية الكثافة، والسالب إلى صخور منخفضة الكثافة تحت السطح",
+        "en": "Positive gravity anomalies indicate high-density rocks, negative ones indicate low-density subsurface rocks",
+        "fr": "Les anomalies gravimétriques positives indiquent des roches de haute densité, les négatives indiquent des roches de faible densité sous-surface"
+      }
+    },
+    {
+      "id": 14,
+      "difficulty": "medium",
+      "question": {
+        "ar": "ما هو الشذوذ المغناطيسي؟",
+        "en": "What is a magnetic anomaly?",
+        "fr": "Qu'est-ce qu'une anomalie magnétique?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "انحراف قياس المغناطيسية عن القيمة المتوقعة",
+            "en": "A deviation of magnetic measurement from expected value",
+            "fr": "Un écart de mesure magnétique de la valeur attendue"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "قياس المغناطيسية الطبيعي",
+            "en": "Normal magnetic measurement",
+            "fr": "Mesure magnétique normale"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "انحراف الجاذبية",
+            "en": "Gravity deviation",
+            "fr": "Déviation gravitationnelle"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يكشف الشذوذ المغناطيسي عن الصخور المغناطيسية والتراكيب الجيولوجية تحت السطح",
+        "en": "Magnetic anomalies reveal magnetic rocks and subsurface geological structures",
+        "fr": "Les anomalies magnétiques révèlent les roches magnétiques et structures géologiques sous-surface"
+      }
+    },
+    {
+      "id": 15,
+      "difficulty": "medium",
+      "question": {
+        "ar": "ما هي طريقة المقاومة الكهربائية؟",
+        "en": "What is electrical resistivity method?",
+        "fr": "Qu'est-ce que la méthode de résistivité électrique?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "طريقة تقيس مقاومة الصخور للتيار الكهربائي",
+            "en": "A method measuring rock resistance to electric current",
+            "fr": "Une méthode mesurant la résistance des roches au courant électrique"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "طريقة قياس الجاذبية",
+            "en": "A gravity measurement method",
+            "fr": "Une méthode de mesure gravitationnelle"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "طريقة قياس المغناطيسية",
+            "en": "A magnetic measurement method",
+            "fr": "Une méthode de mesure magnétique"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تستخدم طريقة المقاومة الكهربائية للكشف عن المياه الجوفية والتلوث والطبقات تحت السطح",
+        "en": "The electrical resistivity method is used to detect groundwater, contamination, and subsurface layers",
+        "fr": "La méthode de résistivité électrique est utilisée pour détecter les eaux souterraines, contamination et couches sous-surface"
+      }
+    },
+    {
+      "id": 16,
+      "difficulty": "hard",
+      "question": {
+        "ar": "ما هو التصوير المقطعي السيزمي؟",
+        "en": "What is seismic tomography?",
+        "fr": "Qu'est-ce que la tomographie sismique?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "تقنية لإنشاء صور ثلاثية الأبعاد لباطن الأرض",
+            "en": "A technique to create 3D images of Earth's interior",
+            "fr": "Une technique pour créer des images 3D de l'intérieur terrestre"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "طريقة لقياس الجاذبية",
+            "en": "A method for gravity measurement",
+            "fr": "Une méthode pour mesurer la gravité"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "جهاز للمسح السطحي",
+            "en": "A surface scanning device",
+            "fr": "Un dispositif de balayage de surface"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يستخدم التصوير المقطعي السيزمي موجات الزلازل الطبيعية والصناعية لتصوير هياكل عميقة في الوشاح واللب",
+        "en": "Seismic tomography uses natural and artificial earthquake waves to image deep structures in mantle and core",
+        "fr": "La tomographie sismique utilise des ondes de tremblements de terre naturels et artificiels pour imager les structures profondes dans le manteau et noyau"
+      }
+    },
+    {
+      "id": 17,
+      "difficulty": "hard",
+      "question": {
+        "ar": "ما هي طريقة الجهد المستحث؟",
+        "en": "What is the induced polarization method?",
+        "fr": "Qu'est-ce que la méthode de polarisation provoquée?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "طريقة تدرس استجابة الصخور للمجالات الكهربائية",
+            "en": "A method studying rock response to electric fields",
+            "fr": "Une méthode étudiant la réponse des roches aux champs électriques"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "طريقة قياس الجاذبية",
+            "en": "A gravity measurement method",
+            "fr": "Une méthode de mesure gravitationnelle"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "طريقة قياس المغناطيسية",
+            "en": "A magnetic measurement method",
+            "fr": "Une méthode de mesure magnétique"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تستخدم طريقة الجهد المستحث للكشف عن المعادن الكبريتيدية وتقييم خصائص الصخور المسامية",
+        "en": "The induced polarization method is used to detect sulfide minerals and evaluate porous rock properties",
+        "fr": "La méthode de polarisation provoquée est utilisée pour détecter les minéraux sulfurés et évaluer les propriétés des roches poreuses"
+      }
+    },
+    {
+      "id": 18,
+      "difficulty": "hard",
+      "question": {
+        "ar": "ما هو مقياس الجاذبية؟",
+        "en": "What is a gravimeter?",
+        "fr": "Qu'est-ce qu'un gravimètre?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "جهاز حساس لقياس تغيرات الجاذبية",
+            "en": "A sensitive instrument for measuring gravity variations",
+            "fr": "Un instrument sensible pour mesurer les variations gravitationnelles"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "جهاز قياس المغناطيسية",
+            "en": "A magnetic measuring instrument",
+            "fr": "Un instrument de mesure magnétique"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "جهاز قياس الزلازل",
+            "en": "An earthquake measuring instrument",
+            "fr": "Un instrument de mesure des tremblements de terre"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يمكن لمقاييس الجاذبية الحديثة قياس تغيرات تصل إلى جزء من المليار في مجال الجاذبية",
+        "en": "Modern gravimeters can measure variations as small as one part per billion in the gravity field",
+        "fr": "Les gravimètres modernes peuvent mesurer des variations aussi petites qu'une partie par milliard dans le champ gravitationnel"
+      }
+    },
+    {
+      "id": 19,
+      "difficulty": "hard",
+      "question": {
+        "ar": "ما هو المغناطيسometer؟",
+        "en": "What is a magnetometer?",
+        "fr": "Qu'est-ce qu'un magnétomètre?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "جهاز لقياس شدة المجال المغناطيسي",
+            "en": "An instrument for measuring magnetic field intensity",
+            "fr": "Un instrument pour mesurer l'intensité du champ magnétique"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "جهاز قياس الجاذبية",
+            "en": "A gravity measuring instrument",
+            "fr": "Un instrument de mesure gravitationnelle"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "جهاز قياس الكهرباء",
+            "en": "An electricity measuring instrument",
+            "fr": "Un instrument de mesure électrique"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يستخدم المغناطيسometer في المسوحات الجوية والبحرية والبرية للكشف عن التراكيب الجيولوجية والرواسب المعدنية",
+        "en": "Magnetometers are used in aerial, marine, and ground surveys to detect geological structures and mineral deposits",
+        "fr": "Les magnétomètres sont utilisés dans les levés aériens, marins et terrestres pour détecter les structures géologiques et gisements minéraux"
+      }
+    },
+    {
+      "id": 20,
+      "difficulty": "hard",
+      "question": {
+        "ar": "ما هي طريقة الرادار المخترق للأرض؟",
+        "en": "What is ground penetrating radar?",
+        "fr": "Qu'est-ce que le radar de pénétration de sol?"
+      },
+      "options": [
+        {
+          "id": "id": "A",
+          "text": {
+            "ar": "طريقة تستخدم موجات الراديو لاستكشاف الطبقات الضحلة",
+            "en": "A method using radio waves to explore shallow layers",
+            "fr": "Une méthode utilisant les ondes radio pour explorer les couches peu profondes"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "طريقة تستخدم الموجات الصوتية",
+            "en": "A method using sound waves",
+            "fr": "Une méthode utilisant les ondes sonores"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "طريقة تستخدم الأشعة السينية",
+            "en": "A method using X-rays",
+            "fr": "Une méthode utilisant les rayons X"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يستخدم الرادار المخترق للأرض للكشف عن الأنابيب والكابلات والآثار والطبقات الجيولوجية القريبة من السطح",
+        "en": "Ground penetrating radar is used to detect pipes, cables, archaeological features, and near-surface geological layers",
+        "fr": "Le radar de pénétration de sol est utilisé pour détecter les tuyaux, câbles, vestiges archéologiques et couches géologiques proches de la surface"
+      }
+    },
+    {
+      "id": 21,
+      "difficulty": "hard",
+      "question": {
+        "ar": "ما هو تحليل السرعة السيزمية؟",
+        "en": "What is seismic velocity analysis?",
+        "fr": "Qu'est-ce que l'analyse de vitesse sismique?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "دراسة سرعة الموجات الزلزالية في مختلف الصخور",
+            "en": "Studying seismic wave velocities in different rocks",
+            "fr": "Étudier les vitesses des ondes sismiques dans différentes roches"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "تحليل قوة الزلازل",
+            "en": "Analysis of earthquake strength",
+            "fr": "Analyse de la force des tremblements de terre"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "درجة حرارة باطن الأرض",
+            "en": "Temperature of Earth's interior",
+            "fr": "Température de l'intérieur terrestre"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تختلف السرعة السيزمية حسب نوع الصخر والضغط ودرجة الحرارة، مما يساعد في تحديد أنواع الصخور تحت السطح",
+        "en": "Seismic velocity varies by rock type, pressure, and temperature, helping identify subsurface rock types",
+        "fr": "La vitesse sismique varie selon le type de roche, pression et température, aidant à identifier les types de roches sous-surface"
+      }
+    },
+    {
+      "id": 22,
+      "difficulty": "hard",
+      "question": {
+        "ar": "ما هو الغلاف المغناطيسي؟",
+        "en": "What is the magnetosphere?",
+        "fr": "Qu'est-ce que la magnétosphère?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "المنطقة حول الأرض حيث يهيمن المجال المغناطيسي الأرضي",
+            "en": "The region around Earth dominated by its magnetic field",
+            "fr": "La région autour de la Terre dominée par son champ magnétique"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "طبقة الغلاف الجوي",
+            "en": "An atmospheric layer",
+            "fr": "Une couche atmosphérique"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "طبقة من الوشاح",
+            "en": "A mantle layer",
+            "fr": "Une couche du manteau"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يحمي الغلاف المغناطيسي الأرض من الجسيمات المشحونة القادمة من الشمس، مكوناً الشفق القطبي",
+        "en": "The magnetosphere protects Earth from charged particles from the Sun, creating the auroras",
+        "fr": "La magnétosphère protège la Terre des particules chargées du Soleil, créant les aurores"
+      }
+    },
+    {
+      "id": 23,
+      "difficulty": "hard",
+      "question": {
+        "ar": "ما هي طريقة الترددات المنخفضة جداً؟",
+        "en": "What is the VLF method?",
+        "fr": "Qu'est-ce que la méthode VLF?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "طريقة تستخدم إشارات الراديو العسكرية للاستكشاف",
+            "en": "A method using military radio signals for exploration",
+            "fr": "Une méthode utilisant les signaux radio militaires pour l'exploration"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "طريقة الجاذبية",
+            "en": "A gravity method",
+            "fr": "Une méthode gravimétrique"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "طريقة المغناطيسية",
+            "en": "A magnetic method",
+            "fr": "Une méthode magnétique"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تستخدم طريقة VLF إشارات الراديو منخفضة التردد من محطات عسكرية للكشف عن التوصيلية تحت السطح",
+        "en": "The VLF method uses low-frequency radio signals from military stations to detect subsurface conductivity",
+        "fr": "La méthode VLF utilise des signaux radio basse fréquence des stations militaires pour détecter la conductivité sous-surface"
+      }
+    },
+    {
+      "id": 24,
+      "difficulty": "hard",
+      "question": {
+        "ar": "ما هو تحليل الطيف؟",
+        "en": "What is spectral analysis?",
+        "fr": "Qu'est-ce que l'analyse spectrale?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "دراسة ترددات الإشارات الجيوفيزيائية",
+            "en": "Studying frequencies of geophysical signals",
+            "fr": "Étudier les fréquences des signaux géophysiques"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "تحليل ألوان الصخور",
+            "en": "Analysis of rock colors",
+            "fr": "Analyse des couleurs des roches"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "دراسة كيمياء المياه",
+            "en": "Studying water chemistry",
+            "fr": "Étudier la chimie de l'eau"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يساعد تحليل الطيف في فصل الإشارات الجيوفيزيائية وفهم الخصائص الفيزيائية للطبقات تحت السطح",
+        "en": "Spectral analysis helps separate geophysical signals and understand physical properties of subsurface layers",
+        "fr": "L'analyse spectrale aide à séparer les signaux géophysiques et comprendre les propriétés physiques des couches sous-surface"
+      }
+    },
+    {
+      "id": 25,
+      "difficulty": "hard",
+      "question": {
+        "ar": "ما هو الغرض من المعالجة الجيوفيزيائية؟",
+        "en": "What is the purpose of geophysical processing?",
+        "fr": "Quel est le but du traitement géophysique?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "تحسين جودة البيانات واستخراج المعلومات الجيولوجية",
+            "en": "To improve data quality and extract geological information",
+            "fr": "Améliorer la qualité des données et extraire l'information géologique"
+          },
+          "correct": true
+        },
+        {
+          "id": "B", 
+          "text": {
+            "ar": "تدمير البيانات",
+            "en": "To destroy data",
+            "fr": "Détruire les données"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "تغيير البيانات عشوائياً",
+            "en": "To randomly change data",
+            "fr": "Changer les données aléatoirement"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تشمل المعالجة الجيوفيزيائية تصفية الضوضاء وتصحيح الأخطاء وتعزيز الإشارات لتفسير أفضل",
+        "en": "Geophysical processing includes noise filtering, error correction, and signal enhancement for better interpretation",
+        "fr": "Le traitement géophysique inclut le filtrage du bruit, correction d'erreurs et amélioration du signal pour une meilleure interprétation"
       }
     }
   ],
-  "total_questions": 1,
-  "passing_score": 75
+  "total_questions": 25,
+  "passing_score": 70
 }
