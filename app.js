@@ -1,4 +1,4 @@
-// نظام تشغيل الأصوات المصحح والمنظم
+// نظام تشغيل الأصوات المصحح - استجابة فورية
 class SoundManager {
     constructor() {
         this.sounds = {
@@ -11,7 +11,7 @@ class SoundManager {
         this.enabled = true;
         this.audioElements = {};
         this.lastPlayTime = {};
-        this.minPlayInterval = 200;
+        this.minPlayInterval = 100; // 100ms فقط بين التشغيلات
         this.preloadSounds();
     }
 
@@ -31,6 +31,7 @@ class SoundManager {
         const now = Date.now();
         const lastTime = this.lastPlayTime[soundName] || 0;
         
+        // منع التكرار السريع (100ms فقط)
         if (now - lastTime < this.minPlayInterval) {
             return;
         }
@@ -40,11 +41,16 @@ class SoundManager {
         try {
             const audio = this.audioElements[soundName];
             if (audio) {
+                // إعادة تعيين فوري بدون تأخير
                 audio.currentTime = 0;
-                audio.pause();
-                audio.play().catch(e => {
-                    console.log(`🔇 ${soundName} error:`, e);
-                });
+                
+                // تشغيل فوري
+                const playPromise = audio.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(e => {
+                        console.log(`🔇 ${soundName} error:`, e);
+                    });
+                }
             }
         } catch (error) {
             console.log(`🔇 ${soundName} failed:`, error);
@@ -97,7 +103,7 @@ class GeoLearnApp {
     async preloadAssets() {
         console.log('🔄 جاري تحميل الأصوات...');
         return new Promise(resolve => {
-            setTimeout(resolve, 1000);
+            setTimeout(resolve, 500); // تخفيض وقت الانتظار
         });
     }
 
@@ -200,49 +206,14 @@ class GeoLearnApp {
                     en: "Granite is an igneous rock formed by slow cooling of magma beneath Earth's surface",
                     fr: "Le granite est une roche ignée formée par le refroidissement lent du magma sous la surface de la Terre"
                 }
-            },
-            {
-                id: 2,
-                question: {
-                    ar: "أي من هذه الصخور يعتبر صخرة متحولة؟",
-                    en: "Which of these rocks is a metamorphic rock?",
-                    fr: "Laquelle de ces roches est une roche métamorphique?"
-                },
-                options: [
-                    {
-                        id: "A",
-                        text: { ar: "الحجر الجيري", en: "Limestone", fr: "Calcaire" },
-                        correct: false
-                    },
-                    {
-                        id: "B", 
-                        text: { ar: "الرخام", en: "Marble", fr: "Marbre" },
-                        correct: true
-                    },
-                    {
-                        id: "C",
-                        text: { ar: "البازلت", en: "Basalt", fr: "Basalte" },
-                        correct: false
-                    }
-                ],
-                explanation: {
-                    ar: "الرخام هو صخرة متحولة تتكون من تحول الحجر الجيري",
-                    en: "Marble is a metamorphic rock formed from the transformation of limestone",
-                    fr: "Le marbre est une roche métamorphique formée à partir de la transformation du calcaire"
-                }
             }
         ];
     }
 
     renderQuizzes() {
         const container = document.getElementById('quizzes-container');
-        if (!container) {
-            console.error('❌ quizzes-container element not found!');
-            return;
-        }
+        if (!container) return;
 
-        console.log('🎯 Rendering quizzes:', this.quizzes.length);
-        
         container.innerHTML = this.quizzes.map(quiz => `
             <div class="quiz-card ${quiz.isDaily ? 'daily-quiz' : ''}" 
                  data-quiz-id="${quiz.id}">
@@ -263,20 +234,14 @@ class GeoLearnApp {
 
     setupQuizClickHandlers() {
         const quizCards = document.querySelectorAll('.quiz-card');
-        let isProcessing = false;
         
         quizCards.forEach(card => {
             card.addEventListener('click', (e) => {
-                if (isProcessing) return;
-                isProcessing = true;
-                
-                const quizId = card.getAttribute('data-quiz-id');
+                // تشغيل الصوت فوراً بدون أي تأخير
                 this.soundManager.play('click');
                 
-                setTimeout(() => {
-                    this.startQuiz(quizId);
-                    isProcessing = false;
-                }, 150);
+                const quizId = card.getAttribute('data-quiz-id');
+                this.startQuiz(quizId);
             });
         });
     }
@@ -368,12 +333,10 @@ class GeoLearnApp {
             this.timeLeft--;
             this.updateQuestionTimer();
             
-            if (this.timeLeft <= 5 && this.timeLeft > 0) {
-                const now = Date.now();
-                if (now - this.lastTimerSound >= 1000) {
-                    this.soundManager.play('timer');
-                    this.lastTimerSound = now;
-                }
+            // تشغيل صوت المؤقت فقط عند الثانية 5 بالضبط
+            if (this.timeLeft === 5) {
+                this.soundManager.play('timer');
+                this.lastTimerSound = Date.now();
             }
             
             if (this.timeLeft <= 0) {
@@ -458,6 +421,8 @@ class GeoLearnApp {
         if (this.isAnswerRevealed || this.isProcessingSelection) return;
         
         this.isProcessingSelection = true;
+        
+        // تشغيل صوت النقر فوراً بدون تأخير
         this.soundManager.play('click');
         
         this.stopQuestionTimer();
@@ -478,6 +443,7 @@ class GeoLearnApp {
         
         this.userAnswers[this.currentQuestionIndex] = optionId;
         
+        // تشغيل الصوت المناسب بعد تأخير بسيط
         setTimeout(() => {
             if (selectedOption.correct) {
                 this.soundManager.play('correct');
@@ -507,35 +473,25 @@ class GeoLearnApp {
     }
 
     nextQuestion() {
-        if (this.isProcessingClick) return;
-        this.isProcessingClick = true;
-        
+        // تشغيل الصوت فوراً
         this.soundManager.play('click');
         
-        setTimeout(() => {
-            if (this.currentQuestionIndex < this.currentQuiz.questions.length - 1) {
-                this.currentQuestionIndex++;
-                this.showQuestion();
-            } else {
-                this.finishQuiz();
-            }
-            this.isProcessingClick = false;
-        }, 150);
+        if (this.currentQuestionIndex < this.currentQuiz.questions.length - 1) {
+            this.currentQuestionIndex++;
+            this.showQuestion();
+        } else {
+            this.finishQuiz();
+        }
     }
 
     previousQuestion() {
-        if (this.isProcessingClick) return;
-        this.isProcessingClick = true;
-        
+        // تشغيل الصوت فوراً
         this.soundManager.play('click');
         
-        setTimeout(() => {
-            if (this.currentQuestionIndex > 0) {
-                this.currentQuestionIndex--;
-                this.showQuestion();
-            }
-            this.isProcessingClick = false;
-        }, 150);
+        if (this.currentQuestionIndex > 0) {
+            this.currentQuestionIndex--;
+            this.showQuestion();
+        }
     }
 
     updateNavigation() {
@@ -631,31 +587,17 @@ class GeoLearnApp {
     }
 
     restartQuiz() {
-        if (this.isProcessingClick) return;
-        this.isProcessingClick = true;
-        
         this.soundManager.play('click');
-        
-        setTimeout(() => {
-            this.startQuiz(this.currentQuiz.id);
-            this.isProcessingClick = false;
-        }, 150);
+        this.startQuiz(this.currentQuiz.id);
     }
 
     exitQuiz() {
-        if (this.isProcessingClick) return;
-        this.isProcessingClick = true;
-        
         this.soundManager.play('click');
-        
-        setTimeout(() => {
-            this.stopQuestionTimer();
-            document.getElementById('quiz-screen').classList.add('hidden');
-            document.querySelector('.main-container').classList.remove('hidden');
-            this.renderQuizzes();
-            this.currentQuiz = null;
-            this.isProcessingClick = false;
-        }, 150);
+        this.stopQuestionTimer();
+        document.getElementById('quiz-screen').classList.add('hidden');
+        document.querySelector('.main-container').classList.remove('hidden');
+        this.renderQuizzes();
+        this.currentQuiz = null;
     }
 
     saveProgress(score) {
@@ -675,46 +617,25 @@ class GeoLearnApp {
         const languageSelect = document.getElementById('language-select');
         if (languageSelect) {
             languageSelect.addEventListener('change', (e) => {
-                if (this.isProcessingClick) return;
-                this.isProcessingClick = true;
-                
                 this.soundManager.play('click');
                 this.currentLanguage = e.target.value;
                 this.renderQuizzes();
-                
-                setTimeout(() => {
-                    this.isProcessingClick = false;
-                }, 300);
             });
         }
 
         const themeToggle = document.getElementById('theme-toggle');
         if (themeToggle) {
             themeToggle.addEventListener('click', () => {
-                if (this.isProcessingClick) return;
-                this.isProcessingClick = true;
-                
                 this.soundManager.play('click');
                 this.toggleTheme();
-                
-                setTimeout(() => {
-                    this.isProcessingClick = false;
-                }, 300);
             });
         }
 
         document.querySelectorAll('.nav-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
-                if (this.isProcessingClick) return;
-                this.isProcessingClick = true;
-                
                 this.soundManager.play('click');
                 const page = e.currentTarget.getAttribute('data-page');
                 this.navigateTo(page);
-                
-                setTimeout(() => {
-                    this.isProcessingClick = false;
-                }, 300);
             });
         });
     }
