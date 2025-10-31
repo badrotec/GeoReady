@@ -1,0 +1,53 @@
+{
+  "id": "hydrogeology",
+  "name": {
+    "ar": "الهيدروجيولوجيا - علم المياه الجوفية",
+    "en": "Hydrogeology - Groundwater Science",
+    "fr": "Hydrogéologie - Science des Eaux Souterraines"
+  },
+  "description": {
+    "ar": "تعلم عن المياه الجوفية، الخزانات المائية، وحركة المياه تحت الأرض",
+    "en": "Learn about groundwater, aquifers, and underground water movement",
+    "fr": "Apprenez sur les eaux souterraines, les aquifères et le mouvement de l'eau souterraine"
+  },
+  "icon": "💧",
+  "level": "intermediate",
+  "questions": [
+    {
+      "id": 1,
+      "question": {
+        "ar": "ما هو الخزان الجوفي؟",
+        "en": "What is an aquifer?",
+        "fr": "Qu'est-ce qu'un aquifère?"
+      },
+      "image": "images/diagrams/water_cycle.jpg",
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "طبقة صخرية تحتوي وتنقل المياه",
+            "en": "A rock layer that contains and transmits water",
+            "fr": "Une couche rocheuse qui contient et transmet l'eau"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "بحيرة تحت الأرض",
+            "en": "An underground lake",
+            "fr": "Un lac souterrain"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "الخزان الجوفي هو تكوين جيولوجي مسامي ونفاذ يمكنه تخزين ونقل المياه الجوفية",
+        "en": "An aquifer is a porous and permeable geological formation that can store and transmit groundwater",
+        "fr": "Un aquifère est une formation géologique poreuse et perméable qui peut stocker et transmettre les eaux souterraines"
+      }
+    }
+  ],
+  "total_questions": 1,
+  "passing_score": 70
+}
