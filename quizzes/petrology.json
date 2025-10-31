@@ -1,96 +1,1094 @@
 {
-  "id": "petrology", 
+  "id": "petrology",
   "name": {
     "ar": "البترولوجيا - علم الصخور",
-    "en": "Petrology - Rock Science",
+    "en": "Petrology - Rock Science", 
     "fr": "Pétrologie - Science des Roches"
   },
   "description": {
     "ar": "تعلم أنواع الصخور وخصائصها وعمليات تكوينها",
-    "en": "Learn about rock types, their properties and formation processes",
+    "en": "Learn rock types, their properties, and formation processes",
     "fr": "Apprenez les types de roches, leurs propriétés et processus de formation"
   },
   "icon": "🪨",
-  "level": "beginner", 
+  "level": "beginner",
   "questions": [
     {
       "id": 1,
+      "difficulty": "easy",
       "question": {
         "ar": "ما هي الأنواع الرئيسية للصخور؟",
         "en": "What are the main types of rocks?",
         "fr": "Quels sont les principaux types de roches?"
       },
-      "image": "images/diagrams/rock_cycle.png",
-      "options": [
-        {
-          "id": "A", 
-          "text": {
-            "ar": "نارية، رسوبية، متحولة",
-            "en": "Igneous, sedimentary, metamorphic",
-            "fr": "Ignees, sédimentaires, métamorphiques"
-          },
-          "correct": true
-        },
-        {
-          "id": "B",
-          "text": {
-            "ar": "صلبة، سائلة، غازية",
-            "en": "Solid, liquid, gaseous", 
-            "fr": "Solide, liquide, gazeux"
-          },
-          "correct": false
-        }
-      ],
-      "explanation": {
-        "ar": "الأنواع الرئيسية للصخور هي: نارية (من الصهارة)، رسوبية (من ترسب المواد)، متحولة (من تحول الصخور الموجودة)",
-        "en": "The main rock types are: igneous (from magma), sedimentary (from sediment deposition), metamorphic (from transformation of existing rocks)",
-        "fr": "Les principaux types de roches sont : ignées (du magma), sédimentaires (de la déposition de sédiments), métamorphiques (de la transformation des roches existantes)"
-      }
-    },
-    {
-      "id": 2,
-      "question": {
-        "ar": "ما نوع الصخرة في الصورة؟",
-        "en": "What type of rock is in the picture?",
-        "fr": "Quel type de roche est sur l'image?"
-      },
-      "image": "images/rocks/Granite.jpg",
       "options": [
         {
           "id": "A",
           "text": {
-            "ar": "صخرة نارية",
-            "en": "Igneous rock",
-            "fr": "Roche ignée"
+            "ar": "نارية ورسوبية ومتحولة",
+            "en": "Igneous, sedimentary, and metamorphic",
+            "fr": "Ignées, sédimentaires et métamorphiques"
           },
           "correct": true
         },
         {
-          "id": "B",
+          "id": "B", 
           "text": {
-            "ar": "صخرة رسوبية",
-            "en": "Sedimentary rock",
-            "fr": "Roche sédimentaire"
+            "ar": "صلبة وسائلة وغازية",
+            "en": "Solid, liquid, and gaseous",
+            "fr": "Solides, liquides et gazeuses"
           },
           "correct": false
         },
         {
           "id": "C",
           "text": {
-            "ar": "صخرة متحولة",
-            "en": "Metamorphic rock", 
-            "fr": "Roche métamorphique"
+            "ar": "ثقيلة وخفيفة ومتوسطة",
+            "en": "Heavy, light, and medium",
+            "fr": "Lourdes, légères et moyennes"
           },
           "correct": false
         }
       ],
       "explanation": {
-        "ar": "الجرانيت هو صخرة نارية تتكون من تبريد بطيء للصهارة تحت سطح الأرض",
-        "en": "Granite is an igneous rock formed by slow cooling of magma beneath the Earth's surface",
-        "fr": "Le granite est une roche ignée formée par le refroidissement lent du magma sous la surface de la Terre"
+        "ar": "الصخور النارية من الصهارة، الرسوبية من ترسب المواد، المتحولة من تحول الصخور الموجودة",
+        "en": "Igneous rocks from magma, sedimentary from material deposition, metamorphic from existing rock transformation",
+        "fr": "Roches ignées du magma, sédimentaires du dépôt de matériaux, métamorphiques de la transformation des roches existantes"
+      }
+    },
+    {
+      "id": 2,
+      "difficulty": "easy",
+      "question": {
+        "ar": "كيف تتكون الصخور النارية؟",
+        "en": "How do igneous rocks form?",
+        "fr": "Comment se forment les roches ignées?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "من تبريد وتصلب الصهارة",
+            "en": "From cooling and solidification of magma",
+            "fr": "Du refroidissement et de la solidification du magma"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "من ضغط الرواسب", 
+            "en": "From sediment compression",
+            "fr": "De la compression des sédiments"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "من تحول الصخور الأخرى",
+            "en": "From transformation of other rocks",
+            "fr": "De la transformation d'autres roches"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تتكون الصخور النارية عندما تبرد الصهارة وتتصلب، إما تحت الأرض (جوفية) أو على السطح (بركانية)",
+        "en": "Igneous rocks form when magma cools and solidifies, either underground (intrusive) or on surface (extrusive)", 
+        "fr": "Les roches ignées se forment quand le magma refroidit et se solidifie, soit sous terre (intrusives) soit en surface (extrusives)"
+      }
+    },
+    {
+      "id": 3,
+      "difficulty": "easy",
+      "question": {
+        "ar": "ما الفرق بين الصخور الجوفية والبركانية؟",
+        "en": "What's the difference between intrusive and extrusive rocks?",
+        "fr": "Quelle est la différence entre les roches intrusives et extrusives?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "الجوفية تتكون تحت الأرض والبركانية على السطح",
+            "en": "Intrusive form underground, extrusive on surface",
+            "fr": "Les intrusives se forment sous terre, les extrusives en surface"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "الجوفية سائلة والبركانية صلبة", 
+            "en": "Intrusive are liquid, extrusive are solid",
+            "fr": "Les intrusives sont liquides, les extrusives solides"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "الجوفية قديمة والبركانية حديثة",
+            "en": "Intrusive are old, extrusive are new",
+            "fr": "Les intrusives sont anciennes, les extrusives récentes"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "الصخور الجوفية تبرد ببطء فتكون بلورات كبيرة، بينما البركانية تبرد بسرعة فتكون بلورات دقيقة",
+        "en": "Intrusive rocks cool slowly forming large crystals, while extrusive cool quickly forming fine crystals",
+        "fr": "Les roches intrusives refroidissent lentement formant de gros cristaux, tandis que les extrusives refroidissent rapidement formant des cristaux fins"
+      }
+    },
+    {
+      "id": 4,
+      "difficulty": "easy",
+      "question": {
+        "ar": "ما هي الصخور الرسوبية؟",
+        "en": "What are sedimentary rocks?",
+        "fr": "Que sont les roches sédimentaires?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "صخور تتكون من ترسب وتماسك الرواسب",
+            "en": "Rocks formed from deposition and cementation of sediments",
+            "fr": "Roches formées par dépôt et cimentation des sédiments"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "صخور منصهرة متصلبة",
+            "en": "Solidified molten rocks",
+            "fr": "Roches fondues solidifiées"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "صخور متحولة بالحرارة",
+            "en": "Rocks transformed by heat",
+            "fr": "Roches transformées par la chaleur"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تتكون الصخور الرسوبية من تراكم الرواسب وتصلبها بفعل الضغط والمواد اللاحمة",
+        "en": "Sedimentary rocks form from sediment accumulation and hardening through pressure and cementing materials",
+        "fr": "Les roches sédimentaires se forment par accumulation de sédiments et durcissement par pression et matériaux cimentaires"
+      }
+    },
+    {
+      "id": 5,
+      "difficulty": "easy",
+      "question": {
+        "ar": "ما هو الغرانيت؟",
+        "en": "What is granite?",
+        "fr": "Qu'est-ce que le granite?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "صخر ناري جوفي فاتح اللون",
+            "en": "A light-colored intrusive igneous rock",
+            "fr": "Une roche ignée intrusive de couleur claire"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "صخر رسوبي طيني",
+            "en": "A clay sedimentary rock",
+            "fr": "Une roche sédimentaire argileuse"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "صخر متحول متورق",
+            "en": "A foliated metamorphic rock",
+            "fr": "Une roche métamorphique foliée"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "الجرانيت صخر ناري جوفي يتكون mainly من الكوارتز والفلسبار والميكا",
+        "en": "Granite is an intrusive igneous rock composed mainly of quartz, feldspar, and mica",
+        "fr": "Le granite est une roche ignée intrusive composée principalement de quartz, feldspath et mica"
+      }
+    },
+    {
+      "id": 6,
+      "difficulty": "easy",
+      "question": {
+        "ar": "كيف تتكون الصخور المتحولة؟",
+        "en": "How do metamorphic rocks form?",
+        "fr": "Comment se forment les roches métamorphiques?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "بتعرض الصخور للحرارة والضغط",
+            "en": "By exposure of rocks to heat and pressure",
+            "fr": "Par exposition des roches à la chaleur et à la pression"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "بتصلب الصهارة",
+            "en": "By magma solidification",
+            "fr": "Par solidification du magma"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "بترسب الرواسب",
+            "en": "By sediment deposition",
+            "fr": "Par dépôt de sédiments"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تتكون الصخور المتحولة عندما تتعرض الصخور للحرارة والضغط الشديدين مما يغير تركيبها المعدني",
+        "en": "Metamorphic rocks form when rocks are exposed to intense heat and pressure, changing their mineral composition",
+        "fr": "Les roches métamorphiques se forment quand les roches sont exposées à une chaleur et une pression intenses, changeant leur composition minérale"
+      }
+    },
+    {
+      "id": 7,
+      "difficulty": "easy",
+      "question": {
+        "ar": "ما هو البازلت؟",
+        "en": "What is basalt?",
+        "fr": "Qu'est-ce que le basalte?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "صخر ناري بركاني داكن",
+            "en": "A dark extrusive igneous rock",
+            "fr": "Une roche ignée extrusive sombre"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "صخر رسوبي جيري",
+            "en": "A limestone sedimentary rock",
+            "fr": "Une roche sédimentaire calcaire"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "صخر متحول رخامي",
+            "en": "A marble metamorphic rock",
+            "fr": "Une roche métamorphique de marbre"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "البازلت صخر ناري بركاني داكن اللون، وهو أكثر الصخور انتشاراً في القشرة المحيطية",
+        "en": "Basalt is a dark extrusive igneous rock, the most common rock in oceanic crust",
+        "fr": "Le basalte est une roche ignée extrusive sombre, la roche la plus commune dans la croûte océanique"
+      }
+    },
+    {
+      "id": 8,
+      "difficulty": "easy",
+      "question": {
+        "ar": "ما هي الصخور الفتاتية؟",
+        "en": "What are clastic rocks?",
+        "fr": "Que sont les roches clastiques?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "صخور رسوبية مكونة من فتات صخور أخرى",
+            "en": "Sedimentary rocks made from fragments of other rocks",
+            "fr": "Roches sédimentaires faites de fragments d'autres roches"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "صخور نارية منصهرة",
+            "en": "Molten igneous rocks",
+            "fr": "Roches ignées fondues"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "صخور متحولة متورقة",
+            "en": "Foliated metamorphic rocks",
+            "fr": "Roches métamorphiques foliées"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "الصخور الفتاتية تتكون من حبيبات معدنية أو قطع صخرية متراصة ومتماسكة معاً",
+        "en": "Clastic rocks consist of mineral grains or rock fragments compacted and cemented together",
+        "fr": "Les roches clastiques consistent en des grains minéraux ou fragments rocheux compactés et cimentés ensemble"
+      }
+    },
+    {
+      "id": 9,
+      "difficulty": "medium",
+      "question": {
+        "ar": "ما هو الرخام؟",
+        "en": "What is marble?",
+        "fr": "Qu'est-ce que le marbre?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "صخر متحول من الحجر الجيري",
+            "en": "A metamorphic rock from limestone",
+            "fr": "Une roche métamorphique du calcaire"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "صخر ناري جوفي",
+            "en": "An intrusive igneous rock",
+            "fr": "Une roche ignée intrusive"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "صخر رسوبي طيني",
+            "en": "A clay sedimentary rock",
+            "fr": "Une roche sédimentaire argileuse"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "الرخام يتكون من تحول الحجر الجيري تحت تأثير الحرارة والضغط، ويتميز بتبلوره الكامل",
+        "en": "Marble forms from limestone metamorphism under heat and pressure, characterized by complete crystallization",
+        "fr": "Le marbre se forme par métamorphisme du calcaire sous chaleur et pression, caractérisé par une cristallisation complète"
+      }
+    },
+    {
+      "id": 10,
+      "difficulty": "medium",
+      "question": {
+        "ar": "ما هي الصخور اللامعة؟",
+        "en": "What are foliated rocks?",
+        "fr": "Que sont les roches foliées?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "صخور متحولة ذات تركيب طبقي",
+            "en": "Metamorphic rocks with layered structure",
+            "fr": "Roches métamorphiques à structure stratifiée"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "صخور نارية زجاجية",
+            "en": "Glassy igneous rocks",
+            "fr": "Roches ignées vitreuses"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "صخور رسوبية مسامية",
+            "en": "Porous sedimentary rocks",
+            "fr": "Roches sédimentaires poreuses"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "الصخور اللامعة تتكون عندما تترتب المعادن في طبقات متوازية تحت تأثير الضغط الموجه",
+        "en": "Foliated rocks form when minerals align in parallel layers under directed pressure",
+        "fr": "Les roches foliées se forment quand les minéraux s'alignent en couches parallèles sous pression dirigée"
+      }
+    },
+    {
+      "id": 11,
+      "difficulty": "medium",
+      "question": {
+        "ar": "ما هو الحجر الجيري؟",
+        "en": "What is limestone?",
+        "fr": "Qu'est-ce que le calcaire?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "صخر رسوبي كيميائي غني بالكالسيت",
+            "en": "A chemical sedimentary rock rich in calcite",
+            "fr": "Une roche sédimentaire chimique riche en calcite"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "صخر ناري قاعدي",
+            "en": "A basic igneous rock",
+            "fr": "Une roche ignée basique"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "صخر متحول صواني",
+            "en": "A flint metamorphic rock",
+            "fr": "Une roche métamorphique de silex"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "الحجر الجيري يتكون mainly من كربونات الكالسيوم ويمكن أن يحتوي على أحافير",
+        "en": "Limestone is composed mainly of calcium carbonate and may contain fossils",
+        "fr": "Le calcaire est composé principalement de carbonate de calcium et peut contenir des fossiles"
+      }
+    },
+    {
+      "id": 12,
+      "difficulty": "medium",
+      "question": {
+        "ar": "ما هي الصخور البركانية الزجاجية؟",
+        "en": "What are volcanic glass rocks?",
+        "fr": "Que sont les roches de verre volcanique?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "صخور نارية تبردت بسرعة كبيرة",
+            "en": "Igneous rocks that cooled very quickly",
+            "fr": "Roches ignées qui ont refroidi très rapidement"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "صخور متحولة شفافة",
+            "en": "Transparent metamorphic rocks",
+            "fr": "Roches métamorphiques transparentes"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "صخور رسوبية كوارتزية",
+            "en": "Quartz sedimentary rocks",
+            "fr": "Roches sédimentaires quartzeuses"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "الزجاج البركاني مثل الأوبسيديان يتكون عندما تبرد الحمم بسرعة كبيرة فلا تتكون بلورات",
+        "en": "Volcanic glass like obsidian forms when lava cools so quickly that crystals don't form",
+        "fr": "Le verre volcanique comme l'obsidienne se forme quand la lave refroidit si rapidement que les cristaux ne se forment pas"
+      }
+    },
+    {
+      "id": 13,
+      "difficulty": "medium",
+      "question": {
+        "ar": "ما هو السجيل؟",
+        "en": "What is shale?",
+        "fr": "Qu'est-ce que le schiste argileux?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "صخر رسوبي طيني متورق",
+            "en": "A laminated clay sedimentary rock",
+            "fr": "Une roche sédimentaire argileuse laminée"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "صخر ناري بركاني",
+            "en": "A volcanic igneous rock",
+            "fr": "Une roche ignée volcanique"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "صخر متحول متبلور",
+            "en": "A crystalline metamorphic rock",
+            "fr": "Une roche métamorphique cristalline"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "السجيل صخر رسوبي دقيق الحبيبات ينقسم إلى طبقات رقيقة، ويتكون من طين مضغوط",
+        "en": "Shale is a fine-grained sedimentary rock that splits into thin layers, formed from compressed clay",
+        "fr": "Le schiste argileux est une roche sédimentaire à grains fins qui se divise en couches minces, formée d'argile comprimée"
+      }
+    },
+    {
+      "id": 14,
+      "difficulty": "medium",
+      "question": {
+        "ar": "ما هي الصخور الفلسية؟",
+        "en": "What are felsic rocks?",
+        "fr": "Que sont les roches felsiques?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "صخور نارية غنية بالسليكا",
+            "en": "Igneous rocks rich in silica",
+            "fr": "Roches ignées riches en silice"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "صخور رسوبية رملية",
+            "en": "Sandy sedimentary rocks",
+            "fr": "Roches sédimentaires sableuses"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "صخور متحولة كلسية",
+            "en": "Calcareous metamorphic rocks",
+            "fr": "Roches métamorphiques calcaires"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "الصخور الفلسية فاتحة اللون وغنية بالمعادن الخفيفة مثل الكوارتز والفلسبار",
+        "en": "Felsic rocks are light-colored and rich in light minerals like quartz and feldspar",
+        "fr": "Les roches felsiques sont de couleur claire et riches en minéraux légers comme le quartz et le feldspath"
+      }
+    },
+    {
+      "id": 15,
+      "difficulty": "medium",
+      "question": {
+        "ar": "ما هو الكوارتزيت؟",
+        "en": "What is quartzite?",
+        "fr": "Qu'est-ce que le quartzite?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "صخر متحول من الحجر الرملي",
+            "en": "A metamorphic rock from sandstone",
+            "fr": "Une roche métamorphique du grès"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "صخر ناري زجاجي",
+            "en": "A glassy igneous rock",
+            "fr": "Une roche ignée vitreuse"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "صخر رسوبي طيني",
+            "en": "A clay sedimentary rock",
+            "fr": "Une roche sédimentaire argileuse"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "الكوارتزيت يتكون عندما يتحول الحجر الرملي تحت الحرارة والضغط، فيصبح أكثر صلابة وكثافة",
+        "en": "Quartzite forms when sandstone metamorphoses under heat and pressure, becoming harder and denser",
+        "fr": "Le quartzite se forme quand le grès se métamorphose sous chaleur et pression, devenant plus dur et dense"
+      }
+    },
+    {
+      "id": 16,
+      "difficulty": "hard",
+      "question": {
+        "ar": "ما هي عملية التمعدن في الصخور؟",
+        "en": "What is mineralization in rocks?",
+        "fr": "Qu'est-ce que la minéralisation dans les roches?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "عملية تكون المعادن في الصخور",
+            "en": "The process of mineral formation in rocks",
+            "fr": "Le processus de formation des minéraux dans les roches"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "عملية تآكل الصخور",
+            "en": "The process of rock erosion",
+            "fr": "Le processus d'érosion des roches"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "عملية ذوبان الصخور",
+            "en": "The process of rock melting",
+            "fr": "Le processus de fusion des roches"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "التمعدن يشير إلى تكوين وترسب المعادن في الشقوق والفراغات الصخرية من المحاليل الحارة",
+        "en": "Mineralization refers to the formation and deposition of minerals in rock fractures and voids from hot solutions",
+        "fr": "La minéralisation fait référence à la formation et au dépôt de minéraux dans les fractures et vides rocheux à partir de solutions chaudes"
+      }
+    },
+    {
+      "id": 17,
+      "difficulty": "hard",
+      "question": {
+        "ar": "ما هو تصنيف ستريكيزن للصخور النارية؟",
+        "en": "What is Streckeisen classification for igneous rocks?",
+        "fr": "Qu'est-ce que la classification de Streckeisen pour les roches ignées?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "تصنيف يعتمد على نسبة الكوارتز والفلسبار",
+            "en": "A classification based on quartz and feldspar ratios",
+            "fr": "Une classification basée sur les ratios de quartz et feldspath"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "تصنيع يعتمد على اللون فقط",
+            "en": "A classification based on color only",
+            "fr": "Une classification basée sur la couleur seulement"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "تصنيف يعتمد على العمر الجيولوجي",
+            "en": "A classification based on geological age",
+            "fr": "Une classification basée sur l'âge géologique"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تصنيف ستريكيزن يصنف الصخور النارية حسب محتواها من الكوارتز والفلسبار القلوي والبلاجيوكليز",
+        "en": "Streckeisen classification categorizes igneous rocks by their quartz, alkali feldspar, and plagioclase content",
+        "fr": "La classification de Streckeisen catégorise les roches ignées par leur teneur en quartz, feldspath alcalin et plagioclase"
+      }
+    },
+    {
+      "id": 18,
+      "difficulty": "hard",
+      "question": {
+        "ar": "ما هي الصخور المتحولة بالاحتكاك؟",
+        "en": "What are friction metamorphic rocks?",
+        "fr": "Que sont les roches métamorphiques de friction?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "صخور تتحول بفعل الاحتكاك على الصدوع",
+            "en": "Rocks transformed by friction along faults",
+            "fr": "Roches transformées par friction le long des failles"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "صخور تتحول بالحرارة فقط",
+            "en": "Rocks transformed by heat only",
+            "fr": "Roches transformées par la chaleur seulement"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "صخور تتحول بالضغط فقط",
+            "en": "Rocks transformed by pressure only",
+            "fr": "Roches transformées par la pression seulement"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تتكون هذه الصخور عندما تتحرك الكتل الصخرية ضد بعضها على الصدوع، مولدة حرارة تؤدي إلى التحول",
+        "en": "These rocks form when rock masses move against each other along faults, generating heat that causes metamorphism",
+        "fr": "Ces roches se forment quand les masses rocheuses se déplacent les unes contre les autres le long des failles, générant de la chaleur qui cause le métamorphisme"
+      }
+    },
+    {
+      "id": 19,
+      "difficulty": "hard",
+      "question": {
+        "ar": "ما هو الفرق بين المتحول الإقليمي والمتحول التماسي؟",
+        "en": "What's the difference between regional and contact metamorphism?",
+        "fr": "Quelle est la différence entre le métamorphisme régional et le métamorphisme de contact?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "الإقليمي على مساحات واسعة والتماسي حول المتدخلات النارية",
+            "en": "Regional over large areas, contact around igneous intrusions",
+            "fr": "Régional sur de grandes zones, contact autour des intrusions ignées"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "الإقليمي سطحي والتماسي عميق",
+            "en": "Regional is shallow, contact is deep",
+            "fr": "Le régional est superficiel, le contact est profond"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "الإقليمي سريع والتماسي بطيء",
+            "en": "Regional is fast, contact is slow",
+            "fr": "Le régional est rapide, le contact est lent"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "المتحول الإقليمي يحدث في أحزمة الجبال بسبب الضغط، والتماسي حول المتدخلات النارية بسبب الحرارة",
+        "en": "Regional metamorphism occurs in mountain belts due to pressure, contact around igneous intrusions due to heat",
+        "fr": "Le métamorphisme régional se produit dans les ceintures montagneuses due à la pression, le contact autour des intrusions ignées due à la chaleur"
+      }
+    },
+    {
+      "id": 20,
+      "difficulty": "hard",
+      "question": {
+        "ar": "ما هي الصخور البغماتيتية؟",
+        "en": "What are pegmatitic rocks?",
+        "fr": "Que sont les roches pegmatitiques?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "صخور نارية ذات بلورات كبيرة جداً",
+            "en": "Igneous rocks with very large crystals",
+            "fr": "Roches ignées avec de très gros cristaux"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "صخور رسوبية دقيقة الحبيبات",
+            "en": "Fine-grained sedimentary rocks",
+            "fr": "Roches sédimentaires à grains fins"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "صخور متحولة مدملكة",
+            "en": "Cataclastic metamorphic rocks",
+            "fr": "Roches métamorphiques cataclastiques"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تتكون البغماتيت من الصهارة الغنية بالماء والعناصر النادرة، مما يسمح بتكون بلورات عملاقة",
+        "en": "Pegmatites form from water-rich magma with rare elements, allowing formation of giant crystals",
+        "fr": "Les pegmatites se forment à partir de magma riche en eau avec des éléments rares, permettant la formation de cristaux géants"
+      }
+    },
+    {
+      "id": 21,
+      "difficulty": "hard",
+      "question": {
+        "ar": "ما هو دور الماء في تكون الصخور النارية؟",
+        "en": "What is water's role in igneous rock formation?",
+        "fr": "Quel est le rôle de l'eau dans la formation des roches ignées?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "يخفض درجة انصهار الصخور ويسهل تكون المعادن",
+            "en": "Lowers rock melting point and facilitates mineral formation",
+            "fr": "Abaisse le point de fusion des roches et facilite la formation des minéraux"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "يزيد من صلابة الصخور",
+            "en": "Increases rock hardness",
+            "fr": "Augmente la dureté des roches"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "يمنع تكون البلورات",
+            "en": "Prevents crystal formation",
+            "fr": "Empêche la formation des cristaux"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "الماء يقلل لزوجة الصهارة ويخفض درجة حرارة انصهارها، مما يؤثر على تبلور المعادن",
+        "en": "Water reduces magma viscosity and lowers its melting temperature, affecting mineral crystallization",
+        "fr": "L'eau réduit la viscosité du magma et abaisse sa température de fusion, affectant la cristallisation des minéraux"
+      }
+    },
+    {
+      "id": 22,
+      "difficulty": "hard",
+      "question": {
+        "ar": "ما هي الصخور المتوسطة في التركيب؟",
+        "en": "What are intermediate composition rocks?",
+        "fr": "Que sont les roches de composition intermédiaire?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "صخور نارية بمحتوى سيليكا متوسط",
+            "en": "Igneous rocks with medium silica content",
+            "fr": "Roches ignées avec une teneur en silice moyenne"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "صخور بين النارية والرسوبية",
+            "en": "Rocks between igneous and sedimentary",
+            "fr": "Roches entre ignées et sédimentaires"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "صخور بين المتحولة والرسوبية",
+            "en": "Rocks between metamorphic and sedimentary",
+            "fr": "Roches entre métamorphiques et sédimentaires"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "الصخور المتوسطة تحتوي 52-66% سيليكا، مثل الديوريت والأنديزيت، وتكون بين الفلسية والمافية",
+        "en": "Intermediate rocks contain 52-66% silica, like diorite and andesite, between felsic and mafic",
+        "fr": "Les roches intermédiaires contiennent 52-66% de silice, comme la diorite et l'andésite, entre felsiques et mafiques"
+      }
+    },
+    {
+      "id": 23,
+      "difficulty": "hard",
+      "question": {
+        "ar": "ما هي عملية التحول الحراري المائي؟",
+        "en": "What is hydrothermal metamorphism?",
+        "fr": "Qu'est-ce que le métamorphisme hydrothermal?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "تحول الصخور بالمحاليل الحارة",
+            "en": "Rock transformation by hot solutions",
+            "fr": "Transformation des roches par des solutions chaudes"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "تحول الصخور بالحرارة الجافة",
+            "en": "Rock transformation by dry heat",
+            "fr": "Transformation des roches par chaleur sèche"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "تحول الصخور بالضغط فقط",
+            "en": "Rock transformation by pressure only",
+            "fr": "Transformation des roches par pression seulement"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يحدث هذا التحول عندما تتسرب المحاليل الحارة عبر الشقوق الصخرية مسببة تغييرات كيميائية ومعدنية",
+        "en": "This metamorphism occurs when hot solutions circulate through rock fractures, causing chemical and mineral changes",
+        "fr": "Ce métamorphisme se produit quand des solutions chaudes circulent through les fractures rocheuses, causant des changements chimiques et minéraux"
+      }
+    },
+    {
+      "id": 24,
+      "difficulty": "hard",
+      "question": {
+        "ar": "ما هو تصنيف فولك للصخور الرسوبية؟",
+        "en": "What is Folk's classification for sedimentary rocks?",
+        "fr": "Qu'est-ce que la classification de Folk pour les roches sédimentaires?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "تصنيف يعتمد على نوع وحجم الحبيبات",
+            "en": "A classification based on grain type and size",
+            "fr": "Une classification basée sur le type et la taille des grains"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "تصنيف يعتمد على اللون فقط",
+            "en": "A classification based on color only",
+            "fr": "Une classification basée sur la couleur seulement"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "تصنيف يعتمد على العمر الجيولوجي",
+            "en": "A classification based on geological age",
+            "fr": "Une classification basée sur l'âge géologique"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تصنيف فولك يصنف الصخور الرسوبية الفتاتية حسب نسبة الحصى والرمل والغرين والطين",
+        "en": "Folk's classification categorizes clastic sedimentary rocks by gravel, sand, silt, and clay proportions",
+        "fr": "La classification de Folk catégorise les roches sédimentaires clastiques par les proportions de gravier, sable, silt et argile"
+      }
+    },
+    {
+      "id": 25,
+      "difficulty": "hard",
+      "question": {
+        "ar": "ما هي الصخور البيروكلاستية؟",
+        "en": "What are pyroclastic rocks?",
+        "fr": "Que sont les roches pyroclastiques?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "صخور مكونة من مواد بركانية مقذوفة",
+            "en": "Rocks composed of ejected volcanic materials",
+            "fr": "Roches composées de matériaux volcaniques éjectés"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "صخور نارية جوفية",
+            "en": "Intrusive igneous rocks",
+            "fr": "Roches ignées intrusives"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "صخور متحولة بالحرارة",
+            "en": "Heat-metamorphosed rocks",
+            "fr": "Roches métamorphisées par la chaleur"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تتكون الصخور البيروكلاستية من الرماد واللابة والقنابل البركانية المتراكمة والمتماسكة",
+        "en": "Pyroclastic rocks form from accumulated and cemented ash, pumice, and volcanic bombs",
+        "fr": "Les roches pyroclastiques se forment from cendres, pierre ponce et bombes volcaniques accumulées et cimentées"
       }
     }
   ],
-  "total_questions": 2,
-  "passing_score": 75
+  "total_questions": 25,
+  "passing_score": 70
 }
