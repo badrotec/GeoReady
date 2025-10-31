@@ -2,12 +2,12 @@
   "id": "basic_geology",
   "name": {
     "ar": "الجيولوجيا الأساسية",
-    "en": "Basic Geology",
+    "en": "Basic Geology", 
     "fr": "Géologie de Base"
   },
   "description": {
     "ar": "تعلم أساسيات علم الجيولوجيا ومكونات الأرض",
-    "en": "Learn the fundamentals of geology and Earth's components", 
+    "en": "Learn the fundamentals of geology and Earth's components",
     "fr": "Apprenez les bases de la géologie et les composants de la Terre"
   },
   "icon": "⛰️",
@@ -15,28 +15,37 @@
   "questions": [
     {
       "id": 1,
+      "difficulty": "easy",
       "question": {
         "ar": "كم عدد الصفائح التكتونية الرئيسية على الأرض؟",
         "en": "How many major tectonic plates are there on Earth?",
         "fr": "Combien de plaques tectoniques majeures y a-t-il sur Terre?"
       },
-      "image": "images/diagrams/tectonic_plates.jpg",
       "options": [
         {
           "id": "A",
           "text": {
             "ar": "7 صفائح",
-            "en": "7 plates", 
+            "en": "7 plates",
             "fr": "7 plaques"
           },
           "correct": true
         },
         {
-          "id": "B",
+          "id": "B", 
           "text": {
             "ar": "12 صفيحة",
             "en": "12 plates",
             "fr": "12 plaques"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "15 صفيحة",
+            "en": "15 plates",
+            "fr": "15 plaques"
           },
           "correct": false
         }
@@ -48,13 +57,13 @@
       }
     },
     {
-      "id": 2, 
+      "id": 2,
+      "difficulty": "easy",
       "question": {
         "ar": "ما هي الطبقة الخارجية للأرض؟",
         "en": "What is the outermost layer of the Earth?",
         "fr": "Quelle est la couche la plus externe de la Terre?"
       },
-      "image": "images/diagrams/geological_layers.jpg",
       "options": [
         {
           "id": "A",
@@ -66,9 +75,9 @@
           "correct": false
         },
         {
-          "id": "B", 
+          "id": "B",
           "text": {
-            "ar": "الوشاح",
+            "ar": "الوشاح", 
             "en": "Mantle",
             "fr": "Manteau"
           },
@@ -77,7 +86,7 @@
         {
           "id": "C",
           "text": {
-            "ar": "القشرة", 
+            "ar": "القشرة",
             "en": "Crust",
             "fr": "Croûte"
           },
@@ -86,11 +95,1000 @@
       ],
       "explanation": {
         "ar": "القشرة هي الطبقة الخارجية للأرض وتتراوح سماكتها بين 5-70 كم",
-        "en": "The crust is the outermost layer of the Earth, ranging from 5-70 km in thickness",
+        "en": "The crust is the outermost layer of the Earth, ranging from 5-70 km in thickness", 
         "fr": "La croûte est la couche la plus externe de la Terre, variant de 5 à 70 km d'épaisseur"
+      }
+    },
+    {
+      "id": 3,
+      "difficulty": "easy",
+      "question": {
+        "ar": "ما هي أقدم حقبة جيولوجية؟",
+        "en": "What is the oldest geological era?",
+        "fr": "Quelle est l'ère géologique la plus ancienne?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "الدهر السحيق",
+            "en": "Archean",
+            "fr": "Archéen"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "الدهر الوسيط", 
+            "en": "Mesozoic",
+            "fr": "Mésozoïque"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "الدهر الحديث",
+            "en": "Cenozoic",
+            "fr": "Cénozoïque"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "الدهر السحيق هو أقدم الدهور الجيولوجية وامتد من 4 إلى 2.5 مليار سنة مضت",
+        "en": "The Archean is the oldest geological eon, spanning from 4 to 2.5 billion years ago",
+        "fr": "L'Archéen est l'éon géologique le plus ancien, s'étendant de 4 à 2,5 milliards d'années"
+      }
+    },
+    {
+      "id": 4,
+      "difficulty": "easy",
+      "question": {
+        "ar": "أي من هذه المعادن يعتبر من المعادن الأساسية في القشرة الأرضية؟",
+        "en": "Which of these minerals is considered a primary mineral in the Earth's crust?",
+        "fr": "Lequel de ces minéraux est considéré comme un minéral primaire dans la croûte terrestre?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "الكوارتز",
+            "en": "Quartz",
+            "fr": "Quartz"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "الفحم",
+            "en": "Coal",
+            "fr": "Charbon"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "النفط",
+            "en": "Oil",
+            "fr": "Pétrole"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "الكوارتز من أكثر المعادن شيوعاً في القشرة الأرضية ويتكون من ثاني أكسيد السيليكون",
+        "en": "Quartz is one of the most common minerals in the Earth's crust, composed of silicon dioxide",
+        "fr": "Le quartz est l'un des minéraux les plus courants dans la croûte terrestre, composé de dioxyde de silicium"
+      }
+    },
+    {
+      "id": 5,
+      "difficulty": "easy",
+      "question": {
+        "ar": "ما هي العملية المسؤولة عن تكوين الجبال؟",
+        "en": "What process is responsible for mountain formation?",
+        "fr": "Quel processus est responsable de la formation des montagnes?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "التعرية",
+            "en": "Erosion",
+            "fr": "Érosion"
+          },
+          "correct": false
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "الطي والتصدع",
+            "en": "Folding and faulting",
+            "fr": "Plissement et faillage"
+          },
+          "correct": true
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "الترسيب",
+            "en": "Sedimentation",
+            "fr": "Sédimentation"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تتشكل الجبال principalmente من خلال عمليات الطي والتصدع التكتوني",
+        "en": "Mountains form primarily through tectonic folding and faulting processes",
+        "fr": "Les montagnes se forment principalement par les processus de plissement et de faillage tectoniques"
+      }
+    },
+    {
+      "id": 6,
+      "difficulty": "easy",
+      "question": {
+        "ar": "ما هو نوع الصخور الذي يتكون من تبريد الصهارة؟",
+        "en": "What type of rock forms from the cooling of magma?",
+        "fr": "Quel type de roche se forme par le refroidissement du magma?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "الصخور الرسوبية",
+            "en": "Sedimentary rocks",
+            "fr": "Roches sédimentaires"
+          },
+          "correct": false
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "الصخور النارية",
+            "en": "Igneous rocks",
+            "fr": "Roches ignées"
+          },
+          "correct": true
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "الصخور المتحولة",
+            "en": "Metamorphic rocks",
+            "fr": "Roches métamorphiques"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "الصخور النارية تتكون من تبريد وتصلب الصهارة أو الحمم البركانية",
+        "en": "Igneous rocks form from the cooling and solidification of magma or lava",
+        "fr": "Les roches ignées se forment par le refroidissement et la solidification du magma ou de la lave"
+      }
+    },
+    {
+      "id": 7,
+      "difficulty": "easy",
+      "question": {
+        "ar": "أي من هذه العوامل يؤثر على تجوية الصخور؟",
+        "en": "Which of these factors affects rock weathering?",
+        "fr": "Lequel de ces facteurs affecte l'altération des roches?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "درجة الحرارة فقط",
+            "en": "Temperature only",
+            "fr": "Température seulement"
+          },
+          "correct": false
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "الماء ودرجة الحرارة والرياح",
+            "en": "Water, temperature, and wind",
+            "fr": "Eau, température et vent"
+          },
+          "correct": true
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "الجاذبية فقط",
+            "en": "Gravity only",
+            "fr": "Gravité seulement"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "التجوية تتأثر بعوامل متعددة تشمل الماء ودرجة الحرارة والرياح والكائنات الحية",
+        "en": "Weathering is influenced by multiple factors including water, temperature, wind, and living organisms",
+        "fr": "L'altération est influencée par de multiples facteurs incluant l'eau, la température, le vent et les organismes vivants"
+      }
+    },
+    {
+      "id": 8,
+      "difficulty": "easy",
+      "question": {
+        "ar": "ما هو العمر التقريبي للأرض؟",
+        "en": "What is the approximate age of the Earth?",
+        "fr": "Quel est l'âge approximatif de la Terre?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "4.5 مليار سنة",
+            "en": "4.5 billion years",
+            "fr": "4.5 milliards d'années"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "1 مليار سنة",
+            "en": "1 billion years",
+            "fr": "1 milliard d'années"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "10 مليار سنة",
+            "en": "10 billion years",
+            "fr": "10 milliards d'années"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "يقدر عمر الأرض بحوالي 4.54 مليار سنة بناءً على التأريخ الإشعاعي للنيازك والصخور",
+        "en": "The Earth is estimated to be about 4.54 billion years old based on radiometric dating of meteorites and rocks",
+        "fr": "La Terre est estimée à environ 4,54 milliards d'années basé sur la datation radiométrique des météorites et des roches"
+      }
+    },
+    {
+      "id": 9,
+      "difficulty": "medium",
+      "question": {
+        "ar": "ما هي الطبقة الأسمك في باطن الأرض؟",
+        "en": "Which is the thickest layer of the Earth?",
+        "fr": "Quelle est la couche la plus épaisse de la Terre?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "الوشاح",
+            "en": "Mantle",
+            "fr": "Manteau"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "القشرة",
+            "en": "Crust",
+            "fr": "Croûte"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "اللب الخارجي",
+            "en": "Outer core",
+            "fr": "Noyau externe"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "الوشاح هو أسمك طبقات الأرض ويشكل حوالي 84% من حجم الكرة الأرضية",
+        "en": "The mantle is the thickest layer of the Earth, comprising about 84% of Earth's volume",
+        "fr": "Le manteau est la couche la plus épaisse de la Terre, représentant environ 84% du volume terrestre"
+      }
+    },
+    {
+      "id": 10,
+      "difficulty": "medium",
+      "question": {
+        "ar": "ما هو المصدر الرئيسي للطاقة الداخلية للأرض؟",
+        "en": "What is the main source of Earth's internal energy?",
+        "fr": "Quelle est la principale source d'énergie interne de la Terre?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "الطاقة الشمسية",
+            "en": "Solar energy",
+            "fr": "Énergie solaire"
+          },
+          "correct": false
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "التحلل الإشعاعي",
+            "en": "Radioactive decay",
+            "fr": "Désintégration radioactive"
+          },
+          "correct": true
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "الطاقة الكهرومائية",
+            "en": "Hydroelectric energy",
+            "fr": "Énergie hydroélectrique"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "التحلل الإشعاعي للنظائر في باطن الأرض يولد الحرارة التي تدفع الحركة التكتونية",
+        "en": "Radioactive decay of isotopes in Earth's interior generates heat that drives tectonic movement",
+        "fr": "La désintégration radioactive des isotopes dans l'intérieur terrestre génère de la chaleur qui anime le mouvement tectonique"
+      }
+    },
+    {
+      "id": 11,
+      "difficulty": "medium",
+      "question": {
+        "ar": "ما هي أنواع الحدود بين الصفائح التكتونية؟",
+        "en": "What are the types of tectonic plate boundaries?",
+        "fr": "Quels sont les types de limites entre les plaques tectoniques?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "متقاربة ومتباعدة ومحافظة",
+            "en": "Convergent, divergent, and transform",
+            "fr": "Convergentes, divergentes et transformantes"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "أفقية ورأسية ومائلة",
+            "en": "Horizontal, vertical, and diagonal",
+            "fr": "Horizontales, verticales et diagonales"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "بركانية وزلزالية وتكتونية",
+            "en": "Volcanic, seismic, and tectonic",
+            "fr": "Volcaniques, sismiques et tectoniques"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "الحدود المتقاربة تتصادم، المتباعدة تتباعد، والمحافظة تنزلق جانبيًا",
+        "en": "Convergent boundaries collide, divergent boundaries separate, and transform boundaries slide past each other",
+        "fr": "Les limites convergentes entrent en collision, les limites divergentes s'écartent et les limites transformantes glissent l'une contre l'autre"
+      }
+    },
+    {
+      "id": 12,
+      "difficulty": "medium",
+      "question": {
+        "ar": "ما هو الفرق بين الصهارة والحمم البركانية؟",
+        "en": "What is the difference between magma and lava?",
+        "fr": "Quelle est la différence entre le magma et la lave?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "الصهارة تحت الأرض والحمم على السطح",
+            "en": "Magma is underground, lava is on the surface",
+            "fr": "Le magma est sous terre, la lave est en surface"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "لا فرق بينهما",
+            "en": "There is no difference",
+            "fr": "Il n'y a pas de différence"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "الصهارة سائلة والحمم صلبة",
+            "en": "Magma is liquid, lava is solid",
+            "fr": "Le magma est liquide, la lave est solide"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "الصهارة هي الصخور المنصورة تحت سطح الأرض، بينما الحمم هي الصهارة التي تصل إلى السطح",
+        "en": "Magma is molten rock beneath Earth's surface, while lava is magma that reaches the surface",
+        "fr": "Le magma est de la roche en fusion sous la surface terrestre, tandis que la lave est du magma qui atteint la surface"
+      }
+    },
+    {
+      "id": 13,
+      "difficulty": "medium",
+      "question": {
+        "ar": "ما هي دورة الصخور في الجيولوجيا؟",
+        "en": "What is the rock cycle in geology?",
+        "fr": "Qu'est-ce que le cycle des roches en géologie?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "عملية تحويل الصخور من نوع لآخر",
+            "en": "The process of transforming rocks from one type to another",
+            "fr": "Le processus de transformation des roches d'un type à un autre"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "دورة حياة الصخور الواحدة",
+            "en": "The life cycle of a single rock",
+            "fr": "Le cycle de vie d'une seule roche"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "حركة الصخور في القشرة الأرضية",
+            "en": "The movement of rocks in the Earth's crust",
+            "fr": "Le mouvement des roches dans la croûte terrestre"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "دورة الصخور تصف التحول المستمر بين الصخور النارية والرسوبية والمتحولة",
+        "en": "The rock cycle describes the continuous transformation between igneous, sedimentary, and metamorphic rocks",
+        "fr": "Le cycle des roches décrit la transformation continue entre les roches ignées, sédimentaires et métamorphiques"
+      }
+    },
+    {
+      "id": 14,
+      "difficulty": "medium",
+      "question": {
+        "ar": "ما هو مقياس موهس لصلابة المعادن؟",
+        "en": "What is Mohs scale of mineral hardness?",
+        "fr": "Qu'est-ce que l'échelle de Mohs de dureté des minéraux?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "مقياس لصلابة المعادن من 1 إلى 10",
+            "en": "A scale of mineral hardness from 1 to 10",
+            "fr": "Une échelle de dureté des minéraux de 1 à 10"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "مقياس لوزن المعادن",
+            "en": "A scale of mineral weight",
+            "fr": "Une échelle de poids des minéraux"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "مقياس لألوان المعادن",
+            "en": "A scale of mineral colors",
+            "fr": "Une échelle de couleurs des minéraux"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "مقياس موهس يصنف المعادن حسب صلابتها، حيث الألماس (10) هو الأصلاَب والتلك (1) هو الأقل صلابة",
+        "en": "Mohs scale classifies minerals by hardness, with diamond (10) being the hardest and talc (1) the softest",
+        "fr": "L'échelle de Mohs classe les minéraux par dureté, le diamant (10) étant le plus dur et le talc (1) le plus tendre"
+      }
+    },
+    {
+      "id": 15,
+      "difficulty": "medium",
+      "question": {
+        "ar": "ما هي أنواع التجوية الرئيسية؟",
+        "en": "What are the main types of weathering?",
+        "fr": "Quels sont les principaux types d'altération?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "ميكانيكية وكيميائية",
+            "en": "Mechanical and chemical",
+            "fr": "Mécanique et chimique"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "طبيعية وصناعية",
+            "en": "Natural and artificial",
+            "fr": "Naturelle et artificielle"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "سريعة وبطيئة",
+            "en": "Fast and slow",
+            "fr": "Rapide et lente"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "التجوية الميكانيكية تكسر الصخور، والكيميائية تغير تركيبها الكيميائي",
+        "en": "Mechanical weathering breaks rocks apart, while chemical weathering changes their chemical composition",
+        "fr": "L'altération mécanique brise les roches, tandis que l'altération chimique change leur composition chimique"
+      }
+    },
+    {
+      "id": 16,
+      "difficulty": "hard",
+      "question": {
+        "ar": "ما هو الفرق بين المعادن والصخور؟",
+        "en": "What is the difference between minerals and rocks?",
+        "fr": "Quelle est la différence entre les minéraux et les roches?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "المعادن مكونة من عناصر كيميائية، الصخور مكونة من معادن",
+            "en": "Minerals are made of chemical elements, rocks are made of minerals",
+            "fr": "Les minéraux sont faits d'éléments chimiques, les roches sont faites de minéraux"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "لا فرق بينهما",
+            "en": "There is no difference",
+            "fr": "Il n'y a pas de différence"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "الصخور أصغر من المعادن",
+            "en": "Rocks are smaller than minerals",
+            "fr": "Les roches sont plus petites que les minéraux"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "المعدن مادة صلبة طبيعية ذات تركيب كيميائي محدد، بينما الصخرة تجمع طبيعي من معادن",
+        "en": "A mineral is a naturally occurring solid with a definite chemical composition, while a rock is a natural aggregate of minerals",
+        "fr": "Un minéral est un solide naturel avec une composition chimique définie, tandis qu'une roche est un agrégat naturel de minéraux"
+      }
+    },
+    {
+      "id": 17,
+      "difficulty": "hard",
+      "question": {
+        "ar": "ما هي نظرية الانجراف القاري؟",
+        "en": "What is the theory of continental drift?",
+        "fr": "Qu'est-ce que la théorie de la dérive des continents?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "نظرية أن القارات تتحرك ببطء على سطح الأرض",
+            "en": "The theory that continents slowly move across Earth's surface",
+            "fr": "La théorie que les continents se déplacent lentement sur la surface terrestre"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "نظرية أن القارات ثابتة لا تتحرك",
+            "en": "The theory that continents are fixed and don't move",
+            "fr": "La théorie que les continents sont fixes et ne bougent pas"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "نظرية تكون القارات من المحيطات",
+            "en": "The theory that continents form from oceans",
+            "fr": "La théorie que les continents se forment à partir des océans"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "قدمها ألفريد فيجنر عام 1912 وفسرت كيفية تطابق حواف القارات وتشابه الأحافير",
+        "en": "Proposed by Alfred Wegener in 1912, it explained how continent edges fit and fossils matched",
+        "fr": "Proposée par Alfred Wegener en 1912, elle expliquait comment les bords des continents s'emboîtaient et les fossiles correspondaient"
+      }
+    },
+    {
+      "id": 18,
+      "difficulty": "hard",
+      "question": {
+        "ar": "ما هي العوامل المؤثرة على قوة الزلازل؟",
+        "en": "What factors affect earthquake strength?",
+        "fr": "Quels facteurs affectent la force des tremblements de terre?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "كمية الطاقة المتحررة وعمق البؤرة ونوع الصخور",
+            "en": "Amount of energy released, focal depth, and rock type",
+            "fr": "Quantité d'énergie libérée, profondeur focale et type de roche"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "وقت حدوث الزلزال فقط",
+            "en": "Only the time of earthquake occurrence",
+            "fr": "Seulement l'heure d'occurrence du tremblement de terre"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "درجة الحرارة والضغط الجوي",
+            "en": "Temperature and atmospheric pressure",
+            "fr": "Température et pression atmosphérique"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "تتحكم كمية الطاقة المتحررة من الصدوع وعمق البؤرة الزلزالية ونوعية الصخور في شدة الزلزال",
+        "en": "The amount of energy released from faults, focal depth, and rock properties control earthquake intensity",
+        "fr": "La quantité d'énergie libérée des failles, la profondeur focale et les propriétés des roches contrôlent l'intensité sismique"
+      }
+    },
+    {
+      "id": 19,
+      "difficulty": "hard",
+      "question": {
+        "ar": "ما هو الفرق بين العصر والحقبة الجيولوجية؟",
+        "en": "What is the difference between geological period and epoch?",
+        "fr": "Quelle est la différence entre période géologique et époque?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "العصر جزء من الحقبة والعهد جزء من العصر",
+            "en": "Period is part of era, and epoch is part of period",
+            "fr": "La période fait partie de l'ère, et l'époque fait partie de la période"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "لا فرق بينهما",
+            "en": "There is no difference",
+            "fr": "Il n'y a pas de différence"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "العصر أطول من الحقبة",
+            "en": "Period is longer than era",
+            "fr": "La période est plus longue que l'ère"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "التسلسل الهرمي: الدهر → الحقبة → العصر → العهد، حيث الدهر هو الأكبر والعهد هو الأصغر",
+        "en": "The hierarchy is: Eon → Era → Period → Epoch, with eon being the largest and epoch the smallest",
+        "fr": "La hiérarchie est : Éon → Ère → Période → Époque, l'éon étant le plus grand et l'époque la plus petite"
+      }
+    },
+    {
+      "id": 20,
+      "difficulty": "hard",
+      "question": {
+        "ar": "ما هي أنواع البراكين حسب شكلها؟",
+        "en": "What are the types of volcanoes by shape?",
+        "fr": "Quels sont les types de volcans par forme?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "درعية وطباقية وهضبية",
+            "en": "Shield, stratovolcano, and cinder cone",
+            "fr": "Volcans boucliers, stratovolcans et cônes de scories"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "نشطة وخامدة ومنقرضة",
+            "en": "Active, dormant, and extinct",
+            "fr": "Actifs, dormants et éteints"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "بركانية وزلزالية وتكتونية",
+            "en": "Volcanic, seismic, and tectonic",
+            "fr": "Volcaniques, sismiques et tectoniques"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "البراكين الدرعية عريضة وقليلة الانحدار، الطباقية مركبة ومخروطية، الهضبية من بقايا انفجارات عنيفة",
+        "en": "Shield volcanoes are broad and gently sloping, stratovolcanoes are composite and conical, cinder cones are from explosive eruptions",
+        "fr": "Les volcans boucliers sont larges et en pente douce, les stratovolcans sont composites et coniques, les cônes de scories proviennent d'éruptions explosives"
+      }
+    },
+    {
+      "id": 21,
+      "difficulty": "hard",
+      "question": {
+        "ar": "ما هي العوامل المؤثرة على نشاط البراكين؟",
+        "en": "What factors influence volcanic activity?",
+        "fr": "Quels facteurs influencent l'activité volcanique?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "تركيب الصهارة وكمية الغازات وموقع الصفيحة التكتونية",
+            "en": "Magma composition, gas content, and tectonic plate location",
+            "fr": "Composition du magma, teneur en gaz et emplacement de la plaque tectonique"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "درجة الحرارة فقط",
+            "en": "Temperature only",
+            "fr": "Température seulement"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "الضغط الجوي فقط",
+            "en": "Atmospheric pressure only",
+            "fr": "Pression atmosphérique seulement"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "لزوجة الصهارة وكمية الغازات المذابة وموقع البركان على حدود الصفائح تؤثر على طبيعة الثوران",
+        "en": "Magma viscosity, dissolved gas content, and volcano location at plate boundaries affect eruption nature",
+        "fr": "La viscosité du magma, la teneur en gaz dissous et l'emplacement du volcan aux limites des plaques affectent la nature de l'éruption"
+      }
+    },
+    {
+      "id": 22,
+      "difficulty": "hard",
+      "question": {
+        "ar": "ما هو الفرق بين الزلازل الأولية والثانوية؟",
+        "en": "What is the difference between P-waves and S-waves?",
+        "fr": "Quelle est la différence entre les ondes P et les ondes S?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "الأولية انضغاطية أسرع، الثانوية قصية أبطأ",
+            "en": "P-waves are compressional and faster, S-waves are shear and slower",
+            "fr": "Les ondes P sont compressionnelles et plus rapides, les ondes S sont de cisaillement et plus lentes"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "لا فرق بينهما",
+            "en": "There is no difference",
+            "fr": "Il n'y a pas de différence"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "الأولية سطحية والثانوية عميقة",
+            "en": "P-waves are surface, S-waves are deep",
+            "fr": "Les ondes P sont superficielles, les ondes S sont profondes"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "الموجات الأولية (P) تنتقل في جميع الأوساط بسرعة 6-8 كم/ث، والثانوية (S) تنتقل في المواد الصلبة فقط بسرعة 3-4 كم/ث",
+        "en": "P-waves travel through all media at 6-8 km/s, S-waves travel only through solids at 3-4 km/s",
+        "fr": "Les ondes P traversent tous les milieux à 6-8 km/s, les ondes S traversent seulement les solides à 3-4 km/s"
+      }
+    },
+    {
+      "id": 23,
+      "difficulty": "hard",
+      "question": {
+        "ar": "ما هي أنواع الصدوع الجيولوجية؟",
+        "en": "What are the types of geological faults?",
+        "fr": "Quels sont les types de failles géologiques?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "عادية وعكسية وانزلاقية",
+            "en": "Normal, reverse, and strike-slip",
+            "fr": "Normales, inverses et décrochantes"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "كبيرة وصغيرة ومتوسطة",
+            "en": "Large, small, and medium",
+            "fr": "Grandes, petites et moyennes"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "أفقية ورأسية ومائلة",
+            "en": "Horizontal, vertical, and diagonal",
+            "fr": "Horizontales, verticales et diagonales"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "الصدوع العادية عند الشد، العكسية عند الضغط، الانزلاقية عند الحركة الأفقية",
+        "en": "Normal faults occur during tension, reverse faults during compression, strike-slip faults during horizontal movement",
+        "fr": "Les failles normales se produisent en tension, les failles inverses en compression, les failles décrochantes en mouvement horizontal"
+      }
+    },
+    {
+      "id": 24,
+      "difficulty": "hard",
+      "question": {
+        "ar": "ما هو دور المياه الجوفية في الجيولوجيا؟",
+        "en": "What is the role of groundwater in geology?",
+        "fr": "Quel est le rôle des eaux souterraines en géologie?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "تؤثر على تجوية الصخور وتشكيل الكهوف ونقل المعادن",
+            "en": "Affects rock weathering, cave formation, and mineral transport",
+            "fr": "Affecte l'altération des roches, la formation des grottes et le transport des minéraux"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "لا دور لها في الجيولوجيا",
+            "en": "Has no role in geology",
+            "fr": "N'a aucun rôle en géologie"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "تؤثر على المناخ فقط",
+            "en": "Only affects climate",
+            "fr": "Affecte seulement le climat"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "المياه الجوفية تذيب الصخور وتشكل الكهوف الجيرية، وتنقل المعادن المذابة، وتؤثر على استقرار المنحدرات",
+        "en": "Groundwater dissolves rocks forming limestone caves, transports dissolved minerals, and affects slope stability",
+        "fr": "Les eaux souterraines dissolvent les roches formant des grottes calcaires, transportent les minéraux dissous et affectent la stabilité des pentes"
+      }
+    },
+    {
+      "id": 25,
+      "difficulty": "hard",
+      "question": {
+        "ar": "ما هي أهمية الأحافير في الجيولوجيا؟",
+        "en": "What is the importance of fossils in geology?",
+        "fr": "Quelle est l'importance des fossiles en géologie?"
+      },
+      "options": [
+        {
+          "id": "A",
+          "text": {
+            "ar": "لتحديد العمر النسبي للصخور وفهم البيئات القديمة",
+            "en": "To determine relative rock age and understand ancient environments",
+            "fr": "Pour déterminer l'âge relatif des roches et comprendre les environnements anciens"
+          },
+          "correct": true
+        },
+        {
+          "id": "B",
+          "text": {
+            "ar": "للتزيين فقط",
+            "en": "For decoration only",
+            "fr": "Pour la décoration seulement"
+          },
+          "correct": false
+        },
+        {
+          "id": "C",
+          "text": {
+            "ar": "لدراسة المناخ الحالي",
+            "en": "To study current climate",
+            "fr": "Pour étudier le climat actuel"
+          },
+          "correct": false
+        }
+      ],
+      "explanation": {
+        "ar": "الأحافير تساعد في التأريخ النسبي وتحديد العمر الجيولوجي وإعادة بناء البيئات والمناخات القديمة",
+        "en": "Fossils help in relative dating, determining geological age, and reconstructing ancient environments and climates",
+        "fr": "Les fossiles aident dans la datation relative, la détermination de l'âge géologique et la reconstruction des environnements et climats anciens"
       }
     }
   ],
-  "total_questions": 2,
+  "total_questions": 25,
   "passing_score": 70
 }
