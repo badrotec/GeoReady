@@ -1,0 +1,12 @@
+{
+  "app": {
+    "title": "GeoLearn - Plateforme d'Apprentissage de Géologie",
+    "subtitle": "Plateforme Complète d'Apprentissage de la Géologie" 
+  },
+  "navigation": {
+    "home": "Accueil",
+    "quizzes": "Quiz",
+    "progress": "Progrès",
+    "settings": "Paramètres"
+  }
+}
