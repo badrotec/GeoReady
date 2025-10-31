@@ -1,0 +1,12 @@
+{
+  "app": {
+    "title": "GeoLearn - Geology Learning Platform", 
+    "subtitle": "Comprehensive Geology Learning Platform"
+  },
+  "navigation": {
+    "home": "Home",
+    "quizzes": "Quizzes",
+    "progress": "Progress", 
+    "settings": "Settings"
+  }
+}
