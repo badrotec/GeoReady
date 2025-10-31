@@ -1,4 +1,4 @@
-// نظام تشغيل الأصوات المصحح - استجابة فورية
+// نظام تشغيل الأصوات المصحح - استجابة فورية جداً
 class SoundManager {
     constructor() {
         this.sounds = {
@@ -11,7 +11,7 @@ class SoundManager {
         this.enabled = true;
         this.audioElements = {};
         this.lastPlayTime = {};
-        this.minPlayInterval = 100; // 100ms فقط بين التشغيلات
+        this.minPlayInterval = 50; // 50ms فقط - أسرع استجابة
         this.preloadSounds();
     }
 
@@ -21,6 +21,10 @@ class SoundManager {
             audio.preload = 'auto';
             audio.load();
             audio.loop = false;
+            
+            // إعدادات لتحسين الاستجابة
+            audio.volume = 0.7;
+            
             this.audioElements[soundName] = audio;
         });
     }
@@ -31,7 +35,6 @@ class SoundManager {
         const now = Date.now();
         const lastTime = this.lastPlayTime[soundName] || 0;
         
-        // منع التكرار السريع (100ms فقط)
         if (now - lastTime < this.minPlayInterval) {
             return;
         }
@@ -39,29 +42,40 @@ class SoundManager {
         this.lastPlayTime[soundName] = now;
         
         try {
-            const audio = this.audioElements[soundName];
-            if (audio) {
-                // إعادة تعيين فوري بدون تأخير
-                audio.currentTime = 0;
-                
-                // تشغيل فوري
-                const playPromise = audio.play();
-                if (playPromise !== undefined) {
-                    playPromise.catch(e => {
-                        console.log(`🔇 ${soundName} error:`, e);
-                    });
-                }
-            }
+            // استخدام audio جديد لكل تشغيل لأقصى سرعة
+            const audio = new Audio(this.sounds[soundName]);
+            audio.volume = 0.7;
+            
+            // تشغيل فوري بدون انتظار
+            audio.play().catch(e => {
+                // إذا فشل، جرب العنصر المخزن
+                this.fallbackPlay(soundName);
+            });
+            
         } catch (error) {
-            console.log(`🔇 ${soundName} failed:`, error);
+            this.fallbackPlay(soundName);
         }
     }
 
-    stop(soundName) {
-        if (this.audioElements[soundName]) {
-            this.audioElements[soundName].pause();
-            this.audioElements[soundName].currentTime = 0;
+    fallbackPlay(soundName) {
+        try {
+            const audio = this.audioElements[soundName];
+            if (audio) {
+                audio.currentTime = 0;
+                audio.play().catch(e => console.log(`🔇 ${soundName} fallback error`));
+            }
+        } catch (error) {
+            console.log(`🔇 ${soundName} completely failed`);
         }
+    }
+
+    setEnabled(enabled) {
+        this.enabled = enabled;
+        localStorage.setItem('sound-enabled', enabled.toString());
+    }
+
+    isEnabled() {
+        return this.enabled;
     }
 }
 
@@ -79,7 +93,6 @@ class GeoLearnApp {
         this.timeLeft = 15;
         this.isAnswerRevealed = false;
         this.dailyQuizPlayed = false;
-        this.isProcessingClick = false;
         this.isProcessingSelection = false;
         this.lastTimerSound = 0;
         
@@ -96,6 +109,7 @@ class GeoLearnApp {
         this.loadUserProgress();
         this.loadUserPreferences();
         this.setupDailyQuiz();
+        this.setupSettingsModal();
         
         console.log('GeoLearn App Started! 🚀');
     }
@@ -103,8 +117,42 @@ class GeoLearnApp {
     async preloadAssets() {
         console.log('🔄 جاري تحميل الأصوات...');
         return new Promise(resolve => {
-            setTimeout(resolve, 500); // تخفيض وقت الانتظار
+            setTimeout(resolve, 300);
         });
+    }
+
+    // إعدادات نافذة الإعدادات
+    setupSettingsModal() {
+        // تحميل إعدادات الصوت
+        const soundEnabled = localStorage.getItem('sound-enabled');
+        if (soundEnabled !== null) {
+            this.soundManager.setEnabled(soundEnabled === 'true');
+        }
+    }
+
+    // عرض نافذة الإعدادات
+    showSettings() {
+        const modal = document.getElementById('settings-modal');
+        if (modal) {
+            const soundToggle = modal.querySelector('#sound-toggle');
+            if (soundToggle) {
+                soundToggle.checked = this.soundManager.isEnabled();
+            }
+            modal.style.display = 'flex';
+        }
+    }
+
+    // حفظ الإعدادات
+    saveSettings() {
+        const modal = document.getElementById('settings-modal');
+        if (modal) {
+            const soundToggle = modal.querySelector('#sound-toggle');
+            if (soundToggle) {
+                this.soundManager.setEnabled(soundToggle.checked);
+            }
+            modal.style.display = 'none';
+            this.soundManager.play('click');
+        }
     }
 
     setupDailyQuiz() {
@@ -236,11 +284,14 @@ class GeoLearnApp {
         const quizCards = document.querySelectorAll('.quiz-card');
         
         quizCards.forEach(card => {
+            // استخدام event مباشر بدون أي تأخير
             card.addEventListener('click', (e) => {
-                // تشغيل الصوت فوراً بدون أي تأخير
+                // تشغيل الصوت فوراً - أول ما يضغط المستخدم
                 this.soundManager.play('click');
                 
                 const quizId = card.getAttribute('data-quiz-id');
+                
+                // تشغيل الكويز مباشرة بدون setTimeout
                 this.startQuiz(quizId);
             });
         });
@@ -294,6 +345,7 @@ class GeoLearnApp {
             <div class="quiz-container">
                 <div class="quiz-header">
                     <button class="back-btn" onclick="app.exitQuiz()">← رجوع</button>
+                    <button class="settings-btn" onclick="app.showSettings()">⚙️</button>
                     <div class="quiz-info">
                         <h2>${this.currentQuiz.name[this.currentLanguage] || this.currentQuiz.name.ar}</h2>
                         <p>${this.currentQuiz.description[this.currentLanguage] || this.currentQuiz.description.ar}</p>
@@ -422,7 +474,7 @@ class GeoLearnApp {
         
         this.isProcessingSelection = true;
         
-        // تشغيل صوت النقر فوراً بدون تأخير
+        // تشغيل صوت النقر فوراً - أول ما يضغط
         this.soundManager.play('click');
         
         this.stopQuestionTimer();
@@ -631,6 +683,15 @@ class GeoLearnApp {
             });
         }
 
+        // إضافة زر الإعدادات في الهيدر
+        const settingsBtn = document.getElementById('settings-btn');
+        if (settingsBtn) {
+            settingsBtn.addEventListener('click', () => {
+                this.soundManager.play('click');
+                this.showSettings();
+            });
+        }
+
         document.querySelectorAll('.nav-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 this.soundManager.play('click');
@@ -694,3 +755,11 @@ function startQuiz(quizId) {
         window.app.startQuiz(quizId);
     }
 }
+
+// إغلاق نافذة الإعدادات عند النقر خارجها
+document.addEventListener('click', function(e) {
+    const modal = document.getElementById('settings-modal');
+    if (modal && e.target === modal) {
+        modal.style.display = 'none';
+    }
+});
