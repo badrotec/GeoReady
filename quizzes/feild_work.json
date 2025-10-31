@@ -367,7 +367,7 @@
       },
       "options": [
         {
-          "id": "id": "A",
+          "id": "A",
           "text": {
             "ar": "رسم يظهر التراكيب الجيولوجية في مستوى رأسي",
             "en": "A drawing showing geological structures in a vertical plane",
@@ -763,7 +763,7 @@
           "correct": true
         },
         {
-          "id": "id": "B",
+          "id": "B",
           "text": {
             "ar": "للتقاط الصور الجماعية فقط",
             "en": "For taking group photos only",
